@@ -1,11 +1,6 @@
 #########################
 Python temp files
-__pycache__/
-/tests/__pycache__
-/tests/.pytest_cache
-/ansys/dpf/
-/ansys/dpf/__pycache__
-/.pytest_cache
+*cache*
 /.spyproject
 /perso
 
