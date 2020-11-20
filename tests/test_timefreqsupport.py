@@ -13,8 +13,8 @@ else:
                    'test files "AWP_UNIT_TEST_FILES" to your env')
 
 # runs once per testing session
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
 
 
 VEL_ACC_PATH = os.path.join(UNIT_TEST_PATH, 'DataProcessing', 'rst_operators',
@@ -26,15 +26,15 @@ SIMPLE_MODEL_PATH = os.path.join(UNIT_TEST_PATH, 'DataProcessing', 'rst_operator
 
 @pytest.fixture(scope='module')
 def vel_acc_model():
-    return dpf.Model(VEL_ACC_PATH)
+    return dpf.core.Model(VEL_ACC_PATH)
 
 
 def test_get_timefreqsupport():
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(VEL_ACC_PATH)
-    op = dpf.Operator("mapdl::rst::TimeFreqSupportProvider")
+    op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
-    res = op.get_output(0, dpf.types.time_freq_support)
+    res = op.get_output(0, dpf.core.types.time_freq_support)
     assert res.n_sets == 5
     assert res.get_frequency(0, 0) == 0.02
     assert res.get_frequency(0, 1) == 0.04
@@ -52,29 +52,29 @@ def test_model_time_freq_support(vel_acc_model):
 
 
 def test_get_frequencies_timefreqsupport():
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(VEL_ACC_PATH)
-    op = dpf.Operator("mapdl::rst::TimeFreqSupportProvider")
+    op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
-    res = op.get_output(0, dpf.types.time_freq_support)
+    res = op.get_output(0, dpf.core.types.time_freq_support)
     freq = res.frequencies
     assert np.allclose(freq.data, [0.02, 0.04, 0.06, 0.08, 0.1])
     assert freq.scoping.ids == [1]
 
 def test_print_timefreqsupport():
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(VEL_ACC_PATH)
-    op = dpf.Operator("mapdl::rst::TimeFreqSupportProvider")
+    op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
-    res = op.get_output(0, dpf.types.time_freq_support)
+    res = op.get_output(0, dpf.core.types.time_freq_support)
     print(res)
     
 def test_delete_timefreqsupport():
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(VEL_ACC_PATH)
-    op = dpf.Operator("mapdl::rst::TimeFreqSupportProvider")
+    op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
-    res = op.get_output(0, dpf.types.time_freq_support)
+    res = op.get_output(0, dpf.core.types.time_freq_support)
     res.__del__()
     with pytest.raises(Exception):
         res.get_frequence(0, 0)
@@ -82,12 +82,12 @@ def test_delete_timefreqsupport():
 
 def test_delete_auto_timefreqsupport():
     # path = unitestPath + r'\DataProcessing\rst_operators\simpleModel.rst'
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(SIMPLE_MODEL_PATH)
-    op= dpf.Operator("mapdl::rst::TimeFreqSupportProvider")
+    op= dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
-    res=op.get_output(0, dpf.types.time_freq_support)
-    res1 = dpf.TimeFreqSupport(res)
+    res=op.get_output(0, dpf.core.types.time_freq_support)
+    res1 = dpf.core.TimeFreqSupport(res._message)
     res.__del__()
     with pytest.raises(Exception):
         res1.n_sets

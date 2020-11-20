@@ -1,12 +1,29 @@
+
+
 #########################
-Python temp files
-*cache*
+## DPF
+#########################
+
+/__pycache__
+/.pytest_cache
 /.spyproject
+
+#tests
+/tests/__pycache__
+/tests/.pytest_cache
+
+#ansys/dpf
+/ansys/dpf/__pycache__
+
+#ansys/dpf/core
+/ansys/dpf/core/__pycache__
+
+#ansys/dpf/post
+/ansys/dpf/post/__pycache__
+
+#other
 /perso
+/examples/.ipynb_checkpoints
 
 # compiled documentation
 docs/build
-
-
-# emacs tmp files
-*~

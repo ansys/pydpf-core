@@ -15,24 +15,24 @@ TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators'
                               'ASimpleBar.rst')
 
 
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
 
 
 @pytest.fixture(scope='module')
 def simple_bar_model():
-    return dpf.Model(TEST_FILE_PATH)
+    return dpf.core.Model(TEST_FILE_PATH)
 
 
 def test_get_scoping_meshedregion_from_operator():
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(TEST_FILE_PATH)
-    mesh = dpf.Operator("mapdl::rst::MeshProvider")
+    mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
     mesh.connect(4, dataSource)
-    meshOut = mesh.get_output(0, dpf.types.meshed_region)
-    scop = meshOut._get_scoping(dpf.locations.nodal)
+    meshOut = mesh.get_output(0, dpf.core.types.meshed_region)
+    scop = meshOut._get_scoping(dpf.core.locations.nodal)
     assert len(scop.ids) == 3751
-    scop = meshOut._get_scoping(dpf.locations.elemental)
+    scop = meshOut._get_scoping(dpf.core.locations.elemental)
     assert len(scop.ids) == 3000
 
 
@@ -64,7 +64,7 @@ def test_get_unit_meshedregion(simple_bar_model):
 def test_get_node_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     node = mesh.nodes.node_by_index(1)
-    scop = mesh._get_scoping(dpf.locations.nodal)
+    scop = mesh._get_scoping(dpf.core.locations.nodal)
     assert node.id == scop.id(1)
     assert node.index == 1
 
@@ -150,7 +150,7 @@ def test_print_meshedregion(simple_bar_model):
    print(simple_bar_model.metadata.meshed_region)
 
 def test_delete_meshedregion():
-    model = dpf.Model(TEST_FILE_PATH)
+    model = dpf.core.Model(TEST_FILE_PATH)
     mesh = model.metadata.meshed_region
     mesh.__del__()
     with pytest.raises(Exception):
@@ -158,12 +158,12 @@ def test_delete_meshedregion():
 
 
 def test_delete_auto_meshedregion():
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(TEST_FILE_PATH)
-    mesh = dpf.Operator("mapdl::rst::MeshProvider")
+    mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
     mesh.connect(4, dataSource)
-    meshOut = mesh.get_output(0, dpf.types.meshed_region)
-    meshOut2 = dpf.meshed_region.MeshedRegion(meshOut._message)
+    meshOut = mesh.get_output(0, dpf.core.types.meshed_region)
+    meshOut2 = dpf.core.meshed_region.MeshedRegion(meshOut._message)
     del meshOut
     with pytest.raises(Exception):
         meshOut2.get_element_type(1)

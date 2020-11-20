@@ -19,40 +19,40 @@ CYCLIC_RESULT_PATH = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', '
 CYCLIC_DS_PATH = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
 
 
-# if not dpf.has_local_server():
-#     dpf.start_local_server()
+# if not dpf.core.has_local_server():
+#     dpf.core.start_local_server()
 
 
 def test_create_operator():
-    op = dpf.Operator("min_max")
+    op = dpf.core.Operator("min_max")
     assert op._message.id
 
 
 def test_connect_field_operator():
-    op= dpf.Operator("min_max")
-    inpt = dpf.Field(nentities=3)
+    op= dpf.core.Operator("min_max")
+    inpt = dpf.core.Field(nentities=3)
     data = [1,2,3,4,5,6,7,8,9]
-    scop = dpf.Scoping()
+    scop = dpf.core.Scoping()
     scop.ids = [1,2,3]
     inpt.data = data
     inpt.scoping = scop
     op.connect(0, inpt)
-    fOut = op.get_output(0, dpf.types.field)
+    fOut = op.get_output(0, dpf.core.types.field)
     assert np.allclose(fOut.data,[1.0,2.0,3.0])
-    fOut = op.get_output(1, dpf.types.field)
+    fOut = op.get_output(1, dpf.core.types.field)
     assert np.allclose(fOut.data,[7.0,8.0,9.0])
 
 
 def test_connect_list_operator():
-    model = dpf.Model(TEST_FILE_PATH)
+    model = dpf.core.Model(TEST_FILE_PATH)
     op = model.operator("U")
     op.connect(0, [1, 2])
-    fcOut = op.get_output(0, dpf.types.fields_container)
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert fcOut.get_ids() == [1, 2]
 
 
 def test_connect_list_operator_builtin():
-    model = dpf.Model(TEST_FILE_PATH)
+    model = dpf.core.Model(TEST_FILE_PATH)
     disp = model.results.displacement()
     disp.inputs.time_scoping([1, 2])
     fields = disp.outputs.fields_container()
@@ -60,73 +60,73 @@ def test_connect_list_operator_builtin():
 
 
 def test_connect_fieldscontainer_operator():
-    op = dpf.Operator("min_max_fc")
-    fc = dpf.FieldsContainer()
+    op = dpf.core.Operator("min_max_fc")
+    fc = dpf.core.FieldsContainer()
     fc.labels=['time','complex']
-    scop = dpf.Scoping()
+    scop = dpf.core.Scoping()
     scop.ids = list(range(1, 11))
     for i in range(0, 20):
         mscop = {"time": i + 1, "complex": 0}
-        field = dpf.Field(nentities=10)
+        field = dpf.core.Field(nentities=10)
         field.scoping = scop
         fc.add_field(mscop, field)
     op.connect(0, fc)
-    fOut = op.get_output(0, dpf.types.field)
+    fOut = op.get_output(0, dpf.core.types.field)
     assert fOut.data.size == 60
 
 
 def test_connect_bool_operator():
-    op = dpf.Operator("S")
+    op = dpf.core.Operator("S")
     op.connect(5, True)
 
 
 def test_print_operator():
-    op = dpf.Operator("S")
+    op = dpf.core.Operator("S")
     print(op)
     
 def test_connect_scoping_operator():
-    op = dpf.Operator("Rescope")
-    scop = dpf.Scoping()
+    op = dpf.core.Operator("Rescope")
+    scop = dpf.core.Scoping()
     scop.ids = list(range(1,11))
-    field = dpf.Field(nentities=10)
+    field = dpf.core.Field(nentities=10)
     field.scoping = scop
-    scop = dpf.Scoping()
+    scop = dpf.core.Scoping()
     scop.ids = list(range(1,11))
-    scop2=dpf.Scoping()
+    scop2=dpf.core.Scoping()
     scop2.ids = list(range(1,5))
     op.connect(0, field)
     op.connect(1, scop2)
-    fOut = op.get_output(0, dpf.types.field)
+    fOut = op.get_output(0, dpf.core.types.field)
     scopOut = fOut.scoping
     assert scopOut.ids == list(range(1,5))
 
 
 def test_connect_datasources_operator():
-    op = dpf.Operator("csv_to_field")
+    op = dpf.core.Operator("csv_to_field")
     path = os.path.join(unit_test_files, 'DataProcessing', 'csvToField',
                         'fields_container.csv')
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(path)
     op.connect(4, data_sources)
-    fcOut = op.get_output(0, dpf.types.fields_container)
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert len(fcOut.get_ids()) == 4
 
 
 def test_connect_operator_operator():
-    op= dpf.Operator("norm")
-    inpt = dpf.Field(nentities=3)
+    op= dpf.core.Operator("norm")
+    inpt = dpf.core.Field(nentities=3)
     data = [1,2,3,4,5,6,7,8,9]
-    scop = dpf.Scoping()
+    scop = dpf.core.Scoping()
     scop.ids = [1,2,3]
     inpt.data = data
     inpt.scoping = scop
     op.connect(0,inpt)
-    op2=dpf.Operator("component_selector")
+    op2=dpf.core.Operator("component_selector")
     op2.connect(0,op,0)
     op2.connect(1,0)
-    fOut = op2.get_output(0, dpf.types.field)
+    fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
-    op2=dpf.Operator("component_selector")
+    op2=dpf.core.Operator("component_selector")
 
     # attempt to connect without specifying a pin
     # with pytest.raises(Exception):
@@ -134,15 +134,15 @@ def test_connect_operator_operator():
 
     op2.connect(0, op)
     op2.connect(1, 0)
-    fOut = op2.get_output(0, dpf.types.field)
+    fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
 
 
 def test_eval_operator():
-    op = dpf.Operator("min_max")
-    inpt = dpf.Field(nentities=3)
+    op = dpf.core.Operator("min_max")
+    inpt = dpf.core.Field(nentities=3)
     data = [1,2,3,4,5,6,7,8,9]
-    scop = dpf.Scoping()
+    scop = dpf.core.Scoping()
     scop.ids = [1,2,3]
     inpt.data = data
     inpt.scoping = scop
@@ -155,9 +155,9 @@ def test_eval_operator():
 def test_inputs_outputs_1_operator(tmpdir):
     path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
     ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
-    data_sources = dpf.DataSources(path)
+    data_sources = dpf.core.DataSources(path)
     data_sources.add_file_path(ds_path)
-    model = dpf.Model(data_sources)
+    model = dpf.core.Model(data_sources)
     op = model.operator("mapdl::rst::U")
     assert 'data_sources' in str(op.inputs)
     assert 'fields_container' in str(op.outputs)
@@ -178,17 +178,17 @@ def test_inputs_outputs_1_operator(tmpdir):
 def test_inputs_outputs_2_operator(tmpdir):
     path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
     ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(path)
     data_sources.add_file_path(ds_path)
-    op = dpf.Operator("mapdl::rst::U")
+    op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.data_sources.connect(data_sources)
-    support = dpf.Operator("mapdl::rst::support_provider_cyclic")
+    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
     support.inputs.data_sources.connect(data_sources)
-    expand = dpf.Operator("cyclic_expansion")
+    expand = dpf.core.Operator("cyclic_expansion")
     expand.inputs.cyclic_support.connect(support.outputs)
     expand.inputs.fields_container.connect(op.outputs)
-    mesh = dpf.Operator("cyclic_expansion_mesh")
+    mesh = dpf.core.Operator("cyclic_expansion_mesh")
     mesh.inputs.cyclic_support.connect(support.outputs)
 
     meshed_region = mesh.outputs.meshed_region()
@@ -200,17 +200,17 @@ def test_inputs_outputs_2_operator(tmpdir):
 def test_inputs_outputs_3_operator(tmpdir):
     path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
     ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(path)
     data_sources.add_file_path(ds_path)
-    op = dpf.Operator("mapdl::rst::U")
+    op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.data_sources.connect(data_sources)
-    support = dpf.Operator("mapdl::rst::support_provider_cyclic")
+    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
     support.inputs.data_sources.connect(data_sources)
-    expand = dpf.Operator("cyclic_expansion")
+    expand = dpf.core.Operator("cyclic_expansion")
     expand.inputs.cyclic_support.connect(support.outputs.cyclic_support)
     expand.inputs.fields_container.connect(op.outputs.fields_container)
-    mesh = dpf.Operator("cyclic_expansion_mesh")
+    mesh = dpf.core.Operator("cyclic_expansion_mesh")
     mesh.inputs.cyclic_support.connect(support.outputs.cyclic_support)
 
     meshed_region = mesh.outputs.meshed_region()
@@ -222,20 +222,20 @@ def test_inputs_outputs_3_operator(tmpdir):
 def test_inputs_outputs_4_operator(tmpdir):
     path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
     ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(path)
     data_sources.add_file_path(ds_path)
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(path)
     data_sources.add_file_path(ds_path)
-    op= dpf.Operator("mapdl::rst::U")
+    op= dpf.core.Operator("mapdl::rst::U")
     op.inputs.connect(data_sources)
-    support = dpf.Operator("mapdl::rst::support_provider_cyclic")
+    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
     support.inputs.connect(data_sources)
-    expand = dpf.Operator("cyclic_expansion")
+    expand = dpf.core.Operator("cyclic_expansion")
     expand.inputs.connect(support.outputs.cyclic_support)
     expand.inputs.connect(op.outputs.fields_container)
-    mesh = dpf.Operator("cyclic_expansion_mesh")
+    mesh = dpf.core.Operator("cyclic_expansion_mesh")
     mesh.inputs.connect(support.outputs.cyclic_support)
 
     meshed_region = mesh.outputs.meshed_region()
@@ -245,25 +245,25 @@ def test_inputs_outputs_4_operator(tmpdir):
 
 
 def test_inputs_outputs_bool_operator():
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(CYCLIC_RESULT_PATH)
     data_sources.add_file_path(CYCLIC_DS_PATH)
-    op = dpf.Operator("mapdl::rst::U")
+    op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.connect(data_sources)
     op.inputs.read_cyclic.connect(1)
-    support = dpf.Operator("mapdl::rst::support_provider_cyclic")
+    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
     support.inputs.connect(data_sources)
-    expand = dpf.Operator("cyclic_expansion")
+    expand = dpf.core.Operator("cyclic_expansion")
     expand.inputs.connect(support.outputs.cyclic_support)
     expand.inputs.connect(op.outputs.fields_container)
     fc = expand.outputs.fields_container()
-    assert isinstance(fc, dpf.FieldsContainer)
+    assert isinstance(fc, dpf.core.FieldsContainer)
     
     
 def test_inputs_outputs_datasources_operator():
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(CYCLIC_DS_PATH)
-    op = dpf.Operator("mapdl::run")
+    op = dpf.core.Operator("mapdl::run")
     op.inputs.connect(data_sources)
     dsout=op.outputs.data_sources()
     assert dsout!=None
@@ -276,10 +276,10 @@ def test_inputs_outputs_datasources_operator():
         assert False
     
 def test_subresults_operator():
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(CYCLIC_RESULT_PATH)
     data_sources.add_file_path(CYCLIC_DS_PATH)
-    model = dpf.Model(data_sources)
+    model = dpf.core.Model(data_sources)
     u_op = model.results.displacement()
     ux_op = model.results.displacement().X()
     uy_op = model.results.displacement().Y()
@@ -309,7 +309,7 @@ def test_subresults_operator():
 # test commented because "mapdl::rst::U" isn't available in
 # "mapdl::rst::ResultInfoProvider"
 # def test_inputs_outputs_bool_operator_with_model():
-    # model = dpf.Model(CYCLIC_RESULT_PATH)
+    # model = dpf.core.Model(CYCLIC_RESULT_PATH)
     # model.add_file_path(CYCLIC_DS_PATH)
 
 #     # TODO: this should be available from model's available_results
@@ -324,14 +324,14 @@ def test_subresults_operator():
 #     expand.inputs.connect(op.outputs.fields_container)
 #     expand.run()
 #     fc = expand.outputs.fields_container()
-#     assert isinstance(fc, dpf.FieldsContainer)
+#     assert isinstance(fc, dpf.core.FieldsContainer)
 
 
 def test_inputs_outputs_list_operator():
-    data_sources = dpf.DataSources()
+    data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(CYCLIC_RESULT_PATH)
     data_sources.add_file_path(CYCLIC_DS_PATH)
-    op = dpf.Operator("mapdl::rst::U")
+    op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.connect(data_sources)
     op.inputs.time_scoping.connect([1,2,3,8])
     fc = op.outputs.fields_container()
@@ -339,14 +339,14 @@ def test_inputs_outputs_list_operator():
 
 
 def test_delete_operator():
-    op = dpf.Operator("min_max")
+    op = dpf.core.Operator("min_max")
     op.__del__()
     with pytest.raises(Exception):
         op.connect(0, 1)
 
 
 def test_delete_auto_operator():
-    op = dpf.Operator("min_max")
+    op = dpf.core.Operator("min_max")
 
     op_ref = weakref.ref(op)
 

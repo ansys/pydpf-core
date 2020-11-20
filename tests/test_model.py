@@ -2,9 +2,12 @@ import os
 
 import numpy as np
 import pytest
-import pyvista as pv
 
 from ansys import dpf
+
+# enable off_screen plotting
+import pyvista as pv
+pv.OFF_SCREEN = True
 
 # without xserver
 from pyvista.plotting import system_supports_plotting
@@ -12,36 +15,36 @@ NO_PLOTTING = not system_supports_plotting()
 
 
 
-# if 'AWP_UNIT_TEST_FILES' in os.environ:
-#     unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-# else:
-#     raise KeyError('Please add the location of the DataProcessing '
-#                    'test files "AWP_UNIT_TEST_FILES" to your env')
+if 'AWP_UNIT_TEST_FILES' in os.environ:
+    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
+else:
+    raise KeyError('Please add the location of the DataProcessing '
+                   'test files "AWP_UNIT_TEST_FILES" to your env')
 
 
 TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
                               'ASimpleBar.rst')
 
 # start server
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
 
 
 @pytest.fixture(scope='module')
 def simple_bar_model():
-    return dpf.Model(TEST_FILE_PATH)
+    return dpf.core.Model(TEST_FILE_PATH)
 
 
 def test_model_from_data_source():
-    data_source = dpf.DataSources(TEST_FILE_PATH)
-    model = dpf.Model(data_source)
+    data_source = dpf.core.DataSources(TEST_FILE_PATH)
+    model = dpf.core.Model(data_source)
     assert 'displacement' in model.metadata.result_info
     
 
 
 def test_model_metadata_from_data_source():
-    data_source = dpf.DataSources(TEST_FILE_PATH)
-    model = dpf.Model(data_source)
+    data_source = dpf.core.DataSources(TEST_FILE_PATH)
+    model = dpf.core.Model(data_source)
     assert model.metadata.result_info != None
     assert model.metadata.time_freq_support != None
     assert model.metadata.meshed_region != None

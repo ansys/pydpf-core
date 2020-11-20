@@ -15,12 +15,12 @@ TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators'
                               'ASimpleBar.rst')
 
 
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
     
 try:
 
-    base = dpf.BaseService(ip=dpf._global_ip(), port = dpf._global_port())
+    base = dpf.core.BaseService(ip=dpf.core._global_ip(), port = dpf.core._global_port())
     base.load_library("Ans.Dpf.Hdf5.dll","hdf5")
     hdf5_loaded = True
     
@@ -29,15 +29,15 @@ except:
 
 def test_hdf5_loaded():
     if hdf5_loaded:
-        op = dpf.Operator("serialize_to_hdf5")
+        op = dpf.core.Operator("serialize_to_hdf5")
         assert op.inputs != None
         
 def test_hdf5_ellipsis_any_pins():
     if hdf5_loaded:
-        model=dpf.Model(TEST_FILE_PATH)
+        model=dpf.core.Model(TEST_FILE_PATH)
         u = model.operator("U")
         s= model.operator("S")
-        op = dpf.Operator("serialize_to_hdf5")
+        op = dpf.core.Operator("serialize_to_hdf5")
         op.inputs.file_path.connect(r'c:/temp/hdf5.h5')
         op.inputs.data(u.outputs)
         op.inputs.data(s.outputs)

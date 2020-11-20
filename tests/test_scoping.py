@@ -1,10 +1,10 @@
 import pytest
 
 from ansys import dpf
-from ansys.dpf import Scoping
+from ansys.dpf.core import Scoping
 
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
 
 
 def test_create_scoping():
@@ -30,7 +30,7 @@ def test_get_location_scoping():
     scop._set_location("Nodal")
     assert scop._get_location() == "Nodal"
     scop = Scoping()
-    scop._set_location(dpf.locations.nodal)
+    scop._set_location(dpf.core.locations.nodal)
     assert scop._get_location() == "Nodal"
 
     
@@ -39,7 +39,7 @@ def test_get_location_property_scoping():
     scop.location = "Nodal"
     assert scop.location == "Nodal"
     scop = Scoping()
-    scop.location = dpf.locations.nodal
+    scop.location = dpf.core.locations.nodal
     assert scop.location == "Nodal"
 
 

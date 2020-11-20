@@ -10,36 +10,36 @@ else:
                    'test files "AWP_UNIT_TEST_FILES" to your env')
 
 # start local server if necessary
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
 
 
 def test_create_field():
-    field = dpf.Field()
+    field = dpf.core.Field()
     assert field._message.id != 0
 
 
 def test_create_field_from_helper_scalar():
     data = np.random.random(10)
-    field_a = dpf.field_from_array(data)
+    field_a = dpf.core.field_from_array(data)
     assert np.allclose(field_a.data, data)
 
 
 def test_create_field_from_helper_vector():
     data = np.random.random((10, 3))
-    field_a = dpf.field_from_array(data)
+    field_a = dpf.core.field_from_array(data)
     assert np.allclose(field_a.data, data)
 
 
 def test_createbycopy_field():
-    field = dpf.Field()
-    field2 = dpf.Field(field=field._message)
+    field = dpf.core.Field()
+    field2 = dpf.core.Field(field=field._message)
     assert field._message.id == field2._message.id
 
 
 def test_set_get_scoping():
-    field = dpf.Field()
-    scoping = dpf.Scoping()
+    field = dpf.core.Field()
+    scoping = dpf.core.Scoping()
     ids=[1,2,3,5,8,9,10]
     scoping.ids=ids
     field.scoping = scoping
@@ -47,8 +47,8 @@ def test_set_get_scoping():
 
 
 def test_set_get_data_field(): 
-    field= dpf.Field(nentities=20, nature=dpf.natures.scalar)
-    scoping = dpf.Scoping()
+    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
+    scoping = dpf.core.Scoping()
     ids =[]
     data=[]
     for i in range(0, 20):
@@ -61,8 +61,8 @@ def test_set_get_data_field():
     
     
 def test_set_get_data_array_field(): 
-    field= dpf.Field(nentities=20, nature=dpf.natures.vector)
-    scoping = dpf.Scoping()
+    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.vector)
+    scoping = dpf.core.Scoping()
     ids =[]
     data=[]
     for i in range(0, 20):
@@ -79,7 +79,7 @@ def test_set_get_data_array_field():
 
 
 def test_set_get_entity_data_field(): 
-    field= dpf.Field(nentities=20, nature=dpf.natures.vector)
+    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.vector)
     for i in range(0,20):
         scopingid= i+1
         scopingindex=i
@@ -96,7 +96,7 @@ def test_set_get_entity_data_field():
         
 
 def test_set_get_entity_data_array_field(): 
-    field= dpf.Field(nentities=20, nature=dpf.natures.vector)
+    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.vector)
     for i in range(0,20):
         scopingid= i+1
         scopingindex=i
@@ -117,8 +117,8 @@ def test_set_get_entity_data_array_field():
 
 
 #def test_get_data_ptr_field(): 
-#    field= dpf.Field(nentities=3, nature=dpf.natures.scalar,
-#                     location=dpf.locations.elemental_nodal)
+#    field= dpf.core.Field(nentities=3, nature=dpf.core.natures.scalar,
+#                     location=dpf.core.locations.elemental_nodal)
 #    data = [0.01,0.02,0.03]
 #    field.set_entity_data(data,0,1)
 #    data = [0.01,0.02,0.03,0.01,0.02,0.03]
@@ -132,8 +132,8 @@ def test_set_get_entity_data_array_field():
 
 
 def test_set_get_data_property_field():
-    field= dpf.Field(nentities=20, nature=dpf.natures.scalar)
-    scoping = dpf.Scoping()
+    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
+    scoping = dpf.core.Scoping()
     ids = []
     data= []
     for i in range(0, 20):
@@ -146,8 +146,8 @@ def test_set_get_data_property_field():
 
 
 def test_count_field():
-    field= dpf.Field(nentities=20, nature=dpf.natures.scalar)
-    scoping = dpf.Scoping()
+    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
+    scoping = dpf.core.Scoping()
     ids = []
     data= []
     for i in range(0, 20):
@@ -161,8 +161,8 @@ def test_count_field():
     assert field.size == 20
     
 def test_resize_field():
-    field= dpf.Field(nentities=1, nature=dpf.natures.scalar)
-    scoping = dpf.Scoping()
+    field= dpf.core.Field(nentities=1, nature=dpf.core.natures.scalar)
+    scoping = dpf.core.Scoping()
     ids = []
     data= []
     for i in range(0, 20):
@@ -179,33 +179,33 @@ def test_resize_field():
    
 def test_fromarray_field():
     data = np.empty((100,6))
-    f = dpf.field_from_array(data)
+    f = dpf.core.field_from_array(data)
     assert f.shape ==(100,6)
 
 def test_field_definition_field():
     test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
                                   'allKindOfComplexity.rst')
-    dataSource = dpf.DataSources()
+    dataSource = dpf.core.DataSources()
     dataSource.set_result_file_path(test_file_path)
-    op = dpf.Operator("U")
+    op = dpf.core.Operator("U")
     op.connect(4, dataSource)
-    fcOut = op.get_output(0, dpf.types.fields_container)
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
     f = fcOut[0]
     assert f.unit == "m"
-    assert f.location == dpf.locations.nodal
+    assert f.location == dpf.core.locations.nodal
 
 
 def test_create_overall_field():
-    field_overall = dpf.Field(nentities=1, location="overall", nature="vector")
+    field_overall = dpf.core.Field(nentities=1, location="overall", nature="vector")
     field_overall.scoping.location="overall"
     field_overall.data = [1.0,2.0,3.0]
     
-    field = dpf.Field(nentities=5, location="nodal")
+    field = dpf.core.Field(nentities=5, location="nodal")
     field.scoping.location="nodal"
     field.scoping.ids = list(range(1,6))
     data =[float(i) for i in range(0,15)]
     field.data = data
-    add = dpf.Operator("add")
+    add = dpf.core.Operator("add")
     add.inputs.fieldA(field)
     add.inputs.fieldB(field_overall)
     field_added= add.outputs.field()
@@ -218,11 +218,11 @@ def test_set_entity_data_elemental_nodal_field():
     
     test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
                                   'allKindOfComplexity.rst')
-    model = dpf.Model(test_file_path)
+    model = dpf.core.Model(test_file_path)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
     assert f.location == "ElementalNodal"
-    f_new= dpf.Field(nature=dpf.natures.symmatrix, location='elemental_nodal')
+    f_new= dpf.core.Field(nature=dpf.core.natures.symmatrix, location='elemental_nodal')
     f_new.resize(f.scoping.size, f.size)
     for i in range(0,f.scoping.size):
         f_new.set_entity_data(f.get_entity_data(i),i,f.scoping.id(i))
@@ -232,7 +232,7 @@ def test_set_entity_data_elemental_nodal_field():
 def test_print_field():
     test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
                                   'allKindOfComplexity.rst')
-    model = dpf.Model(test_file_path)
+    model = dpf.core.Model(test_file_path)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
     try:
@@ -240,10 +240,21 @@ def test_print_field():
         assert True
     except :
         assert False
+        
+
+def test_mesh_support_field():
+    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
+                                  'allKindOfComplexity.rst')
+    model = dpf.core.Model(test_file_path)
+    stress = model.results.stress()
+    f = stress.outputs.fields_container()[0]
+    mesh =f.meshed_region
+    assert len(mesh.nodes.scoping)==15129
+    assert len(mesh.elements.scoping)==10292
     
 def test_delete_auto_field():
-    field = dpf.Field()
-    field2 = dpf.Field(field=field)
+    field = dpf.core.Field()
+    field2 = dpf.core.Field(field=field)
     del field
     try :  
         field2.get_ids()

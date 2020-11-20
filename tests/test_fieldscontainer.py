@@ -2,7 +2,7 @@ import os
 import pytest
 
 from ansys import dpf
-from ansys.dpf import FieldsContainer, Field
+from ansys.dpf.core import FieldsContainer, Field
 
 if 'AWP_UNIT_TEST_FILES' in os.environ:
     unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
@@ -12,15 +12,15 @@ else:
 
 
 # start local server if necessary
-if not dpf.has_local_server():
-    dpf.start_local_server()
+if not dpf.core.has_local_server():
+    dpf.core.start_local_server()
 
 
 @pytest.fixture(scope='module')
 def disp_fc():
     test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
                                   'allKindOfComplexity.rst')
-    fields = dpf.Model(test_file_path).results.displacement().outputs.fields_container()
+    fields = dpf.core.Model(test_file_path).results.displacement().outputs.fields_container()
     return fields
 
 
@@ -118,12 +118,17 @@ def test_delete_auto_fields_container():
         assert True
 
 
-def test_str(disp_fc):
+def test_str_fields_container(disp_fc):
     assert 'time' in str(disp_fc)
 
 
-def test_getitem(disp_fc):
-    assert isinstance(disp_fc[0], dpf.Field)
+def test_support_fields_container(disp_fc):
+    support = disp_fc.time_freq_support
+    assert len(support.frequencies)==1
+
+
+def test_getitem_fields_container(disp_fc):
+    assert isinstance(disp_fc[0], dpf.core.Field)
 
 
 # def test_select_component(disp_fc):
