@@ -20,7 +20,7 @@ from ansys.grpc.dpf import time_freq_support_pb2, time_freq_support_pb2_grpc, ba
 
 class TimeFreqSupport:
     """A class used to represent a TimeFreqSupport which is a
-    descirption of the temporal/frequency analysis"""
+    description of the temporal/frequency analysis"""
 
     def __init__(self, time_freq_support, channel=None):
         """Intialize the TimeFreqSupport with its TimeFreqSupport message
