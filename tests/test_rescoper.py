@@ -21,7 +21,7 @@ FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
 
 
 def test_rescoper_init():
-    result = post.result(FILE_PATH)
+    result = post.solution(FILE_PATH)
     disp = result.nodal_displacement()
     disp.num_fields()
     rescoper = Rescoper(result._model.metadata.meshed_region, disp.result_fields_container[0].location, disp.result_fields_container[0].component_count)
@@ -35,33 +35,33 @@ def test_rescoper_init():
     
 
 def test_rescoper_nanfield():
-    result = post.result(FILE_PATH)
+    result = post.solution(FILE_PATH)
     disp = result.nodal_displacement()
     disp.num_fields()
     rescoper1 = Rescoper(result._model.metadata.meshed_region, disp.result_fields_container[0].location, disp.result_fields_container[0].component_count)
-    assert rescoper1.nan_field.__len__() == 15129
-    assert rescoper1.nan_field[10].__len__() == 3
+    assert len(rescoper1.nan_field) == 15129
+    assert len(rescoper1.nan_field[10]) == 3
     for j in rescoper1.nan_field:
         for i in j:
             assert np.isnan(i)
     stress = result.elemental_stress()
     stress.num_fields()
     rescoper2 = Rescoper(result._model.metadata.meshed_region, stress.result_fields_container[0].location, stress.result_fields_container[0].component_count)
-    assert rescoper2.nan_field.__len__() == 10292
-    assert rescoper2.nan_field[10].__len__() == 6
+    assert len(rescoper2.nan_field) == 10292
+    assert len(rescoper2.nan_field[10]) == 6
     for j in rescoper1.nan_field:
         for i in j:
             assert np.isnan(i)
     
 
 def test_rescoper_rescope():
-    result = post.result(FILE_PATH)
+    result = post.solution(FILE_PATH)
     disp = result.nodal_displacement()
     disp.num_fields()
     rescoper = Rescoper(result._model.metadata.meshed_region, disp.result_fields_container[0].location, disp.result_fields_container[0].component_count)
     field = rescoper.rescope(disp.result_fields_container[0])
-    assert field.__len__() == 15129
-    assert field[0].__len__() == 3
+    assert len(field) == 15129
+    assert len(field[0]) == 3
     assert field[20][2] == -1.0882665178147842e-07
     assert field[103][0] == 1.334345300352076e-07
     assert field[12][1] == 4.343049969079495e-07
