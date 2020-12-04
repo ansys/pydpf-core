@@ -1,5 +1,5 @@
 from ansys import dpf
-from ansys.dpf import post
+from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import locations
 import os
 import numpy as np
@@ -21,32 +21,42 @@ FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
 
 
 def test_rescoper_init():
-    result = post.solution(FILE_PATH)
-    disp = result.nodal_displacement()
-    disp.num_fields()
-    rescoper = Rescoper(result._model.metadata.meshed_region, disp.result_fields_container[0].location, disp.result_fields_container[0].component_count)
-    assert rescoper.location == disp.result_fields_container[0].location
+    model = Model(FILE_PATH)
+    disp_op = model.results.displacement()
+    disp = disp_op.outputs.fields_container()
+    assert len(disp) == 1
+    rescoper = Rescoper(model.metadata.meshed_region, disp[0].location, disp[0].component_count)
+    assert rescoper.location == disp[0].location
     assert rescoper.mesh_scoping.location == locations.nodal
-    stress = result.elemental_stress()
-    stress.num_fields()
-    rescoper = Rescoper(result._model.metadata.meshed_region, stress.result_fields_container[0].location, stress.result_fields_container[0].component_count)
-    assert rescoper.location == stress.result_fields_container[0].location
+    stress_op = model.results.stress()
+    stress_op.inputs.requested_location.connect(locations.elemental)
+    avg_op = Operator("to_elemental_fc")
+    avg_op.inputs.fields_container.connect(stress_op.outputs.fields_container)
+    stress = avg_op.outputs.fields_container()
+    assert len(stress) == 2
+    rescoper = Rescoper(model.metadata.meshed_region, stress[0].location, stress[0].component_count)
+    assert rescoper.location == stress[0].location
     assert rescoper.mesh_scoping.location == locations.elemental
     
 
 def test_rescoper_nanfield():
-    result = post.solution(FILE_PATH)
-    disp = result.nodal_displacement()
-    disp.num_fields()
-    rescoper1 = Rescoper(result._model.metadata.meshed_region, disp.result_fields_container[0].location, disp.result_fields_container[0].component_count)
+    model = Model(FILE_PATH)
+    disp_op = model.results.displacement()
+    disp = disp_op.outputs.fields_container()
+    assert len(disp) == 1
+    rescoper1 = Rescoper(model.metadata.meshed_region, disp[0].location, disp[0].component_count)
     assert len(rescoper1.nan_field) == 15129
     assert len(rescoper1.nan_field[10]) == 3
     for j in rescoper1.nan_field:
         for i in j:
             assert np.isnan(i)
-    stress = result.elemental_stress()
-    stress.num_fields()
-    rescoper2 = Rescoper(result._model.metadata.meshed_region, stress.result_fields_container[0].location, stress.result_fields_container[0].component_count)
+    stress_op = model.results.stress()
+    stress_op.inputs.requested_location.connect(locations.elemental)
+    avg_op = Operator("to_elemental_fc")
+    avg_op.inputs.fields_container.connect(stress_op.outputs.fields_container)
+    stress = avg_op.outputs.fields_container()
+    assert len(stress) == 2
+    rescoper2 = Rescoper(model.metadata.meshed_region, stress[0].location, stress[0].component_count)
     assert len(rescoper2.nan_field) == 10292
     assert len(rescoper2.nan_field[10]) == 6
     for j in rescoper1.nan_field:
@@ -55,11 +65,12 @@ def test_rescoper_nanfield():
     
 
 def test_rescoper_rescope():
-    result = post.solution(FILE_PATH)
-    disp = result.nodal_displacement()
-    disp.num_fields()
-    rescoper = Rescoper(result._model.metadata.meshed_region, disp.result_fields_container[0].location, disp.result_fields_container[0].component_count)
-    field = rescoper.rescope(disp.result_fields_container[0])
+    model = Model(FILE_PATH)
+    disp_op = model.results.displacement()
+    disp = disp_op.outputs.fields_container()
+    assert len(disp) == 1
+    rescoper = Rescoper(model.metadata.meshed_region, disp[0].location, disp[0].component_count)
+    field = rescoper.rescope(disp[0])
     assert len(field) == 15129
     assert len(field[0]) == 3
     assert field[20][2] == -1.0882665178147842e-07
