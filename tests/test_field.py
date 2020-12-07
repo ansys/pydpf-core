@@ -1,19 +1,8 @@
 import os
 import pytest
 import numpy as np
+
 from ansys import dpf
-
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-
-
-
-# start local server if necessary
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
 
 
 def test_create_field():
@@ -184,11 +173,10 @@ def test_fromarray_field():
     f = dpf.core.field_from_array(data)
     assert f.shape ==(100,6)
 
-def test_field_definition_field():
-    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                                  'allKindOfComplexity.rst')
+
+def test_field_definition_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(test_file_path)
+    dataSource.set_result_file_path(allkindofcomplexity)
     op = dpf.core.Operator("U")
     op.connect(4, dataSource)
     fcOut = op.get_output(0, dpf.core.types.fields_container)
