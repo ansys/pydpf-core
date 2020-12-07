@@ -31,6 +31,18 @@ jobs:
         versionSpec: $(python.version)
         addToPath: true
 
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'pyansys'
+        onlyAddExtraIndex: true
+
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        pip install --find-links=dist ansys_dpf_core
+        python -c "from ansys.dpf import core; print(core.Report())"
+      displayName: Install ansys-dpf-core
+
     - task: UniversalPackages@0
       inputs:
         command: 'download'
@@ -46,21 +58,9 @@ jobs:
         set THISDIR=$(System.DefaultWorkingDirectory)
         set PATH=%THISDIR%\server\v211\tp\IntelMKL\2020.0.166\winx64\;%THISDIR%\server\v211\tp\hdf5\1.8.14\winx64\;%THISDIR%\server\v211\tp\CFFSDK\lib\winx64;%THISDIR%\res_files\;%PATH%
         cd %THISDIR%\server\v211\aisol\bin\winx64
-        START "" Ans.Dpf.Grpc.exe --address 127.0.0.1 --port %DPF_PORT%
-        timeout 3
+        START /B Ans.Dpf.Grpc.exe --address 127.0.0.1 --port %DPF_PORT%
+        python -c "from ansys.dpf import core; core.connect_to_server(port=32772); print('Connected')"
       displayName: Start DPF Server
-
-    - task: PipAuthenticate@1
-      inputs:
-        artifactFeeds: 'pyansys'
-        onlyAddExtraIndex: true
-
-    - script: |
-        pip install -r requirements_build.txt
-        python setup.py bdist_wheel
-        pip install --find-links=dist ansys_dpf_core
-        python -c "from ansys.dpf import core; print(core.Report())"
-      displayName: Install ansys-dpf-core
 
 
 
