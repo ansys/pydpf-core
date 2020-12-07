@@ -69,17 +69,26 @@ class Plotter:
         mesh = self._mesh
         grid = mesh.grid
         nan_color = "grey"
-        rescoper = _Rescoper(mesh, fields_container[0].location, 
-                             fields_container[0].component_count) #location will be the same on all fields
-        if (len(fields_container) == 1):
-            field = rescoper.rescope(fields_container[0])
-            plotter.add_mesh(grid, scalars = field, opacity=1.0, nan_color=nan_color, 
+        
+        rescoperOp = dpf.core.Operator("Rescope")
+        rescoperOp.inputs.fields_container.connect(fields_container)
+        rescoperOp.inputs.mesh_scoping.connect(mesh.nodes.scoping)
+        fields2 = rescoperOp.outputs.fields_container.get_data()
+        
+        
+        #rescoper = _Rescoper(mesh, fields_container[0].location, 
+        #                     fields_container[0].component_count) #location will be the same on all fields
+        if (len(fields2) == 1):
+            #field = rescoper.rescope(fields_container[0])
+            dataR = fields2[0].data
+            plotter.add_mesh(grid, scalars = dataR, opacity=1.0, nan_color=nan_color, 
                               stitle = fields_container[0].name, show_edges=True)
         else:
-            for field_to_rescope in fields_container:
-                name = fields_container[0].name.split("_")[0]
-                field = rescoper.rescope(field_to_rescope)
-                plotter.add_mesh(grid, scalars = field, nan_color=nan_color, stitle = name, show_edges=True)
+            for field_to_rescope in fields2:
+                name = field_to_rescope.name.split("_")[0]
+                #field = rescoper.rescope(field_to_rescope)
+                dataR = field_to_rescope.data
+                plotter.add_mesh(grid, scalars = dataR, nan_color=nan_color, stitle = name, show_edges=True)
         plotter.add_axes()
         plotter.show()
     
