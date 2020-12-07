@@ -1,5 +1,4 @@
-"""Installation file for python dpf module
-"""
+"""Installation file for the `ansys.dpf.core` module """
 import os
 from io import open as io_open
 
@@ -9,7 +8,7 @@ install_requires = ['pyvista>=0.24.0',
                     'matplotlib',
                     'pillow>=7.0.0',
                     'pexpect',
-                    'ansys.grpc.dpf']
+                    'ansys.grpc.dpf>=0.2.1']
 
 
 # Get version from version info
@@ -23,11 +22,10 @@ with io_open(version_file, mode='r') as fd:
 readme_file = os.path.join(filepath, 'README.md')
 
 setup(
-    name='ansys.dpf',
-    packages=['ansys', 'ansys.dpf.core'],
+    name='ansys-dpf-core',
+    packages=['ansys.dpf.core'],
     version=__version__,
     description='DPF Python gRPC client',
-    # long_description=io_open(readme_file, encoding="utf-8").read(),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
@@ -37,8 +35,8 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
-
-    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
+    python_requires='>=3.5.*',
     install_requires=install_requires,
 )
