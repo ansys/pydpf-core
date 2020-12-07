@@ -13,7 +13,7 @@ if 'jupyter' in socket.gethostname():
     if 'AWP_UNIT_TEST_FILES' not in os.environ:
         os.environ['AWP_UNIT_TEST_FILES'] = '/mnt/ansys_inc/dpf/test_files/'
 
-from ansys.dpf.core.misc import module_exists
+from ansys.dpf.core.misc import module_exists, Report
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field

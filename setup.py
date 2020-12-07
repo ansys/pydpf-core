@@ -6,6 +6,7 @@ from setuptools import setup
 
 install_requires = ['pyvista>=0.24.0',
                     'matplotlib',
+                    'scooby',
                     'pillow>=7.0.0',
                     'pexpect',
                     'ansys.grpc.dpf>=0.2.1']

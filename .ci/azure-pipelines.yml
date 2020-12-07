@@ -42,6 +42,13 @@ jobs:
       inputs:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        pip install dist/ansys_mapdl*.whl
+        python -c "from ansys import mapdl; print(mapdl.Report())"
+
+
     - task: UniversalPackages@0
       inputs:
         command: 'download'

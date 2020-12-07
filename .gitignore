@@ -21,6 +21,8 @@ docs/build
 
 # pip files
 *.egg-info
+build/
+dist/
 
 # emacs
 flycheck*
