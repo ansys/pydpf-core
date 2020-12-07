@@ -22,7 +22,7 @@ class Plotter:
         notebook (default: True):
             bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
         """
-        self._mesh.grid.plot(notebook=notebook)
+        return self._mesh.grid.plot(notebook=notebook)
         
     def plot_chart(self, fields_container):
         """Plot the minimum/maximum result values over time 
@@ -34,7 +34,7 @@ class Plotter:
         field_container
             dpf.core.FieldsContainer that must contains a result for each time step of the time_freq_support.
         """
-        tfq = fields_container[0].time_freq_support
+        tfq = fields_container.time_freq_support
         time_field = tfq.frequencies
         normOp = dpf.core.Operator("norm_fc")
         minmaxOp = dpf.core.Operator("min_max_fc")
@@ -46,9 +46,9 @@ class Plotter:
         pyplot.plot(time_field.data,fieldMin.data,'b',label='Minimum')
         pyplot.xlabel("time (s)")
         substr = fields_container[0].name.split("_")
-        pyplot.ylabel(substr + fieldMin.unit)
+        pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title( substr[0] + ": min/max values over time")
-        pyplot.legend()
+        return pyplot.legend()
     
     def plot_contour(self, fields_container, notebook=True):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
@@ -71,26 +71,37 @@ class Plotter:
         nan_color = "grey"
         
         rescoperOp = dpf.core.Operator("Rescope")
-        rescoperOp.inputs.fields_container.connect(fields_container)
-        rescoperOp.inputs.mesh_scoping.connect(mesh.nodes.scoping)
-        fields2 = rescoperOp.outputs.fields_container.get_data()
-        
+        mesh_scoping = None
+        if (fields_container[0].location == locations.nodal):
+            mesh_scoping = mesh.nodes.scoping
+        elif(fields_container[0].location == locations.elemental):
+            mesh_scoping = mesh.elements.scoping
+        else:
+            raise Exception("Only elemental or nodal location are supported for plotting.")
+        rescoperOp.inputs.mesh_scoping.connect(mesh_scoping)
+        rescoperOp.connect(2,float("nan"))
         
         #rescoper = _Rescoper(mesh, fields_container[0].location, 
         #                     fields_container[0].component_count) #location will be the same on all fields
-        if (len(fields2) == 1):
+        if (len(fields_container) == 1):
             #field = rescoper.rescope(fields_container[0])
+            rescoperOp.inputs.fields_container.connect(fields_container)
+            fields2 = rescoperOp.outputs.fields_container()
             dataR = fields2[0].data
             plotter.add_mesh(grid, scalars = dataR, opacity=1.0, nan_color=nan_color, 
                               stitle = fields_container[0].name, show_edges=True)
         else:
-            for field_to_rescope in fields2:
+            for field_to_rescope in fields_container:
+                forward = dpf.core.Operator("forward_fc")
+                forward.inputs.fields.connect(field_to_rescope)
+                rescoperOp.inputs.fields_container.connect(forward.outputs.fields_container)
+                field = rescoperOp.outputs.fields_container()[0]
                 name = field_to_rescope.name.split("_")[0]
                 #field = rescoper.rescope(field_to_rescope)
-                dataR = field_to_rescope.data
+                dataR = field.data
                 plotter.add_mesh(grid, scalars = dataR, nan_color=nan_color, stitle = name, show_edges=True)
         plotter.add_axes()
-        plotter.show()
+        return plotter.show()
     
     def _plot_contour_using_vtk_file(self, fields_container, notebook=True):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
