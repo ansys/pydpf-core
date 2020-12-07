@@ -23,6 +23,7 @@ LOG.setLevel('DEBUG')
 
 # default DPF server port
 DPF_DEFAULT_PORT = 50054
+LOCAL_HOST = '127.0.0.1'
 
 # INSTANCES = []
 
@@ -102,7 +103,7 @@ def start_server_using_service_manager():
     dpf.core._server_instances.append(DpfJob(service_manager_url, dpf_service_name))
 
 
-def start_local_server(ip=ip, port=port, dpf_path=None,
+def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, dpf_path=None,
                        ansys_path=None):
     if dpf_path is None:
         if 'DPF_PATH' in os.environ:
