@@ -9,7 +9,7 @@ install_requires = ['pyvista>=0.24.0',
                     'scooby',
                     'pillow>=7.0.0',
                     'pexpect',
-                    'ansys.grpc.dpf>=0.2.1']
+                    'ansys-grpc-dpf>=0.2.1']
 
 
 # Get version from version info
