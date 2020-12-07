@@ -22,7 +22,7 @@ class Rescoper:
         
         self.location = location
         self.mesh_scoping = mesh_scoping
-        self.nan_field = np.array(mesh_scoping.__len__() * [ num_comp * [float("nan")]])
+        self.nan_field = np.array(len(mesh_scoping) * [ num_comp * [float("nan")]])
     
     
     def get_nan_field(self):
@@ -64,6 +64,6 @@ class Rescoper:
             except:
                 pass
             i += 1
-        if (output[0].__len__() == 1):
-            output = np.reshape(output, output.__len__())
+        if (len(output[0]) == 1):
+            output = np.reshape(output, len(output))
         return output
