@@ -63,6 +63,11 @@ jobs:
         python -c "from ansys.dpf import core; core.connect_to_server(port=32772); print('Connected')"
       displayName: Start DPF Server
 
+    - script: |
+      pip install -r requirements_test.txt
+      pip install pytest-azurepipelines
+      pytest -v --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
+    displayName: Test Core API
 
 
 # - job: Linux
