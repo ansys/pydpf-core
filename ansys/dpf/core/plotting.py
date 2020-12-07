@@ -15,6 +15,7 @@
 from ansys import dpf
 from ansys.dpf.core.misc import module_exists
 
+IN_WORKBENCH = os.enviorn.get('ANSYS_IN_WORKBENCH', False)
 
 if module_exists("pyvista"):
     import pyvista as pv

@@ -56,7 +56,9 @@ jobs:
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803'
         vstsPackageVersion: '21.1.0'
-
+    - script: |
+        $(System.DefaultWorkingDirectory)\run_
+      displayName: Install ansys-dpf-core      
 
 
 # - job: Linux

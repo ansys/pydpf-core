@@ -8,6 +8,8 @@ def module_exists(module_name):
     return module_name in (name for loader, name, ispkg in iter_modules())
 
 
+# TODO: don't do a top level import of scooby
+
 
 class Report(scooby.Report):
     """Generate a report of the installed packages for ansys-dpf-core"""
@@ -39,7 +41,7 @@ class Report(scooby.Report):
         """
 
         # Mandatory packages.
-        core = ['pyvista', 'matplotlib', 'PIL', 'pexpect', 'ansys.grpc.dpf']q
+        core = ['pyvista', 'matplotlib', 'PIL', 'pexpect', 'ansys.grpc.dpf']
 
         # Optional packages.
         optional = []
