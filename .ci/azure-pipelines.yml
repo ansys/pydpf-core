@@ -41,8 +41,8 @@ jobs:
         vstsPackageVersion: '21.1.0'
 
     - script: |
-        echo dir $(System.DefaultWorkingDirectory)
-        $(System.DefaultWorkingDirectory)\run_server.bat
+        dir $(System.DefaultWorkingDirectory)
+        # $(System.DefaultWorkingDirectory)\run_server.bat
         set THISDIR=$(System.DefaultWorkingDirectory)
         set PATH=%THISDIR%\server\v211\tp\IntelMKL\2020.0.166\winx64\;%THISDIR%\server\v211\tp\hdf5\1.8.14\winx64\;%THISDIR%\server\v211\tp\CFFSDK\lib\winx64;%THISDIR%\res_files\;%PATH%
         cd %THISDIR%\server\v211\aisol\bin\winx64
@@ -57,7 +57,7 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install dist/ansys_dpf_core*.whl
+        pip install --find-links=dist ansys_dpf_core
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
 
