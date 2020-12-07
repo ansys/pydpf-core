@@ -14,9 +14,15 @@ class Plotter:
     def __init__(self, mesh):
         self._mesh = mesh
         
-    def plot_mesh(self):
-        """Plot the mesh using pyvista."""
-        self._mesh.grid.plot()
+    def plot_mesh(self, notebook=True):
+        """Plot the mesh using pyvista.
+        
+        Parameters
+        ----------
+        notebook (default: True):
+            bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
+        """
+        self._mesh.grid.plot(notebook=notebook)
         
     def plot_chart(self, fields_container):
         """Plot the minimum/maximum result values over time 
@@ -44,7 +50,7 @@ class Plotter:
         pyplot.title( substr[0] + ": min/max values over time")
         pyplot.legend()
     
-    def plot_contour(self, fields_container):
+    def plot_contour(self, fields_container, notebook=True):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
         support (can be a meshed_region or a time_freq_support).
         If transient analysis, plot the last result if no time_scoping has been specified.
@@ -53,12 +59,13 @@ class Plotter:
         ----------
         fields_container
             dpf.core.FieldsContainer thats contains the result to plot.
-        
+        notebook (default: True):
+            bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
         """
         if not sys.warnoptions:
             import warnings
             warnings.simplefilter("ignore")
-        plotter = pv.Plotter()
+        plotter = pv.Plotter(notebook=notebook)
         mesh = self._mesh
         grid = mesh.grid
         nan_color = "grey"
@@ -76,13 +83,13 @@ class Plotter:
         plotter.add_axes()
         plotter.show()
     
-    def _plot_contour_using_vtk_file(self, fields_container):
+    def _plot_contour_using_vtk_file(self, fields_container, notebook=True):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
         support (can be a meshed_region or a time_freq_support).
         If transient analysis, plot the last result.
         
         This method is private, publishes a vtk file and print (using pyvista) from this file."""
-        plotter = pv.Plotter()
+        plotter = pv.Plotter(notebook=notebook)
         # mesh_provider = Operator("MeshProvider")
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
         vtk_export = dpf.core.Operator("vtk_export")
