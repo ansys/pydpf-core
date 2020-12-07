@@ -23,7 +23,7 @@ LOG.setLevel('DEBUG')
 
 # default DPF server port
 DPF_DEFAULT_PORT = 50054
-LOCAL_HOST = '127.0.0.1'
+LOCALHOST = '127.0.0.1'
 
 # INSTANCES = []
 
