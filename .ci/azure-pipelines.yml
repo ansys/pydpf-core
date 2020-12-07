@@ -21,33 +21,16 @@ jobs:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
-  # strategy:
-    # matrix:
-    #   Python35:
-    #     python.version: '3.5'
-    #   Python36:
-    #     python.version: '3.6'
-    #   Python37:
-    #     python.version: '3.7'
-    #   Python38:
-    #     python.version: '3.8'
+    DPF_PORT: 32772
   pool:
     vmImage: 'vs2017-win2016'
+
   steps:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: $(python.version)
         addToPath: true
-    - task: PipAuthenticate@1
-      inputs:
-        artifactFeeds: 'pyansys'
-        onlyAddExtraIndex: true
-    - script: |
-        pip install -r requirements_build.txt
-        python setup.py bdist_wheel
-        pip install dist/ansys_dpf_core*.whl
-        python -c "from ansys.dpf import core; print(core.Report())"
-      displayName: Install ansys-dpf-core
+
     - task: UniversalPackages@0
       inputs:
         command: 'download'
@@ -56,9 +39,28 @@ jobs:
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803'
         vstsPackageVersion: '21.1.0'
+
     - script: |
-        $(System.DefaultWorkingDirectory)\run_
-      displayName: Install ansys-dpf-core      
+        echo dir $(System.DefaultWorkingDirectory)
+        $(System.DefaultWorkingDirectory)\run_server.bat
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        set PATH=%THISDIR%\server\v211\tp\IntelMKL\2020.0.166\winx64\;%THISDIR%\server\v211\tp\hdf5\1.8.14\winx64\;%THISDIR%\server\v211\tp\CFFSDK\lib\winx64;%THISDIR%\res_files\;%PATH%
+        cd %THISDIR%\server\v211\aisol\bin\winx64
+        Ans.Dpf.Grpc.exe --address 127.0.0.1 --port %DPF_PORT%
+      displayName: Start DPF Server
+
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'pyansys'
+        onlyAddExtraIndex: true
+
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        pip install dist/ansys_dpf_core*.whl
+        python -c "from ansys.dpf import core; print(core.Report())"
+      displayName: Install ansys-dpf-core
+
 
 
 # - job: Linux

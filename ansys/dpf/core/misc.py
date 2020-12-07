@@ -4,9 +4,9 @@ from pkgutil import iter_modules
 
 # ANSYS CPython workbench enviornment may not have scooby installed
 try:
-    from scooby import Report
+    from scooby import Report as ScoobyReport
 except ImportError:
-    class Report():
+    class ScoobyReport():
         """Placeholder for scooby.Report"""
 
         def __init__(self, *args, **kwargs):
@@ -19,7 +19,7 @@ def module_exists(module_name):
     return module_name in (name for loader, name, ispkg in iter_modules())
 
 
-class Report(Report):
+class Report(ScoobyReport):
     """Generate a report of the installed packages for ansys-dpf-core"""
 
     def __init__(self, additional=None, ncol=3, text_width=80, sort=False,
