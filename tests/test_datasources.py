@@ -1,4 +1,10 @@
+import os
+import pytest
+
 from ansys import dpf
+
+skip_linux = pytest.mark.skipif(os.name == 'posix',
+                                reason='Feature not supported on linux or flaky test.')
 
 
 def test_create_data_sources():
@@ -45,6 +51,7 @@ def test_data_sources_from_data_sources(allkindofcomplexity):
     data_sources2 = dpf.core.DataSources(data_sources=data_sources)
 
 
+@skip_linux
 def test_delete_auto_data_sources(allkindofcomplexity):
     data_sources = dpf.core.DataSources()
     data_sources2 = dpf.core.DataSources(data_sources=data_sources)

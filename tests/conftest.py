@@ -17,14 +17,6 @@ pv.OFF_SCREEN = True
 # currently running dpf on docker.  Used for testing on CI
 running_docker = os.environ.get('DPF_DOCKER', False)
 
-if running_docker:
-    ip = os.environ.get('DPF_IP', '127.0.0.1')
-    port = os.environ.get('DPF_IP', '50054')
-    core.connect_to_server(ip, port)
-else:
-    if not core.has_local_server():
-        core.start_local_server()
-
 
 @pytest.fixture()
 def allkindofcomplexity():
