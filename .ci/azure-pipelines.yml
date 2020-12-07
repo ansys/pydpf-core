@@ -22,6 +22,7 @@ jobs:
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
+    DPF_START_SERVER: False
   pool:
     vmImage: 'vs2017-win2016'
 
@@ -60,7 +61,7 @@ jobs:
         set PATH=%THISDIR%\server\v211\tp\IntelMKL\2020.0.166\winx64\;%THISDIR%\server\v211\tp\hdf5\1.8.14\winx64\;%THISDIR%\server\v211\tp\CFFSDK\lib\winx64;%THISDIR%\res_files\;%PATH%
         cd %THISDIR%\server\v211\aisol\bin\winx64
         START /B Ans.Dpf.Grpc.exe --address 127.0.0.1 --port %DPF_PORT%
-        python -c "from ansys.dpf import core; core.connect_to_server(port=32772); print('Connected')"
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
       displayName: Start DPF Server
 
     - script: |

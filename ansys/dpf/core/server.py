@@ -10,7 +10,6 @@ import requests
 
 from ansys import dpf
 from ansys.dpf.core.core import BaseService
-from ansys.dpf.core.ipconfig import ip, port
 
 MAX_PORT = 65535
 
@@ -22,6 +21,9 @@ else:
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
 
+# default DPF server port
+DPF_DEFAULT_PORT = 50054
+
 # INSTANCES = []
 
 # @atexit.register
@@ -32,10 +34,25 @@ LOG.setLevel('DEBUG')
 
 
 def _global_channel():
-    """Returns the global_channel"""
+    """Return the global channel if it exists.
+
+    If the global channel has not been specified, check if the user
+    has specified the "DPF_START_SERVER" enviornment variable.  If
+    ``True``, start the server locally.  If ``False``, connect to the
+    existing server.
+    """
     if dpf.core.CHANNEL is None:
-        raise ValueError('Please start the dpf server with dpf.core.start_local_instance or dpf.core.start_instance_using_service_manager' +
-                         ' or set the Global DPF channel with dpf.core.CHANNEL =')
+        if 'DPF_START_SERVER' in os.environ:
+            if os.environ['DPF_START_SERVER'].lower() == 'false':
+                ip = os.environ.get('DPF_IP', '127.0.0.1')
+                port = int(os.environ.get('DPF_PORT', DPF_DEFAULT_PORT))
+                connect_to_server(ip, port)
+        else:
+            # start the local server...
+            # raise NotImplementedError
+
+            raise ValueError('Please start the dpf server with dpf.core.start_local_instance or dpf.core.start_instance_using_service_manager or set the Global DPF channel with dpf.core.CHANNEL =')
+
     return dpf.core.CHANNEL
 
 
