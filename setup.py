@@ -1,4 +1,4 @@
-"""Installation file for the `ansys.dpf.core` module """
+"""Installation file for the `ansys-dpf-core` module """
 import os
 from io import open as io_open
 
