@@ -6,7 +6,7 @@ import pyvista as pv
 import matplotlib.pyplot as pyplot
 import os
 import sys
-from ansys.dpf.core import Operator
+from ansys import dpf
 from ansys.dpf.core.rescoper import Rescoper as _Rescoper
 from ansys.dpf.core.common import locations
 
@@ -30,8 +30,8 @@ class Plotter:
         """
         tfq = fields_container[0].time_freq_support
         time_field = tfq.frequencies
-        normOp = Operator("norm_fc")
-        minmaxOp = Operator("min_max_fc")
+        normOp = dpf.core.Operator("norm_fc")
+        minmaxOp = dpf.core.Operator("min_max_fc")
         normOp.inputs.fields_container.connect(fields_container)
         minmaxOp.inputs.connect(normOp.outputs)
         fieldMin = minmaxOp.outputs.field_min()
@@ -85,7 +85,7 @@ class Plotter:
         plotter = pv.Plotter()
         # mesh_provider = Operator("MeshProvider")
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
-        vtk_export = Operator("vtk_export")
+        vtk_export = dpf.core.Operator("vtk_export")
         path = os.getcwd()
         file_name = "dpf_temporary_hokflb2j9sjd0a3.vtk"
         path += "/" + file_name

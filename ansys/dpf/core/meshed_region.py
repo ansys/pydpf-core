@@ -16,6 +16,7 @@ from ansys import dpf
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 from ansys.dpf.core import scoping, field
 from ansys.dpf.core.common import locations
+from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 
 
 class MeshedRegion:
@@ -193,18 +194,18 @@ class MeshedRegion:
         field_or_fields_container
             dpf.core.Field or dpf.core.FieldsContainer
         """
+        pl = _DpfPlotter(self)
         if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
                 fields_container = dpf.core.FieldsContainer()
                 fields_container.add_label('time')
-                fields_container.add_field(field_or_fields_container, {'time':1})
+                fields_container.add_field({'time':1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
-            pl = dpf.core.plotter.Plotter(self)
             pl.plot_contour(fields_container)
         elif(field_or_fields_container is None):
-            self.grid.plot()
+            pl.plot_mesh()
 
 
 
