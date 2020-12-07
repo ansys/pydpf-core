@@ -1,6 +1,17 @@
 """Miscellaneous functions for DPF module"""
-import scooby
 from pkgutil import iter_modules
+
+
+# ANSYS CPython workbench enviornment may not have scooby installed
+try:
+    from scooby import Report
+except ImportError:
+    class Report():
+        """Placeholder for scooby.Report"""
+
+        def __init__(self, *args, **kwargs):
+            raise ImportError('Install `scooby` with `pip install scooby` to use '
+                              'this feature')
 
 
 def module_exists(module_name):
@@ -8,10 +19,7 @@ def module_exists(module_name):
     return module_name in (name for loader, name, ispkg in iter_modules())
 
 
-# TODO: don't do a top level import of scooby
-
-
-class Report(scooby.Report):
+class Report(Report):
     """Generate a report of the installed packages for ansys-dpf-core"""
 
     def __init__(self, additional=None, ncol=3, text_width=80, sort=False,
@@ -57,7 +65,7 @@ class Report(scooby.Report):
         else:
             extra_meta = ("GPU Details", "None")
 
-        scooby.Report.__init__(self, additional=additional, core=core,
-                               optional=optional, ncol=ncol,
-                               text_width=text_width, sort=sort,
-                               extra_meta=extra_meta)
+        super().__init__(additional=additional, core=core,
+                         optional=optional, ncol=ncol,
+                         text_width=text_width, sort=sort,
+                         extra_meta=extra_meta)

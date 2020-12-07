@@ -1,5 +1,4 @@
 """Contains the directives necessary to start the dpf server."""
-# import atexit
 import logging
 import time
 import os
