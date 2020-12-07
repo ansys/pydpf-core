@@ -16,6 +16,43 @@ trigger:
     - '*'
 
 jobs:
+- job: Windows
+  variables:
+    python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+  # strategy:
+    # matrix:
+    #   Python35:
+    #     python.version: '3.5'
+    #   Python36:
+    #     python.version: '3.6'
+    #   Python37:
+    #     python.version: '3.7'
+    #   Python38:
+    #     python.version: '3.8'
+  pool:
+    vmImage: 'vs2017-win2016'
+  steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: $(python.version)
+        addToPath: true
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'pyansys'
+        onlyAddExtraIndex: true
+    - task: UniversalPackages@0
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(System.DefaultWorkingDirectory)'
+        feedsToUse: 'internal'
+        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
+        vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803'
+        vstsPackageVersion: '21.1.0'
+
+
+
 # - job: Linux
 #   variables:
 #     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
@@ -82,29 +119,3 @@ jobs:
     #     TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
 
-- job: Windows
-  variables:
-    python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
-    DISPLAY: ':99.0'
-    PYANSYS_OFF_SCREEN: True
-  # strategy:
-    # matrix:
-    #   Python35:
-    #     python.version: '3.5'
-    #   Python36:
-    #     python.version: '3.6'
-    #   Python37:
-    #     python.version: '3.7'
-    #   Python38:
-    #     python.version: '3.8'
-  pool:
-    vmImage: 'vs2017-win2016'
-  steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: $(python.version)
-        addToPath: true
-    - task: PipAuthenticate@1
-      inputs:
-        artifactFeeds: 'pyansys'
-        onlyAddExtraIndex: true
