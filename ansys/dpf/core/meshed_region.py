@@ -184,6 +184,28 @@ class MeshedRegion:
         if self._full_grid is None:
             self._full_grid = self._as_vtk()
         return self._full_grid
+    
+    def plot(self, field_or_fields_container=None):
+        """Plot the field/fields container on mesh.
+        
+        Parameters
+        ----------
+        field_or_fields_container
+            dpf.core.Field or dpf.core.FieldsContainer
+        """
+        if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+            fields_container = None
+            if isinstance(field_or_fields_container, dpf.core.Field):
+                fields_container = dpf.core.FieldsContainer()
+                fields_container.add_label('time')
+                fields_container.add_field(field_or_fields_container, {'time':1})
+            elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+                fields_container = field_or_fields_container
+            pl = dpf.core.plotter.Plotter(self)
+            pl.plot_contour(fields_container)
+        elif(field_or_fields_container is None):
+            self.grid.plot()
+
 
 
 class Node:
