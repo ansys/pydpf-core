@@ -45,10 +45,9 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install dist/ansys_mapdl*.whl
-        python -c "from ansys import mapdl; print(mapdl.Report())"
-
-
+        pip install dist/ansys_dpf_core*.whl
+        python -c "from ansys.dpf import core; print(core.Report())"
+      displayName: Install ansys-dpf-core
     - task: UniversalPackages@0
       inputs:
         command: 'download'
