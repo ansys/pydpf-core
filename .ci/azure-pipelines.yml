@@ -40,6 +40,7 @@ jobs:
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
         pip install --find-links=dist ansys_dpf_core
+        cd tests
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
 
