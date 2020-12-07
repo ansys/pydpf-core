@@ -1,4 +1,5 @@
 """Contains the directives necessary to start the dpf server."""
+# import atexit
 import logging
 import time
 import os
@@ -21,6 +22,14 @@ else:
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
+
+# INSTANCES = []
+
+# @atexit.register
+# def exit_dpf():
+#     for instance in INSTANCES:
+#         pid = instance.pid
+#         sys.kill(pid)
 
 
 def _global_channel():
@@ -224,7 +233,8 @@ class DpfServer:
                                  '"DPF_PATH"')
             args =f' --address {ip} --port {port}'
             self._process = subprocess.Popen(server_bin + args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-           
+
+        # INSTANCES.append(self._process)
 
         time.sleep(1.0)  # let the service start
         channel = grpc.insecure_channel('%s:%d' % (ip, port))
@@ -291,6 +301,12 @@ def connect_to_server(ip='127.0.0.1', port=50054, timeout=5):
 
     LOG.debug('Established connection to MAPDL gRPC')
     dpf.core.CHANNEL = channel
+
+
+# TODO: def _launch_linux_local()...
+
+
+# TODO: def _launch_windows_local()...
 
 
 # for testing
