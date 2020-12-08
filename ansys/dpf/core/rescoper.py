@@ -58,9 +58,13 @@ class Rescoper:
             raise Exception("Given field has not the same location as the rescoper ( "+ location + " is different from " + self.location + "). Create another rescoper with different location to rescope the field.")
         output = self.nan_field
         i = 0
-        for data_id in self.mesh_scoping.ids:
+        ids = self.mesh_scoping.ids
+        field_scoping = field_to_rescope.scoping.ids
+        for data_id in ids:
             try:
-                output[i] = field_to_rescope.get_entity_data_by_id(data_id)
+                # output[i] = field_to_rescope.get_entity_data_by_id(data_id)
+                index = field_scoping.index(data_id)
+                output[i] = field_to_rescope.data[index]
             except:
                 pass
             i += 1
