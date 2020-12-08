@@ -69,10 +69,10 @@ jobs:
         pip install pytest-azurepipelines
         cd tests
         pytest -v test_datasources.py
-        pytest -v test_field.py
         pytest -v test_hdf5.py
         pytest -v test_meshregion.py
         pytest -v test_model.py
+        pytest -v test_field.py
         pytest -v test_fieldscontainer.py
       displayName: Test Core API
 
