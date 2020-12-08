@@ -8,10 +8,6 @@ from ansys import dpf
 
 skip_always = pytest.mark.skipif(True, reason='Investigate why this is failing')
 
-def test_tmp(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
-    breakpoint()
-
 
 def test_create_data_sources():
     data_sources = dpf.core.DataSources()
