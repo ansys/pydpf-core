@@ -117,7 +117,8 @@ def test_get_nodes_meshedregion(simple_bar_model):
     assert node.id >= 1
     assert node.index ==1
     assert node.coordinates != None
-    
+
+
 def test_get_elements_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     el = mesh.elements.element_by_id(1)
@@ -130,8 +131,10 @@ def test_get_elements_meshedregion(simple_bar_model):
     assert el.nodes is not None
 
 
-def test_print_meshedregion(simple_bar_model):
-   print(simple_bar_model.metadata.meshed_region)
+def test_str_meshedregion(simple_bar_model):
+    meshed_region = simple_bar_model.metadata.meshed_region
+    assert str(len(meshed_region.nodes)) in str(meshed_region)
+    assert str(len(meshed_region.elements)) in str(meshed_region)
 
 
 def test_delete_meshedregion(simple_bar_model):

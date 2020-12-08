@@ -379,15 +379,15 @@ class Elements():
         return self._mesh.element_by_index(index)
 
     def __len__(self):
-        return self._mesh.n_elements
+        return self.n_elements
 
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]   
-    
+
     def element_by_id(self, id):
         return self.__get_element(elementid=id)
-    
+
     def element_by_index(self, index):
         return self.__get_element(elementindex=index)
 
