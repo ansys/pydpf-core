@@ -28,9 +28,14 @@ def allkindofcomplexity():
     """
     if running_docker:
         # assumes repository root is mounted at '/dpf'
-        test_path = '/dpf'
+        test_files_path = '/dpf/tests/testfiles'
+        return os.path.join(test_files_path, 'allKindOfComplexity.rst')
     else:
+        # otherwise, assume file is local
         test_path = os.path.dirname(os.path.abspath(__file__))
-
-    test_files_path = os.path.join(test_path, 'testfiles')
-    return os.path.join(test_files_path, 'allKindOfComplexity.rst')
+        test_files_path = os.path.join(test_path, 'testfiles')
+        filename = os.path.join(test_files_path, 'allKindOfComplexity.rst')
+        if not os.path.isfile(filename):
+            raise FileNotFoundError('Unable to locate "allKindOfComplexity.rst" at ' +
+                                    f'{test_files_path}')
+        return filename
