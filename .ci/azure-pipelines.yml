@@ -90,6 +90,7 @@ jobs:
     DPF_PORT: 32772
     DPF_START_SERVER: False
     DPF_IMAGE: docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+    DPF_DOCKER: True
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
