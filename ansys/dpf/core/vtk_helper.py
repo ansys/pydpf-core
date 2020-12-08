@@ -11,9 +11,11 @@ from vtk import (VTK_EMPTY_CELL, VTK_EMPTY_CELL, VTK_VERTEX,
                  VTK_QUADRATIC_WEDGE, VTK_QUADRATIC_PYRAMID,
                  VTK_BIQUADRATIC_QUAD, VTK_TRIQUADRATIC_HEXAHEDRON,
                  VTK_QUADRATIC_LINEAR_QUAD,
-                 VTK_QUADRATIC_LINEAR_WEDGE)
+                 VTK_QUADRATIC_LINEAR_WEDGE,
+                 vtkVersion)
 import pyvista as pv
 
+VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
 
 # Maps dpf cell sizes (based on array order) to the number of nodes per cell
 SIZE_MAPPING = np.array([10,  # kAnsTet10
@@ -158,17 +160,18 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     # partition cells in vtk format
     cells = np.insert(connectivity, insert_ind, elem_size)
 
-    # compute offset array
-    split_ind += 1
-    split_ind[0] = 0
-    offset = np.cumsum(split_ind)
-
-    # breakpoint()
-
     # convert kAns to VTK cell type
     if as_linear:
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
 
-    return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
+    # different treatment depending on the version of vtk
+    if VTK9:
+        # compute offset array when < VTK v9
+        split_ind += 1
+        split_ind[0] = 0
+        offset = np.cumsum(split_ind)
+        return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
+
+    pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
