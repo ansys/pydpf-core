@@ -74,7 +74,7 @@ jobs:
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines
         cd tests
-        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py test_operator.py
+        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py test_operator.py test_operators.py test_rescoper.py
         pytest -v test_fieldscontainer.py
       displayName: Test Core API
 
@@ -124,7 +124,7 @@ jobs:
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines
         cd tests
-        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py test_fieldscontainer.py test_operator.py
+        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py test_fieldscontainer.py test_operator.py test_operators.py test_rescoper.py
       displayName: Test Core API
 
 

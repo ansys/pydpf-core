@@ -3,20 +3,6 @@ import numpy as np
 from ansys import dpf
 
 
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-
-TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                              'ASimpleBar.rst')
-
-
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
-
-
 def test_add_method():
     data = np.array([1, 2, 3])
     field_a = dpf.core.field_from_array(data)
@@ -67,19 +53,21 @@ def test_dot_tensor():
     assert np.all(arr_out[:, [0, 1, 6, 7]] == 1)
 
 
-def test_nodal_averaging():
-    model = dpf.core.Model(TEST_FILE_PATH)
+def test_nodal_averaging(simple_bar):
+    model = dpf.core.Model(simple_bar)
     evol = model.results.element_nodal_forces()
     field = evol.outputs.fields_container()[0]
     nodal_evol = field.to_nodal()
     assert nodal_evol.location == dpf.core.locations.nodal
 
-def test_ellispsis_pin():
-    model=dpf.core.Model(TEST_FILE_PATH)
+
+def test_ellispsis_pin(simple_bar, tmpdir):
+    tmp_path = str(tmpdir.join('vtk.vtk'))
+    model = dpf.core.Model(simple_bar)
     u = model.operator("U")
-    s= model.operator("S")
+    s = model.operator("S")
     op = dpf.core.Operator("vtk_export")
-    op.inputs.connect(r'c:/temp/vtk.vtk')
+    op.inputs.connect(tmp_path)
     op.inputs.fields1(s.outputs)
     op.inputs.fields2(u.outputs)
-    assert len(op.inputs._connected_inputs)==3
+    assert len(op.inputs._connected_inputs) == 3

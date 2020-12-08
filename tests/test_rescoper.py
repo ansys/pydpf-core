@@ -1,27 +1,15 @@
+import os
+import numpy as np
+
 from ansys import dpf
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import locations
-import os
-import numpy as np
 from ansys.dpf.core.rescoper import Rescoper
 
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
     
 
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-    
-FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                              'allKindOfComplexity.rst')
-
-
-
-def test_rescoper_init():
-    model = Model(FILE_PATH)
+def test_rescoper_init(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
     disp_op = model.results.displacement()
     disp = disp_op.outputs.fields_container()
     assert len(disp) == 1
@@ -39,17 +27,15 @@ def test_rescoper_init():
     assert rescoper.mesh_scoping.location == locations.elemental
     
 
-def test_rescoper_nanfield():
-    model = Model(FILE_PATH)
+def test_rescoper_nanfield(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
     disp_op = model.results.displacement()
     disp = disp_op.outputs.fields_container()
     assert len(disp) == 1
     rescoper1 = Rescoper(model.metadata.meshed_region, disp[0].location, disp[0].component_count)
     assert len(rescoper1.nan_field) == 15129
     assert len(rescoper1.nan_field[10]) == 3
-    for j in rescoper1.nan_field:
-        for i in j:
-            assert np.isnan(i)
+    assert np.isnan(rescoper1.nan_field).all()
     stress_op = model.results.stress()
     stress_op.inputs.requested_location.connect(locations.elemental)
     avg_op = Operator("to_elemental_fc")
@@ -59,13 +45,11 @@ def test_rescoper_nanfield():
     rescoper2 = Rescoper(model.metadata.meshed_region, stress[0].location, stress[0].component_count)
     assert len(rescoper2.nan_field) == 10292
     assert len(rescoper2.nan_field[10]) == 6
-    for j in rescoper1.nan_field:
-        for i in j:
-            assert np.isnan(i)
+    assert np.isnan(rescoper2.nan_field).all()
     
 
-def test_rescoper_rescope():
-    model = Model(FILE_PATH)
+def test_rescoper_rescope(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
     disp_op = model.results.displacement()
     disp = disp_op.outputs.fields_container()
     assert len(disp) == 1
