@@ -19,7 +19,7 @@ import numpy as np
 from ansys import dpf
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2, field_definition_pb2, field_definition_pb2_grpc
 from ansys.dpf.core.common import natures, types, locations
-from ansys.dpf.core import operators, plotting, scoping, meshed_region, time_freq_support
+from ansys.dpf.core import operators_helper, plotting, scoping, meshed_region, time_freq_support
 
 
 class Field:
@@ -406,12 +406,12 @@ class Field:
     
     def __add__(self, field_b):
         """Adds two fields together"""
-        return dpf.core.operators.add(self, field_b)
+        return dpf.core.operators_helper.add(self, field_b)
 
     def __pow__(self, value):
         if value != 2:
             raise ValueError('DPF only the value is "2" suppported')
-        return dpf.core.operators.sqr(self)
+        return dpf.core.operators_helper.sqr(self)
 
     def _del_data(self):
         pass
@@ -456,9 +456,9 @@ class Field:
         return self.size
 
 
-    @wraps(operators.min_max)
+    @wraps(operators_helper.min_max)
     def _min_max(self):
-        return operators.min_max(self)
+        return operators_helper.min_max(self)
 
     def min(self):
         """Component-wise minimum over this field

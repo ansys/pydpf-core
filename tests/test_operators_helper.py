@@ -21,7 +21,7 @@ def test_add_method():
     data = np.array([1, 2, 3])
     field_a = dpf.core.field_from_array(data)
     field_b = dpf.core.field_from_array(data)
-    fout = dpf.core.operators.add(field_a, field_b)
+    fout = dpf.core.operators_helper.add(field_a, field_b)
     assert np.allclose(fout.data, data*2)
 
 
@@ -37,14 +37,14 @@ def test_element_dot():
     data = np.random.random((10, 3))
     field_a = dpf.core.field_from_array(data)
     field_b = dpf.core.field_from_array(data)
-    fout = dpf.core.operators.element_dot(field_a, field_b)
+    fout = dpf.core.operators_helper.element_dot(field_a, field_b)
     assert np.allclose(fout.data, np.sum(data*data, 1))
 
 
 def test_sqr():
     data = np.array([1, 2, 3])
     field = dpf.core.field_from_array(data)
-    field_sqr = dpf.core.operators.sqr(field)
+    field_sqr = dpf.core.operators_helper.sqr(field)
     assert np.allclose(field_sqr.data, data**2)
 
 
@@ -62,7 +62,7 @@ def test_dot_tensor():
     arr_b[:, 1] = 0
     field_a = dpf.core.field_from_array(arr_a)
     field_b = dpf.core.field_from_array(arr_b)
-    fout = dpf.core.operators.dot_tensor(field_a, field_b)
+    fout = dpf.core.operators_helper.dot_tensor(field_a, field_b)
     arr_out = fout.data
     assert np.all(arr_out[:, [0, 1, 6, 7]] == 1)
 
