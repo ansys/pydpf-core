@@ -114,9 +114,16 @@ jobs:
         set -ex
         echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
         docker pull $(DPF_IMAGE)
-        docker run --restart always --name dpf -p $(DPF_PORT):50054 $(DPF_IMAGE)
+        docker run --restart always --name dpf -v `pwd`:/dpf -p $(DPF_PORT):50054 $(DPF_IMAGE) &
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
       displayName: Pull, launch, and validate DPF service
+
+    - script: |
+        pip install -r requirements_test.txt
+        pip install pytest-azurepipelines
+        cd tests
+        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py test_fieldscontainer.py
+      displayName: Test Core API
 
 
 #     - script: |
