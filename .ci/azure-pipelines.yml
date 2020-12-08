@@ -15,6 +15,12 @@ trigger:
     include:
     - '*'
 
+pr:
+  branches:
+    exclude:
+    - '*'
+
+
 jobs:
 - job: Windows
   variables:
@@ -68,8 +74,7 @@ jobs:
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines
         cd tests
-        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py
-        pytest -v test_fieldscontainer.py
+        pytest -v test_datasources.py test_hdf5.py test_meshregion.py test_model.py test_field.py test_fieldscontainer.py
       displayName: Test Core API
 
 # pytest -v --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
