@@ -45,7 +45,7 @@ class Rescoper:
         nan_field[:] = np.nan
         return nan_field
 
-    def rescope(self, field_to_rescope, force_use_loop=False):
+    def rescope(self, field_to_rescope):
         """Return a rescoped field (function of the mesh contained 
         by the rescoper object).
     
@@ -53,10 +53,6 @@ class Rescoper:
         ----------
         field_to_rescope: dpf.core.Field
             Field to rescope to.
-
-        force_use_loop : bool, optional
-            Force the usage of looped querying.  Generally slow and
-            only used for debug purposes.
 
         Returns
         -------

@@ -54,7 +54,7 @@ def simple_bar():
 @pytest.fixture()
 def velocity_acceleration():
     """Resolve the path of the "velocity_acceleration.rst" result file."""
-    return resolve_test_file('velocity_acceleration.rst')
+    return resolve_test_file('velocity_acceleration.rst', 'rst_operators')
 
 
 @pytest.fixture()
