@@ -40,9 +40,6 @@ class BaseService():
     def __init__(self, channel=None, load_operators=True, timeout=5):
         """Initialize base service"""
 
-        # internal flag to detect if server is running linux
-        self._is_linux = False
-
         if channel is None:
             channel = dpf.core._global_channel()
 
@@ -50,9 +47,9 @@ class BaseService():
         self._stub = self._connect(timeout)
 
         if load_operators:
+            self._load_native_operators()
             self._load_mapdl_operators()
             self._load_mesh_operators()
-            # self._load_native_operators()
 
     def _connect(self, timeout=5):
         """Connect to dpf service within a given timeout"""
@@ -104,13 +101,10 @@ class BaseService():
 
     def _load_mapdl_operators(self):
         """Load the mapdl operators library"""
-        if self._is_linux or self._is_linux is None:
-            try:
-                self.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
-                self._is_linux = True
-                return
-            except:
-                self._is_linux = False
+        try:
+            self.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
+        except:
+            pass
 
         if CONFIGURATION == "release":
             self.load_library('mapdlOperatorsCore.dll', 'mapdl_operators')
@@ -119,45 +113,39 @@ class BaseService():
 
     def _load_mesh_operators(self):
         """Load the mesh operators library"""
-        if self._is_linux or self._is_linux is None:
-            try:
-                self.load_library('libmeshOperatorsCore.so', 'mesh_operators')
-                self._is_linux = True
-                return
-            except:
-                self._is_linux = False
+        try:
+            self.load_library('libmeshOperatorsCore.so', 'mesh_operators')
+        except:
+            pass
 
         if CONFIGURATION == "release":
             self.load_library('meshOperatorsCore.dll', 'mesh_operators')
         else:
             self.load_library('meshOperatorsCoreD.dll', 'mesh_operators')
 
-    # def _load_native_operators(self):
-    #     """This is normally loaded at the start of the server"""
-    #     if self._is_linux or self._is_linux is None:
-    #         try:
-    #             self.load_library('libAns.Dpf.Native.so', 'native')
-    #             self._is_linux = True
-    #             return
-    #         except:
-    #             self._is_linux = False
+    def _load_native_operators(self):
+        """This is normally loaded at the start of the server and is
+        only here for debug purposes"""
+        operator_name = 'native'
+        try:
+            self.load_library('libAns.Dpf.Native.so', operator_name)
+        except:
+            pass
 
-        # TODO: Add this
-        # if CONFIGURATION == "release":
-        #     self.load_library('meshOperatorsCore.dll', 'mesh_operators')
-        # else:
-        #     self.load_library('meshOperatorsCoreD.dll', 'mesh_operators')
+        if CONFIGURATION == "release":
+            self.load_library('Ans.Dpf.Native.dll', operator_name)
+        else:
+            self.load_library('Ans.Dpf.NativeD.dll', operator_name)
 
     def _load_hdf5(self):
         """Load HDF5 operators"""
         operator_name = 'hdf5'
+        try:
+            self.load_library('libAns.Dpf.Hdf5.so', operator_name)
+        except:
+            pass
 
-        if self._is_linux or self._is_linux is None:
-            try:
-                self.load_library('libAns.Dpf.Hdf5.so', operator_name)
-                self._is_linux = True
-                return
-            except:
-                self._is_linux = False
-
-        self.load_library('Ans.Dpf.Hdf5.dll', operator_name)
+        if CONFIGURATION == "release":
+            self.load_library('Ans.Dpf.Hdf5.dll', operator_name)
+        else:
+            self.load_library('Ans.Dpf.Hdf5D.dll', operator_name)
