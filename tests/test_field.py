@@ -225,15 +225,13 @@ def test_print_field(allkindofcomplexity):
     str(f)
 
 
-# TODO: Update windows package on azure with latest
-@pytest.mark.xfail()
 def test_mesh_support_field(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
     mesh = f.meshed_region
-    assert len(mesh.nodes.scoping)==15129
-    assert len(mesh.elements.scoping)==10292
+    assert len(mesh.nodes.scoping) == 15129
+    assert len(mesh.elements.scoping) == 10292
 
 
 def test_delete_auto_field():

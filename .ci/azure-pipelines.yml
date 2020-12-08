@@ -52,7 +52,7 @@ jobs:
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803'
-        vstsPackageVersion: '21.1.0'
+        vstsPackageVersion: '21.1.1'
 
     - script: |
         @echo on
@@ -68,10 +68,7 @@ jobs:
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines
         cd tests
-        pytest -v test_datasources.py test_field.py test_fieldscontainer.py
-        pytest -v test_hdf5.py
-        pytest -v test_meshregion.py
-        pytest -v test_model.py
+        pytest -v test_datasources.py test_field.py test_fieldscontainer.py test_hdf5.py test_meshregion.py test_model.py
       displayName: Test Core API
 
 # pytest -v --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
