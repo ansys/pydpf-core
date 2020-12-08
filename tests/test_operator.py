@@ -19,10 +19,6 @@ CYCLIC_RESULT_PATH = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', '
 CYCLIC_DS_PATH = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
 
 
-# if not dpf.core.has_local_server():
-#     dpf.core.start_local_server()
-
-
 def test_create_operator():
     op = dpf.core.Operator("min_max")
     assert op._message.id
