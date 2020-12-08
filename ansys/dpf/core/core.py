@@ -52,7 +52,7 @@ class BaseService():
         if load_operators:
             self._load_mapdl_operators()
             self._load_mesh_operators()
-            self._load_native_operators()
+            # self._load_native_operators()
 
     def _connect(self, timeout=5):
         """Connect to dpf service within a given timeout"""
@@ -99,9 +99,8 @@ class BaseService():
         try:
             self._stub.Load(request)
         except Exception as e:
-            raise IOError('Unable to load library "%s".  Check ' % filename +
-                          'for missing dependencies or file may not exist:\n%s'
-                          % str(e))
+            raise IOError(f'Unable to load library "{filename}". File may not exist or'
+                          f' is missing dependencies:\n{str(e)}')
 
     def _load_mapdl_operators(self):
         """Load the mapdl operators library"""
@@ -148,3 +147,17 @@ class BaseService():
         #     self.load_library('meshOperatorsCore.dll', 'mesh_operators')
         # else:
         #     self.load_library('meshOperatorsCoreD.dll', 'mesh_operators')
+
+    def _load_hdf5(self):
+        """Load HDF5 operators"""
+        operator_name = 'hdf5'
+
+        if self._is_linux or self._is_linux is None:
+            try:
+                self.load_library('libAns.Dpf.Hdf5.so', operator_name)
+                self._is_linux = True
+                return
+            except:
+                self._is_linux = False
+
+        self.load_library('Ans.Dpf.Hdf5.dll', operator_name)
