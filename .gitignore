@@ -27,7 +27,8 @@ dist/
 # emacs
 flycheck*
 *~
-#*#
+\#*\#
+.\#*
 
 # docker bin
 docker/v211

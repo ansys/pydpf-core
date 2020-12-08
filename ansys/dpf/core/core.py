@@ -41,7 +41,7 @@ class BaseService():
         """Initialize base service"""
 
         # internal flag to detect if server is running linux
-        self._is_linux = None
+        self._is_linux = False
 
         if channel is None:
             channel = dpf.core._global_channel()
@@ -132,15 +132,15 @@ class BaseService():
         else:
             self.load_library('meshOperatorsCoreD.dll', 'mesh_operators')
 
-    def _load_native_operators(self):
-        """This is normally loaded at the start of the server"""
-        if self._is_linux or self._is_linux is None:
-            try:
-                self.load_library('libAns.Dpf.Native.so', 'native')
-                self._is_linux = True
-                return
-            except:
-                self._is_linux = False
+    # def _load_native_operators(self):
+    #     """This is normally loaded at the start of the server"""
+    #     if self._is_linux or self._is_linux is None:
+    #         try:
+    #             self.load_library('libAns.Dpf.Native.so', 'native')
+    #             self._is_linux = True
+    #             return
+    #         except:
+    #             self._is_linux = False
 
         # TODO: Add this
         # if CONFIGURATION == "release":

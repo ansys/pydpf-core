@@ -39,7 +39,6 @@ def resolve_test_file(basename):
         return filename
 
 
-
 @pytest.fixture()
 def allkindofcomplexity():
     """Path of the "allKindOfComplexity.rst" result file."""
@@ -50,3 +49,9 @@ def allkindofcomplexity():
 def simple_bar():
     """Path of the "ASimpleBar.rst" result file."""
     return resolve_test_file('ASimpleBar.rst')
+
+
+@pytest.fixture(scope="session", autouse=True)
+def load_operators(request):
+    """This loads all the operators on initialization"""
+    model = core.Model(resolve_test_file('ASimpleBar.rst'))
