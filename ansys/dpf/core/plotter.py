@@ -70,7 +70,7 @@ class Plotter:
         grid = mesh.grid
         nan_color = "grey"
         
-        rescoperOp = dpf.core.Operator("Rescope")
+        #get mesh scoping
         mesh_scoping = None
         if (fields_container[0].location == locations.nodal):
             mesh_scoping = mesh.nodes.scoping
@@ -78,28 +78,26 @@ class Plotter:
             mesh_scoping = mesh.elements.scoping
         else:
             raise Exception("Only elemental or nodal location are supported for plotting.")
-        rescoperOp.inputs.mesh_scoping.connect(mesh_scoping)
-        rescoperOp.connect(2,float("nan"))
         
-        #rescoper = _Rescoper(mesh, fields_container[0].location, 
-        #                     fields_container[0].component_count) #location will be the same on all fields
-        if (len(fields_container) == 1):
-            #field = rescoper.rescope(fields_container[0])
-            rescoperOp.inputs.fields_container.connect(fields_container)
-            fields2 = rescoperOp.outputs.fields_container()
-            dataR = fields2[0].data
+        #rescoper operator from dpf with nan values as default values
+        rescoperOp = dpf.core.Operator("Rescope")
+        rescoperOp.inputs.mesh_scoping.connect(mesh_scoping)
+        rescoperOp.inputs.fields_container.connect(fields_container)
+        rescoperOp.connect(2,float("nan"))
+        fields = rescoperOp.outputs.fields_container()
+        
+        #add meshes
+        if (len(fields) == 1):
+            dataR = fields[0].data
             plotter.add_mesh(grid, scalars = dataR, opacity=1.0, nan_color=nan_color, 
                               stitle = fields_container[0].name, show_edges=True)
         else:
-            for field_to_rescope in fields_container:
-                forward = dpf.core.Operator("forward_fc")
-                forward.inputs.fields.connect(field_to_rescope)
-                rescoperOp.inputs.fields_container.connect(forward.outputs.fields_container)
-                field = rescoperOp.outputs.fields_container()[0]
-                name = field_to_rescope.name.split("_")[0]
-                #field = rescoper.rescope(field_to_rescope)
+            for field in fields:
+                name = field.name.split("_")[0]
                 dataR = field.data
                 plotter.add_mesh(grid, scalars = dataR, nan_color=nan_color, stitle = name, show_edges=True)
+        
+        #show result
         plotter.add_axes()
         return plotter.show()
     
