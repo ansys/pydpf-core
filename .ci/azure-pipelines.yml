@@ -67,8 +67,15 @@ jobs:
     - script: |
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines
-        pytest -v tests/test_datasources.py --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
+        cd tests
+        pytest -v test_datasources.py
+        pytest -v test_field.py
+        pytest -v test_fieldscontainer.py
+        pytest -v test_hdf5.py
       displayName: Test Core API
+
+# pytest -v --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
+
 
 
 # - job: Linux

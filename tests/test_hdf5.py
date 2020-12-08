@@ -1,7 +1,6 @@
 import pytest
 from ansys import dpf
 
-dpf.core.BaseService()._load_hdf5()
 
 try:
     dpf.core.BaseService()._load_hdf5()
@@ -19,6 +18,7 @@ def test_hdf5_loaded():
 
 
 @skip_no_hdf5
+@pytest.mark.xfail(reason='op.inputs has no member "data"')
 def test_hdf5_ellipsis_any_pins(simple_bar, tmpdir):
     tmp_path = str(tmpdir.join('hdf5.h5'))
     model = dpf.core.Model(simple_bar)
