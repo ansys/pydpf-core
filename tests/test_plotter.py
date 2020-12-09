@@ -1,6 +1,3 @@
-import os
-import pyvista as pv
-
 from pyvista.plotting.renderer import CameraPosition
 
 from ansys import dpf
@@ -12,7 +9,7 @@ def test_chart_plotter(plate_msup):
     model = Model(plate_msup)
     mesh = model.metadata.meshed_region
     tfq = model.metadata.time_freq_support
-    timeids = list(range(1,tfq.n_sets+1))
+    timeids = list(range(1, tfq.n_sets + 1))
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
@@ -41,6 +38,6 @@ def test_plotter_on_field(allkindofcomplexity):
     pl = DpfPlotter(model.metadata.meshed_region)
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label('time')
-    fields_container.add_field({'time':1}, field)    
+    fields_container.add_field({'time': 1}, field)
     cpos = pl.plot_contour(fields_container)
     assert isinstance(cpos, CameraPosition)
