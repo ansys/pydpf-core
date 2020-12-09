@@ -3,9 +3,6 @@ import pytest
 
 from ansys import dpf
 
-# skip_linux = pytest.mark.skipif(os.name == 'posix',
-#                                 reason='Feature not supported on linux or flaky test.')
-
 skip_always = pytest.mark.skipif(True, reason='Investigate why this is failing')
 
 
