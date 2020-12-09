@@ -1,5 +1,6 @@
 import os
 from ansys import dpf
+from ansys.dpf import core
 
 
 if 'AWP_UNIT_TEST_FILES' in os.environ:
