@@ -50,7 +50,7 @@ class Output:
         return docstr
 
 
-class Outputs:
+class _Outputs:
     def __init__(self, dict_outputs, operator):
         self._dict_outputs = dict_outputs
         self._operator = operator
@@ -60,7 +60,7 @@ class Outputs:
                 output_name = self._dict_outputs[pin].name
                 self._outputs.append(output_name)
                 output = Output(self._dict_outputs[pin], pin, self._operator)
-                setattr(self, output_name, output)
+                # setattr(self, output_name, output)
 
     def _get_given_output(self, input_type_name):
         corresponding_pins = []
@@ -88,3 +88,16 @@ class Outputs:
                     docstr+='{:<5}{:<4}{:<20}'.format(*line)
                     docstr+='\n'
         return docstr
+
+#Dynamic class Outputs
+class Outputs(_Outputs):
+    def __init__(self, dict_outputs, operator):
+        self._dict_outputs = dict_outputs
+        self._operator = operator
+        self._outputs = []
+        for pin in self._dict_outputs:
+            if len(self._dict_outputs[pin].type_names) and self._dict_outputs[pin] is not None:
+                output_name = self._dict_outputs[pin].name
+                self._outputs.append(output_name)
+                output = Output(self._dict_outputs[pin], pin, self._operator)
+                setattr(self, output_name, output)
