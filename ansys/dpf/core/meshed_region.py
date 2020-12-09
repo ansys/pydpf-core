@@ -2,6 +2,7 @@ from ansys import dpf
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 from ansys.dpf.core import scoping, field
 from ansys.dpf.core.common import locations
+from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 
 
 class MeshedRegion:
@@ -170,6 +171,31 @@ class MeshedRegion:
         if self._full_grid is None:
             self._full_grid = self._as_vtk()
         return self._full_grid
+    
+    def plot(self, field_or_fields_container=None, is3dplotting=False):
+        """Plot the field/fields container on mesh.
+        
+        Parameters
+        ----------
+        field_or_fields_container
+            dpf.core.Field or dpf.core.FieldsContainer
+            
+        is3dplotting (default: False)
+            bool, that specifies if the plotting is 3D or not
+        """
+        pl = _DpfPlotter(self)
+        if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+            fields_container = None
+            if isinstance(field_or_fields_container, dpf.core.Field):
+                fields_container = dpf.core.FieldsContainer()
+                fields_container.add_label('time')
+                fields_container.add_field({'time':1}, field_or_fields_container)
+            elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+                fields_container = field_or_fields_container
+            pl.plot_contour(fields_container, not is3dplotting)
+        elif(field_or_fields_container is None):
+            pl.plot_mesh(not is3dplotting)
+
 
 
 class Node:
