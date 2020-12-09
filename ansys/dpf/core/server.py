@@ -1,19 +1,5 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
-
-"""Contains the directives necessary to start the dpf server.
-"""
+"""Contains the directives necessary to start the dpf server."""
+import logging
 import time
 import os
 import signal
@@ -24,7 +10,6 @@ import requests
 
 from ansys import dpf
 from ansys.dpf.core.core import BaseService
-from ansys.dpf.core.ipconfig import ip,port
 
 MAX_PORT = 65535
 
@@ -33,11 +18,42 @@ if 'ANSYS_PATH' in os.environ:
 else:
     ANSYS_PATH = None
 
+LOG = logging.getLogger(__name__)
+LOG.setLevel('DEBUG')
+
+# default DPF server port
+DPF_DEFAULT_PORT = 50054
+LOCALHOST = '127.0.0.1'
+
+# INSTANCES = []
+
+# @atexit.register
+# def exit_dpf():
+#     for instance in INSTANCES:
+#         pid = instance.pid
+#         sys.kill(pid)
+
+
 def _global_channel():
-    """Returns the global_channel"""
+    """Return the global channel if it exists.
+
+    If the global channel has not been specified, check if the user
+    has specified the "DPF_START_SERVER" enviornment variable.  If
+    ``True``, start the server locally.  If ``False``, connect to the
+    existing server.
+    """
     if dpf.core.CHANNEL is None:
-        raise ValueError('Please start the dpf server with dpf.core.start_local_instance or dpf.core.start_instance_using_service_manager' +
-                         ' or set the Global DPF channel with dpf.core.CHANNEL =')
+        if 'DPF_START_SERVER' in os.environ:
+            if os.environ['DPF_START_SERVER'].lower() == 'false':
+                ip = os.environ.get('DPF_IP', '127.0.0.1')
+                port = int(os.environ.get('DPF_PORT', DPF_DEFAULT_PORT))
+                connect_to_server(ip, port)
+        else:
+            # start the local server...
+            # raise NotImplementedError
+
+            raise ValueError('Please start the dpf server with dpf.core.start_local_instance or dpf.core.start_instance_using_service_manager or set the Global DPF channel with dpf.core.CHANNEL =')
+
     return dpf.core.CHANNEL
 
 
@@ -86,7 +102,8 @@ def start_server_using_service_manager():
     
     dpf.core._server_instances.append(DpfJob(service_manager_url, dpf_service_name))
 
-def start_local_server(ip=ip, port=port, dpf_path=None,
+
+def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, dpf_path=None,
                        ansys_path=None):
     if dpf_path is None:
         if 'DPF_PATH' in os.environ:
@@ -233,7 +250,8 @@ class DpfServer:
                                  '"DPF_PATH"')
             args =f' --address {ip} --port {port}'
             self._process = subprocess.Popen(server_bin + args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-           
+
+        # INSTANCES.append(self._process)
 
         time.sleep(1.0)  # let the service start
         channel = grpc.insecure_channel('%s:%d' % (ip, port))
@@ -256,6 +274,56 @@ class DpfServer:
             self.shutdown()
         except:
             pass
+
+
+def connect_to_server(ip='127.0.0.1', port=50054, timeout=5):
+    """Connect to an existing dpf server.
+
+    Set this as the global default channel that will be used for the
+    duration of dpf.
+
+    Parameters
+    ----------
+    ip : str, optional
+        IP address of the server.  Default to localhost.
+
+    port : int
+        Port of the server.  Defaults to the default DPF port
+        ``50054``.
+
+    timeout : float
+        Maximum timeout to connect to the DPF server.
+
+    Examples
+    --------
+    Connect to a remote server at a non-default port
+
+    >>> from ansys import dpf
+    >>> dpf.core.connect_to_server('10.0.0.1', 50055)
+
+    Connect to the localhost at the default port
+
+    >>> dpf.core.connect_to_server()
+    """
+    channel = grpc.insecure_channel(f'{ip}:{port}')
+    state = grpc.channel_ready_future(channel)
+
+    # verify connection has matured
+    tstart = time.time()
+    while ((time.time() - tstart) < timeout) and not state._matured:
+        time.sleep(0.01)
+
+    if not state._matured:
+        raise TimeoutError(f'Failed to connect to {ip}:{port} in {timeout} seconds')
+
+    LOG.debug('Established connection to MAPDL gRPC')
+    dpf.core.CHANNEL = channel
+
+
+# TODO: def _launch_linux_local()...
+
+
+# TODO: def _launch_windows_local()...
 
 
 # for testing

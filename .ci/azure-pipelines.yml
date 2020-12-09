@@ -1,0 +1,166 @@
+# azure pipelines build and test pymapdl
+
+variables:
+  ALLOW_PLOTTING: true
+  package_name: ansys-dpf-core
+  SHELLOPTS: 'errexit:pipefail'
+
+trigger:
+  branches:
+    include:
+    - '*'
+    exclude:
+    - gh-pages
+  tags:
+    include:
+    - '*'
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+
+jobs:
+- job: Windows
+  variables:
+    python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+    DPF_START_SERVER: False
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: $(python.version)
+        addToPath: true
+
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'pyansys'
+        onlyAddExtraIndex: true
+
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        pip install --find-links=dist ansys_dpf_core
+        cd tests
+        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+      displayName: Install ansys-dpf-core
+
+    - task: UniversalPackages@0
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(System.DefaultWorkingDirectory)'
+        feedsToUse: 'internal'
+        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
+        vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803'
+        vstsPackageVersion: '21.1.3'
+
+    - script: |
+        @echo on
+        dir $(System.DefaultWorkingDirectory)
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        set PATH=%THISDIR%\server\v211\tp\IntelMKL\2020.0.166\winx64\;%THISDIR%\server\v211\tp\hdf5\1.8.14\winx64\;%THISDIR%\server\v211\tp\CFFSDK\lib\winx64;%THISDIR%\res_files\;%PATH%
+        cd %THISDIR%\server\v211\aisol\bin\winx64
+        START /B Ans.Dpf.Grpc.exe --address 127.0.0.1 --port %DPF_PORT%
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+      displayName: Start DPF Server
+
+    - script: |
+        pip install -r requirements_test.txt
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
+        cd tests
+        pytest -v
+      displayName: Test Core API
+
+
+- job: Linux
+  variables:
+    python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+    DPF_START_SERVER: False
+    DPF_IMAGE: docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+    DPF_DOCKER: True
+  pool:
+    vmImage: 'ubuntu-20.04'
+  steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'pyansys'
+        onlyAddExtraIndex: true
+
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        pip install --find-links=dist ansys_dpf_core
+        cd tests
+        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+      displayName: Install ansys-dpf-core
+
+    - script: |
+        set -ex
+        echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
+        docker pull $(DPF_IMAGE)
+        docker run --restart always --name dpf -v `pwd`:/dpf -p $(DPF_PORT):50054 $(DPF_IMAGE) &
+        sleep 10
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+      displayName: Pull, launch, and validate DPF service
+
+    - script: |
+        pip install -r requirements_test.txt
+        pip install pytest-azurepipelines
+        cd tests
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --cov-report=html
+      displayName: Test Core API
+
+
+#     - script: |
+#         .ci/setup_headless_display.sh
+#         pip install -r .ci/requirements_test_xvfb.txt
+#         python .ci/display_test.py
+#       displayName: Install and start a virtual framebuffer
+
+
+#     - script: |
+#         set -ex
+#         echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
+#         docker pull $(MAPDL_IMAGE)
+#         docker run -e ANSYSLMD_LICENSE_FILE=1055@$(LICENSE_SERVER) --restart always --name mapdl -p $(PYMAPDL_PORT):50052 $(MAPDL_IMAGE) -smp &
+#         python -c "from ansys.mapdl import launch_mapdl; print(launch_mapdl())"
+#       displayName: Pull, launch, and validate MAPDL service
+
+#     - script: |
+#         pip install -r requirements_test.txt
+#         pip install pytest-azurepipelines
+#         pytest -v --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
+#       displayName:  'Test Core API'
+
+    # - template: build_documentation.yml  # path is relative
+
+    # - script: |
+    #     bash <(curl -s https://codecov.io/bash)
+    #   displayName: 'Upload coverage to codecov.io'
+    #   condition: eq(variables['python.version'], '3.7')
+
+    # - script: |
+    #     pip install twine
+    #     python setup.py sdist
+    #     twine upload --skip-existing dist/pyvista*
+    #   displayName: 'Upload to PyPi'
+    #   condition: and(eq(variables['python.version'], '3.7'), contains(variables['Build.SourceBranch'], 'refs/tags/'))
+    #   env:
+    #     TWINE_USERNAME: $(twine.username)
+    #     TWINE_PASSWORD: $(twine.password)
+    #     TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+
+

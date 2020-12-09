@@ -2,25 +2,15 @@ import gc
 import weakref
 import os
 import shutil
-import numpy as np
 
+import numpy as np
 import pytest
+
 from ansys import dpf
 
-if 'AWP_UNIT_TEST_FILES' not in os.environ:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
 
-unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                              'velocity_acceleration', 'file.rst')
-
-CYCLIC_RESULT_PATH = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
-CYCLIC_DS_PATH = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
-
-
-# if not dpf.core.has_local_server():
-#     dpf.core.start_local_server()
+# Check for ANSYS installation env var
+HAS_AWP_ROOT211 = os.environ.get('AWP_ROOT211', False) is not False
 
 
 def test_create_operator():
@@ -43,16 +33,16 @@ def test_connect_field_operator():
     assert np.allclose(fOut.data,[7.0,8.0,9.0])
 
 
-def test_connect_list_operator():
-    model = dpf.core.Model(TEST_FILE_PATH)
+def test_connect_list_operator(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
     op = model.operator("U")
     op.connect(0, [1, 2])
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert fcOut.get_ids() == [1, 2]
 
 
-def test_connect_list_operator_builtin():
-    model = dpf.core.Model(TEST_FILE_PATH)
+def test_connect_list_operator_builtin(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
     disp = model.results.displacement()
     disp.inputs.time_scoping([1, 2])
     fields = disp.outputs.fields_container()
@@ -101,12 +91,10 @@ def test_connect_scoping_operator():
     assert scopOut.ids == list(range(1,5))
 
 
-def test_connect_datasources_operator():
+def test_connect_datasources_operator(fields_container_csv):
     op = dpf.core.Operator("csv_to_field")
-    path = os.path.join(unit_test_files, 'DataProcessing', 'csvToField',
-                        'fields_container.csv')
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(path)
+    data_sources.set_result_file_path(fields_container_csv)
     op.connect(4, data_sources)
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert len(fcOut.get_ids()) == 4
@@ -152,11 +140,9 @@ def test_eval_operator():
     op.run()
 
 
-def test_inputs_outputs_1_operator(tmpdir):
-    path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
-    ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
-    data_sources = dpf.core.DataSources(path)
-    data_sources.add_file_path(ds_path)
+def test_inputs_outputs_1_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
+    data_sources = dpf.core.DataSources(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     model = dpf.core.Model(data_sources)
     op = model.operator("mapdl::rst::U")
     assert 'data_sources' in str(op.inputs)
@@ -175,12 +161,10 @@ def test_inputs_outputs_1_operator(tmpdir):
     assert meshed_region.elements.connectivities_field.data.size == meshed_region.elements.connectivities_field.size
 
 
-def test_inputs_outputs_2_operator(tmpdir):
-    path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
-    ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
+def test_inputs_outputs_2_operator(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(path)
-    data_sources.add_file_path(ds_path)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.data_sources.connect(data_sources)
     support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
@@ -197,12 +181,10 @@ def test_inputs_outputs_2_operator(tmpdir):
     assert meshed_region.elements.connectivities_field.size
 
 
-def test_inputs_outputs_3_operator(tmpdir):
-    path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
-    ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
+def test_inputs_outputs_3_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(path)
-    data_sources.add_file_path(ds_path)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.data_sources.connect(data_sources)
     support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
@@ -219,15 +201,13 @@ def test_inputs_outputs_3_operator(tmpdir):
     assert meshed_region.elements.connectivities_field.size
 
 
-def test_inputs_outputs_4_operator(tmpdir):
-    path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'file.rst')
-    ds_path = os.path.join(unit_test_files, 'DataProcessing', 'cyclic', 'lin', 'ds.dat')
+def test_inputs_outputs_4_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(path)
-    data_sources.add_file_path(ds_path)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(path)
-    data_sources.add_file_path(ds_path)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     op= dpf.core.Operator("mapdl::rst::U")
     op.inputs.connect(data_sources)
     support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
@@ -244,10 +224,10 @@ def test_inputs_outputs_4_operator(tmpdir):
     assert meshed_region.elements.connectivities_field.size
 
 
-def test_inputs_outputs_bool_operator():
+def test_inputs_outputs_bool_operator(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(CYCLIC_RESULT_PATH)
-    data_sources.add_file_path(CYCLIC_DS_PATH)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.connect(data_sources)
     op.inputs.read_cyclic.connect(1)
@@ -258,27 +238,25 @@ def test_inputs_outputs_bool_operator():
     expand.inputs.connect(op.outputs.fields_container)
     fc = expand.outputs.fields_container()
     assert isinstance(fc, dpf.core.FieldsContainer)
-    
-    
-def test_inputs_outputs_datasources_operator():
+
+
+@pytest.mark.skipif(not HAS_AWP_ROOT211, reason='Requires AWP_ROOT211')
+def test_inputs_outputs_datasources_operator(cyclic_ds):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(CYCLIC_DS_PATH)
+    data_sources.set_result_file_path(cyclic_ds)
     op = dpf.core.Operator("mapdl::run")
     op.inputs.connect(data_sources)
-    dsout=op.outputs.data_sources()
+    dsout = op.outputs.data_sources()
     assert dsout!=None
     assert dsout.result_key=="rst"
-    path =os.path.join(dsout.result_files[0])
-    try :
-        shutil.rmtree(os.path.dirname(path))
-        assert True
-    except :
-        assert False
-    
-def test_subresults_operator():
+    path = os.path.join(dsout.result_files[0])
+    shutil.rmtree(os.path.dirname(path))
+
+
+def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(CYCLIC_RESULT_PATH)
-    data_sources.add_file_path(CYCLIC_DS_PATH)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     model = dpf.core.Model(data_sources)
     u_op = model.results.displacement()
     ux_op = model.results.displacement().X()
@@ -308,9 +286,9 @@ def test_subresults_operator():
 
 # test commented because "mapdl::rst::U" isn't available in
 # "mapdl::rst::ResultInfoProvider"
-# def test_inputs_outputs_bool_operator_with_model():
-    # model = dpf.core.Model(CYCLIC_RESULT_PATH)
-    # model.add_file_path(CYCLIC_DS_PATH)
+# def test_inputs_outputs_bool_operator_with_model(cyclic_lin_rst, cyclic_ds):
+#     model = dpf.core.Model(cyclic_lin_rst)
+#     model.add_file_path(cyclic_ds)
 
 #     # TODO: this should be available from model's available_results
 #     op = model.operator("mapdl::rst::U")
@@ -327,10 +305,10 @@ def test_subresults_operator():
 #     assert isinstance(fc, dpf.core.FieldsContainer)
 
 
-def test_inputs_outputs_list_operator():
+def test_inputs_outputs_list_operator(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources()
-    data_sources.set_result_file_path(CYCLIC_RESULT_PATH)
-    data_sources.add_file_path(CYCLIC_DS_PATH)
+    data_sources.set_result_file_path(cyclic_lin_rst)
+    data_sources.add_file_path(cyclic_ds)
     op = dpf.core.Operator("mapdl::rst::U")
     op.inputs.connect(data_sources)
     op.inputs.time_scoping.connect([1,2,3,8])

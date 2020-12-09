@@ -1,27 +1,16 @@
-import os
 import pytest
+from grpc._channel import _InactiveRpcError
+
 
 from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field
 
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
 
-
-# start local server if necessary
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
-
-
-@pytest.fixture(scope='module')
-def disp_fc():
-    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                                  'allKindOfComplexity.rst')
-    fields = dpf.core.Model(test_file_path).results.displacement().outputs.fields_container()
-    return fields
+@pytest.fixture()
+def disp_fc(allkindofcomplexity):
+    """Return a displacement fields container"""
+    model = dpf.core.Model(allkindofcomplexity)
+    return model.results.displacement().outputs.fields_container()
 
 
 def test_create_fields_container():
@@ -32,7 +21,7 @@ def test_create_fields_container():
 def test_empty_index():
     fc = FieldsContainer()
     field = fc[0]
-    assert field== None
+    assert field is None
 
 
 def test_createbycopy_fields_container():
@@ -100,11 +89,8 @@ def test_get_item_field_fields_container():
 def test_delete_fields_container():
     fc= FieldsContainer()
     fc.__del__()
-    try :  
+    with pytest.raises(_InactiveRpcError):
         fc.get_ids()
-        assert False
-    except :
-        assert True
 
 
 def test_delete_auto_fields_container():
@@ -129,8 +115,3 @@ def test_support_fields_container(disp_fc):
 
 def test_getitem_fields_container(disp_fc):
     assert isinstance(disp_fc[0], dpf.core.Field)
-
-
-# def test_select_component(disp_fc):
-#     fields = disp_fc.select_component('x')
-#     assert fields.component

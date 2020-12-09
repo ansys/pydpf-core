@@ -1,17 +1,7 @@
-import os
 import pytest
 import numpy as np
+
 from ansys import dpf
-
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-
-# start local server if necessary
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
 
 
 def test_create_field():
@@ -182,13 +172,13 @@ def test_fromarray_field():
     f = dpf.core.field_from_array(data)
     assert f.shape ==(100,6)
 
-def test_field_definition_field():
-    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                                  'allKindOfComplexity.rst')
+
+def test_field_definition_field(allkindofcomplexity):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(test_file_path)
+    dataSource.set_result_file_path(allkindofcomplexity)
     op = dpf.core.Operator("U")
     op.connect(4, dataSource)
+
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     f = fcOut[0]
     assert f.unit == "m"
@@ -213,12 +203,10 @@ def test_create_overall_field():
     for i in range(0,5):
         assert np.allclose(data_added[i],[i*3.0+1.0,i*3.0+3.0,i*3.0+5.0])
 
+
 @pytest.mark.skipif(True, reason="set entity data has an issue when location is elemental nodal")
-def test_set_entity_data_elemental_nodal_field():
-    
-    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                                  'allKindOfComplexity.rst')
-    model = dpf.core.Model(test_file_path)
+def test_set_entity_data_elemental_nodal_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
     assert f.location == "ElementalNodal"
@@ -229,38 +217,28 @@ def test_set_entity_data_elemental_nodal_field():
     for i in range(0,f.scoping.size):
         assert np.allclose(f_new.get_entity_data(i), f.get_entity_data(i))
 
-def test_print_field():
-    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                                  'allKindOfComplexity.rst')
-    model = dpf.core.Model(test_file_path)
-    stress = model.results.stress()
-    f = stress.outputs.fields_container()[0]
-    try:
-        print(f)
-        assert True
-    except :
-        assert False
-        
 
-def test_mesh_support_field():
-    test_file_path = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                                  'allKindOfComplexity.rst')
-    model = dpf.core.Model(test_file_path)
+def test_print_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
-    mesh =f.meshed_region
-    assert len(mesh.nodes.scoping)==15129
-    assert len(mesh.elements.scoping)==10292
-    
+    str(f)
+
+
+def test_mesh_support_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    stress = model.results.stress()
+    f = stress.outputs.fields_container()[0]
+    mesh = f.meshed_region
+    assert len(mesh.nodes.scoping) == 15129
+    assert len(mesh.elements.scoping) == 10292
+
+
 def test_delete_auto_field():
     field = dpf.core.Field()
     field2 = dpf.core.Field(field=field)
     del field
-    try :  
-        field2.get_ids()
-        assert False
-    except :
-        assert True
+    assert field2.location == 'Nodal'
 
 
 if __name__ == '__main__':

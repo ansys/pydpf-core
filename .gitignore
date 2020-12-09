@@ -1,9 +1,3 @@
-
-
-#########################
-## DPF
-#########################
-
 /__pycache__
 /.pytest_cache
 /.spyproject
@@ -24,3 +18,21 @@
 
 # compiled documentation
 docs/build
+
+# pip files
+*.egg-info
+build/
+dist/
+
+# emacs
+flycheck*
+*~
+\#*\#
+.\#*
+
+# docker bin
+docker/v211
+
+# pytest -coverage
+.coverage
+test-output.xml
