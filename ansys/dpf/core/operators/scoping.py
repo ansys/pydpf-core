@@ -32,7 +32,15 @@ class _OutputSpecElementalFromMesh(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh_scoping = _Output(_get_output_spec_elemental_from_mesh(0), 0, op) 
 
-class _ElementalFromMesh:
+class _ElementalFromMesh(_Operator):
+    def __init__(self):
+         super().__init__("GetElementScopingFromMesh")
+         self._name = "GetElementScopingFromMesh"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalFromMesh(self._op)
+         self.outputs = _OutputSpecElementalFromMesh(self._op)
+
+def elemental_from_mesh():
     """Operator's description:
 Internal name is "GetElementScopingFromMesh"
 Scripting name is "elemental_from_mesh"
@@ -46,13 +54,6 @@ Input list:
 Output list: 
    0: mesh_scoping 
 """
-    def __init__(self):
-         self._name = "GetElementScopingFromMesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalFromMesh(self._op)
-         self.outputs = _OutputSpecElementalFromMesh(self._op)
-
-def elemental_from_mesh():
     return _ElementalFromMesh()
 
 #internal name: scoping::intersect
@@ -85,7 +86,15 @@ class _OutputSpecIntersect(_Outputs):
         self.intersection = _Output(_get_output_spec_intersect(0), 0, op) 
         self.scopingA_min_intersection = _Output(_get_output_spec_intersect(1), 1, op) 
 
-class _Intersect:
+class _Intersect(_Operator):
+    def __init__(self):
+         super().__init__("scoping::intersect")
+         self._name = "scoping::intersect"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIntersect(self._op)
+         self.outputs = _OutputSpecIntersect(self._op)
+
+def intersect():
     """Operator's description:
 Internal name is "scoping::intersect"
 Scripting name is "intersect"
@@ -101,13 +110,6 @@ Output list:
    0: intersection 
    1: scopingA_min_intersection 
 """
-    def __init__(self):
-         self._name = "scoping::intersect"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIntersect(self._op)
-         self.outputs = _OutputSpecIntersect(self._op)
-
-def intersect():
     return _Intersect()
 
 #internal name: scoping_provider_by_prop
@@ -149,7 +151,15 @@ class _OutputSpecOnProperty(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh_scoping = _Output(_get_output_spec_on_property(0), 0, op) 
 
-class _OnProperty:
+class _OnProperty(_Operator):
+    def __init__(self):
+         super().__init__("scoping_provider_by_prop")
+         self._name = "scoping_provider_by_prop"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecOnProperty(self._op)
+         self.outputs = _OutputSpecOnProperty(self._op)
+
+def on_property():
     """Operator's description:
 Internal name is "scoping_provider_by_prop"
 Scripting name is "on_property"
@@ -168,13 +178,6 @@ Input list:
 Output list: 
    0: mesh_scoping (Scoping)
 """
-    def __init__(self):
-         self._name = "scoping_provider_by_prop"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOnProperty(self._op)
-         self.outputs = _OutputSpecOnProperty(self._op)
-
-def on_property():
     return _OnProperty()
 
 #internal name: transpose_scoping
@@ -207,7 +210,15 @@ class _OutputSpecTranspose(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh_scoping = _Output(_get_output_spec_transpose(0), 0, op) 
 
-class _Transpose:
+class _Transpose(_Operator):
+    def __init__(self):
+         super().__init__("transpose_scoping")
+         self._name = "transpose_scoping"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecTranspose(self._op)
+         self.outputs = _OutputSpecTranspose(self._op)
+
+def transpose():
     """Operator's description:
 Internal name is "transpose_scoping"
 Scripting name is "transpose"
@@ -223,13 +234,6 @@ Input list:
 Output list: 
    0: mesh_scoping (Scoping or scopings container (the input type is the output type))
 """
-    def __init__(self):
-         self._name = "transpose_scoping"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTranspose(self._op)
-         self.outputs = _OutputSpecTranspose(self._op)
-
-def transpose():
     return _Transpose()
 
 #internal name: core::scoping::low_pass
@@ -259,7 +263,15 @@ class _OutputSpecLowPass(_Outputs):
     def __init__(self, op: _Operator):
         self.scoping = _Output(_get_output_spec_low_pass(0), 0, op) 
 
-class _LowPass:
+class _LowPass(_Operator):
+    def __init__(self):
+         super().__init__("core::scoping::low_pass")
+         self._name = "core::scoping::low_pass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecLowPass(self._op)
+         self.outputs = _OutputSpecLowPass(self._op)
+
+def low_pass():
     """Operator's description:
 Internal name is "core::scoping::low_pass"
 Scripting name is "scoping.low_pass"
@@ -274,13 +286,6 @@ Input list:
 Output list: 
    0: scoping 
 """
-    def __init__(self):
-         self._name = "core::scoping::low_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecLowPass(self._op)
-         self.outputs = _OutputSpecLowPass(self._op)
-
-def low_pass():
     return _LowPass()
 
 #internal name: scoping::by_property
@@ -319,7 +324,15 @@ class _OutputSpecSplittedOnPropertyType(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh_scoping = _Output(_get_output_spec_splitted_on_property_type(0), 0, op) 
 
-class _SplittedOnPropertyType:
+class _SplittedOnPropertyType(_Operator):
+    def __init__(self):
+         super().__init__("scoping::by_property")
+         self._name = "scoping::by_property"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSplittedOnPropertyType(self._op)
+         self.outputs = _OutputSpecSplittedOnPropertyType(self._op)
+
+def splitted_on_property_type():
     """Operator's description:
 Internal name is "scoping::by_property"
 Scripting name is "splitted_on_property_type"
@@ -337,13 +350,6 @@ Input list:
 Output list: 
    0: mesh_scoping (Scoping)
 """
-    def __init__(self):
-         self._name = "scoping::by_property"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSplittedOnPropertyType(self._op)
-         self.outputs = _OutputSpecSplittedOnPropertyType(self._op)
-
-def splitted_on_property_type():
     return _SplittedOnPropertyType()
 
 #internal name: Rescope
@@ -373,7 +379,15 @@ class _OutputSpecRescope(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_rescope(0), 0, op) 
 
-class _Rescope:
+class _Rescope(_Operator):
+    def __init__(self):
+         super().__init__("Rescope")
+         self._name = "Rescope"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRescope(self._op)
+         self.outputs = _OutputSpecRescope(self._op)
+
+def rescope():
     """Operator's description:
 Internal name is "Rescope"
 Scripting name is "rescope"
@@ -388,13 +402,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "Rescope"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRescope(self._op)
-         self.outputs = _OutputSpecRescope(self._op)
-
-def rescope():
     return _Rescope()
 
 #internal name: scoping_provider_by_ns
@@ -433,7 +440,15 @@ class _OutputSpecOnNamedSelection(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh_scoping = _Output(_get_output_spec_on_named_selection(0), 0, op) 
 
-class _OnNamedSelection:
+class _OnNamedSelection(_Operator):
+    def __init__(self):
+         super().__init__("scoping_provider_by_ns")
+         self._name = "scoping_provider_by_ns"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecOnNamedSelection(self._op)
+         self.outputs = _OutputSpecOnNamedSelection(self._op)
+
+def on_named_selection():
     """Operator's description:
 Internal name is "scoping_provider_by_ns"
 Scripting name is "on_named_selection"
@@ -451,13 +466,6 @@ Input list:
 Output list: 
    0: mesh_scoping 
 """
-    def __init__(self):
-         self._name = "scoping_provider_by_ns"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOnNamedSelection(self._op)
-         self.outputs = _OutputSpecOnNamedSelection(self._op)
-
-def on_named_selection():
     return _OnNamedSelection()
 
 #internal name: scoping::connectivity_ids
@@ -493,7 +501,15 @@ class _OutputSpecConnectivityIds(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_connectivity_ids(0), 0, op) 
         self.elemental_scoping = _Output(_get_output_spec_connectivity_ids(1), 1, op) 
 
-class _ConnectivityIds:
+class _ConnectivityIds(_Operator):
+    def __init__(self):
+         super().__init__("scoping::connectivity_ids")
+         self._name = "scoping::connectivity_ids"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecConnectivityIds(self._op)
+         self.outputs = _OutputSpecConnectivityIds(self._op)
+
+def connectivity_ids():
     """Operator's description:
 Internal name is "scoping::connectivity_ids"
 Scripting name is "connectivity_ids"
@@ -510,13 +526,6 @@ Output list:
    0: mesh_scoping 
    1: elemental_scoping (same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping)
 """
-    def __init__(self):
-         self._name = "scoping::connectivity_ids"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecConnectivityIds(self._op)
-         self.outputs = _OutputSpecConnectivityIds(self._op)
-
-def connectivity_ids():
     return _ConnectivityIds()
 
 #internal name: GetNodeScopingFromMesh
@@ -543,7 +552,15 @@ class _OutputSpecNodalFromMesh(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh_scoping = _Output(_get_output_spec_nodal_from_mesh(0), 0, op) 
 
-class _NodalFromMesh:
+class _NodalFromMesh(_Operator):
+    def __init__(self):
+         super().__init__("GetNodeScopingFromMesh")
+         self._name = "GetNodeScopingFromMesh"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalFromMesh(self._op)
+         self.outputs = _OutputSpecNodalFromMesh(self._op)
+
+def nodal_from_mesh():
     """Operator's description:
 Internal name is "GetNodeScopingFromMesh"
 Scripting name is "nodal_from_mesh"
@@ -557,13 +574,6 @@ Input list:
 Output list: 
    0: mesh_scoping 
 """
-    def __init__(self):
-         self._name = "GetNodeScopingFromMesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalFromMesh(self._op)
-         self.outputs = _OutputSpecNodalFromMesh(self._op)
-
-def nodal_from_mesh():
     return _NodalFromMesh()
 
 #internal name: rescope_fc
@@ -593,7 +603,15 @@ class _OutputSpecChangeFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_change_fc(0), 0, op) 
 
-class _ChangeFc:
+class _ChangeFc(_Operator):
+    def __init__(self):
+         super().__init__("rescope_fc")
+         self._name = "rescope_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecChangeFc(self._op)
+         self.outputs = _OutputSpecChangeFc(self._op)
+
+def change_fc():
     """Operator's description:
 Internal name is "rescope_fc"
 Scripting name is "change_fc"
@@ -608,13 +626,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "rescope_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecChangeFc(self._op)
-         self.outputs = _OutputSpecChangeFc(self._op)
-
-def change_fc():
     return _ChangeFc()
 
 #internal name: core::scoping::high_pass
@@ -644,7 +655,15 @@ class _OutputSpecHighPass(_Outputs):
     def __init__(self, op: _Operator):
         self.scoping = _Output(_get_output_spec_high_pass(0), 0, op) 
 
-class _HighPass:
+class _HighPass(_Operator):
+    def __init__(self):
+         super().__init__("core::scoping::high_pass")
+         self._name = "core::scoping::high_pass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHighPass(self._op)
+         self.outputs = _OutputSpecHighPass(self._op)
+
+def high_pass():
     """Operator's description:
 Internal name is "core::scoping::high_pass"
 Scripting name is "scoping.high_pass"
@@ -659,13 +678,6 @@ Input list:
 Output list: 
    0: scoping 
 """
-    def __init__(self):
-         self._name = "core::scoping::high_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHighPass(self._op)
-         self.outputs = _OutputSpecHighPass(self._op)
-
-def high_pass():
     return _HighPass()
 
 #internal name: core::scoping::band_pass
@@ -698,7 +710,15 @@ class _OutputSpecBandPass(_Outputs):
     def __init__(self, op: _Operator):
         self.scoping = _Output(_get_output_spec_band_pass(0), 0, op) 
 
-class _BandPass:
+class _BandPass(_Operator):
+    def __init__(self):
+         super().__init__("core::scoping::band_pass")
+         self._name = "core::scoping::band_pass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecBandPass(self._op)
+         self.outputs = _OutputSpecBandPass(self._op)
+
+def band_pass():
     """Operator's description:
 Internal name is "core::scoping::band_pass"
 Scripting name is "scoping.band_pass"
@@ -714,13 +734,6 @@ Input list:
 Output list: 
    0: scoping 
 """
-    def __init__(self):
-         self._name = "core::scoping::band_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBandPass(self._op)
-         self.outputs = _OutputSpecBandPass(self._op)
-
-def band_pass():
     return _BandPass()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -760,7 +773,15 @@ class _OutputSpecFromMesh(_Outputs):
     def __init__(self, op: _Operator):
         self.scoping = _Output(_get_output_spec_from_mesh(0), 0, op) 
 
-class _FromMesh:
+class _FromMesh(_Operator):
+    def __init__(self):
+         super().__init__("MeshScopingProvider")
+         self._name = "MeshScopingProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecFromMesh(self._op)
+         self.outputs = _OutputSpecFromMesh(self._op)
+
+def from_mesh():
     """Operator's description:
 Internal name is "MeshScopingProvider"
 Scripting name is "from_mesh"
@@ -775,12 +796,5 @@ Input list:
 Output list: 
    0: scoping 
 """
-    def __init__(self):
-         self._name = "MeshScopingProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFromMesh(self._op)
-         self.outputs = _OutputSpecFromMesh(self._op)
-
-def from_mesh():
     return _FromMesh()
 

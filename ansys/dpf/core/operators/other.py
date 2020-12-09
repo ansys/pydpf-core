@@ -35,7 +35,15 @@ class _OutputSpecWrapInTopology(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh = _Output(_get_output_spec_wrap_in_topology(0), 0, op) 
 
-class _WrapInTopology:
+class _WrapInTopology(_Operator):
+    def __init__(self):
+         super().__init__("topology::topology_from_mesh")
+         self._name = "topology::topology_from_mesh"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecWrapInTopology(self._op)
+         self.outputs = _OutputSpecWrapInTopology(self._op)
+
+def wrap_in_topology():
     """Operator's description:
 Internal name is "topology::topology_from_mesh"
 Scripting name is "wrap_in_topology"
@@ -50,12 +58,5 @@ Input list:
 Output list: 
    0: mesh 
 """
-    def __init__(self):
-         self._name = "topology::topology_from_mesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecWrapInTopology(self._op)
-         self.outputs = _OutputSpecWrapInTopology(self._op)
-
-def wrap_in_topology():
     return _WrapInTopology()
 

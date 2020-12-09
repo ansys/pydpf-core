@@ -32,7 +32,15 @@ class _OutputSpecSerializer(_Outputs):
     def __init__(self, op: _Operator):
         self.file_path = _Output(_get_output_spec_serializer(0), 0, op) 
 
-class _Serializer:
+class _Serializer(_Operator):
+    def __init__(self):
+         super().__init__("serializer")
+         self._name = "serializer"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSerializer(self._op)
+         self.outputs = _OutputSpecSerializer(self._op)
+
+def serializer():
     """Operator's description:
 Internal name is "serializer"
 Scripting name is "serializer"
@@ -46,13 +54,6 @@ Input list:
 Output list: 
    0: file_path 
 """
-    def __init__(self):
-         self._name = "serializer"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSerializer(self._op)
-         self.outputs = _OutputSpecSerializer(self._op)
-
-def serializer():
     return _Serializer()
 
 #internal name: mechanical_csv_to_field
@@ -85,7 +86,15 @@ class _OutputSpecMechanicalCsvToField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_mechanical_csv_to_field(0), 0, op) 
 
-class _MechanicalCsvToField:
+class _MechanicalCsvToField(_Operator):
+    def __init__(self):
+         super().__init__("mechanical_csv_to_field")
+         self._name = "mechanical_csv_to_field"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMechanicalCsvToField(self._op)
+         self.outputs = _OutputSpecMechanicalCsvToField(self._op)
+
+def mechanical_csv_to_field():
     """Operator's description:
 Internal name is "mechanical_csv_to_field"
 Scripting name is "mechanical_csv_to_field"
@@ -101,13 +110,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "mechanical_csv_to_field"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMechanicalCsvToField(self._op)
-         self.outputs = _OutputSpecMechanicalCsvToField(self._op)
-
-def mechanical_csv_to_field():
     return _MechanicalCsvToField()
 
 #internal name: field_to_csv
@@ -138,7 +140,15 @@ class _OutputSpecFieldToCsv(_Outputs):
     def __init__(self, op: _Operator):
         pass 
 
-class _FieldToCsv:
+class _FieldToCsv(_Operator):
+    def __init__(self):
+         super().__init__("field_to_csv")
+         self._name = "field_to_csv"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecFieldToCsv(self._op)
+         self.outputs = _OutputSpecFieldToCsv(self._op)
+
+def field_to_csv():
     """Operator's description:
 Internal name is "field_to_csv"
 Scripting name is "field_to_csv"
@@ -154,13 +164,6 @@ Input list:
 Output list: 
    empty 
 """
-    def __init__(self):
-         self._name = "field_to_csv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFieldToCsv(self._op)
-         self.outputs = _OutputSpecFieldToCsv(self._op)
-
-def field_to_csv():
     return _FieldToCsv()
 
 #internal name: deserializer
@@ -186,7 +189,15 @@ class _OutputSpecDeserializer(_Outputs):
         pass 
         pass 
 
-class _Deserializer:
+class _Deserializer(_Operator):
+    def __init__(self):
+         super().__init__("deserializer")
+         self._name = "deserializer"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecDeserializer(self._op)
+         self.outputs = _OutputSpecDeserializer(self._op)
+
+def deserializer():
     """Operator's description:
 Internal name is "deserializer"
 Scripting name is "deserializer"
@@ -201,13 +212,6 @@ Output list:
    empty 
    empty 
 """
-    def __init__(self):
-         self._name = "deserializer"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDeserializer(self._op)
-         self.outputs = _OutputSpecDeserializer(self._op)
-
-def deserializer():
     return _Deserializer()
 
 #internal name: csv_to_field
@@ -237,7 +241,15 @@ class _OutputSpecCsvToField(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_csv_to_field(0), 0, op) 
 
-class _CsvToField:
+class _CsvToField(_Operator):
+    def __init__(self):
+         super().__init__("csv_to_field")
+         self._name = "csv_to_field"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCsvToField(self._op)
+         self.outputs = _OutputSpecCsvToField(self._op)
+
+def csv_to_field():
     """Operator's description:
 Internal name is "csv_to_field"
 Scripting name is "csv_to_field"
@@ -252,13 +264,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "csv_to_field"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCsvToField(self._op)
-         self.outputs = _OutputSpecCsvToField(self._op)
-
-def csv_to_field():
     return _CsvToField()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -302,7 +307,15 @@ class _OutputSpecVtkExport(_Outputs):
     def __init__(self, op: _Operator):
         pass 
 
-class _VtkExport:
+class _VtkExport(_Operator):
+    def __init__(self):
+         super().__init__("vtk_export")
+         self._name = "vtk_export"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVtkExport(self._op)
+         self.outputs = _OutputSpecVtkExport(self._op)
+
+def vtk_export():
     """Operator's description:
 Internal name is "vtk_export"
 Scripting name is "vtk_export"
@@ -319,12 +332,5 @@ Input list:
 Output list: 
    empty 
 """
-    def __init__(self):
-         self._name = "vtk_export"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVtkExport(self._op)
-         self.outputs = _OutputSpecVtkExport(self._op)
-
-def vtk_export():
     return _VtkExport()
 

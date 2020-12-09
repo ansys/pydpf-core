@@ -38,7 +38,15 @@ class _OutputSpecMass(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_mass(0), 0, op) 
 
-class _Mass:
+class _Mass(_Operator):
+    def __init__(self):
+         super().__init__("topology::mass")
+         self._name = "topology::mass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMass(self._op)
+         self.outputs = _OutputSpecMass(self._op)
+
+def mass():
     """Operator's description:
 Internal name is "topology::mass"
 Scripting name is "mass"
@@ -54,13 +62,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "topology::mass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMass(self._op)
-         self.outputs = _OutputSpecMass(self._op)
-
-def mass():
     return _Mass()
 
 #internal name: normals_provider_nl
@@ -90,7 +91,15 @@ class _OutputSpecNormalsProviderNl(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_normals_provider_nl(0), 0, op) 
 
-class _NormalsProviderNl:
+class _NormalsProviderNl(_Operator):
+    def __init__(self):
+         super().__init__("normals_provider_nl")
+         self._name = "normals_provider_nl"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNormalsProviderNl(self._op)
+         self.outputs = _OutputSpecNormalsProviderNl(self._op)
+
+def normals_provider_nl():
     """Operator's description:
 Internal name is "normals_provider_nl"
 Scripting name is "normals_provider_nl"
@@ -105,13 +114,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "normals_provider_nl"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNormalsProviderNl(self._op)
-         self.outputs = _OutputSpecNormalsProviderNl(self._op)
-
-def normals_provider_nl():
     return _NormalsProviderNl()
 
 #internal name: transform_cylindrical_cs_fc
@@ -141,7 +143,15 @@ class _OutputSpecToCylindricalCsFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_to_cylindrical_cs_fc(0), 0, op) 
 
-class _ToCylindricalCsFc:
+class _ToCylindricalCsFc(_Operator):
+    def __init__(self):
+         super().__init__("transform_cylindrical_cs_fc")
+         self._name = "transform_cylindrical_cs_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecToCylindricalCsFc(self._op)
+         self.outputs = _OutputSpecToCylindricalCsFc(self._op)
+
+def to_cylindrical_cs_fc():
     """Operator's description:
 Internal name is "transform_cylindrical_cs_fc"
 Scripting name is "to_cylindrical_cs_fc"
@@ -156,13 +166,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "transform_cylindrical_cs_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToCylindricalCsFc(self._op)
-         self.outputs = _OutputSpecToCylindricalCsFc(self._op)
-
-def to_cylindrical_cs_fc():
     return _ToCylindricalCsFc()
 
 #internal name: element::integrate
@@ -195,7 +198,15 @@ class _OutputSpecIntegrateOverElements(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_integrate_over_elements(0), 0, op) 
 
-class _IntegrateOverElements:
+class _IntegrateOverElements(_Operator):
+    def __init__(self):
+         super().__init__("element::integrate")
+         self._name = "element::integrate"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIntegrateOverElements(self._op)
+         self.outputs = _OutputSpecIntegrateOverElements(self._op)
+
+def integrate_over_elements():
     """Operator's description:
 Internal name is "element::integrate"
 Scripting name is "integrate_over_elements"
@@ -211,13 +222,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "element::integrate"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIntegrateOverElements(self._op)
-         self.outputs = _OutputSpecIntegrateOverElements(self._op)
-
-def integrate_over_elements():
     return _IntegrateOverElements()
 
 #internal name: topology::center_of_gravity
@@ -253,7 +257,15 @@ class _OutputSpecCenterOfGravity(_Outputs):
         self.field = _Output(_get_output_spec_center_of_gravity(0), 0, op) 
         self.mesh = _Output(_get_output_spec_center_of_gravity(1), 1, op) 
 
-class _CenterOfGravity:
+class _CenterOfGravity(_Operator):
+    def __init__(self):
+         super().__init__("topology::center_of_gravity")
+         self._name = "topology::center_of_gravity"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCenterOfGravity(self._op)
+         self.outputs = _OutputSpecCenterOfGravity(self._op)
+
+def center_of_gravity():
     """Operator's description:
 Internal name is "topology::center_of_gravity"
 Scripting name is "center_of_gravity"
@@ -270,13 +282,6 @@ Output list:
    0: field 
    1: mesh (Center of gravity as a mesh)
 """
-    def __init__(self):
-         self._name = "topology::center_of_gravity"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCenterOfGravity(self._op)
-         self.outputs = _OutputSpecCenterOfGravity(self._op)
-
-def center_of_gravity():
     return _CenterOfGravity()
 
 #internal name: transform_cylindricalCS
@@ -306,7 +311,15 @@ class _OutputSpecToCylindricalCs(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_to_cylindrical_cs(0), 0, op) 
 
-class _ToCylindricalCs:
+class _ToCylindricalCs(_Operator):
+    def __init__(self):
+         super().__init__("transform_cylindricalCS")
+         self._name = "transform_cylindricalCS"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecToCylindricalCs(self._op)
+         self.outputs = _OutputSpecToCylindricalCs(self._op)
+
+def to_cylindrical_cs():
     """Operator's description:
 Internal name is "transform_cylindricalCS"
 Scripting name is "to_cylindrical_cs"
@@ -321,13 +334,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "transform_cylindricalCS"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToCylindricalCs(self._op)
-         self.outputs = _OutputSpecToCylindricalCs(self._op)
-
-def to_cylindrical_cs():
     return _ToCylindricalCs()
 
 #internal name: rotate
@@ -357,7 +363,15 @@ class _OutputSpecRotate(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_rotate(0), 0, op) 
 
-class _Rotate:
+class _Rotate(_Operator):
+    def __init__(self):
+         super().__init__("rotate")
+         self._name = "rotate"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRotate(self._op)
+         self.outputs = _OutputSpecRotate(self._op)
+
+def rotate():
     """Operator's description:
 Internal name is "rotate"
 Scripting name is "rotate"
@@ -372,13 +386,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "rotate"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRotate(self._op)
-         self.outputs = _OutputSpecRotate(self._op)
-
-def rotate():
     return _Rotate()
 
 #internal name: rotate_fc
@@ -408,7 +415,15 @@ class _OutputSpecRotateFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_rotate_fc(0), 0, op) 
 
-class _RotateFc:
+class _RotateFc(_Operator):
+    def __init__(self):
+         super().__init__("rotate_fc")
+         self._name = "rotate_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRotateFc(self._op)
+         self.outputs = _OutputSpecRotateFc(self._op)
+
+def rotate_fc():
     """Operator's description:
 Internal name is "rotate_fc"
 Scripting name is "rotate_fc"
@@ -423,13 +438,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "rotate_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRotateFc(self._op)
-         self.outputs = _OutputSpecRotateFc(self._op)
-
-def rotate_fc():
     return _RotateFc()
 
 #internal name: volumes_provider
@@ -462,7 +470,15 @@ class _OutputSpecElementsVolumesOverTime(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elements_volumes_over_time(0), 0, op) 
 
-class _ElementsVolumesOverTime:
+class _ElementsVolumesOverTime(_Operator):
+    def __init__(self):
+         super().__init__("volumes_provider")
+         self._name = "volumes_provider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementsVolumesOverTime(self._op)
+         self.outputs = _OutputSpecElementsVolumesOverTime(self._op)
+
+def elements_volumes_over_time():
     """Operator's description:
 Internal name is "volumes_provider"
 Scripting name is "elements_volumes_over_time"
@@ -478,13 +494,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "volumes_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementsVolumesOverTime(self._op)
-         self.outputs = _OutputSpecElementsVolumesOverTime(self._op)
-
-def elements_volumes_over_time():
     return _ElementsVolumesOverTime()
 
 #internal name: surfaces_provider
@@ -520,7 +529,15 @@ class _OutputSpecElementsFacetsSurfacesOverTime(_Outputs):
         self.fields_container = _Output(_get_output_spec_elements_facets_surfaces_over_time(0), 0, op) 
         self.mesh = _Output(_get_output_spec_elements_facets_surfaces_over_time(1), 1, op) 
 
-class _ElementsFacetsSurfacesOverTime:
+class _ElementsFacetsSurfacesOverTime(_Operator):
+    def __init__(self):
+         super().__init__("surfaces_provider")
+         self._name = "surfaces_provider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementsFacetsSurfacesOverTime(self._op)
+         self.outputs = _OutputSpecElementsFacetsSurfacesOverTime(self._op)
+
+def elements_facets_surfaces_over_time():
     """Operator's description:
 Internal name is "surfaces_provider"
 Scripting name is "elements_facets_surfaces_over_time"
@@ -537,13 +554,6 @@ Output list:
    0: fields_container (Surfaces field.)
    1: mesh (Mesh made of surface elements only.)
 """
-    def __init__(self):
-         self._name = "surfaces_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementsFacetsSurfacesOverTime(self._op)
-         self.outputs = _OutputSpecElementsFacetsSurfacesOverTime(self._op)
-
-def elements_facets_surfaces_over_time():
     return _ElementsFacetsSurfacesOverTime()
 
 #internal name: element::volume
@@ -570,7 +580,15 @@ class _OutputSpecElementsVolume(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_elements_volume(0), 0, op) 
 
-class _ElementsVolume:
+class _ElementsVolume(_Operator):
+    def __init__(self):
+         super().__init__("element::volume")
+         self._name = "element::volume"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementsVolume(self._op)
+         self.outputs = _OutputSpecElementsVolume(self._op)
+
+def elements_volume():
     """Operator's description:
 Internal name is "element::volume"
 Scripting name is "elements_volume"
@@ -584,13 +602,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "element::volume"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementsVolume(self._op)
-         self.outputs = _OutputSpecElementsVolume(self._op)
-
-def elements_volume():
     return _ElementsVolume()
 
 #internal name: topology::moment_of_inertia
@@ -626,7 +637,15 @@ class _OutputSpecMomentOfInertia(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_moment_of_inertia(0), 0, op) 
 
-class _MomentOfInertia:
+class _MomentOfInertia(_Operator):
+    def __init__(self):
+         super().__init__("topology::moment_of_inertia")
+         self._name = "topology::moment_of_inertia"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMomentOfInertia(self._op)
+         self.outputs = _OutputSpecMomentOfInertia(self._op)
+
+def moment_of_inertia():
     """Operator's description:
 Internal name is "topology::moment_of_inertia"
 Scripting name is "moment_of_inertia"
@@ -643,13 +662,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "topology::moment_of_inertia"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMomentOfInertia(self._op)
-         self.outputs = _OutputSpecMomentOfInertia(self._op)
-
-def moment_of_inertia():
     return _MomentOfInertia()
 
 #internal name: element::nodal_contribution
@@ -682,7 +694,15 @@ class _OutputSpecElementNodalContribution(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_element_nodal_contribution(0), 0, op) 
 
-class _ElementNodalContribution:
+class _ElementNodalContribution(_Operator):
+    def __init__(self):
+         super().__init__("element::nodal_contribution")
+         self._name = "element::nodal_contribution"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementNodalContribution(self._op)
+         self.outputs = _OutputSpecElementNodalContribution(self._op)
+
+def element_nodal_contribution():
     """Operator's description:
 Internal name is "element::nodal_contribution"
 Scripting name is "element_nodal_contribution"
@@ -698,13 +718,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "element::nodal_contribution"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementNodalContribution(self._op)
-         self.outputs = _OutputSpecElementNodalContribution(self._op)
-
-def element_nodal_contribution():
     return _ElementNodalContribution()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -747,7 +760,15 @@ class _OutputSpecNormals(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_normals(0), 0, op) 
 
-class _Normals:
+class _Normals(_Operator):
+    def __init__(self):
+         super().__init__("normals_provider")
+         self._name = "normals_provider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNormals(self._op)
+         self.outputs = _OutputSpecNormals(self._op)
+
+def normals():
     """Operator's description:
 Internal name is "normals_provider"
 Scripting name is "normals"
@@ -763,12 +784,5 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "normals_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNormals(self._op)
-         self.outputs = _OutputSpecNormals(self._op)
-
-def normals():
     return _Normals()
 

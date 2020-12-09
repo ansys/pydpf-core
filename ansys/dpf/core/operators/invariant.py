@@ -32,7 +32,15 @@ class _OutputSpecEigenValues(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_eigen_values(0), 0, op) 
 
-class _EigenValues:
+class _EigenValues(_Operator):
+    def __init__(self):
+         super().__init__("eig_values")
+         self._name = "eig_values"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEigenValues(self._op)
+         self.outputs = _OutputSpecEigenValues(self._op)
+
+def eigen_values():
     """Operator's description:
 Internal name is "eig_values"
 Scripting name is "eigen_values"
@@ -46,13 +54,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "eig_values"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenValues(self._op)
-         self.outputs = _OutputSpecEigenValues(self._op)
-
-def eigen_values():
     return _EigenValues()
 
 #internal name: eqv
@@ -79,7 +80,15 @@ class _OutputSpecVonMisesEqv(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_von_mises_eqv(0), 0, op) 
 
-class _VonMisesEqv:
+class _VonMisesEqv(_Operator):
+    def __init__(self):
+         super().__init__("eqv")
+         self._name = "eqv"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVonMisesEqv(self._op)
+         self.outputs = _OutputSpecVonMisesEqv(self._op)
+
+def von_mises_eqv():
     """Operator's description:
 Internal name is "eqv"
 Scripting name is "von_mises_eqv"
@@ -93,13 +102,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "eqv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVonMisesEqv(self._op)
-         self.outputs = _OutputSpecVonMisesEqv(self._op)
-
-def von_mises_eqv():
     return _VonMisesEqv()
 
 #internal name: eqv_fc
@@ -126,7 +128,15 @@ class _OutputSpecVonMisesEqvFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_von_mises_eqv_fc(0), 0, op) 
 
-class _VonMisesEqvFc:
+class _VonMisesEqvFc(_Operator):
+    def __init__(self):
+         super().__init__("eqv_fc")
+         self._name = "eqv_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVonMisesEqvFc(self._op)
+         self.outputs = _OutputSpecVonMisesEqvFc(self._op)
+
+def von_mises_eqv_fc():
     """Operator's description:
 Internal name is "eqv_fc"
 Scripting name is "von_mises_eqv_fc"
@@ -140,13 +150,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "eqv_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVonMisesEqvFc(self._op)
-         self.outputs = _OutputSpecVonMisesEqvFc(self._op)
-
-def von_mises_eqv_fc():
     return _VonMisesEqvFc()
 
 #internal name: invariants_deriv
@@ -179,7 +182,15 @@ class _OutputSpecInvariants(_Outputs):
         self.field_eqv = _Output(_get_output_spec_invariants(1), 1, op) 
         self.field_max_shear = _Output(_get_output_spec_invariants(2), 2, op) 
 
-class _Invariants:
+class _Invariants(_Operator):
+    def __init__(self):
+         super().__init__("invariants_deriv")
+         self._name = "invariants_deriv"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecInvariants(self._op)
+         self.outputs = _OutputSpecInvariants(self._op)
+
+def invariants():
     """Operator's description:
 Internal name is "invariants_deriv"
 Scripting name is "invariants"
@@ -195,13 +206,6 @@ Output list:
    1: field_eqv (stress equivalent intensity)
    2: field_max_shear (max shear stress field)
 """
-    def __init__(self):
-         self._name = "invariants_deriv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecInvariants(self._op)
-         self.outputs = _OutputSpecInvariants(self._op)
-
-def invariants():
     return _Invariants()
 
 #internal name: invariants_fc
@@ -234,7 +238,15 @@ class _OutputSpecPrincipalInvariantsFc(_Outputs):
         self.fields_eig_2 = _Output(_get_output_spec_principal_invariants_fc(1), 1, op) 
         self.fields_eig_3 = _Output(_get_output_spec_principal_invariants_fc(2), 2, op) 
 
-class _PrincipalInvariantsFc:
+class _PrincipalInvariantsFc(_Operator):
+    def __init__(self):
+         super().__init__("invariants_fc")
+         self._name = "invariants_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPrincipalInvariantsFc(self._op)
+         self.outputs = _OutputSpecPrincipalInvariantsFc(self._op)
+
+def principal_invariants_fc():
     """Operator's description:
 Internal name is "invariants_fc"
 Scripting name is "principal_invariants_fc"
@@ -250,13 +262,6 @@ Output list:
    1: fields_eig_2 (second eigen value fields)
    2: fields_eig_3 (third eigen value fields)
 """
-    def __init__(self):
-         self._name = "invariants_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPrincipalInvariantsFc(self._op)
-         self.outputs = _OutputSpecPrincipalInvariantsFc(self._op)
-
-def principal_invariants_fc():
     return _PrincipalInvariantsFc()
 
 #internal name: eig_values_fc
@@ -283,7 +288,15 @@ class _OutputSpecEigenValuesFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_eigen_values_fc(0), 0, op) 
 
-class _EigenValuesFc:
+class _EigenValuesFc(_Operator):
+    def __init__(self):
+         super().__init__("eig_values_fc")
+         self._name = "eig_values_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEigenValuesFc(self._op)
+         self.outputs = _OutputSpecEigenValuesFc(self._op)
+
+def eigen_values_fc():
     """Operator's description:
 Internal name is "eig_values_fc"
 Scripting name is "eigen_values_fc"
@@ -297,13 +310,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "eig_values_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenValuesFc(self._op)
-         self.outputs = _OutputSpecEigenValuesFc(self._op)
-
-def eigen_values_fc():
     return _EigenValuesFc()
 
 #internal name: invariants_deriv_fc
@@ -336,7 +342,15 @@ class _OutputSpecInvariantsFc(_Outputs):
         self.fields_eqv = _Output(_get_output_spec_invariants_fc(1), 1, op) 
         self.fields_max_shear = _Output(_get_output_spec_invariants_fc(2), 2, op) 
 
-class _InvariantsFc:
+class _InvariantsFc(_Operator):
+    def __init__(self):
+         super().__init__("invariants_deriv_fc")
+         self._name = "invariants_deriv_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecInvariantsFc(self._op)
+         self.outputs = _OutputSpecInvariantsFc(self._op)
+
+def invariants_fc():
     """Operator's description:
 Internal name is "invariants_deriv_fc"
 Scripting name is "invariants_fc"
@@ -352,13 +366,6 @@ Output list:
    1: fields_eqv (stress equivalent intensity)
    2: fields_max_shear (max shear stress field)
 """
-    def __init__(self):
-         self._name = "invariants_deriv_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecInvariantsFc(self._op)
-         self.outputs = _OutputSpecInvariantsFc(self._op)
-
-def invariants_fc():
     return _InvariantsFc()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -395,7 +402,15 @@ class _OutputSpecEigenVectorsFc(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_eigen_vectors_fc(0), 0, op) 
 
-class _EigenVectorsFc:
+class _EigenVectorsFc(_Operator):
+    def __init__(self):
+         super().__init__("eig_vectors_fc")
+         self._name = "eig_vectors_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEigenVectorsFc(self._op)
+         self.outputs = _OutputSpecEigenVectorsFc(self._op)
+
+def eigen_vectors_fc():
     """Operator's description:
 Internal name is "eig_vectors_fc"
 Scripting name is "eigen_vectors_fc"
@@ -409,13 +424,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "eig_vectors_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenVectorsFc(self._op)
-         self.outputs = _OutputSpecEigenVectorsFc(self._op)
-
-def eigen_vectors_fc():
     return _EigenVectorsFc()
 
 #internal name: eig_vectors
@@ -442,7 +450,15 @@ class _OutputSpecEigenVectors(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_eigen_vectors(0), 0, op) 
 
-class _EigenVectors:
+class _EigenVectors(_Operator):
+    def __init__(self):
+         super().__init__("eig_vectors")
+         self._name = "eig_vectors"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEigenVectors(self._op)
+         self.outputs = _OutputSpecEigenVectors(self._op)
+
+def eigen_vectors():
     """Operator's description:
 Internal name is "eig_vectors"
 Scripting name is "eigen_vectors"
@@ -456,12 +472,5 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "eig_vectors"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenVectors(self._op)
-         self.outputs = _OutputSpecEigenVectors(self._op)
-
-def eigen_vectors():
     return _EigenVectors()
 

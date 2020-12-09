@@ -35,7 +35,15 @@ class _OutputSpecMinMax(_Outputs):
         self.field_min = _Output(_get_output_spec_min_max(0), 0, op) 
         self.field_max = _Output(_get_output_spec_min_max(1), 1, op) 
 
-class _MinMax:
+class _MinMax(_Operator):
+    def __init__(self):
+         super().__init__("min_max")
+         self._name = "min_max"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMinMax(self._op)
+         self.outputs = _OutputSpecMinMax(self._op)
+
+def min_max():
     """Operator's description:
 Internal name is "min_max"
 Scripting name is "min_max"
@@ -50,13 +58,6 @@ Output list:
    0: field_min 
    1: field_max 
 """
-    def __init__(self):
-         self._name = "min_max"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMax(self._op)
-         self.outputs = _OutputSpecMinMax(self._op)
-
-def min_max():
     return _MinMax()
 
 #internal name: min_max_fc
@@ -86,7 +87,15 @@ class _OutputSpecMinMaxFc(_Outputs):
         self.field_min = _Output(_get_output_spec_min_max_fc(0), 0, op) 
         self.field_max = _Output(_get_output_spec_min_max_fc(1), 1, op) 
 
-class _MinMaxFc:
+class _MinMaxFc(_Operator):
+    def __init__(self):
+         super().__init__("min_max_fc")
+         self._name = "min_max_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMinMaxFc(self._op)
+         self.outputs = _OutputSpecMinMaxFc(self._op)
+
+def min_max_fc():
     """Operator's description:
 Internal name is "min_max_fc"
 Scripting name is "min_max_fc"
@@ -101,13 +110,6 @@ Output list:
    0: field_min 
    1: field_max 
 """
-    def __init__(self):
-         self._name = "min_max_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxFc(self._op)
-         self.outputs = _OutputSpecMinMaxFc(self._op)
-
-def min_max_fc():
     return _MinMaxFc()
 
 #internal name: min_max_over_label_fc
@@ -140,7 +142,15 @@ class _OutputSpecMinMaxOverLabelFc(_Outputs):
         self.field_min = _Output(_get_output_spec_min_max_over_label_fc(0), 0, op) 
         self.field_max = _Output(_get_output_spec_min_max_over_label_fc(1), 1, op) 
 
-class _MinMaxOverLabelFc:
+class _MinMaxOverLabelFc(_Operator):
+    def __init__(self):
+         super().__init__("min_max_over_label_fc")
+         self._name = "min_max_over_label_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMinMaxOverLabelFc(self._op)
+         self.outputs = _OutputSpecMinMaxOverLabelFc(self._op)
+
+def min_max_over_label_fc():
     """Operator's description:
 Internal name is "min_max_over_label_fc"
 Scripting name is "min_max_over_label_fc"
@@ -156,13 +166,6 @@ Output list:
    0: field_min 
    1: field_max 
 """
-    def __init__(self):
-         self._name = "min_max_over_label_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxOverLabelFc(self._op)
-         self.outputs = _OutputSpecMinMaxOverLabelFc(self._op)
-
-def min_max_over_label_fc():
     return _MinMaxOverLabelFc()
 
 #internal name: min_by_component
@@ -198,7 +201,15 @@ class _OutputSpecMinByComponent(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_min_by_component(0), 0, op) 
 
-class _MinByComponent:
+class _MinByComponent(_Operator):
+    def __init__(self):
+         super().__init__("min_by_component")
+         self._name = "min_by_component"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMinByComponent(self._op)
+         self.outputs = _OutputSpecMinByComponent(self._op)
+
+def min_by_component():
     """Operator's description:
 Internal name is "min_by_component"
 Scripting name is "min_by_component"
@@ -215,13 +226,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "min_by_component"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinByComponent(self._op)
-         self.outputs = _OutputSpecMinByComponent(self._op)
-
-def min_by_component():
     return _MinByComponent()
 
 #internal name: max_by_component
@@ -257,7 +261,15 @@ class _OutputSpecMaxByComponent(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_max_by_component(0), 0, op) 
 
-class _MaxByComponent:
+class _MaxByComponent(_Operator):
+    def __init__(self):
+         super().__init__("max_by_component")
+         self._name = "max_by_component"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMaxByComponent(self._op)
+         self.outputs = _OutputSpecMaxByComponent(self._op)
+
+def max_by_component():
     """Operator's description:
 Internal name is "max_by_component"
 Scripting name is "max_by_component"
@@ -274,13 +286,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "max_by_component"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMaxByComponent(self._op)
-         self.outputs = _OutputSpecMaxByComponent(self._op)
-
-def max_by_component():
     return _MaxByComponent()
 
 #internal name: min_max_fc_inc
@@ -310,7 +315,15 @@ class _OutputSpecMinMaxFcInc(_Outputs):
         self.field_min = _Output(_get_output_spec_min_max_fc_inc(0), 0, op) 
         self.field_max = _Output(_get_output_spec_min_max_fc_inc(1), 1, op) 
 
-class _MinMaxFcInc:
+class _MinMaxFcInc(_Operator):
+    def __init__(self):
+         super().__init__("min_max_fc_inc")
+         self._name = "min_max_fc_inc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMinMaxFcInc(self._op)
+         self.outputs = _OutputSpecMinMaxFcInc(self._op)
+
+def min_max_fc_inc():
     """Operator's description:
 Internal name is "min_max_fc_inc"
 Scripting name is "min_max_fc_inc"
@@ -325,13 +338,6 @@ Output list:
    0: field_min 
    1: field_max 
 """
-    def __init__(self):
-         self._name = "min_max_fc_inc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxFcInc(self._op)
-         self.outputs = _OutputSpecMinMaxFcInc(self._op)
-
-def min_max_fc_inc():
     return _MinMaxFcInc()
 
 #internal name: min_max_inc
@@ -370,7 +376,15 @@ class _OutputSpecMinMaxInc(_Outputs):
         self.domain_ids_min = _Output(_get_output_spec_min_max_inc(2), 2, op) 
         self.domain_ids_max = _Output(_get_output_spec_min_max_inc(3), 3, op) 
 
-class _MinMaxInc:
+class _MinMaxInc(_Operator):
+    def __init__(self):
+         super().__init__("min_max_inc")
+         self._name = "min_max_inc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMinMaxInc(self._op)
+         self.outputs = _OutputSpecMinMaxInc(self._op)
+
+def min_max_inc():
     """Operator's description:
 Internal name is "min_max_inc"
 Scripting name is "min_max_inc"
@@ -388,12 +402,5 @@ Output list:
    2: domain_ids_min 
    3: domain_ids_max 
 """
-    def __init__(self):
-         self._name = "min_max_inc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxInc(self._op)
-         self.outputs = _OutputSpecMinMaxInc(self._op)
-
-def min_max_inc():
     return _MinMaxInc()
 

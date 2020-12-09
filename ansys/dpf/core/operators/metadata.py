@@ -35,7 +35,15 @@ class _OutputSpecResultInfoProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.result_info = _Output(_get_output_spec_result_info_provider(0), 0, op) 
 
-class _ResultInfoProvider:
+class _ResultInfoProvider(_Operator):
+    def __init__(self):
+         super().__init__("ResultInfoProvider")
+         self._name = "ResultInfoProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecResultInfoProvider(self._op)
+         self.outputs = _OutputSpecResultInfoProvider(self._op)
+
+def result_info_provider():
     """Operator's description:
 Internal name is "ResultInfoProvider"
 Scripting name is "result_info_provider"
@@ -50,13 +58,6 @@ Input list:
 Output list: 
    0: result_info 
 """
-    def __init__(self):
-         self._name = "ResultInfoProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecResultInfoProvider(self._op)
-         self.outputs = _OutputSpecResultInfoProvider(self._op)
-
-def result_info_provider():
     return _ResultInfoProvider()
 
 #internal name: TimeFreqSupportProvider
@@ -86,7 +87,15 @@ class _OutputSpecTimeFreqProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.time_freq_support = _Output(_get_output_spec_time_freq_provider(0), 0, op) 
 
-class _TimeFreqProvider:
+class _TimeFreqProvider(_Operator):
+    def __init__(self):
+         super().__init__("TimeFreqSupportProvider")
+         self._name = "TimeFreqSupportProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecTimeFreqProvider(self._op)
+         self.outputs = _OutputSpecTimeFreqProvider(self._op)
+
+def time_freq_provider():
     """Operator's description:
 Internal name is "TimeFreqSupportProvider"
 Scripting name is "time_freq_provider"
@@ -101,13 +110,6 @@ Input list:
 Output list: 
    0: time_freq_support 
 """
-    def __init__(self):
-         self._name = "TimeFreqSupportProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTimeFreqProvider(self._op)
-         self.outputs = _OutputSpecTimeFreqProvider(self._op)
-
-def time_freq_provider():
     return _TimeFreqProvider()
 
 #internal name: MaterialsProvider
@@ -137,7 +139,15 @@ class _OutputSpecMaterialProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.materials = _Output(_get_output_spec_material_provider(0), 0, op) 
 
-class _MaterialProvider:
+class _MaterialProvider(_Operator):
+    def __init__(self):
+         super().__init__("MaterialsProvider")
+         self._name = "MaterialsProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMaterialProvider(self._op)
+         self.outputs = _OutputSpecMaterialProvider(self._op)
+
+def material_provider():
     """Operator's description:
 Internal name is "MaterialsProvider"
 Scripting name is "material_provider"
@@ -152,13 +162,6 @@ Input list:
 Output list: 
    0: materials 
 """
-    def __init__(self):
-         self._name = "MaterialsProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMaterialProvider(self._op)
-         self.outputs = _OutputSpecMaterialProvider(self._op)
-
-def material_provider():
     return _MaterialProvider()
 
 #internal name: stream_provider
@@ -185,7 +188,15 @@ class _OutputSpecStreamsProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.streams_container = _Output(_get_output_spec_streams_provider(0), 0, op) 
 
-class _StreamsProvider:
+class _StreamsProvider(_Operator):
+    def __init__(self):
+         super().__init__("stream_provider")
+         self._name = "stream_provider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStreamsProvider(self._op)
+         self.outputs = _OutputSpecStreamsProvider(self._op)
+
+def streams_provider():
     """Operator's description:
 Internal name is "stream_provider"
 Scripting name is "streams_provider"
@@ -199,13 +210,6 @@ Input list:
 Output list: 
    0: streams_container 
 """
-    def __init__(self):
-         self._name = "stream_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStreamsProvider(self._op)
-         self.outputs = _OutputSpecStreamsProvider(self._op)
-
-def streams_provider():
     return _StreamsProvider()
 
 #internal name: MeshSelectionManagerProvider
@@ -233,7 +237,15 @@ class _OutputSpecMeshSelectionManagerProvider(_Outputs):
     def __init__(self, op: _Operator):
         pass 
 
-class _MeshSelectionManagerProvider:
+class _MeshSelectionManagerProvider(_Operator):
+    def __init__(self):
+         super().__init__("MeshSelectionManagerProvider")
+         self._name = "MeshSelectionManagerProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMeshSelectionManagerProvider(self._op)
+         self.outputs = _OutputSpecMeshSelectionManagerProvider(self._op)
+
+def mesh_selection_manager_provider():
     """Operator's description:
 Internal name is "MeshSelectionManagerProvider"
 Scripting name is "mesh_selection_manager_provider"
@@ -248,13 +260,6 @@ Input list:
 Output list: 
    empty 
 """
-    def __init__(self):
-         self._name = "MeshSelectionManagerProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMeshSelectionManagerProvider(self._op)
-         self.outputs = _OutputSpecMeshSelectionManagerProvider(self._op)
-
-def mesh_selection_manager_provider():
     return _MeshSelectionManagerProvider()
 
 #internal name: boundary_conditions
@@ -284,7 +289,15 @@ class _OutputSpecBoundaryConditionProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.results_info = _Output(_get_output_spec_boundary_condition_provider(0), 0, op) 
 
-class _BoundaryConditionProvider:
+class _BoundaryConditionProvider(_Operator):
+    def __init__(self):
+         super().__init__("boundary_conditions")
+         self._name = "boundary_conditions"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecBoundaryConditionProvider(self._op)
+         self.outputs = _OutputSpecBoundaryConditionProvider(self._op)
+
+def boundary_condition_provider():
     """Operator's description:
 Internal name is "boundary_conditions"
 Scripting name is "boundary_condition_provider"
@@ -299,13 +312,6 @@ Input list:
 Output list: 
    0: results_info (results info)
 """
-    def __init__(self):
-         self._name = "boundary_conditions"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBoundaryConditionProvider(self._op)
-         self.outputs = _OutputSpecBoundaryConditionProvider(self._op)
-
-def boundary_condition_provider():
     return _BoundaryConditionProvider()
 
 #internal name: is_cyclic
@@ -335,7 +341,15 @@ class _OutputSpecIsCyclic(_Outputs):
     def __init__(self, op: _Operator):
         self.file_path = _Output(_get_output_spec_is_cyclic(0), 0, op) 
 
-class _IsCyclic:
+class _IsCyclic(_Operator):
+    def __init__(self):
+         super().__init__("is_cyclic")
+         self._name = "is_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIsCyclic(self._op)
+         self.outputs = _OutputSpecIsCyclic(self._op)
+
+def is_cyclic():
     """Operator's description:
 Internal name is "is_cyclic"
 Scripting name is "is_cyclic"
@@ -350,13 +364,6 @@ Input list:
 Output list: 
    0: file_path (returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model)
 """
-    def __init__(self):
-         self._name = "is_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIsCyclic(self._op)
-         self.outputs = _OutputSpecIsCyclic(self._op)
-
-def is_cyclic():
     return _IsCyclic()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -408,7 +415,15 @@ class _OutputSpecCyclicSupportProvider(_Outputs):
         self.cyclic_support = _Output(_get_output_spec_cyclic_support_provider(0), 0, op) 
         self.sector_meshed_region = _Output(_get_output_spec_cyclic_support_provider(1), 1, op) 
 
-class _CyclicSupportProvider:
+class _CyclicSupportProvider(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::support_provider_cyclic")
+         self._name = "mapdl::rst::support_provider_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicSupportProvider(self._op)
+         self.outputs = _OutputSpecCyclicSupportProvider(self._op)
+
+def cyclic_support_provider():
     """Operator's description:
 Internal name is "mapdl::rst::support_provider_cyclic"
 Scripting name is "cyclic_support_provider"
@@ -427,12 +442,5 @@ Output list:
    0: cyclic_support 
    1: sector_meshed_region 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::support_provider_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicSupportProvider(self._op)
-         self.outputs = _OutputSpecCyclicSupportProvider(self._op)
-
-def cyclic_support_provider():
     return _CyclicSupportProvider()
 

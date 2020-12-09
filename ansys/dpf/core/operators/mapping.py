@@ -35,7 +35,15 @@ class _OutputSpecSolidToSkin(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_solid_to_skin(0), 0, op) 
 
-class _SolidToSkin:
+class _SolidToSkin(_Operator):
+    def __init__(self):
+         super().__init__("solid_to_skin")
+         self._name = "solid_to_skin"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSolidToSkin(self._op)
+         self.outputs = _OutputSpecSolidToSkin(self._op)
+
+def solid_to_skin():
     """Operator's description:
 Internal name is "solid_to_skin"
 Scripting name is "solid_to_skin"
@@ -50,13 +58,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "solid_to_skin"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSolidToSkin(self._op)
-         self.outputs = _OutputSpecSolidToSkin(self._op)
-
-def solid_to_skin():
     return _SolidToSkin()
 
 #internal name: mapping
@@ -95,7 +96,15 @@ class _OutputSpecOnCoordinates(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_on_coordinates(0), 0, op) 
 
-class _OnCoordinates:
+class _OnCoordinates(_Operator):
+    def __init__(self):
+         super().__init__("mapping")
+         self._name = "mapping"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecOnCoordinates(self._op)
+         self.outputs = _OutputSpecOnCoordinates(self._op)
+
+def on_coordinates():
     """Operator's description:
 Internal name is "mapping"
 Scripting name is "on_coordinates"
@@ -113,13 +122,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "mapping"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOnCoordinates(self._op)
-         self.outputs = _OutputSpecOnCoordinates(self._op)
-
-def on_coordinates():
     return _OnCoordinates()
 
 #internal name: scoping::on_coordinates
@@ -149,7 +151,15 @@ class _OutputSpecScopingOnCoordinates(_Outputs):
     def __init__(self, op: _Operator):
         self.scoping = _Output(_get_output_spec_scoping_on_coordinates(0), 0, op) 
 
-class _ScopingOnCoordinates:
+class _ScopingOnCoordinates(_Operator):
+    def __init__(self):
+         super().__init__("scoping::on_coordinates")
+         self._name = "scoping::on_coordinates"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecScopingOnCoordinates(self._op)
+         self.outputs = _OutputSpecScopingOnCoordinates(self._op)
+
+def scoping_on_coordinates():
     """Operator's description:
 Internal name is "scoping::on_coordinates"
 Scripting name is "scoping_on_coordinates"
@@ -164,12 +174,5 @@ Input list:
 Output list: 
    0: scoping 
 """
-    def __init__(self):
-         self._name = "scoping::on_coordinates"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecScopingOnCoordinates(self._op)
-         self.outputs = _OutputSpecScopingOnCoordinates(self._op)
-
-def scoping_on_coordinates():
     return _ScopingOnCoordinates()
 

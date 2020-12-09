@@ -32,7 +32,15 @@ class _OutputSpecOverallDot(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_overall_dot(0), 0, op) 
 
-class _OverallDot:
+class _OverallDot(_Operator):
+    def __init__(self):
+         super().__init__("native::overall_dot")
+         self._name = "native::overall_dot"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecOverallDot(self._op)
+         self.outputs = _OutputSpecOverallDot(self._op)
+
+def overall_dot():
     """Operator's description:
 Internal name is "native::overall_dot"
 Scripting name is "native::overall_dot"
@@ -47,12 +55,5 @@ Input list:
 Output list: 
    0: field (Field defined on over-all location, contains a unique scalar value)
 """
-    def __init__(self):
-         self._name = "native::overall_dot"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOverallDot(self._op)
-         self.outputs = _OutputSpecOverallDot(self._op)
-
-def overall_dot():
     return _OverallDot()
 

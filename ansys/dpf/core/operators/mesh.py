@@ -32,7 +32,15 @@ class _OutputSpecFromField(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh = _Output(_get_output_spec_from_field(0), 0, op) 
 
-class _FromField:
+class _FromField(_Operator):
+    def __init__(self):
+         super().__init__("GetSupportFromField")
+         self._name = "GetSupportFromField"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecFromField(self._op)
+         self.outputs = _OutputSpecFromField(self._op)
+
+def from_field():
     """Operator's description:
 Internal name is "GetSupportFromField"
 Scripting name is "from_field"
@@ -46,13 +54,6 @@ Input list:
 Output list: 
    0: mesh 
 """
-    def __init__(self):
-         self._name = "GetSupportFromField"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFromField(self._op)
-         self.outputs = _OutputSpecFromField(self._op)
-
-def from_field():
     return _FromField()
 
 #internal name: MeshProvider
@@ -82,7 +83,15 @@ class _OutputSpecMeshProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh = _Output(_get_output_spec_mesh_provider(0), 0, op) 
 
-class _MeshProvider:
+class _MeshProvider(_Operator):
+    def __init__(self):
+         super().__init__("MeshProvider")
+         self._name = "MeshProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMeshProvider(self._op)
+         self.outputs = _OutputSpecMeshProvider(self._op)
+
+def mesh_provider():
     """Operator's description:
 Internal name is "MeshProvider"
 Scripting name is "mesh_provider"
@@ -97,13 +106,6 @@ Input list:
 Output list: 
    0: mesh 
 """
-    def __init__(self):
-         self._name = "MeshProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMeshProvider(self._op)
-         self.outputs = _OutputSpecMeshProvider(self._op)
-
-def mesh_provider():
     return _MeshProvider()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -144,7 +146,15 @@ class _OutputSpecSplitMesh(_Outputs):
     def __init__(self, op: _Operator):
         pass 
 
-class _SplitMesh:
+class _SplitMesh(_Operator):
+    def __init__(self):
+         super().__init__("split_mesh")
+         self._name = "split_mesh"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSplitMesh(self._op)
+         self.outputs = _OutputSpecSplitMesh(self._op)
+
+def split_mesh():
     """Operator's description:
 Internal name is "split_mesh"
 Scripting name is "split_mesh"
@@ -160,13 +170,6 @@ Input list:
 Output list: 
    empty 
 """
-    def __init__(self):
-         self._name = "split_mesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSplitMesh(self._op)
-         self.outputs = _OutputSpecSplitMesh(self._op)
-
-def split_mesh():
     return _SplitMesh()
 
 #internal name: mesh::by_scoping
@@ -199,7 +202,15 @@ class _OutputSpecFromScoping(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh = _Output(_get_output_spec_from_scoping(0), 0, op) 
 
-class _FromScoping:
+class _FromScoping(_Operator):
+    def __init__(self):
+         super().__init__("mesh::by_scoping")
+         self._name = "mesh::by_scoping"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecFromScoping(self._op)
+         self.outputs = _OutputSpecFromScoping(self._op)
+
+def from_scoping():
     """Operator's description:
 Internal name is "mesh::by_scoping"
 Scripting name is "from_scoping"
@@ -215,13 +226,6 @@ Input list:
 Output list: 
    0: mesh 
 """
-    def __init__(self):
-         self._name = "mesh::by_scoping"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFromScoping(self._op)
-         self.outputs = _OutputSpecFromScoping(self._op)
-
-def from_scoping():
     return _FromScoping()
 
 #internal name: split_fields
@@ -248,7 +252,15 @@ class _OutputSpecSplitFields(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_split_fields(0), 0, op) 
 
-class _SplitFields:
+class _SplitFields(_Operator):
+    def __init__(self):
+         super().__init__("split_fields")
+         self._name = "split_fields"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSplitFields(self._op)
+         self.outputs = _OutputSpecSplitFields(self._op)
+
+def split_fields():
     """Operator's description:
 Internal name is "split_fields"
 Scripting name is "split_fields"
@@ -262,13 +274,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "split_fields"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSplitFields(self._op)
-         self.outputs = _OutputSpecSplitFields(self._op)
-
-def split_fields():
     return _SplitFields()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -308,7 +313,15 @@ class _OutputSpecTriMeshSkin(_Outputs):
         self.mesh = _Output(_get_output_spec_tri_mesh_skin(0), 0, op) 
         self.nodes_mesh_scoping = _Output(_get_output_spec_tri_mesh_skin(1), 1, op) 
 
-class _TriMeshSkin:
+class _TriMeshSkin(_Operator):
+    def __init__(self):
+         super().__init__("meshed_skin_sector_triangle")
+         self._name = "meshed_skin_sector_triangle"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecTriMeshSkin(self._op)
+         self.outputs = _OutputSpecTriMeshSkin(self._op)
+
+def tri_mesh_skin():
     """Operator's description:
 Internal name is "meshed_skin_sector_triangle"
 Scripting name is "tri_mesh_skin"
@@ -323,13 +336,6 @@ Output list:
    0: mesh 
    1: nodes_mesh_scoping 
 """
-    def __init__(self):
-         self._name = "meshed_skin_sector_triangle"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTriMeshSkin(self._op)
-         self.outputs = _OutputSpecTriMeshSkin(self._op)
-
-def tri_mesh_skin():
     return _TriMeshSkin()
 
 #internal name: mesh_cut
@@ -362,7 +368,15 @@ class _OutputSpecMeshCut(_Outputs):
     def __init__(self, op: _Operator):
         self.mesh = _Output(_get_output_spec_mesh_cut(2), 2, op) 
 
-class _MeshCut:
+class _MeshCut(_Operator):
+    def __init__(self):
+         super().__init__("mesh_cut")
+         self._name = "mesh_cut"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMeshCut(self._op)
+         self.outputs = _OutputSpecMeshCut(self._op)
+
+def mesh_cut():
     """Operator's description:
 Internal name is "mesh_cut"
 Scripting name is "mesh_cut"
@@ -378,13 +392,6 @@ Input list:
 Output list: 
    2: mesh 
 """
-    def __init__(self):
-         self._name = "mesh_cut"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMeshCut(self._op)
-         self.outputs = _OutputSpecMeshCut(self._op)
-
-def mesh_cut():
     return _MeshCut()
 
 #internal name: meshed_external_layer_sector
@@ -417,7 +424,15 @@ class _OutputSpecExternalLayer(_Outputs):
         self.nodes_mesh_scoping = _Output(_get_output_spec_external_layer(1), 1, op) 
         self.elements_mesh_scoping = _Output(_get_output_spec_external_layer(2), 2, op) 
 
-class _ExternalLayer:
+class _ExternalLayer(_Operator):
+    def __init__(self):
+         super().__init__("meshed_external_layer_sector")
+         self._name = "meshed_external_layer_sector"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecExternalLayer(self._op)
+         self.outputs = _OutputSpecExternalLayer(self._op)
+
+def external_layer():
     """Operator's description:
 Internal name is "meshed_external_layer_sector"
 Scripting name is "external_layer"
@@ -433,13 +448,6 @@ Output list:
    1: nodes_mesh_scoping 
    2: elements_mesh_scoping 
 """
-    def __init__(self):
-         self._name = "meshed_external_layer_sector"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExternalLayer(self._op)
-         self.outputs = _OutputSpecExternalLayer(self._op)
-
-def external_layer():
     return _ExternalLayer()
 
 #internal name: meshed_skin_sector
@@ -476,7 +484,15 @@ class _OutputSpecSkin(_Outputs):
         pass 
         self.property_field_new_elements_to_old = _Output(_get_output_spec_skin(3), 3, op) 
 
-class _Skin:
+class _Skin(_Operator):
+    def __init__(self):
+         super().__init__("meshed_skin_sector")
+         self._name = "meshed_skin_sector"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSkin(self._op)
+         self.outputs = _OutputSpecSkin(self._op)
+
+def skin():
     """Operator's description:
 Internal name is "meshed_skin_sector"
 Scripting name is "skin"
@@ -494,13 +510,6 @@ Output list:
    empty 
    3: property_field_new_elements_to_old 
 """
-    def __init__(self):
-         self._name = "meshed_skin_sector"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSkin(self._op)
-         self.outputs = _OutputSpecSkin(self._op)
-
-def skin():
     return _Skin()
 
 #internal name: stl_export
@@ -530,7 +539,15 @@ class _OutputSpecStlExport(_Outputs):
     def __init__(self, op: _Operator):
         self.data_sources = _Output(_get_output_spec_stl_export(0), 0, op) 
 
-class _StlExport:
+class _StlExport(_Operator):
+    def __init__(self):
+         super().__init__("stl_export")
+         self._name = "stl_export"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStlExport(self._op)
+         self.outputs = _OutputSpecStlExport(self._op)
+
+def stl_export():
     """Operator's description:
 Internal name is "stl_export"
 Scripting name is "stl_export"
@@ -545,12 +562,5 @@ Input list:
 Output list: 
    0: data_sources 
 """
-    def __init__(self):
-         self._name = "stl_export"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStlExport(self._op)
-         self.outputs = _OutputSpecStlExport(self._op)
-
-def stl_export():
     return _StlExport()
 

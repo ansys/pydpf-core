@@ -29,7 +29,15 @@ class _OutputSpecSolidShellFields(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_solid_shell_fields(0), 0, op) 
 
-class _SolidShellFields:
+class _SolidShellFields(_Operator):
+    def __init__(self):
+         super().__init__("merge::solid_shell_fields")
+         self._name = "merge::solid_shell_fields"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSolidShellFields(self._op)
+         self.outputs = _OutputSpecSolidShellFields(self._op)
+
+def solid_shell_fields():
     """Operator's description:
 Internal name is "merge::solid_shell_fields"
 Scripting name is "merge::solid_shell_fields"
@@ -43,12 +51,5 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "merge::solid_shell_fields"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSolidShellFields(self._op)
-         self.outputs = _OutputSpecSolidShellFields(self._op)
-
-def solid_shell_fields():
     return _SolidShellFields()
 

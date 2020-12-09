@@ -32,7 +32,15 @@ class _OutputSpecExtractField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_extract_field(0), 0, op) 
 
-class _ExtractField:
+class _ExtractField(_Operator):
+    def __init__(self):
+         super().__init__("ExtractFromFC")
+         self._name = "ExtractFromFC"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecExtractField(self._op)
+         self.outputs = _OutputSpecExtractField(self._op)
+
+def extract_field():
     """Operator's description:
 Internal name is "ExtractFromFC"
 Scripting name is "extract_field"
@@ -46,13 +54,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "ExtractFromFC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExtractField(self._op)
-         self.outputs = _OutputSpecExtractField(self._op)
-
-def extract_field():
     return _ExtractField()
 
 #internal name: BindSupport
@@ -82,7 +83,15 @@ class _OutputSpecBindSupport(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_bind_support(0), 0, op) 
 
-class _BindSupport:
+class _BindSupport(_Operator):
+    def __init__(self):
+         super().__init__("BindSupport")
+         self._name = "BindSupport"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecBindSupport(self._op)
+         self.outputs = _OutputSpecBindSupport(self._op)
+
+def bind_support():
     """Operator's description:
 Internal name is "BindSupport"
 Scripting name is "bind_support"
@@ -97,13 +106,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "BindSupport"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBindSupport(self._op)
-         self.outputs = _OutputSpecBindSupport(self._op)
-
-def bind_support():
     return _BindSupport()
 
 #internal name: change_location
@@ -133,7 +135,15 @@ class _OutputSpecChangeLocation(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_change_location(0), 0, op) 
 
-class _ChangeLocation:
+class _ChangeLocation(_Operator):
+    def __init__(self):
+         super().__init__("change_location")
+         self._name = "change_location"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecChangeLocation(self._op)
+         self.outputs = _OutputSpecChangeLocation(self._op)
+
+def change_location():
     """Operator's description:
 Internal name is "change_location"
 Scripting name is "change_location"
@@ -148,13 +158,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "change_location"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecChangeLocation(self._op)
-         self.outputs = _OutputSpecChangeLocation(self._op)
-
-def change_location():
     return _ChangeLocation()
 
 #internal name: InjectToFieldContainer
@@ -181,7 +184,15 @@ class _OutputSpecFieldToFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_field_to_fc(0), 0, op) 
 
-class _FieldToFc:
+class _FieldToFc(_Operator):
+    def __init__(self):
+         super().__init__("InjectToFieldContainer")
+         self._name = "InjectToFieldContainer"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecFieldToFc(self._op)
+         self.outputs = _OutputSpecFieldToFc(self._op)
+
+def field_to_fc():
     """Operator's description:
 Internal name is "InjectToFieldContainer"
 Scripting name is "field_to_fc"
@@ -195,13 +206,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "InjectToFieldContainer"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFieldToFc(self._op)
-         self.outputs = _OutputSpecFieldToFc(self._op)
-
-def field_to_fc():
     return _FieldToFc()
 
 #internal name: strain_from_voigt
@@ -228,7 +232,15 @@ class _OutputSpecStrainFromVoigt(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_strain_from_voigt(0), 0, op) 
 
-class _StrainFromVoigt:
+class _StrainFromVoigt(_Operator):
+    def __init__(self):
+         super().__init__("strain_from_voigt")
+         self._name = "strain_from_voigt"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStrainFromVoigt(self._op)
+         self.outputs = _OutputSpecStrainFromVoigt(self._op)
+
+def strain_from_voigt():
     """Operator's description:
 Internal name is "strain_from_voigt"
 Scripting name is "strain_from_voigt"
@@ -242,13 +254,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "strain_from_voigt"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStrainFromVoigt(self._op)
-         self.outputs = _OutputSpecStrainFromVoigt(self._op)
-
-def strain_from_voigt():
     return _StrainFromVoigt()
 
 #internal name: field::set_property
@@ -281,7 +286,15 @@ class _OutputSpecSetProperty(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_set_property(0), 0, op) 
 
-class _SetProperty:
+class _SetProperty(_Operator):
+    def __init__(self):
+         super().__init__("field::set_property")
+         self._name = "field::set_property"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSetProperty(self._op)
+         self.outputs = _OutputSpecSetProperty(self._op)
+
+def set_property():
     """Operator's description:
 Internal name is "field::set_property"
 Scripting name is "set_property"
@@ -297,13 +310,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "field::set_property"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSetProperty(self._op)
-         self.outputs = _OutputSpecSetProperty(self._op)
-
-def set_property():
     return _SetProperty()
 
 #internal name: fieldify
@@ -330,7 +336,15 @@ class _OutputSpecScalarsToField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_scalars_to_field(0), 0, op) 
 
-class _ScalarsToField:
+class _ScalarsToField(_Operator):
+    def __init__(self):
+         super().__init__("fieldify")
+         self._name = "fieldify"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecScalarsToField(self._op)
+         self.outputs = _OutputSpecScalarsToField(self._op)
+
+def scalars_to_field():
     """Operator's description:
 Internal name is "fieldify"
 Scripting name is "scalars_to_field"
@@ -344,13 +358,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "fieldify"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecScalarsToField(self._op)
-         self.outputs = _OutputSpecScalarsToField(self._op)
-
-def scalars_to_field():
     return _ScalarsToField()
 
 #internal name: html_doc
@@ -375,7 +382,15 @@ class _OutputSpecHtmlDoc(_Outputs):
     def __init__(self, op: _Operator):
         pass 
 
-class _HtmlDoc:
+class _HtmlDoc(_Operator):
+    def __init__(self):
+         super().__init__("html_doc")
+         self._name = "html_doc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHtmlDoc(self._op)
+         self.outputs = _OutputSpecHtmlDoc(self._op)
+
+def html_doc():
     """Operator's description:
 Internal name is "html_doc"
 Scripting name is "html_doc"
@@ -389,13 +404,6 @@ Input list:
 Output list: 
    empty 
 """
-    def __init__(self):
-         self._name = "html_doc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHtmlDoc(self._op)
-         self.outputs = _OutputSpecHtmlDoc(self._op)
-
-def html_doc():
     return _HtmlDoc()
 
 #internal name: make_unit
@@ -422,7 +430,15 @@ class _OutputSpecUnitaryField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_unitary_field(0), 0, op) 
 
-class _UnitaryField:
+class _UnitaryField(_Operator):
+    def __init__(self):
+         super().__init__("make_unit")
+         self._name = "make_unit"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecUnitaryField(self._op)
+         self.outputs = _OutputSpecUnitaryField(self._op)
+
+def unitary_field():
     """Operator's description:
 Internal name is "make_unit"
 Scripting name is "unitary_field"
@@ -436,13 +452,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "make_unit"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecUnitaryField(self._op)
-         self.outputs = _OutputSpecUnitaryField(self._op)
-
-def unitary_field():
     return _UnitaryField()
 
 #internal name: forward
@@ -469,7 +478,15 @@ class _OutputSpecForwardField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_forward_field(0), 0, op) 
 
-class _ForwardField:
+class _ForwardField(_Operator):
+    def __init__(self):
+         super().__init__("forward")
+         self._name = "forward"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecForwardField(self._op)
+         self.outputs = _OutputSpecForwardField(self._op)
+
+def forward_field():
     """Operator's description:
 Internal name is "forward"
 Scripting name is "forward_field"
@@ -483,13 +500,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "forward"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecForwardField(self._op)
-         self.outputs = _OutputSpecForwardField(self._op)
-
-def forward_field():
     return _ForwardField()
 
 #internal name: forward_fc
@@ -516,7 +526,15 @@ class _OutputSpecForwardFieldsContainer(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_forward_fields_container(0), 0, op) 
 
-class _ForwardFieldsContainer:
+class _ForwardFieldsContainer(_Operator):
+    def __init__(self):
+         super().__init__("forward_fc")
+         self._name = "forward_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecForwardFieldsContainer(self._op)
+         self.outputs = _OutputSpecForwardFieldsContainer(self._op)
+
+def forward_fields_container():
     """Operator's description:
 Internal name is "forward_fc"
 Scripting name is "forward_fields_container"
@@ -530,13 +548,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "forward_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecForwardFieldsContainer(self._op)
-         self.outputs = _OutputSpecForwardFieldsContainer(self._op)
-
-def forward_fields_container():
     return _ForwardFieldsContainer()
 
 #internal name: text_parser
@@ -562,7 +573,15 @@ class _OutputSpecTxtFileToDpf(_Outputs):
         pass 
         pass 
 
-class _TxtFileToDpf:
+class _TxtFileToDpf(_Operator):
+    def __init__(self):
+         super().__init__("text_parser")
+         self._name = "text_parser"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecTxtFileToDpf(self._op)
+         self.outputs = _OutputSpecTxtFileToDpf(self._op)
+
+def txt_file_to_dpf():
     """Operator's description:
 Internal name is "text_parser"
 Scripting name is "txt_file_to_dpf"
@@ -577,13 +596,6 @@ Output list:
    empty 
    empty 
 """
-    def __init__(self):
-         self._name = "text_parser"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTxtFileToDpf(self._op)
-         self.outputs = _OutputSpecTxtFileToDpf(self._op)
-
-def txt_file_to_dpf():
     return _TxtFileToDpf()
 
 #internal name: BindSupportFC
@@ -613,7 +625,15 @@ class _OutputSpecBindSupportFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_bind_support_fc(0), 0, op) 
 
-class _BindSupportFc:
+class _BindSupportFc(_Operator):
+    def __init__(self):
+         super().__init__("BindSupportFC")
+         self._name = "BindSupportFC"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecBindSupportFc(self._op)
+         self.outputs = _OutputSpecBindSupportFc(self._op)
+
+def bind_support_fc():
     """Operator's description:
 Internal name is "BindSupportFC"
 Scripting name is "bind_support_fc"
@@ -628,13 +648,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "BindSupportFC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBindSupportFc(self._op)
-         self.outputs = _OutputSpecBindSupportFc(self._op)
-
-def bind_support_fc():
     return _BindSupportFc()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -674,7 +687,15 @@ class _OutputSpecChangeShellLayers(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_change_shell_layers(0), 0, op) 
 
-class _ChangeShellLayers:
+class _ChangeShellLayers(_Operator):
+    def __init__(self):
+         super().__init__("change_shellLayers")
+         self._name = "change_shellLayers"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecChangeShellLayers(self._op)
+         self.outputs = _OutputSpecChangeShellLayers(self._op)
+
+def change_shell_layers():
     """Operator's description:
 Internal name is "change_shellLayers"
 Scripting name is "change_shell_layers"
@@ -689,12 +710,5 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "change_shellLayers"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecChangeShellLayers(self._op)
-         self.outputs = _OutputSpecChangeShellLayers(self._op)
-
-def change_shell_layers():
     return _ChangeShellLayers()
 

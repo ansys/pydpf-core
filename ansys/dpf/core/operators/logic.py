@@ -41,7 +41,15 @@ class _OutputSpecIdenticalMeshes(_Outputs):
     def __init__(self, op: _Operator):
         self.are_identical = _Output(_get_output_spec_identical_meshes(0), 0, op) 
 
-class _IdenticalMeshes:
+class _IdenticalMeshes(_Operator):
+    def __init__(self):
+         super().__init__("compare::mesh")
+         self._name = "compare::mesh"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIdenticalMeshes(self._op)
+         self.outputs = _OutputSpecIdenticalMeshes(self._op)
+
+def identical_meshes():
     """Operator's description:
 Internal name is "compare::mesh"
 Scripting name is "identical_meshes"
@@ -58,13 +66,6 @@ Input list:
 Output list: 
    0: are_identical 
 """
-    def __init__(self):
-         self._name = "compare::mesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIdenticalMeshes(self._op)
-         self.outputs = _OutputSpecIdenticalMeshes(self._op)
-
-def identical_meshes():
     return _IdenticalMeshes()
 
 #internal name: component_selector_fc
@@ -94,7 +95,15 @@ class _OutputSpecComponentSelectorFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_component_selector_fc(0), 0, op) 
 
-class _ComponentSelectorFc:
+class _ComponentSelectorFc(_Operator):
+    def __init__(self):
+         super().__init__("component_selector_fc")
+         self._name = "component_selector_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecComponentSelectorFc(self._op)
+         self.outputs = _OutputSpecComponentSelectorFc(self._op)
+
+def component_selector_fc():
     """Operator's description:
 Internal name is "component_selector_fc"
 Scripting name is "component_selector_fc"
@@ -109,13 +118,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "component_selector_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecComponentSelectorFc(self._op)
-         self.outputs = _OutputSpecComponentSelectorFc(self._op)
-
-def component_selector_fc():
     return _ComponentSelectorFc()
 
 #internal name: component_selector
@@ -148,7 +150,15 @@ class _OutputSpecComponentSelector(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_component_selector(0), 0, op) 
 
-class _ComponentSelector:
+class _ComponentSelector(_Operator):
+    def __init__(self):
+         super().__init__("component_selector")
+         self._name = "component_selector"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecComponentSelector(self._op)
+         self.outputs = _OutputSpecComponentSelector(self._op)
+
+def component_selector():
     """Operator's description:
 Internal name is "component_selector"
 Scripting name is "component_selector"
@@ -164,13 +174,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "component_selector"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecComponentSelector(self._op)
-         self.outputs = _OutputSpecComponentSelector(self._op)
-
-def component_selector():
     return _ComponentSelector()
 
 #internal name: compare::property_field
@@ -203,7 +206,15 @@ class _OutputSpecIdenticalPropertyFields(_Outputs):
         self.are_identical = _Output(_get_output_spec_identical_property_fields(0), 0, op) 
         self.informations = _Output(_get_output_spec_identical_property_fields(1), 1, op) 
 
-class _IdenticalPropertyFields:
+class _IdenticalPropertyFields(_Operator):
+    def __init__(self):
+         super().__init__("compare::property_field")
+         self._name = "compare::property_field"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIdenticalPropertyFields(self._op)
+         self.outputs = _OutputSpecIdenticalPropertyFields(self._op)
+
+def identical_property_fields():
     """Operator's description:
 Internal name is "compare::property_field"
 Scripting name is "identical_property_fields"
@@ -219,13 +230,6 @@ Output list:
    0: are_identical 
    1: informations 
 """
-    def __init__(self):
-         self._name = "compare::property_field"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIdenticalPropertyFields(self._op)
-         self.outputs = _OutputSpecIdenticalPropertyFields(self._op)
-
-def identical_property_fields():
     return _IdenticalPropertyFields()
 
 #internal name: merge::fields_container_label
@@ -264,7 +268,15 @@ class _OutputSpecMergeFieldsByLabel(_Outputs):
         self.fields_container = _Output(_get_output_spec_merge_fields_by_label(0), 0, op) 
         self.merged_field_support = _Output(_get_output_spec_merge_fields_by_label(1), 1, op) 
 
-class _MergeFieldsByLabel:
+class _MergeFieldsByLabel(_Operator):
+    def __init__(self):
+         super().__init__("merge::fields_container_label")
+         self._name = "merge::fields_container_label"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMergeFieldsByLabel(self._op)
+         self.outputs = _OutputSpecMergeFieldsByLabel(self._op)
+
+def merge_fields_by_label():
     """Operator's description:
 Internal name is "merge::fields_container_label"
 Scripting name is "merge_fields_by_label"
@@ -282,13 +294,6 @@ Output list:
    0: fields_container 
    1: merged_field_support 
 """
-    def __init__(self):
-         self._name = "merge::fields_container_label"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMergeFieldsByLabel(self._op)
-         self.outputs = _OutputSpecMergeFieldsByLabel(self._op)
-
-def merge_fields_by_label():
     return _MergeFieldsByLabel()
 
 from . import merge #merge::solid_shell_fields
@@ -329,7 +334,15 @@ class _OutputSpecIdenticalFields(_Outputs):
         self.boolean = _Output(_get_output_spec_identical_fields(0), 0, op) 
         self.message = _Output(_get_output_spec_identical_fields(1), 1, op) 
 
-class _IdenticalFields:
+class _IdenticalFields(_Operator):
+    def __init__(self):
+         super().__init__("AreFieldsIdentical")
+         self._name = "AreFieldsIdentical"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIdenticalFields(self._op)
+         self.outputs = _OutputSpecIdenticalFields(self._op)
+
+def identical_fields():
     """Operator's description:
 Internal name is "AreFieldsIdentical"
 Scripting name is "identical_fields"
@@ -347,13 +360,6 @@ Output list:
    0: boolean (bool (true if identical...))
    1: message 
 """
-    def __init__(self):
-         self._name = "AreFieldsIdentical"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIdenticalFields(self._op)
-         self.outputs = _OutputSpecIdenticalFields(self._op)
-
-def identical_fields():
     return _IdenticalFields()
 
 #internal name: Are_fields_included
@@ -392,7 +398,15 @@ class _OutputSpecIncludedFields(_Outputs):
         self.included = _Output(_get_output_spec_included_fields(0), 0, op) 
         self.message = _Output(_get_output_spec_included_fields(1), 1, op) 
 
-class _IncludedFields:
+class _IncludedFields(_Operator):
+    def __init__(self):
+         super().__init__("Are_fields_included")
+         self._name = "Are_fields_included"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIncludedFields(self._op)
+         self.outputs = _OutputSpecIncludedFields(self._op)
+
+def included_fields():
     """Operator's description:
 Internal name is "Are_fields_included"
 Scripting name is "included_fields"
@@ -410,13 +424,6 @@ Output list:
    0: included (bool (true if belongs...))
    1: message 
 """
-    def __init__(self):
-         self._name = "Are_fields_included"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIncludedFields(self._op)
-         self.outputs = _OutputSpecIncludedFields(self._op)
-
-def included_fields():
     return _IncludedFields()
 
 #internal name: AreFieldsIdentical_fc
@@ -452,7 +459,15 @@ class _OutputSpecIdenticalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.boolean = _Output(_get_output_spec_identical_fc(0), 0, op) 
 
-class _IdenticalFc:
+class _IdenticalFc(_Operator):
+    def __init__(self):
+         super().__init__("AreFieldsIdentical_fc")
+         self._name = "AreFieldsIdentical_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIdenticalFc(self._op)
+         self.outputs = _OutputSpecIdenticalFc(self._op)
+
+def identical_fc():
     """Operator's description:
 Internal name is "AreFieldsIdentical_fc"
 Scripting name is "identical_fc"
@@ -469,12 +484,5 @@ Input list:
 Output list: 
    0: boolean (bool (true if identical...))
 """
-    def __init__(self):
-         self._name = "AreFieldsIdentical_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIdenticalFc(self._op)
-         self.outputs = _OutputSpecIdenticalFc(self._op)
-
-def identical_fc():
     return _IdenticalFc()
 

@@ -41,7 +41,15 @@ class _OutputSpecNodalFractionFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_fraction_fc(0), 0, op) 
 
-class _NodalFractionFc:
+class _NodalFractionFc(_Operator):
+    def __init__(self):
+         super().__init__("nodal_fraction_fc")
+         self._name = "nodal_fraction_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalFractionFc(self._op)
+         self.outputs = _OutputSpecNodalFractionFc(self._op)
+
+def nodal_fraction_fc():
     """Operator's description:
 Internal name is "nodal_fraction_fc"
 Scripting name is "nodal_fraction_fc"
@@ -58,13 +66,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "nodal_fraction_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalFractionFc(self._op)
-         self.outputs = _OutputSpecNodalFractionFc(self._op)
-
-def nodal_fraction_fc():
     return _NodalFractionFc()
 
 #internal name: ElementalNodal_To_NodalElemental_fc
@@ -94,7 +95,15 @@ class _OutputSpecElementalNodalToNodalElementalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_nodal_to_nodal_elemental_fc(0), 0, op) 
 
-class _ElementalNodalToNodalElementalFc:
+class _ElementalNodalToNodalElementalFc(_Operator):
+    def __init__(self):
+         super().__init__("ElementalNodal_To_NodalElemental_fc")
+         self._name = "ElementalNodal_To_NodalElemental_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalNodalToNodalElementalFc(self._op)
+         self.outputs = _OutputSpecElementalNodalToNodalElementalFc(self._op)
+
+def elemental_nodal_to_nodal_elemental_fc():
     """Operator's description:
 Internal name is "ElementalNodal_To_NodalElemental_fc"
 Scripting name is "elemental_nodal_to_nodal_elemental_fc"
@@ -109,13 +118,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ElementalNodal_To_NodalElemental_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodalElementalFc(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodalElementalFc(self._op)
-
-def elemental_nodal_to_nodal_elemental_fc():
     return _ElementalNodalToNodalElementalFc()
 
 #internal name: elemental_difference
@@ -151,7 +153,15 @@ class _OutputSpecElementalDifference(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_difference(0), 0, op) 
 
-class _ElementalDifference:
+class _ElementalDifference(_Operator):
+    def __init__(self):
+         super().__init__("elemental_difference")
+         self._name = "elemental_difference"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalDifference(self._op)
+         self.outputs = _OutputSpecElementalDifference(self._op)
+
+def elemental_difference():
     """Operator's description:
 Internal name is "elemental_difference"
 Scripting name is "elemental_difference"
@@ -168,13 +178,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "elemental_difference"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalDifference(self._op)
-         self.outputs = _OutputSpecElementalDifference(self._op)
-
-def elemental_difference():
     return _ElementalDifference()
 
 #internal name: elemental_nodal_To_nodal
@@ -213,7 +216,15 @@ class _OutputSpecElementalNodalToNodal(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_nodal_to_nodal(0), 0, op) 
 
-class _ElementalNodalToNodal:
+class _ElementalNodalToNodal(_Operator):
+    def __init__(self):
+         super().__init__("elemental_nodal_To_nodal")
+         self._name = "elemental_nodal_To_nodal"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalNodalToNodal(self._op)
+         self.outputs = _OutputSpecElementalNodalToNodal(self._op)
+
+def elemental_nodal_to_nodal():
     """Operator's description:
 Internal name is "elemental_nodal_To_nodal"
 Scripting name is "elemental_nodal_to_nodal"
@@ -231,13 +242,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "elemental_nodal_To_nodal"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodal(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodal(self._op)
-
-def elemental_nodal_to_nodal():
     return _ElementalNodalToNodal()
 
 #internal name: elemental_difference_fc
@@ -273,7 +277,15 @@ class _OutputSpecElementalDifferenceFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_difference_fc(0), 0, op) 
 
-class _ElementalDifferenceFc:
+class _ElementalDifferenceFc(_Operator):
+    def __init__(self):
+         super().__init__("elemental_difference_fc")
+         self._name = "elemental_difference_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalDifferenceFc(self._op)
+         self.outputs = _OutputSpecElementalDifferenceFc(self._op)
+
+def elemental_difference_fc():
     """Operator's description:
 Internal name is "elemental_difference_fc"
 Scripting name is "elemental_difference_fc"
@@ -290,13 +302,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "elemental_difference_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalDifferenceFc(self._op)
-         self.outputs = _OutputSpecElementalDifferenceFc(self._op)
-
-def elemental_difference_fc():
     return _ElementalDifferenceFc()
 
 #internal name: elemental_nodal_To_nodal_fc
@@ -332,7 +337,15 @@ class _OutputSpecElementalNodalToNodalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_nodal_to_nodal_fc(0), 0, op) 
 
-class _ElementalNodalToNodalFc:
+class _ElementalNodalToNodalFc(_Operator):
+    def __init__(self):
+         super().__init__("elemental_nodal_To_nodal_fc")
+         self._name = "elemental_nodal_To_nodal_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalNodalToNodalFc(self._op)
+         self.outputs = _OutputSpecElementalNodalToNodalFc(self._op)
+
+def elemental_nodal_to_nodal_fc():
     """Operator's description:
 Internal name is "elemental_nodal_To_nodal_fc"
 Scripting name is "elemental_nodal_to_nodal_fc"
@@ -349,13 +362,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "elemental_nodal_To_nodal_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodalFc(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodalFc(self._op)
-
-def elemental_nodal_to_nodal_fc():
     return _ElementalNodalToNodalFc()
 
 #internal name: elemental_to_nodal
@@ -388,7 +394,15 @@ class _OutputSpecElementalToNodal(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_elemental_to_nodal(0), 0, op) 
 
-class _ElementalToNodal:
+class _ElementalToNodal(_Operator):
+    def __init__(self):
+         super().__init__("elemental_to_nodal")
+         self._name = "elemental_to_nodal"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalToNodal(self._op)
+         self.outputs = _OutputSpecElementalToNodal(self._op)
+
+def elemental_to_nodal():
     """Operator's description:
 Internal name is "elemental_to_nodal"
 Scripting name is "elemental_to_nodal"
@@ -404,13 +418,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "elemental_to_nodal"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalToNodal(self._op)
-         self.outputs = _OutputSpecElementalToNodal(self._op)
-
-def elemental_to_nodal():
     return _ElementalToNodal()
 
 #internal name: elemental_to_nodal_fc
@@ -443,7 +450,15 @@ class _OutputSpecElementalToNodalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_to_nodal_fc(0), 0, op) 
 
-class _ElementalToNodalFc:
+class _ElementalToNodalFc(_Operator):
+    def __init__(self):
+         super().__init__("elemental_to_nodal_fc")
+         self._name = "elemental_to_nodal_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalToNodalFc(self._op)
+         self.outputs = _OutputSpecElementalToNodalFc(self._op)
+
+def elemental_to_nodal_fc():
     """Operator's description:
 Internal name is "elemental_to_nodal_fc"
 Scripting name is "elemental_to_nodal_fc"
@@ -459,13 +474,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "elemental_to_nodal_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalToNodalFc(self._op)
-         self.outputs = _OutputSpecElementalToNodalFc(self._op)
-
-def elemental_to_nodal_fc():
     return _ElementalToNodalFc()
 
 #internal name: nodal_difference
@@ -504,7 +512,15 @@ class _OutputSpecNodalDifference(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_difference(0), 0, op) 
 
-class _NodalDifference:
+class _NodalDifference(_Operator):
+    def __init__(self):
+         super().__init__("nodal_difference")
+         self._name = "nodal_difference"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalDifference(self._op)
+         self.outputs = _OutputSpecNodalDifference(self._op)
+
+def nodal_difference():
     """Operator's description:
 Internal name is "nodal_difference"
 Scripting name is "nodal_difference"
@@ -522,13 +538,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "nodal_difference"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalDifference(self._op)
-         self.outputs = _OutputSpecNodalDifference(self._op)
-
-def nodal_difference():
     return _NodalDifference()
 
 #internal name: nodal_difference_fc
@@ -561,7 +570,15 @@ class _OutputSpecNodalDifferenceFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_difference_fc(0), 0, op) 
 
-class _NodalDifferenceFc:
+class _NodalDifferenceFc(_Operator):
+    def __init__(self):
+         super().__init__("nodal_difference_fc")
+         self._name = "nodal_difference_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalDifferenceFc(self._op)
+         self.outputs = _OutputSpecNodalDifferenceFc(self._op)
+
+def nodal_difference_fc():
     """Operator's description:
 Internal name is "nodal_difference_fc"
 Scripting name is "nodal_difference_fc"
@@ -577,13 +594,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "nodal_difference_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalDifferenceFc(self._op)
-         self.outputs = _OutputSpecNodalDifferenceFc(self._op)
-
-def nodal_difference_fc():
     return _NodalDifferenceFc()
 
 #internal name: elemental_fraction_fc
@@ -622,7 +632,15 @@ class _OutputSpecElementalFractionFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_fraction_fc(0), 0, op) 
 
-class _ElementalFractionFc:
+class _ElementalFractionFc(_Operator):
+    def __init__(self):
+         super().__init__("elemental_fraction_fc")
+         self._name = "elemental_fraction_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalFractionFc(self._op)
+         self.outputs = _OutputSpecElementalFractionFc(self._op)
+
+def elemental_fraction_fc():
     """Operator's description:
 Internal name is "elemental_fraction_fc"
 Scripting name is "elemental_fraction_fc"
@@ -640,13 +658,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "elemental_fraction_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalFractionFc(self._op)
-         self.outputs = _OutputSpecElementalFractionFc(self._op)
-
-def elemental_fraction_fc():
     return _ElementalFractionFc()
 
 #internal name: to_nodal
@@ -676,7 +687,15 @@ class _OutputSpecToNodal(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_to_nodal(0), 0, op) 
 
-class _ToNodal:
+class _ToNodal(_Operator):
+    def __init__(self):
+         super().__init__("to_nodal")
+         self._name = "to_nodal"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecToNodal(self._op)
+         self.outputs = _OutputSpecToNodal(self._op)
+
+def to_nodal():
     """Operator's description:
 Internal name is "to_nodal"
 Scripting name is "to_nodal"
@@ -691,13 +710,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "to_nodal"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToNodal(self._op)
-         self.outputs = _OutputSpecToNodal(self._op)
-
-def to_nodal():
     return _ToNodal()
 
 #internal name: to_nodal_fc
@@ -730,7 +742,15 @@ class _OutputSpecToNodalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_to_nodal_fc(0), 0, op) 
 
-class _ToNodalFc:
+class _ToNodalFc(_Operator):
+    def __init__(self):
+         super().__init__("to_nodal_fc")
+         self._name = "to_nodal_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecToNodalFc(self._op)
+         self.outputs = _OutputSpecToNodalFc(self._op)
+
+def to_nodal_fc():
     """Operator's description:
 Internal name is "to_nodal_fc"
 Scripting name is "to_nodal_fc"
@@ -746,13 +766,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "to_nodal_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToNodalFc(self._op)
-         self.outputs = _OutputSpecToNodalFc(self._op)
-
-def to_nodal_fc():
     return _ToNodalFc()
 
 #internal name: ElementalNodal_To_NodalElemental
@@ -782,7 +795,15 @@ class _OutputSpecElementalNodalToNodalElemental(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_elemental_nodal_to_nodal_elemental(0), 0, op) 
 
-class _ElementalNodalToNodalElemental:
+class _ElementalNodalToNodalElemental(_Operator):
+    def __init__(self):
+         super().__init__("ElementalNodal_To_NodalElemental")
+         self._name = "ElementalNodal_To_NodalElemental"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalNodalToNodalElemental(self._op)
+         self.outputs = _OutputSpecElementalNodalToNodalElemental(self._op)
+
+def elemental_nodal_to_nodal_elemental():
     """Operator's description:
 Internal name is "ElementalNodal_To_NodalElemental"
 Scripting name is "elemental_nodal_to_nodal_elemental"
@@ -797,13 +818,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "ElementalNodal_To_NodalElemental"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodalElemental(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodalElemental(self._op)
-
-def elemental_nodal_to_nodal_elemental():
     return _ElementalNodalToNodalElemental()
 
 #internal name: extend_to_mid_nodes
@@ -830,7 +844,15 @@ class _OutputSpecExtendToMidNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_extend_to_mid_nodes(0), 0, op) 
 
-class _ExtendToMidNodes:
+class _ExtendToMidNodes(_Operator):
+    def __init__(self):
+         super().__init__("extend_to_mid_nodes")
+         self._name = "extend_to_mid_nodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecExtendToMidNodes(self._op)
+         self.outputs = _OutputSpecExtendToMidNodes(self._op)
+
+def extend_to_mid_nodes():
     """Operator's description:
 Internal name is "extend_to_mid_nodes"
 Scripting name is "extend_to_mid_nodes"
@@ -844,13 +866,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "extend_to_mid_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExtendToMidNodes(self._op)
-         self.outputs = _OutputSpecExtendToMidNodes(self._op)
-
-def extend_to_mid_nodes():
     return _ExtendToMidNodes()
 
 #internal name: extend_to_mid_nodes_fc
@@ -880,7 +895,15 @@ class _OutputSpecExtendToMidNodesFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_extend_to_mid_nodes_fc(0), 0, op) 
 
-class _ExtendToMidNodesFc:
+class _ExtendToMidNodesFc(_Operator):
+    def __init__(self):
+         super().__init__("extend_to_mid_nodes_fc")
+         self._name = "extend_to_mid_nodes_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecExtendToMidNodesFc(self._op)
+         self.outputs = _OutputSpecExtendToMidNodesFc(self._op)
+
+def extend_to_mid_nodes_fc():
     """Operator's description:
 Internal name is "extend_to_mid_nodes_fc"
 Scripting name is "extend_to_mid_nodes_fc"
@@ -895,13 +918,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "extend_to_mid_nodes_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExtendToMidNodesFc(self._op)
-         self.outputs = _OutputSpecExtendToMidNodesFc(self._op)
-
-def extend_to_mid_nodes_fc():
     return _ExtendToMidNodesFc()
 
 #internal name: entity_average
@@ -937,7 +953,15 @@ class _OutputSpecElementalMean(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_elemental_mean(0), 0, op) 
 
-class _ElementalMean:
+class _ElementalMean(_Operator):
+    def __init__(self):
+         super().__init__("entity_average")
+         self._name = "entity_average"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalMean(self._op)
+         self.outputs = _OutputSpecElementalMean(self._op)
+
+def elemental_mean():
     """Operator's description:
 Internal name is "entity_average"
 Scripting name is "elemental_mean"
@@ -954,13 +978,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "entity_average"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalMean(self._op)
-         self.outputs = _OutputSpecElementalMean(self._op)
-
-def elemental_mean():
     return _ElementalMean()
 
 #internal name: entity_average_fc
@@ -999,7 +1016,15 @@ class _OutputSpecElementalMeanFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_mean_fc(0), 0, op) 
 
-class _ElementalMeanFc:
+class _ElementalMeanFc(_Operator):
+    def __init__(self):
+         super().__init__("entity_average_fc")
+         self._name = "entity_average_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalMeanFc(self._op)
+         self.outputs = _OutputSpecElementalMeanFc(self._op)
+
+def elemental_mean_fc():
     """Operator's description:
 Internal name is "entity_average_fc"
 Scripting name is "elemental_mean_fc"
@@ -1017,13 +1042,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "entity_average_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalMeanFc(self._op)
-         self.outputs = _OutputSpecElementalMeanFc(self._op)
-
-def elemental_mean_fc():
     return _ElementalMeanFc()
 
 #internal name: to_elemental_fc
@@ -1062,7 +1080,15 @@ class _OutputSpecToElementalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_to_elemental_fc(0), 0, op) 
 
-class _ToElementalFc:
+class _ToElementalFc(_Operator):
+    def __init__(self):
+         super().__init__("to_elemental_fc")
+         self._name = "to_elemental_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecToElementalFc(self._op)
+         self.outputs = _OutputSpecToElementalFc(self._op)
+
+def to_elemental_fc():
     """Operator's description:
 Internal name is "to_elemental_fc"
 Scripting name is "to_elemental_fc"
@@ -1080,13 +1106,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "to_elemental_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToElementalFc(self._op)
-         self.outputs = _OutputSpecToElementalFc(self._op)
-
-def to_elemental_fc():
     return _ToElementalFc()
 
 #internal name: nodal_to_elemental
@@ -1119,7 +1138,15 @@ class _OutputSpecNodalToElemental(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_nodal_to_elemental(0), 0, op) 
 
-class _NodalToElemental:
+class _NodalToElemental(_Operator):
+    def __init__(self):
+         super().__init__("nodal_to_elemental")
+         self._name = "nodal_to_elemental"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalToElemental(self._op)
+         self.outputs = _OutputSpecNodalToElemental(self._op)
+
+def nodal_to_elemental():
     """Operator's description:
 Internal name is "nodal_to_elemental"
 Scripting name is "nodal_to_elemental"
@@ -1135,13 +1162,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "nodal_to_elemental"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalToElemental(self._op)
-         self.outputs = _OutputSpecNodalToElemental(self._op)
-
-def nodal_to_elemental():
     return _NodalToElemental()
 
 #internal name: nodal_to_elemental_fc
@@ -1177,7 +1197,15 @@ class _OutputSpecNodalToElementalFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_to_elemental_fc(0), 0, op) 
 
-class _NodalToElementalFc:
+class _NodalToElementalFc(_Operator):
+    def __init__(self):
+         super().__init__("nodal_to_elemental_fc")
+         self._name = "nodal_to_elemental_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalToElementalFc(self._op)
+         self.outputs = _OutputSpecNodalToElementalFc(self._op)
+
+def nodal_to_elemental_fc():
     """Operator's description:
 Internal name is "nodal_to_elemental_fc"
 Scripting name is "nodal_to_elemental_fc"
@@ -1194,12 +1222,5 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "nodal_to_elemental_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalToElementalFc(self._op)
-         self.outputs = _OutputSpecNodalToElementalFc(self._op)
-
-def nodal_to_elemental_fc():
     return _NodalToElementalFc()
 

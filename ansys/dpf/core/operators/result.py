@@ -56,7 +56,15 @@ class _OutputSpecPlasticStrainPrincipal1(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_principal_1(0), 0, op) 
 
-class _PlasticStrainPrincipal1:
+class _PlasticStrainPrincipal1(_Operator):
+    def __init__(self):
+         super().__init__("EPPL1")
+         self._name = "EPPL1"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainPrincipal1(self._op)
+         self.outputs = _OutputSpecPlasticStrainPrincipal1(self._op)
+
+def plastic_strain_principal_1():
     """Operator's description:
 Internal name is "EPPL1"
 Scripting name is "plastic_strain_principal_1"
@@ -78,13 +86,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPL1"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainPrincipal1(self._op)
-         self.outputs = _OutputSpecPlasticStrainPrincipal1(self._op)
-
-def plastic_strain_principal_1():
     return _PlasticStrainPrincipal1()
 
 #internal name: RigidTransformationProvider
@@ -114,7 +115,15 @@ class _OutputSpecRigidTransformation(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_rigid_transformation(0), 0, op) 
 
-class _RigidTransformation:
+class _RigidTransformation(_Operator):
+    def __init__(self):
+         super().__init__("RigidTransformationProvider")
+         self._name = "RigidTransformationProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRigidTransformation(self._op)
+         self.outputs = _OutputSpecRigidTransformation(self._op)
+
+def rigid_transformation():
     """Operator's description:
 Internal name is "RigidTransformationProvider"
 Scripting name is "rigid_transformation"
@@ -129,13 +138,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "RigidTransformationProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRigidTransformation(self._op)
-         self.outputs = _OutputSpecRigidTransformation(self._op)
-
-def rigid_transformation():
     return _RigidTransformation()
 
 #internal name: EPELY
@@ -186,7 +188,15 @@ class _OutputSpecElasticStrainY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_Y(0), 0, op) 
 
-class _ElasticStrainY:
+class _ElasticStrainY(_Operator):
+    def __init__(self):
+         super().__init__("EPELY")
+         self._name = "EPELY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainY(self._op)
+         self.outputs = _OutputSpecElasticStrainY(self._op)
+
+def elastic_strain_Y():
     """Operator's description:
 Internal name is "EPELY"
 Scripting name is "elastic_strain_Y"
@@ -208,13 +218,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPELY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainY(self._op)
-         self.outputs = _OutputSpecElasticStrainY(self._op)
-
-def elastic_strain_Y():
     return _ElasticStrainY()
 
 #internal name: ElementalMass
@@ -265,7 +268,15 @@ class _OutputSpecElementalMass(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_mass(0), 0, op) 
 
-class _ElementalMass:
+class _ElementalMass(_Operator):
+    def __init__(self):
+         super().__init__("ElementalMass")
+         self._name = "ElementalMass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalMass(self._op)
+         self.outputs = _OutputSpecElementalMass(self._op)
+
+def elemental_mass():
     """Operator's description:
 Internal name is "ElementalMass"
 Scripting name is "elemental_mass"
@@ -287,13 +298,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ElementalMass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalMass(self._op)
-         self.outputs = _OutputSpecElementalMass(self._op)
-
-def elemental_mass():
     return _ElementalMass()
 
 #internal name: ENG_CO
@@ -344,7 +348,15 @@ class _OutputSpecCoEnergy(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_co_energy(0), 0, op) 
 
-class _CoEnergy:
+class _CoEnergy(_Operator):
+    def __init__(self):
+         super().__init__("ENG_CO")
+         self._name = "ENG_CO"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCoEnergy(self._op)
+         self.outputs = _OutputSpecCoEnergy(self._op)
+
+def co_energy():
     """Operator's description:
 Internal name is "ENG_CO"
 Scripting name is "co_energy"
@@ -366,13 +378,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_CO"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCoEnergy(self._op)
-         self.outputs = _OutputSpecCoEnergy(self._op)
-
-def co_energy():
     return _CoEnergy()
 
 #internal name: EPELZ
@@ -423,7 +428,15 @@ class _OutputSpecElasticStrainZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_Z(0), 0, op) 
 
-class _ElasticStrainZ:
+class _ElasticStrainZ(_Operator):
+    def __init__(self):
+         super().__init__("EPELZ")
+         self._name = "EPELZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainZ(self._op)
+         self.outputs = _OutputSpecElasticStrainZ(self._op)
+
+def elastic_strain_Z():
     """Operator's description:
 Internal name is "EPELZ"
 Scripting name is "elastic_strain_Z"
@@ -445,13 +458,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPELZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainZ(self._op)
-         self.outputs = _OutputSpecElasticStrainZ(self._op)
-
-def elastic_strain_Z():
     return _ElasticStrainZ()
 
 #internal name: S
@@ -502,7 +508,15 @@ class _OutputSpecStress(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress(0), 0, op) 
 
-class _Stress:
+class _Stress(_Operator):
+    def __init__(self):
+         super().__init__("S")
+         self._name = "S"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStress(self._op)
+         self.outputs = _OutputSpecStress(self._op)
+
+def stress():
     """Operator's description:
 Internal name is "S"
 Scripting name is "stress"
@@ -524,13 +538,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "S"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStress(self._op)
-         self.outputs = _OutputSpecStress(self._op)
-
-def stress():
     return _Stress()
 
 #internal name: SX
@@ -581,7 +588,15 @@ class _OutputSpecStressX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_X(0), 0, op) 
 
-class _StressX:
+class _StressX(_Operator):
+    def __init__(self):
+         super().__init__("SX")
+         self._name = "SX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressX(self._op)
+         self.outputs = _OutputSpecStressX(self._op)
+
+def stress_X():
     """Operator's description:
 Internal name is "SX"
 Scripting name is "stress_X"
@@ -603,13 +618,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "SX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressX(self._op)
-         self.outputs = _OutputSpecStressX(self._op)
-
-def stress_X():
     return _StressX()
 
 #internal name: SY
@@ -660,7 +668,15 @@ class _OutputSpecStressY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_Y(0), 0, op) 
 
-class _StressY:
+class _StressY(_Operator):
+    def __init__(self):
+         super().__init__("SY")
+         self._name = "SY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressY(self._op)
+         self.outputs = _OutputSpecStressY(self._op)
+
+def stress_Y():
     """Operator's description:
 Internal name is "SY"
 Scripting name is "stress_Y"
@@ -682,13 +698,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "SY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressY(self._op)
-         self.outputs = _OutputSpecStressY(self._op)
-
-def stress_Y():
     return _StressY()
 
 #internal name: SZ
@@ -739,7 +748,15 @@ class _OutputSpecStressZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_Z(0), 0, op) 
 
-class _StressZ:
+class _StressZ(_Operator):
+    def __init__(self):
+         super().__init__("SZ")
+         self._name = "SZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressZ(self._op)
+         self.outputs = _OutputSpecStressZ(self._op)
+
+def stress_Z():
     """Operator's description:
 Internal name is "SZ"
 Scripting name is "stress_Z"
@@ -761,13 +778,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "SZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressZ(self._op)
-         self.outputs = _OutputSpecStressZ(self._op)
-
-def stress_Z():
     return _StressZ()
 
 #internal name: SXY
@@ -818,7 +828,15 @@ class _OutputSpecStressXY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_XY(0), 0, op) 
 
-class _StressXY:
+class _StressXY(_Operator):
+    def __init__(self):
+         super().__init__("SXY")
+         self._name = "SXY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressXY(self._op)
+         self.outputs = _OutputSpecStressXY(self._op)
+
+def stress_XY():
     """Operator's description:
 Internal name is "SXY"
 Scripting name is "stress_XY"
@@ -840,13 +858,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "SXY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressXY(self._op)
-         self.outputs = _OutputSpecStressXY(self._op)
-
-def stress_XY():
     return _StressXY()
 
 #internal name: SYZ
@@ -897,7 +908,15 @@ class _OutputSpecStressYZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_YZ(0), 0, op) 
 
-class _StressYZ:
+class _StressYZ(_Operator):
+    def __init__(self):
+         super().__init__("SYZ")
+         self._name = "SYZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressYZ(self._op)
+         self.outputs = _OutputSpecStressYZ(self._op)
+
+def stress_YZ():
     """Operator's description:
 Internal name is "SYZ"
 Scripting name is "stress_YZ"
@@ -919,13 +938,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "SYZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressYZ(self._op)
-         self.outputs = _OutputSpecStressYZ(self._op)
-
-def stress_YZ():
     return _StressYZ()
 
 #internal name: ModalBasis
@@ -976,7 +988,15 @@ class _OutputSpecModalBasis(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_modal_basis(0), 0, op) 
 
-class _ModalBasis:
+class _ModalBasis(_Operator):
+    def __init__(self):
+         super().__init__("ModalBasis")
+         self._name = "ModalBasis"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecModalBasis(self._op)
+         self.outputs = _OutputSpecModalBasis(self._op)
+
+def modal_basis():
     """Operator's description:
 Internal name is "ModalBasis"
 Scripting name is "modal_basis"
@@ -998,13 +1018,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ModalBasis"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecModalBasis(self._op)
-         self.outputs = _OutputSpecModalBasis(self._op)
-
-def modal_basis():
     return _ModalBasis()
 
 #internal name: SXZ
@@ -1055,7 +1068,15 @@ class _OutputSpecStressXZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_XZ(0), 0, op) 
 
-class _StressXZ:
+class _StressXZ(_Operator):
+    def __init__(self):
+         super().__init__("SXZ")
+         self._name = "SXZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressXZ(self._op)
+         self.outputs = _OutputSpecStressXZ(self._op)
+
+def stress_XZ():
     """Operator's description:
 Internal name is "SXZ"
 Scripting name is "stress_XZ"
@@ -1077,13 +1098,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "SXZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressXZ(self._op)
-         self.outputs = _OutputSpecStressXZ(self._op)
-
-def stress_XZ():
     return _StressXZ()
 
 #internal name: S1
@@ -1134,7 +1148,15 @@ class _OutputSpecStressPrincipal1(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_principal_1(0), 0, op) 
 
-class _StressPrincipal1:
+class _StressPrincipal1(_Operator):
+    def __init__(self):
+         super().__init__("S1")
+         self._name = "S1"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressPrincipal1(self._op)
+         self.outputs = _OutputSpecStressPrincipal1(self._op)
+
+def stress_principal_1():
     """Operator's description:
 Internal name is "S1"
 Scripting name is "stress_principal_1"
@@ -1156,13 +1178,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "S1"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressPrincipal1(self._op)
-         self.outputs = _OutputSpecStressPrincipal1(self._op)
-
-def stress_principal_1():
     return _StressPrincipal1()
 
 #internal name: S2
@@ -1213,7 +1228,15 @@ class _OutputSpecStressPrincipal2(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_principal_2(0), 0, op) 
 
-class _StressPrincipal2:
+class _StressPrincipal2(_Operator):
+    def __init__(self):
+         super().__init__("S2")
+         self._name = "S2"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressPrincipal2(self._op)
+         self.outputs = _OutputSpecStressPrincipal2(self._op)
+
+def stress_principal_2():
     """Operator's description:
 Internal name is "S2"
 Scripting name is "stress_principal_2"
@@ -1235,13 +1258,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "S2"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressPrincipal2(self._op)
-         self.outputs = _OutputSpecStressPrincipal2(self._op)
-
-def stress_principal_2():
     return _StressPrincipal2()
 
 #internal name: S3
@@ -1292,7 +1308,15 @@ class _OutputSpecStressPrincipal3(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_principal_3(0), 0, op) 
 
-class _StressPrincipal3:
+class _StressPrincipal3(_Operator):
+    def __init__(self):
+         super().__init__("S3")
+         self._name = "S3"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressPrincipal3(self._op)
+         self.outputs = _OutputSpecStressPrincipal3(self._op)
+
+def stress_principal_3():
     """Operator's description:
 Internal name is "S3"
 Scripting name is "stress_principal_3"
@@ -1314,13 +1338,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "S3"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressPrincipal3(self._op)
-         self.outputs = _OutputSpecStressPrincipal3(self._op)
-
-def stress_principal_3():
     return _StressPrincipal3()
 
 #internal name: EPEL
@@ -1371,7 +1388,15 @@ class _OutputSpecElasticStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain(0), 0, op) 
 
-class _ElasticStrain:
+class _ElasticStrain(_Operator):
+    def __init__(self):
+         super().__init__("EPEL")
+         self._name = "EPEL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrain(self._op)
+         self.outputs = _OutputSpecElasticStrain(self._op)
+
+def elastic_strain():
     """Operator's description:
 Internal name is "EPEL"
 Scripting name is "elastic_strain"
@@ -1393,13 +1418,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPEL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrain(self._op)
-         self.outputs = _OutputSpecElasticStrain(self._op)
-
-def elastic_strain():
     return _ElasticStrain()
 
 #internal name: EPELX
@@ -1450,7 +1468,15 @@ class _OutputSpecElasticStrainX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_X(0), 0, op) 
 
-class _ElasticStrainX:
+class _ElasticStrainX(_Operator):
+    def __init__(self):
+         super().__init__("EPELX")
+         self._name = "EPELX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainX(self._op)
+         self.outputs = _OutputSpecElasticStrainX(self._op)
+
+def elastic_strain_X():
     """Operator's description:
 Internal name is "EPELX"
 Scripting name is "elastic_strain_X"
@@ -1472,13 +1498,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPELX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainX(self._op)
-         self.outputs = _OutputSpecElasticStrainX(self._op)
-
-def elastic_strain_X():
     return _ElasticStrainX()
 
 #internal name: EPELXY
@@ -1529,7 +1548,15 @@ class _OutputSpecElasticStrainXY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_XY(0), 0, op) 
 
-class _ElasticStrainXY:
+class _ElasticStrainXY(_Operator):
+    def __init__(self):
+         super().__init__("EPELXY")
+         self._name = "EPELXY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainXY(self._op)
+         self.outputs = _OutputSpecElasticStrainXY(self._op)
+
+def elastic_strain_XY():
     """Operator's description:
 Internal name is "EPELXY"
 Scripting name is "elastic_strain_XY"
@@ -1551,13 +1578,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPELXY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainXY(self._op)
-         self.outputs = _OutputSpecElasticStrainXY(self._op)
-
-def elastic_strain_XY():
     return _ElasticStrainXY()
 
 #internal name: EPELYZ
@@ -1608,7 +1628,15 @@ class _OutputSpecElasticStrainYZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_YZ(0), 0, op) 
 
-class _ElasticStrainYZ:
+class _ElasticStrainYZ(_Operator):
+    def __init__(self):
+         super().__init__("EPELYZ")
+         self._name = "EPELYZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainYZ(self._op)
+         self.outputs = _OutputSpecElasticStrainYZ(self._op)
+
+def elastic_strain_YZ():
     """Operator's description:
 Internal name is "EPELYZ"
 Scripting name is "elastic_strain_YZ"
@@ -1630,13 +1658,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPELYZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainYZ(self._op)
-         self.outputs = _OutputSpecElasticStrainYZ(self._op)
-
-def elastic_strain_YZ():
     return _ElasticStrainYZ()
 
 #internal name: EPELXZ
@@ -1687,7 +1708,15 @@ class _OutputSpecElasticStrainXZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_XZ(0), 0, op) 
 
-class _ElasticStrainXZ:
+class _ElasticStrainXZ(_Operator):
+    def __init__(self):
+         super().__init__("EPELXZ")
+         self._name = "EPELXZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainXZ(self._op)
+         self.outputs = _OutputSpecElasticStrainXZ(self._op)
+
+def elastic_strain_XZ():
     """Operator's description:
 Internal name is "EPELXZ"
 Scripting name is "elastic_strain_XZ"
@@ -1709,13 +1738,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPELXZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainXZ(self._op)
-         self.outputs = _OutputSpecElasticStrainXZ(self._op)
-
-def elastic_strain_XZ():
     return _ElasticStrainXZ()
 
 #internal name: EPEL1
@@ -1766,7 +1788,15 @@ class _OutputSpecElasticStrainPrincipal1(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_principal_1(0), 0, op) 
 
-class _ElasticStrainPrincipal1:
+class _ElasticStrainPrincipal1(_Operator):
+    def __init__(self):
+         super().__init__("EPEL1")
+         self._name = "EPEL1"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainPrincipal1(self._op)
+         self.outputs = _OutputSpecElasticStrainPrincipal1(self._op)
+
+def elastic_strain_principal_1():
     """Operator's description:
 Internal name is "EPEL1"
 Scripting name is "elastic_strain_principal_1"
@@ -1788,13 +1818,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPEL1"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainPrincipal1(self._op)
-         self.outputs = _OutputSpecElasticStrainPrincipal1(self._op)
-
-def elastic_strain_principal_1():
     return _ElasticStrainPrincipal1()
 
 #internal name: EPEL2
@@ -1845,7 +1868,15 @@ class _OutputSpecElasticStrainPrincipal2(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_principal_2(0), 0, op) 
 
-class _ElasticStrainPrincipal2:
+class _ElasticStrainPrincipal2(_Operator):
+    def __init__(self):
+         super().__init__("EPEL2")
+         self._name = "EPEL2"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainPrincipal2(self._op)
+         self.outputs = _OutputSpecElasticStrainPrincipal2(self._op)
+
+def elastic_strain_principal_2():
     """Operator's description:
 Internal name is "EPEL2"
 Scripting name is "elastic_strain_principal_2"
@@ -1867,13 +1898,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPEL2"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainPrincipal2(self._op)
-         self.outputs = _OutputSpecElasticStrainPrincipal2(self._op)
-
-def elastic_strain_principal_2():
     return _ElasticStrainPrincipal2()
 
 #internal name: EPEL3
@@ -1924,7 +1948,15 @@ class _OutputSpecElasticStrainPrincipal3(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_principal_3(0), 0, op) 
 
-class _ElasticStrainPrincipal3:
+class _ElasticStrainPrincipal3(_Operator):
+    def __init__(self):
+         super().__init__("EPEL3")
+         self._name = "EPEL3"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainPrincipal3(self._op)
+         self.outputs = _OutputSpecElasticStrainPrincipal3(self._op)
+
+def elastic_strain_principal_3():
     """Operator's description:
 Internal name is "EPEL3"
 Scripting name is "elastic_strain_principal_3"
@@ -1946,13 +1978,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPEL3"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainPrincipal3(self._op)
-         self.outputs = _OutputSpecElasticStrainPrincipal3(self._op)
-
-def elastic_strain_principal_3():
     return _ElasticStrainPrincipal3()
 
 #internal name: EPPL
@@ -2003,7 +2028,15 @@ class _OutputSpecPlasticStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain(0), 0, op) 
 
-class _PlasticStrain:
+class _PlasticStrain(_Operator):
+    def __init__(self):
+         super().__init__("EPPL")
+         self._name = "EPPL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrain(self._op)
+         self.outputs = _OutputSpecPlasticStrain(self._op)
+
+def plastic_strain():
     """Operator's description:
 Internal name is "EPPL"
 Scripting name is "plastic_strain"
@@ -2025,13 +2058,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrain(self._op)
-         self.outputs = _OutputSpecPlasticStrain(self._op)
-
-def plastic_strain():
     return _PlasticStrain()
 
 #internal name: EPPLX
@@ -2082,7 +2108,15 @@ class _OutputSpecPlasticStrainX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_X(0), 0, op) 
 
-class _PlasticStrainX:
+class _PlasticStrainX(_Operator):
+    def __init__(self):
+         super().__init__("EPPLX")
+         self._name = "EPPLX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainX(self._op)
+         self.outputs = _OutputSpecPlasticStrainX(self._op)
+
+def plastic_strain_X():
     """Operator's description:
 Internal name is "EPPLX"
 Scripting name is "plastic_strain_X"
@@ -2104,13 +2138,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPLX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainX(self._op)
-         self.outputs = _OutputSpecPlasticStrainX(self._op)
-
-def plastic_strain_X():
     return _PlasticStrainX()
 
 #internal name: EPPLY
@@ -2161,7 +2188,15 @@ class _OutputSpecPlasticStrainY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_Y(0), 0, op) 
 
-class _PlasticStrainY:
+class _PlasticStrainY(_Operator):
+    def __init__(self):
+         super().__init__("EPPLY")
+         self._name = "EPPLY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainY(self._op)
+         self.outputs = _OutputSpecPlasticStrainY(self._op)
+
+def plastic_strain_Y():
     """Operator's description:
 Internal name is "EPPLY"
 Scripting name is "plastic_strain_Y"
@@ -2183,13 +2218,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPLY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainY(self._op)
-         self.outputs = _OutputSpecPlasticStrainY(self._op)
-
-def plastic_strain_Y():
     return _PlasticStrainY()
 
 #internal name: EPPLZ
@@ -2240,7 +2268,15 @@ class _OutputSpecPlasticStrainZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_Z(0), 0, op) 
 
-class _PlasticStrainZ:
+class _PlasticStrainZ(_Operator):
+    def __init__(self):
+         super().__init__("EPPLZ")
+         self._name = "EPPLZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainZ(self._op)
+         self.outputs = _OutputSpecPlasticStrainZ(self._op)
+
+def plastic_strain_Z():
     """Operator's description:
 Internal name is "EPPLZ"
 Scripting name is "plastic_strain_Z"
@@ -2262,13 +2298,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPLZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainZ(self._op)
-         self.outputs = _OutputSpecPlasticStrainZ(self._op)
-
-def plastic_strain_Z():
     return _PlasticStrainZ()
 
 #internal name: ENL_HPRES
@@ -2319,7 +2348,15 @@ class _OutputSpecHydrostaticPressure(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_hydrostatic_pressure(0), 0, op) 
 
-class _HydrostaticPressure:
+class _HydrostaticPressure(_Operator):
+    def __init__(self):
+         super().__init__("ENL_HPRES")
+         self._name = "ENL_HPRES"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHydrostaticPressure(self._op)
+         self.outputs = _OutputSpecHydrostaticPressure(self._op)
+
+def hydrostatic_pressure():
     """Operator's description:
 Internal name is "ENL_HPRES"
 Scripting name is "hydrostatic_pressure"
@@ -2341,13 +2378,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_HPRES"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHydrostaticPressure(self._op)
-         self.outputs = _OutputSpecHydrostaticPressure(self._op)
-
-def hydrostatic_pressure():
     return _HydrostaticPressure()
 
 #internal name: EPPLXY
@@ -2398,7 +2428,15 @@ class _OutputSpecPlasticStrainXY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_XY(0), 0, op) 
 
-class _PlasticStrainXY:
+class _PlasticStrainXY(_Operator):
+    def __init__(self):
+         super().__init__("EPPLXY")
+         self._name = "EPPLXY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainXY(self._op)
+         self.outputs = _OutputSpecPlasticStrainXY(self._op)
+
+def plastic_strain_XY():
     """Operator's description:
 Internal name is "EPPLXY"
 Scripting name is "plastic_strain_XY"
@@ -2420,13 +2458,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPLXY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainXY(self._op)
-         self.outputs = _OutputSpecPlasticStrainXY(self._op)
-
-def plastic_strain_XY():
     return _PlasticStrainXY()
 
 #internal name: EPPLYZ
@@ -2477,7 +2508,15 @@ class _OutputSpecPlasticStrainYZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_YZ(0), 0, op) 
 
-class _PlasticStrainYZ:
+class _PlasticStrainYZ(_Operator):
+    def __init__(self):
+         super().__init__("EPPLYZ")
+         self._name = "EPPLYZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainYZ(self._op)
+         self.outputs = _OutputSpecPlasticStrainYZ(self._op)
+
+def plastic_strain_YZ():
     """Operator's description:
 Internal name is "EPPLYZ"
 Scripting name is "plastic_strain_YZ"
@@ -2499,13 +2538,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPLYZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainYZ(self._op)
-         self.outputs = _OutputSpecPlasticStrainYZ(self._op)
-
-def plastic_strain_YZ():
     return _PlasticStrainYZ()
 
 #internal name: EPPLXZ
@@ -2556,7 +2588,15 @@ class _OutputSpecPlasticStrainXZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_XZ(0), 0, op) 
 
-class _PlasticStrainXZ:
+class _PlasticStrainXZ(_Operator):
+    def __init__(self):
+         super().__init__("EPPLXZ")
+         self._name = "EPPLXZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainXZ(self._op)
+         self.outputs = _OutputSpecPlasticStrainXZ(self._op)
+
+def plastic_strain_XZ():
     """Operator's description:
 Internal name is "EPPLXZ"
 Scripting name is "plastic_strain_XZ"
@@ -2578,13 +2618,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPLXZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainXZ(self._op)
-         self.outputs = _OutputSpecPlasticStrainXZ(self._op)
-
-def plastic_strain_XZ():
     return _PlasticStrainXZ()
 
 #internal name: EPPL2
@@ -2635,7 +2668,15 @@ class _OutputSpecPlasticStrainPrincipal2(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_principal_2(0), 0, op) 
 
-class _PlasticStrainPrincipal2:
+class _PlasticStrainPrincipal2(_Operator):
+    def __init__(self):
+         super().__init__("EPPL2")
+         self._name = "EPPL2"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainPrincipal2(self._op)
+         self.outputs = _OutputSpecPlasticStrainPrincipal2(self._op)
+
+def plastic_strain_principal_2():
     """Operator's description:
 Internal name is "EPPL2"
 Scripting name is "plastic_strain_principal_2"
@@ -2657,13 +2698,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPL2"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainPrincipal2(self._op)
-         self.outputs = _OutputSpecPlasticStrainPrincipal2(self._op)
-
-def plastic_strain_principal_2():
     return _PlasticStrainPrincipal2()
 
 #internal name: EPPL3
@@ -2714,7 +2748,15 @@ class _OutputSpecPlasticStrainPrincipal3(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_principal_3(0), 0, op) 
 
-class _PlasticStrainPrincipal3:
+class _PlasticStrainPrincipal3(_Operator):
+    def __init__(self):
+         super().__init__("EPPL3")
+         self._name = "EPPL3"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainPrincipal3(self._op)
+         self.outputs = _OutputSpecPlasticStrainPrincipal3(self._op)
+
+def plastic_strain_principal_3():
     """Operator's description:
 Internal name is "EPPL3"
 Scripting name is "plastic_strain_principal_3"
@@ -2736,13 +2778,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EPPL3"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainPrincipal3(self._op)
-         self.outputs = _OutputSpecPlasticStrainPrincipal3(self._op)
-
-def plastic_strain_principal_3():
     return _PlasticStrainPrincipal3()
 
 #internal name: A
@@ -2793,7 +2828,15 @@ class _OutputSpecAcceleration(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_acceleration(0), 0, op) 
 
-class _Acceleration:
+class _Acceleration(_Operator):
+    def __init__(self):
+         super().__init__("A")
+         self._name = "A"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAcceleration(self._op)
+         self.outputs = _OutputSpecAcceleration(self._op)
+
+def acceleration():
     """Operator's description:
 Internal name is "A"
 Scripting name is "acceleration"
@@ -2815,13 +2858,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "A"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAcceleration(self._op)
-         self.outputs = _OutputSpecAcceleration(self._op)
-
-def acceleration():
     return _Acceleration()
 
 #internal name: AX
@@ -2872,7 +2908,15 @@ class _OutputSpecAccelerationX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_acceleration_X(0), 0, op) 
 
-class _AccelerationX:
+class _AccelerationX(_Operator):
+    def __init__(self):
+         super().__init__("AX")
+         self._name = "AX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAccelerationX(self._op)
+         self.outputs = _OutputSpecAccelerationX(self._op)
+
+def acceleration_X():
     """Operator's description:
 Internal name is "AX"
 Scripting name is "acceleration_X"
@@ -2894,13 +2938,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "AX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccelerationX(self._op)
-         self.outputs = _OutputSpecAccelerationX(self._op)
-
-def acceleration_X():
     return _AccelerationX()
 
 #internal name: AY
@@ -2951,7 +2988,15 @@ class _OutputSpecAccelerationY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_acceleration_Y(0), 0, op) 
 
-class _AccelerationY:
+class _AccelerationY(_Operator):
+    def __init__(self):
+         super().__init__("AY")
+         self._name = "AY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAccelerationY(self._op)
+         self.outputs = _OutputSpecAccelerationY(self._op)
+
+def acceleration_Y():
     """Operator's description:
 Internal name is "AY"
 Scripting name is "acceleration_Y"
@@ -2973,13 +3018,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "AY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccelerationY(self._op)
-         self.outputs = _OutputSpecAccelerationY(self._op)
-
-def acceleration_Y():
     return _AccelerationY()
 
 #internal name: AZ
@@ -3030,7 +3068,15 @@ class _OutputSpecAccelerationZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_acceleration_Z(0), 0, op) 
 
-class _AccelerationZ:
+class _AccelerationZ(_Operator):
+    def __init__(self):
+         super().__init__("AZ")
+         self._name = "AZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAccelerationZ(self._op)
+         self.outputs = _OutputSpecAccelerationZ(self._op)
+
+def acceleration_Z():
     """Operator's description:
 Internal name is "AZ"
 Scripting name is "acceleration_Z"
@@ -3052,13 +3098,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "AZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccelerationZ(self._op)
-         self.outputs = _OutputSpecAccelerationZ(self._op)
-
-def acceleration_Z():
     return _AccelerationZ()
 
 #internal name: RF
@@ -3109,7 +3148,15 @@ class _OutputSpecReactionForce(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_reaction_force(0), 0, op) 
 
-class _ReactionForce:
+class _ReactionForce(_Operator):
+    def __init__(self):
+         super().__init__("RF")
+         self._name = "RF"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecReactionForce(self._op)
+         self.outputs = _OutputSpecReactionForce(self._op)
+
+def reaction_force():
     """Operator's description:
 Internal name is "RF"
 Scripting name is "reaction_force"
@@ -3131,13 +3178,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "RF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecReactionForce(self._op)
-         self.outputs = _OutputSpecReactionForce(self._op)
-
-def reaction_force():
     return _ReactionForce()
 
 #internal name: V
@@ -3188,7 +3228,15 @@ class _OutputSpecVelocity(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_velocity(0), 0, op) 
 
-class _Velocity:
+class _Velocity(_Operator):
+    def __init__(self):
+         super().__init__("V")
+         self._name = "V"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVelocity(self._op)
+         self.outputs = _OutputSpecVelocity(self._op)
+
+def velocity():
     """Operator's description:
 Internal name is "V"
 Scripting name is "velocity"
@@ -3210,13 +3258,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "V"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocity(self._op)
-         self.outputs = _OutputSpecVelocity(self._op)
-
-def velocity():
     return _Velocity()
 
 #internal name: VX
@@ -3267,7 +3308,15 @@ class _OutputSpecVelocityX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_velocity_X(0), 0, op) 
 
-class _VelocityX:
+class _VelocityX(_Operator):
+    def __init__(self):
+         super().__init__("VX")
+         self._name = "VX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVelocityX(self._op)
+         self.outputs = _OutputSpecVelocityX(self._op)
+
+def velocity_X():
     """Operator's description:
 Internal name is "VX"
 Scripting name is "velocity_X"
@@ -3289,13 +3338,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "VX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocityX(self._op)
-         self.outputs = _OutputSpecVelocityX(self._op)
-
-def velocity_X():
     return _VelocityX()
 
 #internal name: VY
@@ -3346,7 +3388,15 @@ class _OutputSpecVelocityY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_velocity_Y(0), 0, op) 
 
-class _VelocityY:
+class _VelocityY(_Operator):
+    def __init__(self):
+         super().__init__("VY")
+         self._name = "VY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVelocityY(self._op)
+         self.outputs = _OutputSpecVelocityY(self._op)
+
+def velocity_Y():
     """Operator's description:
 Internal name is "VY"
 Scripting name is "velocity_Y"
@@ -3368,13 +3418,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "VY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocityY(self._op)
-         self.outputs = _OutputSpecVelocityY(self._op)
-
-def velocity_Y():
     return _VelocityY()
 
 #internal name: VZ
@@ -3425,7 +3468,15 @@ class _OutputSpecVelocityZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_velocity_Z(0), 0, op) 
 
-class _VelocityZ:
+class _VelocityZ(_Operator):
+    def __init__(self):
+         super().__init__("VZ")
+         self._name = "VZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecVelocityZ(self._op)
+         self.outputs = _OutputSpecVelocityZ(self._op)
+
+def velocity_Z():
     """Operator's description:
 Internal name is "VZ"
 Scripting name is "velocity_Z"
@@ -3447,13 +3498,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "VZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocityZ(self._op)
-         self.outputs = _OutputSpecVelocityZ(self._op)
-
-def velocity_Z():
     return _VelocityZ()
 
 #internal name: U
@@ -3504,7 +3548,15 @@ class _OutputSpecDisplacement(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_displacement(0), 0, op) 
 
-class _Displacement:
+class _Displacement(_Operator):
+    def __init__(self):
+         super().__init__("U")
+         self._name = "U"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecDisplacement(self._op)
+         self.outputs = _OutputSpecDisplacement(self._op)
+
+def displacement():
     """Operator's description:
 Internal name is "U"
 Scripting name is "displacement"
@@ -3526,13 +3578,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "U"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacement(self._op)
-         self.outputs = _OutputSpecDisplacement(self._op)
-
-def displacement():
     return _Displacement()
 
 #internal name: UX
@@ -3583,7 +3628,15 @@ class _OutputSpecDisplacementX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_displacement_X(0), 0, op) 
 
-class _DisplacementX:
+class _DisplacementX(_Operator):
+    def __init__(self):
+         super().__init__("UX")
+         self._name = "UX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecDisplacementX(self._op)
+         self.outputs = _OutputSpecDisplacementX(self._op)
+
+def displacement_X():
     """Operator's description:
 Internal name is "UX"
 Scripting name is "displacement_X"
@@ -3605,13 +3658,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "UX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacementX(self._op)
-         self.outputs = _OutputSpecDisplacementX(self._op)
-
-def displacement_X():
     return _DisplacementX()
 
 #internal name: UY
@@ -3662,7 +3708,15 @@ class _OutputSpecDisplacementY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_displacement_Y(0), 0, op) 
 
-class _DisplacementY:
+class _DisplacementY(_Operator):
+    def __init__(self):
+         super().__init__("UY")
+         self._name = "UY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecDisplacementY(self._op)
+         self.outputs = _OutputSpecDisplacementY(self._op)
+
+def displacement_Y():
     """Operator's description:
 Internal name is "UY"
 Scripting name is "displacement_Y"
@@ -3684,13 +3738,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "UY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacementY(self._op)
-         self.outputs = _OutputSpecDisplacementY(self._op)
-
-def displacement_Y():
     return _DisplacementY()
 
 #internal name: UZ
@@ -3741,7 +3788,15 @@ class _OutputSpecDisplacementZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_displacement_Z(0), 0, op) 
 
-class _DisplacementZ:
+class _DisplacementZ(_Operator):
+    def __init__(self):
+         super().__init__("UZ")
+         self._name = "UZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecDisplacementZ(self._op)
+         self.outputs = _OutputSpecDisplacementZ(self._op)
+
+def displacement_Z():
     """Operator's description:
 Internal name is "UZ"
 Scripting name is "displacement_Z"
@@ -3763,13 +3818,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "UZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacementZ(self._op)
-         self.outputs = _OutputSpecDisplacementZ(self._op)
-
-def displacement_Z():
     return _DisplacementZ()
 
 #internal name: TF
@@ -3820,7 +3868,15 @@ class _OutputSpecHeatFlux(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_heat_flux(0), 0, op) 
 
-class _HeatFlux:
+class _HeatFlux(_Operator):
+    def __init__(self):
+         super().__init__("TF")
+         self._name = "TF"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHeatFlux(self._op)
+         self.outputs = _OutputSpecHeatFlux(self._op)
+
+def heat_flux():
     """Operator's description:
 Internal name is "TF"
 Scripting name is "heat_flux"
@@ -3842,13 +3898,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "TF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFlux(self._op)
-         self.outputs = _OutputSpecHeatFlux(self._op)
-
-def heat_flux():
     return _HeatFlux()
 
 #internal name: TFX
@@ -3899,7 +3948,15 @@ class _OutputSpecHeatFluxX(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_heat_flux_X(0), 0, op) 
 
-class _HeatFluxX:
+class _HeatFluxX(_Operator):
+    def __init__(self):
+         super().__init__("TFX")
+         self._name = "TFX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHeatFluxX(self._op)
+         self.outputs = _OutputSpecHeatFluxX(self._op)
+
+def heat_flux_X():
     """Operator's description:
 Internal name is "TFX"
 Scripting name is "heat_flux_X"
@@ -3921,13 +3978,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "TFX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFluxX(self._op)
-         self.outputs = _OutputSpecHeatFluxX(self._op)
-
-def heat_flux_X():
     return _HeatFluxX()
 
 #internal name: EF
@@ -3978,7 +4028,15 @@ class _OutputSpecElectricField(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_electric_field(0), 0, op) 
 
-class _ElectricField:
+class _ElectricField(_Operator):
+    def __init__(self):
+         super().__init__("EF")
+         self._name = "EF"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElectricField(self._op)
+         self.outputs = _OutputSpecElectricField(self._op)
+
+def electric_field():
     """Operator's description:
 Internal name is "EF"
 Scripting name is "electric_field"
@@ -4000,13 +4058,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "EF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElectricField(self._op)
-         self.outputs = _OutputSpecElectricField(self._op)
-
-def electric_field():
     return _ElectricField()
 
 #internal name: TFY
@@ -4057,7 +4108,15 @@ class _OutputSpecHeatFluxY(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_heat_flux_Y(0), 0, op) 
 
-class _HeatFluxY:
+class _HeatFluxY(_Operator):
+    def __init__(self):
+         super().__init__("TFY")
+         self._name = "TFY"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHeatFluxY(self._op)
+         self.outputs = _OutputSpecHeatFluxY(self._op)
+
+def heat_flux_Y():
     """Operator's description:
 Internal name is "TFY"
 Scripting name is "heat_flux_Y"
@@ -4079,13 +4138,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "TFY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFluxY(self._op)
-         self.outputs = _OutputSpecHeatFluxY(self._op)
-
-def heat_flux_Y():
     return _HeatFluxY()
 
 #internal name: TFZ
@@ -4136,7 +4188,15 @@ class _OutputSpecHeatFluxZ(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_heat_flux_Z(0), 0, op) 
 
-class _HeatFluxZ:
+class _HeatFluxZ(_Operator):
+    def __init__(self):
+         super().__init__("TFZ")
+         self._name = "TFZ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHeatFluxZ(self._op)
+         self.outputs = _OutputSpecHeatFluxZ(self._op)
+
+def heat_flux_Z():
     """Operator's description:
 Internal name is "TFZ"
 Scripting name is "heat_flux_Z"
@@ -4158,13 +4218,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "TFZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFluxZ(self._op)
-         self.outputs = _OutputSpecHeatFluxZ(self._op)
-
-def heat_flux_Z():
     return _HeatFluxZ()
 
 #internal name: ENF
@@ -4215,7 +4268,15 @@ class _OutputSpecElementNodalForces(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_element_nodal_forces(0), 0, op) 
 
-class _ElementNodalForces:
+class _ElementNodalForces(_Operator):
+    def __init__(self):
+         super().__init__("ENF")
+         self._name = "ENF"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementNodalForces(self._op)
+         self.outputs = _OutputSpecElementNodalForces(self._op)
+
+def element_nodal_forces():
     """Operator's description:
 Internal name is "ENF"
 Scripting name is "element_nodal_forces"
@@ -4237,13 +4298,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementNodalForces(self._op)
-         self.outputs = _OutputSpecElementNodalForces(self._op)
-
-def element_nodal_forces():
     return _ElementNodalForces()
 
 #internal name: BFE
@@ -4294,7 +4348,15 @@ class _OutputSpecStructuralTemperature(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_structural_temperature(0), 0, op) 
 
-class _StructuralTemperature:
+class _StructuralTemperature(_Operator):
+    def __init__(self):
+         super().__init__("BFE")
+         self._name = "BFE"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStructuralTemperature(self._op)
+         self.outputs = _OutputSpecStructuralTemperature(self._op)
+
+def structural_temperature():
     """Operator's description:
 Internal name is "BFE"
 Scripting name is "structural_temperature"
@@ -4316,13 +4378,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "BFE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStructuralTemperature(self._op)
-         self.outputs = _OutputSpecStructuralTemperature(self._op)
-
-def structural_temperature():
     return _StructuralTemperature()
 
 #internal name: ENG_INC
@@ -4373,7 +4428,15 @@ class _OutputSpecIncrementalEnergy(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_incremental_energy(0), 0, op) 
 
-class _IncrementalEnergy:
+class _IncrementalEnergy(_Operator):
+    def __init__(self):
+         super().__init__("ENG_INC")
+         self._name = "ENG_INC"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecIncrementalEnergy(self._op)
+         self.outputs = _OutputSpecIncrementalEnergy(self._op)
+
+def incremental_energy():
     """Operator's description:
 Internal name is "ENG_INC"
 Scripting name is "incremental_energy"
@@ -4395,13 +4458,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_INC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIncrementalEnergy(self._op)
-         self.outputs = _OutputSpecIncrementalEnergy(self._op)
-
-def incremental_energy():
     return _IncrementalEnergy()
 
 #internal name: ENG_SE
@@ -4452,7 +4508,15 @@ class _OutputSpecStiffnessMatrixEnergy(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stiffness_matrix_energy(0), 0, op) 
 
-class _StiffnessMatrixEnergy:
+class _StiffnessMatrixEnergy(_Operator):
+    def __init__(self):
+         super().__init__("ENG_SE")
+         self._name = "ENG_SE"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStiffnessMatrixEnergy(self._op)
+         self.outputs = _OutputSpecStiffnessMatrixEnergy(self._op)
+
+def stiffness_matrix_energy():
     """Operator's description:
 Internal name is "ENG_SE"
 Scripting name is "stiffness_matrix_energy"
@@ -4474,13 +4538,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_SE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStiffnessMatrixEnergy(self._op)
-         self.outputs = _OutputSpecStiffnessMatrixEnergy(self._op)
-
-def stiffness_matrix_energy():
     return _StiffnessMatrixEnergy()
 
 #internal name: ETH
@@ -4531,7 +4588,15 @@ class _OutputSpecThermalStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_thermal_strain(0), 0, op) 
 
-class _ThermalStrain:
+class _ThermalStrain(_Operator):
+    def __init__(self):
+         super().__init__("ETH")
+         self._name = "ETH"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecThermalStrain(self._op)
+         self.outputs = _OutputSpecThermalStrain(self._op)
+
+def thermal_strain():
     """Operator's description:
 Internal name is "ETH"
 Scripting name is "thermal_strain"
@@ -4553,13 +4618,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ETH"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecThermalStrain(self._op)
-         self.outputs = _OutputSpecThermalStrain(self._op)
-
-def thermal_strain():
     return _ThermalStrain()
 
 #internal name: ENL_SEPL
@@ -4610,7 +4668,15 @@ class _OutputSpecEqvStressParameter(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_eqv_stress_parameter(0), 0, op) 
 
-class _EqvStressParameter:
+class _EqvStressParameter(_Operator):
+    def __init__(self):
+         super().__init__("ENL_SEPL")
+         self._name = "ENL_SEPL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEqvStressParameter(self._op)
+         self.outputs = _OutputSpecEqvStressParameter(self._op)
+
+def eqv_stress_parameter():
     """Operator's description:
 Internal name is "ENL_SEPL"
 Scripting name is "eqv_stress_parameter"
@@ -4632,13 +4698,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_SEPL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEqvStressParameter(self._op)
-         self.outputs = _OutputSpecEqvStressParameter(self._op)
-
-def eqv_stress_parameter():
     return _EqvStressParameter()
 
 #internal name: ENL_SRAT
@@ -4689,7 +4748,15 @@ class _OutputSpecStressRatio(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_ratio(0), 0, op) 
 
-class _StressRatio:
+class _StressRatio(_Operator):
+    def __init__(self):
+         super().__init__("ENL_SRAT")
+         self._name = "ENL_SRAT"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressRatio(self._op)
+         self.outputs = _OutputSpecStressRatio(self._op)
+
+def stress_ratio():
     """Operator's description:
 Internal name is "ENL_SRAT"
 Scripting name is "stress_ratio"
@@ -4711,13 +4778,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_SRAT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressRatio(self._op)
-         self.outputs = _OutputSpecStressRatio(self._op)
-
-def stress_ratio():
     return _StressRatio()
 
 #internal name: ENL_EPEQ
@@ -4768,7 +4828,15 @@ class _OutputSpecAccuEqvPlasticStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_accu_eqv_plastic_strain(0), 0, op) 
 
-class _AccuEqvPlasticStrain:
+class _AccuEqvPlasticStrain(_Operator):
+    def __init__(self):
+         super().__init__("ENL_EPEQ")
+         self._name = "ENL_EPEQ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAccuEqvPlasticStrain(self._op)
+         self.outputs = _OutputSpecAccuEqvPlasticStrain(self._op)
+
+def accu_eqv_plastic_strain():
     """Operator's description:
 Internal name is "ENL_EPEQ"
 Scripting name is "accu_eqv_plastic_strain"
@@ -4790,13 +4858,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_EPEQ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccuEqvPlasticStrain(self._op)
-         self.outputs = _OutputSpecAccuEqvPlasticStrain(self._op)
-
-def accu_eqv_plastic_strain():
     return _AccuEqvPlasticStrain()
 
 #internal name: ENL_PSV
@@ -4847,7 +4908,15 @@ class _OutputSpecPlasticStateVariable(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_state_variable(0), 0, op) 
 
-class _PlasticStateVariable:
+class _PlasticStateVariable(_Operator):
+    def __init__(self):
+         super().__init__("ENL_PSV")
+         self._name = "ENL_PSV"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStateVariable(self._op)
+         self.outputs = _OutputSpecPlasticStateVariable(self._op)
+
+def plastic_state_variable():
     """Operator's description:
 Internal name is "ENL_PSV"
 Scripting name is "plastic_state_variable"
@@ -4869,13 +4938,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_PSV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStateVariable(self._op)
-         self.outputs = _OutputSpecPlasticStateVariable(self._op)
-
-def plastic_state_variable():
     return _PlasticStateVariable()
 
 #internal name: ENL_CREQ
@@ -4926,7 +4988,15 @@ class _OutputSpecAccuEqvCreepStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_accu_eqv_creep_strain(0), 0, op) 
 
-class _AccuEqvCreepStrain:
+class _AccuEqvCreepStrain(_Operator):
+    def __init__(self):
+         super().__init__("ENL_CREQ")
+         self._name = "ENL_CREQ"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAccuEqvCreepStrain(self._op)
+         self.outputs = _OutputSpecAccuEqvCreepStrain(self._op)
+
+def accu_eqv_creep_strain():
     """Operator's description:
 Internal name is "ENL_CREQ"
 Scripting name is "accu_eqv_creep_strain"
@@ -4948,13 +5018,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_CREQ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccuEqvCreepStrain(self._op)
-         self.outputs = _OutputSpecAccuEqvCreepStrain(self._op)
-
-def accu_eqv_creep_strain():
     return _AccuEqvCreepStrain()
 
 #internal name: ENL_PLWK
@@ -5005,7 +5068,15 @@ class _OutputSpecPlasticStrainEnergyDensity(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_energy_density(0), 0, op) 
 
-class _PlasticStrainEnergyDensity:
+class _PlasticStrainEnergyDensity(_Operator):
+    def __init__(self):
+         super().__init__("ENL_PLWK")
+         self._name = "ENL_PLWK"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainEnergyDensity(self._op)
+         self.outputs = _OutputSpecPlasticStrainEnergyDensity(self._op)
+
+def plastic_strain_energy_density():
     """Operator's description:
 Internal name is "ENL_PLWK"
 Scripting name is "plastic_strain_energy_density"
@@ -5027,13 +5098,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_PLWK"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainEnergyDensity(self._op)
-         self.outputs = _OutputSpecPlasticStrainEnergyDensity(self._op)
-
-def plastic_strain_energy_density():
     return _PlasticStrainEnergyDensity()
 
 #internal name: MaterialPropertyOfElement
@@ -5063,7 +5127,15 @@ class _OutputSpecMaterialPropertyOfElement(_Outputs):
     def __init__(self, op: _Operator):
         self.material_properties = _Output(_get_output_spec_material_property_of_element(0), 0, op) 
 
-class _MaterialPropertyOfElement:
+class _MaterialPropertyOfElement(_Operator):
+    def __init__(self):
+         super().__init__("MaterialPropertyOfElement")
+         self._name = "MaterialPropertyOfElement"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecMaterialPropertyOfElement(self._op)
+         self.outputs = _OutputSpecMaterialPropertyOfElement(self._op)
+
+def material_property_of_element():
     """Operator's description:
 Internal name is "MaterialPropertyOfElement"
 Scripting name is "material_property_of_element"
@@ -5078,13 +5150,6 @@ Input list:
 Output list: 
    0: material_properties (material properties)
 """
-    def __init__(self):
-         self._name = "MaterialPropertyOfElement"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMaterialPropertyOfElement(self._op)
-         self.outputs = _OutputSpecMaterialPropertyOfElement(self._op)
-
-def material_property_of_element():
     return _MaterialPropertyOfElement()
 
 #internal name: ENL_CRWK
@@ -5135,7 +5200,15 @@ class _OutputSpecCreepStrainEnergyDensity(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_creep_strain_energy_density(0), 0, op) 
 
-class _CreepStrainEnergyDensity:
+class _CreepStrainEnergyDensity(_Operator):
+    def __init__(self):
+         super().__init__("ENL_CRWK")
+         self._name = "ENL_CRWK"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCreepStrainEnergyDensity(self._op)
+         self.outputs = _OutputSpecCreepStrainEnergyDensity(self._op)
+
+def creep_strain_energy_density():
     """Operator's description:
 Internal name is "ENL_CRWK"
 Scripting name is "creep_strain_energy_density"
@@ -5157,13 +5230,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_CRWK"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCreepStrainEnergyDensity(self._op)
-         self.outputs = _OutputSpecCreepStrainEnergyDensity(self._op)
-
-def creep_strain_energy_density():
     return _CreepStrainEnergyDensity()
 
 #internal name: ENL_ELENG
@@ -5214,7 +5280,15 @@ class _OutputSpecElasticStrainEnergyDensity(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_energy_density(0), 0, op) 
 
-class _ElasticStrainEnergyDensity:
+class _ElasticStrainEnergyDensity(_Operator):
+    def __init__(self):
+         super().__init__("ENL_ELENG")
+         self._name = "ENL_ELENG"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainEnergyDensity(self._op)
+         self.outputs = _OutputSpecElasticStrainEnergyDensity(self._op)
+
+def elastic_strain_energy_density():
     """Operator's description:
 Internal name is "ENL_ELENG"
 Scripting name is "elastic_strain_energy_density"
@@ -5236,13 +5310,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENL_ELENG"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainEnergyDensity(self._op)
-         self.outputs = _OutputSpecElasticStrainEnergyDensity(self._op)
-
-def elastic_strain_energy_density():
     return _ElasticStrainEnergyDensity()
 
 #internal name: ECT_STAT
@@ -5293,7 +5360,15 @@ class _OutputSpecContactStatus(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_status(0), 0, op) 
 
-class _ContactStatus:
+class _ContactStatus(_Operator):
+    def __init__(self):
+         super().__init__("ECT_STAT")
+         self._name = "ECT_STAT"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactStatus(self._op)
+         self.outputs = _OutputSpecContactStatus(self._op)
+
+def contact_status():
     """Operator's description:
 Internal name is "ECT_STAT"
 Scripting name is "contact_status"
@@ -5315,13 +5390,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_STAT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactStatus(self._op)
-         self.outputs = _OutputSpecContactStatus(self._op)
-
-def contact_status():
     return _ContactStatus()
 
 #internal name: ECT_PENE
@@ -5372,7 +5440,15 @@ class _OutputSpecContactPenetration(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_penetration(0), 0, op) 
 
-class _ContactPenetration:
+class _ContactPenetration(_Operator):
+    def __init__(self):
+         super().__init__("ECT_PENE")
+         self._name = "ECT_PENE"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactPenetration(self._op)
+         self.outputs = _OutputSpecContactPenetration(self._op)
+
+def contact_penetration():
     """Operator's description:
 Internal name is "ECT_PENE"
 Scripting name is "contact_penetration"
@@ -5394,13 +5470,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_PENE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactPenetration(self._op)
-         self.outputs = _OutputSpecContactPenetration(self._op)
-
-def contact_penetration():
     return _ContactPenetration()
 
 #internal name: ECT_PRES
@@ -5451,7 +5520,15 @@ class _OutputSpecContactPressure(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_pressure(0), 0, op) 
 
-class _ContactPressure:
+class _ContactPressure(_Operator):
+    def __init__(self):
+         super().__init__("ECT_PRES")
+         self._name = "ECT_PRES"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactPressure(self._op)
+         self.outputs = _OutputSpecContactPressure(self._op)
+
+def contact_pressure():
     """Operator's description:
 Internal name is "ECT_PRES"
 Scripting name is "contact_pressure"
@@ -5473,13 +5550,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_PRES"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactPressure(self._op)
-         self.outputs = _OutputSpecContactPressure(self._op)
-
-def contact_pressure():
     return _ContactPressure()
 
 #internal name: ECT_SFRIC
@@ -5530,7 +5600,15 @@ class _OutputSpecContactFrictionStress(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_friction_stress(0), 0, op) 
 
-class _ContactFrictionStress:
+class _ContactFrictionStress(_Operator):
+    def __init__(self):
+         super().__init__("ECT_SFRIC")
+         self._name = "ECT_SFRIC"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactFrictionStress(self._op)
+         self.outputs = _OutputSpecContactFrictionStress(self._op)
+
+def contact_friction_stress():
     """Operator's description:
 Internal name is "ECT_SFRIC"
 Scripting name is "contact_friction_stress"
@@ -5552,13 +5630,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_SFRIC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactFrictionStress(self._op)
-         self.outputs = _OutputSpecContactFrictionStress(self._op)
-
-def contact_friction_stress():
     return _ContactFrictionStress()
 
 #internal name: ECT_STOT
@@ -5609,7 +5680,15 @@ class _OutputSpecContactTotalStress(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_total_stress(0), 0, op) 
 
-class _ContactTotalStress:
+class _ContactTotalStress(_Operator):
+    def __init__(self):
+         super().__init__("ECT_STOT")
+         self._name = "ECT_STOT"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactTotalStress(self._op)
+         self.outputs = _OutputSpecContactTotalStress(self._op)
+
+def contact_total_stress():
     """Operator's description:
 Internal name is "ECT_STOT"
 Scripting name is "contact_total_stress"
@@ -5631,13 +5710,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_STOT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactTotalStress(self._op)
-         self.outputs = _OutputSpecContactTotalStress(self._op)
-
-def contact_total_stress():
     return _ContactTotalStress()
 
 #internal name: ECT_SLIDE
@@ -5688,7 +5760,15 @@ class _OutputSpecContactSlidingDistance(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_sliding_distance(0), 0, op) 
 
-class _ContactSlidingDistance:
+class _ContactSlidingDistance(_Operator):
+    def __init__(self):
+         super().__init__("ECT_SLIDE")
+         self._name = "ECT_SLIDE"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactSlidingDistance(self._op)
+         self.outputs = _OutputSpecContactSlidingDistance(self._op)
+
+def contact_sliding_distance():
     """Operator's description:
 Internal name is "ECT_SLIDE"
 Scripting name is "contact_sliding_distance"
@@ -5710,13 +5790,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_SLIDE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactSlidingDistance(self._op)
-         self.outputs = _OutputSpecContactSlidingDistance(self._op)
-
-def contact_sliding_distance():
     return _ContactSlidingDistance()
 
 #internal name: ECT_GAP
@@ -5767,7 +5840,15 @@ class _OutputSpecContactGapDistance(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_gap_distance(0), 0, op) 
 
-class _ContactGapDistance:
+class _ContactGapDistance(_Operator):
+    def __init__(self):
+         super().__init__("ECT_GAP")
+         self._name = "ECT_GAP"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactGapDistance(self._op)
+         self.outputs = _OutputSpecContactGapDistance(self._op)
+
+def contact_gap_distance():
     """Operator's description:
 Internal name is "ECT_GAP"
 Scripting name is "contact_gap_distance"
@@ -5789,13 +5870,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_GAP"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactGapDistance(self._op)
-         self.outputs = _OutputSpecContactGapDistance(self._op)
-
-def contact_gap_distance():
     return _ContactGapDistance()
 
 #internal name: ECT_FLUX
@@ -5846,7 +5920,15 @@ class _OutputSpecContactSurfaceHeatFlux(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_surface_heat_flux(0), 0, op) 
 
-class _ContactSurfaceHeatFlux:
+class _ContactSurfaceHeatFlux(_Operator):
+    def __init__(self):
+         super().__init__("ECT_FLUX")
+         self._name = "ECT_FLUX"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactSurfaceHeatFlux(self._op)
+         self.outputs = _OutputSpecContactSurfaceHeatFlux(self._op)
+
+def contact_surface_heat_flux():
     """Operator's description:
 Internal name is "ECT_FLUX"
 Scripting name is "contact_surface_heat_flux"
@@ -5868,13 +5950,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_FLUX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactSurfaceHeatFlux(self._op)
-         self.outputs = _OutputSpecContactSurfaceHeatFlux(self._op)
-
-def contact_surface_heat_flux():
     return _ContactSurfaceHeatFlux()
 
 #internal name: ECT_CNOS
@@ -5925,7 +6000,15 @@ class _OutputSpecNumSurfaceStatusChanges(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_num_surface_status_changes(0), 0, op) 
 
-class _NumSurfaceStatusChanges:
+class _NumSurfaceStatusChanges(_Operator):
+    def __init__(self):
+         super().__init__("ECT_CNOS")
+         self._name = "ECT_CNOS"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNumSurfaceStatusChanges(self._op)
+         self.outputs = _OutputSpecNumSurfaceStatusChanges(self._op)
+
+def num_surface_status_changes():
     """Operator's description:
 Internal name is "ECT_CNOS"
 Scripting name is "num_surface_status_changes"
@@ -5947,13 +6030,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_CNOS"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNumSurfaceStatusChanges(self._op)
-         self.outputs = _OutputSpecNumSurfaceStatusChanges(self._op)
-
-def num_surface_status_changes():
     return _NumSurfaceStatusChanges()
 
 #internal name: ECT_FRES
@@ -6004,7 +6080,15 @@ class _OutputSpecContactFluidPenetrationPressure(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_contact_fluid_penetration_pressure(0), 0, op) 
 
-class _ContactFluidPenetrationPressure:
+class _ContactFluidPenetrationPressure(_Operator):
+    def __init__(self):
+         super().__init__("ECT_FRES")
+         self._name = "ECT_FRES"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecContactFluidPenetrationPressure(self._op)
+         self.outputs = _OutputSpecContactFluidPenetrationPressure(self._op)
+
+def contact_fluid_penetration_pressure():
     """Operator's description:
 Internal name is "ECT_FRES"
 Scripting name is "contact_fluid_penetration_pressure"
@@ -6026,13 +6110,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ECT_FRES"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactFluidPenetrationPressure(self._op)
-         self.outputs = _OutputSpecContactFluidPenetrationPressure(self._op)
-
-def contact_fluid_penetration_pressure():
     return _ContactFluidPenetrationPressure()
 
 #internal name: ENG_VOL
@@ -6083,7 +6160,15 @@ class _OutputSpecElementalVolume(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elemental_volume(0), 0, op) 
 
-class _ElementalVolume:
+class _ElementalVolume(_Operator):
+    def __init__(self):
+         super().__init__("ENG_VOL")
+         self._name = "ENG_VOL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElementalVolume(self._op)
+         self.outputs = _OutputSpecElementalVolume(self._op)
+
+def elemental_volume():
     """Operator's description:
 Internal name is "ENG_VOL"
 Scripting name is "elemental_volume"
@@ -6105,13 +6190,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_VOL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalVolume(self._op)
-         self.outputs = _OutputSpecElementalVolume(self._op)
-
-def elemental_volume():
     return _ElementalVolume()
 
 #internal name: ENG_AHO
@@ -6162,7 +6240,15 @@ class _OutputSpecArtificialHourglassEnergy(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_artificial_hourglass_energy(0), 0, op) 
 
-class _ArtificialHourglassEnergy:
+class _ArtificialHourglassEnergy(_Operator):
+    def __init__(self):
+         super().__init__("ENG_AHO")
+         self._name = "ENG_AHO"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecArtificialHourglassEnergy(self._op)
+         self.outputs = _OutputSpecArtificialHourglassEnergy(self._op)
+
+def artificial_hourglass_energy():
     """Operator's description:
 Internal name is "ENG_AHO"
 Scripting name is "artificial_hourglass_energy"
@@ -6184,13 +6270,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_AHO"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecArtificialHourglassEnergy(self._op)
-         self.outputs = _OutputSpecArtificialHourglassEnergy(self._op)
-
-def artificial_hourglass_energy():
     return _ArtificialHourglassEnergy()
 
 #internal name: ENG_KE
@@ -6241,7 +6320,15 @@ class _OutputSpecKineticEnergy(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_kinetic_energy(0), 0, op) 
 
-class _KineticEnergy:
+class _KineticEnergy(_Operator):
+    def __init__(self):
+         super().__init__("ENG_KE")
+         self._name = "ENG_KE"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecKineticEnergy(self._op)
+         self.outputs = _OutputSpecKineticEnergy(self._op)
+
+def kinetic_energy():
     """Operator's description:
 Internal name is "ENG_KE"
 Scripting name is "kinetic_energy"
@@ -6263,13 +6350,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_KE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecKineticEnergy(self._op)
-         self.outputs = _OutputSpecKineticEnergy(self._op)
-
-def kinetic_energy():
     return _KineticEnergy()
 
 #internal name: ENG_TH
@@ -6320,7 +6400,15 @@ class _OutputSpecThermalDissipationEnergy(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_thermal_dissipation_energy(0), 0, op) 
 
-class _ThermalDissipationEnergy:
+class _ThermalDissipationEnergy(_Operator):
+    def __init__(self):
+         super().__init__("ENG_TH")
+         self._name = "ENG_TH"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecThermalDissipationEnergy(self._op)
+         self.outputs = _OutputSpecThermalDissipationEnergy(self._op)
+
+def thermal_dissipation_energy():
     """Operator's description:
 Internal name is "ENG_TH"
 Scripting name is "thermal_dissipation_energy"
@@ -6342,13 +6430,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENG_TH"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecThermalDissipationEnergy(self._op)
-         self.outputs = _OutputSpecThermalDissipationEnergy(self._op)
-
-def thermal_dissipation_energy():
     return _ThermalDissipationEnergy()
 
 #internal name: F
@@ -6399,7 +6480,15 @@ class _OutputSpecNodalForce(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_force(0), 0, op) 
 
-class _NodalForce:
+class _NodalForce(_Operator):
+    def __init__(self):
+         super().__init__("F")
+         self._name = "F"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalForce(self._op)
+         self.outputs = _OutputSpecNodalForce(self._op)
+
+def nodal_force():
     """Operator's description:
 Internal name is "F"
 Scripting name is "nodal_force"
@@ -6421,13 +6510,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "F"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalForce(self._op)
-         self.outputs = _OutputSpecNodalForce(self._op)
-
-def nodal_force():
     return _NodalForce()
 
 #internal name: M
@@ -6478,7 +6560,15 @@ class _OutputSpecNodalMoment(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_moment(0), 0, op) 
 
-class _NodalMoment:
+class _NodalMoment(_Operator):
+    def __init__(self):
+         super().__init__("M")
+         self._name = "M"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalMoment(self._op)
+         self.outputs = _OutputSpecNodalMoment(self._op)
+
+def nodal_moment():
     """Operator's description:
 Internal name is "M"
 Scripting name is "nodal_moment"
@@ -6500,13 +6590,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "M"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalMoment(self._op)
-         self.outputs = _OutputSpecNodalMoment(self._op)
-
-def nodal_moment():
     return _NodalMoment()
 
 #internal name: TEMP
@@ -6557,7 +6640,15 @@ class _OutputSpecTemperature(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_temperature(0), 0, op) 
 
-class _Temperature:
+class _Temperature(_Operator):
+    def __init__(self):
+         super().__init__("TEMP")
+         self._name = "TEMP"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecTemperature(self._op)
+         self.outputs = _OutputSpecTemperature(self._op)
+
+def temperature():
     """Operator's description:
 Internal name is "TEMP"
 Scripting name is "temperature"
@@ -6579,13 +6670,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "TEMP"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTemperature(self._op)
-         self.outputs = _OutputSpecTemperature(self._op)
-
-def temperature():
     return _Temperature()
 
 #internal name: UTOT
@@ -6636,7 +6720,15 @@ class _OutputSpecRawDisplacement(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_raw_displacement(0), 0, op) 
 
-class _RawDisplacement:
+class _RawDisplacement(_Operator):
+    def __init__(self):
+         super().__init__("UTOT")
+         self._name = "UTOT"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRawDisplacement(self._op)
+         self.outputs = _OutputSpecRawDisplacement(self._op)
+
+def raw_displacement():
     """Operator's description:
 Internal name is "UTOT"
 Scripting name is "raw_displacement"
@@ -6658,13 +6750,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "UTOT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRawDisplacement(self._op)
-         self.outputs = _OutputSpecRawDisplacement(self._op)
-
-def raw_displacement():
     return _RawDisplacement()
 
 #internal name: RFTOT
@@ -6715,7 +6800,15 @@ class _OutputSpecRawReactionForce(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_raw_reaction_force(0), 0, op) 
 
-class _RawReactionForce:
+class _RawReactionForce(_Operator):
+    def __init__(self):
+         super().__init__("RFTOT")
+         self._name = "RFTOT"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRawReactionForce(self._op)
+         self.outputs = _OutputSpecRawReactionForce(self._op)
+
+def raw_reaction_force():
     """Operator's description:
 Internal name is "RFTOT"
 Scripting name is "raw_reaction_force"
@@ -6737,13 +6830,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "RFTOT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRawReactionForce(self._op)
-         self.outputs = _OutputSpecRawReactionForce(self._op)
-
-def raw_reaction_force():
     return _RawReactionForce()
 
 #internal name: VOLT
@@ -6794,7 +6880,15 @@ class _OutputSpecElectricPotential(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_electric_potential(0), 0, op) 
 
-class _ElectricPotential:
+class _ElectricPotential(_Operator):
+    def __init__(self):
+         super().__init__("VOLT")
+         self._name = "VOLT"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElectricPotential(self._op)
+         self.outputs = _OutputSpecElectricPotential(self._op)
+
+def electric_potential():
     """Operator's description:
 Internal name is "VOLT"
 Scripting name is "electric_potential"
@@ -6816,13 +6910,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "VOLT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElectricPotential(self._op)
-         self.outputs = _OutputSpecElectricPotential(self._op)
-
-def electric_potential():
     return _ElectricPotential()
 
 #internal name: S_eqv
@@ -6873,7 +6960,15 @@ class _OutputSpecStressVonMises(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_von_mises(0), 0, op) 
 
-class _StressVonMises:
+class _StressVonMises(_Operator):
+    def __init__(self):
+         super().__init__("S_eqv")
+         self._name = "S_eqv"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressVonMises(self._op)
+         self.outputs = _OutputSpecStressVonMises(self._op)
+
+def stress_von_mises():
     """Operator's description:
 Internal name is "S_eqv"
 Scripting name is "stress_von_mises"
@@ -6895,13 +6990,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "S_eqv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressVonMises(self._op)
-         self.outputs = _OutputSpecStressVonMises(self._op)
-
-def stress_von_mises():
     return _StressVonMises()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -6947,7 +7035,15 @@ class _OutputSpecCyclicExpansion(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_cyclic_expansion(0), 0, op) 
 
-class _CyclicExpansion:
+class _CyclicExpansion(_Operator):
+    def __init__(self):
+         super().__init__("cyclic_expansion")
+         self._name = "cyclic_expansion"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicExpansion(self._op)
+         self.outputs = _OutputSpecCyclicExpansion(self._op)
+
+def cyclic_expansion():
     """Operator's description:
 Internal name is "cyclic_expansion"
 Scripting name is "cyclic_expansion"
@@ -6964,13 +7060,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "cyclic_expansion"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpansion(self._op)
-         self.outputs = _OutputSpecCyclicExpansion(self._op)
-
-def cyclic_expansion():
     return _CyclicExpansion()
 
 #internal name: ERP
@@ -7003,7 +7092,15 @@ class _OutputSpecEquivalentRadiatedPower(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_equivalent_radiated_power(0), 0, op) 
 
-class _EquivalentRadiatedPower:
+class _EquivalentRadiatedPower(_Operator):
+    def __init__(self):
+         super().__init__("ERP")
+         self._name = "ERP"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEquivalentRadiatedPower(self._op)
+         self.outputs = _OutputSpecEquivalentRadiatedPower(self._op)
+
+def equivalent_radiated_power():
     """Operator's description:
 Internal name is "ERP"
 Scripting name is "equivalent_radiated_power"
@@ -7019,13 +7116,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "ERP"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEquivalentRadiatedPower(self._op)
-         self.outputs = _OutputSpecEquivalentRadiatedPower(self._op)
-
-def equivalent_radiated_power():
     return _EquivalentRadiatedPower()
 
 #internal name: torque
@@ -7052,7 +7142,15 @@ class _OutputSpecTorque(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_torque(0), 0, op) 
 
-class _Torque:
+class _Torque(_Operator):
+    def __init__(self):
+         super().__init__("torque")
+         self._name = "torque"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecTorque(self._op)
+         self.outputs = _OutputSpecTorque(self._op)
+
+def torque():
     """Operator's description:
 Internal name is "torque"
 Scripting name is "torque"
@@ -7066,13 +7164,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "torque"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTorque(self._op)
-         self.outputs = _OutputSpecTorque(self._op)
-
-def torque():
     return _Torque()
 
 #internal name: cyclic_expansion_mesh
@@ -7105,7 +7196,15 @@ class _OutputSpecCyclicMeshExpansion(_Outputs):
         self.meshed_region = _Output(_get_output_spec_cyclic_mesh_expansion(0), 0, op) 
         self.cyclic_support = _Output(_get_output_spec_cyclic_mesh_expansion(1), 1, op) 
 
-class _CyclicMeshExpansion:
+class _CyclicMeshExpansion(_Operator):
+    def __init__(self):
+         super().__init__("cyclic_expansion_mesh")
+         self._name = "cyclic_expansion_mesh"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicMeshExpansion(self._op)
+         self.outputs = _OutputSpecCyclicMeshExpansion(self._op)
+
+def cyclic_mesh_expansion():
     """Operator's description:
 Internal name is "cyclic_expansion_mesh"
 Scripting name is "cyclic_mesh_expansion"
@@ -7121,13 +7220,6 @@ Output list:
    0: meshed_region (expanded meshed region.)
    1: cyclic_support (input cyclic support modified in place containing the new expanded meshed region.)
 """
-    def __init__(self):
-         self._name = "cyclic_expansion_mesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicMeshExpansion(self._op)
-         self.outputs = _OutputSpecCyclicMeshExpansion(self._op)
-
-def cyclic_mesh_expansion():
     return _CyclicMeshExpansion()
 
 #internal name: cyclic_analytic_usum_max
@@ -7163,7 +7255,15 @@ class _OutputSpecCyclicAnalyticUsumMax(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_cyclic_analytic_usum_max(0), 0, op) 
 
-class _CyclicAnalyticUsumMax:
+class _CyclicAnalyticUsumMax(_Operator):
+    def __init__(self):
+         super().__init__("cyclic_analytic_usum_max")
+         self._name = "cyclic_analytic_usum_max"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicAnalyticUsumMax(self._op)
+         self.outputs = _OutputSpecCyclicAnalyticUsumMax(self._op)
+
+def cyclic_analytic_usum_max():
     """Operator's description:
 Internal name is "cyclic_analytic_usum_max"
 Scripting name is "cyclic_analytic_usum_max"
@@ -7180,13 +7280,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "cyclic_analytic_usum_max"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicAnalyticUsumMax(self._op)
-         self.outputs = _OutputSpecCyclicAnalyticUsumMax(self._op)
-
-def cyclic_analytic_usum_max():
     return _CyclicAnalyticUsumMax()
 
 #internal name: cyclic_analytic_stress_eqv_max
@@ -7222,7 +7315,15 @@ class _OutputSpecCyclicAnalyticSeqvMax(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_cyclic_analytic_seqv_max(0), 0, op) 
 
-class _CyclicAnalyticSeqvMax:
+class _CyclicAnalyticSeqvMax(_Operator):
+    def __init__(self):
+         super().__init__("cyclic_analytic_stress_eqv_max")
+         self._name = "cyclic_analytic_stress_eqv_max"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicAnalyticSeqvMax(self._op)
+         self.outputs = _OutputSpecCyclicAnalyticSeqvMax(self._op)
+
+def cyclic_analytic_seqv_max():
     """Operator's description:
 Internal name is "cyclic_analytic_stress_eqv_max"
 Scripting name is "cyclic_analytic_seqv_max"
@@ -7239,13 +7340,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "cyclic_analytic_stress_eqv_max"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicAnalyticSeqvMax(self._op)
-         self.outputs = _OutputSpecCyclicAnalyticSeqvMax(self._op)
-
-def cyclic_analytic_seqv_max():
     return _CyclicAnalyticSeqvMax()
 
 #internal name: recombine_harmonic_indeces_cyclic
@@ -7272,7 +7366,15 @@ class _OutputSpecRecombineHarmonicIndecesCyclic(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_recombine_harmonic_indeces_cyclic(0), 0, op) 
 
-class _RecombineHarmonicIndecesCyclic:
+class _RecombineHarmonicIndecesCyclic(_Operator):
+    def __init__(self):
+         super().__init__("recombine_harmonic_indeces_cyclic")
+         self._name = "recombine_harmonic_indeces_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRecombineHarmonicIndecesCyclic(self._op)
+         self.outputs = _OutputSpecRecombineHarmonicIndecesCyclic(self._op)
+
+def recombine_harmonic_indeces_cyclic():
     """Operator's description:
 Internal name is "recombine_harmonic_indeces_cyclic"
 Scripting name is "recombine_harmonic_indeces_cyclic"
@@ -7286,13 +7388,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "recombine_harmonic_indeces_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRecombineHarmonicIndecesCyclic(self._op)
-         self.outputs = _OutputSpecRecombineHarmonicIndecesCyclic(self._op)
-
-def recombine_harmonic_indeces_cyclic():
     return _RecombineHarmonicIndecesCyclic()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -7344,7 +7439,15 @@ class _OutputSpecNodalAveragedElasticStrains(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_elastic_strains(0), 0, op) 
 
-class _NodalAveragedElasticStrains:
+class _NodalAveragedElasticStrains(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NPEL")
+         self._name = "mapdl::rst::NPEL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedElasticStrains(self._op)
+         self.outputs = _OutputSpecNodalAveragedElasticStrains(self._op)
+
+def nodal_averaged_elastic_strains():
     """Operator's description:
 Internal name is "mapdl::rst::NPEL"
 Scripting name is "nodal_averaged_elastic_strains"
@@ -7363,13 +7466,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NPEL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedElasticStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedElasticStrains(self._op)
-
-def nodal_averaged_elastic_strains():
     return _NodalAveragedElasticStrains()
 
 #internal name: RigidBodyAddition
@@ -7408,7 +7504,15 @@ class _OutputSpecAddRigidBodyMotion(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_add_rigid_body_motion(0), 0, op) 
 
-class _AddRigidBodyMotion:
+class _AddRigidBodyMotion(_Operator):
+    def __init__(self):
+         super().__init__("RigidBodyAddition")
+         self._name = "RigidBodyAddition"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAddRigidBodyMotion(self._op)
+         self.outputs = _OutputSpecAddRigidBodyMotion(self._op)
+
+def add_rigid_body_motion():
     """Operator's description:
 Internal name is "RigidBodyAddition"
 Scripting name is "add_rigid_body_motion"
@@ -7426,13 +7530,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "RigidBodyAddition"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAddRigidBodyMotion(self._op)
-         self.outputs = _OutputSpecAddRigidBodyMotion(self._op)
-
-def add_rigid_body_motion():
     return _AddRigidBodyMotion()
 
 #internal name: mapdl::rst::NPEL_EQV
@@ -7474,7 +7571,15 @@ class _OutputSpecNodalAveragedEquivalentElasticStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_elastic_strain(0), 0, op) 
 
-class _NodalAveragedEquivalentElasticStrain:
+class _NodalAveragedEquivalentElasticStrain(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NPEL_EQV")
+         self._name = "mapdl::rst::NPEL_EQV"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedEquivalentElasticStrain(self._op)
+         self.outputs = _OutputSpecNodalAveragedEquivalentElasticStrain(self._op)
+
+def nodal_averaged_equivalent_elastic_strain():
     """Operator's description:
 Internal name is "mapdl::rst::NPEL_EQV"
 Scripting name is "nodal_averaged_equivalent_elastic_strain"
@@ -7493,13 +7598,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NPEL_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentElasticStrain(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentElasticStrain(self._op)
-
-def nodal_averaged_equivalent_elastic_strain():
     return _NodalAveragedEquivalentElasticStrain()
 
 from . import mapdl #mapdl.run
@@ -7570,7 +7668,15 @@ class _OutputSpecCyclicExpandedVelocity(_Outputs):
         self.fields_container = _Output(_get_output_spec_cyclic_expanded_velocity(0), 0, op) 
         self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_velocity(1), 1, op) 
 
-class _CyclicExpandedVelocity:
+class _CyclicExpandedVelocity(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::V_cyclic")
+         self._name = "mapdl::rst::V_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicExpandedVelocity(self._op)
+         self.outputs = _OutputSpecCyclicExpandedVelocity(self._op)
+
+def cyclic_expanded_velocity():
     """Operator's description:
 Internal name is "mapdl::rst::V_cyclic"
 Scripting name is "cyclic_expanded_velocity"
@@ -7598,13 +7704,6 @@ Output list:
    0: fields_container (FieldsContainer filled in)
    1: expanded_meshed_region 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::V_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedVelocity(self._op)
-         self.outputs = _OutputSpecCyclicExpandedVelocity(self._op)
-
-def cyclic_expanded_velocity():
     return _CyclicExpandedVelocity()
 
 #internal name: mapdl::rst::EPEL_cyclic
@@ -7673,7 +7772,15 @@ class _OutputSpecCyclicExpandedElStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_cyclic_expanded_el_strain(0), 0, op) 
         self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_el_strain(1), 1, op) 
 
-class _CyclicExpandedElStrain:
+class _CyclicExpandedElStrain(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::EPEL_cyclic")
+         self._name = "mapdl::rst::EPEL_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicExpandedElStrain(self._op)
+         self.outputs = _OutputSpecCyclicExpandedElStrain(self._op)
+
+def cyclic_expanded_el_strain():
     """Operator's description:
 Internal name is "mapdl::rst::EPEL_cyclic"
 Scripting name is "cyclic_expanded_el_strain"
@@ -7701,13 +7808,6 @@ Output list:
    0: fields_container (FieldsContainer filled in)
    1: expanded_meshed_region 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::EPEL_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedElStrain(self._op)
-         self.outputs = _OutputSpecCyclicExpandedElStrain(self._op)
-
-def cyclic_expanded_el_strain():
     return _CyclicExpandedElStrain()
 
 #internal name: mapdl::rst::NTH_SWL
@@ -7749,7 +7849,15 @@ class _OutputSpecNodalAveragedThermalSwellingStrains(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_thermal_swelling_strains(0), 0, op) 
 
-class _NodalAveragedThermalSwellingStrains:
+class _NodalAveragedThermalSwellingStrains(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NTH_SWL")
+         self._name = "mapdl::rst::NTH_SWL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedThermalSwellingStrains(self._op)
+         self.outputs = _OutputSpecNodalAveragedThermalSwellingStrains(self._op)
+
+def nodal_averaged_thermal_swelling_strains():
     """Operator's description:
 Internal name is "mapdl::rst::NTH_SWL"
 Scripting name is "nodal_averaged_thermal_swelling_strains"
@@ -7768,13 +7876,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NTH_SWL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedThermalSwellingStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedThermalSwellingStrains(self._op)
-
-def nodal_averaged_thermal_swelling_strains():
     return _NodalAveragedThermalSwellingStrains()
 
 #internal name: mapdl::rst::NS
@@ -7816,7 +7917,15 @@ class _OutputSpecNodalAveragedStresses(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_stresses(0), 0, op) 
 
-class _NodalAveragedStresses:
+class _NodalAveragedStresses(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NS")
+         self._name = "mapdl::rst::NS"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedStresses(self._op)
+         self.outputs = _OutputSpecNodalAveragedStresses(self._op)
+
+def nodal_averaged_stresses():
     """Operator's description:
 Internal name is "mapdl::rst::NS"
 Scripting name is "nodal_averaged_stresses"
@@ -7835,13 +7944,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NS"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedStresses(self._op)
-         self.outputs = _OutputSpecNodalAveragedStresses(self._op)
-
-def nodal_averaged_stresses():
     return _NodalAveragedStresses()
 
 #internal name: mapdl::rst::NTH
@@ -7883,7 +7985,15 @@ class _OutputSpecNodalAveragedThermalStrains(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_thermal_strains(0), 0, op) 
 
-class _NodalAveragedThermalStrains:
+class _NodalAveragedThermalStrains(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NTH")
+         self._name = "mapdl::rst::NTH"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedThermalStrains(self._op)
+         self.outputs = _OutputSpecNodalAveragedThermalStrains(self._op)
+
+def nodal_averaged_thermal_strains():
     """Operator's description:
 Internal name is "mapdl::rst::NTH"
 Scripting name is "nodal_averaged_thermal_strains"
@@ -7902,13 +8012,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NTH"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedThermalStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedThermalStrains(self._op)
-
-def nodal_averaged_thermal_strains():
     return _NodalAveragedThermalStrains()
 
 #internal name: mapdl::rst::NPPL
@@ -7950,7 +8053,15 @@ class _OutputSpecNodalAveragedPlasticStrains(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_plastic_strains(0), 0, op) 
 
-class _NodalAveragedPlasticStrains:
+class _NodalAveragedPlasticStrains(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NPPL")
+         self._name = "mapdl::rst::NPPL"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedPlasticStrains(self._op)
+         self.outputs = _OutputSpecNodalAveragedPlasticStrains(self._op)
+
+def nodal_averaged_plastic_strains():
     """Operator's description:
 Internal name is "mapdl::rst::NPPL"
 Scripting name is "nodal_averaged_plastic_strains"
@@ -7969,13 +8080,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NPPL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedPlasticStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedPlasticStrains(self._op)
-
-def nodal_averaged_plastic_strains():
     return _NodalAveragedPlasticStrains()
 
 #internal name: mapdl::rst::NCR
@@ -8017,7 +8121,15 @@ class _OutputSpecNodalAveragedCreepStrains(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_creep_strains(0), 0, op) 
 
-class _NodalAveragedCreepStrains:
+class _NodalAveragedCreepStrains(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NCR")
+         self._name = "mapdl::rst::NCR"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedCreepStrains(self._op)
+         self.outputs = _OutputSpecNodalAveragedCreepStrains(self._op)
+
+def nodal_averaged_creep_strains():
     """Operator's description:
 Internal name is "mapdl::rst::NCR"
 Scripting name is "nodal_averaged_creep_strains"
@@ -8036,13 +8148,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NCR"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedCreepStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedCreepStrains(self._op)
-
-def nodal_averaged_creep_strains():
     return _NodalAveragedCreepStrains()
 
 #internal name: mapdl::rst::NTH_EQV
@@ -8084,7 +8189,15 @@ class _OutputSpecNodalAveragedEquivalentThermalStrains(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_thermal_strains(0), 0, op) 
 
-class _NodalAveragedEquivalentThermalStrains:
+class _NodalAveragedEquivalentThermalStrains(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NTH_EQV")
+         self._name = "mapdl::rst::NTH_EQV"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedEquivalentThermalStrains(self._op)
+         self.outputs = _OutputSpecNodalAveragedEquivalentThermalStrains(self._op)
+
+def nodal_averaged_equivalent_thermal_strains():
     """Operator's description:
 Internal name is "mapdl::rst::NTH_EQV"
 Scripting name is "nodal_averaged_equivalent_thermal_strains"
@@ -8103,13 +8216,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NTH_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentThermalStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentThermalStrains(self._op)
-
-def nodal_averaged_equivalent_thermal_strains():
     return _NodalAveragedEquivalentThermalStrains()
 
 #internal name: mapdl::rst::NPPL_EQV
@@ -8151,7 +8257,15 @@ class _OutputSpecNodalAveragedEquivalentPlasticStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_plastic_strain(0), 0, op) 
 
-class _NodalAveragedEquivalentPlasticStrain:
+class _NodalAveragedEquivalentPlasticStrain(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NPPL_EQV")
+         self._name = "mapdl::rst::NPPL_EQV"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedEquivalentPlasticStrain(self._op)
+         self.outputs = _OutputSpecNodalAveragedEquivalentPlasticStrain(self._op)
+
+def nodal_averaged_equivalent_plastic_strain():
     """Operator's description:
 Internal name is "mapdl::rst::NPPL_EQV"
 Scripting name is "nodal_averaged_equivalent_plastic_strain"
@@ -8170,13 +8284,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NPPL_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentPlasticStrain(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentPlasticStrain(self._op)
-
-def nodal_averaged_equivalent_plastic_strain():
     return _NodalAveragedEquivalentPlasticStrain()
 
 #internal name: mapdl::rst::NCR_EQV
@@ -8218,7 +8325,15 @@ class _OutputSpecNodalAveragedEquivalentCreepStrain(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_creep_strain(0), 0, op) 
 
-class _NodalAveragedEquivalentCreepStrain:
+class _NodalAveragedEquivalentCreepStrain(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::NCR_EQV")
+         self._name = "mapdl::rst::NCR_EQV"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalAveragedEquivalentCreepStrain(self._op)
+         self.outputs = _OutputSpecNodalAveragedEquivalentCreepStrain(self._op)
+
+def nodal_averaged_equivalent_creep_strain():
     """Operator's description:
 Internal name is "mapdl::rst::NCR_EQV"
 Scripting name is "nodal_averaged_equivalent_creep_strain"
@@ -8237,13 +8352,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::rst::NCR_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentCreepStrain(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentCreepStrain(self._op)
-
-def nodal_averaged_equivalent_creep_strain():
     return _NodalAveragedEquivalentCreepStrain()
 
 #internal name: mapdl::rst::coords_and_euler_nodes
@@ -8279,7 +8387,15 @@ class _OutputSpecEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_euler_nodes(0), 0, op) 
 
-class _EulerNodes:
+class _EulerNodes(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::coords_and_euler_nodes")
+         self._name = "mapdl::rst::coords_and_euler_nodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEulerNodes(self._op)
+         self.outputs = _OutputSpecEulerNodes(self._op)
+
+def euler_nodes():
     """Operator's description:
 Internal name is "mapdl::rst::coords_and_euler_nodes"
 Scripting name is "euler_nodes"
@@ -8296,13 +8412,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::coords_and_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEulerNodes(self._op)
-         self.outputs = _OutputSpecEulerNodes(self._op)
-
-def euler_nodes():
     return _EulerNodes()
 
 from . import mapdl #mapdl.nmisc
@@ -8337,7 +8446,15 @@ class _OutputSpecEnfRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_enf_rotation_by_euler_nodes(0), 0, op) 
 
-class _EnfRotationByEulerNodes:
+class _EnfRotationByEulerNodes(_Operator):
+    def __init__(self):
+         super().__init__("ENF_rotation_by_euler_nodes")
+         self._name = "ENF_rotation_by_euler_nodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecEnfRotationByEulerNodes(self._op)
+         self.outputs = _OutputSpecEnfRotationByEulerNodes(self._op)
+
+def enf_rotation_by_euler_nodes():
     """Operator's description:
 Internal name is "ENF_rotation_by_euler_nodes"
 Scripting name is "enf_rotation_by_euler_nodes"
@@ -8353,13 +8470,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ENF_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEnfRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecEnfRotationByEulerNodes(self._op)
-
-def enf_rotation_by_euler_nodes():
     return _EnfRotationByEulerNodes()
 
 #internal name: cms_matrices_provider
@@ -8386,7 +8496,15 @@ class _OutputSpecCmsMatricesProvider(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_cms_matrices_provider(0), 0, op) 
 
-class _CmsMatricesProvider:
+class _CmsMatricesProvider(_Operator):
+    def __init__(self):
+         super().__init__("cms_matrices_provider")
+         self._name = "cms_matrices_provider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCmsMatricesProvider(self._op)
+         self.outputs = _OutputSpecCmsMatricesProvider(self._op)
+
+def cms_matrices_provider():
     """Operator's description:
 Internal name is "cms_matrices_provider"
 Scripting name is "cms_matrices_provider"
@@ -8400,13 +8518,6 @@ Input list:
 Output list: 
    0: fields_container (Fields container containing in this order : stiffness, damping, mass matrices, and then load vector.)
 """
-    def __init__(self):
-         self._name = "cms_matrices_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCmsMatricesProvider(self._op)
-         self.outputs = _OutputSpecCmsMatricesProvider(self._op)
-
-def cms_matrices_provider():
     return _CmsMatricesProvider()
 
 from . import mapdl #mapdl.smisc
@@ -8441,7 +8552,15 @@ class _OutputSpecNodalRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nodal_rotation_by_euler_nodes(0), 0, op) 
 
-class _NodalRotationByEulerNodes:
+class _NodalRotationByEulerNodes(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::RotateNodalFCByEulerNodes")
+         self._name = "mapdl::rst::RotateNodalFCByEulerNodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNodalRotationByEulerNodes(self._op)
+         self.outputs = _OutputSpecNodalRotationByEulerNodes(self._op)
+
+def nodal_rotation_by_euler_nodes():
     """Operator's description:
 Internal name is "mapdl::rst::RotateNodalFCByEulerNodes"
 Scripting name is "nodal_rotation_by_euler_nodes"
@@ -8457,13 +8576,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::RotateNodalFCByEulerNodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecNodalRotationByEulerNodes(self._op)
-
-def nodal_rotation_by_euler_nodes():
     return _NodalRotationByEulerNodes()
 
 #internal name: mapdl::rst::S_rotation_by_euler_nodes
@@ -8496,7 +8608,15 @@ class _OutputSpecStressRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_stress_rotation_by_euler_nodes(0), 0, op) 
 
-class _StressRotationByEulerNodes:
+class _StressRotationByEulerNodes(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::S_rotation_by_euler_nodes")
+         self._name = "mapdl::rst::S_rotation_by_euler_nodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecStressRotationByEulerNodes(self._op)
+         self.outputs = _OutputSpecStressRotationByEulerNodes(self._op)
+
+def stress_rotation_by_euler_nodes():
     """Operator's description:
 Internal name is "mapdl::rst::S_rotation_by_euler_nodes"
 Scripting name is "stress_rotation_by_euler_nodes"
@@ -8512,13 +8632,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::S_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecStressRotationByEulerNodes(self._op)
-
-def stress_rotation_by_euler_nodes():
     return _StressRotationByEulerNodes()
 
 #internal name: mapdl::rst::EPEL_rotation_by_euler_nodes
@@ -8551,7 +8664,15 @@ class _OutputSpecElasticStrainRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_elastic_strain_rotation_by_euler_nodes(0), 0, op) 
 
-class _ElasticStrainRotationByEulerNodes:
+class _ElasticStrainRotationByEulerNodes(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::EPEL_rotation_by_euler_nodes")
+         self._name = "mapdl::rst::EPEL_rotation_by_euler_nodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecElasticStrainRotationByEulerNodes(self._op)
+         self.outputs = _OutputSpecElasticStrainRotationByEulerNodes(self._op)
+
+def elastic_strain_rotation_by_euler_nodes():
     """Operator's description:
 Internal name is "mapdl::rst::EPEL_rotation_by_euler_nodes"
 Scripting name is "elastic_strain_rotation_by_euler_nodes"
@@ -8567,13 +8688,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::EPEL_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecElasticStrainRotationByEulerNodes(self._op)
-
-def elastic_strain_rotation_by_euler_nodes():
     return _ElasticStrainRotationByEulerNodes()
 
 #internal name: mapdl::rst::EPPL_rotation_by_euler_nodes
@@ -8606,7 +8720,15 @@ class _OutputSpecPlasticStrainRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_plastic_strain_rotation_by_euler_nodes(0), 0, op) 
 
-class _PlasticStrainRotationByEulerNodes:
+class _PlasticStrainRotationByEulerNodes(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::EPPL_rotation_by_euler_nodes")
+         self._name = "mapdl::rst::EPPL_rotation_by_euler_nodes"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPlasticStrainRotationByEulerNodes(self._op)
+         self.outputs = _OutputSpecPlasticStrainRotationByEulerNodes(self._op)
+
+def plastic_strain_rotation_by_euler_nodes():
     """Operator's description:
 Internal name is "mapdl::rst::EPPL_rotation_by_euler_nodes"
 Scripting name is "plastic_strain_rotation_by_euler_nodes"
@@ -8622,13 +8744,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::EPPL_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecPlasticStrainRotationByEulerNodes(self._op)
-
-def plastic_strain_rotation_by_euler_nodes():
     return _PlasticStrainRotationByEulerNodes()
 
 from . import mapdl #mapdl.pres_to_field
@@ -8665,7 +8780,15 @@ class _OutputSpecRemoveRigidBodyMotion(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_remove_rigid_body_motion(0), 0, op) 
 
-class _RemoveRigidBodyMotion:
+class _RemoveRigidBodyMotion(_Operator):
+    def __init__(self):
+         super().__init__("ExtractRigidBodyMotion")
+         self._name = "ExtractRigidBodyMotion"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRemoveRigidBodyMotion(self._op)
+         self.outputs = _OutputSpecRemoveRigidBodyMotion(self._op)
+
+def remove_rigid_body_motion():
     """Operator's description:
 Internal name is "ExtractRigidBodyMotion"
 Scripting name is "remove_rigid_body_motion"
@@ -8681,13 +8804,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "ExtractRigidBodyMotion"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRemoveRigidBodyMotion(self._op)
-         self.outputs = _OutputSpecRemoveRigidBodyMotion(self._op)
-
-def remove_rigid_body_motion():
     return _RemoveRigidBodyMotion()
 
 #internal name: ExtractRigidBodyMotion_fc
@@ -8720,7 +8836,15 @@ class _OutputSpecRemoveRigidBodyMotionFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_remove_rigid_body_motion_fc(0), 0, op) 
 
-class _RemoveRigidBodyMotionFc:
+class _RemoveRigidBodyMotionFc(_Operator):
+    def __init__(self):
+         super().__init__("ExtractRigidBodyMotion_fc")
+         self._name = "ExtractRigidBodyMotion_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRemoveRigidBodyMotionFc(self._op)
+         self.outputs = _OutputSpecRemoveRigidBodyMotionFc(self._op)
+
+def remove_rigid_body_motion_fc():
     """Operator's description:
 Internal name is "ExtractRigidBodyMotion_fc"
 Scripting name is "remove_rigid_body_motion_fc"
@@ -8736,13 +8860,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "ExtractRigidBodyMotion_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRemoveRigidBodyMotionFc(self._op)
-         self.outputs = _OutputSpecRemoveRigidBodyMotionFc(self._op)
-
-def remove_rigid_body_motion_fc():
     return _RemoveRigidBodyMotionFc()
 
 #internal name: RigidBodyAddition_fc
@@ -8781,7 +8898,15 @@ class _OutputSpecAddRigidBodyMotionFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_add_rigid_body_motion_fc(0), 0, op) 
 
-class _AddRigidBodyMotionFc:
+class _AddRigidBodyMotionFc(_Operator):
+    def __init__(self):
+         super().__init__("RigidBodyAddition_fc")
+         self._name = "RigidBodyAddition_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecAddRigidBodyMotionFc(self._op)
+         self.outputs = _OutputSpecAddRigidBodyMotionFc(self._op)
+
+def add_rigid_body_motion_fc():
     """Operator's description:
 Internal name is "RigidBodyAddition_fc"
 Scripting name is "add_rigid_body_motion_fc"
@@ -8799,13 +8924,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "RigidBodyAddition_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAddRigidBodyMotionFc(self._op)
-         self.outputs = _OutputSpecAddRigidBodyMotionFc(self._op)
-
-def add_rigid_body_motion_fc():
     return _AddRigidBodyMotionFc()
 
 #internal name: mapdl::rst::U_cyclic
@@ -8883,7 +9001,15 @@ class _OutputSpecCyclicExpandedDisplacement(_Outputs):
         self.inertia_matrix = _Output(_get_output_spec_cyclic_expanded_displacement(2), 2, op) 
         self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_displacement(3), 3, op) 
 
-class _CyclicExpandedDisplacement:
+class _CyclicExpandedDisplacement(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::U_cyclic")
+         self._name = "mapdl::rst::U_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicExpandedDisplacement(self._op)
+         self.outputs = _OutputSpecCyclicExpandedDisplacement(self._op)
+
+def cyclic_expanded_displacement():
     """Operator's description:
 Internal name is "mapdl::rst::U_cyclic"
 Scripting name is "cyclic_expanded_displacement"
@@ -8914,13 +9040,6 @@ Output list:
    2: inertia_matrix 
    3: remote_point_id 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::U_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedDisplacement(self._op)
-         self.outputs = _OutputSpecCyclicExpandedDisplacement(self._op)
-
-def cyclic_expanded_displacement():
     return _CyclicExpandedDisplacement()
 
 #internal name: mapdl::rst::A_cyclic
@@ -8998,7 +9117,15 @@ class _OutputSpecCyclicExpandedAcceleration(_Outputs):
         self.inertia_matrix = _Output(_get_output_spec_cyclic_expanded_acceleration(2), 2, op) 
         self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_acceleration(3), 3, op) 
 
-class _CyclicExpandedAcceleration:
+class _CyclicExpandedAcceleration(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::A_cyclic")
+         self._name = "mapdl::rst::A_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicExpandedAcceleration(self._op)
+         self.outputs = _OutputSpecCyclicExpandedAcceleration(self._op)
+
+def cyclic_expanded_acceleration():
     """Operator's description:
 Internal name is "mapdl::rst::A_cyclic"
 Scripting name is "cyclic_expanded_acceleration"
@@ -9029,13 +9156,6 @@ Output list:
    2: inertia_matrix 
    3: remote_point_id 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::A_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedAcceleration(self._op)
-         self.outputs = _OutputSpecCyclicExpandedAcceleration(self._op)
-
-def cyclic_expanded_acceleration():
     return _CyclicExpandedAcceleration()
 
 #internal name: mapdl::rst::S_cyclic
@@ -9113,7 +9233,15 @@ class _OutputSpecCyclicExpandedStress(_Outputs):
         self.inertia_matrix = _Output(_get_output_spec_cyclic_expanded_stress(2), 2, op) 
         self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_stress(3), 3, op) 
 
-class _CyclicExpandedStress:
+class _CyclicExpandedStress(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::S_cyclic")
+         self._name = "mapdl::rst::S_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicExpandedStress(self._op)
+         self.outputs = _OutputSpecCyclicExpandedStress(self._op)
+
+def cyclic_expanded_stress():
     """Operator's description:
 Internal name is "mapdl::rst::S_cyclic"
 Scripting name is "cyclic_expanded_stress"
@@ -9144,13 +9272,6 @@ Output list:
    2: inertia_matrix 
    3: remote_point_id 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::S_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedStress(self._op)
-         self.outputs = _OutputSpecCyclicExpandedStress(self._op)
-
-def cyclic_expanded_stress():
     return _CyclicExpandedStress()
 
 #internal name: mapdl::rst::ENG_VOL_cyclic
@@ -9228,7 +9349,15 @@ class _OutputSpecCyclicVolume(_Outputs):
         self.inertia_matrix = _Output(_get_output_spec_cyclic_volume(2), 2, op) 
         self.remote_point_id = _Output(_get_output_spec_cyclic_volume(3), 3, op) 
 
-class _CyclicVolume:
+class _CyclicVolume(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::rst::ENG_VOL_cyclic")
+         self._name = "mapdl::rst::ENG_VOL_cyclic"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecCyclicVolume(self._op)
+         self.outputs = _OutputSpecCyclicVolume(self._op)
+
+def cyclic_volume():
     """Operator's description:
 Internal name is "mapdl::rst::ENG_VOL_cyclic"
 Scripting name is "cyclic_volume"
@@ -9259,13 +9388,6 @@ Output list:
    2: inertia_matrix 
    3: remote_point_id 
 """
-    def __init__(self):
-         self._name = "mapdl::rst::ENG_VOL_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicVolume(self._op)
-         self.outputs = _OutputSpecCyclicVolume(self._op)
-
-def cyclic_volume():
     return _CyclicVolume()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -9305,7 +9427,15 @@ class _OutputSpecToField(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_to_field(0), 0, op) 
 
-class _ToField:
+class _ToField(_Operator):
+    def __init__(self):
+         super().__init__("vtk::vtk::FieldProvider")
+         self._name = "vtk::vtk::FieldProvider"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecToField(self._op)
+         self.outputs = _OutputSpecToField(self._op)
+
+def to_field():
     """Operator's description:
 Internal name is "vtk::vtk::FieldProvider"
 Scripting name is "to_field"
@@ -9320,12 +9450,5 @@ Input list:
 Output list: 
    0: fields_container (fields_container)
 """
-    def __init__(self):
-         self._name = "vtk::vtk::FieldProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToField(self._op)
-         self.outputs = _OutputSpecToField(self._op)
-
-def to_field():
     return _ToField()
 

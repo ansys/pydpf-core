@@ -32,7 +32,15 @@ class _OutputSpecLowPassFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_low_pass_fc(0), 0, op) 
 
-class _LowPassFc:
+class _LowPassFc(_Operator):
+    def __init__(self):
+         super().__init__("core::field::low_pass_fc")
+         self._name = "core::field::low_pass_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecLowPassFc(self._op)
+         self.outputs = _OutputSpecLowPassFc(self._op)
+
+def low_pass_fc():
     """Operator's description:
 Internal name is "core::field::low_pass_fc"
 Scripting name is "field.low_pass_fc"
@@ -47,13 +55,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "core::field::low_pass_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecLowPassFc(self._op)
-         self.outputs = _OutputSpecLowPassFc(self._op)
-
-def low_pass_fc():
     return _LowPassFc()
 
 #internal name: core::field::band_pass_fc
@@ -86,7 +87,15 @@ class _OutputSpecBandPassFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_band_pass_fc(0), 0, op) 
 
-class _BandPassFc:
+class _BandPassFc(_Operator):
+    def __init__(self):
+         super().__init__("core::field::band_pass_fc")
+         self._name = "core::field::band_pass_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecBandPassFc(self._op)
+         self.outputs = _OutputSpecBandPassFc(self._op)
+
+def band_pass_fc():
     """Operator's description:
 Internal name is "core::field::band_pass_fc"
 Scripting name is "field.band_pass_fc"
@@ -102,13 +111,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "core::field::band_pass_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBandPassFc(self._op)
-         self.outputs = _OutputSpecBandPassFc(self._op)
-
-def band_pass_fc():
     return _BandPassFc()
 
 #internal name: core::field::high_pass
@@ -138,7 +140,15 @@ class _OutputSpecHighPass(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_high_pass(0), 0, op) 
 
-class _HighPass:
+class _HighPass(_Operator):
+    def __init__(self):
+         super().__init__("core::field::high_pass")
+         self._name = "core::field::high_pass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHighPass(self._op)
+         self.outputs = _OutputSpecHighPass(self._op)
+
+def high_pass():
     """Operator's description:
 Internal name is "core::field::high_pass"
 Scripting name is "field.high_pass"
@@ -153,13 +163,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "core::field::high_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHighPass(self._op)
-         self.outputs = _OutputSpecHighPass(self._op)
-
-def high_pass():
     return _HighPass()
 
 #internal name: core::field::high_pass_fc
@@ -189,7 +192,15 @@ class _OutputSpecHighPassFc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_high_pass_fc(0), 0, op) 
 
-class _HighPassFc:
+class _HighPassFc(_Operator):
+    def __init__(self):
+         super().__init__("core::field::high_pass_fc")
+         self._name = "core::field::high_pass_fc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecHighPassFc(self._op)
+         self.outputs = _OutputSpecHighPassFc(self._op)
+
+def high_pass_fc():
     """Operator's description:
 Internal name is "core::field::high_pass_fc"
 Scripting name is "field.high_pass_fc"
@@ -204,13 +215,6 @@ Input list:
 Output list: 
    0: fields_container 
 """
-    def __init__(self):
-         self._name = "core::field::high_pass_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHighPassFc(self._op)
-         self.outputs = _OutputSpecHighPassFc(self._op)
-
-def high_pass_fc():
     return _HighPassFc()
 
 #internal name: core::field::low_pass
@@ -240,7 +244,15 @@ class _OutputSpecLowPass(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_low_pass(0), 0, op) 
 
-class _LowPass:
+class _LowPass(_Operator):
+    def __init__(self):
+         super().__init__("core::field::low_pass")
+         self._name = "core::field::low_pass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecLowPass(self._op)
+         self.outputs = _OutputSpecLowPass(self._op)
+
+def low_pass():
     """Operator's description:
 Internal name is "core::field::low_pass"
 Scripting name is "field.low_pass"
@@ -255,13 +267,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "core::field::low_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecLowPass(self._op)
-         self.outputs = _OutputSpecLowPass(self._op)
-
-def low_pass():
     return _LowPass()
 
 #internal name: core::field::band_pass
@@ -294,7 +299,15 @@ class _OutputSpecBandPass(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_band_pass(0), 0, op) 
 
-class _BandPass:
+class _BandPass(_Operator):
+    def __init__(self):
+         super().__init__("core::field::band_pass")
+         self._name = "core::field::band_pass"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecBandPass(self._op)
+         self.outputs = _OutputSpecBandPass(self._op)
+
+def band_pass():
     """Operator's description:
 Internal name is "core::field::band_pass"
 Scripting name is "field.band_pass"
@@ -310,12 +323,5 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "core::field::band_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBandPass(self._op)
-         self.outputs = _OutputSpecBandPass(self._op)
-
-def band_pass():
     return _BandPass()
 

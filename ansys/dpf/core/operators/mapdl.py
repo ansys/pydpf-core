@@ -38,7 +38,15 @@ class _OutputSpecRun(_Outputs):
     def __init__(self, op: _Operator):
         self.data_sources = _Output(_get_output_spec_run(0), 0, op) 
 
-class _Run:
+class _Run(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::run")
+         self._name = "mapdl::run"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecRun(self._op)
+         self.outputs = _OutputSpecRun(self._op)
+
+def run():
     """Operator's description:
 Internal name is "mapdl::run"
 Scripting name is "mapdl.run"
@@ -55,13 +63,6 @@ Input list:
 Output list: 
    0: data_sources 
 """
-    def __init__(self):
-         self._name = "mapdl::run"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRun(self._op)
-         self.outputs = _OutputSpecRun(self._op)
-
-def run():
     return _Run()
 
 #internal name: mapdl::nmisc
@@ -103,7 +104,15 @@ class _OutputSpecNmisc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_nmisc(0), 0, op) 
 
-class _Nmisc:
+class _Nmisc(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::nmisc")
+         self._name = "mapdl::nmisc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecNmisc(self._op)
+         self.outputs = _OutputSpecNmisc(self._op)
+
+def nmisc():
     """Operator's description:
 Internal name is "mapdl::nmisc"
 Scripting name is "mapdl.nmisc"
@@ -122,13 +131,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::nmisc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNmisc(self._op)
-         self.outputs = _OutputSpecNmisc(self._op)
-
-def nmisc():
     return _Nmisc()
 
 #internal name: mapdl::smisc
@@ -170,7 +172,15 @@ class _OutputSpecSmisc(_Outputs):
     def __init__(self, op: _Operator):
         self.fields_container = _Output(_get_output_spec_smisc(0), 0, op) 
 
-class _Smisc:
+class _Smisc(_Operator):
+    def __init__(self):
+         super().__init__("mapdl::smisc")
+         self._name = "mapdl::smisc"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecSmisc(self._op)
+         self.outputs = _OutputSpecSmisc(self._op)
+
+def smisc():
     """Operator's description:
 Internal name is "mapdl::smisc"
 Scripting name is "mapdl.smisc"
@@ -189,13 +199,6 @@ Input list:
 Output list: 
    0: fields_container (FieldsContainer filled in)
 """
-    def __init__(self):
-         self._name = "mapdl::smisc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSmisc(self._op)
-         self.outputs = _OutputSpecSmisc(self._op)
-
-def smisc():
     return _Smisc()
 
 #internal name: PRES_Reader
@@ -222,7 +225,15 @@ class _OutputSpecPresToField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_pres_to_field(0), 0, op) 
 
-class _PresToField:
+class _PresToField(_Operator):
+    def __init__(self):
+         super().__init__("PRES_Reader")
+         self._name = "PRES_Reader"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPresToField(self._op)
+         self.outputs = _OutputSpecPresToField(self._op)
+
+def pres_to_field():
     """Operator's description:
 Internal name is "PRES_Reader"
 Scripting name is "mapdl.pres_to_field"
@@ -236,13 +247,6 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "PRES_Reader"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPresToField(self._op)
-         self.outputs = _OutputSpecPresToField(self._op)
-
-def pres_to_field():
     return _PresToField()
 
 #internal name: PRNS_Reader
@@ -269,7 +273,15 @@ class _OutputSpecPrnsToField(_Outputs):
     def __init__(self, op: _Operator):
         self.field = _Output(_get_output_spec_prns_to_field(0), 0, op) 
 
-class _PrnsToField:
+class _PrnsToField(_Operator):
+    def __init__(self):
+         super().__init__("PRNS_Reader")
+         self._name = "PRNS_Reader"
+         self._op = _Operator(self._name)
+         self.inputs = _InputSpecPrnsToField(self._op)
+         self.outputs = _OutputSpecPrnsToField(self._op)
+
+def prns_to_field():
     """Operator's description:
 Internal name is "PRNS_Reader"
 Scripting name is "mapdl.prns_to_field"
@@ -283,12 +295,5 @@ Input list:
 Output list: 
    0: field 
 """
-    def __init__(self):
-         self._name = "PRNS_Reader"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPrnsToField(self._op)
-         self.outputs = _OutputSpecPrnsToField(self._op)
-
-def prns_to_field():
     return _PrnsToField()
 
