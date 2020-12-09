@@ -75,8 +75,15 @@ def fields_container_csv():
     return resolve_test_file('fields_container.csv', 'csvToField')
 
 
+@pytest.fixture()
+def simple_rst():
+    """Resolve the path of the "rst_operators/simpleModel.rst" result file."""
+    return resolve_test_file('simpleModel.rst', 'rst_operators')
+
+
 @pytest.fixture(scope="session", autouse=True)
 def load_operators(request):
     """This loads all the operators on initialization"""
-    model = core.Model(resolve_test_file('ASimpleBar.rst'))
+    # could use baseservice instead...
+    core.Model(resolve_test_file('ASimpleBar.rst'))
 
