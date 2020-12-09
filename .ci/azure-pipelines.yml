@@ -74,7 +74,7 @@ jobs:
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines
         cd tests
-        pytest -v test_fieldscontainer.py
+        pytest -v
       displayName: Test Core API
 
 
