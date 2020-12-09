@@ -35,6 +35,10 @@ jobs:
   steps:
     - powershell: |
         powershell .ci/install_opengl.ps1
+        .ci/setup_headless_display.sh
+        pip install -r .ci/requirements_test_xvfb.txt
+        python .ci/display_test.py
+      displayName: Install and start a virtual framebuffer
 
     - task: UsePythonVersion@0
       inputs:

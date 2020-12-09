@@ -14,13 +14,17 @@ class Plotter:
     def __init__(self, mesh):
         self._mesh = mesh
         
-    def plot_mesh(self, notebook=True):
+    def plot_mesh(self, notebook=None):
         """Plot the mesh using pyvista.
         
         Parameters
         ----------
-        notebook (default: True):
-            bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
+        notebook : bool, optional
+            When ``None`` (default) plot a static image within an
+            iPython notebook if available.  When ``False``, plot
+            external to the notebook with an interactive window.  When
+            ``True``, always plot within a notebook.
+
         """
         return self._mesh.grid.plot(notebook=notebook)
         
@@ -49,18 +53,23 @@ class Plotter:
         pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title( substr[0] + ": min/max values over time")
         return pyplot.legend()
-    
-    def plot_contour(self, fields_container, notebook=True):
-        """Plot the contour result on its mesh support. The obtained figure depends on the 
-        support (can be a meshed_region or a time_freq_support).
-        If transient analysis, plot the last result if no time_scoping has been specified.
-        
+
+    def plot_contour(self, fields_container, notebook=None):
+        """Plot the contour result on its mesh support. The obtained
+        figure depends on the support (can be a meshed_region or a
+        time_freq_support).  If transient analysis, plot the last
+        result if no time_scoping has been specified.
+
         Parameters
         ----------
-        fields_container
-            dpf.core.FieldsContainer thats contains the result to plot.
-        notebook (default: True):
-            bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
+        fields_container : dpf.core.FieldsContainer
+            Field container that contains the result to plot.
+
+        notebook : bool, optional
+            When ``None`` (default) plot a static image within an
+            iPython notebook if available.  When ``False``, plot
+            external to the notebook with an interactive window.  When
+            ``True``, always plot within a notebook.
         """
         if not sys.warnoptions:
             import warnings
@@ -101,7 +110,7 @@ class Plotter:
         plotter.add_axes()
         return plotter.show()
     
-    def _plot_contour_using_vtk_file(self, fields_container, notebook=True):
+    def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
         support (can be a meshed_region or a time_freq_support).
         If transient analysis, plot the last result.
