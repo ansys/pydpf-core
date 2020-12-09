@@ -32,3 +32,7 @@ flycheck*
 
 # docker bin
 docker/v211
+
+# pytest -coverage
+.coverage
+test-output.xml
