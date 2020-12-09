@@ -18,6 +18,9 @@
 #ansys/dpf/core
 /ansys/dpf/core/__pycache__
 
+#operators
+/ansys/dpf/core/operators/__pycache__
+
 #other
 /perso
 /examples/.ipynb_checkpoints
