@@ -325,11 +325,10 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
                                  'Unable to locate the directory containing DPF at '
                                  f'"{dpf_run_dir}"')
 
-    dpf_bin = os.path.isfile(os.path.join(dpf_run_dir, 'Ans.Dpf.Grpc.exe'))
+    dpf_bin = os.path.join(dpf_run_dir, 'Ans.Dpf.Grpc.exe')
     if not os.path.isfile(dpf_bin):
         raise FileNotFoundError('Unable to locate the DPF executable at '
                                 f'"{dpf_bin}"')
-
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
