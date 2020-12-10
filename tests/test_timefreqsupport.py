@@ -1,37 +1,17 @@
-import os
-
 import pytest
 import numpy as np
 
 from ansys import dpf
 
 
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    UNIT_TEST_PATH = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-
-# runs once per testing session
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
+@pytest.fixture()
+def vel_acc_model(velocity_acceleration):
+    return dpf.core.Model(velocity_acceleration)
 
 
-VEL_ACC_PATH = os.path.join(UNIT_TEST_PATH, 'DataProcessing', 'rst_operators',
-                            'velocity_acceleration', 'file.rst')
-
-SIMPLE_MODEL_PATH = os.path.join(UNIT_TEST_PATH, 'DataProcessing', 'rst_operators',
-                                 'simpleModel.rst')
-
-
-@pytest.fixture(scope='module')
-def vel_acc_model():
-    return dpf.core.Model(VEL_ACC_PATH)
-
-
-def test_get_timefreqsupport():
+def test_get_timefreqsupport(velocity_acceleration):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(VEL_ACC_PATH)
+    dataSource.set_result_file_path(velocity_acceleration)
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
@@ -51,9 +31,9 @@ def test_model_time_freq_support(vel_acc_model):
     assert np.allclose(expected_data, timefreq.frequencies.data)
 
 
-def test_get_frequencies_timefreqsupport():
+def test_get_frequencies_timefreqsupport(velocity_acceleration):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(VEL_ACC_PATH)
+    dataSource.set_result_file_path(velocity_acceleration)
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
@@ -61,17 +41,22 @@ def test_get_frequencies_timefreqsupport():
     assert np.allclose(freq.data, [0.02, 0.04, 0.06, 0.08, 0.1])
     assert freq.scoping.ids == [1]
 
-def test_print_timefreqsupport():
+
+def test_print_timefreqsupport(velocity_acceleration):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(VEL_ACC_PATH)
+    dataSource.set_result_file_path(velocity_acceleration)
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
-    print(res)
-    
-def test_delete_timefreqsupport():
+    assert 'Number of sets: 5' in str(res)
+    assert 'Time (s)' in str(res)
+    assert 'Loadstep' in str(res)
+    assert 'Substep' in str(res)
+
+
+def test_delete_timefreqsupport(velocity_acceleration):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(VEL_ACC_PATH)
+    dataSource.set_result_file_path(velocity_acceleration)
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
@@ -80,10 +65,9 @@ def test_delete_timefreqsupport():
         res.get_frequence(0, 0)
 
 
-def test_delete_auto_timefreqsupport():
-    # path = unitestPath + r'\DataProcessing\rst_operators\simpleModel.rst'
+def test_delete_auto_timefreqsupport(simple_rst):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(SIMPLE_MODEL_PATH)
+    dataSource.set_result_file_path(simple_rst)
     op= dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res=op.get_output(0, dpf.core.types.time_freq_support)

@@ -1,32 +1,18 @@
-import os
-
 import numpy as np
 import pytest
 import vtk
 from ansys import dpf
 
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-
-TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                              'ASimpleBar.rst')
 
 
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
+@pytest.fixture()
+def simple_bar_model(simple_bar):
+    return dpf.core.Model(simple_bar)
 
 
-@pytest.fixture(scope='module')
-def simple_bar_model():
-    return dpf.core.Model(TEST_FILE_PATH)
-
-
-def test_get_scoping_meshedregion_from_operator():
+def test_get_scoping_meshedregion_from_operator(simple_bar):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(TEST_FILE_PATH)
+    dataSource.set_result_file_path(simple_bar)
     mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
     mesh.connect(4, dataSource)
     meshOut = mesh.get_output(0, dpf.core.types.meshed_region)
@@ -47,7 +33,6 @@ def test_vtk_grid_from_model(simple_bar_model):
     grid = mesh.grid
     assert np.allclose(grid['element_ids'], mesh.elements.scoping.ids)
     assert np.allclose(grid['node_ids'], mesh.nodes.scoping.ids)
-    #assert np.allclose(grid.quality, 1)  # verify these are just perfect hex cells
     assert all(grid.celltypes == vtk.VTK_HEXAHEDRON)
 
 
@@ -132,34 +117,36 @@ def test_get_nodes_meshedregion(simple_bar_model):
     assert node.id >= 1
     assert node.index ==1
     assert node.coordinates != None
-    
+
+
 def test_get_elements_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     el = mesh.elements.element_by_id(1)
-    assert el.id ==1
-    assert el.index >=0
-    assert el.nodes != None
+    assert el.id == 1
+    assert el.index >= 0
+    assert el.nodes is not None
     el = mesh.elements.element_by_index(1)
     assert el.id >= 1
     assert el.index ==1
-    assert el.nodes != None
-    
-    
-    
-def test_print_meshedregion(simple_bar_model):
-   print(simple_bar_model.metadata.meshed_region)
+    assert el.nodes is not None
 
-def test_delete_meshedregion():
-    model = dpf.core.Model(TEST_FILE_PATH)
-    mesh = model.metadata.meshed_region
-    mesh.__del__()
+
+def test_str_meshedregion(simple_bar_model):
+    meshed_region = simple_bar_model.metadata.meshed_region
+    assert str(len(meshed_region.nodes)) in str(meshed_region)
+    assert str(len(meshed_region.elements)) in str(meshed_region)
+
+
+def test_delete_meshedregion(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    del mesh
     with pytest.raises(Exception):
         mesh.nodes[0]
 
 
-def test_delete_auto_meshedregion():
+def test_delete_auto_meshedregion(simple_bar):
     dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(TEST_FILE_PATH)
+    dataSource.set_result_file_path(simple_bar)
     mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
     mesh.connect(4, dataSource)
     meshOut = mesh.get_output(0, dpf.core.types.meshed_region)

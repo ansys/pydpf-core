@@ -1,16 +1,3 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
 from warnings import warn
 from ansys.grpc.dpf import available_result_pb2, base_pb2
 from ansys.dpf.core.common import remove_spaces

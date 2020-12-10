@@ -1,17 +1,3 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
-
 from ansys import dpf
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 from ansys.dpf.core import scoping, field
@@ -419,15 +405,15 @@ class Elements():
         return self._mesh.element_by_index(index)
 
     def __len__(self):
-        return self._mesh.n_elements
+        return self.n_elements
 
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]   
-    
+
     def element_by_id(self, id):
         return self.__get_element(elementid=id)
-    
+
     def element_by_index(self, index):
         return self.__get_element(elementindex=index)
 

@@ -1,17 +1,3 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
-
 import numpy as np
 from vtk import (VTK_EMPTY_CELL, VTK_EMPTY_CELL, VTK_VERTEX,
                  VTK_POLY_VERTEX, VTK_LINE, VTK_POLY_LINE,
@@ -25,9 +11,11 @@ from vtk import (VTK_EMPTY_CELL, VTK_EMPTY_CELL, VTK_VERTEX,
                  VTK_QUADRATIC_WEDGE, VTK_QUADRATIC_PYRAMID,
                  VTK_BIQUADRATIC_QUAD, VTK_TRIQUADRATIC_HEXAHEDRON,
                  VTK_QUADRATIC_LINEAR_QUAD,
-                 VTK_QUADRATIC_LINEAR_WEDGE)
+                 VTK_QUADRATIC_LINEAR_WEDGE,
+                 vtkVersion)
 import pyvista as pv
 
+VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
 
 # Maps dpf cell sizes (based on array order) to the number of nodes per cell
 SIZE_MAPPING = np.array([10,  # kAnsTet10
@@ -159,8 +147,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     """
     # could make this more efficient in C...
     elem_size = SIZE_MAPPING[etypes]
-    split_ind = elem_size.copy()
-    insert_ind = np.cumsum(split_ind)
+    insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
     # TODO: Investigate why connectivity can be -1
@@ -172,17 +159,18 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     # partition cells in vtk format
     cells = np.insert(connectivity, insert_ind, elem_size)
 
-    # compute offset array
-    split_ind += 1
-    split_ind[0] = 0
-    offset = np.cumsum(split_ind)
-
-    # breakpoint()
-
     # convert kAns to VTK cell type
     if as_linear:
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
 
+    # different treatment depending on the version of vtk
+    if VTK9:
+        # compute offset array when < VTK v9
+        return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
+
+    split_ind = elem_size + 1
+    split_ind[0] = 0
+    offset = np.cumsum(split_ind)
     return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)

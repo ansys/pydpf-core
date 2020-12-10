@@ -1,16 +1,18 @@
-from functools import wraps
+"""Interface to underlying gRPC Operator"""
 import logging
 import grpc
 import functools
 
 from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2
 from ansys.dpf.core import (fields_container, field, scoping,
-                       meshed_region, result_info, time_freq_support, operators, collection, data_sources, server)
+                            meshed_region, result_info, time_freq_support,
+                            operators, collection, data_sources, server)
 from ansys.dpf.core.common import types, camel_to_snake_case
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.outputs import Outputs
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.raw_operators import DPF_HTML_OPERATOR_DOCS
+from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
@@ -27,10 +29,11 @@ class Operator:
     ----------
     name : str
         Name of the operator.  For example 'U'.
-    
+
     channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to the global channel.
-    
+        Channel connected to the remote or local instance. Defaults to
+        the global channel.
+
     Examples
     --------
     Create an operator from a string
@@ -139,6 +142,7 @@ class Operator:
 
         self._stub.Update(request)
 
+    @protect_grpc
     def get_output(self, pin=0, output_type=None):
         """Returns the output of the operator on the pin number.  If no
         pin is set, then the operator is run.

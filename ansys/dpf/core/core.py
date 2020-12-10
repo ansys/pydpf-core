@@ -1,16 +1,3 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
 import os
 import logging
 import time
@@ -36,8 +23,9 @@ class BaseService():
     Parameters
     ----------
     channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to the global channel.
-        
+        Channel connected to the remote or local instance. Defaults to
+        the global channel.
+
     timeout : float, optional
         Fails when a connection takes longer than ``timeout`` seconds
         to initialize.
@@ -51,19 +39,17 @@ class BaseService():
 
     def __init__(self, channel=None, load_operators=True, timeout=5):
         """Initialize base service"""
-        
+
         if channel is None:
-            channel = dpf.core._global_channel()     
-        
-        self._channel = channel  
+            channel = dpf.core._global_channel()
+
+        self._channel = channel
         self._stub = self._connect(timeout)
-        
-        try:
-            if load_operators:
-                self._load_mapdl_operators()
-                self._load_mesh_operators()
-        except :
-            print("not all plugins have been loaded")
+
+        if load_operators:
+            self._load_native_operators()
+            self._load_mapdl_operators()
+            self._load_mesh_operators()
 
     def _connect(self, timeout=5):
         """Connect to dpf service within a given timeout"""
@@ -103,12 +89,6 @@ class BaseService():
         >>> base.load_library('someNewOperators.so', 'new_operators')
 
         """
-        # verify filename exists if it's a full path (this will not
-        # work for a remote session or a file local to the dpf server)
-        if os.path.dirname(filename):
-            if not os.path.isfile(filename):
-                raise FileNotFoundError('Library "%s" not found"' % filename)
-
         request = base_pb2.PluginRequest()
         request.name = name
         request.dllPath = filename
@@ -116,26 +96,56 @@ class BaseService():
         try:
             self._stub.Load(request)
         except Exception as e:
-            raise IOError('Unable to load library "%s".  Check ' % filename +
-                          'for missing dependencies or file may not exist:\n%s'
-                          % str(e))
+            raise IOError(f'Unable to load library "{filename}". File may not exist or'
+                          f' is missing dependencies:\n{str(e)}')
 
     def _load_mapdl_operators(self):
         """Load the mapdl operators library"""
-        if os.name == 'posix':
+        try:
             self.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
+        except:
+            pass
+
+        if CONFIGURATION == "release":
+            self.load_library('mapdlOperatorsCore.dll', 'mapdl_operators')
         else:
-            if CONFIGURATION == "release":
-                self.load_library('mapdlOperatorsCore.dll', 'mapdl_operators')
-            else:
-                self.load_library('mapdlOperatorsCoreD.dll', 'mapdl_operators')
+            self.load_library('mapdlOperatorsCoreD.dll', 'mapdl_operators')
 
     def _load_mesh_operators(self):
         """Load the mesh operators library"""
-        if os.name == 'posix':
+        try:
             self.load_library('libmeshOperatorsCore.so', 'mesh_operators')
+        except:
+            pass
+
+        if CONFIGURATION == "release":
+            self.load_library('meshOperatorsCore.dll', 'mesh_operators')
         else:
-            if CONFIGURATION == "release":
-                self.load_library('meshOperatorsCore.dll', 'mesh_operators')
-            else :
-                self.load_library('meshOperatorsCoreD.dll', 'mesh_operators')
+            self.load_library('meshOperatorsCoreD.dll', 'mesh_operators')
+
+    def _load_native_operators(self):
+        """This is normally loaded at the start of the server and is
+        only here for debug purposes"""
+        operator_name = 'native'
+        try:
+            self.load_library('libAns.Dpf.Native.so', operator_name)
+        except:
+            pass
+
+        if CONFIGURATION == "release":
+            self.load_library('Ans.Dpf.Native.dll', operator_name)
+        else:
+            self.load_library('Ans.Dpf.NativeD.dll', operator_name)
+
+    def _load_hdf5(self):
+        """Load HDF5 operators"""
+        operator_name = 'hdf5'
+        try:
+            self.load_library('libAns.Dpf.Hdf5.so', operator_name)
+        except:
+            pass
+
+        if CONFIGURATION == "release":
+            self.load_library('Ans.Dpf.Hdf5.dll', operator_name)
+        else:
+            self.load_library('Ans.Dpf.Hdf5D.dll', operator_name)

@@ -1,16 +1,3 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
 import os
 
 from ansys import dpf
@@ -31,10 +18,10 @@ class DataSources:
 
     data_sources : ansys.grpc.dpf.data_sources_pb2.DataSources
         gRPC data sources message.
-        
+
     channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to the global channel.
-    
+        Channel connected to the remote or local instance. Defaults to
+        the global channel.
 
     Examples
     --------
@@ -48,8 +35,8 @@ class DataSources:
         """Initialize connection with the server"""
         if channel is None:
             channel = dpf.core._global_channel()
-        
-        self._channel = channel 
+
+        self._channel = channel
         self._stub = self._connect()
 
         if data_sources is None:
@@ -87,10 +74,8 @@ class DataSources:
         # The filename needs to be a fully qualified file name
         if not os.path.dirname(filepath):
             # append local path
+            # TODO: this will not work on a remote server
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
-
-#        if not os.path.isfile(filepath):
-#            raise FileNotFoundError('Unable to locate result file at "%s"' % filepath)
 
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
@@ -120,15 +105,12 @@ class DataSources:
             # append local path
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
 
-        if not os.path.isfile(filepath):
-            raise FileNotFoundError('Unable to locate result file at "%s"' % filepath)
-
         request = data_sources_pb2.UpdateRequest()
         request.key = key
         request.path = filepath
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
-        
+
     def add_upstream(self, upstream_data_sources, upstream_id = -2):
         """Add an upstream datasources.
 
