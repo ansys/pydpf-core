@@ -30,26 +30,60 @@ class _OutputSpecSolidShellFields(_Outputs):
         self.fields_container = _Output(_get_output_spec_solid_shell_fields(0), 0, op) 
 
 class _SolidShellFields(_Operator):
+    """Operator's description:
+    Internal name is "merge::solid_shell_fields"
+    Scripting name is "merge::solid_shell_fields"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("merge::solid_shell_fields")
+    >>> op_way2 = core.operators.logic.merge::solid_shell_fields()
+    """
     def __init__(self):
-         super().__init__("merge::solid_shell_fields")
-         self._name = "merge::solid_shell_fields"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSolidShellFields(self._op)
-         self.outputs = _OutputSpecSolidShellFields(self._op)
+        """Specific operator class."""
+        super().__init__("merge::solid_shell_fields")
+        self._name = "merge::solid_shell_fields"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecSolidShellFields(self._op)
+        self.outputs = _OutputSpecSolidShellFields(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def solid_shell_fields():
     """Operator's description:
-Internal name is "merge::solid_shell_fields"
-Scripting name is "merge::solid_shell_fields"
+    Internal name is "merge::solid_shell_fields"
+    Scripting name is "merge::solid_shell_fields"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("merge::solid_shell_fields")
-- using dpf.operators.logic.merge::solid_shell_fields()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("merge::solid_shell_fields")
+    >>> op_way2 = core.operators.logic.merge::solid_shell_fields()
+    """
     return _SolidShellFields()
 

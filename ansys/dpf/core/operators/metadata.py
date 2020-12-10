@@ -36,28 +36,63 @@ class _OutputSpecResultInfoProvider(_Outputs):
         self.result_info = _Output(_get_output_spec_result_info_provider(0), 0, op) 
 
 class _ResultInfoProvider(_Operator):
+    """Operator's description:
+    Internal name is "ResultInfoProvider"
+    Scripting name is "result_info_provider"
+
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+
+    Output list: 
+       0: result_info 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ResultInfoProvider")
+    >>> op_way2 = core.operators.metadata.result_info_provider()
+    """
     def __init__(self):
-         super().__init__("ResultInfoProvider")
-         self._name = "ResultInfoProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecResultInfoProvider(self._op)
-         self.outputs = _OutputSpecResultInfoProvider(self._op)
+        """Specific operator class."""
+        super().__init__("ResultInfoProvider")
+        self._name = "ResultInfoProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecResultInfoProvider(self._op)
+        self.outputs = _OutputSpecResultInfoProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def result_info_provider():
     """Operator's description:
-Internal name is "ResultInfoProvider"
-Scripting name is "result_info_provider"
+    Internal name is "ResultInfoProvider"
+    Scripting name is "result_info_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ResultInfoProvider")
-- using dpf.operators.metadata.result_info_provider()
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
 
-Input list: 
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-Output list: 
-   0: result_info 
-"""
+    Output list: 
+       0: result_info 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ResultInfoProvider")
+    >>> op_way2 = core.operators.metadata.result_info_provider()
+    """
     return _ResultInfoProvider()
 
 #internal name: TimeFreqSupportProvider
@@ -88,28 +123,63 @@ class _OutputSpecTimeFreqProvider(_Outputs):
         self.time_freq_support = _Output(_get_output_spec_time_freq_provider(0), 0, op) 
 
 class _TimeFreqProvider(_Operator):
+    """Operator's description:
+    Internal name is "TimeFreqSupportProvider"
+    Scripting name is "time_freq_provider"
+
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+
+    Output list: 
+       0: time_freq_support 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TimeFreqSupportProvider")
+    >>> op_way2 = core.operators.metadata.time_freq_provider()
+    """
     def __init__(self):
-         super().__init__("TimeFreqSupportProvider")
-         self._name = "TimeFreqSupportProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTimeFreqProvider(self._op)
-         self.outputs = _OutputSpecTimeFreqProvider(self._op)
+        """Specific operator class."""
+        super().__init__("TimeFreqSupportProvider")
+        self._name = "TimeFreqSupportProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecTimeFreqProvider(self._op)
+        self.outputs = _OutputSpecTimeFreqProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def time_freq_provider():
     """Operator's description:
-Internal name is "TimeFreqSupportProvider"
-Scripting name is "time_freq_provider"
+    Internal name is "TimeFreqSupportProvider"
+    Scripting name is "time_freq_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("TimeFreqSupportProvider")
-- using dpf.operators.metadata.time_freq_provider()
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
 
-Input list: 
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-Output list: 
-   0: time_freq_support 
-"""
+    Output list: 
+       0: time_freq_support 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TimeFreqSupportProvider")
+    >>> op_way2 = core.operators.metadata.time_freq_provider()
+    """
     return _TimeFreqProvider()
 
 #internal name: MaterialsProvider
@@ -140,28 +210,63 @@ class _OutputSpecMaterialProvider(_Outputs):
         self.materials = _Output(_get_output_spec_material_provider(0), 0, op) 
 
 class _MaterialProvider(_Operator):
+    """Operator's description:
+    Internal name is "MaterialsProvider"
+    Scripting name is "material_provider"
+
+    Input list: 
+       3: streams_container (streams (result file container))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+
+    Output list: 
+       0: materials 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MaterialsProvider")
+    >>> op_way2 = core.operators.metadata.material_provider()
+    """
     def __init__(self):
-         super().__init__("MaterialsProvider")
-         self._name = "MaterialsProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMaterialProvider(self._op)
-         self.outputs = _OutputSpecMaterialProvider(self._op)
+        """Specific operator class."""
+        super().__init__("MaterialsProvider")
+        self._name = "MaterialsProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMaterialProvider(self._op)
+        self.outputs = _OutputSpecMaterialProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def material_provider():
     """Operator's description:
-Internal name is "MaterialsProvider"
-Scripting name is "material_provider"
+    Internal name is "MaterialsProvider"
+    Scripting name is "material_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("MaterialsProvider")
-- using dpf.operators.metadata.material_provider()
+    Input list: 
+       3: streams_container (streams (result file container))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
 
-Input list: 
-   3: streams_container (streams (result file container))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-Output list: 
-   0: materials 
-"""
+    Output list: 
+       0: materials 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MaterialsProvider")
+    >>> op_way2 = core.operators.metadata.material_provider()
+    """
     return _MaterialProvider()
 
 #internal name: stream_provider
@@ -189,27 +294,61 @@ class _OutputSpecStreamsProvider(_Outputs):
         self.streams_container = _Output(_get_output_spec_streams_provider(0), 0, op) 
 
 class _StreamsProvider(_Operator):
+    """Operator's description:
+    Internal name is "stream_provider"
+    Scripting name is "streams_provider"
+
+    Input list: 
+       4: data_sources 
+
+    Output list: 
+       0: streams_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("stream_provider")
+    >>> op_way2 = core.operators.metadata.streams_provider()
+    """
     def __init__(self):
-         super().__init__("stream_provider")
-         self._name = "stream_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStreamsProvider(self._op)
-         self.outputs = _OutputSpecStreamsProvider(self._op)
+        """Specific operator class."""
+        super().__init__("stream_provider")
+        self._name = "stream_provider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStreamsProvider(self._op)
+        self.outputs = _OutputSpecStreamsProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def streams_provider():
     """Operator's description:
-Internal name is "stream_provider"
-Scripting name is "streams_provider"
+    Internal name is "stream_provider"
+    Scripting name is "streams_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("stream_provider")
-- using dpf.operators.metadata.streams_provider()
+    Input list: 
+       4: data_sources 
 
-Input list: 
-   4: data_sources 
-Output list: 
-   0: streams_container 
-"""
+    Output list: 
+       0: streams_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("stream_provider")
+    >>> op_way2 = core.operators.metadata.streams_provider()
+    """
     return _StreamsProvider()
 
 #internal name: MeshSelectionManagerProvider
@@ -238,28 +377,63 @@ class _OutputSpecMeshSelectionManagerProvider(_Outputs):
         pass 
 
 class _MeshSelectionManagerProvider(_Operator):
+    """Operator's description:
+    Internal name is "MeshSelectionManagerProvider"
+    Scripting name is "mesh_selection_manager_provider"
+
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MeshSelectionManagerProvider")
+    >>> op_way2 = core.operators.metadata.mesh_selection_manager_provider()
+    """
     def __init__(self):
-         super().__init__("MeshSelectionManagerProvider")
-         self._name = "MeshSelectionManagerProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMeshSelectionManagerProvider(self._op)
-         self.outputs = _OutputSpecMeshSelectionManagerProvider(self._op)
+        """Specific operator class."""
+        super().__init__("MeshSelectionManagerProvider")
+        self._name = "MeshSelectionManagerProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMeshSelectionManagerProvider(self._op)
+        self.outputs = _OutputSpecMeshSelectionManagerProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def mesh_selection_manager_provider():
     """Operator's description:
-Internal name is "MeshSelectionManagerProvider"
-Scripting name is "mesh_selection_manager_provider"
+    Internal name is "MeshSelectionManagerProvider"
+    Scripting name is "mesh_selection_manager_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("MeshSelectionManagerProvider")
-- using dpf.operators.metadata.mesh_selection_manager_provider()
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
 
-Input list: 
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-Output list: 
-   empty 
-"""
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MeshSelectionManagerProvider")
+    >>> op_way2 = core.operators.metadata.mesh_selection_manager_provider()
+    """
     return _MeshSelectionManagerProvider()
 
 #internal name: boundary_conditions
@@ -290,28 +464,63 @@ class _OutputSpecBoundaryConditionProvider(_Outputs):
         self.results_info = _Output(_get_output_spec_boundary_condition_provider(0), 0, op) 
 
 class _BoundaryConditionProvider(_Operator):
+    """Operator's description:
+    Internal name is "boundary_conditions"
+    Scripting name is "boundary_condition_provider"
+
+    Input list: 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: results_info (results info)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("boundary_conditions")
+    >>> op_way2 = core.operators.metadata.boundary_condition_provider()
+    """
     def __init__(self):
-         super().__init__("boundary_conditions")
-         self._name = "boundary_conditions"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBoundaryConditionProvider(self._op)
-         self.outputs = _OutputSpecBoundaryConditionProvider(self._op)
+        """Specific operator class."""
+        super().__init__("boundary_conditions")
+        self._name = "boundary_conditions"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecBoundaryConditionProvider(self._op)
+        self.outputs = _OutputSpecBoundaryConditionProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def boundary_condition_provider():
     """Operator's description:
-Internal name is "boundary_conditions"
-Scripting name is "boundary_condition_provider"
+    Internal name is "boundary_conditions"
+    Scripting name is "boundary_condition_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("boundary_conditions")
-- using dpf.operators.metadata.boundary_condition_provider()
+    Input list: 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: results_info (results info)
-"""
+    Output list: 
+       0: results_info (results info)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("boundary_conditions")
+    >>> op_way2 = core.operators.metadata.boundary_condition_provider()
+    """
     return _BoundaryConditionProvider()
 
 #internal name: is_cyclic
@@ -342,28 +551,63 @@ class _OutputSpecIsCyclic(_Outputs):
         self.file_path = _Output(_get_output_spec_is_cyclic(0), 0, op) 
 
 class _IsCyclic(_Operator):
+    """Operator's description:
+    Internal name is "is_cyclic"
+    Scripting name is "is_cyclic"
+
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+
+    Output list: 
+       0: file_path (returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("is_cyclic")
+    >>> op_way2 = core.operators.metadata.is_cyclic()
+    """
     def __init__(self):
-         super().__init__("is_cyclic")
-         self._name = "is_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIsCyclic(self._op)
-         self.outputs = _OutputSpecIsCyclic(self._op)
+        """Specific operator class."""
+        super().__init__("is_cyclic")
+        self._name = "is_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecIsCyclic(self._op)
+        self.outputs = _OutputSpecIsCyclic(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def is_cyclic():
     """Operator's description:
-Internal name is "is_cyclic"
-Scripting name is "is_cyclic"
+    Internal name is "is_cyclic"
+    Scripting name is "is_cyclic"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("is_cyclic")
-- using dpf.operators.metadata.is_cyclic()
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
 
-Input list: 
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-Output list: 
-   0: file_path (returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model)
-"""
+    Output list: 
+       0: file_path (returns 'single_stage' or 'multi_stage' or an empty string for non cyclic model)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("is_cyclic")
+    >>> op_way2 = core.operators.metadata.is_cyclic()
+    """
     return _IsCyclic()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -416,31 +660,70 @@ class _OutputSpecCyclicSupportProvider(_Outputs):
         self.sector_meshed_region = _Output(_get_output_spec_cyclic_support_provider(1), 1, op) 
 
 class _CyclicSupportProvider(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::support_provider_cyclic"
+    Scripting name is "cyclic_support_provider"
+
+    Input list: 
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: sector_meshed_region (mesh of the first sector.)
+       15: expanded_meshed_region (if this pin is set, expanding the mesh is not necessary.)
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+
+    Output list: 
+       0: cyclic_support 
+       1: sector_meshed_region 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::support_provider_cyclic")
+    >>> op_way2 = core.operators.metadata.cyclic_support_provider()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::support_provider_cyclic")
-         self._name = "mapdl::rst::support_provider_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicSupportProvider(self._op)
-         self.outputs = _OutputSpecCyclicSupportProvider(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::support_provider_cyclic")
+        self._name = "mapdl::rst::support_provider_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicSupportProvider(self._op)
+        self.outputs = _OutputSpecCyclicSupportProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_support_provider():
     """Operator's description:
-Internal name is "mapdl::rst::support_provider_cyclic"
-Scripting name is "cyclic_support_provider"
+    Internal name is "mapdl::rst::support_provider_cyclic"
+    Scripting name is "cyclic_support_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::support_provider_cyclic")
-- using dpf.operators.metadata.cyclic_support_provider()
+    Input list: 
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: sector_meshed_region (mesh of the first sector.)
+       15: expanded_meshed_region (if this pin is set, expanding the mesh is not necessary.)
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
 
-Input list: 
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: sector_meshed_region (mesh of the first sector.)
-   15: expanded_meshed_region (if this pin is set, expanding the mesh is not necessary.)
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-Output list: 
-   0: cyclic_support 
-   1: sector_meshed_region 
-"""
+    Output list: 
+       0: cyclic_support 
+       1: sector_meshed_region 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::support_provider_cyclic")
+    >>> op_way2 = core.operators.metadata.cyclic_support_provider()
+    """
     return _CyclicSupportProvider()
 

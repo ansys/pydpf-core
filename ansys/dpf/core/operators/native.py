@@ -33,27 +33,62 @@ class _OutputSpecOverallDot(_Outputs):
         self.field = _Output(_get_output_spec_overall_dot(0), 0, op) 
 
 class _OverallDot(_Operator):
+    """Operator's description:
+    Internal name is "native::overall_dot"
+    Scripting name is "native::overall_dot"
+
+    Input list: 
+       0: FieldA 
+       1: FieldB 
+
+    Output list: 
+       0: field (Field defined on over-all location, contains a unique scalar value)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("native::overall_dot")
+    >>> op_way2 = core.operators.math.native::overall_dot()
+    """
     def __init__(self):
-         super().__init__("native::overall_dot")
-         self._name = "native::overall_dot"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOverallDot(self._op)
-         self.outputs = _OutputSpecOverallDot(self._op)
+        """Specific operator class."""
+        super().__init__("native::overall_dot")
+        self._name = "native::overall_dot"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecOverallDot(self._op)
+        self.outputs = _OutputSpecOverallDot(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def overall_dot():
     """Operator's description:
-Internal name is "native::overall_dot"
-Scripting name is "native::overall_dot"
+    Internal name is "native::overall_dot"
+    Scripting name is "native::overall_dot"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("native::overall_dot")
-- using dpf.operators.math.native::overall_dot()
+    Input list: 
+       0: FieldA 
+       1: FieldB 
 
-Input list: 
-   0: FieldA 
-   1: FieldB 
-Output list: 
-   0: field (Field defined on over-all location, contains a unique scalar value)
-"""
+    Output list: 
+       0: field (Field defined on over-all location, contains a unique scalar value)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("native::overall_dot")
+    >>> op_way2 = core.operators.math.native::overall_dot()
+    """
     return _OverallDot()
 

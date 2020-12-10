@@ -33,27 +33,61 @@ class _OutputSpecElementalFromMesh(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_elemental_from_mesh(0), 0, op) 
 
 class _ElementalFromMesh(_Operator):
+    """Operator's description:
+    Internal name is "GetElementScopingFromMesh"
+    Scripting name is "elemental_from_mesh"
+
+    Input list: 
+       0: mesh 
+
+    Output list: 
+       0: mesh_scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("GetElementScopingFromMesh")
+    >>> op_way2 = core.operators.scoping.elemental_from_mesh()
+    """
     def __init__(self):
-         super().__init__("GetElementScopingFromMesh")
-         self._name = "GetElementScopingFromMesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalFromMesh(self._op)
-         self.outputs = _OutputSpecElementalFromMesh(self._op)
+        """Specific operator class."""
+        super().__init__("GetElementScopingFromMesh")
+        self._name = "GetElementScopingFromMesh"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalFromMesh(self._op)
+        self.outputs = _OutputSpecElementalFromMesh(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_from_mesh():
     """Operator's description:
-Internal name is "GetElementScopingFromMesh"
-Scripting name is "elemental_from_mesh"
+    Internal name is "GetElementScopingFromMesh"
+    Scripting name is "elemental_from_mesh"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("GetElementScopingFromMesh")
-- using dpf.operators.scoping.elemental_from_mesh()
+    Input list: 
+       0: mesh 
 
-Input list: 
-   0: mesh 
-Output list: 
-   0: mesh_scoping 
-"""
+    Output list: 
+       0: mesh_scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("GetElementScopingFromMesh")
+    >>> op_way2 = core.operators.scoping.elemental_from_mesh()
+    """
     return _ElementalFromMesh()
 
 #internal name: scoping::intersect
@@ -87,29 +121,65 @@ class _OutputSpecIntersect(_Outputs):
         self.scopingA_min_intersection = _Output(_get_output_spec_intersect(1), 1, op) 
 
 class _Intersect(_Operator):
+    """Operator's description:
+    Internal name is "scoping::intersect"
+    Scripting name is "intersect"
+
+    Input list: 
+       0: scopingA 
+       1: scopingB 
+
+    Output list: 
+       0: intersection 
+       1: scopingA_min_intersection 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::intersect")
+    >>> op_way2 = core.operators.scoping.intersect()
+    """
     def __init__(self):
-         super().__init__("scoping::intersect")
-         self._name = "scoping::intersect"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIntersect(self._op)
-         self.outputs = _OutputSpecIntersect(self._op)
+        """Specific operator class."""
+        super().__init__("scoping::intersect")
+        self._name = "scoping::intersect"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecIntersect(self._op)
+        self.outputs = _OutputSpecIntersect(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def intersect():
     """Operator's description:
-Internal name is "scoping::intersect"
-Scripting name is "intersect"
+    Internal name is "scoping::intersect"
+    Scripting name is "intersect"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("scoping::intersect")
-- using dpf.operators.scoping.intersect()
+    Input list: 
+       0: scopingA 
+       1: scopingB 
 
-Input list: 
-   0: scopingA 
-   1: scopingB 
-Output list: 
-   0: intersection 
-   1: scopingA_min_intersection 
-"""
+    Output list: 
+       0: intersection 
+       1: scopingA_min_intersection 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::intersect")
+    >>> op_way2 = core.operators.scoping.intersect()
+    """
     return _Intersect()
 
 #internal name: scoping_provider_by_prop
@@ -152,32 +222,71 @@ class _OutputSpecOnProperty(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_on_property(0), 0, op) 
 
 class _OnProperty(_Operator):
+    """Operator's description:
+    Internal name is "scoping_provider_by_prop"
+    Scripting name is "on_property"
+
+    Input list: 
+       0: requested_location (Nodal or Elemental location are expected)
+       1: property_name (ex: "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "shell_axi", "volume_axi"...)
+       2: property_id 
+       3: streams_container 
+       4: data_sources 
+       5: inclusive (If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
+
+    Output list: 
+       0: mesh_scoping (Scoping)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping_provider_by_prop")
+    >>> op_way2 = core.operators.scoping.on_property()
+    """
     def __init__(self):
-         super().__init__("scoping_provider_by_prop")
-         self._name = "scoping_provider_by_prop"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOnProperty(self._op)
-         self.outputs = _OutputSpecOnProperty(self._op)
+        """Specific operator class."""
+        super().__init__("scoping_provider_by_prop")
+        self._name = "scoping_provider_by_prop"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecOnProperty(self._op)
+        self.outputs = _OutputSpecOnProperty(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def on_property():
     """Operator's description:
-Internal name is "scoping_provider_by_prop"
-Scripting name is "on_property"
+    Internal name is "scoping_provider_by_prop"
+    Scripting name is "on_property"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("scoping_provider_by_prop")
-- using dpf.operators.scoping.on_property()
+    Input list: 
+       0: requested_location (Nodal or Elemental location are expected)
+       1: property_name (ex: "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "shell_axi", "volume_axi"...)
+       2: property_id 
+       3: streams_container 
+       4: data_sources 
+       5: inclusive (If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
 
-Input list: 
-   0: requested_location (Nodal or Elemental location are expected)
-   1: property_name (ex: "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "shell_axi", "volume_axi"...)
-   2: property_id 
-   3: streams_container 
-   4: data_sources 
-   5: inclusive (If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
-Output list: 
-   0: mesh_scoping (Scoping)
-"""
+    Output list: 
+       0: mesh_scoping (Scoping)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping_provider_by_prop")
+    >>> op_way2 = core.operators.scoping.on_property()
+    """
     return _OnProperty()
 
 #internal name: transpose_scoping
@@ -211,29 +320,65 @@ class _OutputSpecTranspose(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_transpose(0), 0, op) 
 
 class _Transpose(_Operator):
+    """Operator's description:
+    Internal name is "transpose_scoping"
+    Scripting name is "transpose"
+
+    Input list: 
+       0: mesh_scoping (Scoping or scopings container (the input type is the output type))
+       1: meshed_region 
+       2: inclusive (if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
+
+    Output list: 
+       0: mesh_scoping (Scoping or scopings container (the input type is the output type))
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("transpose_scoping")
+    >>> op_way2 = core.operators.scoping.transpose()
+    """
     def __init__(self):
-         super().__init__("transpose_scoping")
-         self._name = "transpose_scoping"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTranspose(self._op)
-         self.outputs = _OutputSpecTranspose(self._op)
+        """Specific operator class."""
+        super().__init__("transpose_scoping")
+        self._name = "transpose_scoping"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecTranspose(self._op)
+        self.outputs = _OutputSpecTranspose(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def transpose():
     """Operator's description:
-Internal name is "transpose_scoping"
-Scripting name is "transpose"
+    Internal name is "transpose_scoping"
+    Scripting name is "transpose"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("transpose_scoping")
-- using dpf.operators.scoping.transpose()
+    Input list: 
+       0: mesh_scoping (Scoping or scopings container (the input type is the output type))
+       1: meshed_region 
+       2: inclusive (if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
 
-Input list: 
-   0: mesh_scoping (Scoping or scopings container (the input type is the output type))
-   1: meshed_region 
-   2: inclusive (if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
-Output list: 
-   0: mesh_scoping (Scoping or scopings container (the input type is the output type))
-"""
+    Output list: 
+       0: mesh_scoping (Scoping or scopings container (the input type is the output type))
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("transpose_scoping")
+    >>> op_way2 = core.operators.scoping.transpose()
+    """
     return _Transpose()
 
 #internal name: core::scoping::low_pass
@@ -264,28 +409,63 @@ class _OutputSpecLowPass(_Outputs):
         self.scoping = _Output(_get_output_spec_low_pass(0), 0, op) 
 
 class _LowPass(_Operator):
+    """Operator's description:
+    Internal name is "core::scoping::low_pass"
+    Scripting name is "scoping.low_pass"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::scoping::low_pass")
+    >>> op_way2 = core.operators.filter.scoping.low_pass()
+    """
     def __init__(self):
-         super().__init__("core::scoping::low_pass")
-         self._name = "core::scoping::low_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecLowPass(self._op)
-         self.outputs = _OutputSpecLowPass(self._op)
+        """Specific operator class."""
+        super().__init__("core::scoping::low_pass")
+        self._name = "core::scoping::low_pass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecLowPass(self._op)
+        self.outputs = _OutputSpecLowPass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def low_pass():
     """Operator's description:
-Internal name is "core::scoping::low_pass"
-Scripting name is "scoping.low_pass"
+    Internal name is "core::scoping::low_pass"
+    Scripting name is "scoping.low_pass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::scoping::low_pass")
-- using dpf.operators.filter.scoping.low_pass()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: threshold (a threshold scalar or a field containing one value is expected)
-Output list: 
-   0: scoping 
-"""
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::scoping::low_pass")
+    >>> op_way2 = core.operators.filter.scoping.low_pass()
+    """
     return _LowPass()
 
 #internal name: scoping::by_property
@@ -325,31 +505,69 @@ class _OutputSpecSplittedOnPropertyType(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_splitted_on_property_type(0), 0, op) 
 
 class _SplittedOnPropertyType(_Operator):
+    """Operator's description:
+    Internal name is "scoping::by_property"
+    Scripting name is "splitted_on_property_type"
+
+    Input list: 
+       1: mesh_scoping (Scoping)
+       7: mesh (mesh region)
+       9: requested_location (location (default is elemental))
+       13: label1 (properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape))
+       14: label2 
+
+    Output list: 
+       0: mesh_scoping (Scoping)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::by_property")
+    >>> op_way2 = core.operators.scoping.splitted_on_property_type()
+    """
     def __init__(self):
-         super().__init__("scoping::by_property")
-         self._name = "scoping::by_property"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSplittedOnPropertyType(self._op)
-         self.outputs = _OutputSpecSplittedOnPropertyType(self._op)
+        """Specific operator class."""
+        super().__init__("scoping::by_property")
+        self._name = "scoping::by_property"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecSplittedOnPropertyType(self._op)
+        self.outputs = _OutputSpecSplittedOnPropertyType(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def splitted_on_property_type():
     """Operator's description:
-Internal name is "scoping::by_property"
-Scripting name is "splitted_on_property_type"
+    Internal name is "scoping::by_property"
+    Scripting name is "splitted_on_property_type"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("scoping::by_property")
-- using dpf.operators.scoping.splitted_on_property_type()
+    Input list: 
+       1: mesh_scoping (Scoping)
+       7: mesh (mesh region)
+       9: requested_location (location (default is elemental))
+       13: label1 (properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape))
+       14: label2 
 
-Input list: 
-   1: mesh_scoping (Scoping)
-   7: mesh (mesh region)
-   9: requested_location (location (default is elemental))
-   13: label1 (properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape))
-   14: label2 
-Output list: 
-   0: mesh_scoping (Scoping)
-"""
+    Output list: 
+       0: mesh_scoping (Scoping)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::by_property")
+    >>> op_way2 = core.operators.scoping.splitted_on_property_type()
+    """
     return _SplittedOnPropertyType()
 
 #internal name: Rescope
@@ -380,28 +598,63 @@ class _OutputSpecRescope(_Outputs):
         self.fields_container = _Output(_get_output_spec_rescope(0), 0, op) 
 
 class _Rescope(_Operator):
+    """Operator's description:
+    Internal name is "Rescope"
+    Scripting name is "rescope"
+
+    Input list: 
+       0: fields_container 
+       1: mesh_scoping 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("Rescope")
+    >>> op_way2 = core.operators.scoping.rescope()
+    """
     def __init__(self):
-         super().__init__("Rescope")
-         self._name = "Rescope"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRescope(self._op)
-         self.outputs = _OutputSpecRescope(self._op)
+        """Specific operator class."""
+        super().__init__("Rescope")
+        self._name = "Rescope"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRescope(self._op)
+        self.outputs = _OutputSpecRescope(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def rescope():
     """Operator's description:
-Internal name is "Rescope"
-Scripting name is "rescope"
+    Internal name is "Rescope"
+    Scripting name is "rescope"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("Rescope")
-- using dpf.operators.scoping.rescope()
+    Input list: 
+       0: fields_container 
+       1: mesh_scoping 
 
-Input list: 
-   0: fields_container 
-   1: mesh_scoping 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("Rescope")
+    >>> op_way2 = core.operators.scoping.rescope()
+    """
     return _Rescope()
 
 #internal name: scoping_provider_by_ns
@@ -441,31 +694,69 @@ class _OutputSpecOnNamedSelection(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_on_named_selection(0), 0, op) 
 
 class _OnNamedSelection(_Operator):
+    """Operator's description:
+    Internal name is "scoping_provider_by_ns"
+    Scripting name is "on_named_selection"
+
+    Input list: 
+       0: requested_location 
+       1: named_selection_name (the string is expected to be in upper case)
+       2: int_inclusive (If element scoping is requested on a nodal named selection, if Inclusive == 1 then add all the elements adjacent to the nodes.If Inclusive == 0, only the elements which have all their nodes in the named selection are included)
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: mesh_scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping_provider_by_ns")
+    >>> op_way2 = core.operators.scoping.on_named_selection()
+    """
     def __init__(self):
-         super().__init__("scoping_provider_by_ns")
-         self._name = "scoping_provider_by_ns"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOnNamedSelection(self._op)
-         self.outputs = _OutputSpecOnNamedSelection(self._op)
+        """Specific operator class."""
+        super().__init__("scoping_provider_by_ns")
+        self._name = "scoping_provider_by_ns"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecOnNamedSelection(self._op)
+        self.outputs = _OutputSpecOnNamedSelection(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def on_named_selection():
     """Operator's description:
-Internal name is "scoping_provider_by_ns"
-Scripting name is "on_named_selection"
+    Internal name is "scoping_provider_by_ns"
+    Scripting name is "on_named_selection"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("scoping_provider_by_ns")
-- using dpf.operators.scoping.on_named_selection()
+    Input list: 
+       0: requested_location 
+       1: named_selection_name (the string is expected to be in upper case)
+       2: int_inclusive (If element scoping is requested on a nodal named selection, if Inclusive == 1 then add all the elements adjacent to the nodes.If Inclusive == 0, only the elements which have all their nodes in the named selection are included)
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   0: requested_location 
-   1: named_selection_name (the string is expected to be in upper case)
-   2: int_inclusive (If element scoping is requested on a nodal named selection, if Inclusive == 1 then add all the elements adjacent to the nodes.If Inclusive == 0, only the elements which have all their nodes in the named selection are included)
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: mesh_scoping 
-"""
+    Output list: 
+       0: mesh_scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping_provider_by_ns")
+    >>> op_way2 = core.operators.scoping.on_named_selection()
+    """
     return _OnNamedSelection()
 
 #internal name: scoping::connectivity_ids
@@ -502,30 +793,67 @@ class _OutputSpecConnectivityIds(_Outputs):
         self.elemental_scoping = _Output(_get_output_spec_connectivity_ids(1), 1, op) 
 
 class _ConnectivityIds(_Operator):
+    """Operator's description:
+    Internal name is "scoping::connectivity_ids"
+    Scripting name is "connectivity_ids"
+
+    Input list: 
+       1: mesh_scoping (Elemental scoping)
+       7: mesh (the support of the scoping is expected if there is no mesh in input)
+       10: take_mid_nodes (default is true)
+
+    Output list: 
+       0: mesh_scoping 
+       1: elemental_scoping (same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::connectivity_ids")
+    >>> op_way2 = core.operators.scoping.connectivity_ids()
+    """
     def __init__(self):
-         super().__init__("scoping::connectivity_ids")
-         self._name = "scoping::connectivity_ids"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecConnectivityIds(self._op)
-         self.outputs = _OutputSpecConnectivityIds(self._op)
+        """Specific operator class."""
+        super().__init__("scoping::connectivity_ids")
+        self._name = "scoping::connectivity_ids"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecConnectivityIds(self._op)
+        self.outputs = _OutputSpecConnectivityIds(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def connectivity_ids():
     """Operator's description:
-Internal name is "scoping::connectivity_ids"
-Scripting name is "connectivity_ids"
+    Internal name is "scoping::connectivity_ids"
+    Scripting name is "connectivity_ids"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("scoping::connectivity_ids")
-- using dpf.operators.scoping.connectivity_ids()
+    Input list: 
+       1: mesh_scoping (Elemental scoping)
+       7: mesh (the support of the scoping is expected if there is no mesh in input)
+       10: take_mid_nodes (default is true)
 
-Input list: 
-   1: mesh_scoping (Elemental scoping)
-   7: mesh (the support of the scoping is expected if there is no mesh in input)
-   10: take_mid_nodes (default is true)
-Output list: 
-   0: mesh_scoping 
-   1: elemental_scoping (same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping)
-"""
+    Output list: 
+       0: mesh_scoping 
+       1: elemental_scoping (same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::connectivity_ids")
+    >>> op_way2 = core.operators.scoping.connectivity_ids()
+    """
     return _ConnectivityIds()
 
 #internal name: GetNodeScopingFromMesh
@@ -553,27 +881,61 @@ class _OutputSpecNodalFromMesh(_Outputs):
         self.mesh_scoping = _Output(_get_output_spec_nodal_from_mesh(0), 0, op) 
 
 class _NodalFromMesh(_Operator):
+    """Operator's description:
+    Internal name is "GetNodeScopingFromMesh"
+    Scripting name is "nodal_from_mesh"
+
+    Input list: 
+       0: mesh 
+
+    Output list: 
+       0: mesh_scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("GetNodeScopingFromMesh")
+    >>> op_way2 = core.operators.scoping.nodal_from_mesh()
+    """
     def __init__(self):
-         super().__init__("GetNodeScopingFromMesh")
-         self._name = "GetNodeScopingFromMesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalFromMesh(self._op)
-         self.outputs = _OutputSpecNodalFromMesh(self._op)
+        """Specific operator class."""
+        super().__init__("GetNodeScopingFromMesh")
+        self._name = "GetNodeScopingFromMesh"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalFromMesh(self._op)
+        self.outputs = _OutputSpecNodalFromMesh(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_from_mesh():
     """Operator's description:
-Internal name is "GetNodeScopingFromMesh"
-Scripting name is "nodal_from_mesh"
+    Internal name is "GetNodeScopingFromMesh"
+    Scripting name is "nodal_from_mesh"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("GetNodeScopingFromMesh")
-- using dpf.operators.scoping.nodal_from_mesh()
+    Input list: 
+       0: mesh 
 
-Input list: 
-   0: mesh 
-Output list: 
-   0: mesh_scoping 
-"""
+    Output list: 
+       0: mesh_scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("GetNodeScopingFromMesh")
+    >>> op_way2 = core.operators.scoping.nodal_from_mesh()
+    """
     return _NodalFromMesh()
 
 #internal name: rescope_fc
@@ -604,28 +966,63 @@ class _OutputSpecChangeFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_change_fc(0), 0, op) 
 
 class _ChangeFc(_Operator):
+    """Operator's description:
+    Internal name is "rescope_fc"
+    Scripting name is "change_fc"
+
+    Input list: 
+       0: fields_container 
+       1: scopings_container 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("rescope_fc")
+    >>> op_way2 = core.operators.scoping.change_fc()
+    """
     def __init__(self):
-         super().__init__("rescope_fc")
-         self._name = "rescope_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecChangeFc(self._op)
-         self.outputs = _OutputSpecChangeFc(self._op)
+        """Specific operator class."""
+        super().__init__("rescope_fc")
+        self._name = "rescope_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecChangeFc(self._op)
+        self.outputs = _OutputSpecChangeFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def change_fc():
     """Operator's description:
-Internal name is "rescope_fc"
-Scripting name is "change_fc"
+    Internal name is "rescope_fc"
+    Scripting name is "change_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("rescope_fc")
-- using dpf.operators.scoping.change_fc()
+    Input list: 
+       0: fields_container 
+       1: scopings_container 
 
-Input list: 
-   0: fields_container 
-   1: scopings_container 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("rescope_fc")
+    >>> op_way2 = core.operators.scoping.change_fc()
+    """
     return _ChangeFc()
 
 #internal name: core::scoping::high_pass
@@ -656,28 +1053,63 @@ class _OutputSpecHighPass(_Outputs):
         self.scoping = _Output(_get_output_spec_high_pass(0), 0, op) 
 
 class _HighPass(_Operator):
+    """Operator's description:
+    Internal name is "core::scoping::high_pass"
+    Scripting name is "scoping.high_pass"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::scoping::high_pass")
+    >>> op_way2 = core.operators.filter.scoping.high_pass()
+    """
     def __init__(self):
-         super().__init__("core::scoping::high_pass")
-         self._name = "core::scoping::high_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHighPass(self._op)
-         self.outputs = _OutputSpecHighPass(self._op)
+        """Specific operator class."""
+        super().__init__("core::scoping::high_pass")
+        self._name = "core::scoping::high_pass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHighPass(self._op)
+        self.outputs = _OutputSpecHighPass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def high_pass():
     """Operator's description:
-Internal name is "core::scoping::high_pass"
-Scripting name is "scoping.high_pass"
+    Internal name is "core::scoping::high_pass"
+    Scripting name is "scoping.high_pass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::scoping::high_pass")
-- using dpf.operators.filter.scoping.high_pass()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: threshold (a threshold scalar or a field containing one value is expected)
-Output list: 
-   0: scoping 
-"""
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::scoping::high_pass")
+    >>> op_way2 = core.operators.filter.scoping.high_pass()
+    """
     return _HighPass()
 
 #internal name: core::scoping::band_pass
@@ -711,29 +1143,65 @@ class _OutputSpecBandPass(_Outputs):
         self.scoping = _Output(_get_output_spec_band_pass(0), 0, op) 
 
 class _BandPass(_Operator):
+    """Operator's description:
+    Internal name is "core::scoping::band_pass"
+    Scripting name is "scoping.band_pass"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: min_threshold (a min threshold scalar or a field containing one value is expected)
+       2: max_threshold (a max threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::scoping::band_pass")
+    >>> op_way2 = core.operators.filter.scoping.band_pass()
+    """
     def __init__(self):
-         super().__init__("core::scoping::band_pass")
-         self._name = "core::scoping::band_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBandPass(self._op)
-         self.outputs = _OutputSpecBandPass(self._op)
+        """Specific operator class."""
+        super().__init__("core::scoping::band_pass")
+        self._name = "core::scoping::band_pass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecBandPass(self._op)
+        self.outputs = _OutputSpecBandPass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def band_pass():
     """Operator's description:
-Internal name is "core::scoping::band_pass"
-Scripting name is "scoping.band_pass"
+    Internal name is "core::scoping::band_pass"
+    Scripting name is "scoping.band_pass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::scoping::band_pass")
-- using dpf.operators.filter.scoping.band_pass()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: min_threshold (a min threshold scalar or a field containing one value is expected)
+       2: max_threshold (a max threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: min_threshold (a min threshold scalar or a field containing one value is expected)
-   2: max_threshold (a max threshold scalar or a field containing one value is expected)
-Output list: 
-   0: scoping 
-"""
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::scoping::band_pass")
+    >>> op_way2 = core.operators.filter.scoping.band_pass()
+    """
     return _BandPass()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -774,27 +1242,62 @@ class _OutputSpecFromMesh(_Outputs):
         self.scoping = _Output(_get_output_spec_from_mesh(0), 0, op) 
 
 class _FromMesh(_Operator):
+    """Operator's description:
+    Internal name is "MeshScopingProvider"
+    Scripting name is "from_mesh"
+
+    Input list: 
+       0: mesh 
+       1: requested_location (if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental)
+
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MeshScopingProvider")
+    >>> op_way2 = core.operators.scoping.from_mesh()
+    """
     def __init__(self):
-         super().__init__("MeshScopingProvider")
-         self._name = "MeshScopingProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFromMesh(self._op)
-         self.outputs = _OutputSpecFromMesh(self._op)
+        """Specific operator class."""
+        super().__init__("MeshScopingProvider")
+        self._name = "MeshScopingProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecFromMesh(self._op)
+        self.outputs = _OutputSpecFromMesh(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def from_mesh():
     """Operator's description:
-Internal name is "MeshScopingProvider"
-Scripting name is "from_mesh"
+    Internal name is "MeshScopingProvider"
+    Scripting name is "from_mesh"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("MeshScopingProvider")
-- using dpf.operators.scoping.from_mesh()
+    Input list: 
+       0: mesh 
+       1: requested_location (if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental)
 
-Input list: 
-   0: mesh 
-   1: requested_location (if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental)
-Output list: 
-   0: scoping 
-"""
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MeshScopingProvider")
+    >>> op_way2 = core.operators.scoping.from_mesh()
+    """
     return _FromMesh()
 

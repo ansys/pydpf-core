@@ -33,27 +33,61 @@ class _OutputSpecSerializer(_Outputs):
         self.file_path = _Output(_get_output_spec_serializer(0), 0, op) 
 
 class _Serializer(_Operator):
+    """Operator's description:
+    Internal name is "serializer"
+    Scripting name is "serializer"
+
+    Input list: 
+       0: file_path 
+
+    Output list: 
+       0: file_path 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("serializer")
+    >>> op_way2 = core.operators.serialization.serializer()
+    """
     def __init__(self):
-         super().__init__("serializer")
-         self._name = "serializer"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSerializer(self._op)
-         self.outputs = _OutputSpecSerializer(self._op)
+        """Specific operator class."""
+        super().__init__("serializer")
+        self._name = "serializer"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecSerializer(self._op)
+        self.outputs = _OutputSpecSerializer(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def serializer():
     """Operator's description:
-Internal name is "serializer"
-Scripting name is "serializer"
+    Internal name is "serializer"
+    Scripting name is "serializer"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("serializer")
-- using dpf.operators.serialization.serializer()
+    Input list: 
+       0: file_path 
 
-Input list: 
-   0: file_path 
-Output list: 
-   0: file_path 
-"""
+    Output list: 
+       0: file_path 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("serializer")
+    >>> op_way2 = core.operators.serialization.serializer()
+    """
     return _Serializer()
 
 #internal name: mechanical_csv_to_field
@@ -87,29 +121,65 @@ class _OutputSpecMechanicalCsvToField(_Outputs):
         self.field = _Output(_get_output_spec_mechanical_csv_to_field(0), 0, op) 
 
 class _MechanicalCsvToField(_Operator):
+    """Operator's description:
+    Internal name is "mechanical_csv_to_field"
+    Scripting name is "mechanical_csv_to_field"
+
+    Input list: 
+       1: mesh 
+       4: data_sources 
+       9: requested_location 
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mechanical_csv_to_field")
+    >>> op_way2 = core.operators.serialization.mechanical_csv_to_field()
+    """
     def __init__(self):
-         super().__init__("mechanical_csv_to_field")
-         self._name = "mechanical_csv_to_field"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMechanicalCsvToField(self._op)
-         self.outputs = _OutputSpecMechanicalCsvToField(self._op)
+        """Specific operator class."""
+        super().__init__("mechanical_csv_to_field")
+        self._name = "mechanical_csv_to_field"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMechanicalCsvToField(self._op)
+        self.outputs = _OutputSpecMechanicalCsvToField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def mechanical_csv_to_field():
     """Operator's description:
-Internal name is "mechanical_csv_to_field"
-Scripting name is "mechanical_csv_to_field"
+    Internal name is "mechanical_csv_to_field"
+    Scripting name is "mechanical_csv_to_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mechanical_csv_to_field")
-- using dpf.operators.serialization.mechanical_csv_to_field()
+    Input list: 
+       1: mesh 
+       4: data_sources 
+       9: requested_location 
 
-Input list: 
-   1: mesh 
-   4: data_sources 
-   9: requested_location 
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mechanical_csv_to_field")
+    >>> op_way2 = core.operators.serialization.mechanical_csv_to_field()
+    """
     return _MechanicalCsvToField()
 
 #internal name: field_to_csv
@@ -141,29 +211,65 @@ class _OutputSpecFieldToCsv(_Outputs):
         pass 
 
 class _FieldToCsv(_Operator):
+    """Operator's description:
+    Internal name is "field_to_csv"
+    Scripting name is "field_to_csv"
+
+    Input list: 
+       0: field_or_fields_container (field_or_fields_container)
+       1: file_path 
+       2: storage_type (storage type : if matrices (without any particularity) are included in the fields container, the storage format can be chosen. 0 : flat/line format, 1 : ranked format. If 1 is chosen, the csv can not be read by "csv to field" operator anymore. Default : 0.)
+
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("field_to_csv")
+    >>> op_way2 = core.operators.serialization.field_to_csv()
+    """
     def __init__(self):
-         super().__init__("field_to_csv")
-         self._name = "field_to_csv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFieldToCsv(self._op)
-         self.outputs = _OutputSpecFieldToCsv(self._op)
+        """Specific operator class."""
+        super().__init__("field_to_csv")
+        self._name = "field_to_csv"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecFieldToCsv(self._op)
+        self.outputs = _OutputSpecFieldToCsv(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def field_to_csv():
     """Operator's description:
-Internal name is "field_to_csv"
-Scripting name is "field_to_csv"
+    Internal name is "field_to_csv"
+    Scripting name is "field_to_csv"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("field_to_csv")
-- using dpf.operators.serialization.field_to_csv()
+    Input list: 
+       0: field_or_fields_container (field_or_fields_container)
+       1: file_path 
+       2: storage_type (storage type : if matrices (without any particularity) are included in the fields container, the storage format can be chosen. 0 : flat/line format, 1 : ranked format. If 1 is chosen, the csv can not be read by "csv to field" operator anymore. Default : 0.)
 
-Input list: 
-   0: field_or_fields_container (field_or_fields_container)
-   1: file_path 
-   2: storage_type (storage type : if matrices (without any particularity) are included in the fields container, the storage format can be chosen. 0 : flat/line format, 1 : ranked format. If 1 is chosen, the csv can not be read by "csv to field" operator anymore. Default : 0.)
-Output list: 
-   empty 
-"""
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("field_to_csv")
+    >>> op_way2 = core.operators.serialization.field_to_csv()
+    """
     return _FieldToCsv()
 
 #internal name: deserializer
@@ -190,28 +296,63 @@ class _OutputSpecDeserializer(_Outputs):
         pass 
 
 class _Deserializer(_Operator):
+    """Operator's description:
+    Internal name is "deserializer"
+    Scripting name is "deserializer"
+
+    Input list: 
+       0: file_path (file path)
+
+    Output list: 
+       empty 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("deserializer")
+    >>> op_way2 = core.operators.serialization.deserializer()
+    """
     def __init__(self):
-         super().__init__("deserializer")
-         self._name = "deserializer"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDeserializer(self._op)
-         self.outputs = _OutputSpecDeserializer(self._op)
+        """Specific operator class."""
+        super().__init__("deserializer")
+        self._name = "deserializer"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecDeserializer(self._op)
+        self.outputs = _OutputSpecDeserializer(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def deserializer():
     """Operator's description:
-Internal name is "deserializer"
-Scripting name is "deserializer"
+    Internal name is "deserializer"
+    Scripting name is "deserializer"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("deserializer")
-- using dpf.operators.serialization.deserializer()
+    Input list: 
+       0: file_path (file path)
 
-Input list: 
-   0: file_path (file path)
-Output list: 
-   empty 
-   empty 
-"""
+    Output list: 
+       empty 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("deserializer")
+    >>> op_way2 = core.operators.serialization.deserializer()
+    """
     return _Deserializer()
 
 #internal name: csv_to_field
@@ -242,28 +383,63 @@ class _OutputSpecCsvToField(_Outputs):
         self.fields_container = _Output(_get_output_spec_csv_to_field(0), 0, op) 
 
 class _CsvToField(_Operator):
+    """Operator's description:
+    Internal name is "csv_to_field"
+    Scripting name is "csv_to_field"
+
+    Input list: 
+       0: time_scoping 
+       4: data_sources (data sources containing a file with csv extension)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("csv_to_field")
+    >>> op_way2 = core.operators.serialization.csv_to_field()
+    """
     def __init__(self):
-         super().__init__("csv_to_field")
-         self._name = "csv_to_field"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCsvToField(self._op)
-         self.outputs = _OutputSpecCsvToField(self._op)
+        """Specific operator class."""
+        super().__init__("csv_to_field")
+        self._name = "csv_to_field"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCsvToField(self._op)
+        self.outputs = _OutputSpecCsvToField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def csv_to_field():
     """Operator's description:
-Internal name is "csv_to_field"
-Scripting name is "csv_to_field"
+    Internal name is "csv_to_field"
+    Scripting name is "csv_to_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("csv_to_field")
-- using dpf.operators.serialization.csv_to_field()
+    Input list: 
+       0: time_scoping 
+       4: data_sources (data sources containing a file with csv extension)
 
-Input list: 
-   0: time_scoping 
-   4: data_sources (data sources containing a file with csv extension)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("csv_to_field")
+    >>> op_way2 = core.operators.serialization.csv_to_field()
+    """
     return _CsvToField()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -308,29 +484,66 @@ class _OutputSpecVtkExport(_Outputs):
         pass 
 
 class _VtkExport(_Operator):
+    """Operator's description:
+    Internal name is "vtk_export"
+    Scripting name is "vtk_export"
+
+    Input list: 
+       0: file_path (path with vtk extension were the export occurs)
+       1: mesh (necessary if the first field or fields container don't have a mesh in their support)
+       2: fields1 (fields exported)
+       3: fields2 
+
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("vtk_export")
+    >>> op_way2 = core.operators.serialization.vtk_export()
+    """
     def __init__(self):
-         super().__init__("vtk_export")
-         self._name = "vtk_export"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVtkExport(self._op)
-         self.outputs = _OutputSpecVtkExport(self._op)
+        """Specific operator class."""
+        super().__init__("vtk_export")
+        self._name = "vtk_export"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVtkExport(self._op)
+        self.outputs = _OutputSpecVtkExport(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def vtk_export():
     """Operator's description:
-Internal name is "vtk_export"
-Scripting name is "vtk_export"
+    Internal name is "vtk_export"
+    Scripting name is "vtk_export"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("vtk_export")
-- using dpf.operators.serialization.vtk_export()
+    Input list: 
+       0: file_path (path with vtk extension were the export occurs)
+       1: mesh (necessary if the first field or fields container don't have a mesh in their support)
+       2: fields1 (fields exported)
+       3: fields2 
 
-Input list: 
-   0: file_path (path with vtk extension were the export occurs)
-   1: mesh (necessary if the first field or fields container don't have a mesh in their support)
-   2: fields1 (fields exported)
-   3: fields2 
-Output list: 
-   empty 
-"""
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("vtk_export")
+    >>> op_way2 = core.operators.serialization.vtk_export()
+    """
     return _VtkExport()
 

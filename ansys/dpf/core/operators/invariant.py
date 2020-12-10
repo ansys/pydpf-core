@@ -33,27 +33,61 @@ class _OutputSpecEigenValues(_Outputs):
         self.field = _Output(_get_output_spec_eigen_values(0), 0, op) 
 
 class _EigenValues(_Operator):
+    """Operator's description:
+    Internal name is "eig_values"
+    Scripting name is "eigen_values"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_values")
+    >>> op_way2 = core.operators.invariant.eigen_values()
+    """
     def __init__(self):
-         super().__init__("eig_values")
-         self._name = "eig_values"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenValues(self._op)
-         self.outputs = _OutputSpecEigenValues(self._op)
+        """Specific operator class."""
+        super().__init__("eig_values")
+        self._name = "eig_values"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEigenValues(self._op)
+        self.outputs = _OutputSpecEigenValues(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def eigen_values():
     """Operator's description:
-Internal name is "eig_values"
-Scripting name is "eigen_values"
+    Internal name is "eig_values"
+    Scripting name is "eigen_values"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("eig_values")
-- using dpf.operators.invariant.eigen_values()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_values")
+    >>> op_way2 = core.operators.invariant.eigen_values()
+    """
     return _EigenValues()
 
 #internal name: eqv
@@ -81,27 +115,61 @@ class _OutputSpecVonMisesEqv(_Outputs):
         self.field = _Output(_get_output_spec_von_mises_eqv(0), 0, op) 
 
 class _VonMisesEqv(_Operator):
+    """Operator's description:
+    Internal name is "eqv"
+    Scripting name is "von_mises_eqv"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eqv")
+    >>> op_way2 = core.operators.invariant.von_mises_eqv()
+    """
     def __init__(self):
-         super().__init__("eqv")
-         self._name = "eqv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVonMisesEqv(self._op)
-         self.outputs = _OutputSpecVonMisesEqv(self._op)
+        """Specific operator class."""
+        super().__init__("eqv")
+        self._name = "eqv"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVonMisesEqv(self._op)
+        self.outputs = _OutputSpecVonMisesEqv(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def von_mises_eqv():
     """Operator's description:
-Internal name is "eqv"
-Scripting name is "von_mises_eqv"
+    Internal name is "eqv"
+    Scripting name is "von_mises_eqv"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("eqv")
-- using dpf.operators.invariant.von_mises_eqv()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eqv")
+    >>> op_way2 = core.operators.invariant.von_mises_eqv()
+    """
     return _VonMisesEqv()
 
 #internal name: eqv_fc
@@ -129,27 +197,61 @@ class _OutputSpecVonMisesEqvFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_von_mises_eqv_fc(0), 0, op) 
 
 class _VonMisesEqvFc(_Operator):
+    """Operator's description:
+    Internal name is "eqv_fc"
+    Scripting name is "von_mises_eqv_fc"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eqv_fc")
+    >>> op_way2 = core.operators.invariant.von_mises_eqv_fc()
+    """
     def __init__(self):
-         super().__init__("eqv_fc")
-         self._name = "eqv_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVonMisesEqvFc(self._op)
-         self.outputs = _OutputSpecVonMisesEqvFc(self._op)
+        """Specific operator class."""
+        super().__init__("eqv_fc")
+        self._name = "eqv_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVonMisesEqvFc(self._op)
+        self.outputs = _OutputSpecVonMisesEqvFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def von_mises_eqv_fc():
     """Operator's description:
-Internal name is "eqv_fc"
-Scripting name is "von_mises_eqv_fc"
+    Internal name is "eqv_fc"
+    Scripting name is "von_mises_eqv_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("eqv_fc")
-- using dpf.operators.invariant.von_mises_eqv_fc()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eqv_fc")
+    >>> op_way2 = core.operators.invariant.von_mises_eqv_fc()
+    """
     return _VonMisesEqvFc()
 
 #internal name: invariants_deriv
@@ -183,29 +285,65 @@ class _OutputSpecInvariants(_Outputs):
         self.field_max_shear = _Output(_get_output_spec_invariants(2), 2, op) 
 
 class _Invariants(_Operator):
+    """Operator's description:
+    Internal name is "invariants_deriv"
+    Scripting name is "invariants"
+
+    Input list: 
+       0: field 
+
+    Output list: 
+       0: field_int (stress intensity field)
+       1: field_eqv (stress equivalent intensity)
+       2: field_max_shear (max shear stress field)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("invariants_deriv")
+    >>> op_way2 = core.operators.invariant.invariants()
+    """
     def __init__(self):
-         super().__init__("invariants_deriv")
-         self._name = "invariants_deriv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecInvariants(self._op)
-         self.outputs = _OutputSpecInvariants(self._op)
+        """Specific operator class."""
+        super().__init__("invariants_deriv")
+        self._name = "invariants_deriv"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecInvariants(self._op)
+        self.outputs = _OutputSpecInvariants(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def invariants():
     """Operator's description:
-Internal name is "invariants_deriv"
-Scripting name is "invariants"
+    Internal name is "invariants_deriv"
+    Scripting name is "invariants"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("invariants_deriv")
-- using dpf.operators.invariant.invariants()
+    Input list: 
+       0: field 
 
-Input list: 
-   0: field 
-Output list: 
-   0: field_int (stress intensity field)
-   1: field_eqv (stress equivalent intensity)
-   2: field_max_shear (max shear stress field)
-"""
+    Output list: 
+       0: field_int (stress intensity field)
+       1: field_eqv (stress equivalent intensity)
+       2: field_max_shear (max shear stress field)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("invariants_deriv")
+    >>> op_way2 = core.operators.invariant.invariants()
+    """
     return _Invariants()
 
 #internal name: invariants_fc
@@ -239,29 +377,65 @@ class _OutputSpecPrincipalInvariantsFc(_Outputs):
         self.fields_eig_3 = _Output(_get_output_spec_principal_invariants_fc(2), 2, op) 
 
 class _PrincipalInvariantsFc(_Operator):
+    """Operator's description:
+    Internal name is "invariants_fc"
+    Scripting name is "principal_invariants_fc"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: fields_eig_1 (first eigen value fields)
+       1: fields_eig_2 (second eigen value fields)
+       2: fields_eig_3 (third eigen value fields)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("invariants_fc")
+    >>> op_way2 = core.operators.invariant.principal_invariants_fc()
+    """
     def __init__(self):
-         super().__init__("invariants_fc")
-         self._name = "invariants_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPrincipalInvariantsFc(self._op)
-         self.outputs = _OutputSpecPrincipalInvariantsFc(self._op)
+        """Specific operator class."""
+        super().__init__("invariants_fc")
+        self._name = "invariants_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPrincipalInvariantsFc(self._op)
+        self.outputs = _OutputSpecPrincipalInvariantsFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def principal_invariants_fc():
     """Operator's description:
-Internal name is "invariants_fc"
-Scripting name is "principal_invariants_fc"
+    Internal name is "invariants_fc"
+    Scripting name is "principal_invariants_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("invariants_fc")
-- using dpf.operators.invariant.principal_invariants_fc()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: fields_eig_1 (first eigen value fields)
-   1: fields_eig_2 (second eigen value fields)
-   2: fields_eig_3 (third eigen value fields)
-"""
+    Output list: 
+       0: fields_eig_1 (first eigen value fields)
+       1: fields_eig_2 (second eigen value fields)
+       2: fields_eig_3 (third eigen value fields)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("invariants_fc")
+    >>> op_way2 = core.operators.invariant.principal_invariants_fc()
+    """
     return _PrincipalInvariantsFc()
 
 #internal name: eig_values_fc
@@ -289,27 +463,61 @@ class _OutputSpecEigenValuesFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_eigen_values_fc(0), 0, op) 
 
 class _EigenValuesFc(_Operator):
+    """Operator's description:
+    Internal name is "eig_values_fc"
+    Scripting name is "eigen_values_fc"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_values_fc")
+    >>> op_way2 = core.operators.invariant.eigen_values_fc()
+    """
     def __init__(self):
-         super().__init__("eig_values_fc")
-         self._name = "eig_values_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenValuesFc(self._op)
-         self.outputs = _OutputSpecEigenValuesFc(self._op)
+        """Specific operator class."""
+        super().__init__("eig_values_fc")
+        self._name = "eig_values_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEigenValuesFc(self._op)
+        self.outputs = _OutputSpecEigenValuesFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def eigen_values_fc():
     """Operator's description:
-Internal name is "eig_values_fc"
-Scripting name is "eigen_values_fc"
+    Internal name is "eig_values_fc"
+    Scripting name is "eigen_values_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("eig_values_fc")
-- using dpf.operators.invariant.eigen_values_fc()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_values_fc")
+    >>> op_way2 = core.operators.invariant.eigen_values_fc()
+    """
     return _EigenValuesFc()
 
 #internal name: invariants_deriv_fc
@@ -343,29 +551,65 @@ class _OutputSpecInvariantsFc(_Outputs):
         self.fields_max_shear = _Output(_get_output_spec_invariants_fc(2), 2, op) 
 
 class _InvariantsFc(_Operator):
+    """Operator's description:
+    Internal name is "invariants_deriv_fc"
+    Scripting name is "invariants_fc"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: fields_int (stress intensity field)
+       1: fields_eqv (stress equivalent intensity)
+       2: fields_max_shear (max shear stress field)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("invariants_deriv_fc")
+    >>> op_way2 = core.operators.invariant.invariants_fc()
+    """
     def __init__(self):
-         super().__init__("invariants_deriv_fc")
-         self._name = "invariants_deriv_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecInvariantsFc(self._op)
-         self.outputs = _OutputSpecInvariantsFc(self._op)
+        """Specific operator class."""
+        super().__init__("invariants_deriv_fc")
+        self._name = "invariants_deriv_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecInvariantsFc(self._op)
+        self.outputs = _OutputSpecInvariantsFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def invariants_fc():
     """Operator's description:
-Internal name is "invariants_deriv_fc"
-Scripting name is "invariants_fc"
+    Internal name is "invariants_deriv_fc"
+    Scripting name is "invariants_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("invariants_deriv_fc")
-- using dpf.operators.invariant.invariants_fc()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: fields_int (stress intensity field)
-   1: fields_eqv (stress equivalent intensity)
-   2: fields_max_shear (max shear stress field)
-"""
+    Output list: 
+       0: fields_int (stress intensity field)
+       1: fields_eqv (stress equivalent intensity)
+       2: fields_max_shear (max shear stress field)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("invariants_deriv_fc")
+    >>> op_way2 = core.operators.invariant.invariants_fc()
+    """
     return _InvariantsFc()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -403,27 +647,61 @@ class _OutputSpecEigenVectorsFc(_Outputs):
         self.field = _Output(_get_output_spec_eigen_vectors_fc(0), 0, op) 
 
 class _EigenVectorsFc(_Operator):
+    """Operator's description:
+    Internal name is "eig_vectors_fc"
+    Scripting name is "eigen_vectors_fc"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_vectors_fc")
+    >>> op_way2 = core.operators.invariant.eigen_vectors_fc()
+    """
     def __init__(self):
-         super().__init__("eig_vectors_fc")
-         self._name = "eig_vectors_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenVectorsFc(self._op)
-         self.outputs = _OutputSpecEigenVectorsFc(self._op)
+        """Specific operator class."""
+        super().__init__("eig_vectors_fc")
+        self._name = "eig_vectors_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEigenVectorsFc(self._op)
+        self.outputs = _OutputSpecEigenVectorsFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def eigen_vectors_fc():
     """Operator's description:
-Internal name is "eig_vectors_fc"
-Scripting name is "eigen_vectors_fc"
+    Internal name is "eig_vectors_fc"
+    Scripting name is "eigen_vectors_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("eig_vectors_fc")
-- using dpf.operators.invariant.eigen_vectors_fc()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_vectors_fc")
+    >>> op_way2 = core.operators.invariant.eigen_vectors_fc()
+    """
     return _EigenVectorsFc()
 
 #internal name: eig_vectors
@@ -451,26 +729,60 @@ class _OutputSpecEigenVectors(_Outputs):
         self.fields_container = _Output(_get_output_spec_eigen_vectors(0), 0, op) 
 
 class _EigenVectors(_Operator):
+    """Operator's description:
+    Internal name is "eig_vectors"
+    Scripting name is "eigen_vectors"
+
+    Input list: 
+       0: fields 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_vectors")
+    >>> op_way2 = core.operators.invariant.eigen_vectors()
+    """
     def __init__(self):
-         super().__init__("eig_vectors")
-         self._name = "eig_vectors"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEigenVectors(self._op)
-         self.outputs = _OutputSpecEigenVectors(self._op)
+        """Specific operator class."""
+        super().__init__("eig_vectors")
+        self._name = "eig_vectors"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEigenVectors(self._op)
+        self.outputs = _OutputSpecEigenVectors(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def eigen_vectors():
     """Operator's description:
-Internal name is "eig_vectors"
-Scripting name is "eigen_vectors"
+    Internal name is "eig_vectors"
+    Scripting name is "eigen_vectors"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("eig_vectors")
-- using dpf.operators.invariant.eigen_vectors()
+    Input list: 
+       0: fields 
 
-Input list: 
-   0: fields 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("eig_vectors")
+    >>> op_way2 = core.operators.invariant.eigen_vectors()
+    """
     return _EigenVectors()
 

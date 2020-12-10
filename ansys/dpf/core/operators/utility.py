@@ -33,28 +33,306 @@ class _OutputSpecExtractField(_Outputs):
         self.field = _Output(_get_output_spec_extract_field(0), 0, op) 
 
 class _ExtractField(_Operator):
+    """Operator's description:
+    Internal name is "ExtractFromFC"
+    Scripting name is "extract_field"
+
+    Input list: 
+       0: fields_container (if a field is in input, it is passed on as output)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ExtractFromFC")
+    >>> op_way2 = core.operators.utility.extract_field()
+    """
     def __init__(self):
-         super().__init__("ExtractFromFC")
-         self._name = "ExtractFromFC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExtractField(self._op)
-         self.outputs = _OutputSpecExtractField(self._op)
+        """Specific operator class."""
+        super().__init__("ExtractFromFC")
+        self._name = "ExtractFromFC"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecExtractField(self._op)
+        self.outputs = _OutputSpecExtractField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def extract_field():
     """Operator's description:
-Internal name is "ExtractFromFC"
-Scripting name is "extract_field"
+    Internal name is "ExtractFromFC"
+    Scripting name is "extract_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ExtractFromFC")
-- using dpf.operators.utility.extract_field()
+    Input list: 
+       0: fields_container (if a field is in input, it is passed on as output)
 
-Input list: 
-   0: fields_container (if a field is in input, it is passed on as output)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ExtractFromFC")
+    >>> op_way2 = core.operators.utility.extract_field()
+    """
     return _ExtractField()
+
+#internal name: InjectToFieldContainer
+#scripting name: field_to_fc
+def _get_input_spec_field_to_fc(pin):
+    inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """if a fields container is set in input, it is pass on as output.""")
+    inputs_dict_field_to_fc = { 
+        0 : inpin0
+    }
+    return inputs_dict_field_to_fc[pin]
+
+def _get_output_spec_field_to_fc(pin):
+    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
+    outputs_dict_field_to_fc = { 
+        0 : outpin0
+    }
+    return outputs_dict_field_to_fc[pin]
+
+class _InputSpecFieldToFc(_Inputs):
+    def __init__(self, op: _Operator):
+        self.field = _Input(_get_input_spec_field_to_fc(0), 0, op, -1) 
+
+class _OutputSpecFieldToFc(_Outputs):
+    def __init__(self, op: _Operator):
+        self.fields_container = _Output(_get_output_spec_field_to_fc(0), 0, op) 
+
+class _FieldToFc(_Operator):
+    """Operator's description:
+    Internal name is "InjectToFieldContainer"
+    Scripting name is "field_to_fc"
+
+    Input list: 
+       0: field (if a fields container is set in input, it is pass on as output.)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("InjectToFieldContainer")
+    >>> op_way2 = core.operators.utility.field_to_fc()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("InjectToFieldContainer")
+        self._name = "InjectToFieldContainer"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecFieldToFc(self._op)
+        self.outputs = _OutputSpecFieldToFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def field_to_fc():
+    """Operator's description:
+    Internal name is "InjectToFieldContainer"
+    Scripting name is "field_to_fc"
+
+    Input list: 
+       0: field (if a fields container is set in input, it is pass on as output.)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("InjectToFieldContainer")
+    >>> op_way2 = core.operators.utility.field_to_fc()
+    """
+    return _FieldToFc()
+
+#internal name: html_doc
+#scripting name: html_doc
+def _get_input_spec_html_doc(pin):
+    inpin0 = _PinSpecification(name = "output_path", type_names = ["string"], optional = True, document = """default is {working directory}/dataProcessingDoc.html""")
+    inputs_dict_html_doc = { 
+        0 : inpin0
+    }
+    return inputs_dict_html_doc[pin]
+
+def _get_output_spec_html_doc(pin):
+    outputs_dict_html_doc = {
+    }
+    return outputs_dict_html_doc[pin]
+
+class _InputSpecHtmlDoc(_Inputs):
+    def __init__(self, op: _Operator):
+        self.output_path = _Input(_get_input_spec_html_doc(0), 0, op, -1) 
+
+class _OutputSpecHtmlDoc(_Outputs):
+    def __init__(self, op: _Operator):
+        pass 
+
+class _HtmlDoc(_Operator):
+    """Operator's description:
+    Internal name is "html_doc"
+    Scripting name is "html_doc"
+
+    Input list: 
+       0: output_path (default is {working directory}/dataProcessingDoc.html)
+
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("html_doc")
+    >>> op_way2 = core.operators.utility.html_doc()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("html_doc")
+        self._name = "html_doc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHtmlDoc(self._op)
+        self.outputs = _OutputSpecHtmlDoc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def html_doc():
+    """Operator's description:
+    Internal name is "html_doc"
+    Scripting name is "html_doc"
+
+    Input list: 
+       0: output_path (default is {working directory}/dataProcessingDoc.html)
+
+    Output list: 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("html_doc")
+    >>> op_way2 = core.operators.utility.html_doc()
+    """
+    return _HtmlDoc()
+
+#internal name: make_unit
+#scripting name: unitary_field
+def _get_input_spec_unitary_field(pin):
+    inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
+    inputs_dict_unitary_field = { 
+        0 : inpin0
+    }
+    return inputs_dict_unitary_field[pin]
+
+def _get_output_spec_unitary_field(pin):
+    outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
+    outputs_dict_unitary_field = { 
+        0 : outpin0
+    }
+    return outputs_dict_unitary_field[pin]
+
+class _InputSpecUnitaryField(_Inputs):
+    def __init__(self, op: _Operator):
+        self.field = _Input(_get_input_spec_unitary_field(0), 0, op, -1) 
+
+class _OutputSpecUnitaryField(_Outputs):
+    def __init__(self, op: _Operator):
+        self.field = _Output(_get_output_spec_unitary_field(0), 0, op) 
+
+class _UnitaryField(_Operator):
+    """Operator's description:
+    Internal name is "make_unit"
+    Scripting name is "unitary_field"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("make_unit")
+    >>> op_way2 = core.operators.utility.unitary_field()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("make_unit")
+        self._name = "make_unit"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecUnitaryField(self._op)
+        self.outputs = _OutputSpecUnitaryField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def unitary_field():
+    """Operator's description:
+    Internal name is "make_unit"
+    Scripting name is "unitary_field"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("make_unit")
+    >>> op_way2 = core.operators.utility.unitary_field()
+    """
+    return _UnitaryField()
 
 #internal name: BindSupport
 #scripting name: bind_support
@@ -84,29 +362,146 @@ class _OutputSpecBindSupport(_Outputs):
         self.field = _Output(_get_output_spec_bind_support(0), 0, op) 
 
 class _BindSupport(_Operator):
+    """Operator's description:
+    Internal name is "BindSupport"
+    Scripting name is "bind_support"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: support (meshed region or a support of the field)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("BindSupport")
+    >>> op_way2 = core.operators.utility.bind_support()
+    """
     def __init__(self):
-         super().__init__("BindSupport")
-         self._name = "BindSupport"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBindSupport(self._op)
-         self.outputs = _OutputSpecBindSupport(self._op)
+        """Specific operator class."""
+        super().__init__("BindSupport")
+        self._name = "BindSupport"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecBindSupport(self._op)
+        self.outputs = _OutputSpecBindSupport(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def bind_support():
     """Operator's description:
-Internal name is "BindSupport"
-Scripting name is "bind_support"
+    Internal name is "BindSupport"
+    Scripting name is "bind_support"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("BindSupport")
-- using dpf.operators.utility.bind_support()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: support (meshed region or a support of the field)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: support (meshed region or a support of the field)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("BindSupport")
+    >>> op_way2 = core.operators.utility.bind_support()
+    """
     return _BindSupport()
+
+#internal name: fieldify
+#scripting name: scalars_to_field
+def _get_input_spec_scalars_to_field(pin):
+    inpin0 = _PinSpecification(name = "double_or_vector_double", type_names = ["double"], optional = False, document = """double or vector of double""")
+    inputs_dict_scalars_to_field = { 
+        0 : inpin0
+    }
+    return inputs_dict_scalars_to_field[pin]
+
+def _get_output_spec_scalars_to_field(pin):
+    outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
+    outputs_dict_scalars_to_field = { 
+        0 : outpin0
+    }
+    return outputs_dict_scalars_to_field[pin]
+
+class _InputSpecScalarsToField(_Inputs):
+    def __init__(self, op: _Operator):
+        self.double_or_vector_double = _Input(_get_input_spec_scalars_to_field(0), 0, op, -1) 
+
+class _OutputSpecScalarsToField(_Outputs):
+    def __init__(self, op: _Operator):
+        self.field = _Output(_get_output_spec_scalars_to_field(0), 0, op) 
+
+class _ScalarsToField(_Operator):
+    """Operator's description:
+    Internal name is "fieldify"
+    Scripting name is "scalars_to_field"
+
+    Input list: 
+       0: double_or_vector_double (double or vector of double)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("fieldify")
+    >>> op_way2 = core.operators.utility.scalars_to_field()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("fieldify")
+        self._name = "fieldify"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecScalarsToField(self._op)
+        self.outputs = _OutputSpecScalarsToField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def scalars_to_field():
+    """Operator's description:
+    Internal name is "fieldify"
+    Scripting name is "scalars_to_field"
+
+    Input list: 
+       0: double_or_vector_double (double or vector of double)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("fieldify")
+    >>> op_way2 = core.operators.utility.scalars_to_field()
+    """
+    return _ScalarsToField()
 
 #internal name: change_location
 #scripting name: change_location
@@ -136,77 +531,64 @@ class _OutputSpecChangeLocation(_Outputs):
         self.field = _Output(_get_output_spec_change_location(0), 0, op) 
 
 class _ChangeLocation(_Operator):
+    """Operator's description:
+    Internal name is "change_location"
+    Scripting name is "change_location"
+
+    Input list: 
+       0: field 
+       1: new_location (new location of the output field ex: 'Nodal', 'ElementalNodal', 'Elemental'...)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("change_location")
+    >>> op_way2 = core.operators.utility.change_location()
+    """
     def __init__(self):
-         super().__init__("change_location")
-         self._name = "change_location"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecChangeLocation(self._op)
-         self.outputs = _OutputSpecChangeLocation(self._op)
+        """Specific operator class."""
+        super().__init__("change_location")
+        self._name = "change_location"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecChangeLocation(self._op)
+        self.outputs = _OutputSpecChangeLocation(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def change_location():
     """Operator's description:
-Internal name is "change_location"
-Scripting name is "change_location"
+    Internal name is "change_location"
+    Scripting name is "change_location"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("change_location")
-- using dpf.operators.utility.change_location()
+    Input list: 
+       0: field 
+       1: new_location (new location of the output field ex: 'Nodal', 'ElementalNodal', 'Elemental'...)
 
-Input list: 
-   0: field 
-   1: new_location (new location of the output field ex: 'Nodal', 'ElementalNodal', 'Elemental'...)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("change_location")
+    >>> op_way2 = core.operators.utility.change_location()
+    """
     return _ChangeLocation()
-
-#internal name: InjectToFieldContainer
-#scripting name: field_to_fc
-def _get_input_spec_field_to_fc(pin):
-    inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """if a fields container is set in input, it is pass on as output.""")
-    inputs_dict_field_to_fc = { 
-        0 : inpin0
-    }
-    return inputs_dict_field_to_fc[pin]
-
-def _get_output_spec_field_to_fc(pin):
-    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
-    outputs_dict_field_to_fc = { 
-        0 : outpin0
-    }
-    return outputs_dict_field_to_fc[pin]
-
-class _InputSpecFieldToFc(_Inputs):
-    def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_field_to_fc(0), 0, op, -1) 
-
-class _OutputSpecFieldToFc(_Outputs):
-    def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_field_to_fc(0), 0, op) 
-
-class _FieldToFc(_Operator):
-    def __init__(self):
-         super().__init__("InjectToFieldContainer")
-         self._name = "InjectToFieldContainer"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecFieldToFc(self._op)
-         self.outputs = _OutputSpecFieldToFc(self._op)
-
-def field_to_fc():
-    """Operator's description:
-Internal name is "InjectToFieldContainer"
-Scripting name is "field_to_fc"
-
-This operator can be instantiated in both following ways:
-- using dpf.Operator("InjectToFieldContainer")
-- using dpf.operators.utility.field_to_fc()
-
-Input list: 
-   0: field (if a fields container is set in input, it is pass on as output.)
-Output list: 
-   0: fields_container 
-"""
-    return _FieldToFc()
 
 #internal name: strain_from_voigt
 #scripting name: strain_from_voigt
@@ -233,27 +615,61 @@ class _OutputSpecStrainFromVoigt(_Outputs):
         self.field = _Output(_get_output_spec_strain_from_voigt(0), 0, op) 
 
 class _StrainFromVoigt(_Operator):
+    """Operator's description:
+    Internal name is "strain_from_voigt"
+    Scripting name is "strain_from_voigt"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("strain_from_voigt")
+    >>> op_way2 = core.operators.utility.strain_from_voigt()
+    """
     def __init__(self):
-         super().__init__("strain_from_voigt")
-         self._name = "strain_from_voigt"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStrainFromVoigt(self._op)
-         self.outputs = _OutputSpecStrainFromVoigt(self._op)
+        """Specific operator class."""
+        super().__init__("strain_from_voigt")
+        self._name = "strain_from_voigt"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStrainFromVoigt(self._op)
+        self.outputs = _OutputSpecStrainFromVoigt(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def strain_from_voigt():
     """Operator's description:
-Internal name is "strain_from_voigt"
-Scripting name is "strain_from_voigt"
+    Internal name is "strain_from_voigt"
+    Scripting name is "strain_from_voigt"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("strain_from_voigt")
-- using dpf.operators.utility.strain_from_voigt()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("strain_from_voigt")
+    >>> op_way2 = core.operators.utility.strain_from_voigt()
+    """
     return _StrainFromVoigt()
 
 #internal name: field::set_property
@@ -287,172 +703,66 @@ class _OutputSpecSetProperty(_Outputs):
         self.field = _Output(_get_output_spec_set_property(0), 0, op) 
 
 class _SetProperty(_Operator):
+    """Operator's description:
+    Internal name is "field::set_property"
+    Scripting name is "set_property"
+
+    Input list: 
+       0: field 
+       1: property_name (Property to set)
+       2: property_value (Property to set)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("field::set_property")
+    >>> op_way2 = core.operators.utility.set_property()
+    """
     def __init__(self):
-         super().__init__("field::set_property")
-         self._name = "field::set_property"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSetProperty(self._op)
-         self.outputs = _OutputSpecSetProperty(self._op)
+        """Specific operator class."""
+        super().__init__("field::set_property")
+        self._name = "field::set_property"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecSetProperty(self._op)
+        self.outputs = _OutputSpecSetProperty(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def set_property():
     """Operator's description:
-Internal name is "field::set_property"
-Scripting name is "set_property"
+    Internal name is "field::set_property"
+    Scripting name is "set_property"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("field::set_property")
-- using dpf.operators.utility.set_property()
+    Input list: 
+       0: field 
+       1: property_name (Property to set)
+       2: property_value (Property to set)
 
-Input list: 
-   0: field 
-   1: property_name (Property to set)
-   2: property_value (Property to set)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("field::set_property")
+    >>> op_way2 = core.operators.utility.set_property()
+    """
     return _SetProperty()
-
-#internal name: fieldify
-#scripting name: scalars_to_field
-def _get_input_spec_scalars_to_field(pin):
-    inpin0 = _PinSpecification(name = "double_or_vector_double", type_names = ["double"], optional = False, document = """double or vector of double""")
-    inputs_dict_scalars_to_field = { 
-        0 : inpin0
-    }
-    return inputs_dict_scalars_to_field[pin]
-
-def _get_output_spec_scalars_to_field(pin):
-    outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
-    outputs_dict_scalars_to_field = { 
-        0 : outpin0
-    }
-    return outputs_dict_scalars_to_field[pin]
-
-class _InputSpecScalarsToField(_Inputs):
-    def __init__(self, op: _Operator):
-        self.double_or_vector_double = _Input(_get_input_spec_scalars_to_field(0), 0, op, -1) 
-
-class _OutputSpecScalarsToField(_Outputs):
-    def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_scalars_to_field(0), 0, op) 
-
-class _ScalarsToField(_Operator):
-    def __init__(self):
-         super().__init__("fieldify")
-         self._name = "fieldify"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecScalarsToField(self._op)
-         self.outputs = _OutputSpecScalarsToField(self._op)
-
-def scalars_to_field():
-    """Operator's description:
-Internal name is "fieldify"
-Scripting name is "scalars_to_field"
-
-This operator can be instantiated in both following ways:
-- using dpf.Operator("fieldify")
-- using dpf.operators.utility.scalars_to_field()
-
-Input list: 
-   0: double_or_vector_double (double or vector of double)
-Output list: 
-   0: field 
-"""
-    return _ScalarsToField()
-
-#internal name: html_doc
-#scripting name: html_doc
-def _get_input_spec_html_doc(pin):
-    inpin0 = _PinSpecification(name = "output_path", type_names = ["string"], optional = True, document = """default is {working directory}/dataProcessingDoc.html""")
-    inputs_dict_html_doc = { 
-        0 : inpin0
-    }
-    return inputs_dict_html_doc[pin]
-
-def _get_output_spec_html_doc(pin):
-    outputs_dict_html_doc = {
-    }
-    return outputs_dict_html_doc[pin]
-
-class _InputSpecHtmlDoc(_Inputs):
-    def __init__(self, op: _Operator):
-        self.output_path = _Input(_get_input_spec_html_doc(0), 0, op, -1) 
-
-class _OutputSpecHtmlDoc(_Outputs):
-    def __init__(self, op: _Operator):
-        pass 
-
-class _HtmlDoc(_Operator):
-    def __init__(self):
-         super().__init__("html_doc")
-         self._name = "html_doc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHtmlDoc(self._op)
-         self.outputs = _OutputSpecHtmlDoc(self._op)
-
-def html_doc():
-    """Operator's description:
-Internal name is "html_doc"
-Scripting name is "html_doc"
-
-This operator can be instantiated in both following ways:
-- using dpf.Operator("html_doc")
-- using dpf.operators.utility.html_doc()
-
-Input list: 
-   0: output_path (default is {working directory}/dataProcessingDoc.html)
-Output list: 
-   empty 
-"""
-    return _HtmlDoc()
-
-#internal name: make_unit
-#scripting name: unitary_field
-def _get_input_spec_unitary_field(pin):
-    inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
-    inputs_dict_unitary_field = { 
-        0 : inpin0
-    }
-    return inputs_dict_unitary_field[pin]
-
-def _get_output_spec_unitary_field(pin):
-    outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
-    outputs_dict_unitary_field = { 
-        0 : outpin0
-    }
-    return outputs_dict_unitary_field[pin]
-
-class _InputSpecUnitaryField(_Inputs):
-    def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_unitary_field(0), 0, op, -1) 
-
-class _OutputSpecUnitaryField(_Outputs):
-    def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_unitary_field(0), 0, op) 
-
-class _UnitaryField(_Operator):
-    def __init__(self):
-         super().__init__("make_unit")
-         self._name = "make_unit"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecUnitaryField(self._op)
-         self.outputs = _OutputSpecUnitaryField(self._op)
-
-def unitary_field():
-    """Operator's description:
-Internal name is "make_unit"
-Scripting name is "unitary_field"
-
-This operator can be instantiated in both following ways:
-- using dpf.Operator("make_unit")
-- using dpf.operators.utility.unitary_field()
-
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
-    return _UnitaryField()
 
 #internal name: forward
 #scripting name: forward_field
@@ -479,27 +789,61 @@ class _OutputSpecForwardField(_Outputs):
         self.field = _Output(_get_output_spec_forward_field(0), 0, op) 
 
 class _ForwardField(_Operator):
+    """Operator's description:
+    Internal name is "forward"
+    Scripting name is "forward_field"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("forward")
+    >>> op_way2 = core.operators.utility.forward_field()
+    """
     def __init__(self):
-         super().__init__("forward")
-         self._name = "forward"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecForwardField(self._op)
-         self.outputs = _OutputSpecForwardField(self._op)
+        """Specific operator class."""
+        super().__init__("forward")
+        self._name = "forward"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecForwardField(self._op)
+        self.outputs = _OutputSpecForwardField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def forward_field():
     """Operator's description:
-Internal name is "forward"
-Scripting name is "forward_field"
+    Internal name is "forward"
+    Scripting name is "forward_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("forward")
-- using dpf.operators.utility.forward_field()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("forward")
+    >>> op_way2 = core.operators.utility.forward_field()
+    """
     return _ForwardField()
 
 #internal name: forward_fc
@@ -527,27 +871,61 @@ class _OutputSpecForwardFieldsContainer(_Outputs):
         self.fields_container = _Output(_get_output_spec_forward_fields_container(0), 0, op) 
 
 class _ForwardFieldsContainer(_Operator):
+    """Operator's description:
+    Internal name is "forward_fc"
+    Scripting name is "forward_fields_container"
+
+    Input list: 
+       0: fields 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("forward_fc")
+    >>> op_way2 = core.operators.utility.forward_fields_container()
+    """
     def __init__(self):
-         super().__init__("forward_fc")
-         self._name = "forward_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecForwardFieldsContainer(self._op)
-         self.outputs = _OutputSpecForwardFieldsContainer(self._op)
+        """Specific operator class."""
+        super().__init__("forward_fc")
+        self._name = "forward_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecForwardFieldsContainer(self._op)
+        self.outputs = _OutputSpecForwardFieldsContainer(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def forward_fields_container():
     """Operator's description:
-Internal name is "forward_fc"
-Scripting name is "forward_fields_container"
+    Internal name is "forward_fc"
+    Scripting name is "forward_fields_container"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("forward_fc")
-- using dpf.operators.utility.forward_fields_container()
+    Input list: 
+       0: fields 
 
-Input list: 
-   0: fields 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("forward_fc")
+    >>> op_way2 = core.operators.utility.forward_fields_container()
+    """
     return _ForwardFieldsContainer()
 
 #internal name: text_parser
@@ -574,28 +952,63 @@ class _OutputSpecTxtFileToDpf(_Outputs):
         pass 
 
 class _TxtFileToDpf(_Operator):
+    """Operator's description:
+    Internal name is "text_parser"
+    Scripting name is "txt_file_to_dpf"
+
+    Input list: 
+       0: input_string (ex: "double:1.0", "int:1", "vector<double>:1.0;1.0".)
+
+    Output list: 
+       empty 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("text_parser")
+    >>> op_way2 = core.operators.utility.txt_file_to_dpf()
+    """
     def __init__(self):
-         super().__init__("text_parser")
-         self._name = "text_parser"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTxtFileToDpf(self._op)
-         self.outputs = _OutputSpecTxtFileToDpf(self._op)
+        """Specific operator class."""
+        super().__init__("text_parser")
+        self._name = "text_parser"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecTxtFileToDpf(self._op)
+        self.outputs = _OutputSpecTxtFileToDpf(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def txt_file_to_dpf():
     """Operator's description:
-Internal name is "text_parser"
-Scripting name is "txt_file_to_dpf"
+    Internal name is "text_parser"
+    Scripting name is "txt_file_to_dpf"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("text_parser")
-- using dpf.operators.utility.txt_file_to_dpf()
+    Input list: 
+       0: input_string (ex: "double:1.0", "int:1", "vector<double>:1.0;1.0".)
 
-Input list: 
-   0: input_string (ex: "double:1.0", "int:1", "vector<double>:1.0;1.0".)
-Output list: 
-   empty 
-   empty 
-"""
+    Output list: 
+       empty 
+       empty 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("text_parser")
+    >>> op_way2 = core.operators.utility.txt_file_to_dpf()
+    """
     return _TxtFileToDpf()
 
 #internal name: BindSupportFC
@@ -626,28 +1039,63 @@ class _OutputSpecBindSupportFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_bind_support_fc(0), 0, op) 
 
 class _BindSupportFc(_Operator):
+    """Operator's description:
+    Internal name is "BindSupportFC"
+    Scripting name is "bind_support_fc"
+
+    Input list: 
+       0: fields_container 
+       1: support (meshed region or a support of the field)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("BindSupportFC")
+    >>> op_way2 = core.operators.utility.bind_support_fc()
+    """
     def __init__(self):
-         super().__init__("BindSupportFC")
-         self._name = "BindSupportFC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBindSupportFc(self._op)
-         self.outputs = _OutputSpecBindSupportFc(self._op)
+        """Specific operator class."""
+        super().__init__("BindSupportFC")
+        self._name = "BindSupportFC"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecBindSupportFc(self._op)
+        self.outputs = _OutputSpecBindSupportFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def bind_support_fc():
     """Operator's description:
-Internal name is "BindSupportFC"
-Scripting name is "bind_support_fc"
+    Internal name is "BindSupportFC"
+    Scripting name is "bind_support_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("BindSupportFC")
-- using dpf.operators.utility.bind_support_fc()
+    Input list: 
+       0: fields_container 
+       1: support (meshed region or a support of the field)
 
-Input list: 
-   0: fields_container 
-   1: support (meshed region or a support of the field)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("BindSupportFC")
+    >>> op_way2 = core.operators.utility.bind_support_fc()
+    """
     return _BindSupportFc()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -688,27 +1136,62 @@ class _OutputSpecChangeShellLayers(_Outputs):
         self.fields_container = _Output(_get_output_spec_change_shell_layers(0), 0, op) 
 
 class _ChangeShellLayers(_Operator):
+    """Operator's description:
+    Internal name is "change_shellLayers"
+    Scripting name is "change_shell_layers"
+
+    Input list: 
+       0: fields_container 
+       1: e_shell_layer (0:Top, 1: Bottom, 2: BottomTop, 3:Mid, 4:BottomTopMid)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("change_shellLayers")
+    >>> op_way2 = core.operators.utility.change_shell_layers()
+    """
     def __init__(self):
-         super().__init__("change_shellLayers")
-         self._name = "change_shellLayers"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecChangeShellLayers(self._op)
-         self.outputs = _OutputSpecChangeShellLayers(self._op)
+        """Specific operator class."""
+        super().__init__("change_shellLayers")
+        self._name = "change_shellLayers"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecChangeShellLayers(self._op)
+        self.outputs = _OutputSpecChangeShellLayers(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def change_shell_layers():
     """Operator's description:
-Internal name is "change_shellLayers"
-Scripting name is "change_shell_layers"
+    Internal name is "change_shellLayers"
+    Scripting name is "change_shell_layers"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("change_shellLayers")
-- using dpf.operators.utility.change_shell_layers()
+    Input list: 
+       0: fields_container 
+       1: e_shell_layer (0:Top, 1: Bottom, 2: BottomTop, 3:Mid, 4:BottomTopMid)
 
-Input list: 
-   0: fields_container 
-   1: e_shell_layer (0:Top, 1: Bottom, 2: BottomTop, 3:Mid, 4:BottomTopMid)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("change_shellLayers")
+    >>> op_way2 = core.operators.utility.change_shell_layers()
+    """
     return _ChangeShellLayers()
 

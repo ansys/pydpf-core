@@ -39,30 +39,67 @@ class _OutputSpecRun(_Outputs):
         self.data_sources = _Output(_get_output_spec_run(0), 0, op) 
 
 class _Run(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::run"
+    Scripting name is "mapdl.run"
+
+    Input list: 
+       0: mapdl_exe_path 
+       1: working_dir 
+       2: number_of_processes (Set the number of MPI processes used for resolution (default is 2))
+       4: data_sources (data sources containing the input file.)
+
+    Output list: 
+       0: data_sources 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::run")
+    >>> op_way2 = core.operators.result.mapdl.run()
+    """
     def __init__(self):
-         super().__init__("mapdl::run")
-         self._name = "mapdl::run"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRun(self._op)
-         self.outputs = _OutputSpecRun(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::run")
+        self._name = "mapdl::run"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRun(self._op)
+        self.outputs = _OutputSpecRun(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def run():
     """Operator's description:
-Internal name is "mapdl::run"
-Scripting name is "mapdl.run"
+    Internal name is "mapdl::run"
+    Scripting name is "mapdl.run"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::run")
-- using dpf.operators.result.mapdl.run()
+    Input list: 
+       0: mapdl_exe_path 
+       1: working_dir 
+       2: number_of_processes (Set the number of MPI processes used for resolution (default is 2))
+       4: data_sources (data sources containing the input file.)
 
-Input list: 
-   0: mapdl_exe_path 
-   1: working_dir 
-   2: number_of_processes (Set the number of MPI processes used for resolution (default is 2))
-   4: data_sources (data sources containing the input file.)
-Output list: 
-   0: data_sources 
-"""
+    Output list: 
+       0: data_sources 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::run")
+    >>> op_way2 = core.operators.result.mapdl.run()
+    """
     return _Run()
 
 #internal name: mapdl::nmisc
@@ -105,32 +142,71 @@ class _OutputSpecNmisc(_Outputs):
         self.fields_container = _Output(_get_output_spec_nmisc(0), 0, op) 
 
 class _Nmisc(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::nmisc"
+    Scripting name is "mapdl.nmisc"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::nmisc")
+    >>> op_way2 = core.operators.result.mapdl.nmisc()
+    """
     def __init__(self):
-         super().__init__("mapdl::nmisc")
-         self._name = "mapdl::nmisc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNmisc(self._op)
-         self.outputs = _OutputSpecNmisc(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::nmisc")
+        self._name = "mapdl::nmisc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNmisc(self._op)
+        self.outputs = _OutputSpecNmisc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nmisc():
     """Operator's description:
-Internal name is "mapdl::nmisc"
-Scripting name is "mapdl.nmisc"
+    Internal name is "mapdl::nmisc"
+    Scripting name is "mapdl.nmisc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::nmisc")
-- using dpf.operators.result.mapdl.nmisc()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::nmisc")
+    >>> op_way2 = core.operators.result.mapdl.nmisc()
+    """
     return _Nmisc()
 
 #internal name: mapdl::smisc
@@ -173,32 +249,71 @@ class _OutputSpecSmisc(_Outputs):
         self.fields_container = _Output(_get_output_spec_smisc(0), 0, op) 
 
 class _Smisc(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::smisc"
+    Scripting name is "mapdl.smisc"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::smisc")
+    >>> op_way2 = core.operators.result.mapdl.smisc()
+    """
     def __init__(self):
-         super().__init__("mapdl::smisc")
-         self._name = "mapdl::smisc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSmisc(self._op)
-         self.outputs = _OutputSpecSmisc(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::smisc")
+        self._name = "mapdl::smisc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecSmisc(self._op)
+        self.outputs = _OutputSpecSmisc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def smisc():
     """Operator's description:
-Internal name is "mapdl::smisc"
-Scripting name is "mapdl.smisc"
+    Internal name is "mapdl::smisc"
+    Scripting name is "mapdl.smisc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::smisc")
-- using dpf.operators.result.mapdl.smisc()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::smisc")
+    >>> op_way2 = core.operators.result.mapdl.smisc()
+    """
     return _Smisc()
 
 #internal name: PRES_Reader
@@ -226,27 +341,61 @@ class _OutputSpecPresToField(_Outputs):
         self.field = _Output(_get_output_spec_pres_to_field(0), 0, op) 
 
 class _PresToField(_Operator):
+    """Operator's description:
+    Internal name is "PRES_Reader"
+    Scripting name is "mapdl.pres_to_field"
+
+    Input list: 
+       0: filepath (filepath)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("PRES_Reader")
+    >>> op_way2 = core.operators.result.mapdl.pres_to_field()
+    """
     def __init__(self):
-         super().__init__("PRES_Reader")
-         self._name = "PRES_Reader"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPresToField(self._op)
-         self.outputs = _OutputSpecPresToField(self._op)
+        """Specific operator class."""
+        super().__init__("PRES_Reader")
+        self._name = "PRES_Reader"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPresToField(self._op)
+        self.outputs = _OutputSpecPresToField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def pres_to_field():
     """Operator's description:
-Internal name is "PRES_Reader"
-Scripting name is "mapdl.pres_to_field"
+    Internal name is "PRES_Reader"
+    Scripting name is "mapdl.pres_to_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("PRES_Reader")
-- using dpf.operators.result.mapdl.pres_to_field()
+    Input list: 
+       0: filepath (filepath)
 
-Input list: 
-   0: filepath (filepath)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("PRES_Reader")
+    >>> op_way2 = core.operators.result.mapdl.pres_to_field()
+    """
     return _PresToField()
 
 #internal name: PRNS_Reader
@@ -274,26 +423,60 @@ class _OutputSpecPrnsToField(_Outputs):
         self.field = _Output(_get_output_spec_prns_to_field(0), 0, op) 
 
 class _PrnsToField(_Operator):
+    """Operator's description:
+    Internal name is "PRNS_Reader"
+    Scripting name is "mapdl.prns_to_field"
+
+    Input list: 
+       0: filepath (filepath)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("PRNS_Reader")
+    >>> op_way2 = core.operators.result.mapdl.prns_to_field()
+    """
     def __init__(self):
-         super().__init__("PRNS_Reader")
-         self._name = "PRNS_Reader"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPrnsToField(self._op)
-         self.outputs = _OutputSpecPrnsToField(self._op)
+        """Specific operator class."""
+        super().__init__("PRNS_Reader")
+        self._name = "PRNS_Reader"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPrnsToField(self._op)
+        self.outputs = _OutputSpecPrnsToField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def prns_to_field():
     """Operator's description:
-Internal name is "PRNS_Reader"
-Scripting name is "mapdl.prns_to_field"
+    Internal name is "PRNS_Reader"
+    Scripting name is "mapdl.prns_to_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("PRNS_Reader")
-- using dpf.operators.result.mapdl.prns_to_field()
+    Input list: 
+       0: filepath (filepath)
 
-Input list: 
-   0: filepath (filepath)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("PRNS_Reader")
+    >>> op_way2 = core.operators.result.mapdl.prns_to_field()
+    """
     return _PrnsToField()
 

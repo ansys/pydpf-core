@@ -36,28 +36,63 @@ class _OutputSpecSolidToSkin(_Outputs):
         self.field = _Output(_get_output_spec_solid_to_skin(0), 0, op) 
 
 class _SolidToSkin(_Operator):
+    """Operator's description:
+    Internal name is "solid_to_skin"
+    Scripting name is "solid_to_skin"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping (skin mesh region expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("solid_to_skin")
+    >>> op_way2 = core.operators.mapping.solid_to_skin()
+    """
     def __init__(self):
-         super().__init__("solid_to_skin")
-         self._name = "solid_to_skin"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecSolidToSkin(self._op)
-         self.outputs = _OutputSpecSolidToSkin(self._op)
+        """Specific operator class."""
+        super().__init__("solid_to_skin")
+        self._name = "solid_to_skin"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecSolidToSkin(self._op)
+        self.outputs = _OutputSpecSolidToSkin(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def solid_to_skin():
     """Operator's description:
-Internal name is "solid_to_skin"
-Scripting name is "solid_to_skin"
+    Internal name is "solid_to_skin"
+    Scripting name is "solid_to_skin"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("solid_to_skin")
-- using dpf.operators.mapping.solid_to_skin()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping (skin mesh region expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh_scoping (skin mesh region expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("solid_to_skin")
+    >>> op_way2 = core.operators.mapping.solid_to_skin()
+    """
     return _SolidToSkin()
 
 #internal name: mapping
@@ -97,31 +132,69 @@ class _OutputSpecOnCoordinates(_Outputs):
         self.fields_container = _Output(_get_output_spec_on_coordinates(0), 0, op) 
 
 class _OnCoordinates(_Operator):
+    """Operator's description:
+    Internal name is "mapping"
+    Scripting name is "on_coordinates"
+
+    Input list: 
+       0: fields_container 
+       1: coordinates 
+       2: create_support (if this pin is set to true, then, a support associated to the fields consisting of points is created)
+       3: mapping_on_scoping (if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping)
+       7: mesh (if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapping")
+    >>> op_way2 = core.operators.mapping.on_coordinates()
+    """
     def __init__(self):
-         super().__init__("mapping")
-         self._name = "mapping"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecOnCoordinates(self._op)
-         self.outputs = _OutputSpecOnCoordinates(self._op)
+        """Specific operator class."""
+        super().__init__("mapping")
+        self._name = "mapping"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecOnCoordinates(self._op)
+        self.outputs = _OutputSpecOnCoordinates(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def on_coordinates():
     """Operator's description:
-Internal name is "mapping"
-Scripting name is "on_coordinates"
+    Internal name is "mapping"
+    Scripting name is "on_coordinates"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapping")
-- using dpf.operators.mapping.on_coordinates()
+    Input list: 
+       0: fields_container 
+       1: coordinates 
+       2: create_support (if this pin is set to true, then, a support associated to the fields consisting of points is created)
+       3: mapping_on_scoping (if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping)
+       7: mesh (if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false))
 
-Input list: 
-   0: fields_container 
-   1: coordinates 
-   2: create_support (if this pin is set to true, then, a support associated to the fields consisting of points is created)
-   3: mapping_on_scoping (if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping)
-   7: mesh (if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapping")
+    >>> op_way2 = core.operators.mapping.on_coordinates()
+    """
     return _OnCoordinates()
 
 #internal name: scoping::on_coordinates
@@ -152,27 +225,62 @@ class _OutputSpecScopingOnCoordinates(_Outputs):
         self.scoping = _Output(_get_output_spec_scoping_on_coordinates(0), 0, op) 
 
 class _ScopingOnCoordinates(_Operator):
+    """Operator's description:
+    Internal name is "scoping::on_coordinates"
+    Scripting name is "scoping_on_coordinates"
+
+    Input list: 
+       0: coordinates 
+       7: mesh 
+
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::on_coordinates")
+    >>> op_way2 = core.operators.mapping.scoping_on_coordinates()
+    """
     def __init__(self):
-         super().__init__("scoping::on_coordinates")
-         self._name = "scoping::on_coordinates"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecScopingOnCoordinates(self._op)
-         self.outputs = _OutputSpecScopingOnCoordinates(self._op)
+        """Specific operator class."""
+        super().__init__("scoping::on_coordinates")
+        self._name = "scoping::on_coordinates"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecScopingOnCoordinates(self._op)
+        self.outputs = _OutputSpecScopingOnCoordinates(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def scoping_on_coordinates():
     """Operator's description:
-Internal name is "scoping::on_coordinates"
-Scripting name is "scoping_on_coordinates"
+    Internal name is "scoping::on_coordinates"
+    Scripting name is "scoping_on_coordinates"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("scoping::on_coordinates")
-- using dpf.operators.mapping.scoping_on_coordinates()
+    Input list: 
+       0: coordinates 
+       7: mesh 
 
-Input list: 
-   0: coordinates 
-   7: mesh 
-Output list: 
-   0: scoping 
-"""
+    Output list: 
+       0: scoping 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("scoping::on_coordinates")
+    >>> op_way2 = core.operators.mapping.scoping_on_coordinates()
+    """
     return _ScopingOnCoordinates()
 

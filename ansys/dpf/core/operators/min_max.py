@@ -36,28 +36,63 @@ class _OutputSpecMinMax(_Outputs):
         self.field_max = _Output(_get_output_spec_min_max(1), 1, op) 
 
 class _MinMax(_Operator):
+    """Operator's description:
+    Internal name is "min_max"
+    Scripting name is "min_max"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max")
+    >>> op_way2 = core.operators.min_max.min_max()
+    """
     def __init__(self):
-         super().__init__("min_max")
-         self._name = "min_max"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMax(self._op)
-         self.outputs = _OutputSpecMinMax(self._op)
+        """Specific operator class."""
+        super().__init__("min_max")
+        self._name = "min_max"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMinMax(self._op)
+        self.outputs = _OutputSpecMinMax(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def min_max():
     """Operator's description:
-Internal name is "min_max"
-Scripting name is "min_max"
+    Internal name is "min_max"
+    Scripting name is "min_max"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("min_max")
-- using dpf.operators.min_max.min_max()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field_min 
-   1: field_max 
-"""
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max")
+    >>> op_way2 = core.operators.min_max.min_max()
+    """
     return _MinMax()
 
 #internal name: min_max_fc
@@ -88,28 +123,63 @@ class _OutputSpecMinMaxFc(_Outputs):
         self.field_max = _Output(_get_output_spec_min_max_fc(1), 1, op) 
 
 class _MinMaxFc(_Operator):
+    """Operator's description:
+    Internal name is "min_max_fc"
+    Scripting name is "min_max_fc"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_fc")
+    >>> op_way2 = core.operators.min_max.min_max_fc()
+    """
     def __init__(self):
-         super().__init__("min_max_fc")
-         self._name = "min_max_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxFc(self._op)
-         self.outputs = _OutputSpecMinMaxFc(self._op)
+        """Specific operator class."""
+        super().__init__("min_max_fc")
+        self._name = "min_max_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMinMaxFc(self._op)
+        self.outputs = _OutputSpecMinMaxFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def min_max_fc():
     """Operator's description:
-Internal name is "min_max_fc"
-Scripting name is "min_max_fc"
+    Internal name is "min_max_fc"
+    Scripting name is "min_max_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("min_max_fc")
-- using dpf.operators.min_max.min_max_fc()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: field_min 
-   1: field_max 
-"""
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_fc")
+    >>> op_way2 = core.operators.min_max.min_max_fc()
+    """
     return _MinMaxFc()
 
 #internal name: min_max_over_label_fc
@@ -143,29 +213,65 @@ class _OutputSpecMinMaxOverLabelFc(_Outputs):
         self.field_max = _Output(_get_output_spec_min_max_over_label_fc(1), 1, op) 
 
 class _MinMaxOverLabelFc(_Operator):
+    """Operator's description:
+    Internal name is "min_max_over_label_fc"
+    Scripting name is "min_max_over_label_fc"
+
+    Input list: 
+       0: fields_container 
+       1: label (label name from the fields container)
+
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_over_label_fc")
+    >>> op_way2 = core.operators.min_max.min_max_over_label_fc()
+    """
     def __init__(self):
-         super().__init__("min_max_over_label_fc")
-         self._name = "min_max_over_label_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxOverLabelFc(self._op)
-         self.outputs = _OutputSpecMinMaxOverLabelFc(self._op)
+        """Specific operator class."""
+        super().__init__("min_max_over_label_fc")
+        self._name = "min_max_over_label_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMinMaxOverLabelFc(self._op)
+        self.outputs = _OutputSpecMinMaxOverLabelFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def min_max_over_label_fc():
     """Operator's description:
-Internal name is "min_max_over_label_fc"
-Scripting name is "min_max_over_label_fc"
+    Internal name is "min_max_over_label_fc"
+    Scripting name is "min_max_over_label_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("min_max_over_label_fc")
-- using dpf.operators.min_max.min_max_over_label_fc()
+    Input list: 
+       0: fields_container 
+       1: label (label name from the fields container)
 
-Input list: 
-   0: fields_container 
-   1: label (label name from the fields container)
-Output list: 
-   0: field_min 
-   1: field_max 
-"""
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_over_label_fc")
+    >>> op_way2 = core.operators.min_max.min_max_over_label_fc()
+    """
     return _MinMaxOverLabelFc()
 
 #internal name: min_by_component
@@ -202,30 +308,67 @@ class _OutputSpecMinByComponent(_Outputs):
         self.field = _Output(_get_output_spec_min_by_component(0), 0, op) 
 
 class _MinByComponent(_Operator):
+    """Operator's description:
+    Internal name is "min_by_component"
+    Scripting name is "min_by_component"
+
+    Input list: 
+       0: use_absolute_value (use_absolute_value)
+       1: fieldA1 (field or fields container with only one field is expected)
+       2: fieldA2 (field or fields container with only one field is expected)
+       3: fieldB2 
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_by_component")
+    >>> op_way2 = core.operators.min_max.min_by_component()
+    """
     def __init__(self):
-         super().__init__("min_by_component")
-         self._name = "min_by_component"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinByComponent(self._op)
-         self.outputs = _OutputSpecMinByComponent(self._op)
+        """Specific operator class."""
+        super().__init__("min_by_component")
+        self._name = "min_by_component"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMinByComponent(self._op)
+        self.outputs = _OutputSpecMinByComponent(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def min_by_component():
     """Operator's description:
-Internal name is "min_by_component"
-Scripting name is "min_by_component"
+    Internal name is "min_by_component"
+    Scripting name is "min_by_component"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("min_by_component")
-- using dpf.operators.min_max.min_by_component()
+    Input list: 
+       0: use_absolute_value (use_absolute_value)
+       1: fieldA1 (field or fields container with only one field is expected)
+       2: fieldA2 (field or fields container with only one field is expected)
+       3: fieldB2 
 
-Input list: 
-   0: use_absolute_value (use_absolute_value)
-   1: fieldA1 (field or fields container with only one field is expected)
-   2: fieldA2 (field or fields container with only one field is expected)
-   3: fieldB2 
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_by_component")
+    >>> op_way2 = core.operators.min_max.min_by_component()
+    """
     return _MinByComponent()
 
 #internal name: max_by_component
@@ -262,30 +405,67 @@ class _OutputSpecMaxByComponent(_Outputs):
         self.field = _Output(_get_output_spec_max_by_component(0), 0, op) 
 
 class _MaxByComponent(_Operator):
+    """Operator's description:
+    Internal name is "max_by_component"
+    Scripting name is "max_by_component"
+
+    Input list: 
+       0: use_absolute_value (use_absolute_value)
+       1: fieldA1 (field or fields container with only one field is expected)
+       2: fieldA2 (field or fields container with only one field is expected)
+       3: fieldB2 
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("max_by_component")
+    >>> op_way2 = core.operators.min_max.max_by_component()
+    """
     def __init__(self):
-         super().__init__("max_by_component")
-         self._name = "max_by_component"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMaxByComponent(self._op)
-         self.outputs = _OutputSpecMaxByComponent(self._op)
+        """Specific operator class."""
+        super().__init__("max_by_component")
+        self._name = "max_by_component"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMaxByComponent(self._op)
+        self.outputs = _OutputSpecMaxByComponent(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def max_by_component():
     """Operator's description:
-Internal name is "max_by_component"
-Scripting name is "max_by_component"
+    Internal name is "max_by_component"
+    Scripting name is "max_by_component"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("max_by_component")
-- using dpf.operators.min_max.max_by_component()
+    Input list: 
+       0: use_absolute_value (use_absolute_value)
+       1: fieldA1 (field or fields container with only one field is expected)
+       2: fieldA2 (field or fields container with only one field is expected)
+       3: fieldB2 
 
-Input list: 
-   0: use_absolute_value (use_absolute_value)
-   1: fieldA1 (field or fields container with only one field is expected)
-   2: fieldA2 (field or fields container with only one field is expected)
-   3: fieldB2 
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("max_by_component")
+    >>> op_way2 = core.operators.min_max.max_by_component()
+    """
     return _MaxByComponent()
 
 #internal name: min_max_fc_inc
@@ -316,28 +496,63 @@ class _OutputSpecMinMaxFcInc(_Outputs):
         self.field_max = _Output(_get_output_spec_min_max_fc_inc(1), 1, op) 
 
 class _MinMaxFcInc(_Operator):
+    """Operator's description:
+    Internal name is "min_max_fc_inc"
+    Scripting name is "min_max_fc_inc"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_fc_inc")
+    >>> op_way2 = core.operators.min_max.min_max_fc_inc()
+    """
     def __init__(self):
-         super().__init__("min_max_fc_inc")
-         self._name = "min_max_fc_inc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxFcInc(self._op)
-         self.outputs = _OutputSpecMinMaxFcInc(self._op)
+        """Specific operator class."""
+        super().__init__("min_max_fc_inc")
+        self._name = "min_max_fc_inc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMinMaxFcInc(self._op)
+        self.outputs = _OutputSpecMinMaxFcInc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def min_max_fc_inc():
     """Operator's description:
-Internal name is "min_max_fc_inc"
-Scripting name is "min_max_fc_inc"
+    Internal name is "min_max_fc_inc"
+    Scripting name is "min_max_fc_inc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("min_max_fc_inc")
-- using dpf.operators.min_max.min_max_fc_inc()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: field_min 
-   1: field_max 
-"""
+    Output list: 
+       0: field_min 
+       1: field_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_fc_inc")
+    >>> op_way2 = core.operators.min_max.min_max_fc_inc()
+    """
     return _MinMaxFcInc()
 
 #internal name: min_max_inc
@@ -377,30 +592,68 @@ class _OutputSpecMinMaxInc(_Outputs):
         self.domain_ids_max = _Output(_get_output_spec_min_max_inc(3), 3, op) 
 
 class _MinMaxInc(_Operator):
+    """Operator's description:
+    Internal name is "min_max_inc"
+    Scripting name is "min_max_inc"
+
+    Input list: 
+       0: field 
+       17: domain_id 
+
+    Output list: 
+       0: field_min 
+       1: field_max 
+       2: domain_ids_min 
+       3: domain_ids_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_inc")
+    >>> op_way2 = core.operators.min_max.min_max_inc()
+    """
     def __init__(self):
-         super().__init__("min_max_inc")
-         self._name = "min_max_inc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMinMaxInc(self._op)
-         self.outputs = _OutputSpecMinMaxInc(self._op)
+        """Specific operator class."""
+        super().__init__("min_max_inc")
+        self._name = "min_max_inc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMinMaxInc(self._op)
+        self.outputs = _OutputSpecMinMaxInc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def min_max_inc():
     """Operator's description:
-Internal name is "min_max_inc"
-Scripting name is "min_max_inc"
+    Internal name is "min_max_inc"
+    Scripting name is "min_max_inc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("min_max_inc")
-- using dpf.operators.min_max.min_max_inc()
+    Input list: 
+       0: field 
+       17: domain_id 
 
-Input list: 
-   0: field 
-   17: domain_id 
-Output list: 
-   0: field_min 
-   1: field_max 
-   2: domain_ids_min 
-   3: domain_ids_max 
-"""
+    Output list: 
+       0: field_min 
+       1: field_max 
+       2: domain_ids_min 
+       3: domain_ids_max 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("min_max_inc")
+    >>> op_way2 = core.operators.min_max.min_max_inc()
+    """
     return _MinMaxInc()
 

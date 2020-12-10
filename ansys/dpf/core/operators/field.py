@@ -33,28 +33,63 @@ class _OutputSpecLowPassFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_low_pass_fc(0), 0, op) 
 
 class _LowPassFc(_Operator):
+    """Operator's description:
+    Internal name is "core::field::low_pass_fc"
+    Scripting name is "field.low_pass_fc"
+
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::low_pass_fc")
+    >>> op_way2 = core.operators.filter.field.low_pass_fc()
+    """
     def __init__(self):
-         super().__init__("core::field::low_pass_fc")
-         self._name = "core::field::low_pass_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecLowPassFc(self._op)
-         self.outputs = _OutputSpecLowPassFc(self._op)
+        """Specific operator class."""
+        super().__init__("core::field::low_pass_fc")
+        self._name = "core::field::low_pass_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecLowPassFc(self._op)
+        self.outputs = _OutputSpecLowPassFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def low_pass_fc():
     """Operator's description:
-Internal name is "core::field::low_pass_fc"
-Scripting name is "field.low_pass_fc"
+    Internal name is "core::field::low_pass_fc"
+    Scripting name is "field.low_pass_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::field::low_pass_fc")
-- using dpf.operators.filter.field.low_pass_fc()
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: fields_container (field or fields container with only one field is expected)
-   1: threshold (a threshold scalar or a field containing one value is expected)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::low_pass_fc")
+    >>> op_way2 = core.operators.filter.field.low_pass_fc()
+    """
     return _LowPassFc()
 
 #internal name: core::field::band_pass_fc
@@ -88,29 +123,65 @@ class _OutputSpecBandPassFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_band_pass_fc(0), 0, op) 
 
 class _BandPassFc(_Operator):
+    """Operator's description:
+    Internal name is "core::field::band_pass_fc"
+    Scripting name is "field.band_pass_fc"
+
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: min_threshold (a min threshold scalar or a field containing one value is expected)
+       2: max_threshold (a max threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::band_pass_fc")
+    >>> op_way2 = core.operators.filter.field.band_pass_fc()
+    """
     def __init__(self):
-         super().__init__("core::field::band_pass_fc")
-         self._name = "core::field::band_pass_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBandPassFc(self._op)
-         self.outputs = _OutputSpecBandPassFc(self._op)
+        """Specific operator class."""
+        super().__init__("core::field::band_pass_fc")
+        self._name = "core::field::band_pass_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecBandPassFc(self._op)
+        self.outputs = _OutputSpecBandPassFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def band_pass_fc():
     """Operator's description:
-Internal name is "core::field::band_pass_fc"
-Scripting name is "field.band_pass_fc"
+    Internal name is "core::field::band_pass_fc"
+    Scripting name is "field.band_pass_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::field::band_pass_fc")
-- using dpf.operators.filter.field.band_pass_fc()
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: min_threshold (a min threshold scalar or a field containing one value is expected)
+       2: max_threshold (a max threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: fields_container (field or fields container with only one field is expected)
-   1: min_threshold (a min threshold scalar or a field containing one value is expected)
-   2: max_threshold (a max threshold scalar or a field containing one value is expected)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::band_pass_fc")
+    >>> op_way2 = core.operators.filter.field.band_pass_fc()
+    """
     return _BandPassFc()
 
 #internal name: core::field::high_pass
@@ -141,28 +212,63 @@ class _OutputSpecHighPass(_Outputs):
         self.field = _Output(_get_output_spec_high_pass(0), 0, op) 
 
 class _HighPass(_Operator):
+    """Operator's description:
+    Internal name is "core::field::high_pass"
+    Scripting name is "field.high_pass"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::high_pass")
+    >>> op_way2 = core.operators.filter.field.high_pass()
+    """
     def __init__(self):
-         super().__init__("core::field::high_pass")
-         self._name = "core::field::high_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHighPass(self._op)
-         self.outputs = _OutputSpecHighPass(self._op)
+        """Specific operator class."""
+        super().__init__("core::field::high_pass")
+        self._name = "core::field::high_pass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHighPass(self._op)
+        self.outputs = _OutputSpecHighPass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def high_pass():
     """Operator's description:
-Internal name is "core::field::high_pass"
-Scripting name is "field.high_pass"
+    Internal name is "core::field::high_pass"
+    Scripting name is "field.high_pass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::field::high_pass")
-- using dpf.operators.filter.field.high_pass()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: threshold (a threshold scalar or a field containing one value is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::high_pass")
+    >>> op_way2 = core.operators.filter.field.high_pass()
+    """
     return _HighPass()
 
 #internal name: core::field::high_pass_fc
@@ -193,28 +299,63 @@ class _OutputSpecHighPassFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_high_pass_fc(0), 0, op) 
 
 class _HighPassFc(_Operator):
+    """Operator's description:
+    Internal name is "core::field::high_pass_fc"
+    Scripting name is "field.high_pass_fc"
+
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::high_pass_fc")
+    >>> op_way2 = core.operators.filter.field.high_pass_fc()
+    """
     def __init__(self):
-         super().__init__("core::field::high_pass_fc")
-         self._name = "core::field::high_pass_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHighPassFc(self._op)
-         self.outputs = _OutputSpecHighPassFc(self._op)
+        """Specific operator class."""
+        super().__init__("core::field::high_pass_fc")
+        self._name = "core::field::high_pass_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHighPassFc(self._op)
+        self.outputs = _OutputSpecHighPassFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def high_pass_fc():
     """Operator's description:
-Internal name is "core::field::high_pass_fc"
-Scripting name is "field.high_pass_fc"
+    Internal name is "core::field::high_pass_fc"
+    Scripting name is "field.high_pass_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::field::high_pass_fc")
-- using dpf.operators.filter.field.high_pass_fc()
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: fields_container (field or fields container with only one field is expected)
-   1: threshold (a threshold scalar or a field containing one value is expected)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::high_pass_fc")
+    >>> op_way2 = core.operators.filter.field.high_pass_fc()
+    """
     return _HighPassFc()
 
 #internal name: core::field::low_pass
@@ -245,28 +386,63 @@ class _OutputSpecLowPass(_Outputs):
         self.field = _Output(_get_output_spec_low_pass(0), 0, op) 
 
 class _LowPass(_Operator):
+    """Operator's description:
+    Internal name is "core::field::low_pass"
+    Scripting name is "field.low_pass"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::low_pass")
+    >>> op_way2 = core.operators.filter.field.low_pass()
+    """
     def __init__(self):
-         super().__init__("core::field::low_pass")
-         self._name = "core::field::low_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecLowPass(self._op)
-         self.outputs = _OutputSpecLowPass(self._op)
+        """Specific operator class."""
+        super().__init__("core::field::low_pass")
+        self._name = "core::field::low_pass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecLowPass(self._op)
+        self.outputs = _OutputSpecLowPass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def low_pass():
     """Operator's description:
-Internal name is "core::field::low_pass"
-Scripting name is "field.low_pass"
+    Internal name is "core::field::low_pass"
+    Scripting name is "field.low_pass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::field::low_pass")
-- using dpf.operators.filter.field.low_pass()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: threshold (a threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: threshold (a threshold scalar or a field containing one value is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::low_pass")
+    >>> op_way2 = core.operators.filter.field.low_pass()
+    """
     return _LowPass()
 
 #internal name: core::field::band_pass
@@ -300,28 +476,64 @@ class _OutputSpecBandPass(_Outputs):
         self.field = _Output(_get_output_spec_band_pass(0), 0, op) 
 
 class _BandPass(_Operator):
+    """Operator's description:
+    Internal name is "core::field::band_pass"
+    Scripting name is "field.band_pass"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: min_threshold (a min threshold scalar or a field containing one value is expected)
+       2: max_threshold (a max threshold scalar or a field containing one value is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::band_pass")
+    >>> op_way2 = core.operators.filter.field.band_pass()
+    """
     def __init__(self):
-         super().__init__("core::field::band_pass")
-         self._name = "core::field::band_pass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecBandPass(self._op)
-         self.outputs = _OutputSpecBandPass(self._op)
+        """Specific operator class."""
+        super().__init__("core::field::band_pass")
+        self._name = "core::field::band_pass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecBandPass(self._op)
+        self.outputs = _OutputSpecBandPass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def band_pass():
     """Operator's description:
-Internal name is "core::field::band_pass"
-Scripting name is "field.band_pass"
+    Internal name is "core::field::band_pass"
+    Scripting name is "field.band_pass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("core::field::band_pass")
-- using dpf.operators.filter.field.band_pass()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: min_threshold (a min threshold scalar or a field containing one value is expected)
+       2: max_threshold (a max threshold scalar or a field containing one value is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: min_threshold (a min threshold scalar or a field containing one value is expected)
-   2: max_threshold (a max threshold scalar or a field containing one value is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("core::field::band_pass")
+    >>> op_way2 = core.operators.filter.field.band_pass()
+    """
     return _BandPass()
 

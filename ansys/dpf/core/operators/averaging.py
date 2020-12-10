@@ -42,30 +42,67 @@ class _OutputSpecNodalFractionFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_fraction_fc(0), 0, op) 
 
 class _NodalFractionFc(_Operator):
+    """Operator's description:
+    Internal name is "nodal_fraction_fc"
+    Scripting name is "nodal_fraction_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
+       6: denominator (if a fields container is set in this pin, it is used as the denominator of the fraction instead of elemental_nodal_To_nodal_fc)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_fraction_fc")
+    >>> op_way2 = core.operators.averaging.nodal_fraction_fc()
+    """
     def __init__(self):
-         super().__init__("nodal_fraction_fc")
-         self._name = "nodal_fraction_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalFractionFc(self._op)
-         self.outputs = _OutputSpecNodalFractionFc(self._op)
+        """Specific operator class."""
+        super().__init__("nodal_fraction_fc")
+        self._name = "nodal_fraction_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalFractionFc(self._op)
+        self.outputs = _OutputSpecNodalFractionFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_fraction_fc():
     """Operator's description:
-Internal name is "nodal_fraction_fc"
-Scripting name is "nodal_fraction_fc"
+    Internal name is "nodal_fraction_fc"
+    Scripting name is "nodal_fraction_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("nodal_fraction_fc")
-- using dpf.operators.averaging.nodal_fraction_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
+       6: denominator (if a fields container is set in this pin, it is used as the denominator of the fraction instead of elemental_nodal_To_nodal_fc)
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-   3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
-   6: denominator (if a fields container is set in this pin, it is used as the denominator of the fraction instead of elemental_nodal_To_nodal_fc)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_fraction_fc")
+    >>> op_way2 = core.operators.averaging.nodal_fraction_fc()
+    """
     return _NodalFractionFc()
 
 #internal name: ElementalNodal_To_NodalElemental_fc
@@ -96,28 +133,63 @@ class _OutputSpecElementalNodalToNodalElementalFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_nodal_to_nodal_elemental_fc(0), 0, op) 
 
 class _ElementalNodalToNodalElementalFc(_Operator):
+    """Operator's description:
+    Internal name is "ElementalNodal_To_NodalElemental_fc"
+    Scripting name is "elemental_nodal_to_nodal_elemental_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh_scoping 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ElementalNodal_To_NodalElemental_fc")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+    """
     def __init__(self):
-         super().__init__("ElementalNodal_To_NodalElemental_fc")
-         self._name = "ElementalNodal_To_NodalElemental_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodalElementalFc(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodalElementalFc(self._op)
+        """Specific operator class."""
+        super().__init__("ElementalNodal_To_NodalElemental_fc")
+        self._name = "ElementalNodal_To_NodalElemental_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalNodalToNodalElementalFc(self._op)
+        self.outputs = _OutputSpecElementalNodalToNodalElementalFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_nodal_to_nodal_elemental_fc():
     """Operator's description:
-Internal name is "ElementalNodal_To_NodalElemental_fc"
-Scripting name is "elemental_nodal_to_nodal_elemental_fc"
+    Internal name is "ElementalNodal_To_NodalElemental_fc"
+    Scripting name is "elemental_nodal_to_nodal_elemental_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ElementalNodal_To_NodalElemental_fc")
-- using dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh_scoping 
 
-Input list: 
-   0: fields_container 
-   1: mesh_scoping 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ElementalNodal_To_NodalElemental_fc")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+    """
     return _ElementalNodalToNodalElementalFc()
 
 #internal name: elemental_difference
@@ -154,30 +226,67 @@ class _OutputSpecElementalDifference(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_difference(0), 0, op) 
 
 class _ElementalDifference(_Operator):
+    """Operator's description:
+    Internal name is "elemental_difference"
+    Scripting name is "elemental_difference"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh 
+       3: mesh_scoping (average only on these entities)
+       10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_difference")
+    >>> op_way2 = core.operators.averaging.elemental_difference()
+    """
     def __init__(self):
-         super().__init__("elemental_difference")
-         self._name = "elemental_difference"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalDifference(self._op)
-         self.outputs = _OutputSpecElementalDifference(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_difference")
+        self._name = "elemental_difference"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalDifference(self._op)
+        self.outputs = _OutputSpecElementalDifference(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_difference():
     """Operator's description:
-Internal name is "elemental_difference"
-Scripting name is "elemental_difference"
+    Internal name is "elemental_difference"
+    Scripting name is "elemental_difference"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_difference")
-- using dpf.operators.averaging.elemental_difference()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh 
+       3: mesh_scoping (average only on these entities)
+       10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh 
-   3: mesh_scoping (average only on these entities)
-   10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_difference")
+    >>> op_way2 = core.operators.averaging.elemental_difference()
+    """
     return _ElementalDifference()
 
 #internal name: elemental_nodal_To_nodal
@@ -217,31 +326,69 @@ class _OutputSpecElementalNodalToNodal(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_nodal_to_nodal(0), 0, op) 
 
 class _ElementalNodalToNodal(_Operator):
+    """Operator's description:
+    Internal name is "elemental_nodal_To_nodal"
+    Scripting name is "elemental_nodal_to_nodal"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh 
+       2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
+       3: mesh_scoping (average only on these entities)
+       10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_nodal_To_nodal")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal()
+    """
     def __init__(self):
-         super().__init__("elemental_nodal_To_nodal")
-         self._name = "elemental_nodal_To_nodal"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodal(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodal(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_nodal_To_nodal")
+        self._name = "elemental_nodal_To_nodal"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalNodalToNodal(self._op)
+        self.outputs = _OutputSpecElementalNodalToNodal(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_nodal_to_nodal():
     """Operator's description:
-Internal name is "elemental_nodal_To_nodal"
-Scripting name is "elemental_nodal_to_nodal"
+    Internal name is "elemental_nodal_To_nodal"
+    Scripting name is "elemental_nodal_to_nodal"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_nodal_To_nodal")
-- using dpf.operators.averaging.elemental_nodal_to_nodal()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh 
+       2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
+       3: mesh_scoping (average only on these entities)
+       10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh 
-   2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
-   3: mesh_scoping (average only on these entities)
-   10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_nodal_To_nodal")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal()
+    """
     return _ElementalNodalToNodal()
 
 #internal name: elemental_difference_fc
@@ -278,30 +425,67 @@ class _OutputSpecElementalDifferenceFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_difference_fc(0), 0, op) 
 
 class _ElementalDifferenceFc(_Operator):
+    """Operator's description:
+    Internal name is "elemental_difference_fc"
+    Scripting name is "elemental_difference_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       10: collapse_shell_layers (the max elemental difference is taken through the different shell layers if true (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_difference_fc")
+    >>> op_way2 = core.operators.averaging.elemental_difference_fc()
+    """
     def __init__(self):
-         super().__init__("elemental_difference_fc")
-         self._name = "elemental_difference_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalDifferenceFc(self._op)
-         self.outputs = _OutputSpecElementalDifferenceFc(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_difference_fc")
+        self._name = "elemental_difference_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalDifferenceFc(self._op)
+        self.outputs = _OutputSpecElementalDifferenceFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_difference_fc():
     """Operator's description:
-Internal name is "elemental_difference_fc"
-Scripting name is "elemental_difference_fc"
+    Internal name is "elemental_difference_fc"
+    Scripting name is "elemental_difference_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_difference_fc")
-- using dpf.operators.averaging.elemental_difference_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       10: collapse_shell_layers (the max elemental difference is taken through the different shell layers if true (default is false))
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-   3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
-   10: collapse_shell_layers (the max elemental difference is taken through the different shell layers if true (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_difference_fc")
+    >>> op_way2 = core.operators.averaging.elemental_difference_fc()
+    """
     return _ElementalDifferenceFc()
 
 #internal name: elemental_nodal_To_nodal_fc
@@ -338,30 +522,67 @@ class _OutputSpecElementalNodalToNodalFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_nodal_to_nodal_fc(0), 0, op) 
 
 class _ElementalNodalToNodalFc(_Operator):
+    """Operator's description:
+    Internal name is "elemental_nodal_To_nodal_fc"
+    Scripting name is "elemental_nodal_to_nodal_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
+       3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_nodal_To_nodal_fc")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal_fc()
+    """
     def __init__(self):
-         super().__init__("elemental_nodal_To_nodal_fc")
-         self._name = "elemental_nodal_To_nodal_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodalFc(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodalFc(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_nodal_To_nodal_fc")
+        self._name = "elemental_nodal_To_nodal_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalNodalToNodalFc(self._op)
+        self.outputs = _OutputSpecElementalNodalToNodalFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_nodal_to_nodal_fc():
     """Operator's description:
-Internal name is "elemental_nodal_To_nodal_fc"
-Scripting name is "elemental_nodal_to_nodal_fc"
+    Internal name is "elemental_nodal_To_nodal_fc"
+    Scripting name is "elemental_nodal_to_nodal_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_nodal_To_nodal_fc")
-- using dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
+       3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-   2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
-   3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_nodal_To_nodal_fc")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal_fc()
+    """
     return _ElementalNodalToNodalFc()
 
 #internal name: elemental_to_nodal
@@ -395,29 +616,65 @@ class _OutputSpecElementalToNodal(_Outputs):
         self.field = _Output(_get_output_spec_elemental_to_nodal(0), 0, op) 
 
 class _ElementalToNodal(_Operator):
+    """Operator's description:
+    Internal name is "elemental_to_nodal"
+    Scripting name is "elemental_to_nodal"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
+       2: force_averaging (averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for dicrete ones))
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_to_nodal")
+    >>> op_way2 = core.operators.averaging.elemental_to_nodal()
+    """
     def __init__(self):
-         super().__init__("elemental_to_nodal")
-         self._name = "elemental_to_nodal"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalToNodal(self._op)
-         self.outputs = _OutputSpecElementalToNodal(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_to_nodal")
+        self._name = "elemental_to_nodal"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalToNodal(self._op)
+        self.outputs = _OutputSpecElementalToNodal(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_to_nodal():
     """Operator's description:
-Internal name is "elemental_to_nodal"
-Scripting name is "elemental_to_nodal"
+    Internal name is "elemental_to_nodal"
+    Scripting name is "elemental_to_nodal"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_to_nodal")
-- using dpf.operators.averaging.elemental_to_nodal()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
+       2: force_averaging (averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for dicrete ones))
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh_scoping 
-   2: force_averaging (averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for dicrete ones))
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_to_nodal")
+    >>> op_way2 = core.operators.averaging.elemental_to_nodal()
+    """
     return _ElementalToNodal()
 
 #internal name: elemental_to_nodal_fc
@@ -451,29 +708,65 @@ class _OutputSpecElementalToNodalFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_to_nodal_fc(0), 0, op) 
 
 class _ElementalToNodalFc(_Operator):
+    """Operator's description:
+    Internal name is "elemental_to_nodal_fc"
+    Scripting name is "elemental_to_nodal_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh_scoping 
+       2: force_averaging (averaging on nodes is used if this pin is set to 1 (default is one for integrated results and 0 for dicrete ones))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_to_nodal_fc")
+    >>> op_way2 = core.operators.averaging.elemental_to_nodal_fc()
+    """
     def __init__(self):
-         super().__init__("elemental_to_nodal_fc")
-         self._name = "elemental_to_nodal_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalToNodalFc(self._op)
-         self.outputs = _OutputSpecElementalToNodalFc(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_to_nodal_fc")
+        self._name = "elemental_to_nodal_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalToNodalFc(self._op)
+        self.outputs = _OutputSpecElementalToNodalFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_to_nodal_fc():
     """Operator's description:
-Internal name is "elemental_to_nodal_fc"
-Scripting name is "elemental_to_nodal_fc"
+    Internal name is "elemental_to_nodal_fc"
+    Scripting name is "elemental_to_nodal_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_to_nodal_fc")
-- using dpf.operators.averaging.elemental_to_nodal_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh_scoping 
+       2: force_averaging (averaging on nodes is used if this pin is set to 1 (default is one for integrated results and 0 for dicrete ones))
 
-Input list: 
-   0: fields_container 
-   1: mesh_scoping 
-   2: force_averaging (averaging on nodes is used if this pin is set to 1 (default is one for integrated results and 0 for dicrete ones))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_to_nodal_fc")
+    >>> op_way2 = core.operators.averaging.elemental_to_nodal_fc()
+    """
     return _ElementalToNodalFc()
 
 #internal name: nodal_difference
@@ -513,31 +806,69 @@ class _OutputSpecNodalDifference(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_difference(0), 0, op) 
 
 class _NodalDifference(_Operator):
+    """Operator's description:
+    Internal name is "nodal_difference"
+    Scripting name is "nodal_difference"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh 
+       2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
+       3: mesh_scoping (average only on these entities)
+       10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_difference")
+    >>> op_way2 = core.operators.averaging.nodal_difference()
+    """
     def __init__(self):
-         super().__init__("nodal_difference")
-         self._name = "nodal_difference"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalDifference(self._op)
-         self.outputs = _OutputSpecNodalDifference(self._op)
+        """Specific operator class."""
+        super().__init__("nodal_difference")
+        self._name = "nodal_difference"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalDifference(self._op)
+        self.outputs = _OutputSpecNodalDifference(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_difference():
     """Operator's description:
-Internal name is "nodal_difference"
-Scripting name is "nodal_difference"
+    Internal name is "nodal_difference"
+    Scripting name is "nodal_difference"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("nodal_difference")
-- using dpf.operators.averaging.nodal_difference()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh 
+       2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
+       3: mesh_scoping (average only on these entities)
+       10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh 
-   2: should_average (each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities))
-   3: mesh_scoping (average only on these entities)
-   10: through_layers (the max elemental difference is taken through the different shell layers if true (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_difference")
+    >>> op_way2 = core.operators.averaging.nodal_difference()
+    """
     return _NodalDifference()
 
 #internal name: nodal_difference_fc
@@ -571,29 +902,65 @@ class _OutputSpecNodalDifferenceFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_difference_fc(0), 0, op) 
 
 class _NodalDifferenceFc(_Operator):
+    """Operator's description:
+    Internal name is "nodal_difference_fc"
+    Scripting name is "nodal_difference_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_difference_fc")
+    >>> op_way2 = core.operators.averaging.nodal_difference_fc()
+    """
     def __init__(self):
-         super().__init__("nodal_difference_fc")
-         self._name = "nodal_difference_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalDifferenceFc(self._op)
-         self.outputs = _OutputSpecNodalDifferenceFc(self._op)
+        """Specific operator class."""
+        super().__init__("nodal_difference_fc")
+        self._name = "nodal_difference_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalDifferenceFc(self._op)
+        self.outputs = _OutputSpecNodalDifferenceFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_difference_fc():
     """Operator's description:
-Internal name is "nodal_difference_fc"
-Scripting name is "nodal_difference_fc"
+    Internal name is "nodal_difference_fc"
+    Scripting name is "nodal_difference_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("nodal_difference_fc")
-- using dpf.operators.averaging.nodal_difference_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-   3: scoping (average only on these nodes, if it is scoping container, the label must correspond to the one of the fields container)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_difference_fc")
+    >>> op_way2 = core.operators.averaging.nodal_difference_fc()
+    """
     return _NodalDifferenceFc()
 
 #internal name: elemental_fraction_fc
@@ -633,31 +1000,69 @@ class _OutputSpecElementalFractionFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_fraction_fc(0), 0, op) 
 
 class _ElementalFractionFc(_Operator):
+    """Operator's description:
+    Internal name is "elemental_fraction_fc"
+    Scripting name is "elemental_fraction_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       6: denominator (if a fields container is set in this pin, it is used as the denominator of the fraction instead of entity_average_fc)
+       10: collapse_shell_layers (the elemental difference and the entity average are taken through the different shell layers if true (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_fraction_fc")
+    >>> op_way2 = core.operators.averaging.elemental_fraction_fc()
+    """
     def __init__(self):
-         super().__init__("elemental_fraction_fc")
-         self._name = "elemental_fraction_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalFractionFc(self._op)
-         self.outputs = _OutputSpecElementalFractionFc(self._op)
+        """Specific operator class."""
+        super().__init__("elemental_fraction_fc")
+        self._name = "elemental_fraction_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalFractionFc(self._op)
+        self.outputs = _OutputSpecElementalFractionFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_fraction_fc():
     """Operator's description:
-Internal name is "elemental_fraction_fc"
-Scripting name is "elemental_fraction_fc"
+    Internal name is "elemental_fraction_fc"
+    Scripting name is "elemental_fraction_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("elemental_fraction_fc")
-- using dpf.operators.averaging.elemental_fraction_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       6: denominator (if a fields container is set in this pin, it is used as the denominator of the fraction instead of entity_average_fc)
+       10: collapse_shell_layers (the elemental difference and the entity average are taken through the different shell layers if true (default is false))
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-   3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
-   6: denominator (if a fields container is set in this pin, it is used as the denominator of the fraction instead of entity_average_fc)
-   10: collapse_shell_layers (the elemental difference and the entity average are taken through the different shell layers if true (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("elemental_fraction_fc")
+    >>> op_way2 = core.operators.averaging.elemental_fraction_fc()
+    """
     return _ElementalFractionFc()
 
 #internal name: to_nodal
@@ -688,28 +1093,63 @@ class _OutputSpecToNodal(_Outputs):
         self.field = _Output(_get_output_spec_to_nodal(0), 0, op) 
 
 class _ToNodal(_Operator):
+    """Operator's description:
+    Internal name is "to_nodal"
+    Scripting name is "to_nodal"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("to_nodal")
+    >>> op_way2 = core.operators.averaging.to_nodal()
+    """
     def __init__(self):
-         super().__init__("to_nodal")
-         self._name = "to_nodal"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToNodal(self._op)
-         self.outputs = _OutputSpecToNodal(self._op)
+        """Specific operator class."""
+        super().__init__("to_nodal")
+        self._name = "to_nodal"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecToNodal(self._op)
+        self.outputs = _OutputSpecToNodal(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def to_nodal():
     """Operator's description:
-Internal name is "to_nodal"
-Scripting name is "to_nodal"
+    Internal name is "to_nodal"
+    Scripting name is "to_nodal"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("to_nodal")
-- using dpf.operators.averaging.to_nodal()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh_scoping 
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("to_nodal")
+    >>> op_way2 = core.operators.averaging.to_nodal()
+    """
     return _ToNodal()
 
 #internal name: to_nodal_fc
@@ -743,29 +1183,65 @@ class _OutputSpecToNodalFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_to_nodal_fc(0), 0, op) 
 
 class _ToNodalFc(_Operator):
+    """Operator's description:
+    Internal name is "to_nodal_fc"
+    Scripting name is "to_nodal_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh 
+       3: mesh_scoping 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("to_nodal_fc")
+    >>> op_way2 = core.operators.averaging.to_nodal_fc()
+    """
     def __init__(self):
-         super().__init__("to_nodal_fc")
-         self._name = "to_nodal_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToNodalFc(self._op)
-         self.outputs = _OutputSpecToNodalFc(self._op)
+        """Specific operator class."""
+        super().__init__("to_nodal_fc")
+        self._name = "to_nodal_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecToNodalFc(self._op)
+        self.outputs = _OutputSpecToNodalFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def to_nodal_fc():
     """Operator's description:
-Internal name is "to_nodal_fc"
-Scripting name is "to_nodal_fc"
+    Internal name is "to_nodal_fc"
+    Scripting name is "to_nodal_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("to_nodal_fc")
-- using dpf.operators.averaging.to_nodal_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh 
+       3: mesh_scoping 
 
-Input list: 
-   0: fields_container 
-   1: mesh 
-   3: mesh_scoping 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("to_nodal_fc")
+    >>> op_way2 = core.operators.averaging.to_nodal_fc()
+    """
     return _ToNodalFc()
 
 #internal name: ElementalNodal_To_NodalElemental
@@ -796,28 +1272,63 @@ class _OutputSpecElementalNodalToNodalElemental(_Outputs):
         self.field = _Output(_get_output_spec_elemental_nodal_to_nodal_elemental(0), 0, op) 
 
 class _ElementalNodalToNodalElemental(_Operator):
+    """Operator's description:
+    Internal name is "ElementalNodal_To_NodalElemental"
+    Scripting name is "elemental_nodal_to_nodal_elemental"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ElementalNodal_To_NodalElemental")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal_elemental()
+    """
     def __init__(self):
-         super().__init__("ElementalNodal_To_NodalElemental")
-         self._name = "ElementalNodal_To_NodalElemental"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalNodalToNodalElemental(self._op)
-         self.outputs = _OutputSpecElementalNodalToNodalElemental(self._op)
+        """Specific operator class."""
+        super().__init__("ElementalNodal_To_NodalElemental")
+        self._name = "ElementalNodal_To_NodalElemental"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalNodalToNodalElemental(self._op)
+        self.outputs = _OutputSpecElementalNodalToNodalElemental(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_nodal_to_nodal_elemental():
     """Operator's description:
-Internal name is "ElementalNodal_To_NodalElemental"
-Scripting name is "elemental_nodal_to_nodal_elemental"
+    Internal name is "ElementalNodal_To_NodalElemental"
+    Scripting name is "elemental_nodal_to_nodal_elemental"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ElementalNodal_To_NodalElemental")
-- using dpf.operators.averaging.elemental_nodal_to_nodal_elemental()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh_scoping 
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ElementalNodal_To_NodalElemental")
+    >>> op_way2 = core.operators.averaging.elemental_nodal_to_nodal_elemental()
+    """
     return _ElementalNodalToNodalElemental()
 
 #internal name: extend_to_mid_nodes
@@ -845,27 +1356,61 @@ class _OutputSpecExtendToMidNodes(_Outputs):
         self.field = _Output(_get_output_spec_extend_to_mid_nodes(0), 0, op) 
 
 class _ExtendToMidNodes(_Operator):
+    """Operator's description:
+    Internal name is "extend_to_mid_nodes"
+    Scripting name is "extend_to_mid_nodes"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("extend_to_mid_nodes")
+    >>> op_way2 = core.operators.averaging.extend_to_mid_nodes()
+    """
     def __init__(self):
-         super().__init__("extend_to_mid_nodes")
-         self._name = "extend_to_mid_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExtendToMidNodes(self._op)
-         self.outputs = _OutputSpecExtendToMidNodes(self._op)
+        """Specific operator class."""
+        super().__init__("extend_to_mid_nodes")
+        self._name = "extend_to_mid_nodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecExtendToMidNodes(self._op)
+        self.outputs = _OutputSpecExtendToMidNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def extend_to_mid_nodes():
     """Operator's description:
-Internal name is "extend_to_mid_nodes"
-Scripting name is "extend_to_mid_nodes"
+    Internal name is "extend_to_mid_nodes"
+    Scripting name is "extend_to_mid_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("extend_to_mid_nodes")
-- using dpf.operators.averaging.extend_to_mid_nodes()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("extend_to_mid_nodes")
+    >>> op_way2 = core.operators.averaging.extend_to_mid_nodes()
+    """
     return _ExtendToMidNodes()
 
 #internal name: extend_to_mid_nodes_fc
@@ -896,28 +1441,63 @@ class _OutputSpecExtendToMidNodesFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_extend_to_mid_nodes_fc(0), 0, op) 
 
 class _ExtendToMidNodesFc(_Operator):
+    """Operator's description:
+    Internal name is "extend_to_mid_nodes_fc"
+    Scripting name is "extend_to_mid_nodes_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("extend_to_mid_nodes_fc")
+    >>> op_way2 = core.operators.averaging.extend_to_mid_nodes_fc()
+    """
     def __init__(self):
-         super().__init__("extend_to_mid_nodes_fc")
-         self._name = "extend_to_mid_nodes_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecExtendToMidNodesFc(self._op)
-         self.outputs = _OutputSpecExtendToMidNodesFc(self._op)
+        """Specific operator class."""
+        super().__init__("extend_to_mid_nodes_fc")
+        self._name = "extend_to_mid_nodes_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecExtendToMidNodesFc(self._op)
+        self.outputs = _OutputSpecExtendToMidNodesFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def extend_to_mid_nodes_fc():
     """Operator's description:
-Internal name is "extend_to_mid_nodes_fc"
-Scripting name is "extend_to_mid_nodes_fc"
+    Internal name is "extend_to_mid_nodes_fc"
+    Scripting name is "extend_to_mid_nodes_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("extend_to_mid_nodes_fc")
-- using dpf.operators.averaging.extend_to_mid_nodes_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("extend_to_mid_nodes_fc")
+    >>> op_way2 = core.operators.averaging.extend_to_mid_nodes_fc()
+    """
     return _ExtendToMidNodesFc()
 
 #internal name: entity_average
@@ -954,30 +1534,67 @@ class _OutputSpecElementalMean(_Outputs):
         self.field = _Output(_get_output_spec_elemental_mean(0), 0, op) 
 
 class _ElementalMean(_Operator):
+    """Operator's description:
+    Internal name is "entity_average"
+    Scripting name is "elemental_mean"
+
+    Input list: 
+       0: field 
+       1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+       2: force_averaging (if true you average, if false you just sum)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("entity_average")
+    >>> op_way2 = core.operators.averaging.elemental_mean()
+    """
     def __init__(self):
-         super().__init__("entity_average")
-         self._name = "entity_average"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalMean(self._op)
-         self.outputs = _OutputSpecElementalMean(self._op)
+        """Specific operator class."""
+        super().__init__("entity_average")
+        self._name = "entity_average"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalMean(self._op)
+        self.outputs = _OutputSpecElementalMean(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_mean():
     """Operator's description:
-Internal name is "entity_average"
-Scripting name is "elemental_mean"
+    Internal name is "entity_average"
+    Scripting name is "elemental_mean"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("entity_average")
-- using dpf.operators.averaging.elemental_mean()
+    Input list: 
+       0: field 
+       1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+       2: force_averaging (if true you average, if false you just sum)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
 
-Input list: 
-   0: field 
-   1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
-   2: force_averaging (if true you average, if false you just sum)
-   3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("entity_average")
+    >>> op_way2 = core.operators.averaging.elemental_mean()
+    """
     return _ElementalMean()
 
 #internal name: entity_average_fc
@@ -1017,31 +1634,69 @@ class _OutputSpecElementalMeanFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_mean_fc(0), 0, op) 
 
 class _ElementalMeanFc(_Operator):
+    """Operator's description:
+    Internal name is "entity_average_fc"
+    Scripting name is "elemental_mean_fc"
+
+    Input list: 
+       0: fields_container 
+       1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+       2: force_averaging (if true you average, if false you just sum)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       4: meshed_region (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("entity_average_fc")
+    >>> op_way2 = core.operators.averaging.elemental_mean_fc()
+    """
     def __init__(self):
-         super().__init__("entity_average_fc")
-         self._name = "entity_average_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalMeanFc(self._op)
-         self.outputs = _OutputSpecElementalMeanFc(self._op)
+        """Specific operator class."""
+        super().__init__("entity_average_fc")
+        self._name = "entity_average_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalMeanFc(self._op)
+        self.outputs = _OutputSpecElementalMeanFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_mean_fc():
     """Operator's description:
-Internal name is "entity_average_fc"
-Scripting name is "elemental_mean_fc"
+    Internal name is "entity_average_fc"
+    Scripting name is "elemental_mean_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("entity_average_fc")
-- using dpf.operators.averaging.elemental_mean_fc()
+    Input list: 
+       0: fields_container 
+       1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+       2: force_averaging (if true you average, if false you just sum)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       4: meshed_region (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
 
-Input list: 
-   0: fields_container 
-   1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
-   2: force_averaging (if true you average, if false you just sum)
-   3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
-   4: meshed_region (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("entity_average_fc")
+    >>> op_way2 = core.operators.averaging.elemental_mean_fc()
+    """
     return _ElementalMeanFc()
 
 #internal name: to_elemental_fc
@@ -1081,31 +1736,69 @@ class _OutputSpecToElementalFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_to_elemental_fc(0), 0, op) 
 
 class _ToElementalFc(_Operator):
+    """Operator's description:
+    Internal name is "to_elemental_fc"
+    Scripting name is "to_elemental_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh 
+       3: mesh_scoping 
+       7: smoothen_values (if it is set to true, elemental nodal fields are first averaged on nodes and then averaged on elements (default is false))
+       10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("to_elemental_fc")
+    >>> op_way2 = core.operators.averaging.to_elemental_fc()
+    """
     def __init__(self):
-         super().__init__("to_elemental_fc")
-         self._name = "to_elemental_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToElementalFc(self._op)
-         self.outputs = _OutputSpecToElementalFc(self._op)
+        """Specific operator class."""
+        super().__init__("to_elemental_fc")
+        self._name = "to_elemental_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecToElementalFc(self._op)
+        self.outputs = _OutputSpecToElementalFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def to_elemental_fc():
     """Operator's description:
-Internal name is "to_elemental_fc"
-Scripting name is "to_elemental_fc"
+    Internal name is "to_elemental_fc"
+    Scripting name is "to_elemental_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("to_elemental_fc")
-- using dpf.operators.averaging.to_elemental_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh 
+       3: mesh_scoping 
+       7: smoothen_values (if it is set to true, elemental nodal fields are first averaged on nodes and then averaged on elements (default is false))
+       10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
 
-Input list: 
-   0: fields_container 
-   1: mesh 
-   3: mesh_scoping 
-   7: smoothen_values (if it is set to true, elemental nodal fields are first averaged on nodes and then averaged on elements (default is false))
-   10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("to_elemental_fc")
+    >>> op_way2 = core.operators.averaging.to_elemental_fc()
+    """
     return _ToElementalFc()
 
 #internal name: nodal_to_elemental
@@ -1139,29 +1832,65 @@ class _OutputSpecNodalToElemental(_Outputs):
         self.field = _Output(_get_output_spec_nodal_to_elemental(0), 0, op) 
 
 class _NodalToElemental(_Operator):
+    """Operator's description:
+    Internal name is "nodal_to_elemental"
+    Scripting name is "nodal_to_elemental"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
+       10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_to_elemental")
+    >>> op_way2 = core.operators.averaging.nodal_to_elemental()
+    """
     def __init__(self):
-         super().__init__("nodal_to_elemental")
-         self._name = "nodal_to_elemental"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalToElemental(self._op)
-         self.outputs = _OutputSpecNodalToElemental(self._op)
+        """Specific operator class."""
+        super().__init__("nodal_to_elemental")
+        self._name = "nodal_to_elemental"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalToElemental(self._op)
+        self.outputs = _OutputSpecNodalToElemental(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_to_elemental():
     """Operator's description:
-Internal name is "nodal_to_elemental"
-Scripting name is "nodal_to_elemental"
+    Internal name is "nodal_to_elemental"
+    Scripting name is "nodal_to_elemental"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("nodal_to_elemental")
-- using dpf.operators.averaging.nodal_to_elemental()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: mesh_scoping 
+       10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: mesh_scoping 
-   10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_to_elemental")
+    >>> op_way2 = core.operators.averaging.nodal_to_elemental()
+    """
     return _NodalToElemental()
 
 #internal name: nodal_to_elemental_fc
@@ -1198,29 +1927,66 @@ class _OutputSpecNodalToElementalFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_to_elemental_fc(0), 0, op) 
 
 class _NodalToElementalFc(_Operator):
+    """Operator's description:
+    Internal name is "nodal_to_elemental_fc"
+    Scripting name is "nodal_to_elemental_fc"
+
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_to_elemental_fc")
+    >>> op_way2 = core.operators.averaging.nodal_to_elemental_fc()
+    """
     def __init__(self):
-         super().__init__("nodal_to_elemental_fc")
-         self._name = "nodal_to_elemental_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalToElementalFc(self._op)
-         self.outputs = _OutputSpecNodalToElementalFc(self._op)
+        """Specific operator class."""
+        super().__init__("nodal_to_elemental_fc")
+        self._name = "nodal_to_elemental_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalToElementalFc(self._op)
+        self.outputs = _OutputSpecNodalToElementalFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_to_elemental_fc():
     """Operator's description:
-Internal name is "nodal_to_elemental_fc"
-Scripting name is "nodal_to_elemental_fc"
+    Internal name is "nodal_to_elemental_fc"
+    Scripting name is "nodal_to_elemental_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("nodal_to_elemental_fc")
-- using dpf.operators.averaging.nodal_to_elemental_fc()
+    Input list: 
+       0: fields_container 
+       1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
+       3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
+       10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
 
-Input list: 
-   0: fields_container 
-   1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
-   3: scoping (average only on these elements, if it is scoping container, the label must correspond to the one of the fields container)
-   10: collapse_shell_layers (if true shell layers are averaged as well (default is false))
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("nodal_to_elemental_fc")
+    >>> op_way2 = core.operators.averaging.nodal_to_elemental_fc()
+    """
     return _NodalToElementalFc()
 

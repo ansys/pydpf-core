@@ -57,36 +57,200 @@ class _OutputSpecPlasticStrainPrincipal1(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_principal_1(0), 0, op) 
 
 class _PlasticStrainPrincipal1(_Operator):
+    """Operator's description:
+    Internal name is "EPPL1"
+    Scripting name is "plastic_strain_principal_1"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL1")
+    >>> op_way2 = core.operators.result.plastic_strain_principal_1()
+    """
     def __init__(self):
-         super().__init__("EPPL1")
-         self._name = "EPPL1"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainPrincipal1(self._op)
-         self.outputs = _OutputSpecPlasticStrainPrincipal1(self._op)
+        """Specific operator class."""
+        super().__init__("EPPL1")
+        self._name = "EPPL1"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainPrincipal1(self._op)
+        self.outputs = _OutputSpecPlasticStrainPrincipal1(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_principal_1():
     """Operator's description:
-Internal name is "EPPL1"
-Scripting name is "plastic_strain_principal_1"
+    Internal name is "EPPL1"
+    Scripting name is "plastic_strain_principal_1"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPL1")
-- using dpf.operators.result.plastic_strain_principal_1()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL1")
+    >>> op_way2 = core.operators.result.plastic_strain_principal_1()
+    """
     return _PlasticStrainPrincipal1()
+
+#internal name: EPPL3
+#scripting name: plastic_strain_principal_3
+def _get_input_spec_plastic_strain_principal_3(pin):
+    inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
+    inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
+    inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
+    inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
+    inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
+    inpin5 = _PinSpecification(name = "bool_rotate_to_global", type_names = ["bool"], optional = True, document = """if true the field is roated to global coordinate system (default true)""")
+    inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
+    inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """""")
+    inpin17 = _PinSpecification(name = "domain_id", type_names = ["int32"], optional = True, document = """""")
+    inputs_dict_plastic_strain_principal_3 = { 
+        0 : inpin0,
+        1 : inpin1,
+        2 : inpin2,
+        3 : inpin3,
+        4 : inpin4,
+        5 : inpin5,
+        7 : inpin7,
+        9 : inpin9,
+        17 : inpin17
+    }
+    return inputs_dict_plastic_strain_principal_3[pin]
+
+def _get_output_spec_plastic_strain_principal_3(pin):
+    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
+    outputs_dict_plastic_strain_principal_3 = { 
+        0 : outpin0
+    }
+    return outputs_dict_plastic_strain_principal_3[pin]
+
+class _InputSpecPlasticStrainPrincipal3(_Inputs):
+    def __init__(self, op: _Operator):
+        self.time_scoping = _Input(_get_input_spec_plastic_strain_principal_3(0), 0, op, -1) 
+        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_principal_3(1), 1, op, -1) 
+        self.fields_container = _Input(_get_input_spec_plastic_strain_principal_3(2), 2, op, -1) 
+        self.streams_container = _Input(_get_input_spec_plastic_strain_principal_3(3), 3, op, -1) 
+        self.data_sources = _Input(_get_input_spec_plastic_strain_principal_3(4), 4, op, -1) 
+        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_principal_3(5), 5, op, -1) 
+        self.mesh = _Input(_get_input_spec_plastic_strain_principal_3(7), 7, op, -1) 
+        self.requested_location = _Input(_get_input_spec_plastic_strain_principal_3(9), 9, op, -1) 
+        self.domain_id = _Input(_get_input_spec_plastic_strain_principal_3(17), 17, op, -1) 
+
+class _OutputSpecPlasticStrainPrincipal3(_Outputs):
+    def __init__(self, op: _Operator):
+        self.fields_container = _Output(_get_output_spec_plastic_strain_principal_3(0), 0, op) 
+
+class _PlasticStrainPrincipal3(_Operator):
+    """Operator's description:
+    Internal name is "EPPL3"
+    Scripting name is "plastic_strain_principal_3"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL3")
+    >>> op_way2 = core.operators.result.plastic_strain_principal_3()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("EPPL3")
+        self._name = "EPPL3"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainPrincipal3(self._op)
+        self.outputs = _OutputSpecPlasticStrainPrincipal3(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def plastic_strain_principal_3():
+    """Operator's description:
+    Internal name is "EPPL3"
+    Scripting name is "plastic_strain_principal_3"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL3")
+    >>> op_way2 = core.operators.result.plastic_strain_principal_3()
+    """
+    return _PlasticStrainPrincipal3()
 
 #internal name: RigidTransformationProvider
 #scripting name: rigid_transformation
@@ -116,28 +280,63 @@ class _OutputSpecRigidTransformation(_Outputs):
         self.fields_container = _Output(_get_output_spec_rigid_transformation(0), 0, op) 
 
 class _RigidTransformation(_Operator):
+    """Operator's description:
+    Internal name is "RigidTransformationProvider"
+    Scripting name is "rigid_transformation"
+
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RigidTransformationProvider")
+    >>> op_way2 = core.operators.result.rigid_transformation()
+    """
     def __init__(self):
-         super().__init__("RigidTransformationProvider")
-         self._name = "RigidTransformationProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRigidTransformation(self._op)
-         self.outputs = _OutputSpecRigidTransformation(self._op)
+        """Specific operator class."""
+        super().__init__("RigidTransformationProvider")
+        self._name = "RigidTransformationProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRigidTransformation(self._op)
+        self.outputs = _OutputSpecRigidTransformation(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def rigid_transformation():
     """Operator's description:
-Internal name is "RigidTransformationProvider"
-Scripting name is "rigid_transformation"
+    Internal name is "RigidTransformationProvider"
+    Scripting name is "rigid_transformation"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("RigidTransformationProvider")
-- using dpf.operators.result.rigid_transformation()
+    Input list: 
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
 
-Input list: 
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RigidTransformationProvider")
+    >>> op_way2 = core.operators.result.rigid_transformation()
+    """
     return _RigidTransformation()
 
 #internal name: EPELY
@@ -189,35 +388,77 @@ class _OutputSpecElasticStrainY(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_Y(0), 0, op) 
 
 class _ElasticStrainY(_Operator):
+    """Operator's description:
+    Internal name is "EPELY"
+    Scripting name is "elastic_strain_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELY")
+    >>> op_way2 = core.operators.result.elastic_strain_Y()
+    """
     def __init__(self):
-         super().__init__("EPELY")
-         self._name = "EPELY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainY(self._op)
-         self.outputs = _OutputSpecElasticStrainY(self._op)
+        """Specific operator class."""
+        super().__init__("EPELY")
+        self._name = "EPELY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainY(self._op)
+        self.outputs = _OutputSpecElasticStrainY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_Y():
     """Operator's description:
-Internal name is "EPELY"
-Scripting name is "elastic_strain_Y"
+    Internal name is "EPELY"
+    Scripting name is "elastic_strain_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPELY")
-- using dpf.operators.result.elastic_strain_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELY")
+    >>> op_way2 = core.operators.result.elastic_strain_Y()
+    """
     return _ElasticStrainY()
 
 #internal name: ElementalMass
@@ -269,36 +510,200 @@ class _OutputSpecElementalMass(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_mass(0), 0, op) 
 
 class _ElementalMass(_Operator):
+    """Operator's description:
+    Internal name is "ElementalMass"
+    Scripting name is "elemental_mass"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ElementalMass")
+    >>> op_way2 = core.operators.result.elemental_mass()
+    """
     def __init__(self):
-         super().__init__("ElementalMass")
-         self._name = "ElementalMass"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalMass(self._op)
-         self.outputs = _OutputSpecElementalMass(self._op)
+        """Specific operator class."""
+        super().__init__("ElementalMass")
+        self._name = "ElementalMass"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalMass(self._op)
+        self.outputs = _OutputSpecElementalMass(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_mass():
     """Operator's description:
-Internal name is "ElementalMass"
-Scripting name is "elemental_mass"
+    Internal name is "ElementalMass"
+    Scripting name is "elemental_mass"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ElementalMass")
-- using dpf.operators.result.elemental_mass()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ElementalMass")
+    >>> op_way2 = core.operators.result.elemental_mass()
+    """
     return _ElementalMass()
+
+#internal name: TF
+#scripting name: heat_flux
+def _get_input_spec_heat_flux(pin):
+    inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
+    inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
+    inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
+    inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
+    inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
+    inpin5 = _PinSpecification(name = "bool_rotate_to_global", type_names = ["bool"], optional = True, document = """if true the field is roated to global coordinate system (default true)""")
+    inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
+    inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """""")
+    inpin17 = _PinSpecification(name = "domain_id", type_names = ["int32"], optional = True, document = """""")
+    inputs_dict_heat_flux = { 
+        0 : inpin0,
+        1 : inpin1,
+        2 : inpin2,
+        3 : inpin3,
+        4 : inpin4,
+        5 : inpin5,
+        7 : inpin7,
+        9 : inpin9,
+        17 : inpin17
+    }
+    return inputs_dict_heat_flux[pin]
+
+def _get_output_spec_heat_flux(pin):
+    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
+    outputs_dict_heat_flux = { 
+        0 : outpin0
+    }
+    return outputs_dict_heat_flux[pin]
+
+class _InputSpecHeatFlux(_Inputs):
+    def __init__(self, op: _Operator):
+        self.time_scoping = _Input(_get_input_spec_heat_flux(0), 0, op, -1) 
+        self.mesh_scoping = _Input(_get_input_spec_heat_flux(1), 1, op, -1) 
+        self.fields_container = _Input(_get_input_spec_heat_flux(2), 2, op, -1) 
+        self.streams_container = _Input(_get_input_spec_heat_flux(3), 3, op, -1) 
+        self.data_sources = _Input(_get_input_spec_heat_flux(4), 4, op, -1) 
+        self.bool_rotate_to_global = _Input(_get_input_spec_heat_flux(5), 5, op, -1) 
+        self.mesh = _Input(_get_input_spec_heat_flux(7), 7, op, -1) 
+        self.requested_location = _Input(_get_input_spec_heat_flux(9), 9, op, -1) 
+        self.domain_id = _Input(_get_input_spec_heat_flux(17), 17, op, -1) 
+
+class _OutputSpecHeatFlux(_Outputs):
+    def __init__(self, op: _Operator):
+        self.fields_container = _Output(_get_output_spec_heat_flux(0), 0, op) 
+
+class _HeatFlux(_Operator):
+    """Operator's description:
+    Internal name is "TF"
+    Scripting name is "heat_flux"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TF")
+    >>> op_way2 = core.operators.result.heat_flux()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("TF")
+        self._name = "TF"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHeatFlux(self._op)
+        self.outputs = _OutputSpecHeatFlux(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def heat_flux():
+    """Operator's description:
+    Internal name is "TF"
+    Scripting name is "heat_flux"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TF")
+    >>> op_way2 = core.operators.result.heat_flux()
+    """
+    return _HeatFlux()
 
 #internal name: ENG_CO
 #scripting name: co_energy
@@ -349,35 +754,77 @@ class _OutputSpecCoEnergy(_Outputs):
         self.fields_container = _Output(_get_output_spec_co_energy(0), 0, op) 
 
 class _CoEnergy(_Operator):
+    """Operator's description:
+    Internal name is "ENG_CO"
+    Scripting name is "co_energy"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_CO")
+    >>> op_way2 = core.operators.result.co_energy()
+    """
     def __init__(self):
-         super().__init__("ENG_CO")
-         self._name = "ENG_CO"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCoEnergy(self._op)
-         self.outputs = _OutputSpecCoEnergy(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_CO")
+        self._name = "ENG_CO"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCoEnergy(self._op)
+        self.outputs = _OutputSpecCoEnergy(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def co_energy():
     """Operator's description:
-Internal name is "ENG_CO"
-Scripting name is "co_energy"
+    Internal name is "ENG_CO"
+    Scripting name is "co_energy"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_CO")
-- using dpf.operators.result.co_energy()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_CO")
+    >>> op_way2 = core.operators.result.co_energy()
+    """
     return _CoEnergy()
 
 #internal name: EPELZ
@@ -429,35 +876,77 @@ class _OutputSpecElasticStrainZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_Z(0), 0, op) 
 
 class _ElasticStrainZ(_Operator):
+    """Operator's description:
+    Internal name is "EPELZ"
+    Scripting name is "elastic_strain_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELZ")
+    >>> op_way2 = core.operators.result.elastic_strain_Z()
+    """
     def __init__(self):
-         super().__init__("EPELZ")
-         self._name = "EPELZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainZ(self._op)
-         self.outputs = _OutputSpecElasticStrainZ(self._op)
+        """Specific operator class."""
+        super().__init__("EPELZ")
+        self._name = "EPELZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainZ(self._op)
+        self.outputs = _OutputSpecElasticStrainZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_Z():
     """Operator's description:
-Internal name is "EPELZ"
-Scripting name is "elastic_strain_Z"
+    Internal name is "EPELZ"
+    Scripting name is "elastic_strain_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPELZ")
-- using dpf.operators.result.elastic_strain_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELZ")
+    >>> op_way2 = core.operators.result.elastic_strain_Z()
+    """
     return _ElasticStrainZ()
 
 #internal name: S
@@ -509,35 +998,77 @@ class _OutputSpecStress(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress(0), 0, op) 
 
 class _Stress(_Operator):
+    """Operator's description:
+    Internal name is "S"
+    Scripting name is "stress"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S")
+    >>> op_way2 = core.operators.result.stress()
+    """
     def __init__(self):
-         super().__init__("S")
-         self._name = "S"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStress(self._op)
-         self.outputs = _OutputSpecStress(self._op)
+        """Specific operator class."""
+        super().__init__("S")
+        self._name = "S"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStress(self._op)
+        self.outputs = _OutputSpecStress(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress():
     """Operator's description:
-Internal name is "S"
-Scripting name is "stress"
+    Internal name is "S"
+    Scripting name is "stress"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("S")
-- using dpf.operators.result.stress()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S")
+    >>> op_way2 = core.operators.result.stress()
+    """
     return _Stress()
 
 #internal name: SX
@@ -589,35 +1120,77 @@ class _OutputSpecStressX(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_X(0), 0, op) 
 
 class _StressX(_Operator):
+    """Operator's description:
+    Internal name is "SX"
+    Scripting name is "stress_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SX")
+    >>> op_way2 = core.operators.result.stress_X()
+    """
     def __init__(self):
-         super().__init__("SX")
-         self._name = "SX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressX(self._op)
-         self.outputs = _OutputSpecStressX(self._op)
+        """Specific operator class."""
+        super().__init__("SX")
+        self._name = "SX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressX(self._op)
+        self.outputs = _OutputSpecStressX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_X():
     """Operator's description:
-Internal name is "SX"
-Scripting name is "stress_X"
+    Internal name is "SX"
+    Scripting name is "stress_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("SX")
-- using dpf.operators.result.stress_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SX")
+    >>> op_way2 = core.operators.result.stress_X()
+    """
     return _StressX()
 
 #internal name: SY
@@ -669,35 +1242,77 @@ class _OutputSpecStressY(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_Y(0), 0, op) 
 
 class _StressY(_Operator):
+    """Operator's description:
+    Internal name is "SY"
+    Scripting name is "stress_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SY")
+    >>> op_way2 = core.operators.result.stress_Y()
+    """
     def __init__(self):
-         super().__init__("SY")
-         self._name = "SY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressY(self._op)
-         self.outputs = _OutputSpecStressY(self._op)
+        """Specific operator class."""
+        super().__init__("SY")
+        self._name = "SY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressY(self._op)
+        self.outputs = _OutputSpecStressY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_Y():
     """Operator's description:
-Internal name is "SY"
-Scripting name is "stress_Y"
+    Internal name is "SY"
+    Scripting name is "stress_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("SY")
-- using dpf.operators.result.stress_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SY")
+    >>> op_way2 = core.operators.result.stress_Y()
+    """
     return _StressY()
 
 #internal name: SZ
@@ -749,35 +1364,77 @@ class _OutputSpecStressZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_Z(0), 0, op) 
 
 class _StressZ(_Operator):
+    """Operator's description:
+    Internal name is "SZ"
+    Scripting name is "stress_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SZ")
+    >>> op_way2 = core.operators.result.stress_Z()
+    """
     def __init__(self):
-         super().__init__("SZ")
-         self._name = "SZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressZ(self._op)
-         self.outputs = _OutputSpecStressZ(self._op)
+        """Specific operator class."""
+        super().__init__("SZ")
+        self._name = "SZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressZ(self._op)
+        self.outputs = _OutputSpecStressZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_Z():
     """Operator's description:
-Internal name is "SZ"
-Scripting name is "stress_Z"
+    Internal name is "SZ"
+    Scripting name is "stress_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("SZ")
-- using dpf.operators.result.stress_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SZ")
+    >>> op_way2 = core.operators.result.stress_Z()
+    """
     return _StressZ()
 
 #internal name: SXY
@@ -829,35 +1486,77 @@ class _OutputSpecStressXY(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_XY(0), 0, op) 
 
 class _StressXY(_Operator):
+    """Operator's description:
+    Internal name is "SXY"
+    Scripting name is "stress_XY"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SXY")
+    >>> op_way2 = core.operators.result.stress_XY()
+    """
     def __init__(self):
-         super().__init__("SXY")
-         self._name = "SXY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressXY(self._op)
-         self.outputs = _OutputSpecStressXY(self._op)
+        """Specific operator class."""
+        super().__init__("SXY")
+        self._name = "SXY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressXY(self._op)
+        self.outputs = _OutputSpecStressXY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_XY():
     """Operator's description:
-Internal name is "SXY"
-Scripting name is "stress_XY"
+    Internal name is "SXY"
+    Scripting name is "stress_XY"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("SXY")
-- using dpf.operators.result.stress_XY()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SXY")
+    >>> op_way2 = core.operators.result.stress_XY()
+    """
     return _StressXY()
 
 #internal name: SYZ
@@ -909,35 +1608,77 @@ class _OutputSpecStressYZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_YZ(0), 0, op) 
 
 class _StressYZ(_Operator):
+    """Operator's description:
+    Internal name is "SYZ"
+    Scripting name is "stress_YZ"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SYZ")
+    >>> op_way2 = core.operators.result.stress_YZ()
+    """
     def __init__(self):
-         super().__init__("SYZ")
-         self._name = "SYZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressYZ(self._op)
-         self.outputs = _OutputSpecStressYZ(self._op)
+        """Specific operator class."""
+        super().__init__("SYZ")
+        self._name = "SYZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressYZ(self._op)
+        self.outputs = _OutputSpecStressYZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_YZ():
     """Operator's description:
-Internal name is "SYZ"
-Scripting name is "stress_YZ"
+    Internal name is "SYZ"
+    Scripting name is "stress_YZ"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("SYZ")
-- using dpf.operators.result.stress_YZ()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SYZ")
+    >>> op_way2 = core.operators.result.stress_YZ()
+    """
     return _StressYZ()
 
 #internal name: ModalBasis
@@ -989,35 +1730,77 @@ class _OutputSpecModalBasis(_Outputs):
         self.fields_container = _Output(_get_output_spec_modal_basis(0), 0, op) 
 
 class _ModalBasis(_Operator):
+    """Operator's description:
+    Internal name is "ModalBasis"
+    Scripting name is "modal_basis"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ModalBasis")
+    >>> op_way2 = core.operators.result.modal_basis()
+    """
     def __init__(self):
-         super().__init__("ModalBasis")
-         self._name = "ModalBasis"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecModalBasis(self._op)
-         self.outputs = _OutputSpecModalBasis(self._op)
+        """Specific operator class."""
+        super().__init__("ModalBasis")
+        self._name = "ModalBasis"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecModalBasis(self._op)
+        self.outputs = _OutputSpecModalBasis(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def modal_basis():
     """Operator's description:
-Internal name is "ModalBasis"
-Scripting name is "modal_basis"
+    Internal name is "ModalBasis"
+    Scripting name is "modal_basis"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ModalBasis")
-- using dpf.operators.result.modal_basis()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ModalBasis")
+    >>> op_way2 = core.operators.result.modal_basis()
+    """
     return _ModalBasis()
 
 #internal name: SXZ
@@ -1069,35 +1852,77 @@ class _OutputSpecStressXZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_XZ(0), 0, op) 
 
 class _StressXZ(_Operator):
+    """Operator's description:
+    Internal name is "SXZ"
+    Scripting name is "stress_XZ"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SXZ")
+    >>> op_way2 = core.operators.result.stress_XZ()
+    """
     def __init__(self):
-         super().__init__("SXZ")
-         self._name = "SXZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressXZ(self._op)
-         self.outputs = _OutputSpecStressXZ(self._op)
+        """Specific operator class."""
+        super().__init__("SXZ")
+        self._name = "SXZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressXZ(self._op)
+        self.outputs = _OutputSpecStressXZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_XZ():
     """Operator's description:
-Internal name is "SXZ"
-Scripting name is "stress_XZ"
+    Internal name is "SXZ"
+    Scripting name is "stress_XZ"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("SXZ")
-- using dpf.operators.result.stress_XZ()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("SXZ")
+    >>> op_way2 = core.operators.result.stress_XZ()
+    """
     return _StressXZ()
 
 #internal name: S1
@@ -1149,35 +1974,77 @@ class _OutputSpecStressPrincipal1(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_principal_1(0), 0, op) 
 
 class _StressPrincipal1(_Operator):
+    """Operator's description:
+    Internal name is "S1"
+    Scripting name is "stress_principal_1"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S1")
+    >>> op_way2 = core.operators.result.stress_principal_1()
+    """
     def __init__(self):
-         super().__init__("S1")
-         self._name = "S1"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressPrincipal1(self._op)
-         self.outputs = _OutputSpecStressPrincipal1(self._op)
+        """Specific operator class."""
+        super().__init__("S1")
+        self._name = "S1"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressPrincipal1(self._op)
+        self.outputs = _OutputSpecStressPrincipal1(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_principal_1():
     """Operator's description:
-Internal name is "S1"
-Scripting name is "stress_principal_1"
+    Internal name is "S1"
+    Scripting name is "stress_principal_1"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("S1")
-- using dpf.operators.result.stress_principal_1()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S1")
+    >>> op_way2 = core.operators.result.stress_principal_1()
+    """
     return _StressPrincipal1()
 
 #internal name: S2
@@ -1229,35 +2096,77 @@ class _OutputSpecStressPrincipal2(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_principal_2(0), 0, op) 
 
 class _StressPrincipal2(_Operator):
+    """Operator's description:
+    Internal name is "S2"
+    Scripting name is "stress_principal_2"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S2")
+    >>> op_way2 = core.operators.result.stress_principal_2()
+    """
     def __init__(self):
-         super().__init__("S2")
-         self._name = "S2"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressPrincipal2(self._op)
-         self.outputs = _OutputSpecStressPrincipal2(self._op)
+        """Specific operator class."""
+        super().__init__("S2")
+        self._name = "S2"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressPrincipal2(self._op)
+        self.outputs = _OutputSpecStressPrincipal2(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_principal_2():
     """Operator's description:
-Internal name is "S2"
-Scripting name is "stress_principal_2"
+    Internal name is "S2"
+    Scripting name is "stress_principal_2"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("S2")
-- using dpf.operators.result.stress_principal_2()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S2")
+    >>> op_way2 = core.operators.result.stress_principal_2()
+    """
     return _StressPrincipal2()
 
 #internal name: S3
@@ -1309,35 +2218,77 @@ class _OutputSpecStressPrincipal3(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_principal_3(0), 0, op) 
 
 class _StressPrincipal3(_Operator):
+    """Operator's description:
+    Internal name is "S3"
+    Scripting name is "stress_principal_3"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S3")
+    >>> op_way2 = core.operators.result.stress_principal_3()
+    """
     def __init__(self):
-         super().__init__("S3")
-         self._name = "S3"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressPrincipal3(self._op)
-         self.outputs = _OutputSpecStressPrincipal3(self._op)
+        """Specific operator class."""
+        super().__init__("S3")
+        self._name = "S3"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressPrincipal3(self._op)
+        self.outputs = _OutputSpecStressPrincipal3(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_principal_3():
     """Operator's description:
-Internal name is "S3"
-Scripting name is "stress_principal_3"
+    Internal name is "S3"
+    Scripting name is "stress_principal_3"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("S3")
-- using dpf.operators.result.stress_principal_3()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S3")
+    >>> op_way2 = core.operators.result.stress_principal_3()
+    """
     return _StressPrincipal3()
 
 #internal name: EPEL
@@ -1389,35 +2340,77 @@ class _OutputSpecElasticStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain(0), 0, op) 
 
 class _ElasticStrain(_Operator):
+    """Operator's description:
+    Internal name is "EPEL"
+    Scripting name is "elastic_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL")
+    >>> op_way2 = core.operators.result.elastic_strain()
+    """
     def __init__(self):
-         super().__init__("EPEL")
-         self._name = "EPEL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrain(self._op)
-         self.outputs = _OutputSpecElasticStrain(self._op)
+        """Specific operator class."""
+        super().__init__("EPEL")
+        self._name = "EPEL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrain(self._op)
+        self.outputs = _OutputSpecElasticStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain():
     """Operator's description:
-Internal name is "EPEL"
-Scripting name is "elastic_strain"
+    Internal name is "EPEL"
+    Scripting name is "elastic_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPEL")
-- using dpf.operators.result.elastic_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL")
+    >>> op_way2 = core.operators.result.elastic_strain()
+    """
     return _ElasticStrain()
 
 #internal name: EPELX
@@ -1469,35 +2462,77 @@ class _OutputSpecElasticStrainX(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_X(0), 0, op) 
 
 class _ElasticStrainX(_Operator):
+    """Operator's description:
+    Internal name is "EPELX"
+    Scripting name is "elastic_strain_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELX")
+    >>> op_way2 = core.operators.result.elastic_strain_X()
+    """
     def __init__(self):
-         super().__init__("EPELX")
-         self._name = "EPELX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainX(self._op)
-         self.outputs = _OutputSpecElasticStrainX(self._op)
+        """Specific operator class."""
+        super().__init__("EPELX")
+        self._name = "EPELX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainX(self._op)
+        self.outputs = _OutputSpecElasticStrainX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_X():
     """Operator's description:
-Internal name is "EPELX"
-Scripting name is "elastic_strain_X"
+    Internal name is "EPELX"
+    Scripting name is "elastic_strain_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPELX")
-- using dpf.operators.result.elastic_strain_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELX")
+    >>> op_way2 = core.operators.result.elastic_strain_X()
+    """
     return _ElasticStrainX()
 
 #internal name: EPELXY
@@ -1549,35 +2584,77 @@ class _OutputSpecElasticStrainXY(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_XY(0), 0, op) 
 
 class _ElasticStrainXY(_Operator):
+    """Operator's description:
+    Internal name is "EPELXY"
+    Scripting name is "elastic_strain_XY"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELXY")
+    >>> op_way2 = core.operators.result.elastic_strain_XY()
+    """
     def __init__(self):
-         super().__init__("EPELXY")
-         self._name = "EPELXY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainXY(self._op)
-         self.outputs = _OutputSpecElasticStrainXY(self._op)
+        """Specific operator class."""
+        super().__init__("EPELXY")
+        self._name = "EPELXY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainXY(self._op)
+        self.outputs = _OutputSpecElasticStrainXY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_XY():
     """Operator's description:
-Internal name is "EPELXY"
-Scripting name is "elastic_strain_XY"
+    Internal name is "EPELXY"
+    Scripting name is "elastic_strain_XY"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPELXY")
-- using dpf.operators.result.elastic_strain_XY()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELXY")
+    >>> op_way2 = core.operators.result.elastic_strain_XY()
+    """
     return _ElasticStrainXY()
 
 #internal name: EPELYZ
@@ -1629,35 +2706,77 @@ class _OutputSpecElasticStrainYZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_YZ(0), 0, op) 
 
 class _ElasticStrainYZ(_Operator):
+    """Operator's description:
+    Internal name is "EPELYZ"
+    Scripting name is "elastic_strain_YZ"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELYZ")
+    >>> op_way2 = core.operators.result.elastic_strain_YZ()
+    """
     def __init__(self):
-         super().__init__("EPELYZ")
-         self._name = "EPELYZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainYZ(self._op)
-         self.outputs = _OutputSpecElasticStrainYZ(self._op)
+        """Specific operator class."""
+        super().__init__("EPELYZ")
+        self._name = "EPELYZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainYZ(self._op)
+        self.outputs = _OutputSpecElasticStrainYZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_YZ():
     """Operator's description:
-Internal name is "EPELYZ"
-Scripting name is "elastic_strain_YZ"
+    Internal name is "EPELYZ"
+    Scripting name is "elastic_strain_YZ"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPELYZ")
-- using dpf.operators.result.elastic_strain_YZ()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELYZ")
+    >>> op_way2 = core.operators.result.elastic_strain_YZ()
+    """
     return _ElasticStrainYZ()
 
 #internal name: EPELXZ
@@ -1709,35 +2828,77 @@ class _OutputSpecElasticStrainXZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_XZ(0), 0, op) 
 
 class _ElasticStrainXZ(_Operator):
+    """Operator's description:
+    Internal name is "EPELXZ"
+    Scripting name is "elastic_strain_XZ"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELXZ")
+    >>> op_way2 = core.operators.result.elastic_strain_XZ()
+    """
     def __init__(self):
-         super().__init__("EPELXZ")
-         self._name = "EPELXZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainXZ(self._op)
-         self.outputs = _OutputSpecElasticStrainXZ(self._op)
+        """Specific operator class."""
+        super().__init__("EPELXZ")
+        self._name = "EPELXZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainXZ(self._op)
+        self.outputs = _OutputSpecElasticStrainXZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_XZ():
     """Operator's description:
-Internal name is "EPELXZ"
-Scripting name is "elastic_strain_XZ"
+    Internal name is "EPELXZ"
+    Scripting name is "elastic_strain_XZ"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPELXZ")
-- using dpf.operators.result.elastic_strain_XZ()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPELXZ")
+    >>> op_way2 = core.operators.result.elastic_strain_XZ()
+    """
     return _ElasticStrainXZ()
 
 #internal name: EPEL1
@@ -1789,35 +2950,77 @@ class _OutputSpecElasticStrainPrincipal1(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_principal_1(0), 0, op) 
 
 class _ElasticStrainPrincipal1(_Operator):
+    """Operator's description:
+    Internal name is "EPEL1"
+    Scripting name is "elastic_strain_principal_1"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL1")
+    >>> op_way2 = core.operators.result.elastic_strain_principal_1()
+    """
     def __init__(self):
-         super().__init__("EPEL1")
-         self._name = "EPEL1"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainPrincipal1(self._op)
-         self.outputs = _OutputSpecElasticStrainPrincipal1(self._op)
+        """Specific operator class."""
+        super().__init__("EPEL1")
+        self._name = "EPEL1"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainPrincipal1(self._op)
+        self.outputs = _OutputSpecElasticStrainPrincipal1(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_principal_1():
     """Operator's description:
-Internal name is "EPEL1"
-Scripting name is "elastic_strain_principal_1"
+    Internal name is "EPEL1"
+    Scripting name is "elastic_strain_principal_1"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPEL1")
-- using dpf.operators.result.elastic_strain_principal_1()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL1")
+    >>> op_way2 = core.operators.result.elastic_strain_principal_1()
+    """
     return _ElasticStrainPrincipal1()
 
 #internal name: EPEL2
@@ -1869,35 +3072,77 @@ class _OutputSpecElasticStrainPrincipal2(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_principal_2(0), 0, op) 
 
 class _ElasticStrainPrincipal2(_Operator):
+    """Operator's description:
+    Internal name is "EPEL2"
+    Scripting name is "elastic_strain_principal_2"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL2")
+    >>> op_way2 = core.operators.result.elastic_strain_principal_2()
+    """
     def __init__(self):
-         super().__init__("EPEL2")
-         self._name = "EPEL2"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainPrincipal2(self._op)
-         self.outputs = _OutputSpecElasticStrainPrincipal2(self._op)
+        """Specific operator class."""
+        super().__init__("EPEL2")
+        self._name = "EPEL2"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainPrincipal2(self._op)
+        self.outputs = _OutputSpecElasticStrainPrincipal2(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_principal_2():
     """Operator's description:
-Internal name is "EPEL2"
-Scripting name is "elastic_strain_principal_2"
+    Internal name is "EPEL2"
+    Scripting name is "elastic_strain_principal_2"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPEL2")
-- using dpf.operators.result.elastic_strain_principal_2()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL2")
+    >>> op_way2 = core.operators.result.elastic_strain_principal_2()
+    """
     return _ElasticStrainPrincipal2()
 
 #internal name: EPEL3
@@ -1949,35 +3194,77 @@ class _OutputSpecElasticStrainPrincipal3(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_principal_3(0), 0, op) 
 
 class _ElasticStrainPrincipal3(_Operator):
+    """Operator's description:
+    Internal name is "EPEL3"
+    Scripting name is "elastic_strain_principal_3"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL3")
+    >>> op_way2 = core.operators.result.elastic_strain_principal_3()
+    """
     def __init__(self):
-         super().__init__("EPEL3")
-         self._name = "EPEL3"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainPrincipal3(self._op)
-         self.outputs = _OutputSpecElasticStrainPrincipal3(self._op)
+        """Specific operator class."""
+        super().__init__("EPEL3")
+        self._name = "EPEL3"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainPrincipal3(self._op)
+        self.outputs = _OutputSpecElasticStrainPrincipal3(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_principal_3():
     """Operator's description:
-Internal name is "EPEL3"
-Scripting name is "elastic_strain_principal_3"
+    Internal name is "EPEL3"
+    Scripting name is "elastic_strain_principal_3"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPEL3")
-- using dpf.operators.result.elastic_strain_principal_3()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPEL3")
+    >>> op_way2 = core.operators.result.elastic_strain_principal_3()
+    """
     return _ElasticStrainPrincipal3()
 
 #internal name: EPPL
@@ -2029,35 +3316,77 @@ class _OutputSpecPlasticStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain(0), 0, op) 
 
 class _PlasticStrain(_Operator):
+    """Operator's description:
+    Internal name is "EPPL"
+    Scripting name is "plastic_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL")
+    >>> op_way2 = core.operators.result.plastic_strain()
+    """
     def __init__(self):
-         super().__init__("EPPL")
-         self._name = "EPPL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrain(self._op)
-         self.outputs = _OutputSpecPlasticStrain(self._op)
+        """Specific operator class."""
+        super().__init__("EPPL")
+        self._name = "EPPL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrain(self._op)
+        self.outputs = _OutputSpecPlasticStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain():
     """Operator's description:
-Internal name is "EPPL"
-Scripting name is "plastic_strain"
+    Internal name is "EPPL"
+    Scripting name is "plastic_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPL")
-- using dpf.operators.result.plastic_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL")
+    >>> op_way2 = core.operators.result.plastic_strain()
+    """
     return _PlasticStrain()
 
 #internal name: EPPLX
@@ -2109,35 +3438,77 @@ class _OutputSpecPlasticStrainX(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_X(0), 0, op) 
 
 class _PlasticStrainX(_Operator):
+    """Operator's description:
+    Internal name is "EPPLX"
+    Scripting name is "plastic_strain_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLX")
+    >>> op_way2 = core.operators.result.plastic_strain_X()
+    """
     def __init__(self):
-         super().__init__("EPPLX")
-         self._name = "EPPLX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainX(self._op)
-         self.outputs = _OutputSpecPlasticStrainX(self._op)
+        """Specific operator class."""
+        super().__init__("EPPLX")
+        self._name = "EPPLX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainX(self._op)
+        self.outputs = _OutputSpecPlasticStrainX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_X():
     """Operator's description:
-Internal name is "EPPLX"
-Scripting name is "plastic_strain_X"
+    Internal name is "EPPLX"
+    Scripting name is "plastic_strain_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPLX")
-- using dpf.operators.result.plastic_strain_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLX")
+    >>> op_way2 = core.operators.result.plastic_strain_X()
+    """
     return _PlasticStrainX()
 
 #internal name: EPPLY
@@ -2189,35 +3560,77 @@ class _OutputSpecPlasticStrainY(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_Y(0), 0, op) 
 
 class _PlasticStrainY(_Operator):
+    """Operator's description:
+    Internal name is "EPPLY"
+    Scripting name is "plastic_strain_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLY")
+    >>> op_way2 = core.operators.result.plastic_strain_Y()
+    """
     def __init__(self):
-         super().__init__("EPPLY")
-         self._name = "EPPLY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainY(self._op)
-         self.outputs = _OutputSpecPlasticStrainY(self._op)
+        """Specific operator class."""
+        super().__init__("EPPLY")
+        self._name = "EPPLY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainY(self._op)
+        self.outputs = _OutputSpecPlasticStrainY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_Y():
     """Operator's description:
-Internal name is "EPPLY"
-Scripting name is "plastic_strain_Y"
+    Internal name is "EPPLY"
+    Scripting name is "plastic_strain_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPLY")
-- using dpf.operators.result.plastic_strain_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLY")
+    >>> op_way2 = core.operators.result.plastic_strain_Y()
+    """
     return _PlasticStrainY()
 
 #internal name: EPPLZ
@@ -2269,35 +3682,77 @@ class _OutputSpecPlasticStrainZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_Z(0), 0, op) 
 
 class _PlasticStrainZ(_Operator):
+    """Operator's description:
+    Internal name is "EPPLZ"
+    Scripting name is "plastic_strain_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLZ")
+    >>> op_way2 = core.operators.result.plastic_strain_Z()
+    """
     def __init__(self):
-         super().__init__("EPPLZ")
-         self._name = "EPPLZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainZ(self._op)
-         self.outputs = _OutputSpecPlasticStrainZ(self._op)
+        """Specific operator class."""
+        super().__init__("EPPLZ")
+        self._name = "EPPLZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainZ(self._op)
+        self.outputs = _OutputSpecPlasticStrainZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_Z():
     """Operator's description:
-Internal name is "EPPLZ"
-Scripting name is "plastic_strain_Z"
+    Internal name is "EPPLZ"
+    Scripting name is "plastic_strain_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPLZ")
-- using dpf.operators.result.plastic_strain_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLZ")
+    >>> op_way2 = core.operators.result.plastic_strain_Z()
+    """
     return _PlasticStrainZ()
 
 #internal name: ENL_HPRES
@@ -2349,35 +3804,77 @@ class _OutputSpecHydrostaticPressure(_Outputs):
         self.fields_container = _Output(_get_output_spec_hydrostatic_pressure(0), 0, op) 
 
 class _HydrostaticPressure(_Operator):
+    """Operator's description:
+    Internal name is "ENL_HPRES"
+    Scripting name is "hydrostatic_pressure"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_HPRES")
+    >>> op_way2 = core.operators.result.hydrostatic_pressure()
+    """
     def __init__(self):
-         super().__init__("ENL_HPRES")
-         self._name = "ENL_HPRES"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHydrostaticPressure(self._op)
-         self.outputs = _OutputSpecHydrostaticPressure(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_HPRES")
+        self._name = "ENL_HPRES"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHydrostaticPressure(self._op)
+        self.outputs = _OutputSpecHydrostaticPressure(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def hydrostatic_pressure():
     """Operator's description:
-Internal name is "ENL_HPRES"
-Scripting name is "hydrostatic_pressure"
+    Internal name is "ENL_HPRES"
+    Scripting name is "hydrostatic_pressure"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_HPRES")
-- using dpf.operators.result.hydrostatic_pressure()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_HPRES")
+    >>> op_way2 = core.operators.result.hydrostatic_pressure()
+    """
     return _HydrostaticPressure()
 
 #internal name: EPPLXY
@@ -2429,35 +3926,77 @@ class _OutputSpecPlasticStrainXY(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_XY(0), 0, op) 
 
 class _PlasticStrainXY(_Operator):
+    """Operator's description:
+    Internal name is "EPPLXY"
+    Scripting name is "plastic_strain_XY"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLXY")
+    >>> op_way2 = core.operators.result.plastic_strain_XY()
+    """
     def __init__(self):
-         super().__init__("EPPLXY")
-         self._name = "EPPLXY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainXY(self._op)
-         self.outputs = _OutputSpecPlasticStrainXY(self._op)
+        """Specific operator class."""
+        super().__init__("EPPLXY")
+        self._name = "EPPLXY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainXY(self._op)
+        self.outputs = _OutputSpecPlasticStrainXY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_XY():
     """Operator's description:
-Internal name is "EPPLXY"
-Scripting name is "plastic_strain_XY"
+    Internal name is "EPPLXY"
+    Scripting name is "plastic_strain_XY"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPLXY")
-- using dpf.operators.result.plastic_strain_XY()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLXY")
+    >>> op_way2 = core.operators.result.plastic_strain_XY()
+    """
     return _PlasticStrainXY()
 
 #internal name: EPPLYZ
@@ -2509,35 +4048,77 @@ class _OutputSpecPlasticStrainYZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_YZ(0), 0, op) 
 
 class _PlasticStrainYZ(_Operator):
+    """Operator's description:
+    Internal name is "EPPLYZ"
+    Scripting name is "plastic_strain_YZ"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLYZ")
+    >>> op_way2 = core.operators.result.plastic_strain_YZ()
+    """
     def __init__(self):
-         super().__init__("EPPLYZ")
-         self._name = "EPPLYZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainYZ(self._op)
-         self.outputs = _OutputSpecPlasticStrainYZ(self._op)
+        """Specific operator class."""
+        super().__init__("EPPLYZ")
+        self._name = "EPPLYZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainYZ(self._op)
+        self.outputs = _OutputSpecPlasticStrainYZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_YZ():
     """Operator's description:
-Internal name is "EPPLYZ"
-Scripting name is "plastic_strain_YZ"
+    Internal name is "EPPLYZ"
+    Scripting name is "plastic_strain_YZ"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPLYZ")
-- using dpf.operators.result.plastic_strain_YZ()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLYZ")
+    >>> op_way2 = core.operators.result.plastic_strain_YZ()
+    """
     return _PlasticStrainYZ()
 
 #internal name: EPPLXZ
@@ -2589,35 +4170,77 @@ class _OutputSpecPlasticStrainXZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_XZ(0), 0, op) 
 
 class _PlasticStrainXZ(_Operator):
+    """Operator's description:
+    Internal name is "EPPLXZ"
+    Scripting name is "plastic_strain_XZ"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLXZ")
+    >>> op_way2 = core.operators.result.plastic_strain_XZ()
+    """
     def __init__(self):
-         super().__init__("EPPLXZ")
-         self._name = "EPPLXZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainXZ(self._op)
-         self.outputs = _OutputSpecPlasticStrainXZ(self._op)
+        """Specific operator class."""
+        super().__init__("EPPLXZ")
+        self._name = "EPPLXZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainXZ(self._op)
+        self.outputs = _OutputSpecPlasticStrainXZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_XZ():
     """Operator's description:
-Internal name is "EPPLXZ"
-Scripting name is "plastic_strain_XZ"
+    Internal name is "EPPLXZ"
+    Scripting name is "plastic_strain_XZ"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPLXZ")
-- using dpf.operators.result.plastic_strain_XZ()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPLXZ")
+    >>> op_way2 = core.operators.result.plastic_strain_XZ()
+    """
     return _PlasticStrainXZ()
 
 #internal name: EPPL2
@@ -2669,116 +4292,78 @@ class _OutputSpecPlasticStrainPrincipal2(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_principal_2(0), 0, op) 
 
 class _PlasticStrainPrincipal2(_Operator):
+    """Operator's description:
+    Internal name is "EPPL2"
+    Scripting name is "plastic_strain_principal_2"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL2")
+    >>> op_way2 = core.operators.result.plastic_strain_principal_2()
+    """
     def __init__(self):
-         super().__init__("EPPL2")
-         self._name = "EPPL2"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainPrincipal2(self._op)
-         self.outputs = _OutputSpecPlasticStrainPrincipal2(self._op)
+        """Specific operator class."""
+        super().__init__("EPPL2")
+        self._name = "EPPL2"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainPrincipal2(self._op)
+        self.outputs = _OutputSpecPlasticStrainPrincipal2(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_principal_2():
     """Operator's description:
-Internal name is "EPPL2"
-Scripting name is "plastic_strain_principal_2"
+    Internal name is "EPPL2"
+    Scripting name is "plastic_strain_principal_2"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPL2")
-- using dpf.operators.result.plastic_strain_principal_2()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EPPL2")
+    >>> op_way2 = core.operators.result.plastic_strain_principal_2()
+    """
     return _PlasticStrainPrincipal2()
-
-#internal name: EPPL3
-#scripting name: plastic_strain_principal_3
-def _get_input_spec_plastic_strain_principal_3(pin):
-    inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
-    inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
-    inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
-    inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
-    inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
-    inpin5 = _PinSpecification(name = "bool_rotate_to_global", type_names = ["bool"], optional = True, document = """if true the field is roated to global coordinate system (default true)""")
-    inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
-    inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """""")
-    inpin17 = _PinSpecification(name = "domain_id", type_names = ["int32"], optional = True, document = """""")
-    inputs_dict_plastic_strain_principal_3 = { 
-        0 : inpin0,
-        1 : inpin1,
-        2 : inpin2,
-        3 : inpin3,
-        4 : inpin4,
-        5 : inpin5,
-        7 : inpin7,
-        9 : inpin9,
-        17 : inpin17
-    }
-    return inputs_dict_plastic_strain_principal_3[pin]
-
-def _get_output_spec_plastic_strain_principal_3(pin):
-    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
-    outputs_dict_plastic_strain_principal_3 = { 
-        0 : outpin0
-    }
-    return outputs_dict_plastic_strain_principal_3[pin]
-
-class _InputSpecPlasticStrainPrincipal3(_Inputs):
-    def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_principal_3(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_principal_3(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_principal_3(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_principal_3(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_principal_3(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_principal_3(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_principal_3(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_principal_3(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_principal_3(17), 17, op, -1) 
-
-class _OutputSpecPlasticStrainPrincipal3(_Outputs):
-    def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_principal_3(0), 0, op) 
-
-class _PlasticStrainPrincipal3(_Operator):
-    def __init__(self):
-         super().__init__("EPPL3")
-         self._name = "EPPL3"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainPrincipal3(self._op)
-         self.outputs = _OutputSpecPlasticStrainPrincipal3(self._op)
-
-def plastic_strain_principal_3():
-    """Operator's description:
-Internal name is "EPPL3"
-Scripting name is "plastic_strain_principal_3"
-
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EPPL3")
-- using dpf.operators.result.plastic_strain_principal_3()
-
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
-    return _PlasticStrainPrincipal3()
 
 #internal name: A
 #scripting name: acceleration
@@ -2829,35 +4414,77 @@ class _OutputSpecAcceleration(_Outputs):
         self.fields_container = _Output(_get_output_spec_acceleration(0), 0, op) 
 
 class _Acceleration(_Operator):
+    """Operator's description:
+    Internal name is "A"
+    Scripting name is "acceleration"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("A")
+    >>> op_way2 = core.operators.result.acceleration()
+    """
     def __init__(self):
-         super().__init__("A")
-         self._name = "A"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAcceleration(self._op)
-         self.outputs = _OutputSpecAcceleration(self._op)
+        """Specific operator class."""
+        super().__init__("A")
+        self._name = "A"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAcceleration(self._op)
+        self.outputs = _OutputSpecAcceleration(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def acceleration():
     """Operator's description:
-Internal name is "A"
-Scripting name is "acceleration"
+    Internal name is "A"
+    Scripting name is "acceleration"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("A")
-- using dpf.operators.result.acceleration()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("A")
+    >>> op_way2 = core.operators.result.acceleration()
+    """
     return _Acceleration()
 
 #internal name: AX
@@ -2909,35 +4536,77 @@ class _OutputSpecAccelerationX(_Outputs):
         self.fields_container = _Output(_get_output_spec_acceleration_X(0), 0, op) 
 
 class _AccelerationX(_Operator):
+    """Operator's description:
+    Internal name is "AX"
+    Scripting name is "acceleration_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("AX")
+    >>> op_way2 = core.operators.result.acceleration_X()
+    """
     def __init__(self):
-         super().__init__("AX")
-         self._name = "AX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccelerationX(self._op)
-         self.outputs = _OutputSpecAccelerationX(self._op)
+        """Specific operator class."""
+        super().__init__("AX")
+        self._name = "AX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAccelerationX(self._op)
+        self.outputs = _OutputSpecAccelerationX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def acceleration_X():
     """Operator's description:
-Internal name is "AX"
-Scripting name is "acceleration_X"
+    Internal name is "AX"
+    Scripting name is "acceleration_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("AX")
-- using dpf.operators.result.acceleration_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("AX")
+    >>> op_way2 = core.operators.result.acceleration_X()
+    """
     return _AccelerationX()
 
 #internal name: AY
@@ -2989,36 +4658,200 @@ class _OutputSpecAccelerationY(_Outputs):
         self.fields_container = _Output(_get_output_spec_acceleration_Y(0), 0, op) 
 
 class _AccelerationY(_Operator):
+    """Operator's description:
+    Internal name is "AY"
+    Scripting name is "acceleration_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("AY")
+    >>> op_way2 = core.operators.result.acceleration_Y()
+    """
     def __init__(self):
-         super().__init__("AY")
-         self._name = "AY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccelerationY(self._op)
-         self.outputs = _OutputSpecAccelerationY(self._op)
+        """Specific operator class."""
+        super().__init__("AY")
+        self._name = "AY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAccelerationY(self._op)
+        self.outputs = _OutputSpecAccelerationY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def acceleration_Y():
     """Operator's description:
-Internal name is "AY"
-Scripting name is "acceleration_Y"
+    Internal name is "AY"
+    Scripting name is "acceleration_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("AY")
-- using dpf.operators.result.acceleration_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("AY")
+    >>> op_way2 = core.operators.result.acceleration_Y()
+    """
     return _AccelerationY()
+
+#internal name: centroids
+#scripting name: element_centroids
+def _get_input_spec_element_centroids(pin):
+    inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
+    inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
+    inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
+    inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
+    inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
+    inpin5 = _PinSpecification(name = "bool_rotate_to_global", type_names = ["bool"], optional = True, document = """if true the field is roated to global coordinate system (default true)""")
+    inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
+    inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """""")
+    inpin17 = _PinSpecification(name = "domain_id", type_names = ["int32"], optional = True, document = """""")
+    inputs_dict_element_centroids = { 
+        0 : inpin0,
+        1 : inpin1,
+        2 : inpin2,
+        3 : inpin3,
+        4 : inpin4,
+        5 : inpin5,
+        7 : inpin7,
+        9 : inpin9,
+        17 : inpin17
+    }
+    return inputs_dict_element_centroids[pin]
+
+def _get_output_spec_element_centroids(pin):
+    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
+    outputs_dict_element_centroids = { 
+        0 : outpin0
+    }
+    return outputs_dict_element_centroids[pin]
+
+class _InputSpecElementCentroids(_Inputs):
+    def __init__(self, op: _Operator):
+        self.time_scoping = _Input(_get_input_spec_element_centroids(0), 0, op, -1) 
+        self.mesh_scoping = _Input(_get_input_spec_element_centroids(1), 1, op, -1) 
+        self.fields_container = _Input(_get_input_spec_element_centroids(2), 2, op, -1) 
+        self.streams_container = _Input(_get_input_spec_element_centroids(3), 3, op, -1) 
+        self.data_sources = _Input(_get_input_spec_element_centroids(4), 4, op, -1) 
+        self.bool_rotate_to_global = _Input(_get_input_spec_element_centroids(5), 5, op, -1) 
+        self.mesh = _Input(_get_input_spec_element_centroids(7), 7, op, -1) 
+        self.requested_location = _Input(_get_input_spec_element_centroids(9), 9, op, -1) 
+        self.domain_id = _Input(_get_input_spec_element_centroids(17), 17, op, -1) 
+
+class _OutputSpecElementCentroids(_Outputs):
+    def __init__(self, op: _Operator):
+        self.fields_container = _Output(_get_output_spec_element_centroids(0), 0, op) 
+
+class _ElementCentroids(_Operator):
+    """Operator's description:
+    Internal name is "centroids"
+    Scripting name is "element_centroids"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("centroids")
+    >>> op_way2 = core.operators.result.element_centroids()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("centroids")
+        self._name = "centroids"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementCentroids(self._op)
+        self.outputs = _OutputSpecElementCentroids(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def element_centroids():
+    """Operator's description:
+    Internal name is "centroids"
+    Scripting name is "element_centroids"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("centroids")
+    >>> op_way2 = core.operators.result.element_centroids()
+    """
+    return _ElementCentroids()
 
 #internal name: AZ
 #scripting name: acceleration_Z
@@ -3069,35 +4902,77 @@ class _OutputSpecAccelerationZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_acceleration_Z(0), 0, op) 
 
 class _AccelerationZ(_Operator):
+    """Operator's description:
+    Internal name is "AZ"
+    Scripting name is "acceleration_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("AZ")
+    >>> op_way2 = core.operators.result.acceleration_Z()
+    """
     def __init__(self):
-         super().__init__("AZ")
-         self._name = "AZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccelerationZ(self._op)
-         self.outputs = _OutputSpecAccelerationZ(self._op)
+        """Specific operator class."""
+        super().__init__("AZ")
+        self._name = "AZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAccelerationZ(self._op)
+        self.outputs = _OutputSpecAccelerationZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def acceleration_Z():
     """Operator's description:
-Internal name is "AZ"
-Scripting name is "acceleration_Z"
+    Internal name is "AZ"
+    Scripting name is "acceleration_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("AZ")
-- using dpf.operators.result.acceleration_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("AZ")
+    >>> op_way2 = core.operators.result.acceleration_Z()
+    """
     return _AccelerationZ()
 
 #internal name: RF
@@ -3149,35 +5024,77 @@ class _OutputSpecReactionForce(_Outputs):
         self.fields_container = _Output(_get_output_spec_reaction_force(0), 0, op) 
 
 class _ReactionForce(_Operator):
+    """Operator's description:
+    Internal name is "RF"
+    Scripting name is "reaction_force"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RF")
+    >>> op_way2 = core.operators.result.reaction_force()
+    """
     def __init__(self):
-         super().__init__("RF")
-         self._name = "RF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecReactionForce(self._op)
-         self.outputs = _OutputSpecReactionForce(self._op)
+        """Specific operator class."""
+        super().__init__("RF")
+        self._name = "RF"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecReactionForce(self._op)
+        self.outputs = _OutputSpecReactionForce(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def reaction_force():
     """Operator's description:
-Internal name is "RF"
-Scripting name is "reaction_force"
+    Internal name is "RF"
+    Scripting name is "reaction_force"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("RF")
-- using dpf.operators.result.reaction_force()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RF")
+    >>> op_way2 = core.operators.result.reaction_force()
+    """
     return _ReactionForce()
 
 #internal name: V
@@ -3229,35 +5146,77 @@ class _OutputSpecVelocity(_Outputs):
         self.fields_container = _Output(_get_output_spec_velocity(0), 0, op) 
 
 class _Velocity(_Operator):
+    """Operator's description:
+    Internal name is "V"
+    Scripting name is "velocity"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("V")
+    >>> op_way2 = core.operators.result.velocity()
+    """
     def __init__(self):
-         super().__init__("V")
-         self._name = "V"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocity(self._op)
-         self.outputs = _OutputSpecVelocity(self._op)
+        """Specific operator class."""
+        super().__init__("V")
+        self._name = "V"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVelocity(self._op)
+        self.outputs = _OutputSpecVelocity(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def velocity():
     """Operator's description:
-Internal name is "V"
-Scripting name is "velocity"
+    Internal name is "V"
+    Scripting name is "velocity"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("V")
-- using dpf.operators.result.velocity()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("V")
+    >>> op_way2 = core.operators.result.velocity()
+    """
     return _Velocity()
 
 #internal name: VX
@@ -3309,35 +5268,77 @@ class _OutputSpecVelocityX(_Outputs):
         self.fields_container = _Output(_get_output_spec_velocity_X(0), 0, op) 
 
 class _VelocityX(_Operator):
+    """Operator's description:
+    Internal name is "VX"
+    Scripting name is "velocity_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VX")
+    >>> op_way2 = core.operators.result.velocity_X()
+    """
     def __init__(self):
-         super().__init__("VX")
-         self._name = "VX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocityX(self._op)
-         self.outputs = _OutputSpecVelocityX(self._op)
+        """Specific operator class."""
+        super().__init__("VX")
+        self._name = "VX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVelocityX(self._op)
+        self.outputs = _OutputSpecVelocityX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def velocity_X():
     """Operator's description:
-Internal name is "VX"
-Scripting name is "velocity_X"
+    Internal name is "VX"
+    Scripting name is "velocity_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("VX")
-- using dpf.operators.result.velocity_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VX")
+    >>> op_way2 = core.operators.result.velocity_X()
+    """
     return _VelocityX()
 
 #internal name: VY
@@ -3389,35 +5390,77 @@ class _OutputSpecVelocityY(_Outputs):
         self.fields_container = _Output(_get_output_spec_velocity_Y(0), 0, op) 
 
 class _VelocityY(_Operator):
+    """Operator's description:
+    Internal name is "VY"
+    Scripting name is "velocity_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VY")
+    >>> op_way2 = core.operators.result.velocity_Y()
+    """
     def __init__(self):
-         super().__init__("VY")
-         self._name = "VY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocityY(self._op)
-         self.outputs = _OutputSpecVelocityY(self._op)
+        """Specific operator class."""
+        super().__init__("VY")
+        self._name = "VY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVelocityY(self._op)
+        self.outputs = _OutputSpecVelocityY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def velocity_Y():
     """Operator's description:
-Internal name is "VY"
-Scripting name is "velocity_Y"
+    Internal name is "VY"
+    Scripting name is "velocity_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("VY")
-- using dpf.operators.result.velocity_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VY")
+    >>> op_way2 = core.operators.result.velocity_Y()
+    """
     return _VelocityY()
 
 #internal name: VZ
@@ -3469,35 +5512,77 @@ class _OutputSpecVelocityZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_velocity_Z(0), 0, op) 
 
 class _VelocityZ(_Operator):
+    """Operator's description:
+    Internal name is "VZ"
+    Scripting name is "velocity_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VZ")
+    >>> op_way2 = core.operators.result.velocity_Z()
+    """
     def __init__(self):
-         super().__init__("VZ")
-         self._name = "VZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecVelocityZ(self._op)
-         self.outputs = _OutputSpecVelocityZ(self._op)
+        """Specific operator class."""
+        super().__init__("VZ")
+        self._name = "VZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecVelocityZ(self._op)
+        self.outputs = _OutputSpecVelocityZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def velocity_Z():
     """Operator's description:
-Internal name is "VZ"
-Scripting name is "velocity_Z"
+    Internal name is "VZ"
+    Scripting name is "velocity_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("VZ")
-- using dpf.operators.result.velocity_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VZ")
+    >>> op_way2 = core.operators.result.velocity_Z()
+    """
     return _VelocityZ()
 
 #internal name: U
@@ -3549,35 +5634,77 @@ class _OutputSpecDisplacement(_Outputs):
         self.fields_container = _Output(_get_output_spec_displacement(0), 0, op) 
 
 class _Displacement(_Operator):
+    """Operator's description:
+    Internal name is "U"
+    Scripting name is "displacement"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("U")
+    >>> op_way2 = core.operators.result.displacement()
+    """
     def __init__(self):
-         super().__init__("U")
-         self._name = "U"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacement(self._op)
-         self.outputs = _OutputSpecDisplacement(self._op)
+        """Specific operator class."""
+        super().__init__("U")
+        self._name = "U"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecDisplacement(self._op)
+        self.outputs = _OutputSpecDisplacement(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def displacement():
     """Operator's description:
-Internal name is "U"
-Scripting name is "displacement"
+    Internal name is "U"
+    Scripting name is "displacement"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("U")
-- using dpf.operators.result.displacement()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("U")
+    >>> op_way2 = core.operators.result.displacement()
+    """
     return _Displacement()
 
 #internal name: UX
@@ -3629,35 +5756,77 @@ class _OutputSpecDisplacementX(_Outputs):
         self.fields_container = _Output(_get_output_spec_displacement_X(0), 0, op) 
 
 class _DisplacementX(_Operator):
+    """Operator's description:
+    Internal name is "UX"
+    Scripting name is "displacement_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UX")
+    >>> op_way2 = core.operators.result.displacement_X()
+    """
     def __init__(self):
-         super().__init__("UX")
-         self._name = "UX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacementX(self._op)
-         self.outputs = _OutputSpecDisplacementX(self._op)
+        """Specific operator class."""
+        super().__init__("UX")
+        self._name = "UX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecDisplacementX(self._op)
+        self.outputs = _OutputSpecDisplacementX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def displacement_X():
     """Operator's description:
-Internal name is "UX"
-Scripting name is "displacement_X"
+    Internal name is "UX"
+    Scripting name is "displacement_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("UX")
-- using dpf.operators.result.displacement_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UX")
+    >>> op_way2 = core.operators.result.displacement_X()
+    """
     return _DisplacementX()
 
 #internal name: UY
@@ -3709,35 +5878,77 @@ class _OutputSpecDisplacementY(_Outputs):
         self.fields_container = _Output(_get_output_spec_displacement_Y(0), 0, op) 
 
 class _DisplacementY(_Operator):
+    """Operator's description:
+    Internal name is "UY"
+    Scripting name is "displacement_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UY")
+    >>> op_way2 = core.operators.result.displacement_Y()
+    """
     def __init__(self):
-         super().__init__("UY")
-         self._name = "UY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacementY(self._op)
-         self.outputs = _OutputSpecDisplacementY(self._op)
+        """Specific operator class."""
+        super().__init__("UY")
+        self._name = "UY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecDisplacementY(self._op)
+        self.outputs = _OutputSpecDisplacementY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def displacement_Y():
     """Operator's description:
-Internal name is "UY"
-Scripting name is "displacement_Y"
+    Internal name is "UY"
+    Scripting name is "displacement_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("UY")
-- using dpf.operators.result.displacement_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UY")
+    >>> op_way2 = core.operators.result.displacement_Y()
+    """
     return _DisplacementY()
 
 #internal name: UZ
@@ -3789,116 +6000,78 @@ class _OutputSpecDisplacementZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_displacement_Z(0), 0, op) 
 
 class _DisplacementZ(_Operator):
+    """Operator's description:
+    Internal name is "UZ"
+    Scripting name is "displacement_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UZ")
+    >>> op_way2 = core.operators.result.displacement_Z()
+    """
     def __init__(self):
-         super().__init__("UZ")
-         self._name = "UZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecDisplacementZ(self._op)
-         self.outputs = _OutputSpecDisplacementZ(self._op)
+        """Specific operator class."""
+        super().__init__("UZ")
+        self._name = "UZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecDisplacementZ(self._op)
+        self.outputs = _OutputSpecDisplacementZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def displacement_Z():
     """Operator's description:
-Internal name is "UZ"
-Scripting name is "displacement_Z"
+    Internal name is "UZ"
+    Scripting name is "displacement_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("UZ")
-- using dpf.operators.result.displacement_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UZ")
+    >>> op_way2 = core.operators.result.displacement_Z()
+    """
     return _DisplacementZ()
-
-#internal name: TF
-#scripting name: heat_flux
-def _get_input_spec_heat_flux(pin):
-    inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
-    inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
-    inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
-    inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
-    inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
-    inpin5 = _PinSpecification(name = "bool_rotate_to_global", type_names = ["bool"], optional = True, document = """if true the field is roated to global coordinate system (default true)""")
-    inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
-    inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """""")
-    inpin17 = _PinSpecification(name = "domain_id", type_names = ["int32"], optional = True, document = """""")
-    inputs_dict_heat_flux = { 
-        0 : inpin0,
-        1 : inpin1,
-        2 : inpin2,
-        3 : inpin3,
-        4 : inpin4,
-        5 : inpin5,
-        7 : inpin7,
-        9 : inpin9,
-        17 : inpin17
-    }
-    return inputs_dict_heat_flux[pin]
-
-def _get_output_spec_heat_flux(pin):
-    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
-    outputs_dict_heat_flux = { 
-        0 : outpin0
-    }
-    return outputs_dict_heat_flux[pin]
-
-class _InputSpecHeatFlux(_Inputs):
-    def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_heat_flux(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_heat_flux(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_heat_flux(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_heat_flux(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_heat_flux(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_heat_flux(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_heat_flux(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_heat_flux(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_heat_flux(17), 17, op, -1) 
-
-class _OutputSpecHeatFlux(_Outputs):
-    def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_heat_flux(0), 0, op) 
-
-class _HeatFlux(_Operator):
-    def __init__(self):
-         super().__init__("TF")
-         self._name = "TF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFlux(self._op)
-         self.outputs = _OutputSpecHeatFlux(self._op)
-
-def heat_flux():
-    """Operator's description:
-Internal name is "TF"
-Scripting name is "heat_flux"
-
-This operator can be instantiated in both following ways:
-- using dpf.Operator("TF")
-- using dpf.operators.result.heat_flux()
-
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
-    return _HeatFlux()
 
 #internal name: TFX
 #scripting name: heat_flux_X
@@ -3949,35 +6122,77 @@ class _OutputSpecHeatFluxX(_Outputs):
         self.fields_container = _Output(_get_output_spec_heat_flux_X(0), 0, op) 
 
 class _HeatFluxX(_Operator):
+    """Operator's description:
+    Internal name is "TFX"
+    Scripting name is "heat_flux_X"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TFX")
+    >>> op_way2 = core.operators.result.heat_flux_X()
+    """
     def __init__(self):
-         super().__init__("TFX")
-         self._name = "TFX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFluxX(self._op)
-         self.outputs = _OutputSpecHeatFluxX(self._op)
+        """Specific operator class."""
+        super().__init__("TFX")
+        self._name = "TFX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHeatFluxX(self._op)
+        self.outputs = _OutputSpecHeatFluxX(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def heat_flux_X():
     """Operator's description:
-Internal name is "TFX"
-Scripting name is "heat_flux_X"
+    Internal name is "TFX"
+    Scripting name is "heat_flux_X"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("TFX")
-- using dpf.operators.result.heat_flux_X()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TFX")
+    >>> op_way2 = core.operators.result.heat_flux_X()
+    """
     return _HeatFluxX()
 
 #internal name: EF
@@ -4029,35 +6244,77 @@ class _OutputSpecElectricField(_Outputs):
         self.fields_container = _Output(_get_output_spec_electric_field(0), 0, op) 
 
 class _ElectricField(_Operator):
+    """Operator's description:
+    Internal name is "EF"
+    Scripting name is "electric_field"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EF")
+    >>> op_way2 = core.operators.result.electric_field()
+    """
     def __init__(self):
-         super().__init__("EF")
-         self._name = "EF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElectricField(self._op)
-         self.outputs = _OutputSpecElectricField(self._op)
+        """Specific operator class."""
+        super().__init__("EF")
+        self._name = "EF"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElectricField(self._op)
+        self.outputs = _OutputSpecElectricField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def electric_field():
     """Operator's description:
-Internal name is "EF"
-Scripting name is "electric_field"
+    Internal name is "EF"
+    Scripting name is "electric_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("EF")
-- using dpf.operators.result.electric_field()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("EF")
+    >>> op_way2 = core.operators.result.electric_field()
+    """
     return _ElectricField()
 
 #internal name: TFY
@@ -4109,35 +6366,77 @@ class _OutputSpecHeatFluxY(_Outputs):
         self.fields_container = _Output(_get_output_spec_heat_flux_Y(0), 0, op) 
 
 class _HeatFluxY(_Operator):
+    """Operator's description:
+    Internal name is "TFY"
+    Scripting name is "heat_flux_Y"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TFY")
+    >>> op_way2 = core.operators.result.heat_flux_Y()
+    """
     def __init__(self):
-         super().__init__("TFY")
-         self._name = "TFY"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFluxY(self._op)
-         self.outputs = _OutputSpecHeatFluxY(self._op)
+        """Specific operator class."""
+        super().__init__("TFY")
+        self._name = "TFY"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHeatFluxY(self._op)
+        self.outputs = _OutputSpecHeatFluxY(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def heat_flux_Y():
     """Operator's description:
-Internal name is "TFY"
-Scripting name is "heat_flux_Y"
+    Internal name is "TFY"
+    Scripting name is "heat_flux_Y"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("TFY")
-- using dpf.operators.result.heat_flux_Y()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TFY")
+    >>> op_way2 = core.operators.result.heat_flux_Y()
+    """
     return _HeatFluxY()
 
 #internal name: TFZ
@@ -4189,35 +6488,77 @@ class _OutputSpecHeatFluxZ(_Outputs):
         self.fields_container = _Output(_get_output_spec_heat_flux_Z(0), 0, op) 
 
 class _HeatFluxZ(_Operator):
+    """Operator's description:
+    Internal name is "TFZ"
+    Scripting name is "heat_flux_Z"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TFZ")
+    >>> op_way2 = core.operators.result.heat_flux_Z()
+    """
     def __init__(self):
-         super().__init__("TFZ")
-         self._name = "TFZ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecHeatFluxZ(self._op)
-         self.outputs = _OutputSpecHeatFluxZ(self._op)
+        """Specific operator class."""
+        super().__init__("TFZ")
+        self._name = "TFZ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecHeatFluxZ(self._op)
+        self.outputs = _OutputSpecHeatFluxZ(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def heat_flux_Z():
     """Operator's description:
-Internal name is "TFZ"
-Scripting name is "heat_flux_Z"
+    Internal name is "TFZ"
+    Scripting name is "heat_flux_Z"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("TFZ")
-- using dpf.operators.result.heat_flux_Z()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location (requested location, default is Nodal)
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (data sources // if stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location (requested location, default is Nodal)
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TFZ")
+    >>> op_way2 = core.operators.result.heat_flux_Z()
+    """
     return _HeatFluxZ()
 
 #internal name: ENF
@@ -4269,35 +6610,77 @@ class _OutputSpecElementNodalForces(_Outputs):
         self.fields_container = _Output(_get_output_spec_element_nodal_forces(0), 0, op) 
 
 class _ElementNodalForces(_Operator):
+    """Operator's description:
+    Internal name is "ENF"
+    Scripting name is "element_nodal_forces"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENF")
+    >>> op_way2 = core.operators.result.element_nodal_forces()
+    """
     def __init__(self):
-         super().__init__("ENF")
-         self._name = "ENF"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementNodalForces(self._op)
-         self.outputs = _OutputSpecElementNodalForces(self._op)
+        """Specific operator class."""
+        super().__init__("ENF")
+        self._name = "ENF"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementNodalForces(self._op)
+        self.outputs = _OutputSpecElementNodalForces(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def element_nodal_forces():
     """Operator's description:
-Internal name is "ENF"
-Scripting name is "element_nodal_forces"
+    Internal name is "ENF"
+    Scripting name is "element_nodal_forces"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENF")
-- using dpf.operators.result.element_nodal_forces()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENF")
+    >>> op_way2 = core.operators.result.element_nodal_forces()
+    """
     return _ElementNodalForces()
 
 #internal name: BFE
@@ -4349,35 +6732,77 @@ class _OutputSpecStructuralTemperature(_Outputs):
         self.fields_container = _Output(_get_output_spec_structural_temperature(0), 0, op) 
 
 class _StructuralTemperature(_Operator):
+    """Operator's description:
+    Internal name is "BFE"
+    Scripting name is "structural_temperature"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("BFE")
+    >>> op_way2 = core.operators.result.structural_temperature()
+    """
     def __init__(self):
-         super().__init__("BFE")
-         self._name = "BFE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStructuralTemperature(self._op)
-         self.outputs = _OutputSpecStructuralTemperature(self._op)
+        """Specific operator class."""
+        super().__init__("BFE")
+        self._name = "BFE"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStructuralTemperature(self._op)
+        self.outputs = _OutputSpecStructuralTemperature(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def structural_temperature():
     """Operator's description:
-Internal name is "BFE"
-Scripting name is "structural_temperature"
+    Internal name is "BFE"
+    Scripting name is "structural_temperature"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("BFE")
-- using dpf.operators.result.structural_temperature()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("BFE")
+    >>> op_way2 = core.operators.result.structural_temperature()
+    """
     return _StructuralTemperature()
 
 #internal name: ENG_INC
@@ -4429,35 +6854,77 @@ class _OutputSpecIncrementalEnergy(_Outputs):
         self.fields_container = _Output(_get_output_spec_incremental_energy(0), 0, op) 
 
 class _IncrementalEnergy(_Operator):
+    """Operator's description:
+    Internal name is "ENG_INC"
+    Scripting name is "incremental_energy"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_INC")
+    >>> op_way2 = core.operators.result.incremental_energy()
+    """
     def __init__(self):
-         super().__init__("ENG_INC")
-         self._name = "ENG_INC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecIncrementalEnergy(self._op)
-         self.outputs = _OutputSpecIncrementalEnergy(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_INC")
+        self._name = "ENG_INC"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecIncrementalEnergy(self._op)
+        self.outputs = _OutputSpecIncrementalEnergy(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def incremental_energy():
     """Operator's description:
-Internal name is "ENG_INC"
-Scripting name is "incremental_energy"
+    Internal name is "ENG_INC"
+    Scripting name is "incremental_energy"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_INC")
-- using dpf.operators.result.incremental_energy()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_INC")
+    >>> op_way2 = core.operators.result.incremental_energy()
+    """
     return _IncrementalEnergy()
 
 #internal name: ENG_SE
@@ -4509,35 +6976,77 @@ class _OutputSpecStiffnessMatrixEnergy(_Outputs):
         self.fields_container = _Output(_get_output_spec_stiffness_matrix_energy(0), 0, op) 
 
 class _StiffnessMatrixEnergy(_Operator):
+    """Operator's description:
+    Internal name is "ENG_SE"
+    Scripting name is "stiffness_matrix_energy"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_SE")
+    >>> op_way2 = core.operators.result.stiffness_matrix_energy()
+    """
     def __init__(self):
-         super().__init__("ENG_SE")
-         self._name = "ENG_SE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStiffnessMatrixEnergy(self._op)
-         self.outputs = _OutputSpecStiffnessMatrixEnergy(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_SE")
+        self._name = "ENG_SE"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStiffnessMatrixEnergy(self._op)
+        self.outputs = _OutputSpecStiffnessMatrixEnergy(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stiffness_matrix_energy():
     """Operator's description:
-Internal name is "ENG_SE"
-Scripting name is "stiffness_matrix_energy"
+    Internal name is "ENG_SE"
+    Scripting name is "stiffness_matrix_energy"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_SE")
-- using dpf.operators.result.stiffness_matrix_energy()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_SE")
+    >>> op_way2 = core.operators.result.stiffness_matrix_energy()
+    """
     return _StiffnessMatrixEnergy()
 
 #internal name: ETH
@@ -4589,35 +7098,77 @@ class _OutputSpecThermalStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_thermal_strain(0), 0, op) 
 
 class _ThermalStrain(_Operator):
+    """Operator's description:
+    Internal name is "ETH"
+    Scripting name is "thermal_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ETH")
+    >>> op_way2 = core.operators.result.thermal_strain()
+    """
     def __init__(self):
-         super().__init__("ETH")
-         self._name = "ETH"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecThermalStrain(self._op)
-         self.outputs = _OutputSpecThermalStrain(self._op)
+        """Specific operator class."""
+        super().__init__("ETH")
+        self._name = "ETH"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecThermalStrain(self._op)
+        self.outputs = _OutputSpecThermalStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def thermal_strain():
     """Operator's description:
-Internal name is "ETH"
-Scripting name is "thermal_strain"
+    Internal name is "ETH"
+    Scripting name is "thermal_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ETH")
-- using dpf.operators.result.thermal_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ETH")
+    >>> op_way2 = core.operators.result.thermal_strain()
+    """
     return _ThermalStrain()
 
 #internal name: ENL_SEPL
@@ -4669,35 +7220,77 @@ class _OutputSpecEqvStressParameter(_Outputs):
         self.fields_container = _Output(_get_output_spec_eqv_stress_parameter(0), 0, op) 
 
 class _EqvStressParameter(_Operator):
+    """Operator's description:
+    Internal name is "ENL_SEPL"
+    Scripting name is "eqv_stress_parameter"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_SEPL")
+    >>> op_way2 = core.operators.result.eqv_stress_parameter()
+    """
     def __init__(self):
-         super().__init__("ENL_SEPL")
-         self._name = "ENL_SEPL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEqvStressParameter(self._op)
-         self.outputs = _OutputSpecEqvStressParameter(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_SEPL")
+        self._name = "ENL_SEPL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEqvStressParameter(self._op)
+        self.outputs = _OutputSpecEqvStressParameter(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def eqv_stress_parameter():
     """Operator's description:
-Internal name is "ENL_SEPL"
-Scripting name is "eqv_stress_parameter"
+    Internal name is "ENL_SEPL"
+    Scripting name is "eqv_stress_parameter"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_SEPL")
-- using dpf.operators.result.eqv_stress_parameter()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_SEPL")
+    >>> op_way2 = core.operators.result.eqv_stress_parameter()
+    """
     return _EqvStressParameter()
 
 #internal name: ENL_SRAT
@@ -4749,35 +7342,77 @@ class _OutputSpecStressRatio(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_ratio(0), 0, op) 
 
 class _StressRatio(_Operator):
+    """Operator's description:
+    Internal name is "ENL_SRAT"
+    Scripting name is "stress_ratio"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_SRAT")
+    >>> op_way2 = core.operators.result.stress_ratio()
+    """
     def __init__(self):
-         super().__init__("ENL_SRAT")
-         self._name = "ENL_SRAT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressRatio(self._op)
-         self.outputs = _OutputSpecStressRatio(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_SRAT")
+        self._name = "ENL_SRAT"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressRatio(self._op)
+        self.outputs = _OutputSpecStressRatio(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_ratio():
     """Operator's description:
-Internal name is "ENL_SRAT"
-Scripting name is "stress_ratio"
+    Internal name is "ENL_SRAT"
+    Scripting name is "stress_ratio"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_SRAT")
-- using dpf.operators.result.stress_ratio()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_SRAT")
+    >>> op_way2 = core.operators.result.stress_ratio()
+    """
     return _StressRatio()
 
 #internal name: ENL_EPEQ
@@ -4829,35 +7464,77 @@ class _OutputSpecAccuEqvPlasticStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_accu_eqv_plastic_strain(0), 0, op) 
 
 class _AccuEqvPlasticStrain(_Operator):
+    """Operator's description:
+    Internal name is "ENL_EPEQ"
+    Scripting name is "accu_eqv_plastic_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_EPEQ")
+    >>> op_way2 = core.operators.result.accu_eqv_plastic_strain()
+    """
     def __init__(self):
-         super().__init__("ENL_EPEQ")
-         self._name = "ENL_EPEQ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccuEqvPlasticStrain(self._op)
-         self.outputs = _OutputSpecAccuEqvPlasticStrain(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_EPEQ")
+        self._name = "ENL_EPEQ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAccuEqvPlasticStrain(self._op)
+        self.outputs = _OutputSpecAccuEqvPlasticStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def accu_eqv_plastic_strain():
     """Operator's description:
-Internal name is "ENL_EPEQ"
-Scripting name is "accu_eqv_plastic_strain"
+    Internal name is "ENL_EPEQ"
+    Scripting name is "accu_eqv_plastic_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_EPEQ")
-- using dpf.operators.result.accu_eqv_plastic_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_EPEQ")
+    >>> op_way2 = core.operators.result.accu_eqv_plastic_strain()
+    """
     return _AccuEqvPlasticStrain()
 
 #internal name: ENL_PSV
@@ -4909,35 +7586,77 @@ class _OutputSpecPlasticStateVariable(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_state_variable(0), 0, op) 
 
 class _PlasticStateVariable(_Operator):
+    """Operator's description:
+    Internal name is "ENL_PSV"
+    Scripting name is "plastic_state_variable"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_PSV")
+    >>> op_way2 = core.operators.result.plastic_state_variable()
+    """
     def __init__(self):
-         super().__init__("ENL_PSV")
-         self._name = "ENL_PSV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStateVariable(self._op)
-         self.outputs = _OutputSpecPlasticStateVariable(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_PSV")
+        self._name = "ENL_PSV"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStateVariable(self._op)
+        self.outputs = _OutputSpecPlasticStateVariable(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_state_variable():
     """Operator's description:
-Internal name is "ENL_PSV"
-Scripting name is "plastic_state_variable"
+    Internal name is "ENL_PSV"
+    Scripting name is "plastic_state_variable"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_PSV")
-- using dpf.operators.result.plastic_state_variable()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_PSV")
+    >>> op_way2 = core.operators.result.plastic_state_variable()
+    """
     return _PlasticStateVariable()
 
 #internal name: ENL_CREQ
@@ -4989,35 +7708,77 @@ class _OutputSpecAccuEqvCreepStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_accu_eqv_creep_strain(0), 0, op) 
 
 class _AccuEqvCreepStrain(_Operator):
+    """Operator's description:
+    Internal name is "ENL_CREQ"
+    Scripting name is "accu_eqv_creep_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_CREQ")
+    >>> op_way2 = core.operators.result.accu_eqv_creep_strain()
+    """
     def __init__(self):
-         super().__init__("ENL_CREQ")
-         self._name = "ENL_CREQ"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAccuEqvCreepStrain(self._op)
-         self.outputs = _OutputSpecAccuEqvCreepStrain(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_CREQ")
+        self._name = "ENL_CREQ"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAccuEqvCreepStrain(self._op)
+        self.outputs = _OutputSpecAccuEqvCreepStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def accu_eqv_creep_strain():
     """Operator's description:
-Internal name is "ENL_CREQ"
-Scripting name is "accu_eqv_creep_strain"
+    Internal name is "ENL_CREQ"
+    Scripting name is "accu_eqv_creep_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_CREQ")
-- using dpf.operators.result.accu_eqv_creep_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_CREQ")
+    >>> op_way2 = core.operators.result.accu_eqv_creep_strain()
+    """
     return _AccuEqvCreepStrain()
 
 #internal name: ENL_PLWK
@@ -5069,35 +7830,77 @@ class _OutputSpecPlasticStrainEnergyDensity(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_energy_density(0), 0, op) 
 
 class _PlasticStrainEnergyDensity(_Operator):
+    """Operator's description:
+    Internal name is "ENL_PLWK"
+    Scripting name is "plastic_strain_energy_density"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_PLWK")
+    >>> op_way2 = core.operators.result.plastic_strain_energy_density()
+    """
     def __init__(self):
-         super().__init__("ENL_PLWK")
-         self._name = "ENL_PLWK"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainEnergyDensity(self._op)
-         self.outputs = _OutputSpecPlasticStrainEnergyDensity(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_PLWK")
+        self._name = "ENL_PLWK"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainEnergyDensity(self._op)
+        self.outputs = _OutputSpecPlasticStrainEnergyDensity(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_energy_density():
     """Operator's description:
-Internal name is "ENL_PLWK"
-Scripting name is "plastic_strain_energy_density"
+    Internal name is "ENL_PLWK"
+    Scripting name is "plastic_strain_energy_density"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_PLWK")
-- using dpf.operators.result.plastic_strain_energy_density()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_PLWK")
+    >>> op_way2 = core.operators.result.plastic_strain_energy_density()
+    """
     return _PlasticStrainEnergyDensity()
 
 #internal name: MaterialPropertyOfElement
@@ -5128,28 +7931,63 @@ class _OutputSpecMaterialPropertyOfElement(_Outputs):
         self.material_properties = _Output(_get_output_spec_material_property_of_element(0), 0, op) 
 
 class _MaterialPropertyOfElement(_Operator):
+    """Operator's description:
+    Internal name is "MaterialPropertyOfElement"
+    Scripting name is "material_property_of_element"
+
+    Input list: 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: material_properties (material properties)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MaterialPropertyOfElement")
+    >>> op_way2 = core.operators.result.material_property_of_element()
+    """
     def __init__(self):
-         super().__init__("MaterialPropertyOfElement")
-         self._name = "MaterialPropertyOfElement"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecMaterialPropertyOfElement(self._op)
-         self.outputs = _OutputSpecMaterialPropertyOfElement(self._op)
+        """Specific operator class."""
+        super().__init__("MaterialPropertyOfElement")
+        self._name = "MaterialPropertyOfElement"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecMaterialPropertyOfElement(self._op)
+        self.outputs = _OutputSpecMaterialPropertyOfElement(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def material_property_of_element():
     """Operator's description:
-Internal name is "MaterialPropertyOfElement"
-Scripting name is "material_property_of_element"
+    Internal name is "MaterialPropertyOfElement"
+    Scripting name is "material_property_of_element"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("MaterialPropertyOfElement")
-- using dpf.operators.result.material_property_of_element()
+    Input list: 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: material_properties (material properties)
-"""
+    Output list: 
+       0: material_properties (material properties)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("MaterialPropertyOfElement")
+    >>> op_way2 = core.operators.result.material_property_of_element()
+    """
     return _MaterialPropertyOfElement()
 
 #internal name: ENL_CRWK
@@ -5201,35 +8039,77 @@ class _OutputSpecCreepStrainEnergyDensity(_Outputs):
         self.fields_container = _Output(_get_output_spec_creep_strain_energy_density(0), 0, op) 
 
 class _CreepStrainEnergyDensity(_Operator):
+    """Operator's description:
+    Internal name is "ENL_CRWK"
+    Scripting name is "creep_strain_energy_density"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_CRWK")
+    >>> op_way2 = core.operators.result.creep_strain_energy_density()
+    """
     def __init__(self):
-         super().__init__("ENL_CRWK")
-         self._name = "ENL_CRWK"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCreepStrainEnergyDensity(self._op)
-         self.outputs = _OutputSpecCreepStrainEnergyDensity(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_CRWK")
+        self._name = "ENL_CRWK"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCreepStrainEnergyDensity(self._op)
+        self.outputs = _OutputSpecCreepStrainEnergyDensity(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def creep_strain_energy_density():
     """Operator's description:
-Internal name is "ENL_CRWK"
-Scripting name is "creep_strain_energy_density"
+    Internal name is "ENL_CRWK"
+    Scripting name is "creep_strain_energy_density"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_CRWK")
-- using dpf.operators.result.creep_strain_energy_density()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_CRWK")
+    >>> op_way2 = core.operators.result.creep_strain_energy_density()
+    """
     return _CreepStrainEnergyDensity()
 
 #internal name: ENL_ELENG
@@ -5281,35 +8161,77 @@ class _OutputSpecElasticStrainEnergyDensity(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_energy_density(0), 0, op) 
 
 class _ElasticStrainEnergyDensity(_Operator):
+    """Operator's description:
+    Internal name is "ENL_ELENG"
+    Scripting name is "elastic_strain_energy_density"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_ELENG")
+    >>> op_way2 = core.operators.result.elastic_strain_energy_density()
+    """
     def __init__(self):
-         super().__init__("ENL_ELENG")
-         self._name = "ENL_ELENG"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainEnergyDensity(self._op)
-         self.outputs = _OutputSpecElasticStrainEnergyDensity(self._op)
+        """Specific operator class."""
+        super().__init__("ENL_ELENG")
+        self._name = "ENL_ELENG"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainEnergyDensity(self._op)
+        self.outputs = _OutputSpecElasticStrainEnergyDensity(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_energy_density():
     """Operator's description:
-Internal name is "ENL_ELENG"
-Scripting name is "elastic_strain_energy_density"
+    Internal name is "ENL_ELENG"
+    Scripting name is "elastic_strain_energy_density"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENL_ELENG")
-- using dpf.operators.result.elastic_strain_energy_density()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENL_ELENG")
+    >>> op_way2 = core.operators.result.elastic_strain_energy_density()
+    """
     return _ElasticStrainEnergyDensity()
 
 #internal name: ECT_STAT
@@ -5361,35 +8283,77 @@ class _OutputSpecContactStatus(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_status(0), 0, op) 
 
 class _ContactStatus(_Operator):
+    """Operator's description:
+    Internal name is "ECT_STAT"
+    Scripting name is "contact_status"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_STAT")
+    >>> op_way2 = core.operators.result.contact_status()
+    """
     def __init__(self):
-         super().__init__("ECT_STAT")
-         self._name = "ECT_STAT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactStatus(self._op)
-         self.outputs = _OutputSpecContactStatus(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_STAT")
+        self._name = "ECT_STAT"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactStatus(self._op)
+        self.outputs = _OutputSpecContactStatus(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_status():
     """Operator's description:
-Internal name is "ECT_STAT"
-Scripting name is "contact_status"
+    Internal name is "ECT_STAT"
+    Scripting name is "contact_status"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_STAT")
-- using dpf.operators.result.contact_status()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_STAT")
+    >>> op_way2 = core.operators.result.contact_status()
+    """
     return _ContactStatus()
 
 #internal name: ECT_PENE
@@ -5441,35 +8405,77 @@ class _OutputSpecContactPenetration(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_penetration(0), 0, op) 
 
 class _ContactPenetration(_Operator):
+    """Operator's description:
+    Internal name is "ECT_PENE"
+    Scripting name is "contact_penetration"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_PENE")
+    >>> op_way2 = core.operators.result.contact_penetration()
+    """
     def __init__(self):
-         super().__init__("ECT_PENE")
-         self._name = "ECT_PENE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactPenetration(self._op)
-         self.outputs = _OutputSpecContactPenetration(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_PENE")
+        self._name = "ECT_PENE"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactPenetration(self._op)
+        self.outputs = _OutputSpecContactPenetration(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_penetration():
     """Operator's description:
-Internal name is "ECT_PENE"
-Scripting name is "contact_penetration"
+    Internal name is "ECT_PENE"
+    Scripting name is "contact_penetration"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_PENE")
-- using dpf.operators.result.contact_penetration()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_PENE")
+    >>> op_way2 = core.operators.result.contact_penetration()
+    """
     return _ContactPenetration()
 
 #internal name: ECT_PRES
@@ -5521,35 +8527,77 @@ class _OutputSpecContactPressure(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_pressure(0), 0, op) 
 
 class _ContactPressure(_Operator):
+    """Operator's description:
+    Internal name is "ECT_PRES"
+    Scripting name is "contact_pressure"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_PRES")
+    >>> op_way2 = core.operators.result.contact_pressure()
+    """
     def __init__(self):
-         super().__init__("ECT_PRES")
-         self._name = "ECT_PRES"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactPressure(self._op)
-         self.outputs = _OutputSpecContactPressure(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_PRES")
+        self._name = "ECT_PRES"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactPressure(self._op)
+        self.outputs = _OutputSpecContactPressure(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_pressure():
     """Operator's description:
-Internal name is "ECT_PRES"
-Scripting name is "contact_pressure"
+    Internal name is "ECT_PRES"
+    Scripting name is "contact_pressure"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_PRES")
-- using dpf.operators.result.contact_pressure()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_PRES")
+    >>> op_way2 = core.operators.result.contact_pressure()
+    """
     return _ContactPressure()
 
 #internal name: ECT_SFRIC
@@ -5601,35 +8649,77 @@ class _OutputSpecContactFrictionStress(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_friction_stress(0), 0, op) 
 
 class _ContactFrictionStress(_Operator):
+    """Operator's description:
+    Internal name is "ECT_SFRIC"
+    Scripting name is "contact_friction_stress"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_SFRIC")
+    >>> op_way2 = core.operators.result.contact_friction_stress()
+    """
     def __init__(self):
-         super().__init__("ECT_SFRIC")
-         self._name = "ECT_SFRIC"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactFrictionStress(self._op)
-         self.outputs = _OutputSpecContactFrictionStress(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_SFRIC")
+        self._name = "ECT_SFRIC"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactFrictionStress(self._op)
+        self.outputs = _OutputSpecContactFrictionStress(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_friction_stress():
     """Operator's description:
-Internal name is "ECT_SFRIC"
-Scripting name is "contact_friction_stress"
+    Internal name is "ECT_SFRIC"
+    Scripting name is "contact_friction_stress"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_SFRIC")
-- using dpf.operators.result.contact_friction_stress()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_SFRIC")
+    >>> op_way2 = core.operators.result.contact_friction_stress()
+    """
     return _ContactFrictionStress()
 
 #internal name: ECT_STOT
@@ -5681,35 +8771,77 @@ class _OutputSpecContactTotalStress(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_total_stress(0), 0, op) 
 
 class _ContactTotalStress(_Operator):
+    """Operator's description:
+    Internal name is "ECT_STOT"
+    Scripting name is "contact_total_stress"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_STOT")
+    >>> op_way2 = core.operators.result.contact_total_stress()
+    """
     def __init__(self):
-         super().__init__("ECT_STOT")
-         self._name = "ECT_STOT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactTotalStress(self._op)
-         self.outputs = _OutputSpecContactTotalStress(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_STOT")
+        self._name = "ECT_STOT"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactTotalStress(self._op)
+        self.outputs = _OutputSpecContactTotalStress(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_total_stress():
     """Operator's description:
-Internal name is "ECT_STOT"
-Scripting name is "contact_total_stress"
+    Internal name is "ECT_STOT"
+    Scripting name is "contact_total_stress"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_STOT")
-- using dpf.operators.result.contact_total_stress()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_STOT")
+    >>> op_way2 = core.operators.result.contact_total_stress()
+    """
     return _ContactTotalStress()
 
 #internal name: ECT_SLIDE
@@ -5761,35 +8893,77 @@ class _OutputSpecContactSlidingDistance(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_sliding_distance(0), 0, op) 
 
 class _ContactSlidingDistance(_Operator):
+    """Operator's description:
+    Internal name is "ECT_SLIDE"
+    Scripting name is "contact_sliding_distance"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_SLIDE")
+    >>> op_way2 = core.operators.result.contact_sliding_distance()
+    """
     def __init__(self):
-         super().__init__("ECT_SLIDE")
-         self._name = "ECT_SLIDE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactSlidingDistance(self._op)
-         self.outputs = _OutputSpecContactSlidingDistance(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_SLIDE")
+        self._name = "ECT_SLIDE"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactSlidingDistance(self._op)
+        self.outputs = _OutputSpecContactSlidingDistance(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_sliding_distance():
     """Operator's description:
-Internal name is "ECT_SLIDE"
-Scripting name is "contact_sliding_distance"
+    Internal name is "ECT_SLIDE"
+    Scripting name is "contact_sliding_distance"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_SLIDE")
-- using dpf.operators.result.contact_sliding_distance()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_SLIDE")
+    >>> op_way2 = core.operators.result.contact_sliding_distance()
+    """
     return _ContactSlidingDistance()
 
 #internal name: ECT_GAP
@@ -5841,35 +9015,77 @@ class _OutputSpecContactGapDistance(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_gap_distance(0), 0, op) 
 
 class _ContactGapDistance(_Operator):
+    """Operator's description:
+    Internal name is "ECT_GAP"
+    Scripting name is "contact_gap_distance"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_GAP")
+    >>> op_way2 = core.operators.result.contact_gap_distance()
+    """
     def __init__(self):
-         super().__init__("ECT_GAP")
-         self._name = "ECT_GAP"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactGapDistance(self._op)
-         self.outputs = _OutputSpecContactGapDistance(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_GAP")
+        self._name = "ECT_GAP"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactGapDistance(self._op)
+        self.outputs = _OutputSpecContactGapDistance(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_gap_distance():
     """Operator's description:
-Internal name is "ECT_GAP"
-Scripting name is "contact_gap_distance"
+    Internal name is "ECT_GAP"
+    Scripting name is "contact_gap_distance"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_GAP")
-- using dpf.operators.result.contact_gap_distance()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_GAP")
+    >>> op_way2 = core.operators.result.contact_gap_distance()
+    """
     return _ContactGapDistance()
 
 #internal name: ECT_FLUX
@@ -5921,35 +9137,77 @@ class _OutputSpecContactSurfaceHeatFlux(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_surface_heat_flux(0), 0, op) 
 
 class _ContactSurfaceHeatFlux(_Operator):
+    """Operator's description:
+    Internal name is "ECT_FLUX"
+    Scripting name is "contact_surface_heat_flux"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_FLUX")
+    >>> op_way2 = core.operators.result.contact_surface_heat_flux()
+    """
     def __init__(self):
-         super().__init__("ECT_FLUX")
-         self._name = "ECT_FLUX"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactSurfaceHeatFlux(self._op)
-         self.outputs = _OutputSpecContactSurfaceHeatFlux(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_FLUX")
+        self._name = "ECT_FLUX"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactSurfaceHeatFlux(self._op)
+        self.outputs = _OutputSpecContactSurfaceHeatFlux(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_surface_heat_flux():
     """Operator's description:
-Internal name is "ECT_FLUX"
-Scripting name is "contact_surface_heat_flux"
+    Internal name is "ECT_FLUX"
+    Scripting name is "contact_surface_heat_flux"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_FLUX")
-- using dpf.operators.result.contact_surface_heat_flux()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_FLUX")
+    >>> op_way2 = core.operators.result.contact_surface_heat_flux()
+    """
     return _ContactSurfaceHeatFlux()
 
 #internal name: ECT_CNOS
@@ -6001,35 +9259,77 @@ class _OutputSpecNumSurfaceStatusChanges(_Outputs):
         self.fields_container = _Output(_get_output_spec_num_surface_status_changes(0), 0, op) 
 
 class _NumSurfaceStatusChanges(_Operator):
+    """Operator's description:
+    Internal name is "ECT_CNOS"
+    Scripting name is "num_surface_status_changes"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_CNOS")
+    >>> op_way2 = core.operators.result.num_surface_status_changes()
+    """
     def __init__(self):
-         super().__init__("ECT_CNOS")
-         self._name = "ECT_CNOS"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNumSurfaceStatusChanges(self._op)
-         self.outputs = _OutputSpecNumSurfaceStatusChanges(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_CNOS")
+        self._name = "ECT_CNOS"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNumSurfaceStatusChanges(self._op)
+        self.outputs = _OutputSpecNumSurfaceStatusChanges(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def num_surface_status_changes():
     """Operator's description:
-Internal name is "ECT_CNOS"
-Scripting name is "num_surface_status_changes"
+    Internal name is "ECT_CNOS"
+    Scripting name is "num_surface_status_changes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_CNOS")
-- using dpf.operators.result.num_surface_status_changes()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_CNOS")
+    >>> op_way2 = core.operators.result.num_surface_status_changes()
+    """
     return _NumSurfaceStatusChanges()
 
 #internal name: ECT_FRES
@@ -6081,35 +9381,77 @@ class _OutputSpecContactFluidPenetrationPressure(_Outputs):
         self.fields_container = _Output(_get_output_spec_contact_fluid_penetration_pressure(0), 0, op) 
 
 class _ContactFluidPenetrationPressure(_Operator):
+    """Operator's description:
+    Internal name is "ECT_FRES"
+    Scripting name is "contact_fluid_penetration_pressure"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_FRES")
+    >>> op_way2 = core.operators.result.contact_fluid_penetration_pressure()
+    """
     def __init__(self):
-         super().__init__("ECT_FRES")
-         self._name = "ECT_FRES"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecContactFluidPenetrationPressure(self._op)
-         self.outputs = _OutputSpecContactFluidPenetrationPressure(self._op)
+        """Specific operator class."""
+        super().__init__("ECT_FRES")
+        self._name = "ECT_FRES"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecContactFluidPenetrationPressure(self._op)
+        self.outputs = _OutputSpecContactFluidPenetrationPressure(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def contact_fluid_penetration_pressure():
     """Operator's description:
-Internal name is "ECT_FRES"
-Scripting name is "contact_fluid_penetration_pressure"
+    Internal name is "ECT_FRES"
+    Scripting name is "contact_fluid_penetration_pressure"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ECT_FRES")
-- using dpf.operators.result.contact_fluid_penetration_pressure()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ECT_FRES")
+    >>> op_way2 = core.operators.result.contact_fluid_penetration_pressure()
+    """
     return _ContactFluidPenetrationPressure()
 
 #internal name: ENG_VOL
@@ -6161,35 +9503,77 @@ class _OutputSpecElementalVolume(_Outputs):
         self.fields_container = _Output(_get_output_spec_elemental_volume(0), 0, op) 
 
 class _ElementalVolume(_Operator):
+    """Operator's description:
+    Internal name is "ENG_VOL"
+    Scripting name is "elemental_volume"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_VOL")
+    >>> op_way2 = core.operators.result.elemental_volume()
+    """
     def __init__(self):
-         super().__init__("ENG_VOL")
-         self._name = "ENG_VOL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElementalVolume(self._op)
-         self.outputs = _OutputSpecElementalVolume(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_VOL")
+        self._name = "ENG_VOL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElementalVolume(self._op)
+        self.outputs = _OutputSpecElementalVolume(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elemental_volume():
     """Operator's description:
-Internal name is "ENG_VOL"
-Scripting name is "elemental_volume"
+    Internal name is "ENG_VOL"
+    Scripting name is "elemental_volume"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_VOL")
-- using dpf.operators.result.elemental_volume()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_VOL")
+    >>> op_way2 = core.operators.result.elemental_volume()
+    """
     return _ElementalVolume()
 
 #internal name: ENG_AHO
@@ -6241,35 +9625,77 @@ class _OutputSpecArtificialHourglassEnergy(_Outputs):
         self.fields_container = _Output(_get_output_spec_artificial_hourglass_energy(0), 0, op) 
 
 class _ArtificialHourglassEnergy(_Operator):
+    """Operator's description:
+    Internal name is "ENG_AHO"
+    Scripting name is "artificial_hourglass_energy"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_AHO")
+    >>> op_way2 = core.operators.result.artificial_hourglass_energy()
+    """
     def __init__(self):
-         super().__init__("ENG_AHO")
-         self._name = "ENG_AHO"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecArtificialHourglassEnergy(self._op)
-         self.outputs = _OutputSpecArtificialHourglassEnergy(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_AHO")
+        self._name = "ENG_AHO"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecArtificialHourglassEnergy(self._op)
+        self.outputs = _OutputSpecArtificialHourglassEnergy(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def artificial_hourglass_energy():
     """Operator's description:
-Internal name is "ENG_AHO"
-Scripting name is "artificial_hourglass_energy"
+    Internal name is "ENG_AHO"
+    Scripting name is "artificial_hourglass_energy"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_AHO")
-- using dpf.operators.result.artificial_hourglass_energy()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_AHO")
+    >>> op_way2 = core.operators.result.artificial_hourglass_energy()
+    """
     return _ArtificialHourglassEnergy()
 
 #internal name: ENG_KE
@@ -6321,35 +9747,77 @@ class _OutputSpecKineticEnergy(_Outputs):
         self.fields_container = _Output(_get_output_spec_kinetic_energy(0), 0, op) 
 
 class _KineticEnergy(_Operator):
+    """Operator's description:
+    Internal name is "ENG_KE"
+    Scripting name is "kinetic_energy"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_KE")
+    >>> op_way2 = core.operators.result.kinetic_energy()
+    """
     def __init__(self):
-         super().__init__("ENG_KE")
-         self._name = "ENG_KE"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecKineticEnergy(self._op)
-         self.outputs = _OutputSpecKineticEnergy(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_KE")
+        self._name = "ENG_KE"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecKineticEnergy(self._op)
+        self.outputs = _OutputSpecKineticEnergy(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def kinetic_energy():
     """Operator's description:
-Internal name is "ENG_KE"
-Scripting name is "kinetic_energy"
+    Internal name is "ENG_KE"
+    Scripting name is "kinetic_energy"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_KE")
-- using dpf.operators.result.kinetic_energy()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_KE")
+    >>> op_way2 = core.operators.result.kinetic_energy()
+    """
     return _KineticEnergy()
 
 #internal name: ENG_TH
@@ -6401,35 +9869,77 @@ class _OutputSpecThermalDissipationEnergy(_Outputs):
         self.fields_container = _Output(_get_output_spec_thermal_dissipation_energy(0), 0, op) 
 
 class _ThermalDissipationEnergy(_Operator):
+    """Operator's description:
+    Internal name is "ENG_TH"
+    Scripting name is "thermal_dissipation_energy"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_TH")
+    >>> op_way2 = core.operators.result.thermal_dissipation_energy()
+    """
     def __init__(self):
-         super().__init__("ENG_TH")
-         self._name = "ENG_TH"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecThermalDissipationEnergy(self._op)
-         self.outputs = _OutputSpecThermalDissipationEnergy(self._op)
+        """Specific operator class."""
+        super().__init__("ENG_TH")
+        self._name = "ENG_TH"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecThermalDissipationEnergy(self._op)
+        self.outputs = _OutputSpecThermalDissipationEnergy(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def thermal_dissipation_energy():
     """Operator's description:
-Internal name is "ENG_TH"
-Scripting name is "thermal_dissipation_energy"
+    Internal name is "ENG_TH"
+    Scripting name is "thermal_dissipation_energy"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENG_TH")
-- using dpf.operators.result.thermal_dissipation_energy()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENG_TH")
+    >>> op_way2 = core.operators.result.thermal_dissipation_energy()
+    """
     return _ThermalDissipationEnergy()
 
 #internal name: F
@@ -6481,35 +9991,77 @@ class _OutputSpecNodalForce(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_force(0), 0, op) 
 
 class _NodalForce(_Operator):
+    """Operator's description:
+    Internal name is "F"
+    Scripting name is "nodal_force"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("F")
+    >>> op_way2 = core.operators.result.nodal_force()
+    """
     def __init__(self):
-         super().__init__("F")
-         self._name = "F"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalForce(self._op)
-         self.outputs = _OutputSpecNodalForce(self._op)
+        """Specific operator class."""
+        super().__init__("F")
+        self._name = "F"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalForce(self._op)
+        self.outputs = _OutputSpecNodalForce(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_force():
     """Operator's description:
-Internal name is "F"
-Scripting name is "nodal_force"
+    Internal name is "F"
+    Scripting name is "nodal_force"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("F")
-- using dpf.operators.result.nodal_force()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("F")
+    >>> op_way2 = core.operators.result.nodal_force()
+    """
     return _NodalForce()
 
 #internal name: M
@@ -6561,35 +10113,77 @@ class _OutputSpecNodalMoment(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_moment(0), 0, op) 
 
 class _NodalMoment(_Operator):
+    """Operator's description:
+    Internal name is "M"
+    Scripting name is "nodal_moment"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("M")
+    >>> op_way2 = core.operators.result.nodal_moment()
+    """
     def __init__(self):
-         super().__init__("M")
-         self._name = "M"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalMoment(self._op)
-         self.outputs = _OutputSpecNodalMoment(self._op)
+        """Specific operator class."""
+        super().__init__("M")
+        self._name = "M"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalMoment(self._op)
+        self.outputs = _OutputSpecNodalMoment(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_moment():
     """Operator's description:
-Internal name is "M"
-Scripting name is "nodal_moment"
+    Internal name is "M"
+    Scripting name is "nodal_moment"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("M")
-- using dpf.operators.result.nodal_moment()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("M")
+    >>> op_way2 = core.operators.result.nodal_moment()
+    """
     return _NodalMoment()
 
 #internal name: TEMP
@@ -6641,35 +10235,77 @@ class _OutputSpecTemperature(_Outputs):
         self.fields_container = _Output(_get_output_spec_temperature(0), 0, op) 
 
 class _Temperature(_Operator):
+    """Operator's description:
+    Internal name is "TEMP"
+    Scripting name is "temperature"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TEMP")
+    >>> op_way2 = core.operators.result.temperature()
+    """
     def __init__(self):
-         super().__init__("TEMP")
-         self._name = "TEMP"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTemperature(self._op)
-         self.outputs = _OutputSpecTemperature(self._op)
+        """Specific operator class."""
+        super().__init__("TEMP")
+        self._name = "TEMP"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecTemperature(self._op)
+        self.outputs = _OutputSpecTemperature(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def temperature():
     """Operator's description:
-Internal name is "TEMP"
-Scripting name is "temperature"
+    Internal name is "TEMP"
+    Scripting name is "temperature"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("TEMP")
-- using dpf.operators.result.temperature()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("TEMP")
+    >>> op_way2 = core.operators.result.temperature()
+    """
     return _Temperature()
 
 #internal name: UTOT
@@ -6721,35 +10357,77 @@ class _OutputSpecRawDisplacement(_Outputs):
         self.fields_container = _Output(_get_output_spec_raw_displacement(0), 0, op) 
 
 class _RawDisplacement(_Operator):
+    """Operator's description:
+    Internal name is "UTOT"
+    Scripting name is "raw_displacement"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UTOT")
+    >>> op_way2 = core.operators.result.raw_displacement()
+    """
     def __init__(self):
-         super().__init__("UTOT")
-         self._name = "UTOT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRawDisplacement(self._op)
-         self.outputs = _OutputSpecRawDisplacement(self._op)
+        """Specific operator class."""
+        super().__init__("UTOT")
+        self._name = "UTOT"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRawDisplacement(self._op)
+        self.outputs = _OutputSpecRawDisplacement(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def raw_displacement():
     """Operator's description:
-Internal name is "UTOT"
-Scripting name is "raw_displacement"
+    Internal name is "UTOT"
+    Scripting name is "raw_displacement"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("UTOT")
-- using dpf.operators.result.raw_displacement()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("UTOT")
+    >>> op_way2 = core.operators.result.raw_displacement()
+    """
     return _RawDisplacement()
 
 #internal name: RFTOT
@@ -6801,35 +10479,77 @@ class _OutputSpecRawReactionForce(_Outputs):
         self.fields_container = _Output(_get_output_spec_raw_reaction_force(0), 0, op) 
 
 class _RawReactionForce(_Operator):
+    """Operator's description:
+    Internal name is "RFTOT"
+    Scripting name is "raw_reaction_force"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RFTOT")
+    >>> op_way2 = core.operators.result.raw_reaction_force()
+    """
     def __init__(self):
-         super().__init__("RFTOT")
-         self._name = "RFTOT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRawReactionForce(self._op)
-         self.outputs = _OutputSpecRawReactionForce(self._op)
+        """Specific operator class."""
+        super().__init__("RFTOT")
+        self._name = "RFTOT"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRawReactionForce(self._op)
+        self.outputs = _OutputSpecRawReactionForce(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def raw_reaction_force():
     """Operator's description:
-Internal name is "RFTOT"
-Scripting name is "raw_reaction_force"
+    Internal name is "RFTOT"
+    Scripting name is "raw_reaction_force"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("RFTOT")
-- using dpf.operators.result.raw_reaction_force()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RFTOT")
+    >>> op_way2 = core.operators.result.raw_reaction_force()
+    """
     return _RawReactionForce()
 
 #internal name: VOLT
@@ -6881,36 +10601,200 @@ class _OutputSpecElectricPotential(_Outputs):
         self.fields_container = _Output(_get_output_spec_electric_potential(0), 0, op) 
 
 class _ElectricPotential(_Operator):
+    """Operator's description:
+    Internal name is "VOLT"
+    Scripting name is "electric_potential"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VOLT")
+    >>> op_way2 = core.operators.result.electric_potential()
+    """
     def __init__(self):
-         super().__init__("VOLT")
-         self._name = "VOLT"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElectricPotential(self._op)
-         self.outputs = _OutputSpecElectricPotential(self._op)
+        """Specific operator class."""
+        super().__init__("VOLT")
+        self._name = "VOLT"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElectricPotential(self._op)
+        self.outputs = _OutputSpecElectricPotential(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def electric_potential():
     """Operator's description:
-Internal name is "VOLT"
-Scripting name is "electric_potential"
+    Internal name is "VOLT"
+    Scripting name is "electric_potential"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("VOLT")
-- using dpf.operators.result.electric_potential()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (Fields container already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("VOLT")
+    >>> op_way2 = core.operators.result.electric_potential()
+    """
     return _ElectricPotential()
+
+#internal name: thickness
+#scripting name: thickness
+def _get_input_spec_thickness(pin):
+    inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
+    inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
+    inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
+    inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
+    inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
+    inpin5 = _PinSpecification(name = "bool_rotate_to_global", type_names = ["bool"], optional = True, document = """if true the field is roated to global coordinate system (default true)""")
+    inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
+    inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """""")
+    inpin17 = _PinSpecification(name = "domain_id", type_names = ["int32"], optional = True, document = """""")
+    inputs_dict_thickness = { 
+        0 : inpin0,
+        1 : inpin1,
+        2 : inpin2,
+        3 : inpin3,
+        4 : inpin4,
+        5 : inpin5,
+        7 : inpin7,
+        9 : inpin9,
+        17 : inpin17
+    }
+    return inputs_dict_thickness[pin]
+
+def _get_output_spec_thickness(pin):
+    outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
+    outputs_dict_thickness = { 
+        0 : outpin0
+    }
+    return outputs_dict_thickness[pin]
+
+class _InputSpecThickness(_Inputs):
+    def __init__(self, op: _Operator):
+        self.time_scoping = _Input(_get_input_spec_thickness(0), 0, op, -1) 
+        self.mesh_scoping = _Input(_get_input_spec_thickness(1), 1, op, -1) 
+        self.fields_container = _Input(_get_input_spec_thickness(2), 2, op, -1) 
+        self.streams_container = _Input(_get_input_spec_thickness(3), 3, op, -1) 
+        self.data_sources = _Input(_get_input_spec_thickness(4), 4, op, -1) 
+        self.bool_rotate_to_global = _Input(_get_input_spec_thickness(5), 5, op, -1) 
+        self.mesh = _Input(_get_input_spec_thickness(7), 7, op, -1) 
+        self.requested_location = _Input(_get_input_spec_thickness(9), 9, op, -1) 
+        self.domain_id = _Input(_get_input_spec_thickness(17), 17, op, -1) 
+
+class _OutputSpecThickness(_Outputs):
+    def __init__(self, op: _Operator):
+        self.fields_container = _Output(_get_output_spec_thickness(0), 0, op) 
+
+class _Thickness(_Operator):
+    """Operator's description:
+    Internal name is "thickness"
+    Scripting name is "thickness"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("thickness")
+    >>> op_way2 = core.operators.result.thickness()
+    """
+    def __init__(self):
+        """Specific operator class."""
+        super().__init__("thickness")
+        self._name = "thickness"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecThickness(self._op)
+        self.outputs = _OutputSpecThickness(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
+
+def thickness():
+    """Operator's description:
+    Internal name is "thickness"
+    Scripting name is "thickness"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (Fields container already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("thickness")
+    >>> op_way2 = core.operators.result.thickness()
+    """
+    return _Thickness()
 
 #internal name: S_eqv
 #scripting name: stress_von_mises
@@ -6961,35 +10845,77 @@ class _OutputSpecStressVonMises(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_von_mises(0), 0, op) 
 
 class _StressVonMises(_Operator):
+    """Operator's description:
+    Internal name is "S_eqv"
+    Scripting name is "stress_von_mises"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S_eqv")
+    >>> op_way2 = core.operators.result.stress_von_mises()
+    """
     def __init__(self):
-         super().__init__("S_eqv")
-         self._name = "S_eqv"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressVonMises(self._op)
-         self.outputs = _OutputSpecStressVonMises(self._op)
+        """Specific operator class."""
+        super().__init__("S_eqv")
+        self._name = "S_eqv"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressVonMises(self._op)
+        self.outputs = _OutputSpecStressVonMises(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_von_mises():
     """Operator's description:
-Internal name is "S_eqv"
-Scripting name is "stress_von_mises"
+    Internal name is "S_eqv"
+    Scripting name is "stress_von_mises"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("S_eqv")
-- using dpf.operators.result.stress_von_mises()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (streams (result file container) (optional))
+       4: data_sources (if the stream is null then we need to get the file path from the data sources)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: mesh 
+       9: requested_location 
+       17: domain_id 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (streams (result file container) (optional))
-   4: data_sources (if the stream is null then we need to get the file path from the data sources)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: mesh 
-   9: requested_location 
-   17: domain_id 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("S_eqv")
+    >>> op_way2 = core.operators.result.stress_von_mises()
+    """
     return _StressVonMises()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -7036,30 +10962,67 @@ class _OutputSpecCyclicExpansion(_Outputs):
         self.fields_container = _Output(_get_output_spec_cyclic_expansion(0), 0, op) 
 
 class _CyclicExpansion(_Operator):
+    """Operator's description:
+    Internal name is "cyclic_expansion"
+    Scripting name is "cyclic_expansion"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (field container with the base and duplicate sectors)
+       16: cyclic_support 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_expansion")
+    >>> op_way2 = core.operators.result.cyclic_expansion()
+    """
     def __init__(self):
-         super().__init__("cyclic_expansion")
-         self._name = "cyclic_expansion"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpansion(self._op)
-         self.outputs = _OutputSpecCyclicExpansion(self._op)
+        """Specific operator class."""
+        super().__init__("cyclic_expansion")
+        self._name = "cyclic_expansion"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicExpansion(self._op)
+        self.outputs = _OutputSpecCyclicExpansion(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_expansion():
     """Operator's description:
-Internal name is "cyclic_expansion"
-Scripting name is "cyclic_expansion"
+    Internal name is "cyclic_expansion"
+    Scripting name is "cyclic_expansion"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("cyclic_expansion")
-- using dpf.operators.result.cyclic_expansion()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (field container with the base and duplicate sectors)
+       16: cyclic_support 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (field container with the base and duplicate sectors)
-   16: cyclic_support 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_expansion")
+    >>> op_way2 = core.operators.result.cyclic_expansion()
+    """
     return _CyclicExpansion()
 
 #internal name: ERP
@@ -7093,29 +11056,65 @@ class _OutputSpecEquivalentRadiatedPower(_Outputs):
         self.field = _Output(_get_output_spec_equivalent_radiated_power(0), 0, op) 
 
 class _EquivalentRadiatedPower(_Operator):
+    """Operator's description:
+    Internal name is "ERP"
+    Scripting name is "equivalent_radiated_power"
+
+    Input list: 
+       0: fields_container 
+       1: meshed_region (the mesh region in this pin have to be boundary or skin mesh)
+       2: int32 (load step number, if it's specified, the ERP is computed only on the substeps of this step)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ERP")
+    >>> op_way2 = core.operators.result.equivalent_radiated_power()
+    """
     def __init__(self):
-         super().__init__("ERP")
-         self._name = "ERP"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEquivalentRadiatedPower(self._op)
-         self.outputs = _OutputSpecEquivalentRadiatedPower(self._op)
+        """Specific operator class."""
+        super().__init__("ERP")
+        self._name = "ERP"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEquivalentRadiatedPower(self._op)
+        self.outputs = _OutputSpecEquivalentRadiatedPower(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def equivalent_radiated_power():
     """Operator's description:
-Internal name is "ERP"
-Scripting name is "equivalent_radiated_power"
+    Internal name is "ERP"
+    Scripting name is "equivalent_radiated_power"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ERP")
-- using dpf.operators.result.equivalent_radiated_power()
+    Input list: 
+       0: fields_container 
+       1: meshed_region (the mesh region in this pin have to be boundary or skin mesh)
+       2: int32 (load step number, if it's specified, the ERP is computed only on the substeps of this step)
 
-Input list: 
-   0: fields_container 
-   1: meshed_region (the mesh region in this pin have to be boundary or skin mesh)
-   2: int32 (load step number, if it's specified, the ERP is computed only on the substeps of this step)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ERP")
+    >>> op_way2 = core.operators.result.equivalent_radiated_power()
+    """
     return _EquivalentRadiatedPower()
 
 #internal name: torque
@@ -7143,27 +11142,61 @@ class _OutputSpecTorque(_Outputs):
         self.fields_container = _Output(_get_output_spec_torque(0), 0, op) 
 
 class _Torque(_Operator):
+    """Operator's description:
+    Internal name is "torque"
+    Scripting name is "torque"
+
+    Input list: 
+       0: fields_container (fields_container)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("torque")
+    >>> op_way2 = core.operators.result.torque()
+    """
     def __init__(self):
-         super().__init__("torque")
-         self._name = "torque"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecTorque(self._op)
-         self.outputs = _OutputSpecTorque(self._op)
+        """Specific operator class."""
+        super().__init__("torque")
+        self._name = "torque"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecTorque(self._op)
+        self.outputs = _OutputSpecTorque(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def torque():
     """Operator's description:
-Internal name is "torque"
-Scripting name is "torque"
+    Internal name is "torque"
+    Scripting name is "torque"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("torque")
-- using dpf.operators.result.torque()
+    Input list: 
+       0: fields_container (fields_container)
 
-Input list: 
-   0: fields_container (fields_container)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("torque")
+    >>> op_way2 = core.operators.result.torque()
+    """
     return _Torque()
 
 #internal name: cyclic_expansion_mesh
@@ -7197,29 +11230,65 @@ class _OutputSpecCyclicMeshExpansion(_Outputs):
         self.cyclic_support = _Output(_get_output_spec_cyclic_mesh_expansion(1), 1, op) 
 
 class _CyclicMeshExpansion(_Operator):
+    """Operator's description:
+    Internal name is "cyclic_expansion_mesh"
+    Scripting name is "cyclic_mesh_expansion"
+
+    Input list: 
+       7: sector_meshed_region 
+       16: cyclic_support 
+
+    Output list: 
+       0: meshed_region (expanded meshed region.)
+       1: cyclic_support (input cyclic support modified in place containing the new expanded meshed region.)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_expansion_mesh")
+    >>> op_way2 = core.operators.result.cyclic_mesh_expansion()
+    """
     def __init__(self):
-         super().__init__("cyclic_expansion_mesh")
-         self._name = "cyclic_expansion_mesh"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicMeshExpansion(self._op)
-         self.outputs = _OutputSpecCyclicMeshExpansion(self._op)
+        """Specific operator class."""
+        super().__init__("cyclic_expansion_mesh")
+        self._name = "cyclic_expansion_mesh"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicMeshExpansion(self._op)
+        self.outputs = _OutputSpecCyclicMeshExpansion(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_mesh_expansion():
     """Operator's description:
-Internal name is "cyclic_expansion_mesh"
-Scripting name is "cyclic_mesh_expansion"
+    Internal name is "cyclic_expansion_mesh"
+    Scripting name is "cyclic_mesh_expansion"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("cyclic_expansion_mesh")
-- using dpf.operators.result.cyclic_mesh_expansion()
+    Input list: 
+       7: sector_meshed_region 
+       16: cyclic_support 
 
-Input list: 
-   7: sector_meshed_region 
-   16: cyclic_support 
-Output list: 
-   0: meshed_region (expanded meshed region.)
-   1: cyclic_support (input cyclic support modified in place containing the new expanded meshed region.)
-"""
+    Output list: 
+       0: meshed_region (expanded meshed region.)
+       1: cyclic_support (input cyclic support modified in place containing the new expanded meshed region.)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_expansion_mesh")
+    >>> op_way2 = core.operators.result.cyclic_mesh_expansion()
+    """
     return _CyclicMeshExpansion()
 
 #internal name: cyclic_analytic_usum_max
@@ -7256,30 +11325,67 @@ class _OutputSpecCyclicAnalyticUsumMax(_Outputs):
         self.fields_container = _Output(_get_output_spec_cyclic_analytic_usum_max(0), 0, op) 
 
 class _CyclicAnalyticUsumMax(_Operator):
+    """Operator's description:
+    Internal name is "cyclic_analytic_usum_max"
+    Scripting name is "cyclic_analytic_usum_max"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (field container with the base and duplicate sectors)
+       16: cyclic_support 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_analytic_usum_max")
+    >>> op_way2 = core.operators.result.cyclic_analytic_usum_max()
+    """
     def __init__(self):
-         super().__init__("cyclic_analytic_usum_max")
-         self._name = "cyclic_analytic_usum_max"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicAnalyticUsumMax(self._op)
-         self.outputs = _OutputSpecCyclicAnalyticUsumMax(self._op)
+        """Specific operator class."""
+        super().__init__("cyclic_analytic_usum_max")
+        self._name = "cyclic_analytic_usum_max"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicAnalyticUsumMax(self._op)
+        self.outputs = _OutputSpecCyclicAnalyticUsumMax(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_analytic_usum_max():
     """Operator's description:
-Internal name is "cyclic_analytic_usum_max"
-Scripting name is "cyclic_analytic_usum_max"
+    Internal name is "cyclic_analytic_usum_max"
+    Scripting name is "cyclic_analytic_usum_max"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("cyclic_analytic_usum_max")
-- using dpf.operators.result.cyclic_analytic_usum_max()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (field container with the base and duplicate sectors)
+       16: cyclic_support 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (field container with the base and duplicate sectors)
-   16: cyclic_support 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_analytic_usum_max")
+    >>> op_way2 = core.operators.result.cyclic_analytic_usum_max()
+    """
     return _CyclicAnalyticUsumMax()
 
 #internal name: cyclic_analytic_stress_eqv_max
@@ -7316,30 +11422,67 @@ class _OutputSpecCyclicAnalyticSeqvMax(_Outputs):
         self.fields_container = _Output(_get_output_spec_cyclic_analytic_seqv_max(0), 0, op) 
 
 class _CyclicAnalyticSeqvMax(_Operator):
+    """Operator's description:
+    Internal name is "cyclic_analytic_stress_eqv_max"
+    Scripting name is "cyclic_analytic_seqv_max"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (field container with the base and duplicate sectors)
+       16: cyclic_support 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_analytic_stress_eqv_max")
+    >>> op_way2 = core.operators.result.cyclic_analytic_seqv_max()
+    """
     def __init__(self):
-         super().__init__("cyclic_analytic_stress_eqv_max")
-         self._name = "cyclic_analytic_stress_eqv_max"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicAnalyticSeqvMax(self._op)
-         self.outputs = _OutputSpecCyclicAnalyticSeqvMax(self._op)
+        """Specific operator class."""
+        super().__init__("cyclic_analytic_stress_eqv_max")
+        self._name = "cyclic_analytic_stress_eqv_max"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicAnalyticSeqvMax(self._op)
+        self.outputs = _OutputSpecCyclicAnalyticSeqvMax(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_analytic_seqv_max():
     """Operator's description:
-Internal name is "cyclic_analytic_stress_eqv_max"
-Scripting name is "cyclic_analytic_seqv_max"
+    Internal name is "cyclic_analytic_stress_eqv_max"
+    Scripting name is "cyclic_analytic_seqv_max"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("cyclic_analytic_stress_eqv_max")
-- using dpf.operators.result.cyclic_analytic_seqv_max()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (field container with the base and duplicate sectors)
+       16: cyclic_support 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (field container with the base and duplicate sectors)
-   16: cyclic_support 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cyclic_analytic_stress_eqv_max")
+    >>> op_way2 = core.operators.result.cyclic_analytic_seqv_max()
+    """
     return _CyclicAnalyticSeqvMax()
 
 #internal name: recombine_harmonic_indeces_cyclic
@@ -7367,27 +11510,61 @@ class _OutputSpecRecombineHarmonicIndecesCyclic(_Outputs):
         self.fields_container = _Output(_get_output_spec_recombine_harmonic_indeces_cyclic(0), 0, op) 
 
 class _RecombineHarmonicIndecesCyclic(_Operator):
+    """Operator's description:
+    Internal name is "recombine_harmonic_indeces_cyclic"
+    Scripting name is "recombine_harmonic_indeces_cyclic"
+
+    Input list: 
+       0: fields_container 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("recombine_harmonic_indeces_cyclic")
+    >>> op_way2 = core.operators.result.recombine_harmonic_indeces_cyclic()
+    """
     def __init__(self):
-         super().__init__("recombine_harmonic_indeces_cyclic")
-         self._name = "recombine_harmonic_indeces_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRecombineHarmonicIndecesCyclic(self._op)
-         self.outputs = _OutputSpecRecombineHarmonicIndecesCyclic(self._op)
+        """Specific operator class."""
+        super().__init__("recombine_harmonic_indeces_cyclic")
+        self._name = "recombine_harmonic_indeces_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRecombineHarmonicIndecesCyclic(self._op)
+        self.outputs = _OutputSpecRecombineHarmonicIndecesCyclic(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def recombine_harmonic_indeces_cyclic():
     """Operator's description:
-Internal name is "recombine_harmonic_indeces_cyclic"
-Scripting name is "recombine_harmonic_indeces_cyclic"
+    Internal name is "recombine_harmonic_indeces_cyclic"
+    Scripting name is "recombine_harmonic_indeces_cyclic"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("recombine_harmonic_indeces_cyclic")
-- using dpf.operators.result.recombine_harmonic_indeces_cyclic()
+    Input list: 
+       0: fields_container 
 
-Input list: 
-   0: fields_container 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("recombine_harmonic_indeces_cyclic")
+    >>> op_way2 = core.operators.result.recombine_harmonic_indeces_cyclic()
+    """
     return _RecombineHarmonicIndecesCyclic()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -7440,32 +11617,71 @@ class _OutputSpecNodalAveragedElasticStrains(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_elastic_strains(0), 0, op) 
 
 class _NodalAveragedElasticStrains(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NPEL"
+    Scripting name is "nodal_averaged_elastic_strains"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPEL")
+    >>> op_way2 = core.operators.result.nodal_averaged_elastic_strains()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NPEL")
-         self._name = "mapdl::rst::NPEL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedElasticStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedElasticStrains(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NPEL")
+        self._name = "mapdl::rst::NPEL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedElasticStrains(self._op)
+        self.outputs = _OutputSpecNodalAveragedElasticStrains(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_elastic_strains():
     """Operator's description:
-Internal name is "mapdl::rst::NPEL"
-Scripting name is "nodal_averaged_elastic_strains"
+    Internal name is "mapdl::rst::NPEL"
+    Scripting name is "nodal_averaged_elastic_strains"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NPEL")
-- using dpf.operators.result.nodal_averaged_elastic_strains()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPEL")
+    >>> op_way2 = core.operators.result.nodal_averaged_elastic_strains()
+    """
     return _NodalAveragedElasticStrains()
 
 #internal name: RigidBodyAddition
@@ -7505,31 +11721,69 @@ class _OutputSpecAddRigidBodyMotion(_Outputs):
         self.field = _Output(_get_output_spec_add_rigid_body_motion(0), 0, op) 
 
 class _AddRigidBodyMotion(_Operator):
+    """Operator's description:
+    Internal name is "RigidBodyAddition"
+    Scripting name is "add_rigid_body_motion"
+
+    Input list: 
+       0: displacement_field 
+       1: translation_field 
+       2: rotation_field 
+       3: center_field 
+       7: mesh (default is the mesh in the support)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RigidBodyAddition")
+    >>> op_way2 = core.operators.result.add_rigid_body_motion()
+    """
     def __init__(self):
-         super().__init__("RigidBodyAddition")
-         self._name = "RigidBodyAddition"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAddRigidBodyMotion(self._op)
-         self.outputs = _OutputSpecAddRigidBodyMotion(self._op)
+        """Specific operator class."""
+        super().__init__("RigidBodyAddition")
+        self._name = "RigidBodyAddition"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAddRigidBodyMotion(self._op)
+        self.outputs = _OutputSpecAddRigidBodyMotion(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def add_rigid_body_motion():
     """Operator's description:
-Internal name is "RigidBodyAddition"
-Scripting name is "add_rigid_body_motion"
+    Internal name is "RigidBodyAddition"
+    Scripting name is "add_rigid_body_motion"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("RigidBodyAddition")
-- using dpf.operators.result.add_rigid_body_motion()
+    Input list: 
+       0: displacement_field 
+       1: translation_field 
+       2: rotation_field 
+       3: center_field 
+       7: mesh (default is the mesh in the support)
 
-Input list: 
-   0: displacement_field 
-   1: translation_field 
-   2: rotation_field 
-   3: center_field 
-   7: mesh (default is the mesh in the support)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RigidBodyAddition")
+    >>> op_way2 = core.operators.result.add_rigid_body_motion()
+    """
     return _AddRigidBodyMotion()
 
 #internal name: mapdl::rst::NPEL_EQV
@@ -7572,32 +11826,71 @@ class _OutputSpecNodalAveragedEquivalentElasticStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_elastic_strain(0), 0, op) 
 
 class _NodalAveragedEquivalentElasticStrain(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NPEL_EQV"
+    Scripting name is "nodal_averaged_equivalent_elastic_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPEL_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_elastic_strain()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NPEL_EQV")
-         self._name = "mapdl::rst::NPEL_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentElasticStrain(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentElasticStrain(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NPEL_EQV")
+        self._name = "mapdl::rst::NPEL_EQV"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedEquivalentElasticStrain(self._op)
+        self.outputs = _OutputSpecNodalAveragedEquivalentElasticStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_equivalent_elastic_strain():
     """Operator's description:
-Internal name is "mapdl::rst::NPEL_EQV"
-Scripting name is "nodal_averaged_equivalent_elastic_strain"
+    Internal name is "mapdl::rst::NPEL_EQV"
+    Scripting name is "nodal_averaged_equivalent_elastic_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NPEL_EQV")
-- using dpf.operators.result.nodal_averaged_equivalent_elastic_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPEL_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_elastic_strain()
+    """
     return _NodalAveragedEquivalentElasticStrain()
 
 from . import mapdl #mapdl.run
@@ -7669,41 +11962,89 @@ class _OutputSpecCyclicExpandedVelocity(_Outputs):
         self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_velocity(1), 1, op) 
 
 class _CyclicExpandedVelocity(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::V_cyclic"
+    Scripting name is "cyclic_expanded_velocity"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (angle phi (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+       1: expanded_meshed_region 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::V_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_velocity()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::V_cyclic")
-         self._name = "mapdl::rst::V_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedVelocity(self._op)
-         self.outputs = _OutputSpecCyclicExpandedVelocity(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::V_cyclic")
+        self._name = "mapdl::rst::V_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicExpandedVelocity(self._op)
+        self.outputs = _OutputSpecCyclicExpandedVelocity(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_expanded_velocity():
     """Operator's description:
-Internal name is "mapdl::rst::V_cyclic"
-Scripting name is "cyclic_expanded_velocity"
+    Internal name is "mapdl::rst::V_cyclic"
+    Scripting name is "cyclic_expanded_velocity"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::V_cyclic")
-- using dpf.operators.result.cyclic_expanded_velocity()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (angle phi (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: sector_mesh (mesh of the base sector (can be a skin).)
-   9: requested_location (location needed in output)
-   14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
-   15: expanded_meshed_region (mesh expanded.)
-   16: cyclic_support 
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-   19: phi (angle phi (default value 0.0))
-   20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-   1: expanded_meshed_region 
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+       1: expanded_meshed_region 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::V_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_velocity()
+    """
     return _CyclicExpandedVelocity()
 
 #internal name: mapdl::rst::EPEL_cyclic
@@ -7773,41 +12114,89 @@ class _OutputSpecCyclicExpandedElStrain(_Outputs):
         self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_el_strain(1), 1, op) 
 
 class _CyclicExpandedElStrain(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::EPEL_cyclic"
+    Scripting name is "cyclic_expanded_el_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (phi angle (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+       1: expanded_meshed_region 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::EPEL_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_el_strain()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::EPEL_cyclic")
-         self._name = "mapdl::rst::EPEL_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedElStrain(self._op)
-         self.outputs = _OutputSpecCyclicExpandedElStrain(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::EPEL_cyclic")
+        self._name = "mapdl::rst::EPEL_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicExpandedElStrain(self._op)
+        self.outputs = _OutputSpecCyclicExpandedElStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_expanded_el_strain():
     """Operator's description:
-Internal name is "mapdl::rst::EPEL_cyclic"
-Scripting name is "cyclic_expanded_el_strain"
+    Internal name is "mapdl::rst::EPEL_cyclic"
+    Scripting name is "cyclic_expanded_el_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::EPEL_cyclic")
-- using dpf.operators.result.cyclic_expanded_el_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (phi angle (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: sector_mesh (mesh of the base sector (can be a skin).)
-   9: requested_location (location needed in output)
-   14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
-   15: expanded_meshed_region (mesh expanded.)
-   16: cyclic_support 
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-   19: phi (phi angle (default value 0.0))
-   20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-   1: expanded_meshed_region 
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+       1: expanded_meshed_region 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::EPEL_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_el_strain()
+    """
     return _CyclicExpandedElStrain()
 
 #internal name: mapdl::rst::NTH_SWL
@@ -7850,32 +12239,71 @@ class _OutputSpecNodalAveragedThermalSwellingStrains(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_thermal_swelling_strains(0), 0, op) 
 
 class _NodalAveragedThermalSwellingStrains(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NTH_SWL"
+    Scripting name is "nodal_averaged_thermal_swelling_strains"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NTH_SWL")
+    >>> op_way2 = core.operators.result.nodal_averaged_thermal_swelling_strains()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NTH_SWL")
-         self._name = "mapdl::rst::NTH_SWL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedThermalSwellingStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedThermalSwellingStrains(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NTH_SWL")
+        self._name = "mapdl::rst::NTH_SWL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedThermalSwellingStrains(self._op)
+        self.outputs = _OutputSpecNodalAveragedThermalSwellingStrains(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_thermal_swelling_strains():
     """Operator's description:
-Internal name is "mapdl::rst::NTH_SWL"
-Scripting name is "nodal_averaged_thermal_swelling_strains"
+    Internal name is "mapdl::rst::NTH_SWL"
+    Scripting name is "nodal_averaged_thermal_swelling_strains"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NTH_SWL")
-- using dpf.operators.result.nodal_averaged_thermal_swelling_strains()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NTH_SWL")
+    >>> op_way2 = core.operators.result.nodal_averaged_thermal_swelling_strains()
+    """
     return _NodalAveragedThermalSwellingStrains()
 
 #internal name: mapdl::rst::NS
@@ -7918,32 +12346,71 @@ class _OutputSpecNodalAveragedStresses(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_stresses(0), 0, op) 
 
 class _NodalAveragedStresses(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NS"
+    Scripting name is "nodal_averaged_stresses"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NS")
+    >>> op_way2 = core.operators.result.nodal_averaged_stresses()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NS")
-         self._name = "mapdl::rst::NS"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedStresses(self._op)
-         self.outputs = _OutputSpecNodalAveragedStresses(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NS")
+        self._name = "mapdl::rst::NS"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedStresses(self._op)
+        self.outputs = _OutputSpecNodalAveragedStresses(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_stresses():
     """Operator's description:
-Internal name is "mapdl::rst::NS"
-Scripting name is "nodal_averaged_stresses"
+    Internal name is "mapdl::rst::NS"
+    Scripting name is "nodal_averaged_stresses"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NS")
-- using dpf.operators.result.nodal_averaged_stresses()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NS")
+    >>> op_way2 = core.operators.result.nodal_averaged_stresses()
+    """
     return _NodalAveragedStresses()
 
 #internal name: mapdl::rst::NTH
@@ -7986,32 +12453,71 @@ class _OutputSpecNodalAveragedThermalStrains(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_thermal_strains(0), 0, op) 
 
 class _NodalAveragedThermalStrains(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NTH"
+    Scripting name is "nodal_averaged_thermal_strains"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NTH")
+    >>> op_way2 = core.operators.result.nodal_averaged_thermal_strains()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NTH")
-         self._name = "mapdl::rst::NTH"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedThermalStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedThermalStrains(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NTH")
+        self._name = "mapdl::rst::NTH"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedThermalStrains(self._op)
+        self.outputs = _OutputSpecNodalAveragedThermalStrains(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_thermal_strains():
     """Operator's description:
-Internal name is "mapdl::rst::NTH"
-Scripting name is "nodal_averaged_thermal_strains"
+    Internal name is "mapdl::rst::NTH"
+    Scripting name is "nodal_averaged_thermal_strains"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NTH")
-- using dpf.operators.result.nodal_averaged_thermal_strains()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NTH")
+    >>> op_way2 = core.operators.result.nodal_averaged_thermal_strains()
+    """
     return _NodalAveragedThermalStrains()
 
 #internal name: mapdl::rst::NPPL
@@ -8054,32 +12560,71 @@ class _OutputSpecNodalAveragedPlasticStrains(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_plastic_strains(0), 0, op) 
 
 class _NodalAveragedPlasticStrains(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NPPL"
+    Scripting name is "nodal_averaged_plastic_strains"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPPL")
+    >>> op_way2 = core.operators.result.nodal_averaged_plastic_strains()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NPPL")
-         self._name = "mapdl::rst::NPPL"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedPlasticStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedPlasticStrains(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NPPL")
+        self._name = "mapdl::rst::NPPL"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedPlasticStrains(self._op)
+        self.outputs = _OutputSpecNodalAveragedPlasticStrains(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_plastic_strains():
     """Operator's description:
-Internal name is "mapdl::rst::NPPL"
-Scripting name is "nodal_averaged_plastic_strains"
+    Internal name is "mapdl::rst::NPPL"
+    Scripting name is "nodal_averaged_plastic_strains"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NPPL")
-- using dpf.operators.result.nodal_averaged_plastic_strains()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPPL")
+    >>> op_way2 = core.operators.result.nodal_averaged_plastic_strains()
+    """
     return _NodalAveragedPlasticStrains()
 
 #internal name: mapdl::rst::NCR
@@ -8122,32 +12667,71 @@ class _OutputSpecNodalAveragedCreepStrains(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_creep_strains(0), 0, op) 
 
 class _NodalAveragedCreepStrains(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NCR"
+    Scripting name is "nodal_averaged_creep_strains"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NCR")
+    >>> op_way2 = core.operators.result.nodal_averaged_creep_strains()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NCR")
-         self._name = "mapdl::rst::NCR"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedCreepStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedCreepStrains(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NCR")
+        self._name = "mapdl::rst::NCR"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedCreepStrains(self._op)
+        self.outputs = _OutputSpecNodalAveragedCreepStrains(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_creep_strains():
     """Operator's description:
-Internal name is "mapdl::rst::NCR"
-Scripting name is "nodal_averaged_creep_strains"
+    Internal name is "mapdl::rst::NCR"
+    Scripting name is "nodal_averaged_creep_strains"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NCR")
-- using dpf.operators.result.nodal_averaged_creep_strains()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NCR")
+    >>> op_way2 = core.operators.result.nodal_averaged_creep_strains()
+    """
     return _NodalAveragedCreepStrains()
 
 #internal name: mapdl::rst::NTH_EQV
@@ -8190,32 +12774,71 @@ class _OutputSpecNodalAveragedEquivalentThermalStrains(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_thermal_strains(0), 0, op) 
 
 class _NodalAveragedEquivalentThermalStrains(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NTH_EQV"
+    Scripting name is "nodal_averaged_equivalent_thermal_strains"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NTH_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_thermal_strains()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NTH_EQV")
-         self._name = "mapdl::rst::NTH_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentThermalStrains(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentThermalStrains(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NTH_EQV")
+        self._name = "mapdl::rst::NTH_EQV"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedEquivalentThermalStrains(self._op)
+        self.outputs = _OutputSpecNodalAveragedEquivalentThermalStrains(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_equivalent_thermal_strains():
     """Operator's description:
-Internal name is "mapdl::rst::NTH_EQV"
-Scripting name is "nodal_averaged_equivalent_thermal_strains"
+    Internal name is "mapdl::rst::NTH_EQV"
+    Scripting name is "nodal_averaged_equivalent_thermal_strains"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NTH_EQV")
-- using dpf.operators.result.nodal_averaged_equivalent_thermal_strains()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NTH_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_thermal_strains()
+    """
     return _NodalAveragedEquivalentThermalStrains()
 
 #internal name: mapdl::rst::NPPL_EQV
@@ -8258,32 +12881,71 @@ class _OutputSpecNodalAveragedEquivalentPlasticStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_plastic_strain(0), 0, op) 
 
 class _NodalAveragedEquivalentPlasticStrain(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NPPL_EQV"
+    Scripting name is "nodal_averaged_equivalent_plastic_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPPL_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_plastic_strain()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NPPL_EQV")
-         self._name = "mapdl::rst::NPPL_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentPlasticStrain(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentPlasticStrain(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NPPL_EQV")
+        self._name = "mapdl::rst::NPPL_EQV"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedEquivalentPlasticStrain(self._op)
+        self.outputs = _OutputSpecNodalAveragedEquivalentPlasticStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_equivalent_plastic_strain():
     """Operator's description:
-Internal name is "mapdl::rst::NPPL_EQV"
-Scripting name is "nodal_averaged_equivalent_plastic_strain"
+    Internal name is "mapdl::rst::NPPL_EQV"
+    Scripting name is "nodal_averaged_equivalent_plastic_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NPPL_EQV")
-- using dpf.operators.result.nodal_averaged_equivalent_plastic_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NPPL_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_plastic_strain()
+    """
     return _NodalAveragedEquivalentPlasticStrain()
 
 #internal name: mapdl::rst::NCR_EQV
@@ -8326,32 +12988,71 @@ class _OutputSpecNodalAveragedEquivalentCreepStrain(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_creep_strain(0), 0, op) 
 
 class _NodalAveragedEquivalentCreepStrain(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::NCR_EQV"
+    Scripting name is "nodal_averaged_equivalent_creep_strain"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
+
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NCR_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_creep_strain()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::NCR_EQV")
-         self._name = "mapdl::rst::NCR_EQV"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalAveragedEquivalentCreepStrain(self._op)
-         self.outputs = _OutputSpecNodalAveragedEquivalentCreepStrain(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::NCR_EQV")
+        self._name = "mapdl::rst::NCR_EQV"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalAveragedEquivalentCreepStrain(self._op)
+        self.outputs = _OutputSpecNodalAveragedEquivalentCreepStrain(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_averaged_equivalent_creep_strain():
     """Operator's description:
-Internal name is "mapdl::rst::NCR_EQV"
-Scripting name is "nodal_averaged_equivalent_creep_strain"
+    Internal name is "mapdl::rst::NCR_EQV"
+    Scripting name is "nodal_averaged_equivalent_creep_strain"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::NCR_EQV")
-- using dpf.operators.result.nodal_averaged_equivalent_creep_strain()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       7: mesh 
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   7: mesh 
-Output list: 
-   0: fields_container (FieldsContainer filled in)
-"""
+    Output list: 
+       0: fields_container (FieldsContainer filled in)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::NCR_EQV")
+    >>> op_way2 = core.operators.result.nodal_averaged_equivalent_creep_strain()
+    """
     return _NodalAveragedEquivalentCreepStrain()
 
 #internal name: mapdl::rst::coords_and_euler_nodes
@@ -8388,30 +13089,67 @@ class _OutputSpecEulerNodes(_Outputs):
         self.fields_container = _Output(_get_output_spec_euler_nodes(0), 0, op) 
 
 class _EulerNodes(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::coords_and_euler_nodes"
+    Scripting name is "euler_nodes"
+
+    Input list: 
+       3: streams_container 
+       4: data_sources 
+       6: coord_and_euler (if true, then the field has ncomp=6 with 3 oords and 3 euler angles, else there is only the euler angles (default is true))
+       7: mesh 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::coords_and_euler_nodes")
+    >>> op_way2 = core.operators.result.euler_nodes()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::coords_and_euler_nodes")
-         self._name = "mapdl::rst::coords_and_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEulerNodes(self._op)
-         self.outputs = _OutputSpecEulerNodes(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::coords_and_euler_nodes")
+        self._name = "mapdl::rst::coords_and_euler_nodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEulerNodes(self._op)
+        self.outputs = _OutputSpecEulerNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def euler_nodes():
     """Operator's description:
-Internal name is "mapdl::rst::coords_and_euler_nodes"
-Scripting name is "euler_nodes"
+    Internal name is "mapdl::rst::coords_and_euler_nodes"
+    Scripting name is "euler_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::coords_and_euler_nodes")
-- using dpf.operators.result.euler_nodes()
+    Input list: 
+       3: streams_container 
+       4: data_sources 
+       6: coord_and_euler (if true, then the field has ncomp=6 with 3 oords and 3 euler angles, else there is only the euler angles (default is true))
+       7: mesh 
 
-Input list: 
-   3: streams_container 
-   4: data_sources 
-   6: coord_and_euler (if true, then the field has ncomp=6 with 3 oords and 3 euler angles, else there is only the euler angles (default is true))
-   7: mesh 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::coords_and_euler_nodes")
+    >>> op_way2 = core.operators.result.euler_nodes()
+    """
     return _EulerNodes()
 
 from . import mapdl #mapdl.nmisc
@@ -8447,29 +13185,65 @@ class _OutputSpecEnfRotationByEulerNodes(_Outputs):
         self.fields_container = _Output(_get_output_spec_enf_rotation_by_euler_nodes(0), 0, op) 
 
 class _EnfRotationByEulerNodes(_Operator):
+    """Operator's description:
+    Internal name is "ENF_rotation_by_euler_nodes"
+    Scripting name is "enf_rotation_by_euler_nodes"
+
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENF_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.enf_rotation_by_euler_nodes()
+    """
     def __init__(self):
-         super().__init__("ENF_rotation_by_euler_nodes")
-         self._name = "ENF_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecEnfRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecEnfRotationByEulerNodes(self._op)
+        """Specific operator class."""
+        super().__init__("ENF_rotation_by_euler_nodes")
+        self._name = "ENF_rotation_by_euler_nodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecEnfRotationByEulerNodes(self._op)
+        self.outputs = _OutputSpecEnfRotationByEulerNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def enf_rotation_by_euler_nodes():
     """Operator's description:
-Internal name is "ENF_rotation_by_euler_nodes"
-Scripting name is "enf_rotation_by_euler_nodes"
+    Internal name is "ENF_rotation_by_euler_nodes"
+    Scripting name is "enf_rotation_by_euler_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ENF_rotation_by_euler_nodes")
-- using dpf.operators.result.enf_rotation_by_euler_nodes()
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   2: fields_container 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ENF_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.enf_rotation_by_euler_nodes()
+    """
     return _EnfRotationByEulerNodes()
 
 #internal name: cms_matrices_provider
@@ -8497,27 +13271,61 @@ class _OutputSpecCmsMatricesProvider(_Outputs):
         self.fields_container = _Output(_get_output_spec_cms_matrices_provider(0), 0, op) 
 
 class _CmsMatricesProvider(_Operator):
+    """Operator's description:
+    Internal name is "cms_matrices_provider"
+    Scripting name is "cms_matrices_provider"
+
+    Input list: 
+       4: data_sources (Data_sources (must contain at list one subfile).)
+
+    Output list: 
+       0: fields_container (Fields container containing in this order : stiffness, damping, mass matrices, and then load vector.)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cms_matrices_provider")
+    >>> op_way2 = core.operators.result.cms_matrices_provider()
+    """
     def __init__(self):
-         super().__init__("cms_matrices_provider")
-         self._name = "cms_matrices_provider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCmsMatricesProvider(self._op)
-         self.outputs = _OutputSpecCmsMatricesProvider(self._op)
+        """Specific operator class."""
+        super().__init__("cms_matrices_provider")
+        self._name = "cms_matrices_provider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCmsMatricesProvider(self._op)
+        self.outputs = _OutputSpecCmsMatricesProvider(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cms_matrices_provider():
     """Operator's description:
-Internal name is "cms_matrices_provider"
-Scripting name is "cms_matrices_provider"
+    Internal name is "cms_matrices_provider"
+    Scripting name is "cms_matrices_provider"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("cms_matrices_provider")
-- using dpf.operators.result.cms_matrices_provider()
+    Input list: 
+       4: data_sources (Data_sources (must contain at list one subfile).)
 
-Input list: 
-   4: data_sources (Data_sources (must contain at list one subfile).)
-Output list: 
-   0: fields_container (Fields container containing in this order : stiffness, damping, mass matrices, and then load vector.)
-"""
+    Output list: 
+       0: fields_container (Fields container containing in this order : stiffness, damping, mass matrices, and then load vector.)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("cms_matrices_provider")
+    >>> op_way2 = core.operators.result.cms_matrices_provider()
+    """
     return _CmsMatricesProvider()
 
 from . import mapdl #mapdl.smisc
@@ -8553,29 +13361,65 @@ class _OutputSpecNodalRotationByEulerNodes(_Outputs):
         self.fields_container = _Output(_get_output_spec_nodal_rotation_by_euler_nodes(0), 0, op) 
 
 class _NodalRotationByEulerNodes(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::RotateNodalFCByEulerNodes"
+    Scripting name is "nodal_rotation_by_euler_nodes"
+
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::RotateNodalFCByEulerNodes")
+    >>> op_way2 = core.operators.result.nodal_rotation_by_euler_nodes()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::RotateNodalFCByEulerNodes")
-         self._name = "mapdl::rst::RotateNodalFCByEulerNodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecNodalRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecNodalRotationByEulerNodes(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::RotateNodalFCByEulerNodes")
+        self._name = "mapdl::rst::RotateNodalFCByEulerNodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecNodalRotationByEulerNodes(self._op)
+        self.outputs = _OutputSpecNodalRotationByEulerNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def nodal_rotation_by_euler_nodes():
     """Operator's description:
-Internal name is "mapdl::rst::RotateNodalFCByEulerNodes"
-Scripting name is "nodal_rotation_by_euler_nodes"
+    Internal name is "mapdl::rst::RotateNodalFCByEulerNodes"
+    Scripting name is "nodal_rotation_by_euler_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::RotateNodalFCByEulerNodes")
-- using dpf.operators.result.nodal_rotation_by_euler_nodes()
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   2: fields_container 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::RotateNodalFCByEulerNodes")
+    >>> op_way2 = core.operators.result.nodal_rotation_by_euler_nodes()
+    """
     return _NodalRotationByEulerNodes()
 
 #internal name: mapdl::rst::S_rotation_by_euler_nodes
@@ -8609,29 +13453,65 @@ class _OutputSpecStressRotationByEulerNodes(_Outputs):
         self.fields_container = _Output(_get_output_spec_stress_rotation_by_euler_nodes(0), 0, op) 
 
 class _StressRotationByEulerNodes(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::S_rotation_by_euler_nodes"
+    Scripting name is "stress_rotation_by_euler_nodes"
+
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::S_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.stress_rotation_by_euler_nodes()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::S_rotation_by_euler_nodes")
-         self._name = "mapdl::rst::S_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecStressRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecStressRotationByEulerNodes(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::S_rotation_by_euler_nodes")
+        self._name = "mapdl::rst::S_rotation_by_euler_nodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecStressRotationByEulerNodes(self._op)
+        self.outputs = _OutputSpecStressRotationByEulerNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def stress_rotation_by_euler_nodes():
     """Operator's description:
-Internal name is "mapdl::rst::S_rotation_by_euler_nodes"
-Scripting name is "stress_rotation_by_euler_nodes"
+    Internal name is "mapdl::rst::S_rotation_by_euler_nodes"
+    Scripting name is "stress_rotation_by_euler_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::S_rotation_by_euler_nodes")
-- using dpf.operators.result.stress_rotation_by_euler_nodes()
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   2: fields_container 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::S_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.stress_rotation_by_euler_nodes()
+    """
     return _StressRotationByEulerNodes()
 
 #internal name: mapdl::rst::EPEL_rotation_by_euler_nodes
@@ -8665,29 +13545,65 @@ class _OutputSpecElasticStrainRotationByEulerNodes(_Outputs):
         self.fields_container = _Output(_get_output_spec_elastic_strain_rotation_by_euler_nodes(0), 0, op) 
 
 class _ElasticStrainRotationByEulerNodes(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::EPEL_rotation_by_euler_nodes"
+    Scripting name is "elastic_strain_rotation_by_euler_nodes"
+
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::EPEL_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.elastic_strain_rotation_by_euler_nodes()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::EPEL_rotation_by_euler_nodes")
-         self._name = "mapdl::rst::EPEL_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecElasticStrainRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecElasticStrainRotationByEulerNodes(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::EPEL_rotation_by_euler_nodes")
+        self._name = "mapdl::rst::EPEL_rotation_by_euler_nodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecElasticStrainRotationByEulerNodes(self._op)
+        self.outputs = _OutputSpecElasticStrainRotationByEulerNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def elastic_strain_rotation_by_euler_nodes():
     """Operator's description:
-Internal name is "mapdl::rst::EPEL_rotation_by_euler_nodes"
-Scripting name is "elastic_strain_rotation_by_euler_nodes"
+    Internal name is "mapdl::rst::EPEL_rotation_by_euler_nodes"
+    Scripting name is "elastic_strain_rotation_by_euler_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::EPEL_rotation_by_euler_nodes")
-- using dpf.operators.result.elastic_strain_rotation_by_euler_nodes()
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   2: fields_container 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::EPEL_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.elastic_strain_rotation_by_euler_nodes()
+    """
     return _ElasticStrainRotationByEulerNodes()
 
 #internal name: mapdl::rst::EPPL_rotation_by_euler_nodes
@@ -8721,29 +13637,65 @@ class _OutputSpecPlasticStrainRotationByEulerNodes(_Outputs):
         self.fields_container = _Output(_get_output_spec_plastic_strain_rotation_by_euler_nodes(0), 0, op) 
 
 class _PlasticStrainRotationByEulerNodes(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::EPPL_rotation_by_euler_nodes"
+    Scripting name is "plastic_strain_rotation_by_euler_nodes"
+
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::EPPL_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.plastic_strain_rotation_by_euler_nodes()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::EPPL_rotation_by_euler_nodes")
-         self._name = "mapdl::rst::EPPL_rotation_by_euler_nodes"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecPlasticStrainRotationByEulerNodes(self._op)
-         self.outputs = _OutputSpecPlasticStrainRotationByEulerNodes(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::EPPL_rotation_by_euler_nodes")
+        self._name = "mapdl::rst::EPPL_rotation_by_euler_nodes"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecPlasticStrainRotationByEulerNodes(self._op)
+        self.outputs = _OutputSpecPlasticStrainRotationByEulerNodes(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def plastic_strain_rotation_by_euler_nodes():
     """Operator's description:
-Internal name is "mapdl::rst::EPPL_rotation_by_euler_nodes"
-Scripting name is "plastic_strain_rotation_by_euler_nodes"
+    Internal name is "mapdl::rst::EPPL_rotation_by_euler_nodes"
+    Scripting name is "plastic_strain_rotation_by_euler_nodes"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::EPPL_rotation_by_euler_nodes")
-- using dpf.operators.result.plastic_strain_rotation_by_euler_nodes()
+    Input list: 
+       2: fields_container 
+       3: streams_container 
+       4: data_sources 
 
-Input list: 
-   2: fields_container 
-   3: streams_container 
-   4: data_sources 
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::EPPL_rotation_by_euler_nodes")
+    >>> op_way2 = core.operators.result.plastic_strain_rotation_by_euler_nodes()
+    """
     return _PlasticStrainRotationByEulerNodes()
 
 from . import mapdl #mapdl.pres_to_field
@@ -8781,29 +13733,65 @@ class _OutputSpecRemoveRigidBodyMotion(_Outputs):
         self.field = _Output(_get_output_spec_remove_rigid_body_motion(0), 0, op) 
 
 class _RemoveRigidBodyMotion(_Operator):
+    """Operator's description:
+    Internal name is "ExtractRigidBodyMotion"
+    Scripting name is "remove_rigid_body_motion"
+
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: reference_node_id (Id of the reference entity (node).)
+       7: mesh (default is the mesh in the support)
+
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ExtractRigidBodyMotion")
+    >>> op_way2 = core.operators.result.remove_rigid_body_motion()
+    """
     def __init__(self):
-         super().__init__("ExtractRigidBodyMotion")
-         self._name = "ExtractRigidBodyMotion"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRemoveRigidBodyMotion(self._op)
-         self.outputs = _OutputSpecRemoveRigidBodyMotion(self._op)
+        """Specific operator class."""
+        super().__init__("ExtractRigidBodyMotion")
+        self._name = "ExtractRigidBodyMotion"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRemoveRigidBodyMotion(self._op)
+        self.outputs = _OutputSpecRemoveRigidBodyMotion(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def remove_rigid_body_motion():
     """Operator's description:
-Internal name is "ExtractRigidBodyMotion"
-Scripting name is "remove_rigid_body_motion"
+    Internal name is "ExtractRigidBodyMotion"
+    Scripting name is "remove_rigid_body_motion"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ExtractRigidBodyMotion")
-- using dpf.operators.result.remove_rigid_body_motion()
+    Input list: 
+       0: field (field or fields container with only one field is expected)
+       1: reference_node_id (Id of the reference entity (node).)
+       7: mesh (default is the mesh in the support)
 
-Input list: 
-   0: field (field or fields container with only one field is expected)
-   1: reference_node_id (Id of the reference entity (node).)
-   7: mesh (default is the mesh in the support)
-Output list: 
-   0: field 
-"""
+    Output list: 
+       0: field 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ExtractRigidBodyMotion")
+    >>> op_way2 = core.operators.result.remove_rigid_body_motion()
+    """
     return _RemoveRigidBodyMotion()
 
 #internal name: ExtractRigidBodyMotion_fc
@@ -8837,29 +13825,65 @@ class _OutputSpecRemoveRigidBodyMotionFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_remove_rigid_body_motion_fc(0), 0, op) 
 
 class _RemoveRigidBodyMotionFc(_Operator):
+    """Operator's description:
+    Internal name is "ExtractRigidBodyMotion_fc"
+    Scripting name is "remove_rigid_body_motion_fc"
+
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: reference_node_id (Id of the reference entity (node).)
+       7: mesh (default is the mesh in the support)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ExtractRigidBodyMotion_fc")
+    >>> op_way2 = core.operators.result.remove_rigid_body_motion_fc()
+    """
     def __init__(self):
-         super().__init__("ExtractRigidBodyMotion_fc")
-         self._name = "ExtractRigidBodyMotion_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecRemoveRigidBodyMotionFc(self._op)
-         self.outputs = _OutputSpecRemoveRigidBodyMotionFc(self._op)
+        """Specific operator class."""
+        super().__init__("ExtractRigidBodyMotion_fc")
+        self._name = "ExtractRigidBodyMotion_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecRemoveRigidBodyMotionFc(self._op)
+        self.outputs = _OutputSpecRemoveRigidBodyMotionFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def remove_rigid_body_motion_fc():
     """Operator's description:
-Internal name is "ExtractRigidBodyMotion_fc"
-Scripting name is "remove_rigid_body_motion_fc"
+    Internal name is "ExtractRigidBodyMotion_fc"
+    Scripting name is "remove_rigid_body_motion_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("ExtractRigidBodyMotion_fc")
-- using dpf.operators.result.remove_rigid_body_motion_fc()
+    Input list: 
+       0: fields_container (field or fields container with only one field is expected)
+       1: reference_node_id (Id of the reference entity (node).)
+       7: mesh (default is the mesh in the support)
 
-Input list: 
-   0: fields_container (field or fields container with only one field is expected)
-   1: reference_node_id (Id of the reference entity (node).)
-   7: mesh (default is the mesh in the support)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("ExtractRigidBodyMotion_fc")
+    >>> op_way2 = core.operators.result.remove_rigid_body_motion_fc()
+    """
     return _RemoveRigidBodyMotionFc()
 
 #internal name: RigidBodyAddition_fc
@@ -8899,31 +13923,69 @@ class _OutputSpecAddRigidBodyMotionFc(_Outputs):
         self.fields_container = _Output(_get_output_spec_add_rigid_body_motion_fc(0), 0, op) 
 
 class _AddRigidBodyMotionFc(_Operator):
+    """Operator's description:
+    Internal name is "RigidBodyAddition_fc"
+    Scripting name is "add_rigid_body_motion_fc"
+
+    Input list: 
+       0: fields_container 
+       1: translation_field 
+       2: rotation_field 
+       3: center_field 
+       7: mesh (default is the mesh in the support)
+
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RigidBodyAddition_fc")
+    >>> op_way2 = core.operators.result.add_rigid_body_motion_fc()
+    """
     def __init__(self):
-         super().__init__("RigidBodyAddition_fc")
-         self._name = "RigidBodyAddition_fc"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecAddRigidBodyMotionFc(self._op)
-         self.outputs = _OutputSpecAddRigidBodyMotionFc(self._op)
+        """Specific operator class."""
+        super().__init__("RigidBodyAddition_fc")
+        self._name = "RigidBodyAddition_fc"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecAddRigidBodyMotionFc(self._op)
+        self.outputs = _OutputSpecAddRigidBodyMotionFc(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def add_rigid_body_motion_fc():
     """Operator's description:
-Internal name is "RigidBodyAddition_fc"
-Scripting name is "add_rigid_body_motion_fc"
+    Internal name is "RigidBodyAddition_fc"
+    Scripting name is "add_rigid_body_motion_fc"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("RigidBodyAddition_fc")
-- using dpf.operators.result.add_rigid_body_motion_fc()
+    Input list: 
+       0: fields_container 
+       1: translation_field 
+       2: rotation_field 
+       3: center_field 
+       7: mesh (default is the mesh in the support)
 
-Input list: 
-   0: fields_container 
-   1: translation_field 
-   2: rotation_field 
-   3: center_field 
-   7: mesh (default is the mesh in the support)
-Output list: 
-   0: fields_container 
-"""
+    Output list: 
+       0: fields_container 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("RigidBodyAddition_fc")
+    >>> op_way2 = core.operators.result.add_rigid_body_motion_fc()
+    """
     return _AddRigidBodyMotionFc()
 
 #internal name: mapdl::rst::U_cyclic
@@ -9002,44 +14064,95 @@ class _OutputSpecCyclicExpandedDisplacement(_Outputs):
         self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_displacement(3), 3, op) 
 
 class _CyclicExpandedDisplacement(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::U_cyclic"
+    Scripting name is "cyclic_expanded_displacement"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (angle phi (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
+
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::U_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_displacement()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::U_cyclic")
-         self._name = "mapdl::rst::U_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedDisplacement(self._op)
-         self.outputs = _OutputSpecCyclicExpandedDisplacement(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::U_cyclic")
+        self._name = "mapdl::rst::U_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicExpandedDisplacement(self._op)
+        self.outputs = _OutputSpecCyclicExpandedDisplacement(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_expanded_displacement():
     """Operator's description:
-Internal name is "mapdl::rst::U_cyclic"
-Scripting name is "cyclic_expanded_displacement"
+    Internal name is "mapdl::rst::U_cyclic"
+    Scripting name is "cyclic_expanded_displacement"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::U_cyclic")
-- using dpf.operators.result.cyclic_expanded_displacement()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (angle phi (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: sector_mesh (mesh of the base sector (can be a skin).)
-   9: requested_location (location needed in output)
-   12: freq 
-   14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
-   15: expanded_meshed_region (mesh expanded.)
-   16: cyclic_support 
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-   19: phi (angle phi (default value 0.0))
-   20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
-Output list: 
-   0: static_matrix (FieldsContainer filled in)
-   1: expanded_meshed_region 
-   2: inertia_matrix 
-   3: remote_point_id 
-"""
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::U_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_displacement()
+    """
     return _CyclicExpandedDisplacement()
 
 #internal name: mapdl::rst::A_cyclic
@@ -9118,44 +14231,95 @@ class _OutputSpecCyclicExpandedAcceleration(_Outputs):
         self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_acceleration(3), 3, op) 
 
 class _CyclicExpandedAcceleration(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::A_cyclic"
+    Scripting name is "cyclic_expanded_acceleration"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (angle phi (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
+
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::A_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_acceleration()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::A_cyclic")
-         self._name = "mapdl::rst::A_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedAcceleration(self._op)
-         self.outputs = _OutputSpecCyclicExpandedAcceleration(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::A_cyclic")
+        self._name = "mapdl::rst::A_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicExpandedAcceleration(self._op)
+        self.outputs = _OutputSpecCyclicExpandedAcceleration(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_expanded_acceleration():
     """Operator's description:
-Internal name is "mapdl::rst::A_cyclic"
-Scripting name is "cyclic_expanded_acceleration"
+    Internal name is "mapdl::rst::A_cyclic"
+    Scripting name is "cyclic_expanded_acceleration"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::A_cyclic")
-- using dpf.operators.result.cyclic_expanded_acceleration()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (angle phi (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: sector_mesh (mesh of the base sector (can be a skin).)
-   9: requested_location (location needed in output)
-   12: freq 
-   14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
-   15: expanded_meshed_region (mesh expanded.)
-   16: cyclic_support 
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-   19: phi (angle phi (default value 0.0))
-   20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
-Output list: 
-   0: static_matrix (FieldsContainer filled in)
-   1: expanded_meshed_region 
-   2: inertia_matrix 
-   3: remote_point_id 
-"""
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::A_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_acceleration()
+    """
     return _CyclicExpandedAcceleration()
 
 #internal name: mapdl::rst::S_cyclic
@@ -9234,44 +14398,95 @@ class _OutputSpecCyclicExpandedStress(_Outputs):
         self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_stress(3), 3, op) 
 
 class _CyclicExpandedStress(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::S_cyclic"
+    Scripting name is "cyclic_expanded_stress"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (phi angle (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
+
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::S_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_stress()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::S_cyclic")
-         self._name = "mapdl::rst::S_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicExpandedStress(self._op)
-         self.outputs = _OutputSpecCyclicExpandedStress(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::S_cyclic")
+        self._name = "mapdl::rst::S_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicExpandedStress(self._op)
+        self.outputs = _OutputSpecCyclicExpandedStress(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_expanded_stress():
     """Operator's description:
-Internal name is "mapdl::rst::S_cyclic"
-Scripting name is "cyclic_expanded_stress"
+    Internal name is "mapdl::rst::S_cyclic"
+    Scripting name is "cyclic_expanded_stress"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::S_cyclic")
-- using dpf.operators.result.cyclic_expanded_stress()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (phi angle (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: sector_mesh (mesh of the base sector (can be a skin).)
-   9: requested_location (location needed in output)
-   12: freq 
-   14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
-   15: expanded_meshed_region (mesh expanded.)
-   16: cyclic_support 
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-   19: phi (phi angle (default value 0.0))
-   20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
-Output list: 
-   0: static_matrix (FieldsContainer filled in)
-   1: expanded_meshed_region 
-   2: inertia_matrix 
-   3: remote_point_id 
-"""
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::S_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_expanded_stress()
+    """
     return _CyclicExpandedStress()
 
 #internal name: mapdl::rst::ENG_VOL_cyclic
@@ -9350,44 +14565,95 @@ class _OutputSpecCyclicVolume(_Outputs):
         self.remote_point_id = _Output(_get_output_spec_cyclic_volume(3), 3, op) 
 
 class _CyclicVolume(_Operator):
+    """Operator's description:
+    Internal name is "mapdl::rst::ENG_VOL_cyclic"
+    Scripting name is "cyclic_volume"
+
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (phi angle (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
+
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::ENG_VOL_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_volume()
+    """
     def __init__(self):
-         super().__init__("mapdl::rst::ENG_VOL_cyclic")
-         self._name = "mapdl::rst::ENG_VOL_cyclic"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecCyclicVolume(self._op)
-         self.outputs = _OutputSpecCyclicVolume(self._op)
+        """Specific operator class."""
+        super().__init__("mapdl::rst::ENG_VOL_cyclic")
+        self._name = "mapdl::rst::ENG_VOL_cyclic"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecCyclicVolume(self._op)
+        self.outputs = _OutputSpecCyclicVolume(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def cyclic_volume():
     """Operator's description:
-Internal name is "mapdl::rst::ENG_VOL_cyclic"
-Scripting name is "cyclic_volume"
+    Internal name is "mapdl::rst::ENG_VOL_cyclic"
+    Scripting name is "cyclic_volume"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("mapdl::rst::ENG_VOL_cyclic")
-- using dpf.operators.result.cyclic_volume()
+    Input list: 
+       0: time_scoping 
+       1: mesh_scoping 
+       2: fields_container (FieldsContainer already allocated modified inplace)
+       3: streams_container (Streams containing the result file.)
+       4: data_sources (data sources containing the result file.)
+       5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
+       7: sector_mesh (mesh of the base sector (can be a skin).)
+       9: requested_location (location needed in output)
+       12: freq 
+       14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
+       15: expanded_meshed_region (mesh expanded.)
+       16: cyclic_support 
+       18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
+       19: phi (phi angle (default value 0.0))
+       20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
 
-Input list: 
-   0: time_scoping 
-   1: mesh_scoping 
-   2: fields_container (FieldsContainer already allocated modified inplace)
-   3: streams_container (Streams containing the result file.)
-   4: data_sources (data sources containing the result file.)
-   5: bool_rotate_to_global (if true the field is roated to global coordinate system (default true))
-   7: sector_mesh (mesh of the base sector (can be a skin).)
-   9: requested_location (location needed in output)
-   12: freq 
-   14: read_cyclic (if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done (default is 1))
-   15: expanded_meshed_region (mesh expanded.)
-   16: cyclic_support 
-   18: sectors_to_expand (sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.)
-   19: phi (phi angle (default value 0.0))
-   20: filter_degenerated_elements (if it's set to true, results are filtered to handle degenerated elements (default is true))
-Output list: 
-   0: static_matrix (FieldsContainer filled in)
-   1: expanded_meshed_region 
-   2: inertia_matrix 
-   3: remote_point_id 
-"""
+    Output list: 
+       0: static_matrix (FieldsContainer filled in)
+       1: expanded_meshed_region 
+       2: inertia_matrix 
+       3: remote_point_id 
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("mapdl::rst::ENG_VOL_cyclic")
+    >>> op_way2 = core.operators.result.cyclic_volume()
+    """
     return _CyclicVolume()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
@@ -9428,27 +14694,62 @@ class _OutputSpecToField(_Outputs):
         self.fields_container = _Output(_get_output_spec_to_field(0), 0, op) 
 
 class _ToField(_Operator):
+    """Operator's description:
+    Internal name is "vtk::vtk::FieldProvider"
+    Scripting name is "to_field"
+
+    Input list: 
+       3: streams (streams)
+       4: data_sources (data_sources)
+
+    Output list: 
+       0: fields_container (fields_container)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("vtk::vtk::FieldProvider")
+    >>> op_way2 = core.operators.result.to_field()
+    """
     def __init__(self):
-         super().__init__("vtk::vtk::FieldProvider")
-         self._name = "vtk::vtk::FieldProvider"
-         self._op = _Operator(self._name)
-         self.inputs = _InputSpecToField(self._op)
-         self.outputs = _OutputSpecToField(self._op)
+        """Specific operator class."""
+        super().__init__("vtk::vtk::FieldProvider")
+        self._name = "vtk::vtk::FieldProvider"
+        self._op = _Operator(self._name)
+        self.inputs = _InputSpecToField(self._op)
+        self.outputs = _OutputSpecToField(self._op)
+
+    def __str__(self):
+        return """Specific operator object.
+
+Input and outputs can be connected together.
+
+Examples
+--------
+>>> from ansys.dpf import core)
+>>> op1 = core.operators.result.stress()
+>>> op1.inputs.data_sources.connect(core.DataSources('file.rst'))
+>>> op2 = core.operators.averaging.to_elemental_fc()
+>>> op2.inputs.fields_container.connect(op1.outputs.fields_container)
+"""
 
 def to_field():
     """Operator's description:
-Internal name is "vtk::vtk::FieldProvider"
-Scripting name is "to_field"
+    Internal name is "vtk::vtk::FieldProvider"
+    Scripting name is "to_field"
 
-This operator can be instantiated in both following ways:
-- using dpf.Operator("vtk::vtk::FieldProvider")
-- using dpf.operators.result.to_field()
+    Input list: 
+       3: streams (streams)
+       4: data_sources (data_sources)
 
-Input list: 
-   3: streams (streams)
-   4: data_sources (data_sources)
-Output list: 
-   0: fields_container (fields_container)
-"""
+    Output list: 
+       0: fields_container (fields_container)
+
+    Examples
+    --------
+    >>> from ansys.dpf import core
+    >>> op_way1 = core.Operator("vtk::vtk::FieldProvider")
+    >>> op_way2 = core.operators.result.to_field()
+    """
     return _ToField()
 
