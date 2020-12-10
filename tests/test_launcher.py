@@ -21,3 +21,8 @@ def test_start_local():
 
     # ensure global channel didn't change
     assert starting_channel == id(core.CHANNEL)
+
+
+def test_start_local_failed():
+    with pytest.raises(NotADirectoryError):
+        core.start_local_server(ansys_path='')

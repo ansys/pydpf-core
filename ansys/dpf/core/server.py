@@ -12,8 +12,10 @@ import grpc
 import requests
 
 from ansys import dpf
+from ansys.dpf.core.errors import InvalidPortError
 from ansys.dpf.core.misc import find_ansys
 from ansys.dpf.core.core import BaseService
+
 
 MAX_PORT = 65535
 
@@ -94,8 +96,7 @@ def start_server_using_service_manager():
 
 
 def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
-                       dpf_path=None, ansys_path=None,
-                       as_global=True):
+                       ansys_path=None, as_global=True):
     """Start a new local DPF server at a given port and ip.
 
     Requires Windows and ANSYS v211 or newer be installed.
@@ -134,15 +135,21 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     while port in used_ports:
         port += 1
 
-    while True:
+    server = None
+    for _ in range(10):
         try:
             server = DpfServer(ansys_path, ip, port, as_global,
                                as_global)
             break
-        except OSError:  # allow socket in use errors
+        except InvalidPortError:  # allow socket in use errors
             port += 1
             pass
-    
+
+    if server is None:
+        raise OSError(f'Unable to launch the server after {num_attempts} attemps.  '
+                      'Check the following path:\n{ansys_path}\n\n'
+                      'or attempt to use a different port')
+
     dpf.core._server_instances.append(server)
     return server.port
 
@@ -311,8 +318,21 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
     add_path = ';'.join([ansys_path + path for path in paths])
     run_cmd = f'Ans.Dpf.Grpc.exe --address {ip} --port {port}'
 
+    # verify ansys path is valid
+    dpf_run_dir = f'{ansys_path}/aisol/bin/winx64'
+    if not os.path.isdir(dpf_run_dir):
+        raise NotADirectoryError(f'Invalid ansys path at "{ansys_path}".  '
+                                 'Unable to locate the directory containing DPF at '
+                                 f'"{dpf_run_dir}"')
+
+    dpf_bin = os.path.isfile(os.path.join(dpf_run_dir, 'Ans.Dpf.Grpc.exe'))
+    if not os.path.isfile(dpf_bin):
+        raise FileNotFoundError('Unable to locate the DPF executable at '
+                                f'"{dpf_bin}"')
+
+
     old_dir = os.getcwd()
-    os.chdir(f'{ansys_path}/aisol/bin/winx64')
+    os.chdir(dpf_run_dir)
     env = dict(os.environ)
     env['PATH'] = env['PATH'] + add_path
     process = subprocess.Popen(run_cmd, env=env,
@@ -355,7 +375,7 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
             pass
         errstr = '\n'.join(errors)
         if 'Only one usage of each socket address' in errstr:
-            raise OSError(f'Port {port} in use')
+            raise InvalidPortError(f'Port {port} in use')
         raise RuntimeError(errstr)
 
     return process
