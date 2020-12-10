@@ -81,6 +81,16 @@ def simple_rst():
     return resolve_test_file('simpleModel.rst', 'rst_operators')
 
 
+@pytest.fixture()
+def plate_msup():
+    """Resolve the path of the "msup/plate1.rst" result file.
+
+    Originally:
+    UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
+    """
+    return resolve_test_file('plate1.rst', 'msup_transient')
+
+
 @pytest.fixture(scope="session", autouse=True)
 def load_operators(request):
     """This loads all the operators on initialization"""

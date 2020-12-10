@@ -14,15 +14,19 @@ class Plotter:
     def __init__(self, mesh):
         self._mesh = mesh
         
-    def plot_mesh(self, notebook=True):
+    def plot_mesh(self, notebook=None):
         """Plot the mesh using pyvista.
         
         Parameters
         ----------
-        notebook (default: True):
-            bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
+        notebook : bool, optional
+            When ``None`` (default) plot a static image within an
+            iPython notebook if available.  When ``False``, plot
+            external to the notebook with an interactive window.  When
+            ``True``, always plot within a notebook.
+
         """
-        self._mesh.grid.plot(notebook=notebook)
+        return self._mesh.grid.plot(notebook=notebook)
         
     def plot_chart(self, fields_container):
         """Plot the minimum/maximum result values over time 
@@ -34,7 +38,7 @@ class Plotter:
         field_container
             dpf.core.FieldsContainer that must contains a result for each time step of the time_freq_support.
         """
-        tfq = fields_container[0].time_freq_support
+        tfq = fields_container.time_freq_support
         time_field = tfq.frequencies
         normOp = dpf.core.Operator("norm_fc")
         minmaxOp = dpf.core.Operator("min_max_fc")
@@ -46,21 +50,26 @@ class Plotter:
         pyplot.plot(time_field.data,fieldMin.data,'b',label='Minimum')
         pyplot.xlabel("time (s)")
         substr = fields_container[0].name.split("_")
-        pyplot.ylabel(substr + fieldMin.unit)
+        pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title( substr[0] + ": min/max values over time")
-        pyplot.legend()
-    
-    def plot_contour(self, fields_container, notebook=True):
-        """Plot the contour result on its mesh support. The obtained figure depends on the 
-        support (can be a meshed_region or a time_freq_support).
-        If transient analysis, plot the last result if no time_scoping has been specified.
-        
+        return pyplot.legend()
+
+    def plot_contour(self, fields_container, notebook=None):
+        """Plot the contour result on its mesh support. The obtained
+        figure depends on the support (can be a meshed_region or a
+        time_freq_support).  If transient analysis, plot the last
+        result if no time_scoping has been specified.
+
         Parameters
         ----------
-        fields_container
-            dpf.core.FieldsContainer thats contains the result to plot.
-        notebook (default: True):
-            bool, that mention if the plotting must be 3D (notebook=False) or not (notebook=True)
+        fields_container : dpf.core.FieldsContainer
+            Field container that contains the result to plot.
+
+        notebook : bool, optional
+            When ``None`` (default) plot a static image within an
+            iPython notebook if available.  When ``False``, plot
+            external to the notebook with an interactive window.  When
+            ``True``, always plot within a notebook.
         """
         if not sys.warnoptions:
             import warnings
@@ -70,29 +79,38 @@ class Plotter:
         grid = mesh.grid
         nan_color = "grey"
         
+        #get mesh scoping
+        mesh_scoping = None
+        if (fields_container[0].location == locations.nodal):
+            mesh_scoping = mesh.nodes.scoping
+        elif(fields_container[0].location == locations.elemental):
+            mesh_scoping = mesh.elements.scoping
+        else:
+            raise Exception("Only elemental or nodal location are supported for plotting.")
+        
+        #rescoper operator from dpf with nan values as default values
         rescoperOp = dpf.core.Operator("Rescope")
+        rescoperOp.inputs.mesh_scoping.connect(mesh_scoping)
         rescoperOp.inputs.fields_container.connect(fields_container)
-        rescoperOp.inputs.mesh_scoping.connect(mesh.nodes.scoping)
-        fields2 = rescoperOp.outputs.fields_container.get_data()
+        rescoperOp.connect(2,float("nan"))
+        fields = rescoperOp.outputs.fields_container()
         
-        
-        #rescoper = _Rescoper(mesh, fields_container[0].location, 
-        #                     fields_container[0].component_count) #location will be the same on all fields
-        if (len(fields2) == 1):
-            #field = rescoper.rescope(fields_container[0])
-            dataR = fields2[0].data
+        #add meshes
+        if (len(fields) == 1):
+            dataR = fields[0].data
             plotter.add_mesh(grid, scalars = dataR, opacity=1.0, nan_color=nan_color, 
                               stitle = fields_container[0].name, show_edges=True)
         else:
-            for field_to_rescope in fields2:
-                name = field_to_rescope.name.split("_")[0]
-                #field = rescoper.rescope(field_to_rescope)
-                dataR = field_to_rescope.data
+            for field in fields:
+                name = field.name.split("_")[0]
+                dataR = field.data
                 plotter.add_mesh(grid, scalars = dataR, nan_color=nan_color, stitle = name, show_edges=True)
+        
+        #show result
         plotter.add_axes()
-        plotter.show()
+        return plotter.show()
     
-    def _plot_contour_using_vtk_file(self, fields_container, notebook=True):
+    def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
         support (can be a meshed_region or a time_freq_support).
         If transient analysis, plot the last result.

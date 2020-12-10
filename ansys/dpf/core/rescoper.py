@@ -1,6 +1,7 @@
 import numpy as np
 from ansys.dpf.core.common import locations
 
+
 class Rescoper:
     """Object which will help to rescope the results.
     Its aim is to help while plotting results.

@@ -1,4 +1,6 @@
 """Miscellaneous functions for DPF module"""
+import glob
+import os
 from pkgutil import iter_modules
 
 
@@ -69,3 +71,42 @@ class Report(ScoobyReport):
                          optional=optional, ncol=ncol,
                          text_width=text_width, sort=sort,
                          extra_meta=extra_meta)
+
+
+def is_float(string):
+    """Returns true when a string can be converted to a float"""
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
+
+
+def find_ansys():
+    """Searches for ansys path within the standard install location
+    and returns the path of the latest version.
+
+    Reutrns
+    -------
+    ansys_path : str
+        Full path to ANSYS.  For example:
+        'C:\\Program Files\\ANSYS Inc\\v211'
+    """
+    if os.name != 'nt':
+        return None
+
+    base_path = os.path.join(os.environ['PROGRAMFILES'], 'ANSYS INC')
+    
+    if os.name == 'nt':
+        paths = glob.glob(os.path.join(base_path, 'v*'))
+
+    if not paths:
+        return None
+
+    versions = {}
+    for path in paths:
+        ver_str = path[-3:]
+        if is_float(ver_str):
+            versions[int(ver_str)] = path
+
+    return versions[max(versions.keys())]

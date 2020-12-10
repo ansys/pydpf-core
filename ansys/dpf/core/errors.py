@@ -2,10 +2,17 @@ from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 
 
 class DPFServerError(RuntimeError):
-    """Raised when MAPDL has exited"""
+    """Raised when the DPF Server has encountered an error"""
 
     def __init__(self, msg=''):
         RuntimeError.__init__(self, msg)
+
+
+class InvalidPortError(OSError):
+    """Raised when used an invalid port when starting DPF"""
+
+    def __init__(self, msg=''):
+        OSError.__init__(self, msg)
 
 
 def protect_grpc(func):

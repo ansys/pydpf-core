@@ -147,8 +147,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     """
     # could make this more efficient in C...
     elem_size = SIZE_MAPPING[etypes]
-    split_ind = elem_size.copy()
-    insert_ind = np.cumsum(split_ind)
+    insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
     # TODO: Investigate why connectivity can be -1
@@ -169,9 +168,9 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     # different treatment depending on the version of vtk
     if VTK9:
         # compute offset array when < VTK v9
-        split_ind += 1
-        split_ind[0] = 0
-        offset = np.cumsum(split_ind)
         return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
 
-    pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
+    split_ind = elem_size + 1
+    split_ind[0] = 0
+    offset = np.cumsum(split_ind)
+    return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
