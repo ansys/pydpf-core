@@ -33,6 +33,13 @@ jobs:
     vmImage: 'windows-2019'
 
   steps:
+    - powershell: |
+        powershell .ci/install_opengl.ps1
+        .ci/setup_headless_display.sh
+        pip install -r .ci/requirements_test_xvfb.txt
+        python .ci/display_test.py
+      displayName: Install and start a virtual framebuffer
+
     - task: UsePythonVersion@0
       inputs:
         versionSpec: $(python.version)
@@ -72,9 +79,9 @@ jobs:
 
     - script: |
         pip install -r requirements_test.txt
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
         cd tests
-        pytest -v
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --ignore=test_field.py
+        pytest -v test_field.py
       displayName: Test Core API
 
 
@@ -94,17 +101,24 @@ jobs:
       inputs:
         versionSpec: '$(python.version)'
       displayName: 'Use Python $(python.version)'
+
     - task: PipAuthenticate@1
       inputs:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
 
     - script: |
+        .ci/setup_headless_display.sh
+        pip install -r .ci/requirements_test_xvfb.txt
+        python .ci/display_test.py
+      displayName: Install and start a virtual framebuffer
+
+    - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
         pip install --find-links=dist ansys_dpf_core
         cd tests
-        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+        python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
 
     - script: |
