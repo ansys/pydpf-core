@@ -10,7 +10,7 @@ rem set DPF_CORE_PATH=D:\AnsysDev\DPF-Core
 rem set PYTHONPATH=%ANS_PROTOCOL_ROOT%\packages\python\dpf;%DPF_CORE_PATH%
 
 rem Assume DPF server is already running
-set DPF_START_SERVER=False
+rem set DPF_START_SERVER=False
 rem set DPF_IP=10.<...>
 
 rem set DPF_PORT=50054
