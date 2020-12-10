@@ -92,6 +92,9 @@ def find_ansys():
         Full path to ANSYS.  For example:
         'C:\\Program Files\\ANSYS Inc\\v211'
     """
+    if os.name != 'nt':
+        return None
+
     base_path = os.path.join(os.environ['PROGRAMFILES'], 'ANSYS INC')
     
     if os.name == 'nt':

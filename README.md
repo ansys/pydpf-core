@@ -48,6 +48,7 @@ connect_to_server('10.0.0.22, 50054)
 Once connected, this connection will remain for the duration of the
 module until you exit python or connect to a different server.
 
+
 ## Unit Testing
 
 Unit tests can be run by first installing the testing requirements with `pip install -r requirements_test.txt` and then running pytest with:

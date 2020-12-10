@@ -97,11 +97,8 @@ def test_delete_auto_fields_container():
     fc = FieldsContainer()
     fc2 = FieldsContainer(fields_container=fc)
     del fc
-    try:
+    with pytest.raises(Exception):
         fc2.get_ids()
-        assert False
-    except:
-        assert True
 
 
 def test_str_fields_container(disp_fc):

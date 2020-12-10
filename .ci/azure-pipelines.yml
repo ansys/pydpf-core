@@ -24,7 +24,7 @@ pr:
 jobs:
 - job: Windows
   variables:
-    python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    python.version: '3.8'
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
