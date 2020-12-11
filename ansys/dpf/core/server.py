@@ -146,7 +146,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
             pass
 
     if server is None:
-        raise OSError(f'Unable to launch the server after {num_attempts} attemps.  '
+        raise OSError(f'Unable to launch the server after {_} attemps.  '
                       'Check the following path:\n{ansys_path}\n\n'
                       'or attempt to use a different port')
 
