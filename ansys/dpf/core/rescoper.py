@@ -68,10 +68,13 @@ class Rescoper:
 
         # looping is only faster when requesting just a few values
         mesh_ids = np.asarray(self.mesh_scoping.ids)
+        field_scoping = field_to_rescope.scoping.ids
         if len(mesh_ids) < 25 or self.location == 'Elemental':
             for i, data_id in enumerate(mesh_ids):
                 try:
-                    output[i] = field_to_rescope.get_entity_data_by_id(data_id)
+                    # output[i] = field_to_rescope.get_entity_data_by_id(data_id)
+                    index = field_scoping.index(data_id)
+                    output[i] = field_to_rescope.data[index]
                 except:
                     pass
             if len(output[0]) == 1:

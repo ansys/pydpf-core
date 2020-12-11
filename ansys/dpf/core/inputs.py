@@ -92,7 +92,7 @@ class Input:
             if isinstance(self._operator.inputs, Inputs):
                 self._operator.inputs.__add_input__(self._pin+ self._count_ellipsis, self._spec,self._count_ellipsis)
         
-class Inputs:
+class _Inputs:
     def __init__(self, dict_inputs, operator):
         self._dict_inputs = dict_inputs
         self._operator = operator
@@ -112,7 +112,7 @@ class Inputs:
         if spec is not None:
             class_input = Input(spec, pin, self._operator,count_ellipsis)
             class_input.__doc__ = spec.name
-            setattr(self, class_input.name, class_input)
+            # setattr(self, class_input.name, class_input)
             self._inputs.append(class_input)
     
             python_types=[]
@@ -181,3 +181,12 @@ class Inputs:
             
     def __call__(self,inpt):
         self.connect(inpt)
+
+#Dynamic class Inputs        
+class Inputs(_Inputs):
+    def __add_input__(self,pin,spec, count_ellipsis=-1):
+        super().__add_input__(pin, spec, count_ellipsis)
+        if spec is not None:
+            class_input = Input(spec, pin, self._operator,count_ellipsis)
+            class_input.__doc__ = spec.name
+            setattr(self, class_input.name, class_input)

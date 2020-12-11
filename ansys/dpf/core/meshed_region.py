@@ -172,7 +172,7 @@ class MeshedRegion:
             self._full_grid = self._as_vtk()
         return self._full_grid
     
-    def plot(self, field_or_fields_container=None, is3dplotting=False):
+    def plot(self, field_or_fields_container=None, notebook=True):
         """Plot the field/fields container on mesh.
         
         Parameters
@@ -180,8 +180,8 @@ class MeshedRegion:
         field_or_fields_container
             dpf.core.Field or dpf.core.FieldsContainer
             
-        is3dplotting (default: False)
-            bool, that specifies if the plotting is 3D or not
+        notebook (default: True)
+            bool, that specifies if the plotting is in the notebook (2D) or not (3D)
         """
         pl = _DpfPlotter(self)
         if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
@@ -192,9 +192,9 @@ class MeshedRegion:
                 fields_container.add_field({'time':1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
-            pl.plot_contour(fields_container, not is3dplotting)
+            pl.plot_contour(fields_container, notebook)
         elif(field_or_fields_container is None):
-            pl.plot_mesh(not is3dplotting)
+            pl.plot_mesh(not notebook)
 
 
 
