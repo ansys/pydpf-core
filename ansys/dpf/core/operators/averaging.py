@@ -46,6 +46,8 @@ class _NodalFractionFc(_Operator):
     Internal name is "nodal_fraction_fc"
     Scripting name is "nodal_fraction_fc"
 
+    Description: Transform ElementalNodal fields into Nodal fields. Each nodal value is the fraction between the nodal difference and the nodal average. Result is computed on a given node scoping.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -87,6 +89,8 @@ def nodal_fraction_fc():
     """Operator's description:
     Internal name is "nodal_fraction_fc"
     Scripting name is "nodal_fraction_fc"
+
+    Description: Transform ElementalNodal fields into Nodal fields. Each nodal value is the fraction between the nodal difference and the nodal average. Result is computed on a given node scoping.
 
     Input list: 
        0: fields_container 
@@ -137,6 +141,8 @@ class _ElementalNodalToNodalElementalFc(_Operator):
     Internal name is "ElementalNodal_To_NodalElemental_fc"
     Scripting name is "elemental_nodal_to_nodal_elemental_fc"
 
+    Description: Transform ElementalNodal fields to NodalElemental fields, compute result on a given node scoping.
+
     Input list: 
        0: fields_container 
        1: mesh_scoping 
@@ -176,6 +182,8 @@ def elemental_nodal_to_nodal_elemental_fc():
     """Operator's description:
     Internal name is "ElementalNodal_To_NodalElemental_fc"
     Scripting name is "elemental_nodal_to_nodal_elemental_fc"
+
+    Description: Transform ElementalNodal fields to NodalElemental fields, compute result on a given node scoping.
 
     Input list: 
        0: fields_container 
@@ -230,6 +238,8 @@ class _ElementalDifference(_Operator):
     Internal name is "elemental_difference"
     Scripting name is "elemental_difference"
 
+    Description: Transform ElementalNodal or Nodal field into Elemental field. Each elemental value is the maximum difference between the computed result for all nodes in this element. Result is computed on a given element scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh 
@@ -271,6 +281,8 @@ def elemental_difference():
     """Operator's description:
     Internal name is "elemental_difference"
     Scripting name is "elemental_difference"
+
+    Description: Transform ElementalNodal or Nodal field into Elemental field. Each elemental value is the maximum difference between the computed result for all nodes in this element. Result is computed on a given element scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -330,6 +342,8 @@ class _ElementalNodalToNodal(_Operator):
     Internal name is "elemental_nodal_To_nodal"
     Scripting name is "elemental_nodal_to_nodal"
 
+    Description: Transform ElementalNodal field into Nodal field using an averaging process, result is computed on a given node scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh 
@@ -372,6 +386,8 @@ def elemental_nodal_to_nodal():
     """Operator's description:
     Internal name is "elemental_nodal_To_nodal"
     Scripting name is "elemental_nodal_to_nodal"
+
+    Description: Transform ElementalNodal field into Nodal field using an averaging process, result is computed on a given node scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -429,6 +445,8 @@ class _ElementalDifferenceFc(_Operator):
     Internal name is "elemental_difference_fc"
     Scripting name is "elemental_difference_fc"
 
+    Description: Transform ElementalNodal or Nodal field into Elemental field. Each elemental value is the maximum difference between the unaveraged or averaged (depending on the input fields) computed result for all nodes in this element. Result is computed on a given element scoping. If the input fields are mixed shell/solid and the shells layers are not asked to be collapsed, then the fields are splitted by element shape and the output fields container has elshape label.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -470,6 +488,8 @@ def elemental_difference_fc():
     """Operator's description:
     Internal name is "elemental_difference_fc"
     Scripting name is "elemental_difference_fc"
+
+    Description: Transform ElementalNodal or Nodal field into Elemental field. Each elemental value is the maximum difference between the unaveraged or averaged (depending on the input fields) computed result for all nodes in this element. Result is computed on a given element scoping. If the input fields are mixed shell/solid and the shells layers are not asked to be collapsed, then the fields are splitted by element shape and the output fields container has elshape label.
 
     Input list: 
        0: fields_container 
@@ -526,6 +546,8 @@ class _ElementalNodalToNodalFc(_Operator):
     Internal name is "elemental_nodal_To_nodal_fc"
     Scripting name is "elemental_nodal_to_nodal_fc"
 
+    Description: Transform ElementalNodal fields into Nodal fields using an averaging process, result is computed on a given node scoping. If the input fields are mixed shell/solid, then the fields are splitted by element shape and the output fields container has elshape label.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -567,6 +589,8 @@ def elemental_nodal_to_nodal_fc():
     """Operator's description:
     Internal name is "elemental_nodal_To_nodal_fc"
     Scripting name is "elemental_nodal_to_nodal_fc"
+
+    Description: Transform ElementalNodal fields into Nodal fields using an averaging process, result is computed on a given node scoping. If the input fields are mixed shell/solid, then the fields are splitted by element shape and the output fields container has elshape label.
 
     Input list: 
        0: fields_container 
@@ -620,6 +644,8 @@ class _ElementalToNodal(_Operator):
     Internal name is "elemental_to_nodal"
     Scripting name is "elemental_to_nodal"
 
+    Description: Transform ElementalNodal field to Nodal field, compute result on a given node scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh_scoping 
@@ -660,6 +686,8 @@ def elemental_to_nodal():
     """Operator's description:
     Internal name is "elemental_to_nodal"
     Scripting name is "elemental_to_nodal"
+
+    Description: Transform ElementalNodal field to Nodal field, compute result on a given node scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -712,6 +740,8 @@ class _ElementalToNodalFc(_Operator):
     Internal name is "elemental_to_nodal_fc"
     Scripting name is "elemental_to_nodal_fc"
 
+    Description: Transform ElementalNodal fields to Nodal fields, compute result on a given node scoping.
+
     Input list: 
        0: fields_container 
        1: mesh_scoping 
@@ -752,6 +782,8 @@ def elemental_to_nodal_fc():
     """Operator's description:
     Internal name is "elemental_to_nodal_fc"
     Scripting name is "elemental_to_nodal_fc"
+
+    Description: Transform ElementalNodal fields to Nodal fields, compute result on a given node scoping.
 
     Input list: 
        0: fields_container 
@@ -810,6 +842,8 @@ class _NodalDifference(_Operator):
     Internal name is "nodal_difference"
     Scripting name is "nodal_difference"
 
+    Description: Transform ElementalNodal field into Nodal field. Each nodal value is the maximum difference between the unaveraged computed result for all elements that share this particular node. Result is computed on a given node scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh 
@@ -852,6 +886,8 @@ def nodal_difference():
     """Operator's description:
     Internal name is "nodal_difference"
     Scripting name is "nodal_difference"
+
+    Description: Transform ElementalNodal field into Nodal field. Each nodal value is the maximum difference between the unaveraged computed result for all elements that share this particular node. Result is computed on a given node scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -906,6 +942,8 @@ class _NodalDifferenceFc(_Operator):
     Internal name is "nodal_difference_fc"
     Scripting name is "nodal_difference_fc"
 
+    Description: Transform ElementalNodal fields into Nodal fields. Each nodal value is the maximum difference between the unaveraged computed result for all elements that share this particular node. Result is computed on a given node scoping. If the input fields are mixed shell/solid, then the fields are splitted by element shape and the output fields container has elshape label.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -946,6 +984,8 @@ def nodal_difference_fc():
     """Operator's description:
     Internal name is "nodal_difference_fc"
     Scripting name is "nodal_difference_fc"
+
+    Description: Transform ElementalNodal fields into Nodal fields. Each nodal value is the maximum difference between the unaveraged computed result for all elements that share this particular node. Result is computed on a given node scoping. If the input fields are mixed shell/solid, then the fields are splitted by element shape and the output fields container has elshape label.
 
     Input list: 
        0: fields_container 
@@ -1004,6 +1044,8 @@ class _ElementalFractionFc(_Operator):
     Internal name is "elemental_fraction_fc"
     Scripting name is "elemental_fraction_fc"
 
+    Description: Transform ElementalNodal fields into Elemental fields. Each elemental value is the fraction between the elemental difference and the entity average. Result is computed on a given elements scoping.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -1046,6 +1088,8 @@ def elemental_fraction_fc():
     """Operator's description:
     Internal name is "elemental_fraction_fc"
     Scripting name is "elemental_fraction_fc"
+
+    Description: Transform ElementalNodal fields into Elemental fields. Each elemental value is the fraction between the elemental difference and the entity average. Result is computed on a given elements scoping.
 
     Input list: 
        0: fields_container 
@@ -1097,6 +1141,8 @@ class _ToNodal(_Operator):
     Internal name is "to_nodal"
     Scripting name is "to_nodal"
 
+    Description: Transform input field into Nodal field using an averaging process, result is computed on a given node scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh_scoping 
@@ -1136,6 +1182,8 @@ def to_nodal():
     """Operator's description:
     Internal name is "to_nodal"
     Scripting name is "to_nodal"
+
+    Description: Transform input field into Nodal field using an averaging process, result is computed on a given node scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1187,6 +1235,8 @@ class _ToNodalFc(_Operator):
     Internal name is "to_nodal_fc"
     Scripting name is "to_nodal_fc"
 
+    Description: Transform input fields into Nodal fields using an averaging process, result is computed on a given node scoping.
+
     Input list: 
        0: fields_container 
        1: mesh 
@@ -1227,6 +1277,8 @@ def to_nodal_fc():
     """Operator's description:
     Internal name is "to_nodal_fc"
     Scripting name is "to_nodal_fc"
+
+    Description: Transform input fields into Nodal fields using an averaging process, result is computed on a given node scoping.
 
     Input list: 
        0: fields_container 
@@ -1276,6 +1328,8 @@ class _ElementalNodalToNodalElemental(_Operator):
     Internal name is "ElementalNodal_To_NodalElemental"
     Scripting name is "elemental_nodal_to_nodal_elemental"
 
+    Description: Transform ElementalNodal field to NodalElemental, compute result on a given node scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh_scoping 
@@ -1315,6 +1369,8 @@ def elemental_nodal_to_nodal_elemental():
     """Operator's description:
     Internal name is "ElementalNodal_To_NodalElemental"
     Scripting name is "elemental_nodal_to_nodal_elemental"
+
+    Description: Transform ElementalNodal field to NodalElemental, compute result on a given node scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1360,6 +1416,8 @@ class _ExtendToMidNodes(_Operator):
     Internal name is "extend_to_mid_nodes"
     Scripting name is "extend_to_mid_nodes"
 
+    Description: Extends ElementalNodal field defined on corner nodes to a ElementalNodal field defined also on the mid nodes.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -1398,6 +1456,8 @@ def extend_to_mid_nodes():
     """Operator's description:
     Internal name is "extend_to_mid_nodes"
     Scripting name is "extend_to_mid_nodes"
+
+    Description: Extends ElementalNodal field defined on corner nodes to a ElementalNodal field defined also on the mid nodes.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1445,6 +1505,8 @@ class _ExtendToMidNodesFc(_Operator):
     Internal name is "extend_to_mid_nodes_fc"
     Scripting name is "extend_to_mid_nodes_fc"
 
+    Description: Extends ElementalNodal fields defined on corner nodes to ElementalNodal fields defined also on the mid nodes.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -1484,6 +1546,8 @@ def extend_to_mid_nodes_fc():
     """Operator's description:
     Internal name is "extend_to_mid_nodes_fc"
     Scripting name is "extend_to_mid_nodes_fc"
+
+    Description: Extends ElementalNodal fields defined on corner nodes to ElementalNodal fields defined also on the mid nodes.
 
     Input list: 
        0: fields_container 
@@ -1538,6 +1602,8 @@ class _ElementalMean(_Operator):
     Internal name is "entity_average"
     Scripting name is "elemental_mean"
 
+    Description: Computes the average of a multi-entity fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal).
+
     Input list: 
        0: field 
        1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
@@ -1579,6 +1645,8 @@ def elemental_mean():
     """Operator's description:
     Internal name is "entity_average"
     Scripting name is "elemental_mean"
+
+    Description: Computes the average of a multi-entity fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal).
 
     Input list: 
        0: field 
@@ -1638,6 +1706,8 @@ class _ElementalMeanFc(_Operator):
     Internal name is "entity_average_fc"
     Scripting name is "elemental_mean_fc"
 
+    Description: Computes the average of a multi-entity container of fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input fields are mixed shell/solid and collapseShellLayers is not asked, then the fields are splitted by element shape and the output fields container has elshape label.
+
     Input list: 
        0: fields_container 
        1: collapse_shell_layers (if true shell layers are averaged as well (default is false))
@@ -1680,6 +1750,8 @@ def elemental_mean_fc():
     """Operator's description:
     Internal name is "entity_average_fc"
     Scripting name is "elemental_mean_fc"
+
+    Description: Computes the average of a multi-entity container of fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input fields are mixed shell/solid and collapseShellLayers is not asked, then the fields are splitted by element shape and the output fields container has elshape label.
 
     Input list: 
        0: fields_container 
@@ -1740,6 +1812,8 @@ class _ToElementalFc(_Operator):
     Internal name is "to_elemental_fc"
     Scripting name is "to_elemental_fc"
 
+    Description: Transform input fields into Elemental fields using an averaging process, result is computed on a given elements scoping.
+
     Input list: 
        0: fields_container 
        1: mesh 
@@ -1782,6 +1856,8 @@ def to_elemental_fc():
     """Operator's description:
     Internal name is "to_elemental_fc"
     Scripting name is "to_elemental_fc"
+
+    Description: Transform input fields into Elemental fields using an averaging process, result is computed on a given elements scoping.
 
     Input list: 
        0: fields_container 
@@ -1836,6 +1912,8 @@ class _NodalToElemental(_Operator):
     Internal name is "nodal_to_elemental"
     Scripting name is "nodal_to_elemental"
 
+    Description: Transform Nodal field to Elemental field, compute result on a given element scoping.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh_scoping 
@@ -1876,6 +1954,8 @@ def nodal_to_elemental():
     """Operator's description:
     Internal name is "nodal_to_elemental"
     Scripting name is "nodal_to_elemental"
+
+    Description: Transform Nodal field to Elemental field, compute result on a given element scoping.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1931,6 +2011,8 @@ class _NodalToElementalFc(_Operator):
     Internal name is "nodal_to_elemental_fc"
     Scripting name is "nodal_to_elemental_fc"
 
+    Description: Transform Nodal fields into Elemental fields using an averaging process, result is computed on a given elements scoping. If the input fields are mixed shell/solid and the shells layers are not asked to be collapsed, then the fields are splitted by element shape and the output fields container has elshape label.
+
     Input list: 
        0: fields_container 
        1: mesh (the mesh region in this pin is used to perform the averaging, if there is no field's support it is used)
@@ -1972,6 +2054,8 @@ def nodal_to_elemental_fc():
     """Operator's description:
     Internal name is "nodal_to_elemental_fc"
     Scripting name is "nodal_to_elemental_fc"
+
+    Description: Transform Nodal fields into Elemental fields using an averaging process, result is computed on a given elements scoping. If the input fields are mixed shell/solid and the shells layers are not asked to be collapsed, then the fields are splitted by element shape and the output fields container has elshape label.
 
     Input list: 
        0: fields_container 

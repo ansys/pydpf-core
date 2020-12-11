@@ -43,6 +43,8 @@ class _Run(_Operator):
     Internal name is "mapdl::run"
     Scripting name is "mapdl.run"
 
+    Description: Solve in mapdl a dat/inp file and returns a datasources with the rst file.
+
     Input list: 
        0: mapdl_exe_path 
        1: working_dir 
@@ -84,6 +86,8 @@ def run():
     """Operator's description:
     Internal name is "mapdl::run"
     Scripting name is "mapdl.run"
+
+    Description: Solve in mapdl a dat/inp file and returns a datasources with the rst file.
 
     Input list: 
        0: mapdl_exe_path 
@@ -146,6 +150,8 @@ class _Nmisc(_Operator):
     Internal name is "mapdl::nmisc"
     Scripting name is "mapdl.nmisc"
 
+    Description: Read NMISC results from the rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -189,6 +195,8 @@ def nmisc():
     """Operator's description:
     Internal name is "mapdl::nmisc"
     Scripting name is "mapdl.nmisc"
+
+    Description: Read NMISC results from the rst file.
 
     Input list: 
        0: time_scoping 
@@ -253,6 +261,8 @@ class _Smisc(_Operator):
     Internal name is "mapdl::smisc"
     Scripting name is "mapdl.smisc"
 
+    Description: Read SMISC results from the rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -296,6 +306,8 @@ def smisc():
     """Operator's description:
     Internal name is "mapdl::smisc"
     Scripting name is "mapdl.smisc"
+
+    Description: Read SMISC results from the rst file.
 
     Input list: 
        0: time_scoping 
@@ -345,6 +357,8 @@ class _PresToField(_Operator):
     Internal name is "PRES_Reader"
     Scripting name is "mapdl.pres_to_field"
 
+    Description: Read the presol generated file from mapdl.
+
     Input list: 
        0: filepath (filepath)
 
@@ -383,6 +397,8 @@ def pres_to_field():
     """Operator's description:
     Internal name is "PRES_Reader"
     Scripting name is "mapdl.pres_to_field"
+
+    Description: Read the presol generated file from mapdl.
 
     Input list: 
        0: filepath (filepath)
@@ -427,6 +443,8 @@ class _PrnsToField(_Operator):
     Internal name is "PRNS_Reader"
     Scripting name is "mapdl.prns_to_field"
 
+    Description: Read the presol of nodal field generated file from mapdl.
+
     Input list: 
        0: filepath (filepath)
 
@@ -465,6 +483,8 @@ def prns_to_field():
     """Operator's description:
     Internal name is "PRNS_Reader"
     Scripting name is "mapdl.prns_to_field"
+
+    Description: Read the presol of nodal field generated file from mapdl.
 
     Input list: 
        0: filepath (filepath)

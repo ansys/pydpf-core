@@ -46,6 +46,8 @@ class _IdenticalMeshes(_Operator):
     Internal name is "compare::mesh"
     Scripting name is "identical_meshes"
 
+    Description: Take two meshes and compare them.
+
     Input list: 
        0: meshA 
        1: meshB 
@@ -87,6 +89,8 @@ def identical_meshes():
     """Operator's description:
     Internal name is "compare::mesh"
     Scripting name is "identical_meshes"
+
+    Description: Take two meshes and compare them.
 
     Input list: 
        0: meshA 
@@ -137,6 +141,8 @@ class _ComponentSelectorFc(_Operator):
     Internal name is "component_selector_fc"
     Scripting name is "component_selector_fc"
 
+    Description: Create a scalar fields container based on the selected component for each field.
+
     Input list: 
        0: fields_container 
        1: component_number 
@@ -176,6 +182,8 @@ def component_selector_fc():
     """Operator's description:
     Internal name is "component_selector_fc"
     Scripting name is "component_selector_fc"
+
+    Description: Create a scalar fields container based on the selected component for each field.
 
     Input list: 
        0: fields_container 
@@ -227,6 +235,8 @@ class _ComponentSelector(_Operator):
     Internal name is "component_selector"
     Scripting name is "component_selector"
 
+    Description: Create a scalar/vector field based on the selected component.
+
     Input list: 
        0: field 
        1: component_number (one or several component index that will be extracted from the initial field.)
@@ -267,6 +277,8 @@ def component_selector():
     """Operator's description:
     Internal name is "component_selector"
     Scripting name is "component_selector"
+
+    Description: Create a scalar/vector field based on the selected component.
 
     Input list: 
        0: field 
@@ -319,6 +331,8 @@ class _IdenticalPropertyFields(_Operator):
     Internal name is "compare::property_field"
     Scripting name is "identical_property_fields"
 
+    Description: Take two property fields and compare them.
+
     Input list: 
        0: property_fieldA 
        1: property_fieldB 
@@ -359,6 +373,8 @@ def identical_property_fields():
     """Operator's description:
     Internal name is "compare::property_field"
     Scripting name is "identical_property_fields"
+
+    Description: Take two property fields and compare them.
 
     Input list: 
        0: property_fieldA 
@@ -417,6 +433,8 @@ class _MergeFieldsByLabel(_Operator):
     Internal name is "merge::fields_container_label"
     Scripting name is "merge_fields_by_label"
 
+    Description: Take a fields container and merge its fields that share the same label value.
+
     Input list: 
        0: fields_container 
        1: label (Label identifier that should be merged.)
@@ -459,6 +477,8 @@ def merge_fields_by_label():
     """Operator's description:
     Internal name is "merge::fields_container_label"
     Scripting name is "merge_fields_by_label"
+
+    Description: Take a fields container and merge its fields that share the same label value.
 
     Input list: 
        0: fields_container 
@@ -521,6 +541,8 @@ class _IdenticalFields(_Operator):
     Internal name is "AreFieldsIdentical"
     Scripting name is "identical_fields"
 
+    Description: Check if two fields are identical.
+
     Input list: 
        0: fieldA 
        1: fieldB 
@@ -563,6 +585,8 @@ def identical_fields():
     """Operator's description:
     Internal name is "AreFieldsIdentical"
     Scripting name is "identical_fields"
+
+    Description: Check if two fields are identical.
 
     Input list: 
        0: fieldA 
@@ -623,6 +647,8 @@ class _IncludedFields(_Operator):
     Internal name is "Are_fields_included"
     Scripting name is "included_fields"
 
+    Description: Check if one field belongs to another.
+
     Input list: 
        0: fieldA 
        1: fieldB 
@@ -665,6 +691,8 @@ def included_fields():
     """Operator's description:
     Internal name is "Are_fields_included"
     Scripting name is "included_fields"
+
+    Description: Check if one field belongs to another.
 
     Input list: 
        0: fieldA 
@@ -722,6 +750,8 @@ class _IdenticalFc(_Operator):
     Internal name is "AreFieldsIdentical_fc"
     Scripting name is "identical_fc"
 
+    Description: Check if two fields container are identical.
+
     Input list: 
        0: fields_containerA 
        1: fields_containerB 
@@ -763,6 +793,8 @@ def identical_fc():
     """Operator's description:
     Internal name is "AreFieldsIdentical_fc"
     Scripting name is "identical_fc"
+
+    Description: Check if two fields container are identical.
 
     Input list: 
        0: fields_containerA 
@@ -810,6 +842,8 @@ class _EnrichMaterials(_Operator):
     Internal name is "enrich_materials"
     Scripting name is "enrich_materials"
 
+    Description: Take a MaterialContainer and a stream and enrich the MaterialContainer using stream data.
+
     Input list: 
        1: streams 
 
@@ -848,6 +882,8 @@ def enrich_materials():
     """Operator's description:
     Internal name is "enrich_materials"
     Scripting name is "enrich_materials"
+
+    Description: Take a MaterialContainer and a stream and enrich the MaterialContainer using stream data.
 
     Input list: 
        1: streams 
@@ -892,6 +928,8 @@ class _LoopOverWorkflowIntVec(_Operator):
     Internal name is "loop_over_workflow_int_vec"
     Scripting name is "loop_over_workflow_int_vec"
 
+    Description: Loop over the number of ellipsis pin (from pin 3) and for each of these inputs connect the input to the workflow, evaluate the workfow and store the results in a fields container
+
     Input list: 
        1: input_name (name of the workflow's input pin to loop over)
 
@@ -930,6 +968,8 @@ def loop_over_workflow_int_vec():
     """Operator's description:
     Internal name is "loop_over_workflow_int_vec"
     Scripting name is "loop_over_workflow_int_vec"
+
+    Description: Loop over the number of ellipsis pin (from pin 3) and for each of these inputs connect the input to the workflow, evaluate the workfow and store the results in a fields container
 
     Input list: 
        1: input_name (name of the workflow's input pin to loop over)

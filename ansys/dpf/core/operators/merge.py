@@ -34,6 +34,8 @@ class _SolidShellFields(_Operator):
     Internal name is "merge::solid_shell_fields"
     Scripting name is "merge::solid_shell_fields"
 
+    Description: Makes a fields based on fields container containing shell and solid fields with respect to time steps/frequencies.
+
     Input list: 
        0: fields_container 
 
@@ -72,6 +74,8 @@ def solid_shell_fields():
     """Operator's description:
     Internal name is "merge::solid_shell_fields"
     Scripting name is "merge::solid_shell_fields"
+
+    Description: Makes a fields based on fields container containing shell and solid fields with respect to time steps/frequencies.
 
     Input list: 
        0: fields_container 

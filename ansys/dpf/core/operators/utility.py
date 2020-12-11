@@ -37,6 +37,8 @@ class _ExtractField(_Operator):
     Internal name is "ExtractFromFC"
     Scripting name is "extract_field"
 
+    Description: Extract the fields at the indeces defined in the vector (in 1) form the fields container (in:0).
+
     Input list: 
        0: fields_container (if a field is in input, it is passed on as output)
 
@@ -75,6 +77,8 @@ def extract_field():
     """Operator's description:
     Internal name is "ExtractFromFC"
     Scripting name is "extract_field"
+
+    Description: Extract the fields at the indeces defined in the vector (in 1) form the fields container (in:0).
 
     Input list: 
        0: fields_container (if a field is in input, it is passed on as output)
@@ -119,6 +123,8 @@ class _FieldToFc(_Operator):
     Internal name is "InjectToFieldContainer"
     Scripting name is "field_to_fc"
 
+    Description: Create a field container containing the field in input.
+
     Input list: 
        0: field (if a fields container is set in input, it is pass on as output.)
 
@@ -157,6 +163,8 @@ def field_to_fc():
     """Operator's description:
     Internal name is "InjectToFieldContainer"
     Scripting name is "field_to_fc"
+
+    Description: Create a field container containing the field in input.
 
     Input list: 
        0: field (if a fields container is set in input, it is pass on as output.)
@@ -199,6 +207,8 @@ class _HtmlDoc(_Operator):
     Internal name is "html_doc"
     Scripting name is "html_doc"
 
+    Description: Create dpf's html documentation. Only on windows, use deprecated doc for linux
+
     Input list: 
        0: output_path (default is {working directory}/dataProcessingDoc.html)
 
@@ -237,6 +247,8 @@ def html_doc():
     """Operator's description:
     Internal name is "html_doc"
     Scripting name is "html_doc"
+
+    Description: Create dpf's html documentation. Only on windows, use deprecated doc for linux
 
     Input list: 
        0: output_path (default is {working directory}/dataProcessingDoc.html)
@@ -281,6 +293,8 @@ class _UnitaryField(_Operator):
     Internal name is "make_unit"
     Scripting name is "unitary_field"
 
+    Description: Take a field and returns an other field of scalars on the same location and scoping as the input field
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -319,6 +333,8 @@ def unitary_field():
     """Operator's description:
     Internal name is "make_unit"
     Scripting name is "unitary_field"
+
+    Description: Take a field and returns an other field of scalars on the same location and scoping as the input field
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -366,6 +382,8 @@ class _BindSupport(_Operator):
     Internal name is "BindSupport"
     Scripting name is "bind_support"
 
+    Description: Tie a support to a field.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: support (meshed region or a support of the field)
@@ -405,6 +423,8 @@ def bind_support():
     """Operator's description:
     Internal name is "BindSupport"
     Scripting name is "bind_support"
+
+    Description: Tie a support to a field.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -450,6 +470,8 @@ class _ScalarsToField(_Operator):
     Internal name is "fieldify"
     Scripting name is "scalars_to_field"
 
+    Description: take a double or a vector of double and transform it in a one entity field of location "numeric".
+
     Input list: 
        0: double_or_vector_double (double or vector of double)
 
@@ -488,6 +510,8 @@ def scalars_to_field():
     """Operator's description:
     Internal name is "fieldify"
     Scripting name is "scalars_to_field"
+
+    Description: take a double or a vector of double and transform it in a one entity field of location "numeric".
 
     Input list: 
        0: double_or_vector_double (double or vector of double)
@@ -535,6 +559,8 @@ class _ChangeLocation(_Operator):
     Internal name is "change_location"
     Scripting name is "change_location"
 
+    Description: change the location of a field.
+
     Input list: 
        0: field 
        1: new_location (new location of the output field ex: 'Nodal', 'ElementalNodal', 'Elemental'...)
@@ -574,6 +600,8 @@ def change_location():
     """Operator's description:
     Internal name is "change_location"
     Scripting name is "change_location"
+
+    Description: change the location of a field.
 
     Input list: 
        0: field 
@@ -619,6 +647,8 @@ class _StrainFromVoigt(_Operator):
     Internal name is "strain_from_voigt"
     Scripting name is "strain_from_voigt"
 
+    Description: Put strain field from Voigt notation to standard format.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -657,6 +687,8 @@ def strain_from_voigt():
     """Operator's description:
     Internal name is "strain_from_voigt"
     Scripting name is "strain_from_voigt"
+
+    Description: Put strain field from Voigt notation to standard format.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -707,6 +739,8 @@ class _SetProperty(_Operator):
     Internal name is "field::set_property"
     Scripting name is "set_property"
 
+    Description: Set a property to an input field/field container
+
     Input list: 
        0: field 
        1: property_name (Property to set)
@@ -747,6 +781,8 @@ def set_property():
     """Operator's description:
     Internal name is "field::set_property"
     Scripting name is "set_property"
+
+    Description: Set a property to an input field/field container
 
     Input list: 
        0: field 
@@ -793,6 +829,8 @@ class _ForwardField(_Operator):
     Internal name is "forward"
     Scripting name is "forward_field"
 
+    Description: Return the input field or fields container.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -831,6 +869,8 @@ def forward_field():
     """Operator's description:
     Internal name is "forward"
     Scripting name is "forward_field"
+
+    Description: Return the input field or fields container.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -875,6 +915,8 @@ class _ForwardFieldsContainer(_Operator):
     Internal name is "forward_fc"
     Scripting name is "forward_fields_container"
 
+    Description: Return the input field or fields container.
+
     Input list: 
        0: fields 
 
@@ -913,6 +955,8 @@ def forward_fields_container():
     """Operator's description:
     Internal name is "forward_fc"
     Scripting name is "forward_fields_container"
+
+    Description: Return the input field or fields container.
 
     Input list: 
        0: fields 
@@ -956,6 +1000,8 @@ class _TxtFileToDpf(_Operator):
     Internal name is "text_parser"
     Scripting name is "txt_file_to_dpf"
 
+    Description: Take an input string and parse it into dataProcessing type.
+
     Input list: 
        0: input_string (ex: "double:1.0", "int:1", "vector<double>:1.0;1.0".)
 
@@ -995,6 +1041,8 @@ def txt_file_to_dpf():
     """Operator's description:
     Internal name is "text_parser"
     Scripting name is "txt_file_to_dpf"
+
+    Description: Take an input string and parse it into dataProcessing type.
 
     Input list: 
        0: input_string (ex: "double:1.0", "int:1", "vector<double>:1.0;1.0".)
@@ -1043,6 +1091,8 @@ class _BindSupportFc(_Operator):
     Internal name is "BindSupportFC"
     Scripting name is "bind_support_fc"
 
+    Description: Tie a support to a fields container.
+
     Input list: 
        0: fields_container 
        1: support (meshed region or a support of the field)
@@ -1082,6 +1132,8 @@ def bind_support_fc():
     """Operator's description:
     Internal name is "BindSupportFC"
     Scripting name is "bind_support_fc"
+
+    Description: Tie a support to a fields container.
 
     Input list: 
        0: fields_container 
@@ -1140,6 +1192,8 @@ class _ChangeShellLayers(_Operator):
     Internal name is "change_shellLayers"
     Scripting name is "change_shell_layers"
 
+    Description: Extract the expected shell layers from the input fields, if the fields contain only one layer then it returns the input fields
+
     Input list: 
        0: fields_container 
        1: e_shell_layer (0:Top, 1: Bottom, 2: BottomTop, 3:Mid, 4:BottomTopMid)
@@ -1179,6 +1233,8 @@ def change_shell_layers():
     """Operator's description:
     Internal name is "change_shellLayers"
     Scripting name is "change_shell_layers"
+
+    Description: Extract the expected shell layers from the input fields, if the fields contain only one layer then it returns the input fields
 
     Input list: 
        0: fields_container 

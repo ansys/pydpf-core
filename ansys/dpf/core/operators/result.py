@@ -61,6 +61,8 @@ class _PlasticStrainPrincipal1(_Operator):
     Internal name is "EPPL1"
     Scripting name is "plastic_strain_principal_1"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component plastic strains 1st principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -107,6 +109,8 @@ def plastic_strain_principal_1():
     """Operator's description:
     Internal name is "EPPL1"
     Scripting name is "plastic_strain_principal_1"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component plastic strains 1st principal component).
 
     Input list: 
        0: time_scoping 
@@ -183,6 +187,8 @@ class _PlasticStrainPrincipal3(_Operator):
     Internal name is "EPPL3"
     Scripting name is "plastic_strain_principal_3"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component plastic strains 3rd principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -229,6 +235,8 @@ def plastic_strain_principal_3():
     """Operator's description:
     Internal name is "EPPL3"
     Scripting name is "plastic_strain_principal_3"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component plastic strains 3rd principal component).
 
     Input list: 
        0: time_scoping 
@@ -284,6 +292,8 @@ class _RigidTransformation(_Operator):
     Internal name is "RigidTransformationProvider"
     Scripting name is "rigid_transformation"
 
+    Description: Extracts rigid body motions from a displacement in input.
+
     Input list: 
        3: streams_container (streams (result file container) (optional))
        4: data_sources (if the stream is null then we need to get the file path from the data sources)
@@ -323,6 +333,8 @@ def rigid_transformation():
     """Operator's description:
     Internal name is "RigidTransformationProvider"
     Scripting name is "rigid_transformation"
+
+    Description: Extracts rigid body motions from a displacement in input.
 
     Input list: 
        3: streams_container (streams (result file container) (optional))
@@ -392,6 +404,8 @@ class _ElasticStrainY(_Operator):
     Internal name is "EPELY"
     Scripting name is "elastic_strain_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains YY normal component (11 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -438,6 +452,8 @@ def elastic_strain_Y():
     """Operator's description:
     Internal name is "EPELY"
     Scripting name is "elastic_strain_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains YY normal component (11 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -514,6 +530,8 @@ class _ElementalMass(_Operator):
     Internal name is "ElementalMass"
     Scripting name is "elemental_mass"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element mass. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -560,6 +578,8 @@ def elemental_mass():
     """Operator's description:
     Internal name is "ElementalMass"
     Scripting name is "elemental_mass"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element mass. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -636,6 +656,8 @@ class _HeatFlux(_Operator):
     Internal name is "TF"
     Scripting name is "heat_flux"
 
+    Description: Load the appropriate operator based on the data sources and read/compute heat flux. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -682,6 +704,8 @@ def heat_flux():
     """Operator's description:
     Internal name is "TF"
     Scripting name is "heat_flux"
+
+    Description: Load the appropriate operator based on the data sources and read/compute heat flux. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -758,6 +782,8 @@ class _CoEnergy(_Operator):
     Internal name is "ENG_CO"
     Scripting name is "co_energy"
 
+    Description: Load the appropriate operator based on the data sources and read/compute co-energy (magnetics). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -804,6 +830,8 @@ def co_energy():
     """Operator's description:
     Internal name is "ENG_CO"
     Scripting name is "co_energy"
+
+    Description: Load the appropriate operator based on the data sources and read/compute co-energy (magnetics). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -880,6 +908,8 @@ class _ElasticStrainZ(_Operator):
     Internal name is "EPELZ"
     Scripting name is "elastic_strain_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains ZZ normal component (22 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -926,6 +956,8 @@ def elastic_strain_Z():
     """Operator's description:
     Internal name is "EPELZ"
     Scripting name is "elastic_strain_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains ZZ normal component (22 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1002,6 +1034,8 @@ class _Stress(_Operator):
     Internal name is "S"
     Scripting name is "stress"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component stresses. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1048,6 +1082,8 @@ def stress():
     """Operator's description:
     Internal name is "S"
     Scripting name is "stress"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component stresses. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1124,6 +1160,8 @@ class _StressX(_Operator):
     Internal name is "SX"
     Scripting name is "stress_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses XX normal component (00 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1170,6 +1208,8 @@ def stress_X():
     """Operator's description:
     Internal name is "SX"
     Scripting name is "stress_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses XX normal component (00 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1246,6 +1286,8 @@ class _StressY(_Operator):
     Internal name is "SY"
     Scripting name is "stress_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses YY normal component (11 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1292,6 +1334,8 @@ def stress_Y():
     """Operator's description:
     Internal name is "SY"
     Scripting name is "stress_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses YY normal component (11 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1368,6 +1412,8 @@ class _StressZ(_Operator):
     Internal name is "SZ"
     Scripting name is "stress_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses ZZ normal component (22 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1414,6 +1460,8 @@ def stress_Z():
     """Operator's description:
     Internal name is "SZ"
     Scripting name is "stress_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses ZZ normal component (22 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1490,6 +1538,8 @@ class _StressXY(_Operator):
     Internal name is "SXY"
     Scripting name is "stress_XY"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses XY shear component (01 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1536,6 +1586,8 @@ def stress_XY():
     """Operator's description:
     Internal name is "SXY"
     Scripting name is "stress_XY"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses XY shear component (01 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1612,6 +1664,8 @@ class _StressYZ(_Operator):
     Internal name is "SYZ"
     Scripting name is "stress_YZ"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses YZ shear component (12 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1658,6 +1712,8 @@ def stress_YZ():
     """Operator's description:
     Internal name is "SYZ"
     Scripting name is "stress_YZ"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses YZ shear component (12 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1734,6 +1790,8 @@ class _ModalBasis(_Operator):
     Internal name is "ModalBasis"
     Scripting name is "modal_basis"
 
+    Description: Load the appropriate operator based on the data sources and read/compute modal basis. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1780,6 +1838,8 @@ def modal_basis():
     """Operator's description:
     Internal name is "ModalBasis"
     Scripting name is "modal_basis"
+
+    Description: Load the appropriate operator based on the data sources and read/compute modal basis. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1856,6 +1916,8 @@ class _StressXZ(_Operator):
     Internal name is "SXZ"
     Scripting name is "stress_XZ"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses XZ shear component (02 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -1902,6 +1964,8 @@ def stress_XZ():
     """Operator's description:
     Internal name is "SXZ"
     Scripting name is "stress_XZ"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component stresses XZ shear component (02 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -1978,6 +2042,8 @@ class _StressPrincipal1(_Operator):
     Internal name is "S1"
     Scripting name is "stress_principal_1"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component stresses 1st principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2024,6 +2090,8 @@ def stress_principal_1():
     """Operator's description:
     Internal name is "S1"
     Scripting name is "stress_principal_1"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component stresses 1st principal component).
 
     Input list: 
        0: time_scoping 
@@ -2100,6 +2168,8 @@ class _StressPrincipal2(_Operator):
     Internal name is "S2"
     Scripting name is "stress_principal_2"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component stresses 2nd principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2146,6 +2216,8 @@ def stress_principal_2():
     """Operator's description:
     Internal name is "S2"
     Scripting name is "stress_principal_2"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component stresses 2nd principal component).
 
     Input list: 
        0: time_scoping 
@@ -2222,6 +2294,8 @@ class _StressPrincipal3(_Operator):
     Internal name is "S3"
     Scripting name is "stress_principal_3"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component stresses 3rd principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2268,6 +2342,8 @@ def stress_principal_3():
     """Operator's description:
     Internal name is "S3"
     Scripting name is "stress_principal_3"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component stresses 3rd principal component).
 
     Input list: 
        0: time_scoping 
@@ -2344,6 +2420,8 @@ class _ElasticStrain(_Operator):
     Internal name is "EPEL"
     Scripting name is "elastic_strain"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2390,6 +2468,8 @@ def elastic_strain():
     """Operator's description:
     Internal name is "EPEL"
     Scripting name is "elastic_strain"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -2466,6 +2546,8 @@ class _ElasticStrainX(_Operator):
     Internal name is "EPELX"
     Scripting name is "elastic_strain_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains XX normal component (00 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2512,6 +2594,8 @@ def elastic_strain_X():
     """Operator's description:
     Internal name is "EPELX"
     Scripting name is "elastic_strain_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains XX normal component (00 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -2588,6 +2672,8 @@ class _ElasticStrainXY(_Operator):
     Internal name is "EPELXY"
     Scripting name is "elastic_strain_XY"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains XY shear component (01 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2634,6 +2720,8 @@ def elastic_strain_XY():
     """Operator's description:
     Internal name is "EPELXY"
     Scripting name is "elastic_strain_XY"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains XY shear component (01 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -2710,6 +2798,8 @@ class _ElasticStrainYZ(_Operator):
     Internal name is "EPELYZ"
     Scripting name is "elastic_strain_YZ"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains YZ shear component (12 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2756,6 +2846,8 @@ def elastic_strain_YZ():
     """Operator's description:
     Internal name is "EPELYZ"
     Scripting name is "elastic_strain_YZ"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains YZ shear component (12 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -2832,6 +2924,8 @@ class _ElasticStrainXZ(_Operator):
     Internal name is "EPELXZ"
     Scripting name is "elastic_strain_XZ"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains XZ shear component (02 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -2878,6 +2972,8 @@ def elastic_strain_XZ():
     """Operator's description:
     Internal name is "EPELXZ"
     Scripting name is "elastic_strain_XZ"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component elastic strains XZ shear component (02 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -2954,6 +3050,8 @@ class _ElasticStrainPrincipal1(_Operator):
     Internal name is "EPEL1"
     Scripting name is "elastic_strain_principal_1"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component elastic strains 1st principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3000,6 +3098,8 @@ def elastic_strain_principal_1():
     """Operator's description:
     Internal name is "EPEL1"
     Scripting name is "elastic_strain_principal_1"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component elastic strains 1st principal component).
 
     Input list: 
        0: time_scoping 
@@ -3076,6 +3176,8 @@ class _ElasticStrainPrincipal2(_Operator):
     Internal name is "EPEL2"
     Scripting name is "elastic_strain_principal_2"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component elastic strains 2nd principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3122,6 +3224,8 @@ def elastic_strain_principal_2():
     """Operator's description:
     Internal name is "EPEL2"
     Scripting name is "elastic_strain_principal_2"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component elastic strains 2nd principal component).
 
     Input list: 
        0: time_scoping 
@@ -3198,6 +3302,8 @@ class _ElasticStrainPrincipal3(_Operator):
     Internal name is "EPEL3"
     Scripting name is "elastic_strain_principal_3"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component elastic strains 3rd principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3244,6 +3350,8 @@ def elastic_strain_principal_3():
     """Operator's description:
     Internal name is "EPEL3"
     Scripting name is "elastic_strain_principal_3"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component elastic strains 3rd principal component).
 
     Input list: 
        0: time_scoping 
@@ -3320,6 +3428,8 @@ class _PlasticStrain(_Operator):
     Internal name is "EPPL"
     Scripting name is "plastic_strain"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3366,6 +3476,8 @@ def plastic_strain():
     """Operator's description:
     Internal name is "EPPL"
     Scripting name is "plastic_strain"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -3442,6 +3554,8 @@ class _PlasticStrainX(_Operator):
     Internal name is "EPPLX"
     Scripting name is "plastic_strain_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains XX normal component (00 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3488,6 +3602,8 @@ def plastic_strain_X():
     """Operator's description:
     Internal name is "EPPLX"
     Scripting name is "plastic_strain_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains XX normal component (00 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -3564,6 +3680,8 @@ class _PlasticStrainY(_Operator):
     Internal name is "EPPLY"
     Scripting name is "plastic_strain_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains YY normal component (11 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3610,6 +3728,8 @@ def plastic_strain_Y():
     """Operator's description:
     Internal name is "EPPLY"
     Scripting name is "plastic_strain_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains YY normal component (11 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -3686,6 +3806,8 @@ class _PlasticStrainZ(_Operator):
     Internal name is "EPPLZ"
     Scripting name is "plastic_strain_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains ZZ normal component (22 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3732,6 +3854,8 @@ def plastic_strain_Z():
     """Operator's description:
     Internal name is "EPPLZ"
     Scripting name is "plastic_strain_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains ZZ normal component (22 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -3808,6 +3932,8 @@ class _HydrostaticPressure(_Operator):
     Internal name is "ENL_HPRES"
     Scripting name is "hydrostatic_pressure"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal hydrostatic pressure. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3854,6 +3980,8 @@ def hydrostatic_pressure():
     """Operator's description:
     Internal name is "ENL_HPRES"
     Scripting name is "hydrostatic_pressure"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal hydrostatic pressure. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -3930,6 +4058,8 @@ class _PlasticStrainXY(_Operator):
     Internal name is "EPPLXY"
     Scripting name is "plastic_strain_XY"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains XY shear component (01 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -3976,6 +4106,8 @@ def plastic_strain_XY():
     """Operator's description:
     Internal name is "EPPLXY"
     Scripting name is "plastic_strain_XY"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains XY shear component (01 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4052,6 +4184,8 @@ class _PlasticStrainYZ(_Operator):
     Internal name is "EPPLYZ"
     Scripting name is "plastic_strain_YZ"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains YZ shear component (12 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4098,6 +4232,8 @@ def plastic_strain_YZ():
     """Operator's description:
     Internal name is "EPPLYZ"
     Scripting name is "plastic_strain_YZ"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains YZ shear component (12 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4174,6 +4310,8 @@ class _PlasticStrainXZ(_Operator):
     Internal name is "EPPLXZ"
     Scripting name is "plastic_strain_XZ"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains XZ shear component (02 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4220,6 +4358,8 @@ def plastic_strain_XZ():
     """Operator's description:
     Internal name is "EPPLXZ"
     Scripting name is "plastic_strain_XZ"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute element nodal component plastic strains XZ shear component (02 component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4296,6 +4436,8 @@ class _PlasticStrainPrincipal2(_Operator):
     Internal name is "EPPL2"
     Scripting name is "plastic_strain_principal_2"
 
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component plastic strains 2nd principal component).
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4342,6 +4484,8 @@ def plastic_strain_principal_2():
     """Operator's description:
     Internal name is "EPPL2"
     Scripting name is "plastic_strain_principal_2"
+
+    Description:  Load the appropriate operator based on the data sources, reads/computes the result and find its eigen values (element nodal component plastic strains 2nd principal component).
 
     Input list: 
        0: time_scoping 
@@ -4418,6 +4562,8 @@ class _Acceleration(_Operator):
     Internal name is "A"
     Scripting name is "acceleration"
 
+    Description: Load the appropriate operator based on the data sources and read/compute nodal accelerations. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4464,6 +4610,8 @@ def acceleration():
     """Operator's description:
     Internal name is "A"
     Scripting name is "acceleration"
+
+    Description: Load the appropriate operator based on the data sources and read/compute nodal accelerations. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4540,6 +4688,8 @@ class _AccelerationX(_Operator):
     Internal name is "AX"
     Scripting name is "acceleration_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal accelerations X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4586,6 +4736,8 @@ def acceleration_X():
     """Operator's description:
     Internal name is "AX"
     Scripting name is "acceleration_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal accelerations X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4662,6 +4814,8 @@ class _AccelerationY(_Operator):
     Internal name is "AY"
     Scripting name is "acceleration_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal accelerations Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4708,6 +4862,8 @@ def acceleration_Y():
     """Operator's description:
     Internal name is "AY"
     Scripting name is "acceleration_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal accelerations Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4784,6 +4940,8 @@ class _ElementCentroids(_Operator):
     Internal name is "centroids"
     Scripting name is "element_centroids"
 
+    Description: Load the appropriate operator based on the data sources and read/compute coordinate of the elemental centroids. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4830,6 +4988,8 @@ def element_centroids():
     """Operator's description:
     Internal name is "centroids"
     Scripting name is "element_centroids"
+
+    Description: Load the appropriate operator based on the data sources and read/compute coordinate of the elemental centroids. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -4906,6 +5066,8 @@ class _AccelerationZ(_Operator):
     Internal name is "AZ"
     Scripting name is "acceleration_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal accelerations Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -4952,6 +5114,8 @@ def acceleration_Z():
     """Operator's description:
     Internal name is "AZ"
     Scripting name is "acceleration_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal accelerations Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5028,6 +5192,8 @@ class _ReactionForce(_Operator):
     Internal name is "RF"
     Scripting name is "reaction_force"
 
+    Description: Load the appropriate operator based on the data sources and read/compute nodal reaction forces. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5074,6 +5240,8 @@ def reaction_force():
     """Operator's description:
     Internal name is "RF"
     Scripting name is "reaction_force"
+
+    Description: Load the appropriate operator based on the data sources and read/compute nodal reaction forces. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5150,6 +5318,8 @@ class _Velocity(_Operator):
     Internal name is "V"
     Scripting name is "velocity"
 
+    Description: Load the appropriate operator based on the data sources and read/compute nodal velocities. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5196,6 +5366,8 @@ def velocity():
     """Operator's description:
     Internal name is "V"
     Scripting name is "velocity"
+
+    Description: Load the appropriate operator based on the data sources and read/compute nodal velocities. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5272,6 +5444,8 @@ class _VelocityX(_Operator):
     Internal name is "VX"
     Scripting name is "velocity_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal velocities X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5318,6 +5492,8 @@ def velocity_X():
     """Operator's description:
     Internal name is "VX"
     Scripting name is "velocity_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal velocities X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5394,6 +5570,8 @@ class _VelocityY(_Operator):
     Internal name is "VY"
     Scripting name is "velocity_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal velocities Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5440,6 +5618,8 @@ def velocity_Y():
     """Operator's description:
     Internal name is "VY"
     Scripting name is "velocity_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal velocities Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5516,6 +5696,8 @@ class _VelocityZ(_Operator):
     Internal name is "VZ"
     Scripting name is "velocity_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal velocities Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5562,6 +5744,8 @@ def velocity_Z():
     """Operator's description:
     Internal name is "VZ"
     Scripting name is "velocity_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal velocities Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5638,6 +5822,8 @@ class _Displacement(_Operator):
     Internal name is "U"
     Scripting name is "displacement"
 
+    Description: Load the appropriate operator based on the data sources and read/compute nodal displacements. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5684,6 +5870,8 @@ def displacement():
     """Operator's description:
     Internal name is "U"
     Scripting name is "displacement"
+
+    Description: Load the appropriate operator based on the data sources and read/compute nodal displacements. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5760,6 +5948,8 @@ class _DisplacementX(_Operator):
     Internal name is "UX"
     Scripting name is "displacement_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal displacements X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5806,6 +5996,8 @@ def displacement_X():
     """Operator's description:
     Internal name is "UX"
     Scripting name is "displacement_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal displacements X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -5882,6 +6074,8 @@ class _DisplacementY(_Operator):
     Internal name is "UY"
     Scripting name is "displacement_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal displacements Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -5928,6 +6122,8 @@ def displacement_Y():
     """Operator's description:
     Internal name is "UY"
     Scripting name is "displacement_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal displacements Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6004,6 +6200,8 @@ class _DisplacementZ(_Operator):
     Internal name is "UZ"
     Scripting name is "displacement_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal displacements Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6050,6 +6248,8 @@ def displacement_Z():
     """Operator's description:
     Internal name is "UZ"
     Scripting name is "displacement_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute nodal displacements Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6126,6 +6326,8 @@ class _HeatFluxX(_Operator):
     Internal name is "TFX"
     Scripting name is "heat_flux_X"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute heat flux X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6172,6 +6374,8 @@ def heat_flux_X():
     """Operator's description:
     Internal name is "TFX"
     Scripting name is "heat_flux_X"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute heat flux X component of the vector (1st component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6248,6 +6452,8 @@ class _ElectricField(_Operator):
     Internal name is "EF"
     Scripting name is "electric_field"
 
+    Description: Load the appropriate operator based on the data sources and read/compute electric field. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6294,6 +6500,8 @@ def electric_field():
     """Operator's description:
     Internal name is "EF"
     Scripting name is "electric_field"
+
+    Description: Load the appropriate operator based on the data sources and read/compute electric field. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6370,6 +6578,8 @@ class _HeatFluxY(_Operator):
     Internal name is "TFY"
     Scripting name is "heat_flux_Y"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute heat flux Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6416,6 +6626,8 @@ def heat_flux_Y():
     """Operator's description:
     Internal name is "TFY"
     Scripting name is "heat_flux_Y"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute heat flux Y component of the vector (2nd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6492,6 +6704,8 @@ class _HeatFluxZ(_Operator):
     Internal name is "TFZ"
     Scripting name is "heat_flux_Z"
 
+    Description:  Load the appropriate operator based on the data sources and read/compute heat flux Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6538,6 +6752,8 @@ def heat_flux_Z():
     """Operator's description:
     Internal name is "TFZ"
     Scripting name is "heat_flux_Z"
+
+    Description:  Load the appropriate operator based on the data sources and read/compute heat flux Z component of the vector (3rd component). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6614,6 +6830,8 @@ class _ElementNodalForces(_Operator):
     Internal name is "ENF"
     Scripting name is "element_nodal_forces"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal forces. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6660,6 +6878,8 @@ def element_nodal_forces():
     """Operator's description:
     Internal name is "ENF"
     Scripting name is "element_nodal_forces"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal forces. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6736,6 +6956,8 @@ class _StructuralTemperature(_Operator):
     Internal name is "BFE"
     Scripting name is "structural_temperature"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element structural nodal temperatures. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6782,6 +7004,8 @@ def structural_temperature():
     """Operator's description:
     Internal name is "BFE"
     Scripting name is "structural_temperature"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element structural nodal temperatures. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6858,6 +7082,8 @@ class _IncrementalEnergy(_Operator):
     Internal name is "ENG_INC"
     Scripting name is "incremental_energy"
 
+    Description: Load the appropriate operator based on the data sources and read/compute incremental energy (magnetics). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -6904,6 +7130,8 @@ def incremental_energy():
     """Operator's description:
     Internal name is "ENG_INC"
     Scripting name is "incremental_energy"
+
+    Description: Load the appropriate operator based on the data sources and read/compute incremental energy (magnetics). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -6980,6 +7208,8 @@ class _StiffnessMatrixEnergy(_Operator):
     Internal name is "ENG_SE"
     Scripting name is "stiffness_matrix_energy"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element energy associated with the stiffness matrix. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7026,6 +7256,8 @@ def stiffness_matrix_energy():
     """Operator's description:
     Internal name is "ENG_SE"
     Scripting name is "stiffness_matrix_energy"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element energy associated with the stiffness matrix. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7102,6 +7334,8 @@ class _ThermalStrain(_Operator):
     Internal name is "ETH"
     Scripting name is "thermal_strain"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component thermal strains. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7148,6 +7382,8 @@ def thermal_strain():
     """Operator's description:
     Internal name is "ETH"
     Scripting name is "thermal_strain"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal component thermal strains. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7224,6 +7460,8 @@ class _EqvStressParameter(_Operator):
     Internal name is "ENL_SEPL"
     Scripting name is "eqv_stress_parameter"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal equivalent stress parameter. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7270,6 +7508,8 @@ def eqv_stress_parameter():
     """Operator's description:
     Internal name is "ENL_SEPL"
     Scripting name is "eqv_stress_parameter"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal equivalent stress parameter. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7346,6 +7586,8 @@ class _StressRatio(_Operator):
     Internal name is "ENL_SRAT"
     Scripting name is "stress_ratio"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal stress ratio. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7392,6 +7634,8 @@ def stress_ratio():
     """Operator's description:
     Internal name is "ENL_SRAT"
     Scripting name is "stress_ratio"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal stress ratio. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7468,6 +7712,8 @@ class _AccuEqvPlasticStrain(_Operator):
     Internal name is "ENL_EPEQ"
     Scripting name is "accu_eqv_plastic_strain"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal accumulated equivalent plastic strain. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7514,6 +7760,8 @@ def accu_eqv_plastic_strain():
     """Operator's description:
     Internal name is "ENL_EPEQ"
     Scripting name is "accu_eqv_plastic_strain"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal accumulated equivalent plastic strain. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7590,6 +7838,8 @@ class _PlasticStateVariable(_Operator):
     Internal name is "ENL_PSV"
     Scripting name is "plastic_state_variable"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal plastic state variable. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7636,6 +7886,8 @@ def plastic_state_variable():
     """Operator's description:
     Internal name is "ENL_PSV"
     Scripting name is "plastic_state_variable"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal plastic state variable. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7712,6 +7964,8 @@ class _AccuEqvCreepStrain(_Operator):
     Internal name is "ENL_CREQ"
     Scripting name is "accu_eqv_creep_strain"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal accumulated equivalent creep strain. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7758,6 +8012,8 @@ def accu_eqv_creep_strain():
     """Operator's description:
     Internal name is "ENL_CREQ"
     Scripting name is "accu_eqv_creep_strain"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal accumulated equivalent creep strain. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7834,6 +8090,8 @@ class _PlasticStrainEnergyDensity(_Operator):
     Internal name is "ENL_PLWK"
     Scripting name is "plastic_strain_energy_density"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal plastic strain energy density. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -7880,6 +8138,8 @@ def plastic_strain_energy_density():
     """Operator's description:
     Internal name is "ENL_PLWK"
     Scripting name is "plastic_strain_energy_density"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal plastic strain energy density. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -7935,6 +8195,8 @@ class _MaterialPropertyOfElement(_Operator):
     Internal name is "MaterialPropertyOfElement"
     Scripting name is "material_property_of_element"
 
+    Description:  Load the appropriate operator based on the data sources and get material properties
+
     Input list: 
        3: streams_container 
        4: data_sources 
@@ -7974,6 +8236,8 @@ def material_property_of_element():
     """Operator's description:
     Internal name is "MaterialPropertyOfElement"
     Scripting name is "material_property_of_element"
+
+    Description:  Load the appropriate operator based on the data sources and get material properties
 
     Input list: 
        3: streams_container 
@@ -8043,6 +8307,8 @@ class _CreepStrainEnergyDensity(_Operator):
     Internal name is "ENL_CRWK"
     Scripting name is "creep_strain_energy_density"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal creep strain energy density. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8089,6 +8355,8 @@ def creep_strain_energy_density():
     """Operator's description:
     Internal name is "ENL_CRWK"
     Scripting name is "creep_strain_energy_density"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal creep strain energy density. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8165,6 +8433,8 @@ class _ElasticStrainEnergyDensity(_Operator):
     Internal name is "ENL_ELENG"
     Scripting name is "elastic_strain_energy_density"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal elastic strain energy density. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8211,6 +8481,8 @@ def elastic_strain_energy_density():
     """Operator's description:
     Internal name is "ENL_ELENG"
     Scripting name is "elastic_strain_energy_density"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element nodal elastic strain energy density. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8287,6 +8559,8 @@ class _ContactStatus(_Operator):
     Internal name is "ECT_STAT"
     Scripting name is "contact_status"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact status. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8333,6 +8607,8 @@ def contact_status():
     """Operator's description:
     Internal name is "ECT_STAT"
     Scripting name is "contact_status"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact status. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8409,6 +8685,8 @@ class _ContactPenetration(_Operator):
     Internal name is "ECT_PENE"
     Scripting name is "contact_penetration"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact penetration. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8455,6 +8733,8 @@ def contact_penetration():
     """Operator's description:
     Internal name is "ECT_PENE"
     Scripting name is "contact_penetration"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact penetration. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8531,6 +8811,8 @@ class _ContactPressure(_Operator):
     Internal name is "ECT_PRES"
     Scripting name is "contact_pressure"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact pressure. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8577,6 +8859,8 @@ def contact_pressure():
     """Operator's description:
     Internal name is "ECT_PRES"
     Scripting name is "contact_pressure"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact pressure. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8653,6 +8937,8 @@ class _ContactFrictionStress(_Operator):
     Internal name is "ECT_SFRIC"
     Scripting name is "contact_friction_stress"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact friction stress. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8699,6 +8985,8 @@ def contact_friction_stress():
     """Operator's description:
     Internal name is "ECT_SFRIC"
     Scripting name is "contact_friction_stress"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact friction stress. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8775,6 +9063,8 @@ class _ContactTotalStress(_Operator):
     Internal name is "ECT_STOT"
     Scripting name is "contact_total_stress"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact total stress (pressure plus friction). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8821,6 +9111,8 @@ def contact_total_stress():
     """Operator's description:
     Internal name is "ECT_STOT"
     Scripting name is "contact_total_stress"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact total stress (pressure plus friction). Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -8897,6 +9189,8 @@ class _ContactSlidingDistance(_Operator):
     Internal name is "ECT_SLIDE"
     Scripting name is "contact_sliding_distance"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact sliding distance. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -8943,6 +9237,8 @@ def contact_sliding_distance():
     """Operator's description:
     Internal name is "ECT_SLIDE"
     Scripting name is "contact_sliding_distance"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact sliding distance. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9019,6 +9315,8 @@ class _ContactGapDistance(_Operator):
     Internal name is "ECT_GAP"
     Scripting name is "contact_gap_distance"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element contact gap distance. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9065,6 +9363,8 @@ def contact_gap_distance():
     """Operator's description:
     Internal name is "ECT_GAP"
     Scripting name is "contact_gap_distance"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element contact gap distance. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9141,6 +9441,8 @@ class _ContactSurfaceHeatFlux(_Operator):
     Internal name is "ECT_FLUX"
     Scripting name is "contact_surface_heat_flux"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element total heat flux at contact surface. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9187,6 +9489,8 @@ def contact_surface_heat_flux():
     """Operator's description:
     Internal name is "ECT_FLUX"
     Scripting name is "contact_surface_heat_flux"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element total heat flux at contact surface. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9263,6 +9567,8 @@ class _NumSurfaceStatusChanges(_Operator):
     Internal name is "ECT_CNOS"
     Scripting name is "num_surface_status_changes"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element total number of contact status changes during substep. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9309,6 +9615,8 @@ def num_surface_status_changes():
     """Operator's description:
     Internal name is "ECT_CNOS"
     Scripting name is "num_surface_status_changes"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element total number of contact status changes during substep. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9385,6 +9693,8 @@ class _ContactFluidPenetrationPressure(_Operator):
     Internal name is "ECT_FRES"
     Scripting name is "contact_fluid_penetration_pressure"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element actual applied fluid penetration pressure. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9431,6 +9741,8 @@ def contact_fluid_penetration_pressure():
     """Operator's description:
     Internal name is "ECT_FRES"
     Scripting name is "contact_fluid_penetration_pressure"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element actual applied fluid penetration pressure. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9507,6 +9819,8 @@ class _ElementalVolume(_Operator):
     Internal name is "ENG_VOL"
     Scripting name is "elemental_volume"
 
+    Description: Load the appropriate operator based on the data sources and read/compute element volume. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9553,6 +9867,8 @@ def elemental_volume():
     """Operator's description:
     Internal name is "ENG_VOL"
     Scripting name is "elemental_volume"
+
+    Description: Load the appropriate operator based on the data sources and read/compute element volume. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9629,6 +9945,8 @@ class _ArtificialHourglassEnergy(_Operator):
     Internal name is "ENG_AHO"
     Scripting name is "artificial_hourglass_energy"
 
+    Description: Load the appropriate operator based on the data sources and read/compute artificial hourglass energy. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9675,6 +9993,8 @@ def artificial_hourglass_energy():
     """Operator's description:
     Internal name is "ENG_AHO"
     Scripting name is "artificial_hourglass_energy"
+
+    Description: Load the appropriate operator based on the data sources and read/compute artificial hourglass energy. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9751,6 +10071,8 @@ class _KineticEnergy(_Operator):
     Internal name is "ENG_KE"
     Scripting name is "kinetic_energy"
 
+    Description: Load the appropriate operator based on the data sources and read/compute kinetic energy. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9797,6 +10119,8 @@ def kinetic_energy():
     """Operator's description:
     Internal name is "ENG_KE"
     Scripting name is "kinetic_energy"
+
+    Description: Load the appropriate operator based on the data sources and read/compute kinetic energy. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9873,6 +10197,8 @@ class _ThermalDissipationEnergy(_Operator):
     Internal name is "ENG_TH"
     Scripting name is "thermal_dissipation_energy"
 
+    Description: Load the appropriate operator based on the data sources and read/compute thermal dissipation energy. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -9919,6 +10245,8 @@ def thermal_dissipation_energy():
     """Operator's description:
     Internal name is "ENG_TH"
     Scripting name is "thermal_dissipation_energy"
+
+    Description: Load the appropriate operator based on the data sources and read/compute thermal dissipation energy. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -9995,6 +10323,8 @@ class _NodalForce(_Operator):
     Internal name is "F"
     Scripting name is "nodal_force"
 
+    Description: Load the appropriate operator based on the data sources and read/compute nodal forces. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10041,6 +10371,8 @@ def nodal_force():
     """Operator's description:
     Internal name is "F"
     Scripting name is "nodal_force"
+
+    Description: Load the appropriate operator based on the data sources and read/compute nodal forces. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10117,6 +10449,8 @@ class _NodalMoment(_Operator):
     Internal name is "M"
     Scripting name is "nodal_moment"
 
+    Description: Load the appropriate operator based on the data sources and read/compute nodal moment. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10163,6 +10497,8 @@ def nodal_moment():
     """Operator's description:
     Internal name is "M"
     Scripting name is "nodal_moment"
+
+    Description: Load the appropriate operator based on the data sources and read/compute nodal moment. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10239,6 +10575,8 @@ class _Temperature(_Operator):
     Internal name is "TEMP"
     Scripting name is "temperature"
 
+    Description: Load the appropriate operator based on the data sources and read/compute temperature field. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10285,6 +10623,8 @@ def temperature():
     """Operator's description:
     Internal name is "TEMP"
     Scripting name is "temperature"
+
+    Description: Load the appropriate operator based on the data sources and read/compute temperature field. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10361,6 +10701,8 @@ class _RawDisplacement(_Operator):
     Internal name is "UTOT"
     Scripting name is "raw_displacement"
 
+    Description: Load the appropriate operator based on the data sources and read/compute U vector from the finite element problem KU=F. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10407,6 +10749,8 @@ def raw_displacement():
     """Operator's description:
     Internal name is "UTOT"
     Scripting name is "raw_displacement"
+
+    Description: Load the appropriate operator based on the data sources and read/compute U vector from the finite element problem KU=F. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10483,6 +10827,8 @@ class _RawReactionForce(_Operator):
     Internal name is "RFTOT"
     Scripting name is "raw_reaction_force"
 
+    Description: Load the appropriate operator based on the data sources and read/compute F vector from the finite element problem KU=F. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10529,6 +10875,8 @@ def raw_reaction_force():
     """Operator's description:
     Internal name is "RFTOT"
     Scripting name is "raw_reaction_force"
+
+    Description: Load the appropriate operator based on the data sources and read/compute F vector from the finite element problem KU=F. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10605,6 +10953,8 @@ class _ElectricPotential(_Operator):
     Internal name is "VOLT"
     Scripting name is "electric_potential"
 
+    Description: Load the appropriate operator based on the data sources and read/compute electric Potential. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10651,6 +11001,8 @@ def electric_potential():
     """Operator's description:
     Internal name is "VOLT"
     Scripting name is "electric_potential"
+
+    Description: Load the appropriate operator based on the data sources and read/compute electric Potential. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10727,6 +11079,8 @@ class _Thickness(_Operator):
     Internal name is "thickness"
     Scripting name is "thickness"
 
+    Description: Load the appropriate operator based on the data sources and read/compute thickness. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10773,6 +11127,8 @@ def thickness():
     """Operator's description:
     Internal name is "thickness"
     Scripting name is "thickness"
+
+    Description: Load the appropriate operator based on the data sources and read/compute thickness. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
     Input list: 
        0: time_scoping 
@@ -10849,6 +11205,8 @@ class _StressVonMises(_Operator):
     Internal name is "S_eqv"
     Scripting name is "stress_von_mises"
 
+    Description: Reads/computes element nodal component stresses, average it one nodes and computes its element nodal component stresses nodal / elemental Mises equivalent
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping (mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order))
@@ -10895,6 +11253,8 @@ def stress_von_mises():
     """Operator's description:
     Internal name is "S_eqv"
     Scripting name is "stress_von_mises"
+
+    Description: Reads/computes element nodal component stresses, average it one nodes and computes its element nodal component stresses nodal / elemental Mises equivalent
 
     Input list: 
        0: time_scoping 
@@ -10966,6 +11326,9 @@ class _CyclicExpansion(_Operator):
     Internal name is "cyclic_expansion"
     Scripting name is "cyclic_expansion"
 
+    Description: Expand cyclic results from a fieldsContainer for given sets, sectors and scoping (optionals).
+
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -11007,6 +11370,9 @@ def cyclic_expansion():
     """Operator's description:
     Internal name is "cyclic_expansion"
     Scripting name is "cyclic_expansion"
+
+    Description: Expand cyclic results from a fieldsContainer for given sets, sectors and scoping (optionals).
+
 
     Input list: 
        0: time_scoping 
@@ -11060,6 +11426,8 @@ class _EquivalentRadiatedPower(_Operator):
     Internal name is "ERP"
     Scripting name is "equivalent_radiated_power"
 
+    Description: Compute the Equivalent Radiated Power (ERP)
+
     Input list: 
        0: fields_container 
        1: meshed_region (the mesh region in this pin have to be boundary or skin mesh)
@@ -11100,6 +11468,8 @@ def equivalent_radiated_power():
     """Operator's description:
     Internal name is "ERP"
     Scripting name is "equivalent_radiated_power"
+
+    Description: Compute the Equivalent Radiated Power (ERP)
 
     Input list: 
        0: fields_container 
@@ -11146,6 +11516,9 @@ class _Torque(_Operator):
     Internal name is "torque"
     Scripting name is "torque"
 
+    Description: Compute torque of a force based on a 3D point.
+
+
     Input list: 
        0: fields_container (fields_container)
 
@@ -11184,6 +11557,9 @@ def torque():
     """Operator's description:
     Internal name is "torque"
     Scripting name is "torque"
+
+    Description: Compute torque of a force based on a 3D point.
+
 
     Input list: 
        0: fields_container (fields_container)
@@ -11234,6 +11610,8 @@ class _CyclicMeshExpansion(_Operator):
     Internal name is "cyclic_expansion_mesh"
     Scripting name is "cyclic_mesh_expansion"
 
+    Description: Read the cyclic support.
+
     Input list: 
        7: sector_meshed_region 
        16: cyclic_support 
@@ -11274,6 +11652,8 @@ def cyclic_mesh_expansion():
     """Operator's description:
     Internal name is "cyclic_expansion_mesh"
     Scripting name is "cyclic_mesh_expansion"
+
+    Description: Read the cyclic support.
 
     Input list: 
        7: sector_meshed_region 
@@ -11329,6 +11709,8 @@ class _CyclicAnalyticUsumMax(_Operator):
     Internal name is "cyclic_analytic_usum_max"
     Scripting name is "cyclic_analytic_usum_max"
 
+    Description: Compute the maximum of the total deformation that can be expected on 360 degrees
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -11370,6 +11752,8 @@ def cyclic_analytic_usum_max():
     """Operator's description:
     Internal name is "cyclic_analytic_usum_max"
     Scripting name is "cyclic_analytic_usum_max"
+
+    Description: Compute the maximum of the total deformation that can be expected on 360 degrees
 
     Input list: 
        0: time_scoping 
@@ -11426,6 +11810,8 @@ class _CyclicAnalyticSeqvMax(_Operator):
     Internal name is "cyclic_analytic_stress_eqv_max"
     Scripting name is "cyclic_analytic_seqv_max"
 
+    Description: Compute the maximum of the Von Mises equivalent stress that can be expected on 360 degrees
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -11467,6 +11853,8 @@ def cyclic_analytic_seqv_max():
     """Operator's description:
     Internal name is "cyclic_analytic_stress_eqv_max"
     Scripting name is "cyclic_analytic_seqv_max"
+
+    Description: Compute the maximum of the Von Mises equivalent stress that can be expected on 360 degrees
 
     Input list: 
        0: time_scoping 
@@ -11514,6 +11902,8 @@ class _RecombineHarmonicIndecesCyclic(_Operator):
     Internal name is "recombine_harmonic_indeces_cyclic"
     Scripting name is "recombine_harmonic_indeces_cyclic"
 
+    Description: Add the fields corresponding to different load steps with the same frequencies to compute the response.
+
     Input list: 
        0: fields_container 
 
@@ -11552,6 +11942,8 @@ def recombine_harmonic_indeces_cyclic():
     """Operator's description:
     Internal name is "recombine_harmonic_indeces_cyclic"
     Scripting name is "recombine_harmonic_indeces_cyclic"
+
+    Description: Add the fields corresponding to different load steps with the same frequencies to compute the response.
 
     Input list: 
        0: fields_container 
@@ -11621,6 +12013,8 @@ class _NodalAveragedElasticStrains(_Operator):
     Internal name is "mapdl::rst::NPEL"
     Scripting name is "nodal_averaged_elastic_strains"
 
+    Description: Read nodal averaged elastic strains as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -11664,6 +12058,8 @@ def nodal_averaged_elastic_strains():
     """Operator's description:
     Internal name is "mapdl::rst::NPEL"
     Scripting name is "nodal_averaged_elastic_strains"
+
+    Description: Read nodal averaged elastic strains as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -11725,6 +12121,8 @@ class _AddRigidBodyMotion(_Operator):
     Internal name is "RigidBodyAddition"
     Scripting name is "add_rigid_body_motion"
 
+    Description: Adds a given rigid translation, center and rotation from a displacement field. The rotation is given in terms of rotations angles. Note that the displacement field has to be in the global coordinate sytem
+
     Input list: 
        0: displacement_field 
        1: translation_field 
@@ -11767,6 +12165,8 @@ def add_rigid_body_motion():
     """Operator's description:
     Internal name is "RigidBodyAddition"
     Scripting name is "add_rigid_body_motion"
+
+    Description: Adds a given rigid translation, center and rotation from a displacement field. The rotation is given in terms of rotations angles. Note that the displacement field has to be in the global coordinate sytem
 
     Input list: 
        0: displacement_field 
@@ -11830,6 +12230,8 @@ class _NodalAveragedEquivalentElasticStrain(_Operator):
     Internal name is "mapdl::rst::NPEL_EQV"
     Scripting name is "nodal_averaged_equivalent_elastic_strain"
 
+    Description: Read nodal averaged equivalent elastic strain as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -11873,6 +12275,8 @@ def nodal_averaged_equivalent_elastic_strain():
     """Operator's description:
     Internal name is "mapdl::rst::NPEL_EQV"
     Scripting name is "nodal_averaged_equivalent_elastic_strain"
+
+    Description: Read nodal averaged equivalent elastic strain as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -11966,6 +12370,8 @@ class _CyclicExpandedVelocity(_Operator):
     Internal name is "mapdl::rst::V_cyclic"
     Scripting name is "cyclic_expanded_velocity"
 
+    Description: Read velocity from an rst file and expand it with cyclic symmetry.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12018,6 +12424,8 @@ def cyclic_expanded_velocity():
     """Operator's description:
     Internal name is "mapdl::rst::V_cyclic"
     Scripting name is "cyclic_expanded_velocity"
+
+    Description: Read velocity from an rst file and expand it with cyclic symmetry.
 
     Input list: 
        0: time_scoping 
@@ -12118,6 +12526,8 @@ class _CyclicExpandedElStrain(_Operator):
     Internal name is "mapdl::rst::EPEL_cyclic"
     Scripting name is "cyclic_expanded_el_strain"
 
+    Description: Read mapdl::rst::EPEL from an rst file and expand it with cyclic symmetry.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12170,6 +12580,8 @@ def cyclic_expanded_el_strain():
     """Operator's description:
     Internal name is "mapdl::rst::EPEL_cyclic"
     Scripting name is "cyclic_expanded_el_strain"
+
+    Description: Read mapdl::rst::EPEL from an rst file and expand it with cyclic symmetry.
 
     Input list: 
        0: time_scoping 
@@ -12243,6 +12655,8 @@ class _NodalAveragedThermalSwellingStrains(_Operator):
     Internal name is "mapdl::rst::NTH_SWL"
     Scripting name is "nodal_averaged_thermal_swelling_strains"
 
+    Description: Read nodal averaged thermal swelling strains as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12286,6 +12700,8 @@ def nodal_averaged_thermal_swelling_strains():
     """Operator's description:
     Internal name is "mapdl::rst::NTH_SWL"
     Scripting name is "nodal_averaged_thermal_swelling_strains"
+
+    Description: Read nodal averaged thermal swelling strains as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12350,6 +12766,8 @@ class _NodalAveragedStresses(_Operator):
     Internal name is "mapdl::rst::NS"
     Scripting name is "nodal_averaged_stresses"
 
+    Description: Read nodal averaged stresses as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12393,6 +12811,8 @@ def nodal_averaged_stresses():
     """Operator's description:
     Internal name is "mapdl::rst::NS"
     Scripting name is "nodal_averaged_stresses"
+
+    Description: Read nodal averaged stresses as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12457,6 +12877,8 @@ class _NodalAveragedThermalStrains(_Operator):
     Internal name is "mapdl::rst::NTH"
     Scripting name is "nodal_averaged_thermal_strains"
 
+    Description: Read nodal averaged thermal strains as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12500,6 +12922,8 @@ def nodal_averaged_thermal_strains():
     """Operator's description:
     Internal name is "mapdl::rst::NTH"
     Scripting name is "nodal_averaged_thermal_strains"
+
+    Description: Read nodal averaged thermal strains as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12564,6 +12988,8 @@ class _NodalAveragedPlasticStrains(_Operator):
     Internal name is "mapdl::rst::NPPL"
     Scripting name is "nodal_averaged_plastic_strains"
 
+    Description: Read nodal averaged plastic strains as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12607,6 +13033,8 @@ def nodal_averaged_plastic_strains():
     """Operator's description:
     Internal name is "mapdl::rst::NPPL"
     Scripting name is "nodal_averaged_plastic_strains"
+
+    Description: Read nodal averaged plastic strains as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12671,6 +13099,8 @@ class _NodalAveragedCreepStrains(_Operator):
     Internal name is "mapdl::rst::NCR"
     Scripting name is "nodal_averaged_creep_strains"
 
+    Description: Read nodal averaged creep strains as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12714,6 +13144,8 @@ def nodal_averaged_creep_strains():
     """Operator's description:
     Internal name is "mapdl::rst::NCR"
     Scripting name is "nodal_averaged_creep_strains"
+
+    Description: Read nodal averaged creep strains as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12778,6 +13210,8 @@ class _NodalAveragedEquivalentThermalStrains(_Operator):
     Internal name is "mapdl::rst::NTH_EQV"
     Scripting name is "nodal_averaged_equivalent_thermal_strains"
 
+    Description: Read nodal averaged equivalent thermal strains as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12821,6 +13255,8 @@ def nodal_averaged_equivalent_thermal_strains():
     """Operator's description:
     Internal name is "mapdl::rst::NTH_EQV"
     Scripting name is "nodal_averaged_equivalent_thermal_strains"
+
+    Description: Read nodal averaged equivalent thermal strains as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12885,6 +13321,8 @@ class _NodalAveragedEquivalentPlasticStrain(_Operator):
     Internal name is "mapdl::rst::NPPL_EQV"
     Scripting name is "nodal_averaged_equivalent_plastic_strain"
 
+    Description: Read nodal averaged equivalent plastic strain as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -12928,6 +13366,8 @@ def nodal_averaged_equivalent_plastic_strain():
     """Operator's description:
     Internal name is "mapdl::rst::NPPL_EQV"
     Scripting name is "nodal_averaged_equivalent_plastic_strain"
+
+    Description: Read nodal averaged equivalent plastic strain as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -12992,6 +13432,8 @@ class _NodalAveragedEquivalentCreepStrain(_Operator):
     Internal name is "mapdl::rst::NCR_EQV"
     Scripting name is "nodal_averaged_equivalent_creep_strain"
 
+    Description: Read nodal averaged equivalent creep strain as averaged nodal result from rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -13035,6 +13477,8 @@ def nodal_averaged_equivalent_creep_strain():
     """Operator's description:
     Internal name is "mapdl::rst::NCR_EQV"
     Scripting name is "nodal_averaged_equivalent_creep_strain"
+
+    Description: Read nodal averaged equivalent creep strain as averaged nodal result from rst file.
 
     Input list: 
        0: time_scoping 
@@ -13093,6 +13537,8 @@ class _EulerNodes(_Operator):
     Internal name is "mapdl::rst::coords_and_euler_nodes"
     Scripting name is "euler_nodes"
 
+    Description: read a field made of 3 coordinates and 3 Euler angles (6 dofs) by node from the rst file.
+
     Input list: 
        3: streams_container 
        4: data_sources 
@@ -13134,6 +13580,8 @@ def euler_nodes():
     """Operator's description:
     Internal name is "mapdl::rst::coords_and_euler_nodes"
     Scripting name is "euler_nodes"
+
+    Description: read a field made of 3 coordinates and 3 Euler angles (6 dofs) by node from the rst file.
 
     Input list: 
        3: streams_container 
@@ -13189,6 +13637,8 @@ class _EnfRotationByEulerNodes(_Operator):
     Internal name is "ENF_rotation_by_euler_nodes"
     Scripting name is "enf_rotation_by_euler_nodes"
 
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
+
     Input list: 
        2: fields_container 
        3: streams_container 
@@ -13229,6 +13679,8 @@ def enf_rotation_by_euler_nodes():
     """Operator's description:
     Internal name is "ENF_rotation_by_euler_nodes"
     Scripting name is "enf_rotation_by_euler_nodes"
+
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
 
     Input list: 
        2: fields_container 
@@ -13275,6 +13727,8 @@ class _CmsMatricesProvider(_Operator):
     Internal name is "cms_matrices_provider"
     Scripting name is "cms_matrices_provider"
 
+    Description: Read reducted matrices for cms elements. Extract stiffness, damping, mass matrices and load vector from a subfile.
+
     Input list: 
        4: data_sources (Data_sources (must contain at list one subfile).)
 
@@ -13313,6 +13767,8 @@ def cms_matrices_provider():
     """Operator's description:
     Internal name is "cms_matrices_provider"
     Scripting name is "cms_matrices_provider"
+
+    Description: Read reducted matrices for cms elements. Extract stiffness, damping, mass matrices and load vector from a subfile.
 
     Input list: 
        4: data_sources (Data_sources (must contain at list one subfile).)
@@ -13365,6 +13821,8 @@ class _NodalRotationByEulerNodes(_Operator):
     Internal name is "mapdl::rst::RotateNodalFCByEulerNodes"
     Scripting name is "nodal_rotation_by_euler_nodes"
 
+    Description: read Euler angles on nodes from the rst file and rotate the fields in the fieldsContainer.
+
     Input list: 
        2: fields_container 
        3: streams_container 
@@ -13405,6 +13863,8 @@ def nodal_rotation_by_euler_nodes():
     """Operator's description:
     Internal name is "mapdl::rst::RotateNodalFCByEulerNodes"
     Scripting name is "nodal_rotation_by_euler_nodes"
+
+    Description: read Euler angles on nodes from the rst file and rotate the fields in the fieldsContainer.
 
     Input list: 
        2: fields_container 
@@ -13457,6 +13917,8 @@ class _StressRotationByEulerNodes(_Operator):
     Internal name is "mapdl::rst::S_rotation_by_euler_nodes"
     Scripting name is "stress_rotation_by_euler_nodes"
 
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
+
     Input list: 
        2: fields_container 
        3: streams_container 
@@ -13497,6 +13959,8 @@ def stress_rotation_by_euler_nodes():
     """Operator's description:
     Internal name is "mapdl::rst::S_rotation_by_euler_nodes"
     Scripting name is "stress_rotation_by_euler_nodes"
+
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
 
     Input list: 
        2: fields_container 
@@ -13549,6 +14013,8 @@ class _ElasticStrainRotationByEulerNodes(_Operator):
     Internal name is "mapdl::rst::EPEL_rotation_by_euler_nodes"
     Scripting name is "elastic_strain_rotation_by_euler_nodes"
 
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
+
     Input list: 
        2: fields_container 
        3: streams_container 
@@ -13589,6 +14055,8 @@ def elastic_strain_rotation_by_euler_nodes():
     """Operator's description:
     Internal name is "mapdl::rst::EPEL_rotation_by_euler_nodes"
     Scripting name is "elastic_strain_rotation_by_euler_nodes"
+
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
 
     Input list: 
        2: fields_container 
@@ -13641,6 +14109,8 @@ class _PlasticStrainRotationByEulerNodes(_Operator):
     Internal name is "mapdl::rst::EPPL_rotation_by_euler_nodes"
     Scripting name is "plastic_strain_rotation_by_euler_nodes"
 
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
+
     Input list: 
        2: fields_container 
        3: streams_container 
@@ -13681,6 +14151,8 @@ def plastic_strain_rotation_by_euler_nodes():
     """Operator's description:
     Internal name is "mapdl::rst::EPPL_rotation_by_euler_nodes"
     Scripting name is "plastic_strain_rotation_by_euler_nodes"
+
+    Description: read Euler angles on elements from the rst file and rotate the fields in the fieldsContainer.
 
     Input list: 
        2: fields_container 
@@ -13737,6 +14209,8 @@ class _RemoveRigidBodyMotion(_Operator):
     Internal name is "ExtractRigidBodyMotion"
     Scripting name is "remove_rigid_body_motion"
 
+    Description: Removes rigid body mode from a total displacement field by minimization. Use a reference point in order to substract its displacement to the result displacement field.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: reference_node_id (Id of the reference entity (node).)
@@ -13777,6 +14251,8 @@ def remove_rigid_body_motion():
     """Operator's description:
     Internal name is "ExtractRigidBodyMotion"
     Scripting name is "remove_rigid_body_motion"
+
+    Description: Removes rigid body mode from a total displacement field by minimization. Use a reference point in order to substract its displacement to the result displacement field.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -13829,6 +14305,8 @@ class _RemoveRigidBodyMotionFc(_Operator):
     Internal name is "ExtractRigidBodyMotion_fc"
     Scripting name is "remove_rigid_body_motion_fc"
 
+    Description: Removes rigid body mode from a total displacement field by minimization. Use a reference point in order to substract its displacement to the result displacement field.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
        1: reference_node_id (Id of the reference entity (node).)
@@ -13869,6 +14347,8 @@ def remove_rigid_body_motion_fc():
     """Operator's description:
     Internal name is "ExtractRigidBodyMotion_fc"
     Scripting name is "remove_rigid_body_motion_fc"
+
+    Description: Removes rigid body mode from a total displacement field by minimization. Use a reference point in order to substract its displacement to the result displacement field.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -13927,6 +14407,8 @@ class _AddRigidBodyMotionFc(_Operator):
     Internal name is "RigidBodyAddition_fc"
     Scripting name is "add_rigid_body_motion_fc"
 
+    Description: Adds a given rigid translation, center and rotation from a displacement field. The rotation is given in terms of rotations angles. Note that the displacement field has to be in the global coordinate sytem
+
     Input list: 
        0: fields_container 
        1: translation_field 
@@ -13969,6 +14451,8 @@ def add_rigid_body_motion_fc():
     """Operator's description:
     Internal name is "RigidBodyAddition_fc"
     Scripting name is "add_rigid_body_motion_fc"
+
+    Description: Adds a given rigid translation, center and rotation from a displacement field. The rotation is given in terms of rotations angles. Note that the displacement field has to be in the global coordinate sytem
 
     Input list: 
        0: fields_container 
@@ -14068,6 +14552,8 @@ class _CyclicExpandedDisplacement(_Operator):
     Internal name is "mapdl::rst::U_cyclic"
     Scripting name is "cyclic_expanded_displacement"
 
+    Description: Read displacements from an rst file and expand it with cyclic symmetry.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -14123,6 +14609,8 @@ def cyclic_expanded_displacement():
     """Operator's description:
     Internal name is "mapdl::rst::U_cyclic"
     Scripting name is "cyclic_expanded_displacement"
+
+    Description: Read displacements from an rst file and expand it with cyclic symmetry.
 
     Input list: 
        0: time_scoping 
@@ -14235,6 +14723,8 @@ class _CyclicExpandedAcceleration(_Operator):
     Internal name is "mapdl::rst::A_cyclic"
     Scripting name is "cyclic_expanded_acceleration"
 
+    Description: Read acceleration from an rst file and expand it with cyclic symmetry.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -14290,6 +14780,8 @@ def cyclic_expanded_acceleration():
     """Operator's description:
     Internal name is "mapdl::rst::A_cyclic"
     Scripting name is "cyclic_expanded_acceleration"
+
+    Description: Read acceleration from an rst file and expand it with cyclic symmetry.
 
     Input list: 
        0: time_scoping 
@@ -14402,6 +14894,8 @@ class _CyclicExpandedStress(_Operator):
     Internal name is "mapdl::rst::S_cyclic"
     Scripting name is "cyclic_expanded_stress"
 
+    Description: Read mapdl::rst::S from an rst file and expand it with cyclic symmetry.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -14457,6 +14951,8 @@ def cyclic_expanded_stress():
     """Operator's description:
     Internal name is "mapdl::rst::S_cyclic"
     Scripting name is "cyclic_expanded_stress"
+
+    Description: Read mapdl::rst::S from an rst file and expand it with cyclic symmetry.
 
     Input list: 
        0: time_scoping 
@@ -14569,6 +15065,8 @@ class _CyclicVolume(_Operator):
     Internal name is "mapdl::rst::ENG_VOL_cyclic"
     Scripting name is "cyclic_volume"
 
+    Description: Read mapdl::rst::ENG_VOL from an rst file.
+
     Input list: 
        0: time_scoping 
        1: mesh_scoping 
@@ -14624,6 +15122,8 @@ def cyclic_volume():
     """Operator's description:
     Internal name is "mapdl::rst::ENG_VOL_cyclic"
     Scripting name is "cyclic_volume"
+
+    Description: Read mapdl::rst::ENG_VOL from an rst file.
 
     Input list: 
        0: time_scoping 
@@ -14698,6 +15198,8 @@ class _ToField(_Operator):
     Internal name is "vtk::vtk::FieldProvider"
     Scripting name is "to_field"
 
+    Description: Write a field based on a vtk file.
+
     Input list: 
        3: streams (streams)
        4: data_sources (data_sources)
@@ -14737,6 +15239,8 @@ def to_field():
     """Operator's description:
     Internal name is "vtk::vtk::FieldProvider"
     Scripting name is "to_field"
+
+    Description: Write a field based on a vtk file.
 
     Input list: 
        3: streams (streams)

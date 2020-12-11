@@ -37,6 +37,8 @@ class _OverallDot(_Operator):
     Internal name is "native::overall_dot"
     Scripting name is "native::overall_dot"
 
+    Description: Compute a sdot product between two fields and return a scalar.
+
     Input list: 
        0: FieldA 
        1: FieldB 
@@ -76,6 +78,8 @@ def overall_dot():
     """Operator's description:
     Internal name is "native::overall_dot"
     Scripting name is "native::overall_dot"
+
+    Description: Compute a sdot product between two fields and return a scalar.
 
     Input list: 
        0: FieldA 

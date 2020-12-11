@@ -40,6 +40,8 @@ class _MinMax(_Operator):
     Internal name is "min_max"
     Scripting name is "min_max"
 
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over a field.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -79,6 +81,8 @@ def min_max():
     """Operator's description:
     Internal name is "min_max"
     Scripting name is "min_max"
+
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over a field.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -127,6 +131,8 @@ class _MinMaxFc(_Operator):
     Internal name is "min_max_fc"
     Scripting name is "min_max_fc"
 
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
+
     Input list: 
        0: fields_container 
 
@@ -166,6 +172,8 @@ def min_max_fc():
     """Operator's description:
     Internal name is "min_max_fc"
     Scripting name is "min_max_fc"
+
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
 
     Input list: 
        0: fields_container 
@@ -217,6 +225,8 @@ class _MinMaxOverLabelFc(_Operator):
     Internal name is "min_max_over_label_fc"
     Scripting name is "min_max_over_label_fc"
 
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over all the fields having the same id for the label set in input in the fields container.
+
     Input list: 
        0: fields_container 
        1: label (label name from the fields container)
@@ -257,6 +267,8 @@ def min_max_over_label_fc():
     """Operator's description:
     Internal name is "min_max_over_label_fc"
     Scripting name is "min_max_over_label_fc"
+
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over all the fields having the same id for the label set in input in the fields container.
 
     Input list: 
        0: fields_container 
@@ -312,6 +324,8 @@ class _MinByComponent(_Operator):
     Internal name is "min_by_component"
     Scripting name is "min_by_component"
 
+    Description: Give the minimum for each element rank by comparing several fields.
+
     Input list: 
        0: use_absolute_value (use_absolute_value)
        1: fieldA1 (field or fields container with only one field is expected)
@@ -353,6 +367,8 @@ def min_by_component():
     """Operator's description:
     Internal name is "min_by_component"
     Scripting name is "min_by_component"
+
+    Description: Give the minimum for each element rank by comparing several fields.
 
     Input list: 
        0: use_absolute_value (use_absolute_value)
@@ -409,6 +425,8 @@ class _MaxByComponent(_Operator):
     Internal name is "max_by_component"
     Scripting name is "max_by_component"
 
+    Description: Give the maximum for each element rank by comparing several fields.
+
     Input list: 
        0: use_absolute_value (use_absolute_value)
        1: fieldA1 (field or fields container with only one field is expected)
@@ -450,6 +468,8 @@ def max_by_component():
     """Operator's description:
     Internal name is "max_by_component"
     Scripting name is "max_by_component"
+
+    Description: Give the maximum for each element rank by comparing several fields.
 
     Input list: 
        0: use_absolute_value (use_absolute_value)
@@ -500,6 +520,8 @@ class _MinMaxFcInc(_Operator):
     Internal name is "min_max_fc_inc"
     Scripting name is "min_max_fc_inc"
 
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
+
     Input list: 
        0: fields_container 
 
@@ -539,6 +561,8 @@ def min_max_fc_inc():
     """Operator's description:
     Internal name is "min_max_fc_inc"
     Scripting name is "min_max_fc_inc"
+
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
 
     Input list: 
        0: fields_container 
@@ -596,6 +620,8 @@ class _MinMaxInc(_Operator):
     Internal name is "min_max_inc"
     Scripting name is "min_max_inc"
 
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over coming fields.
+
     Input list: 
        0: field 
        17: domain_id 
@@ -638,6 +664,8 @@ def min_max_inc():
     """Operator's description:
     Internal name is "min_max_inc"
     Scripting name is "min_max_inc"
+
+    Description: Compute the component-wise minimum (out 0) and maximum (out 1) over coming fields.
 
     Input list: 
        0: field 

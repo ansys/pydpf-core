@@ -37,6 +37,8 @@ class _ElementalFromMesh(_Operator):
     Internal name is "GetElementScopingFromMesh"
     Scripting name is "elemental_from_mesh"
 
+    Description: Get the elements ids scoping of a given input mesh.
+
     Input list: 
        0: mesh 
 
@@ -75,6 +77,8 @@ def elemental_from_mesh():
     """Operator's description:
     Internal name is "GetElementScopingFromMesh"
     Scripting name is "elemental_from_mesh"
+
+    Description: Get the elements ids scoping of a given input mesh.
 
     Input list: 
        0: mesh 
@@ -125,6 +129,8 @@ class _Intersect(_Operator):
     Internal name is "scoping::intersect"
     Scripting name is "intersect"
 
+    Description: Intersect 2 scopings and return the intersection and the difference between the intersection and the first scoping.
+
     Input list: 
        0: scopingA 
        1: scopingB 
@@ -165,6 +171,8 @@ def intersect():
     """Operator's description:
     Internal name is "scoping::intersect"
     Scripting name is "intersect"
+
+    Description: Intersect 2 scopings and return the intersection and the difference between the intersection and the first scoping.
 
     Input list: 
        0: scopingA 
@@ -226,6 +234,8 @@ class _OnProperty(_Operator):
     Internal name is "scoping_provider_by_prop"
     Scripting name is "on_property"
 
+    Description: Provides a scoping at a given location based on a given property name and a property number.
+
     Input list: 
        0: requested_location (Nodal or Elemental location are expected)
        1: property_name (ex: "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "shell_axi", "volume_axi"...)
@@ -269,6 +279,8 @@ def on_property():
     """Operator's description:
     Internal name is "scoping_provider_by_prop"
     Scripting name is "on_property"
+
+    Description: Provides a scoping at a given location based on a given property name and a property number.
 
     Input list: 
        0: requested_location (Nodal or Elemental location are expected)
@@ -324,6 +336,8 @@ class _Transpose(_Operator):
     Internal name is "transpose_scoping"
     Scripting name is "transpose"
 
+    Description: Transposes the input scoping or scopings container (Elemental --> Nodal, or Nodal ---> Elemental), based on the input mesh region.
+
     Input list: 
        0: mesh_scoping (Scoping or scopings container (the input type is the output type))
        1: meshed_region 
@@ -364,6 +378,8 @@ def transpose():
     """Operator's description:
     Internal name is "transpose_scoping"
     Scripting name is "transpose"
+
+    Description: Transposes the input scoping or scopings container (Elemental --> Nodal, or Nodal ---> Elemental), based on the input mesh region.
 
     Input list: 
        0: mesh_scoping (Scoping or scopings container (the input type is the output type))
@@ -413,6 +429,8 @@ class _LowPass(_Operator):
     Internal name is "core::scoping::low_pass"
     Scripting name is "scoping.low_pass"
 
+    Description: The low pass filter returns all the values strictly inferior to the threshold value in input.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: threshold (a threshold scalar or a field containing one value is expected)
@@ -452,6 +470,8 @@ def low_pass():
     """Operator's description:
     Internal name is "core::scoping::low_pass"
     Scripting name is "scoping.low_pass"
+
+    Description: The low pass filter returns all the values strictly inferior to the threshold value in input.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -509,6 +529,8 @@ class _SplittedOnPropertyType(_Operator):
     Internal name is "scoping::by_property"
     Scripting name is "splitted_on_property_type"
 
+    Description: Splits a given scoping or the mesh scoping (nodal or elemental) on given properties (elshape and/or material) and returns a scopings container with those splitted scopings.
+
     Input list: 
        1: mesh_scoping (Scoping)
        7: mesh (mesh region)
@@ -551,6 +573,8 @@ def splitted_on_property_type():
     """Operator's description:
     Internal name is "scoping::by_property"
     Scripting name is "splitted_on_property_type"
+
+    Description: Splits a given scoping or the mesh scoping (nodal or elemental) on given properties (elshape and/or material) and returns a scopings container with those splitted scopings.
 
     Input list: 
        1: mesh_scoping (Scoping)
@@ -602,6 +626,8 @@ class _Rescope(_Operator):
     Internal name is "Rescope"
     Scripting name is "rescope"
 
+    Description: Rescope a field on the given scoping. If an id does not exists in the original field, default value (in 2) is used if defined.
+
     Input list: 
        0: fields_container 
        1: mesh_scoping 
@@ -641,6 +667,8 @@ def rescope():
     """Operator's description:
     Internal name is "Rescope"
     Scripting name is "rescope"
+
+    Description: Rescope a field on the given scoping. If an id does not exists in the original field, default value (in 2) is used if defined.
 
     Input list: 
        0: fields_container 
@@ -698,6 +726,8 @@ class _OnNamedSelection(_Operator):
     Internal name is "scoping_provider_by_ns"
     Scripting name is "on_named_selection"
 
+    Description: provides a scoping at a given location based on a given named selection
+
     Input list: 
        0: requested_location 
        1: named_selection_name (the string is expected to be in upper case)
@@ -740,6 +770,8 @@ def on_named_selection():
     """Operator's description:
     Internal name is "scoping_provider_by_ns"
     Scripting name is "on_named_selection"
+
+    Description: provides a scoping at a given location based on a given named selection
 
     Input list: 
        0: requested_location 
@@ -797,6 +829,8 @@ class _ConnectivityIds(_Operator):
     Internal name is "scoping::connectivity_ids"
     Scripting name is "connectivity_ids"
 
+    Description: Returns the ordered node ids corresponding to the element ids scoping in input. For each element the node ids are its connectivity.
+
     Input list: 
        1: mesh_scoping (Elemental scoping)
        7: mesh (the support of the scoping is expected if there is no mesh in input)
@@ -838,6 +872,8 @@ def connectivity_ids():
     """Operator's description:
     Internal name is "scoping::connectivity_ids"
     Scripting name is "connectivity_ids"
+
+    Description: Returns the ordered node ids corresponding to the element ids scoping in input. For each element the node ids are its connectivity.
 
     Input list: 
        1: mesh_scoping (Elemental scoping)
@@ -885,6 +921,8 @@ class _NodalFromMesh(_Operator):
     Internal name is "GetNodeScopingFromMesh"
     Scripting name is "nodal_from_mesh"
 
+    Description: Get the nodes ids scoping of an input mesh.
+
     Input list: 
        0: mesh 
 
@@ -923,6 +961,8 @@ def nodal_from_mesh():
     """Operator's description:
     Internal name is "GetNodeScopingFromMesh"
     Scripting name is "nodal_from_mesh"
+
+    Description: Get the nodes ids scoping of an input mesh.
 
     Input list: 
        0: mesh 
@@ -970,6 +1010,8 @@ class _ChangeFc(_Operator):
     Internal name is "rescope_fc"
     Scripting name is "change_fc"
 
+    Description: Rescope a fields container to correspond to a scopings container
+
     Input list: 
        0: fields_container 
        1: scopings_container 
@@ -1009,6 +1051,8 @@ def change_fc():
     """Operator's description:
     Internal name is "rescope_fc"
     Scripting name is "change_fc"
+
+    Description: Rescope a fields container to correspond to a scopings container
 
     Input list: 
        0: fields_container 
@@ -1057,6 +1101,8 @@ class _HighPass(_Operator):
     Internal name is "core::scoping::high_pass"
     Scripting name is "scoping.high_pass"
 
+    Description: The high pass filter returns all the values strictly superior to the threshold value in input.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: threshold (a threshold scalar or a field containing one value is expected)
@@ -1096,6 +1142,8 @@ def high_pass():
     """Operator's description:
     Internal name is "core::scoping::high_pass"
     Scripting name is "scoping.high_pass"
+
+    Description: The high pass filter returns all the values strictly superior to the threshold value in input.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1147,6 +1195,8 @@ class _BandPass(_Operator):
     Internal name is "core::scoping::band_pass"
     Scripting name is "scoping.band_pass"
 
+    Description: The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: min_threshold (a min threshold scalar or a field containing one value is expected)
@@ -1187,6 +1237,8 @@ def band_pass():
     """Operator's description:
     Internal name is "core::scoping::band_pass"
     Scripting name is "scoping.band_pass"
+
+    Description: The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1246,6 +1298,8 @@ class _FromMesh(_Operator):
     Internal name is "MeshScopingProvider"
     Scripting name is "from_mesh"
 
+    Description: Provides the entire mesh scoping based on the requested location
+
     Input list: 
        0: mesh 
        1: requested_location (if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental)
@@ -1285,6 +1339,8 @@ def from_mesh():
     """Operator's description:
     Internal name is "MeshScopingProvider"
     Scripting name is "from_mesh"
+
+    Description: Provides the entire mesh scoping based on the requested location
 
     Input list: 
        0: mesh 

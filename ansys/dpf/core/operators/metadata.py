@@ -40,6 +40,8 @@ class _ResultInfoProvider(_Operator):
     Internal name is "ResultInfoProvider"
     Scripting name is "result_info_provider"
 
+    Description: Read the result info with information sucha as available results or unit system from the results files contained in the streams or data sources.
+
     Input list: 
        3: streams_container (streams (result file container) (optional))
        4: data_sources (if the stream is null then we need to get the file path from the data sources)
@@ -79,6 +81,8 @@ def result_info_provider():
     """Operator's description:
     Internal name is "ResultInfoProvider"
     Scripting name is "result_info_provider"
+
+    Description: Read the result info with information sucha as available results or unit system from the results files contained in the streams or data sources.
 
     Input list: 
        3: streams_container (streams (result file container) (optional))
@@ -127,6 +131,8 @@ class _TimeFreqProvider(_Operator):
     Internal name is "TimeFreqSupportProvider"
     Scripting name is "time_freq_provider"
 
+    Description: Read the time freq support from the results files contained in the streams or data sources.
+
     Input list: 
        3: streams_container (streams (result file container) (optional))
        4: data_sources (if the stream is null then we need to get the file path from the data sources)
@@ -166,6 +172,8 @@ def time_freq_provider():
     """Operator's description:
     Internal name is "TimeFreqSupportProvider"
     Scripting name is "time_freq_provider"
+
+    Description: Read the time freq support from the results files contained in the streams or data sources.
 
     Input list: 
        3: streams_container (streams (result file container) (optional))
@@ -214,6 +222,8 @@ class _MaterialProvider(_Operator):
     Internal name is "MaterialsProvider"
     Scripting name is "material_provider"
 
+    Description: Read available materials and properties from the results files contained in the streams or data sources.
+
     Input list: 
        3: streams_container (streams (result file container))
        4: data_sources (if the stream is null then we need to get the file path from the data sources)
@@ -253,6 +263,8 @@ def material_provider():
     """Operator's description:
     Internal name is "MaterialsProvider"
     Scripting name is "material_provider"
+
+    Description: Read available materials and properties from the results files contained in the streams or data sources.
 
     Input list: 
        3: streams_container (streams (result file container))
@@ -298,6 +310,8 @@ class _StreamsProvider(_Operator):
     Internal name is "stream_provider"
     Scripting name is "streams_provider"
 
+    Description: Creates streams (files with cache) from the data sources.
+
     Input list: 
        4: data_sources 
 
@@ -336,6 +350,8 @@ def streams_provider():
     """Operator's description:
     Internal name is "stream_provider"
     Scripting name is "streams_provider"
+
+    Description: Creates streams (files with cache) from the data sources.
 
     Input list: 
        4: data_sources 
@@ -381,6 +397,8 @@ class _MeshSelectionManagerProvider(_Operator):
     Internal name is "MeshSelectionManagerProvider"
     Scripting name is "mesh_selection_manager_provider"
 
+    Description: Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.
+
     Input list: 
        3: streams_container (streams (result file container) (optional))
        4: data_sources (if the stream is null then we need to get the file path from the data sources)
@@ -420,6 +438,8 @@ def mesh_selection_manager_provider():
     """Operator's description:
     Internal name is "MeshSelectionManagerProvider"
     Scripting name is "mesh_selection_manager_provider"
+
+    Description: Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.
 
     Input list: 
        3: streams_container (streams (result file container) (optional))
@@ -468,6 +488,8 @@ class _BoundaryConditionProvider(_Operator):
     Internal name is "boundary_conditions"
     Scripting name is "boundary_condition_provider"
 
+    Description: Read boundary conditions from the results files contained in the streams or data sources.
+
     Input list: 
        3: streams_container 
        4: data_sources 
@@ -507,6 +529,8 @@ def boundary_condition_provider():
     """Operator's description:
     Internal name is "boundary_conditions"
     Scripting name is "boundary_condition_provider"
+
+    Description: Read boundary conditions from the results files contained in the streams or data sources.
 
     Input list: 
        3: streams_container 
@@ -555,6 +579,8 @@ class _IsCyclic(_Operator):
     Internal name is "is_cyclic"
     Scripting name is "is_cyclic"
 
+    Description: Read if the model is cyclic form the result file.
+
     Input list: 
        3: streams_container (streams (result file container) (optional))
        4: data_sources (if the stream is null then we need to get the file path from the data sources)
@@ -594,6 +620,8 @@ def is_cyclic():
     """Operator's description:
     Internal name is "is_cyclic"
     Scripting name is "is_cyclic"
+
+    Description: Read if the model is cyclic form the result file.
 
     Input list: 
        3: streams_container (streams (result file container) (optional))
@@ -664,6 +692,8 @@ class _CyclicSupportProvider(_Operator):
     Internal name is "mapdl::rst::support_provider_cyclic"
     Scripting name is "cyclic_support_provider"
 
+    Description: Read the cyclic support (DPF entity containing necessary informations for expansions) and expands the mesh.
+
     Input list: 
        3: streams_container (Streams containing the result file.)
        4: data_sources (data sources containing the result file.)
@@ -707,6 +737,8 @@ def cyclic_support_provider():
     """Operator's description:
     Internal name is "mapdl::rst::support_provider_cyclic"
     Scripting name is "cyclic_support_provider"
+
+    Description: Read the cyclic support (DPF entity containing necessary informations for expansions) and expands the mesh.
 
     Input list: 
        3: streams_container (Streams containing the result file.)

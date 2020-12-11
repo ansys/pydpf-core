@@ -40,6 +40,8 @@ class _SolidToSkin(_Operator):
     Internal name is "solid_to_skin"
     Scripting name is "solid_to_skin"
 
+    Description: Maps a field defined on solid elements to a field defined on skin elements.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: mesh_scoping (skin mesh region expected)
@@ -79,6 +81,8 @@ def solid_to_skin():
     """Operator's description:
     Internal name is "solid_to_skin"
     Scripting name is "solid_to_skin"
+
+    Description: Maps a field defined on solid elements to a field defined on skin elements.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -136,6 +140,8 @@ class _OnCoordinates(_Operator):
     Internal name is "mapping"
     Scripting name is "on_coordinates"
 
+    Description: Evaluates a result on specified coordinates (interpolates results inside elements with shape functions).
+
     Input list: 
        0: fields_container 
        1: coordinates 
@@ -178,6 +184,8 @@ def on_coordinates():
     """Operator's description:
     Internal name is "mapping"
     Scripting name is "on_coordinates"
+
+    Description: Evaluates a result on specified coordinates (interpolates results inside elements with shape functions).
 
     Input list: 
        0: fields_container 
@@ -229,6 +237,8 @@ class _ScopingOnCoordinates(_Operator):
     Internal name is "scoping::on_coordinates"
     Scripting name is "scoping_on_coordinates"
 
+    Description: Finds the Elemental scoping of a set of coordinates.
+
     Input list: 
        0: coordinates 
        7: mesh 
@@ -268,6 +278,8 @@ def scoping_on_coordinates():
     """Operator's description:
     Internal name is "scoping::on_coordinates"
     Scripting name is "scoping_on_coordinates"
+
+    Description: Finds the Elemental scoping of a set of coordinates.
 
     Input list: 
        0: coordinates 

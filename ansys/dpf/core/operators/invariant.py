@@ -37,6 +37,8 @@ class _EigenValues(_Operator):
     Internal name is "eig_values"
     Scripting name is "eigen_values"
 
+    Description: Computes the element-wise eigen values of a tensor field.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -75,6 +77,8 @@ def eigen_values():
     """Operator's description:
     Internal name is "eig_values"
     Scripting name is "eigen_values"
+
+    Description: Computes the element-wise eigen values of a tensor field.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -119,6 +123,8 @@ class _VonMisesEqv(_Operator):
     Internal name is "eqv"
     Scripting name is "von_mises_eqv"
 
+    Description: Computes the element-wise Von-Mises criteria on a tensor field.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -157,6 +163,8 @@ def von_mises_eqv():
     """Operator's description:
     Internal name is "eqv"
     Scripting name is "von_mises_eqv"
+
+    Description: Computes the element-wise Von-Mises criteria on a tensor field.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -201,6 +209,8 @@ class _VonMisesEqvFc(_Operator):
     Internal name is "eqv_fc"
     Scripting name is "von_mises_eqv_fc"
 
+    Description: Computes the element-wise Von-Mises criteria on all the tensor fields of a fields container.
+
     Input list: 
        0: fields_container 
 
@@ -239,6 +249,8 @@ def von_mises_eqv_fc():
     """Operator's description:
     Internal name is "eqv_fc"
     Scripting name is "von_mises_eqv_fc"
+
+    Description: Computes the element-wise Von-Mises criteria on all the tensor fields of a fields container.
 
     Input list: 
        0: fields_container 
@@ -289,6 +301,8 @@ class _Invariants(_Operator):
     Internal name is "invariants_deriv"
     Scripting name is "invariants"
 
+    Description: Computes the element-wise invariants of a tensor field.
+
     Input list: 
        0: field 
 
@@ -329,6 +343,8 @@ def invariants():
     """Operator's description:
     Internal name is "invariants_deriv"
     Scripting name is "invariants"
+
+    Description: Computes the element-wise invariants of a tensor field.
 
     Input list: 
        0: field 
@@ -381,6 +397,8 @@ class _PrincipalInvariantsFc(_Operator):
     Internal name is "invariants_fc"
     Scripting name is "principal_invariants_fc"
 
+    Description: Computes the element-wise eigen values of all the tensor fields of a fields container.
+
     Input list: 
        0: fields_container 
 
@@ -421,6 +439,8 @@ def principal_invariants_fc():
     """Operator's description:
     Internal name is "invariants_fc"
     Scripting name is "principal_invariants_fc"
+
+    Description: Computes the element-wise eigen values of all the tensor fields of a fields container.
 
     Input list: 
        0: fields_container 
@@ -467,6 +487,8 @@ class _EigenValuesFc(_Operator):
     Internal name is "eig_values_fc"
     Scripting name is "eigen_values_fc"
 
+    Description: Computes the element-wise eigen values of all the tensor fields of a fields container.
+
     Input list: 
        0: fields_container 
 
@@ -505,6 +527,8 @@ def eigen_values_fc():
     """Operator's description:
     Internal name is "eig_values_fc"
     Scripting name is "eigen_values_fc"
+
+    Description: Computes the element-wise eigen values of all the tensor fields of a fields container.
 
     Input list: 
        0: fields_container 
@@ -555,6 +579,8 @@ class _InvariantsFc(_Operator):
     Internal name is "invariants_deriv_fc"
     Scripting name is "invariants_fc"
 
+    Description: Computes the element-wise invariants of all the tensor fields of a fields container.
+
     Input list: 
        0: fields_container 
 
@@ -595,6 +621,8 @@ def invariants_fc():
     """Operator's description:
     Internal name is "invariants_deriv_fc"
     Scripting name is "invariants_fc"
+
+    Description: Computes the element-wise invariants of all the tensor fields of a fields container.
 
     Input list: 
        0: fields_container 
@@ -651,6 +679,8 @@ class _EigenVectorsFc(_Operator):
     Internal name is "eig_vectors_fc"
     Scripting name is "eigen_vectors_fc"
 
+    Description: Computes the element-wise eigen vectors for each tensor in the field
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -689,6 +719,8 @@ def eigen_vectors_fc():
     """Operator's description:
     Internal name is "eig_vectors_fc"
     Scripting name is "eigen_vectors_fc"
+
+    Description: Computes the element-wise eigen vectors for each tensor in the field
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -733,6 +765,8 @@ class _EigenVectors(_Operator):
     Internal name is "eig_vectors"
     Scripting name is "eigen_vectors"
 
+    Description: Computes the element-wise eigen vectors for each tensor in the fields of the field container
+
     Input list: 
        0: fields 
 
@@ -771,6 +805,8 @@ def eigen_vectors():
     """Operator's description:
     Internal name is "eig_vectors"
     Scripting name is "eigen_vectors"
+
+    Description: Computes the element-wise eigen vectors for each tensor in the fields of the field container
 
     Input list: 
        0: fields 

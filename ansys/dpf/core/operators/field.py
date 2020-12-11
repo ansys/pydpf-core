@@ -37,6 +37,8 @@ class _LowPassFc(_Operator):
     Internal name is "core::field::low_pass_fc"
     Scripting name is "field.low_pass_fc"
 
+    Description: The low pass filter returns all the values strictly inferior to the threshold value in input.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
        1: threshold (a threshold scalar or a field containing one value is expected)
@@ -76,6 +78,8 @@ def low_pass_fc():
     """Operator's description:
     Internal name is "core::field::low_pass_fc"
     Scripting name is "field.low_pass_fc"
+
+    Description: The low pass filter returns all the values strictly inferior to the threshold value in input.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -127,6 +131,8 @@ class _BandPassFc(_Operator):
     Internal name is "core::field::band_pass_fc"
     Scripting name is "field.band_pass_fc"
 
+    Description: The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
        1: min_threshold (a min threshold scalar or a field containing one value is expected)
@@ -167,6 +173,8 @@ def band_pass_fc():
     """Operator's description:
     Internal name is "core::field::band_pass_fc"
     Scripting name is "field.band_pass_fc"
+
+    Description: The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -216,6 +224,8 @@ class _HighPass(_Operator):
     Internal name is "core::field::high_pass"
     Scripting name is "field.high_pass"
 
+    Description: The high pass filter returns all the values strictly superior to the threshold value in input.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: threshold (a threshold scalar or a field containing one value is expected)
@@ -255,6 +265,8 @@ def high_pass():
     """Operator's description:
     Internal name is "core::field::high_pass"
     Scripting name is "field.high_pass"
+
+    Description: The high pass filter returns all the values strictly superior to the threshold value in input.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -303,6 +315,8 @@ class _HighPassFc(_Operator):
     Internal name is "core::field::high_pass_fc"
     Scripting name is "field.high_pass_fc"
 
+    Description: The high pass filter returns all the values strictly superior to the threshold value in input.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
        1: threshold (a threshold scalar or a field containing one value is expected)
@@ -342,6 +356,8 @@ def high_pass_fc():
     """Operator's description:
     Internal name is "core::field::high_pass_fc"
     Scripting name is "field.high_pass_fc"
+
+    Description: The high pass filter returns all the values strictly superior to the threshold value in input.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -390,6 +406,8 @@ class _LowPass(_Operator):
     Internal name is "core::field::low_pass"
     Scripting name is "field.low_pass"
 
+    Description: The low pass filter returns all the values strictly inferior to the threshold value in input.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: threshold (a threshold scalar or a field containing one value is expected)
@@ -429,6 +447,8 @@ def low_pass():
     """Operator's description:
     Internal name is "core::field::low_pass"
     Scripting name is "field.low_pass"
+
+    Description: The low pass filter returns all the values strictly inferior to the threshold value in input.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -480,6 +500,8 @@ class _BandPass(_Operator):
     Internal name is "core::field::band_pass"
     Scripting name is "field.band_pass"
 
+    Description: The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: min_threshold (a min threshold scalar or a field containing one value is expected)
@@ -520,6 +542,8 @@ def band_pass():
     """Operator's description:
     Internal name is "core::field::band_pass"
     Scripting name is "field.band_pass"
+
+    Description: The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
 
     Input list: 
        0: field (field or fields container with only one field is expected)

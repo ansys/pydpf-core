@@ -37,6 +37,8 @@ class _FromField(_Operator):
     Internal name is "GetSupportFromField"
     Scripting name is "from_field"
 
+    Description: Returns the meshed region contained in the support of the mesh.
+
     Input list: 
        0: field 
 
@@ -75,6 +77,8 @@ def from_field():
     """Operator's description:
     Internal name is "GetSupportFromField"
     Scripting name is "from_field"
+
+    Description: Returns the meshed region contained in the support of the mesh.
 
     Input list: 
        0: field 
@@ -122,6 +126,8 @@ class _MeshProvider(_Operator):
     Internal name is "MeshProvider"
     Scripting name is "mesh_provider"
 
+    Description: Read a mesh from result files and cure degenerated elements
+
     Input list: 
        3: streams_container 
        4: data_sources 
@@ -161,6 +167,8 @@ def mesh_provider():
     """Operator's description:
     Internal name is "MeshProvider"
     Scripting name is "mesh_provider"
+
+    Description: Read a mesh from result files and cure degenerated elements
 
     Input list: 
        3: streams_container 
@@ -220,6 +228,8 @@ class _SplitMesh(_Operator):
     Internal name is "split_mesh"
     Scripting name is "split_mesh"
 
+    Description: Split the input mesh into several meshes based on a given property (material property be default)
+
     Input list: 
        1: mesh_scoping (Scoping)
        7: mesh 
@@ -260,6 +270,8 @@ def split_mesh():
     """Operator's description:
     Internal name is "split_mesh"
     Scripting name is "split_mesh"
+
+    Description: Split the input mesh into several meshes based on a given property (material property be default)
 
     Input list: 
        1: mesh_scoping (Scoping)
@@ -312,6 +324,8 @@ class _FromScoping(_Operator):
     Internal name is "mesh::by_scoping"
     Scripting name is "from_scoping"
 
+    Description: Extracts a meshed region from an other meshed region base on a scoping
+
     Input list: 
        1: scoping (if nodal scoping, then the scoping is transposed respecting the inclusive pin)
        2: inclusive (if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included)
@@ -352,6 +366,8 @@ def from_scoping():
     """Operator's description:
     Internal name is "mesh::by_scoping"
     Scripting name is "from_scoping"
+
+    Description: Extracts a meshed region from an other meshed region base on a scoping
 
     Input list: 
        1: scoping (if nodal scoping, then the scoping is transposed respecting the inclusive pin)
@@ -398,6 +414,8 @@ class _SplitFields(_Operator):
     Internal name is "split_fields"
     Scripting name is "split_fields"
 
+    Description: Split the input field or fields container based on the input mesh regions 
+
     Input list: 
        0: field_or_fields_container 
 
@@ -436,6 +454,8 @@ def split_fields():
     """Operator's description:
     Internal name is "split_fields"
     Scripting name is "split_fields"
+
+    Description: Split the input field or fields container based on the input mesh regions 
 
     Input list: 
        0: field_or_fields_container 
@@ -493,6 +513,8 @@ class _TriMeshSkin(_Operator):
     Internal name is "meshed_skin_sector_triangle"
     Scripting name is "tri_mesh_skin"
 
+    Description: Extracts a skin of the mesh in triangles (2D elements) in a new meshed region
+
     Input list: 
        0: mesh 
 
@@ -532,6 +554,8 @@ def tri_mesh_skin():
     """Operator's description:
     Internal name is "meshed_skin_sector_triangle"
     Scripting name is "tri_mesh_skin"
+
+    Description: Extracts a skin of the mesh in triangles (2D elements) in a new meshed region
 
     Input list: 
        0: mesh 
@@ -583,6 +607,8 @@ class _MeshCut(_Operator):
     Internal name is "mesh_cut"
     Scripting name is "mesh_cut"
 
+    Description: Extracts a skin of the mesh in triangles (2D elements) in a new meshed region
+
     Input list: 
        0: field 
        1: iso_value (iso value)
@@ -623,6 +649,8 @@ def mesh_cut():
     """Operator's description:
     Internal name is "mesh_cut"
     Scripting name is "mesh_cut"
+
+    Description: Extracts a skin of the mesh in triangles (2D elements) in a new meshed region
 
     Input list: 
        0: field 
@@ -675,6 +703,8 @@ class _ExternalLayer(_Operator):
     Internal name is "meshed_external_layer_sector"
     Scripting name is "external_layer"
 
+    Description: Extracts the external layer (thick skin) of the mesh (3D elements) in a new meshed region
+
     Input list: 
        0: mesh 
 
@@ -715,6 +745,8 @@ def external_layer():
     """Operator's description:
     Internal name is "meshed_external_layer_sector"
     Scripting name is "external_layer"
+
+    Description: Extracts the external layer (thick skin) of the mesh (3D elements) in a new meshed region
 
     Input list: 
        0: mesh 
@@ -771,6 +803,8 @@ class _Skin(_Operator):
     Internal name is "meshed_skin_sector"
     Scripting name is "skin"
 
+    Description: Extracts a skin of the mesh (2D elements) in a new meshed region
+
     Input list: 
        0: mesh 
        1: mesh_scoping 
@@ -813,6 +847,8 @@ def skin():
     """Operator's description:
     Internal name is "meshed_skin_sector"
     Scripting name is "skin"
+
+    Description: Extracts a skin of the mesh (2D elements) in a new meshed region
 
     Input list: 
        0: mesh 
@@ -864,6 +900,8 @@ class _StlExport(_Operator):
     Internal name is "stl_export"
     Scripting name is "stl_export"
 
+    Description: export a mesh into a stl file.
+
     Input list: 
        0: mesh 
        1: file_path 
@@ -903,6 +941,8 @@ def stl_export():
     """Operator's description:
     Internal name is "stl_export"
     Scripting name is "stl_export"
+
+    Description: export a mesh into a stl file.
 
     Input list: 
        0: mesh 

@@ -40,6 +40,8 @@ class _WrapInTopology(_Operator):
     Internal name is "topology::topology_from_mesh"
     Scripting name is "wrap_in_topology"
 
+    Description: Take various input, and wrap in geometry if necessary.
+
     Input list: 
        0: mesh 
        1: id (Id that must be attributed to the generated geometry (default is 0).)
@@ -79,6 +81,8 @@ def wrap_in_topology():
     """Operator's description:
     Internal name is "topology::topology_from_mesh"
     Scripting name is "wrap_in_topology"
+
+    Description: Take various input, and wrap in geometry if necessary.
 
     Input list: 
        0: mesh 

@@ -40,6 +40,8 @@ class _Minus(_Operator):
     Internal name is "minus"
     Scripting name is "minus"
 
+    Description: Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -79,6 +81,8 @@ def minus():
     """Operator's description:
     Internal name is "minus"
     Scripting name is "minus"
+
+    Description: Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -127,6 +131,8 @@ class _CplxMultiply(_Operator):
     Internal name is "cplx_multiply"
     Scripting name is "cplx_multiply"
 
+    Description: Computes multiply between two field containers containing complex fields.
+
     Input list: 
        0: fields_containerA 
        1: fields_containerB 
@@ -166,6 +172,8 @@ def cplx_multiply():
     """Operator's description:
     Internal name is "cplx_multiply"
     Scripting name is "cplx_multiply"
+
+    Description: Computes multiply between two field containers containing complex fields.
 
     Input list: 
        0: fields_containerA 
@@ -214,6 +222,8 @@ class _UnitConvert(_Operator):
     Internal name is "unit_convert"
     Scripting name is "unit_convert"
 
+    Description: Convert an input field of a given unit to another unit.
+
     Input list: 
        0: field 
        1: unit_name (unit as a string, ex 'm' for meter, 'Pa' for pascal,...)
@@ -253,6 +263,8 @@ def unit_convert():
     """Operator's description:
     Internal name is "unit_convert"
     Scripting name is "unit_convert"
+
+    Description: Convert an input field of a given unit to another unit.
 
     Input list: 
        0: field 
@@ -313,6 +325,8 @@ class _MinMaxOverTime(_Operator):
     Internal name is "min_max_over_time"
     Scripting name is "min_max_over_time"
 
+    Description: Evaluates minimum/maximum over time/frequency.
+
     Input list: 
        0: fields_container 
        1: angle (Phase angle used for complex field container)
@@ -356,6 +370,8 @@ def min_max_over_time():
     """Operator's description:
     Internal name is "min_max_over_time"
     Scripting name is "min_max_over_time"
+
+    Description: Evaluates minimum/maximum over time/frequency.
 
     Input list: 
        0: fields_container 
@@ -408,6 +424,8 @@ class _MinusFc(_Operator):
     Internal name is "minus_fc"
     Scripting name is "minus_fc"
 
+    Description: Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: field_or_fields_container_A (field or fields container with only one field is expected)
        1: field_or_fields_container_B (field or fields container with only one field is expected)
@@ -447,6 +465,8 @@ def minus_fc():
     """Operator's description:
     Internal name is "minus_fc"
     Scripting name is "minus_fc"
+
+    Description: Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: field_or_fields_container_A (field or fields container with only one field is expected)
@@ -492,6 +512,8 @@ class _Accumulate(_Operator):
     Internal name is "accumulate"
     Scripting name is "accumulate"
 
+    Description: Sum all the elementary data of a field to get one elementary data at the end.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
 
@@ -530,6 +552,8 @@ def accumulate():
     """Operator's description:
     Internal name is "accumulate"
     Scripting name is "accumulate"
+
+    Description: Sum all the elementary data of a field to get one elementary data at the end.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -577,6 +601,8 @@ class _UnitConvertFc(_Operator):
     Internal name is "unit_convert_fc"
     Scripting name is "unit_convert_fc"
 
+    Description: Convert an input fields container of a given unit to another unit.
+
     Input list: 
        0: fields_container 
        1: unit_name (unit as a string, ex 'm' for meter, 'Pa' for pascal,...)
@@ -616,6 +642,8 @@ def unit_convert_fc():
     """Operator's description:
     Internal name is "unit_convert_fc"
     Scripting name is "unit_convert_fc"
+
+    Description: Convert an input fields container of a given unit to another unit.
 
     Input list: 
        0: fields_container 
@@ -664,6 +692,8 @@ class _Add(_Operator):
     Internal name is "add"
     Scripting name is "add"
 
+    Description: Computes the sum of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field. if one of the input field is empty, the remaining is forwarded to the output.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -703,6 +733,8 @@ def add():
     """Operator's description:
     Internal name is "add"
     Scripting name is "add"
+
+    Description: Computes the sum of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field. if one of the input field is empty, the remaining is forwarded to the output.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -751,6 +783,8 @@ class _AddFc(_Operator):
     Internal name is "add_fc"
     Scripting name is "add_fc"
 
+    Description: Compute the field-wise sum of the input fields containers.
+
     Input list: 
        0: fields_container1 
        1: fields_container2 
@@ -790,6 +824,8 @@ def add_fc():
     """Operator's description:
     Internal name is "add_fc"
     Scripting name is "add_fc"
+
+    Description: Compute the field-wise sum of the input fields containers.
 
     Input list: 
        0: fields_container1 
@@ -844,6 +880,8 @@ class _PhaseOfMax(_Operator):
     Internal name is "phase_of_max"
     Scripting name is "phase_of_max"
 
+    Description: Evaluates phase of maximum.
+
     Input list: 
        0: real_field 
        1: imaginary_field 
@@ -885,6 +923,8 @@ def phase_of_max():
     """Operator's description:
     Internal name is "phase_of_max"
     Scripting name is "phase_of_max"
+
+    Description: Evaluates phase of maximum.
 
     Input list: 
        0: real_field 
@@ -932,6 +972,8 @@ class _SinFc(_Operator):
     Internal name is "sin_fc"
     Scripting name is "sin_fc"
 
+    Description: Computes element-wise sin(field[i]).
+
     Input list: 
        0: fields_container 
 
@@ -970,6 +1012,8 @@ def sin_fc():
     """Operator's description:
     Internal name is "sin_fc"
     Scripting name is "sin_fc"
+
+    Description: Computes element-wise sin(field[i]).
 
     Input list: 
        0: fields_container 
@@ -1017,6 +1061,8 @@ class _AddConstant(_Operator):
     Internal name is "add_constant"
     Scripting name is "add_constant"
 
+    Description: Computes the sum of a field (in 0) and a scalar (in 1).
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: ponderation (double or vector of double)
@@ -1056,6 +1102,8 @@ def add_constant():
     """Operator's description:
     Internal name is "add_constant"
     Scripting name is "add_constant"
+
+    Description: Computes the sum of a field (in 0) and a scalar (in 1).
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1101,6 +1149,8 @@ class _InvertFc(_Operator):
     Internal name is "invert_fc"
     Scripting name is "invert_fc"
 
+    Description: Compute the element-wise, component-wise, inverse of a field (1./x)
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
 
@@ -1139,6 +1189,8 @@ def invert_fc():
     """Operator's description:
     Internal name is "invert_fc"
     Scripting name is "invert_fc"
+
+    Description: Compute the element-wise, component-wise, inverse of a field (1./x)
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -1186,6 +1238,8 @@ class _Pow(_Operator):
     Internal name is "Pow"
     Scripting name is "pow"
 
+    Description: Computes element-wise field[i]^p.
+
     Input list: 
        0: field 
        1: factor 
@@ -1225,6 +1279,8 @@ def pow():
     """Operator's description:
     Internal name is "Pow"
     Scripting name is "pow"
+
+    Description: Computes element-wise field[i]^p.
 
     Input list: 
        0: field 
@@ -1273,6 +1329,8 @@ class _AddConstantFc(_Operator):
     Internal name is "add_constant_fc"
     Scripting name is "add_constant_fc"
 
+    Description: Computes the sum of a field (in 0) and a scalar (in 1).
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
        1: ponderation (double or vector of double)
@@ -1312,6 +1370,8 @@ def add_constant_fc():
     """Operator's description:
     Internal name is "add_constant_fc"
     Scripting name is "add_constant_fc"
+
+    Description: Computes the sum of a field (in 0) and a scalar (in 1).
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -1363,6 +1423,8 @@ class _Scale(_Operator):
     Internal name is "scale"
     Scripting name is "scale"
 
+    Description: Scales a field by a constant factor.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: ponderation (Double/Field scoped on overall)
@@ -1403,6 +1465,8 @@ def scale():
     """Operator's description:
     Internal name is "scale"
     Scripting name is "scale"
+
+    Description: Scales a field by a constant factor.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1452,6 +1516,8 @@ class _PowFc(_Operator):
     Internal name is "Pow_fc"
     Scripting name is "pow_fc"
 
+    Description: Computes element-wise field[i]^p.
+
     Input list: 
        0: fields_container 
        1: factor 
@@ -1491,6 +1557,8 @@ def pow_fc():
     """Operator's description:
     Internal name is "Pow_fc"
     Scripting name is "pow_fc"
+
+    Description: Computes element-wise field[i]^p.
 
     Input list: 
        0: fields_container 
@@ -1542,6 +1610,8 @@ class _ScaleFc(_Operator):
     Internal name is "scale_fc"
     Scripting name is "scale_fc"
 
+    Description: Scales a field by a constant factor.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
        1: ponderation (Double/Field scoped on overall)
@@ -1582,6 +1652,8 @@ def scale_fc():
     """Operator's description:
     Internal name is "scale_fc"
     Scripting name is "scale_fc"
+
+    Description: Scales a field by a constant factor.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -1634,6 +1706,8 @@ class _Centroid(_Operator):
     Internal name is "centroid"
     Scripting name is "centroid"
 
+    Description: Computes centroid of field1 and field2, using fieldOut = field1*(1.-fact)+field2*(fact).
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -1674,6 +1748,8 @@ def centroid():
     """Operator's description:
     Internal name is "centroid"
     Scripting name is "centroid"
+
+    Description: Computes centroid of field1 and field2, using fieldOut = field1*(1.-fact)+field2*(fact).
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -1735,6 +1811,8 @@ class _SweepingPhase(_Operator):
     Internal name is "sweeping_phase"
     Scripting name is "sweeping_phase"
 
+    Description: Shift the phase of a real and an imaginary fields (in 0 and 1) of a given angle (in 3) of unit (in 4).
+
     Input list: 
        0: real_field (field or fields container with only one field is expected)
        1: imaginary_field (field or fields container with only one field is expected)
@@ -1778,6 +1856,8 @@ def sweeping_phase():
     """Operator's description:
     Internal name is "sweeping_phase"
     Scripting name is "sweeping_phase"
+
+    Description: Shift the phase of a real and an imaginary fields (in 0 and 1) of a given angle (in 3) of unit (in 4).
 
     Input list: 
        0: real_field (field or fields container with only one field is expected)
@@ -1827,6 +1907,8 @@ class _Sin(_Operator):
     Internal name is "sin"
     Scripting name is "sin"
 
+    Description: Computes element-wise sin(field[i]).
+
     Input list: 
        0: field 
 
@@ -1865,6 +1947,8 @@ def sin():
     """Operator's description:
     Internal name is "sin"
     Scripting name is "sin"
+
+    Description: Computes element-wise sin(field[i]).
 
     Input list: 
        0: field 
@@ -1909,6 +1993,8 @@ class _Cos(_Operator):
     Internal name is "cos"
     Scripting name is "cos"
 
+    Description: Computes element-wise cos(field[i]).
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -1947,6 +2033,8 @@ def cos():
     """Operator's description:
     Internal name is "cos"
     Scripting name is "cos"
+
+    Description: Computes element-wise cos(field[i]).
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -1991,6 +2079,8 @@ class _CosFc(_Operator):
     Internal name is "cos_fc"
     Scripting name is "cos_fc"
 
+    Description: Computes element-wise cos(field[i]).
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
 
@@ -2029,6 +2119,8 @@ def cos_fc():
     """Operator's description:
     Internal name is "cos_fc"
     Scripting name is "cos_fc"
+
+    Description: Computes element-wise cos(field[i]).
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -2082,6 +2174,8 @@ class _SweepingPhaseFc(_Operator):
     Internal name is "sweeping_phase_fc"
     Scripting name is "sweeping_phase_fc"
 
+    Description: Shift the phase of all the corresponding real and imaginary fields of a fields container for a given angle (in 2) of unit (in 4).
+
     Input list: 
        0: fields_container 
        2: angle 
@@ -2123,6 +2217,8 @@ def sweeping_phase_fc():
     """Operator's description:
     Internal name is "sweeping_phase_fc"
     Scripting name is "sweeping_phase_fc"
+
+    Description: Shift the phase of all the corresponding real and imaginary fields of a fields container for a given angle (in 2) of unit (in 4).
 
     Input list: 
        0: fields_container 
@@ -2170,6 +2266,8 @@ class _Sqr(_Operator):
     Internal name is "sqr"
     Scripting name is "sqr"
 
+    Description: Computes element-wise field[i]^2.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -2208,6 +2306,8 @@ def sqr():
     """Operator's description:
     Internal name is "sqr"
     Scripting name is "sqr"
+
+    Description: Computes element-wise field[i]^2.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -2264,6 +2364,8 @@ class _LinearCombination(_Operator):
     Internal name is "CplxOp"
     Scripting name is "linear_combination"
 
+    Description: Computes aXY + bZ where a,b (in 0, in 3) are scalar and X,Y,Z (in 1,2,4) are complex numbers.
+
     Input list: 
        0: a (Double)
        1: fields_containerA 
@@ -2306,6 +2408,8 @@ def linear_combination():
     """Operator's description:
     Internal name is "CplxOp"
     Scripting name is "linear_combination"
+
+    Description: Computes aXY + bZ where a,b (in 0, in 3) are scalar and X,Y,Z (in 1,2,4) are complex numbers.
 
     Input list: 
        0: a (Double)
@@ -2354,6 +2458,8 @@ class _SqrFc(_Operator):
     Internal name is "sqr_fc"
     Scripting name is "sqr_fc"
 
+    Description: Computes element-wise field[i]^2.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
 
@@ -2392,6 +2498,8 @@ def sqr_fc():
     """Operator's description:
     Internal name is "sqr_fc"
     Scripting name is "sqr_fc"
+
+    Description: Computes element-wise field[i]^2.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -2436,6 +2544,8 @@ class _Sqrt(_Operator):
     Internal name is "sqrt"
     Scripting name is "sqrt"
 
+    Description: Computes element-wise sqrt(field1).
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -2474,6 +2584,8 @@ def sqrt():
     """Operator's description:
     Internal name is "sqrt"
     Scripting name is "sqrt"
+
+    Description: Computes element-wise sqrt(field1).
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -2518,6 +2630,8 @@ class _Norm(_Operator):
     Internal name is "norm"
     Scripting name is "norm"
 
+    Description: Computes the element-wise L2 norm of the field elementary data.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -2556,6 +2670,8 @@ def norm():
     """Operator's description:
     Internal name is "norm"
     Scripting name is "norm"
+
+    Description: Computes the element-wise L2 norm of the field elementary data.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -2600,6 +2716,8 @@ class _SqrtFc(_Operator):
     Internal name is "sqrt_fc"
     Scripting name is "sqrt_fc"
 
+    Description: Computes element-wise sqrt(field1).
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
 
@@ -2638,6 +2756,8 @@ def sqrt_fc():
     """Operator's description:
     Internal name is "sqrt_fc"
     Scripting name is "sqrt_fc"
+
+    Description: Computes element-wise sqrt(field1).
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -2682,6 +2802,8 @@ class _NormFc(_Operator):
     Internal name is "norm_fc"
     Scripting name is "norm_fc"
 
+    Description: Computes the element-wise L2 norm of the field elementary data. This process is applied on eah field of the input fields container.
+
     Input list: 
        0: fields_container 
 
@@ -2720,6 +2842,8 @@ def norm_fc():
     """Operator's description:
     Internal name is "norm_fc"
     Scripting name is "norm_fc"
+
+    Description: Computes the element-wise L2 norm of the field elementary data. This process is applied on eah field of the input fields container.
 
     Input list: 
        0: fields_container 
@@ -2767,6 +2891,8 @@ class _ComponentWiseDivide(_Operator):
     Internal name is "component_wise_divide"
     Scripting name is "component_wise_divide"
 
+    Description: Computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -2806,6 +2932,8 @@ def component_wise_divide():
     """Operator's description:
     Internal name is "component_wise_divide"
     Scripting name is "component_wise_divide"
+
+    Description: Computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -2854,6 +2982,8 @@ class _ComponentWiseDivideFc(_Operator):
     Internal name is "component_wise_divide_fc"
     Scripting name is "component_wise_divide_fc"
 
+    Description: For every two fields with the same label space (from the two input fields containers), computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: fields_containerA 
        1: fields_containerB 
@@ -2893,6 +3023,8 @@ def component_wise_divide_fc():
     """Operator's description:
     Internal name is "component_wise_divide_fc"
     Scripting name is "component_wise_divide_fc"
+
+    Description: For every two fields with the same label space (from the two input fields containers), computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: fields_containerA 
@@ -2941,6 +3073,8 @@ class _KroneckerProd(_Operator):
     Internal name is "kronecker_prod"
     Scripting name is "kronecker_prod"
 
+    Description: Computes element-wise Kronecker product between two tensor fields.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -2980,6 +3114,8 @@ def kronecker_prod():
     """Operator's description:
     Internal name is "kronecker_prod"
     Scripting name is "kronecker_prod"
+
+    Description: Computes element-wise Kronecker product between two tensor fields.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -3025,6 +3161,8 @@ class _RealPart(_Operator):
     Internal name is "realP_part"
     Scripting name is "real_part"
 
+    Description: Extracts element-wise real part of field containers containing complex fields.
+
     Input list: 
        0: fields_container 
 
@@ -3063,6 +3201,8 @@ def real_part():
     """Operator's description:
     Internal name is "realP_part"
     Scripting name is "real_part"
+
+    Description: Extracts element-wise real part of field containers containing complex fields.
 
     Input list: 
        0: fields_container 
@@ -3107,6 +3247,8 @@ class _Conjugate(_Operator):
     Internal name is "conjugate"
     Scripting name is "conjugate"
 
+    Description: Computes element-wise conjugate of field containers containing complex fields.
+
     Input list: 
        0: fields_container 
 
@@ -3145,6 +3287,8 @@ def conjugate():
     """Operator's description:
     Internal name is "conjugate"
     Scripting name is "conjugate"
+
+    Description: Computes element-wise conjugate of field containers containing complex fields.
 
     Input list: 
        0: fields_container 
@@ -3189,6 +3333,8 @@ class _ImgPart(_Operator):
     Internal name is "img_part"
     Scripting name is "img_part"
 
+    Description: Extracts element-wise imaginary part of field containers containing complex fields.
+
     Input list: 
        0: fields_container 
 
@@ -3227,6 +3373,8 @@ def img_part():
     """Operator's description:
     Internal name is "img_part"
     Scripting name is "img_part"
+
+    Description: Extracts element-wise imaginary part of field containers containing complex fields.
 
     Input list: 
        0: fields_container 
@@ -3274,6 +3422,8 @@ class _Amplitude(_Operator):
     Internal name is "amplitude"
     Scripting name is "amplitude"
 
+    Description: Computes amplitude of a real and an imaginary field.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -3313,6 +3463,8 @@ def amplitude():
     """Operator's description:
     Internal name is "amplitude"
     Scripting name is "amplitude"
+
+    Description: Computes amplitude of a real and an imaginary field.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -3361,6 +3513,8 @@ class _CplxAdd(_Operator):
     Internal name is "cplx_add"
     Scripting name is "cplx_add"
 
+    Description: Computes addition between two field containers containing complex fields.
+
     Input list: 
        0: fields_containerA 
        1: fields_containerB 
@@ -3400,6 +3554,8 @@ def cplx_add():
     """Operator's description:
     Internal name is "cplx_add"
     Scripting name is "cplx_add"
+
+    Description: Computes addition between two field containers containing complex fields.
 
     Input list: 
        0: fields_containerA 
@@ -3448,6 +3604,8 @@ class _CplxDot(_Operator):
     Internal name is "cplx_dot"
     Scripting name is "cplx_dot"
 
+    Description: Computes product between two field containers containing complex fields.
+
     Input list: 
        0: fields_containerA 
        1: fields_containerB 
@@ -3487,6 +3645,8 @@ def cplx_dot():
     """Operator's description:
     Internal name is "cplx_dot"
     Scripting name is "cplx_dot"
+
+    Description: Computes product between two field containers containing complex fields.
 
     Input list: 
        0: fields_containerA 
@@ -3535,6 +3695,8 @@ class _CplxDivide(_Operator):
     Internal name is "cplx_divide"
     Scripting name is "cplx_divide"
 
+    Description: Computes division between two field containers containing complex fields.
+
     Input list: 
        0: fields_containerA 
        1: fields_containerB 
@@ -3574,6 +3736,8 @@ def cplx_divide():
     """Operator's description:
     Internal name is "cplx_divide"
     Scripting name is "cplx_divide"
+
+    Description: Computes division between two field containers containing complex fields.
 
     Input list: 
        0: fields_containerA 
@@ -3622,6 +3786,8 @@ class _Dot(_Operator):
     Internal name is "dot"
     Scripting name is "dot"
 
+    Description: Computes element-wise dot product between two vector fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -3661,6 +3827,8 @@ def dot():
     """Operator's description:
     Internal name is "dot"
     Scripting name is "dot"
+
+    Description: Computes element-wise dot product between two vector fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -3706,6 +3874,8 @@ class _CplxDerive(_Operator):
     Internal name is "cplx_derive"
     Scripting name is "cplx_derive"
 
+    Description: Derive field containers containing complex fields.
+
     Input list: 
        0: fields_container 
 
@@ -3744,6 +3914,8 @@ def cplx_derive():
     """Operator's description:
     Internal name is "cplx_derive"
     Scripting name is "cplx_derive"
+
+    Description: Derive field containers containing complex fields.
 
     Input list: 
        0: fields_container 
@@ -3788,6 +3960,8 @@ class _PolarToCplx(_Operator):
     Internal name is "polar_to_cplx"
     Scripting name is "polar_to_cplx"
 
+    Description: Convert complex number from polar form to complex.
+
     Input list: 
        0: fields_container 
 
@@ -3826,6 +4000,8 @@ def polar_to_cplx():
     """Operator's description:
     Internal name is "polar_to_cplx"
     Scripting name is "polar_to_cplx"
+
+    Description: Convert complex number from polar form to complex.
 
     Input list: 
        0: fields_container 
@@ -3870,6 +4046,8 @@ class _Modulus(_Operator):
     Internal name is "modulus"
     Scripting name is "modulus"
 
+    Description: Computes element-wise modulus of field containers containing complex fields.
+
     Input list: 
        0: fields_container 
 
@@ -3908,6 +4086,8 @@ def modulus():
     """Operator's description:
     Internal name is "modulus"
     Scripting name is "modulus"
+
+    Description: Computes element-wise modulus of field containers containing complex fields.
 
     Input list: 
        0: fields_container 
@@ -3952,6 +4132,8 @@ class _AccumulateFc(_Operator):
     Internal name is "accumulate_fc"
     Scripting name is "accumulate_fc"
 
+    Description: Sum all the elementary data of a field to get one elementary data at the end.
+
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
 
@@ -3990,6 +4172,8 @@ def accumulate_fc():
     """Operator's description:
     Internal name is "accumulate_fc"
     Scripting name is "accumulate_fc"
+
+    Description: Sum all the elementary data of a field to get one elementary data at the end.
 
     Input list: 
        0: fields_container (field or fields container with only one field is expected)
@@ -4037,6 +4221,8 @@ class _GeneralizedInnerProduct(_Operator):
     Internal name is "generalized_inner_product"
     Scripting name is "generalized_inner_product"
 
+    Description: Computes a general notion of inner product between two fields of possibly different dimensionality.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -4076,6 +4262,8 @@ def generalized_inner_product():
     """Operator's description:
     Internal name is "generalized_inner_product"
     Scripting name is "generalized_inner_product"
+
+    Description: Computes a general notion of inner product between two fields of possibly different dimensionality.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -4124,6 +4312,8 @@ class _ScaleByField(_Operator):
     Internal name is "scale_by_field"
     Scripting name is "scale_by_field"
 
+    Description: Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -4163,6 +4353,8 @@ def scale_by_field():
     """Operator's description:
     Internal name is "scale_by_field"
     Scripting name is "scale_by_field"
+
+    Description: Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -4211,6 +4403,8 @@ class _GeneralizedInnerProductFc(_Operator):
     Internal name is "generalized_inner_product_fc"
     Scripting name is "generalized_inner_product_fc"
 
+    Description: Computes a general notion of inner product between two fields of possibly different dimensionality.
+
     Input list: 
        0: field_or_fields_container_A (field or fields container with only one field is expected)
        1: field_or_fields_container_B (field or fields container with only one field is expected)
@@ -4250,6 +4444,8 @@ def generalized_inner_product_fc():
     """Operator's description:
     Internal name is "generalized_inner_product_fc"
     Scripting name is "generalized_inner_product_fc"
+
+    Description: Computes a general notion of inner product between two fields of possibly different dimensionality.
 
     Input list: 
        0: field_or_fields_container_A (field or fields container with only one field is expected)
@@ -4309,6 +4505,8 @@ class _MaxOverTime(_Operator):
     Internal name is "max_over_time"
     Scripting name is "max_over_time"
 
+    Description: Evaluates maximum over time/frequency.
+
     Input list: 
        0: fields_container 
        1: angle (Phase angle used for complex field container)
@@ -4351,6 +4549,8 @@ def max_over_time():
     """Operator's description:
     Internal name is "max_over_time"
     Scripting name is "max_over_time"
+
+    Description: Evaluates maximum over time/frequency.
 
     Input list: 
        0: fields_container 
@@ -4411,6 +4611,8 @@ class _TimeOfMax(_Operator):
     Internal name is "time_of_max"
     Scripting name is "time_of_max"
 
+    Description: Evaluates time/frequency of maximum.
+
     Input list: 
        0: fields_container 
        1: angle (Phase angle used for complex field container)
@@ -4453,6 +4655,8 @@ def time_of_max():
     """Operator's description:
     Internal name is "time_of_max"
     Scripting name is "time_of_max"
+
+    Description: Evaluates time/frequency of maximum.
 
     Input list: 
        0: fields_container 
@@ -4513,6 +4717,8 @@ class _MinOverTime(_Operator):
     Internal name is "min_over_time"
     Scripting name is "min_over_time"
 
+    Description: Evaluates minimum over time/frequency.
+
     Input list: 
        0: fields_container 
        1: angle (Phase angle used for complex field container)
@@ -4555,6 +4761,8 @@ def min_over_time():
     """Operator's description:
     Internal name is "min_over_time"
     Scripting name is "min_over_time"
+
+    Description: Evaluates minimum over time/frequency.
 
     Input list: 
        0: fields_container 
@@ -4615,6 +4823,8 @@ class _TimeOfMin(_Operator):
     Internal name is "time_of_min"
     Scripting name is "time_of_min"
 
+    Description: Evaluates time/frequency of minimum.
+
     Input list: 
        0: fields_container 
        1: angle (Phase angle used for complex field container)
@@ -4657,6 +4867,8 @@ def time_of_min():
     """Operator's description:
     Internal name is "time_of_min"
     Scripting name is "time_of_min"
+
+    Description: Evaluates time/frequency of minimum.
 
     Input list: 
        0: fields_container 
@@ -4714,6 +4926,8 @@ class _MaxOverPhase(_Operator):
     Internal name is "max_over_phase"
     Scripting name is "max_over_phase"
 
+    Description: Returns, for each entity, the maximum value of (real value * cos(theta) - imaginary value * sin(theta)) for theta in [0, 360] degrees with the increment in input.
+
     Input list: 
        0: real_field 
        1: imaginary_field 
@@ -4755,6 +4969,8 @@ def max_over_phase():
     """Operator's description:
     Internal name is "max_over_phase"
     Scripting name is "max_over_phase"
+
+    Description: Returns, for each entity, the maximum value of (real value * cos(theta) - imaginary value * sin(theta)) for theta in [0, 360] degrees with the increment in input.
 
     Input list: 
        0: real_field 
@@ -4805,6 +5021,8 @@ class _DotTensor(_Operator):
     Internal name is "dot_tensor"
     Scripting name is "dot_tensor"
 
+    Description: Computes element-wise dot product between two tensor fields.
+
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
        1: fieldB (field or fields container with only one field is expected)
@@ -4844,6 +5062,8 @@ def dot_tensor():
     """Operator's description:
     Internal name is "dot_tensor"
     Scripting name is "dot_tensor"
+
+    Description: Computes element-wise dot product between two tensor fields.
 
     Input list: 
        0: fieldA (field or fields container with only one field is expected)
@@ -4892,6 +5112,8 @@ class _ScaleByFieldFc(_Operator):
     Internal name is "scale_by_field_fc"
     Scripting name is "scale_by_field_fc"
 
+    Description: Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
+
     Input list: 
        0: field_or_fields_container_A (field or fields container with only one field is expected)
        1: field_or_fields_container_B (field or fields container with only one field is expected)
@@ -4931,6 +5153,8 @@ def scale_by_field_fc():
     """Operator's description:
     Internal name is "scale_by_field_fc"
     Scripting name is "scale_by_field_fc"
+
+    Description: Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
     Input list: 
        0: field_or_fields_container_A (field or fields container with only one field is expected)
@@ -4976,6 +5200,8 @@ class _Invert(_Operator):
     Internal name is "invert"
     Scripting name is "invert"
 
+    Description: Compute the element-wise, component-wise, inverse of a field (1./x)
+
     Input list: 
        0: field (field or fields container with only one field is expected)
 
@@ -5014,6 +5240,8 @@ def invert():
     """Operator's description:
     Internal name is "invert"
     Scripting name is "invert"
+
+    Description: Compute the element-wise, component-wise, inverse of a field (1./x)
 
     Input list: 
        0: field (field or fields container with only one field is expected)

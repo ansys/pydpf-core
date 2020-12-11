@@ -43,6 +43,8 @@ class _Mass(_Operator):
     Internal name is "topology::mass"
     Scripting name is "mass"
 
+    Description: Compute the mass of a set of elements.
+
     Input list: 
        0: mesh 
        1: mesh_scoping (Mesh scoping, if not set, all the elements of the mesh are considered.)
@@ -83,6 +85,8 @@ def mass():
     """Operator's description:
     Internal name is "topology::mass"
     Scripting name is "mass"
+
+    Description: Compute the mass of a set of elements.
 
     Input list: 
        0: mesh 
@@ -132,6 +136,8 @@ class _NormalsProviderNl(_Operator):
     Internal name is "normals_provider_nl"
     Scripting name is "normals_provider_nl"
 
+    Description: Compute the normals on nodes/elements based on integration points(more accurate for non-linear elements), on a skin mesh
+
     Input list: 
        0: mesh (skin or shell mesh region)
        1: mesh_scoping 
@@ -171,6 +177,8 @@ def normals_provider_nl():
     """Operator's description:
     Internal name is "normals_provider_nl"
     Scripting name is "normals_provider_nl"
+
+    Description: Compute the normals on nodes/elements based on integration points(more accurate for non-linear elements), on a skin mesh
 
     Input list: 
        0: mesh (skin or shell mesh region)
@@ -219,6 +227,8 @@ class _ToCylindricalCsFc(_Operator):
     Internal name is "transform_cylindrical_cs_fc"
     Scripting name is "to_cylindrical_cs_fc"
 
+    Description: Transform all the fields of a fields container (not defined with a cynlindrical coordinate system) to its corresponding values into the specified cylindrical coordinate system (corresponding to the field position). If no coordinate system is set in the coordinate_system pin, field is rotated on each node following the local polar coordinate system.
+
     Input list: 
        0: field 
        1: coordinate_system (3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.)
@@ -258,6 +268,8 @@ def to_cylindrical_cs_fc():
     """Operator's description:
     Internal name is "transform_cylindrical_cs_fc"
     Scripting name is "to_cylindrical_cs_fc"
+
+    Description: Transform all the fields of a fields container (not defined with a cynlindrical coordinate system) to its corresponding values into the specified cylindrical coordinate system (corresponding to the field position). If no coordinate system is set in the coordinate_system pin, field is rotated on each node following the local polar coordinate system.
 
     Input list: 
        0: field 
@@ -309,6 +321,8 @@ class _IntegrateOverElements(_Operator):
     Internal name is "element::integrate"
     Scripting name is "integrate_over_elements"
 
+    Description: Integration of an input field over mesh.
+
     Input list: 
        0: field 
        1: scoping (Integrate the input field over a specific scoping.)
@@ -349,6 +363,8 @@ def integrate_over_elements():
     """Operator's description:
     Internal name is "element::integrate"
     Scripting name is "integrate_over_elements"
+
+    Description: Integration of an input field over mesh.
 
     Input list: 
        0: field 
@@ -404,6 +420,8 @@ class _CenterOfGravity(_Operator):
     Internal name is "topology::center_of_gravity"
     Scripting name is "center_of_gravity"
 
+    Description: Compute the center of gravity of a set of elements
+
     Input list: 
        0: mesh 
        1: mesh_scoping (Mesh scoping, if not set, all the elements of the mesh are considered.)
@@ -445,6 +463,8 @@ def center_of_gravity():
     """Operator's description:
     Internal name is "topology::center_of_gravity"
     Scripting name is "center_of_gravity"
+
+    Description: Compute the center of gravity of a set of elements
 
     Input list: 
        0: mesh 
@@ -495,6 +515,8 @@ class _ToCylindricalCs(_Operator):
     Internal name is "transform_cylindricalCS"
     Scripting name is "to_cylindrical_cs"
 
+    Description: Transform a field (not defined with a cynlindrical coordinate system) to its corresponding values into the specified cylindrical coordinate system (corresponding to the field position). If no coordinate system is set in the coordinate_system pin, field is rotated on each node following the local polar coordinate system.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: coordinate_system (3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.)
@@ -534,6 +556,8 @@ def to_cylindrical_cs():
     """Operator's description:
     Internal name is "transform_cylindricalCS"
     Scripting name is "to_cylindrical_cs"
+
+    Description: Transform a field (not defined with a cynlindrical coordinate system) to its corresponding values into the specified cylindrical coordinate system (corresponding to the field position). If no coordinate system is set in the coordinate_system pin, field is rotated on each node following the local polar coordinate system.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -582,6 +606,8 @@ class _Rotate(_Operator):
     Internal name is "rotate"
     Scripting name is "rotate"
 
+    Description: Apply a transformation (rotation) matrix on field.
+
     Input list: 
        0: field (field or fields container with only one field is expected)
        1: field_rotation_matrix (3-3 rotation matrix)
@@ -621,6 +647,8 @@ def rotate():
     """Operator's description:
     Internal name is "rotate"
     Scripting name is "rotate"
+
+    Description: Apply a transformation (rotation) matrix on field.
 
     Input list: 
        0: field (field or fields container with only one field is expected)
@@ -669,6 +697,8 @@ class _RotateFc(_Operator):
     Internal name is "rotate_fc"
     Scripting name is "rotate_fc"
 
+    Description: Apply a transformation (rotation) matrix on all the fields of a fields container.
+
     Input list: 
        0: fields_container 
        1: coordinate_system (3-3 rotation matrix)
@@ -708,6 +738,8 @@ def rotate_fc():
     """Operator's description:
     Internal name is "rotate_fc"
     Scripting name is "rotate_fc"
+
+    Description: Apply a transformation (rotation) matrix on all the fields of a fields container.
 
     Input list: 
        0: fields_container 
@@ -759,6 +791,8 @@ class _ElementsVolumesOverTime(_Operator):
     Internal name is "volumes_provider"
     Scripting name is "elements_volumes_over_time"
 
+    Description: Calculation of the volume of each element over time of a mesh for each specified time step.
+
     Input list: 
        1: scoping 
        2: displacement (Displacement field's container. Must contain the mesh if mesh not specified in input.)
@@ -799,6 +833,8 @@ def elements_volumes_over_time():
     """Operator's description:
     Internal name is "volumes_provider"
     Scripting name is "elements_volumes_over_time"
+
+    Description: Calculation of the volume of each element over time of a mesh for each specified time step.
 
     Input list: 
        1: scoping 
@@ -854,6 +890,8 @@ class _ElementsFacetsSurfacesOverTime(_Operator):
     Internal name is "surfaces_provider"
     Scripting name is "elements_facets_surfaces_over_time"
 
+    Description: Calculation of the surface of each element's facet over time of a mesh for each specified time step. Moreover, it gives as output a new mesh made with only surface elements.
+
     Input list: 
        1: scoping 
        2: displacement (Displacement field's container.)
@@ -895,6 +933,8 @@ def elements_facets_surfaces_over_time():
     """Operator's description:
     Internal name is "surfaces_provider"
     Scripting name is "elements_facets_surfaces_over_time"
+
+    Description: Calculation of the surface of each element's facet over time of a mesh for each specified time step. Moreover, it gives as output a new mesh made with only surface elements.
 
     Input list: 
        1: scoping 
@@ -942,6 +982,8 @@ class _ElementsVolume(_Operator):
     Internal name is "element::volume"
     Scripting name is "elements_volume"
 
+    Description: Compute the volume of each element of a mesh, using default shape functions.
+
     Input list: 
        0: mesh 
 
@@ -980,6 +1022,8 @@ def elements_volume():
     """Operator's description:
     Internal name is "element::volume"
     Scripting name is "elements_volume"
+
+    Description: Compute the volume of each element of a mesh, using default shape functions.
 
     Input list: 
        0: mesh 
@@ -1030,6 +1074,8 @@ class _ElementNodalContribution(_Operator):
     Internal name is "element::nodal_contribution"
     Scripting name is "element_nodal_contribution"
 
+    Description: Compute the fraction of volume attributed to each node of each element.
+
     Input list: 
        0: mesh 
        1: scoping (Integrate the input field over a specific scoping.)
@@ -1070,6 +1116,8 @@ def element_nodal_contribution():
     """Operator's description:
     Internal name is "element::nodal_contribution"
     Scripting name is "element_nodal_contribution"
+
+    Description: Compute the fraction of volume attributed to each node of each element.
 
     Input list: 
        0: mesh 
@@ -1125,6 +1173,8 @@ class _MomentOfInertia(_Operator):
     Internal name is "topology::moment_of_inertia"
     Scripting name is "moment_of_inertia"
 
+    Description: Compute the inertia tensor of a set of elements.
+
     Input list: 
        0: mesh 
        1: mesh_scoping (Mesh scoping, if not set, all the elements of the mesh are considered.)
@@ -1166,6 +1216,8 @@ def moment_of_inertia():
     """Operator's description:
     Internal name is "topology::moment_of_inertia"
     Scripting name is "moment_of_inertia"
+
+    Description: Compute the inertia tensor of a set of elements.
 
     Input list: 
        0: mesh 
@@ -1229,6 +1281,8 @@ class _Normals(_Operator):
     Internal name is "normals_provider"
     Scripting name is "normals"
 
+    Description: compute the normals at the given nodes or element scoping based on the given mesh (first version, the element normal is only handled on the shell elements)
+
     Input list: 
        0: mesh 
        1: mesh_scoping 
@@ -1269,6 +1323,8 @@ def normals():
     """Operator's description:
     Internal name is "normals_provider"
     Scripting name is "normals"
+
+    Description: compute the normals at the given nodes or element scoping based on the given mesh (first version, the element normal is only handled on the shell elements)
 
     Input list: 
        0: mesh 
