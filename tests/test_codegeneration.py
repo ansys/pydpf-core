@@ -1,12 +1,11 @@
 import numpy as np
+import numpy as np
 
 from ansys.dpf import core
 import ansys.grpc.dpf
 
 
-#def test_generateoperatorscode():
-#    core.database_tools.loadOperators()
-    
+
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
     disp = core.operators.result.displacement()
@@ -33,8 +32,8 @@ def test_workflowwithgeneratedcode(allkindofcomplexity):
     pow_op.inputs.field.connect(norm.outputs.field)
     d = pow_op.outputs.field.get_data()
     assert d.data[0] == 2.0188684707833254e-18
-    
-    
+
+
 def test_calloperators(allkindofcomplexity):
     my_data_sources = core.DataSources(allkindofcomplexity)
     my_model = core.Model(my_data_sources)
@@ -44,8 +43,8 @@ def test_calloperators(allkindofcomplexity):
     assert isinstance(norm_op, ansys.dpf.core.dpf_operator.Operator)
     square_op = core.operators.math.sqr()
     assert isinstance(square_op, ansys.dpf.core.operators.math._Sqr)
-    
-    
+
+
 def test_makeconnections(allkindofcomplexity):
     my_data_sources = core.DataSources(allkindofcomplexity)
     my_model = core.Model(my_data_sources)
@@ -60,8 +59,8 @@ def test_makeconnections(allkindofcomplexity):
     assert len(displacement_op.inputs._connected_inputs)==1
     assert len(norm_op.inputs._connected_inputs)==1
     # assert len(square_op.inputs._connected_inputs)==1
-    
-    
+
+
 def test_get_result(allkindofcomplexity):
     stress = core.operators.result.stress_X()
     ds = core.DataSources(allkindofcomplexity)
@@ -73,7 +72,7 @@ def test_get_result(allkindofcomplexity):
     assert len(out) == 2
     assert len(out[0]) == 1281
     assert np.isclose(out[0].data[3], 9328792.294959497)
-    
+
 
 def test_operator_inheritance(allkindofcomplexity):
     stress = core.operators.result.stress_X()
@@ -87,8 +86,8 @@ def test_operator_inheritance(allkindofcomplexity):
     assert len(out) == 2
     assert len(out[0]) == 1281
     assert np.isclose(out[0].data[3], 9328792.294959497)
-    
-    
+
+
 def test_operator_inheritance_2(allkindofcomplexity):
     stress = core.operators.result.stress_X()
     ds = core.DataSources(allkindofcomplexity)
@@ -101,7 +100,7 @@ def test_operator_inheritance_2(allkindofcomplexity):
     assert len(out) == 2
     assert len(out[0]) == 1281
     assert np.isclose(out[0].data[3], 9328792.294959497)
-    
+
 
 def test_inputs_inheritance(allkindofcomplexity):
     stress = core.operators.result.stress_X()
@@ -115,5 +114,3 @@ def test_inputs_inheritance(allkindofcomplexity):
     assert len(out) == 2
     assert len(out[0]) == 1281
     assert np.isclose(out[0].data[3], 9328792.294959497)
-    
-    
