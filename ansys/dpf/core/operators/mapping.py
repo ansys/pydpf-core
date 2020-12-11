@@ -1,6 +1,6 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -10,30 +10,39 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: solid_to_skin
 #scripting name: solid_to_skin
-def _get_input_spec_solid_to_skin(pin):
+def _get_input_spec_solid_to_skin(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["meshed_region"], optional = True, document = """skin mesh region expected""")
     inputs_dict_solid_to_skin = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_solid_to_skin[pin]
+    if pin is None:
+        return inputs_dict_solid_to_skin
+    else:
+        return inputs_dict_solid_to_skin[pin]
 
-def _get_output_spec_solid_to_skin(pin):
+def _get_output_spec_solid_to_skin(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_solid_to_skin = { 
         0 : outpin0
     }
-    return outputs_dict_solid_to_skin[pin]
+    if pin is None:
+        return outputs_dict_solid_to_skin
+    else:
+        return outputs_dict_solid_to_skin[pin]
 
 class _InputSpecSolidToSkin(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_solid_to_skin(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_solid_to_skin(1), 1, op, -1) 
+        super().__init__(_get_input_spec_solid_to_skin(), op)
+        self.field = Input(_get_input_spec_solid_to_skin(0), 0, op, -1) 
+        super().__init__(_get_input_spec_solid_to_skin(), op)
+        self.mesh_scoping = Input(_get_input_spec_solid_to_skin(1), 1, op, -1) 
 
 class _OutputSpecSolidToSkin(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_solid_to_skin(0), 0, op) 
+        super().__init__(_get_output_spec_solid_to_skin(), op)
+        self.field = Output(_get_output_spec_solid_to_skin(0), 0, op) 
 
 class _SolidToSkin(_Operator):
     """Operator's description:
@@ -58,10 +67,8 @@ class _SolidToSkin(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("solid_to_skin")
-        self._name = "solid_to_skin"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSolidToSkin(self._op)
-        self.outputs = _OutputSpecSolidToSkin(self._op)
+        self.inputs = _InputSpecSolidToSkin(self)
+        self.outputs = _OutputSpecSolidToSkin(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -101,7 +108,7 @@ def solid_to_skin():
 
 #internal name: mapping
 #scripting name: on_coordinates
-def _get_input_spec_on_coordinates(pin):
+def _get_input_spec_on_coordinates(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "coordinates", type_names = ["field"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "create_support", type_names = ["bool"], optional = True, document = """if this pin is set to true, then, a support associated to the fields consisting of points is created""")
@@ -114,26 +121,38 @@ def _get_input_spec_on_coordinates(pin):
         3 : inpin3,
         7 : inpin7
     }
-    return inputs_dict_on_coordinates[pin]
+    if pin is None:
+        return inputs_dict_on_coordinates
+    else:
+        return inputs_dict_on_coordinates[pin]
 
-def _get_output_spec_on_coordinates(pin):
+def _get_output_spec_on_coordinates(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_on_coordinates = { 
         0 : outpin0
     }
-    return outputs_dict_on_coordinates[pin]
+    if pin is None:
+        return outputs_dict_on_coordinates
+    else:
+        return outputs_dict_on_coordinates[pin]
 
 class _InputSpecOnCoordinates(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_on_coordinates(0), 0, op, -1) 
-        self.coordinates = _Input(_get_input_spec_on_coordinates(1), 1, op, -1) 
-        self.create_support = _Input(_get_input_spec_on_coordinates(2), 2, op, -1) 
-        self.mapping_on_scoping = _Input(_get_input_spec_on_coordinates(3), 3, op, -1) 
-        self.mesh = _Input(_get_input_spec_on_coordinates(7), 7, op, -1) 
+        super().__init__(_get_input_spec_on_coordinates(), op)
+        self.fields_container = Input(_get_input_spec_on_coordinates(0), 0, op, -1) 
+        super().__init__(_get_input_spec_on_coordinates(), op)
+        self.coordinates = Input(_get_input_spec_on_coordinates(1), 1, op, -1) 
+        super().__init__(_get_input_spec_on_coordinates(), op)
+        self.create_support = Input(_get_input_spec_on_coordinates(2), 2, op, -1) 
+        super().__init__(_get_input_spec_on_coordinates(), op)
+        self.mapping_on_scoping = Input(_get_input_spec_on_coordinates(3), 3, op, -1) 
+        super().__init__(_get_input_spec_on_coordinates(), op)
+        self.mesh = Input(_get_input_spec_on_coordinates(7), 7, op, -1) 
 
 class _OutputSpecOnCoordinates(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_on_coordinates(0), 0, op) 
+        super().__init__(_get_output_spec_on_coordinates(), op)
+        self.fields_container = Output(_get_output_spec_on_coordinates(0), 0, op) 
 
 class _OnCoordinates(_Operator):
     """Operator's description:
@@ -161,10 +180,8 @@ class _OnCoordinates(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapping")
-        self._name = "mapping"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecOnCoordinates(self._op)
-        self.outputs = _OutputSpecOnCoordinates(self._op)
+        self.inputs = _InputSpecOnCoordinates(self)
+        self.outputs = _OutputSpecOnCoordinates(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -207,30 +224,39 @@ def on_coordinates():
 
 #internal name: scoping::on_coordinates
 #scripting name: scoping_on_coordinates
-def _get_input_spec_scoping_on_coordinates(pin):
+def _get_input_spec_scoping_on_coordinates(pin = None):
     inpin0 = _PinSpecification(name = "coordinates", type_names = ["field"], optional = False, document = """""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """""")
     inputs_dict_scoping_on_coordinates = { 
         0 : inpin0,
         7 : inpin7
     }
-    return inputs_dict_scoping_on_coordinates[pin]
+    if pin is None:
+        return inputs_dict_scoping_on_coordinates
+    else:
+        return inputs_dict_scoping_on_coordinates[pin]
 
-def _get_output_spec_scoping_on_coordinates(pin):
+def _get_output_spec_scoping_on_coordinates(pin = None):
     outpin0 = _PinSpecification(name = "scoping", type_names = ["scoping"], document = """""")
     outputs_dict_scoping_on_coordinates = { 
         0 : outpin0
     }
-    return outputs_dict_scoping_on_coordinates[pin]
+    if pin is None:
+        return outputs_dict_scoping_on_coordinates
+    else:
+        return outputs_dict_scoping_on_coordinates[pin]
 
 class _InputSpecScopingOnCoordinates(_Inputs):
     def __init__(self, op: _Operator):
-        self.coordinates = _Input(_get_input_spec_scoping_on_coordinates(0), 0, op, -1) 
-        self.mesh = _Input(_get_input_spec_scoping_on_coordinates(7), 7, op, -1) 
+        super().__init__(_get_input_spec_scoping_on_coordinates(), op)
+        self.coordinates = Input(_get_input_spec_scoping_on_coordinates(0), 0, op, -1) 
+        super().__init__(_get_input_spec_scoping_on_coordinates(), op)
+        self.mesh = Input(_get_input_spec_scoping_on_coordinates(7), 7, op, -1) 
 
 class _OutputSpecScopingOnCoordinates(_Outputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Output(_get_output_spec_scoping_on_coordinates(0), 0, op) 
+        super().__init__(_get_output_spec_scoping_on_coordinates(), op)
+        self.scoping = Output(_get_output_spec_scoping_on_coordinates(0), 0, op) 
 
 class _ScopingOnCoordinates(_Operator):
     """Operator's description:
@@ -255,10 +281,8 @@ class _ScopingOnCoordinates(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scoping::on_coordinates")
-        self._name = "scoping::on_coordinates"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecScopingOnCoordinates(self._op)
-        self.outputs = _OutputSpecScopingOnCoordinates(self._op)
+        self.inputs = _InputSpecScopingOnCoordinates(self)
+        self.outputs = _OutputSpecScopingOnCoordinates(self)
 
     def __str__(self):
         return """Specific operator object.

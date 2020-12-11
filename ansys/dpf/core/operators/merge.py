@@ -1,33 +1,41 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: merge::solid_shell_fields
 #scripting name: merge::solid_shell_fields
-def _get_input_spec_solid_shell_fields(pin):
+def _get_input_spec_solid_shell_fields(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_solid_shell_fields = { 
         0 : inpin0
     }
-    return inputs_dict_solid_shell_fields[pin]
+    if pin is None:
+        return inputs_dict_solid_shell_fields
+    else:
+        return inputs_dict_solid_shell_fields[pin]
 
-def _get_output_spec_solid_shell_fields(pin):
+def _get_output_spec_solid_shell_fields(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_solid_shell_fields = { 
         0 : outpin0
     }
-    return outputs_dict_solid_shell_fields[pin]
+    if pin is None:
+        return outputs_dict_solid_shell_fields
+    else:
+        return outputs_dict_solid_shell_fields[pin]
 
 class _InputSpecSolidShellFields(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_solid_shell_fields(0), 0, op, -1) 
+        super().__init__(_get_input_spec_solid_shell_fields(), op)
+        self.fields_container = Input(_get_input_spec_solid_shell_fields(0), 0, op, -1) 
 
 class _OutputSpecSolidShellFields(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_solid_shell_fields(0), 0, op) 
+        super().__init__(_get_output_spec_solid_shell_fields(), op)
+        self.fields_container = Output(_get_output_spec_solid_shell_fields(0), 0, op) 
 
 class _SolidShellFields(_Operator):
     """Operator's description:
@@ -51,10 +59,8 @@ class _SolidShellFields(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("merge::solid_shell_fields")
-        self._name = "merge::solid_shell_fields"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSolidShellFields(self._op)
-        self.outputs = _OutputSpecSolidShellFields(self._op)
+        self.inputs = _InputSpecSolidShellFields(self)
+        self.outputs = _OutputSpecSolidShellFields(self)
 
     def __str__(self):
         return """Specific operator object.

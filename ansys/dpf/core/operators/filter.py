@@ -1,6 +1,6 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification

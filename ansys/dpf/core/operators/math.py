@@ -1,6 +1,6 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -10,30 +10,39 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: minus
 #scripting name: minus
-def _get_input_spec_minus(pin):
+def _get_input_spec_minus(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_minus = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_minus[pin]
+    if pin is None:
+        return inputs_dict_minus
+    else:
+        return inputs_dict_minus[pin]
 
-def _get_output_spec_minus(pin):
+def _get_output_spec_minus(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_minus = { 
         0 : outpin0
     }
-    return outputs_dict_minus[pin]
+    if pin is None:
+        return outputs_dict_minus
+    else:
+        return outputs_dict_minus[pin]
 
 class _InputSpecMinus(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_minus(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_minus(1), 1, op, -1) 
+        super().__init__(_get_input_spec_minus(), op)
+        self.fieldA = Input(_get_input_spec_minus(0), 0, op, -1) 
+        super().__init__(_get_input_spec_minus(), op)
+        self.fieldB = Input(_get_input_spec_minus(1), 1, op, -1) 
 
 class _OutputSpecMinus(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_minus(0), 0, op) 
+        super().__init__(_get_output_spec_minus(), op)
+        self.field = Output(_get_output_spec_minus(0), 0, op) 
 
 class _Minus(_Operator):
     """Operator's description:
@@ -58,10 +67,8 @@ class _Minus(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("minus")
-        self._name = "minus"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMinus(self._op)
-        self.outputs = _OutputSpecMinus(self._op)
+        self.inputs = _InputSpecMinus(self)
+        self.outputs = _OutputSpecMinus(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -101,30 +108,39 @@ def minus():
 
 #internal name: cplx_multiply
 #scripting name: cplx_multiply
-def _get_input_spec_cplx_multiply(pin):
+def _get_input_spec_cplx_multiply(pin = None):
     inpin0 = _PinSpecification(name = "fields_containerA", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "fields_containerB", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_cplx_multiply = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_cplx_multiply[pin]
+    if pin is None:
+        return inputs_dict_cplx_multiply
+    else:
+        return inputs_dict_cplx_multiply[pin]
 
-def _get_output_spec_cplx_multiply(pin):
+def _get_output_spec_cplx_multiply(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_cplx_multiply = { 
         0 : outpin0
     }
-    return outputs_dict_cplx_multiply[pin]
+    if pin is None:
+        return outputs_dict_cplx_multiply
+    else:
+        return outputs_dict_cplx_multiply[pin]
 
 class _InputSpecCplxMultiply(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_containerA = _Input(_get_input_spec_cplx_multiply(0), 0, op, -1) 
-        self.fields_containerB = _Input(_get_input_spec_cplx_multiply(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cplx_multiply(), op)
+        self.fields_containerA = Input(_get_input_spec_cplx_multiply(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cplx_multiply(), op)
+        self.fields_containerB = Input(_get_input_spec_cplx_multiply(1), 1, op, -1) 
 
 class _OutputSpecCplxMultiply(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cplx_multiply(0), 0, op) 
+        super().__init__(_get_output_spec_cplx_multiply(), op)
+        self.fields_container = Output(_get_output_spec_cplx_multiply(0), 0, op) 
 
 class _CplxMultiply(_Operator):
     """Operator's description:
@@ -149,10 +165,8 @@ class _CplxMultiply(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cplx_multiply")
-        self._name = "cplx_multiply"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCplxMultiply(self._op)
-        self.outputs = _OutputSpecCplxMultiply(self._op)
+        self.inputs = _InputSpecCplxMultiply(self)
+        self.outputs = _OutputSpecCplxMultiply(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -192,30 +206,39 @@ def cplx_multiply():
 
 #internal name: unit_convert
 #scripting name: unit_convert
-def _get_input_spec_unit_convert(pin):
+def _get_input_spec_unit_convert(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = False, document = """unit as a string, ex 'm' for meter, 'Pa' for pascal,...""")
     inputs_dict_unit_convert = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_unit_convert[pin]
+    if pin is None:
+        return inputs_dict_unit_convert
+    else:
+        return inputs_dict_unit_convert[pin]
 
-def _get_output_spec_unit_convert(pin):
+def _get_output_spec_unit_convert(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_unit_convert = { 
         0 : outpin0
     }
-    return outputs_dict_unit_convert[pin]
+    if pin is None:
+        return outputs_dict_unit_convert
+    else:
+        return outputs_dict_unit_convert[pin]
 
 class _InputSpecUnitConvert(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_unit_convert(0), 0, op, -1) 
-        self.unit_name = _Input(_get_input_spec_unit_convert(1), 1, op, -1) 
+        super().__init__(_get_input_spec_unit_convert(), op)
+        self.field = Input(_get_input_spec_unit_convert(0), 0, op, -1) 
+        super().__init__(_get_input_spec_unit_convert(), op)
+        self.unit_name = Input(_get_input_spec_unit_convert(1), 1, op, -1) 
 
 class _OutputSpecUnitConvert(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_unit_convert(0), 0, op) 
+        super().__init__(_get_output_spec_unit_convert(), op)
+        self.field = Output(_get_output_spec_unit_convert(0), 0, op) 
 
 class _UnitConvert(_Operator):
     """Operator's description:
@@ -240,10 +263,8 @@ class _UnitConvert(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("unit_convert")
-        self._name = "unit_convert"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecUnitConvert(self._op)
-        self.outputs = _OutputSpecUnitConvert(self._op)
+        self.inputs = _InputSpecUnitConvert(self)
+        self.outputs = _OutputSpecUnitConvert(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -283,7 +304,7 @@ def unit_convert():
 
 #internal name: min_max_over_time
 #scripting name: min_max_over_time
-def _get_input_spec_min_max_over_time(pin):
+def _get_input_spec_min_max_over_time(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "angle", type_names = ["double"], optional = True, document = """Phase angle used for complex field container""")
     inpin2 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = True, document = """Phase angle unit. Default is radian.""")
@@ -298,27 +319,40 @@ def _get_input_spec_min_max_over_time(pin):
         4 : inpin4,
         5 : inpin5
     }
-    return inputs_dict_min_max_over_time[pin]
+    if pin is None:
+        return inputs_dict_min_max_over_time
+    else:
+        return inputs_dict_min_max_over_time[pin]
 
-def _get_output_spec_min_max_over_time(pin):
+def _get_output_spec_min_max_over_time(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_min_max_over_time = { 
         0 : outpin0
     }
-    return outputs_dict_min_max_over_time[pin]
+    if pin is None:
+        return outputs_dict_min_max_over_time
+    else:
+        return outputs_dict_min_max_over_time[pin]
 
 class _InputSpecMinMaxOverTime(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_min_max_over_time(0), 0, op, -1) 
-        self.angle = _Input(_get_input_spec_min_max_over_time(1), 1, op, -1) 
-        self.unit_name = _Input(_get_input_spec_min_max_over_time(2), 2, op, -1) 
-        self.abs_value = _Input(_get_input_spec_min_max_over_time(3), 3, op, -1) 
-        self.compute_amplitude = _Input(_get_input_spec_min_max_over_time(4), 4, op, -1) 
-        self.int32 = _Input(_get_input_spec_min_max_over_time(5), 5, op, -1) 
+        super().__init__(_get_input_spec_min_max_over_time(), op)
+        self.fields_container = Input(_get_input_spec_min_max_over_time(0), 0, op, -1) 
+        super().__init__(_get_input_spec_min_max_over_time(), op)
+        self.angle = Input(_get_input_spec_min_max_over_time(1), 1, op, -1) 
+        super().__init__(_get_input_spec_min_max_over_time(), op)
+        self.unit_name = Input(_get_input_spec_min_max_over_time(2), 2, op, -1) 
+        super().__init__(_get_input_spec_min_max_over_time(), op)
+        self.abs_value = Input(_get_input_spec_min_max_over_time(3), 3, op, -1) 
+        super().__init__(_get_input_spec_min_max_over_time(), op)
+        self.compute_amplitude = Input(_get_input_spec_min_max_over_time(4), 4, op, -1) 
+        super().__init__(_get_input_spec_min_max_over_time(), op)
+        self.int32 = Input(_get_input_spec_min_max_over_time(5), 5, op, -1) 
 
 class _OutputSpecMinMaxOverTime(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_min_max_over_time(0), 0, op) 
+        super().__init__(_get_output_spec_min_max_over_time(), op)
+        self.field = Output(_get_output_spec_min_max_over_time(0), 0, op) 
 
 class _MinMaxOverTime(_Operator):
     """Operator's description:
@@ -347,10 +381,8 @@ class _MinMaxOverTime(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("min_max_over_time")
-        self._name = "min_max_over_time"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMinMaxOverTime(self._op)
-        self.outputs = _OutputSpecMinMaxOverTime(self._op)
+        self.inputs = _InputSpecMinMaxOverTime(self)
+        self.outputs = _OutputSpecMinMaxOverTime(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -394,30 +426,39 @@ def min_max_over_time():
 
 #internal name: minus_fc
 #scripting name: minus_fc
-def _get_input_spec_minus_fc(pin):
+def _get_input_spec_minus_fc(pin = None):
     inpin0 = _PinSpecification(name = "field_or_fields_container_A", type_names = ["fields_container","field"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "field_or_fields_container_B", type_names = ["fields_container","field"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_minus_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_minus_fc[pin]
+    if pin is None:
+        return inputs_dict_minus_fc
+    else:
+        return inputs_dict_minus_fc[pin]
 
-def _get_output_spec_minus_fc(pin):
+def _get_output_spec_minus_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_minus_fc = { 
         0 : outpin0
     }
-    return outputs_dict_minus_fc[pin]
+    if pin is None:
+        return outputs_dict_minus_fc
+    else:
+        return outputs_dict_minus_fc[pin]
 
 class _InputSpecMinusFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.field_or_fields_container_A = _Input(_get_input_spec_minus_fc(0), 0, op, -1) 
-        self.field_or_fields_container_B = _Input(_get_input_spec_minus_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_minus_fc(), op)
+        self.field_or_fields_container_A = Input(_get_input_spec_minus_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_minus_fc(), op)
+        self.field_or_fields_container_B = Input(_get_input_spec_minus_fc(1), 1, op, -1) 
 
 class _OutputSpecMinusFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_minus_fc(0), 0, op) 
+        super().__init__(_get_output_spec_minus_fc(), op)
+        self.fields_container = Output(_get_output_spec_minus_fc(0), 0, op) 
 
 class _MinusFc(_Operator):
     """Operator's description:
@@ -442,10 +483,8 @@ class _MinusFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("minus_fc")
-        self._name = "minus_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMinusFc(self._op)
-        self.outputs = _OutputSpecMinusFc(self._op)
+        self.inputs = _InputSpecMinusFc(self)
+        self.outputs = _OutputSpecMinusFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -485,27 +524,35 @@ def minus_fc():
 
 #internal name: accumulate
 #scripting name: accumulate
-def _get_input_spec_accumulate(pin):
+def _get_input_spec_accumulate(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_accumulate = { 
         0 : inpin0
     }
-    return inputs_dict_accumulate[pin]
+    if pin is None:
+        return inputs_dict_accumulate
+    else:
+        return inputs_dict_accumulate[pin]
 
-def _get_output_spec_accumulate(pin):
+def _get_output_spec_accumulate(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_accumulate = { 
         0 : outpin0
     }
-    return outputs_dict_accumulate[pin]
+    if pin is None:
+        return outputs_dict_accumulate
+    else:
+        return outputs_dict_accumulate[pin]
 
 class _InputSpecAccumulate(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_accumulate(0), 0, op, -1) 
+        super().__init__(_get_input_spec_accumulate(), op)
+        self.fieldA = Input(_get_input_spec_accumulate(0), 0, op, -1) 
 
 class _OutputSpecAccumulate(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_accumulate(0), 0, op) 
+        super().__init__(_get_output_spec_accumulate(), op)
+        self.field = Output(_get_output_spec_accumulate(0), 0, op) 
 
 class _Accumulate(_Operator):
     """Operator's description:
@@ -529,10 +576,8 @@ class _Accumulate(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("accumulate")
-        self._name = "accumulate"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccumulate(self._op)
-        self.outputs = _OutputSpecAccumulate(self._op)
+        self.inputs = _InputSpecAccumulate(self)
+        self.outputs = _OutputSpecAccumulate(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -571,30 +616,39 @@ def accumulate():
 
 #internal name: unit_convert_fc
 #scripting name: unit_convert_fc
-def _get_input_spec_unit_convert_fc(pin):
+def _get_input_spec_unit_convert_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = False, document = """unit as a string, ex 'm' for meter, 'Pa' for pascal,...""")
     inputs_dict_unit_convert_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_unit_convert_fc[pin]
+    if pin is None:
+        return inputs_dict_unit_convert_fc
+    else:
+        return inputs_dict_unit_convert_fc[pin]
 
-def _get_output_spec_unit_convert_fc(pin):
+def _get_output_spec_unit_convert_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_unit_convert_fc = { 
         0 : outpin0
     }
-    return outputs_dict_unit_convert_fc[pin]
+    if pin is None:
+        return outputs_dict_unit_convert_fc
+    else:
+        return outputs_dict_unit_convert_fc[pin]
 
 class _InputSpecUnitConvertFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_unit_convert_fc(0), 0, op, -1) 
-        self.unit_name = _Input(_get_input_spec_unit_convert_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_unit_convert_fc(), op)
+        self.fields_container = Input(_get_input_spec_unit_convert_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_unit_convert_fc(), op)
+        self.unit_name = Input(_get_input_spec_unit_convert_fc(1), 1, op, -1) 
 
 class _OutputSpecUnitConvertFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_unit_convert_fc(0), 0, op) 
+        super().__init__(_get_output_spec_unit_convert_fc(), op)
+        self.fields_container = Output(_get_output_spec_unit_convert_fc(0), 0, op) 
 
 class _UnitConvertFc(_Operator):
     """Operator's description:
@@ -619,10 +673,8 @@ class _UnitConvertFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("unit_convert_fc")
-        self._name = "unit_convert_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecUnitConvertFc(self._op)
-        self.outputs = _OutputSpecUnitConvertFc(self._op)
+        self.inputs = _InputSpecUnitConvertFc(self)
+        self.outputs = _OutputSpecUnitConvertFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -662,30 +714,39 @@ def unit_convert_fc():
 
 #internal name: add
 #scripting name: add
-def _get_input_spec_add(pin):
+def _get_input_spec_add(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_add = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_add[pin]
+    if pin is None:
+        return inputs_dict_add
+    else:
+        return inputs_dict_add[pin]
 
-def _get_output_spec_add(pin):
+def _get_output_spec_add(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_add = { 
         0 : outpin0
     }
-    return outputs_dict_add[pin]
+    if pin is None:
+        return outputs_dict_add
+    else:
+        return outputs_dict_add[pin]
 
 class _InputSpecAdd(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_add(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_add(1), 1, op, -1) 
+        super().__init__(_get_input_spec_add(), op)
+        self.fieldA = Input(_get_input_spec_add(0), 0, op, -1) 
+        super().__init__(_get_input_spec_add(), op)
+        self.fieldB = Input(_get_input_spec_add(1), 1, op, -1) 
 
 class _OutputSpecAdd(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_add(0), 0, op) 
+        super().__init__(_get_output_spec_add(), op)
+        self.field = Output(_get_output_spec_add(0), 0, op) 
 
 class _Add(_Operator):
     """Operator's description:
@@ -710,10 +771,8 @@ class _Add(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("add")
-        self._name = "add"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAdd(self._op)
-        self.outputs = _OutputSpecAdd(self._op)
+        self.inputs = _InputSpecAdd(self)
+        self.outputs = _OutputSpecAdd(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -753,30 +812,39 @@ def add():
 
 #internal name: add_fc
 #scripting name: add_fc
-def _get_input_spec_add_fc(pin):
+def _get_input_spec_add_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container1", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "fields_container2", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_add_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_add_fc[pin]
+    if pin is None:
+        return inputs_dict_add_fc
+    else:
+        return inputs_dict_add_fc[pin]
 
-def _get_output_spec_add_fc(pin):
+def _get_output_spec_add_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_add_fc = { 
         0 : outpin0
     }
-    return outputs_dict_add_fc[pin]
+    if pin is None:
+        return outputs_dict_add_fc
+    else:
+        return outputs_dict_add_fc[pin]
 
 class _InputSpecAddFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container1 = _Input(_get_input_spec_add_fc(0), 0, op, 0) 
-        self.fields_container2 = _Input(_get_input_spec_add_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_add_fc(), op)
+        self.fields_container1 = Input(_get_input_spec_add_fc(0), 0, op, 0) 
+        super().__init__(_get_input_spec_add_fc(), op)
+        self.fields_container2 = Input(_get_input_spec_add_fc(1), 1, op, -1) 
 
 class _OutputSpecAddFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_add_fc(0), 0, op) 
+        super().__init__(_get_output_spec_add_fc(), op)
+        self.fields_container = Output(_get_output_spec_add_fc(0), 0, op) 
 
 class _AddFc(_Operator):
     """Operator's description:
@@ -801,10 +869,8 @@ class _AddFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("add_fc")
-        self._name = "add_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAddFc(self._op)
-        self.outputs = _OutputSpecAddFc(self._op)
+        self.inputs = _InputSpecAddFc(self)
+        self.outputs = _OutputSpecAddFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -844,7 +910,7 @@ def add_fc():
 
 #internal name: phase_of_max
 #scripting name: phase_of_max
-def _get_input_spec_phase_of_max(pin):
+def _get_input_spec_phase_of_max(pin = None):
     inpin0 = _PinSpecification(name = "real_field", type_names = ["field"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "imaginary_field", type_names = ["field"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "abs_value", type_names = ["bool"], optional = True, document = """Should use absolute value.""")
@@ -855,25 +921,36 @@ def _get_input_spec_phase_of_max(pin):
         2 : inpin2,
         3 : inpin3
     }
-    return inputs_dict_phase_of_max[pin]
+    if pin is None:
+        return inputs_dict_phase_of_max
+    else:
+        return inputs_dict_phase_of_max[pin]
 
-def _get_output_spec_phase_of_max(pin):
+def _get_output_spec_phase_of_max(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_phase_of_max = { 
         0 : outpin0
     }
-    return outputs_dict_phase_of_max[pin]
+    if pin is None:
+        return outputs_dict_phase_of_max
+    else:
+        return outputs_dict_phase_of_max[pin]
 
 class _InputSpecPhaseOfMax(_Inputs):
     def __init__(self, op: _Operator):
-        self.real_field = _Input(_get_input_spec_phase_of_max(0), 0, op, -1) 
-        self.imaginary_field = _Input(_get_input_spec_phase_of_max(1), 1, op, -1) 
-        self.abs_value = _Input(_get_input_spec_phase_of_max(2), 2, op, -1) 
-        self.phase_increment = _Input(_get_input_spec_phase_of_max(3), 3, op, -1) 
+        super().__init__(_get_input_spec_phase_of_max(), op)
+        self.real_field = Input(_get_input_spec_phase_of_max(0), 0, op, -1) 
+        super().__init__(_get_input_spec_phase_of_max(), op)
+        self.imaginary_field = Input(_get_input_spec_phase_of_max(1), 1, op, -1) 
+        super().__init__(_get_input_spec_phase_of_max(), op)
+        self.abs_value = Input(_get_input_spec_phase_of_max(2), 2, op, -1) 
+        super().__init__(_get_input_spec_phase_of_max(), op)
+        self.phase_increment = Input(_get_input_spec_phase_of_max(3), 3, op, -1) 
 
 class _OutputSpecPhaseOfMax(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_phase_of_max(0), 0, op) 
+        super().__init__(_get_output_spec_phase_of_max(), op)
+        self.field = Output(_get_output_spec_phase_of_max(0), 0, op) 
 
 class _PhaseOfMax(_Operator):
     """Operator's description:
@@ -900,10 +977,8 @@ class _PhaseOfMax(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("phase_of_max")
-        self._name = "phase_of_max"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPhaseOfMax(self._op)
-        self.outputs = _OutputSpecPhaseOfMax(self._op)
+        self.inputs = _InputSpecPhaseOfMax(self)
+        self.outputs = _OutputSpecPhaseOfMax(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -945,27 +1020,35 @@ def phase_of_max():
 
 #internal name: sin_fc
 #scripting name: sin_fc
-def _get_input_spec_sin_fc(pin):
+def _get_input_spec_sin_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_sin_fc = { 
         0 : inpin0
     }
-    return inputs_dict_sin_fc[pin]
+    if pin is None:
+        return inputs_dict_sin_fc
+    else:
+        return inputs_dict_sin_fc[pin]
 
-def _get_output_spec_sin_fc(pin):
+def _get_output_spec_sin_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_sin_fc = { 
         0 : outpin0
     }
-    return outputs_dict_sin_fc[pin]
+    if pin is None:
+        return outputs_dict_sin_fc
+    else:
+        return outputs_dict_sin_fc[pin]
 
 class _InputSpecSinFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_sin_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sin_fc(), op)
+        self.fields_container = Input(_get_input_spec_sin_fc(0), 0, op, -1) 
 
 class _OutputSpecSinFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_sin_fc(0), 0, op) 
+        super().__init__(_get_output_spec_sin_fc(), op)
+        self.fields_container = Output(_get_output_spec_sin_fc(0), 0, op) 
 
 class _SinFc(_Operator):
     """Operator's description:
@@ -989,10 +1072,8 @@ class _SinFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sin_fc")
-        self._name = "sin_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSinFc(self._op)
-        self.outputs = _OutputSpecSinFc(self._op)
+        self.inputs = _InputSpecSinFc(self)
+        self.outputs = _OutputSpecSinFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1031,30 +1112,39 @@ def sin_fc():
 
 #internal name: add_constant
 #scripting name: add_constant
-def _get_input_spec_add_constant(pin):
+def _get_input_spec_add_constant(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "ponderation", type_names = ["double"], optional = False, document = """double or vector of double""")
     inputs_dict_add_constant = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_add_constant[pin]
+    if pin is None:
+        return inputs_dict_add_constant
+    else:
+        return inputs_dict_add_constant[pin]
 
-def _get_output_spec_add_constant(pin):
+def _get_output_spec_add_constant(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_add_constant = { 
         0 : outpin0
     }
-    return outputs_dict_add_constant[pin]
+    if pin is None:
+        return outputs_dict_add_constant
+    else:
+        return outputs_dict_add_constant[pin]
 
 class _InputSpecAddConstant(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_add_constant(0), 0, op, -1) 
-        self.ponderation = _Input(_get_input_spec_add_constant(1), 1, op, -1) 
+        super().__init__(_get_input_spec_add_constant(), op)
+        self.field = Input(_get_input_spec_add_constant(0), 0, op, -1) 
+        super().__init__(_get_input_spec_add_constant(), op)
+        self.ponderation = Input(_get_input_spec_add_constant(1), 1, op, -1) 
 
 class _OutputSpecAddConstant(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_add_constant(0), 0, op) 
+        super().__init__(_get_output_spec_add_constant(), op)
+        self.field = Output(_get_output_spec_add_constant(0), 0, op) 
 
 class _AddConstant(_Operator):
     """Operator's description:
@@ -1079,10 +1169,8 @@ class _AddConstant(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("add_constant")
-        self._name = "add_constant"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAddConstant(self._op)
-        self.outputs = _OutputSpecAddConstant(self._op)
+        self.inputs = _InputSpecAddConstant(self)
+        self.outputs = _OutputSpecAddConstant(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1122,27 +1210,35 @@ def add_constant():
 
 #internal name: invert_fc
 #scripting name: invert_fc
-def _get_input_spec_invert_fc(pin):
+def _get_input_spec_invert_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_invert_fc = { 
         0 : inpin0
     }
-    return inputs_dict_invert_fc[pin]
+    if pin is None:
+        return inputs_dict_invert_fc
+    else:
+        return inputs_dict_invert_fc[pin]
 
-def _get_output_spec_invert_fc(pin):
+def _get_output_spec_invert_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_invert_fc = { 
         0 : outpin0
     }
-    return outputs_dict_invert_fc[pin]
+    if pin is None:
+        return outputs_dict_invert_fc
+    else:
+        return outputs_dict_invert_fc[pin]
 
 class _InputSpecInvertFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_invert_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_invert_fc(), op)
+        self.fields_container = Input(_get_input_spec_invert_fc(0), 0, op, -1) 
 
 class _OutputSpecInvertFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_invert_fc(0), 0, op) 
+        super().__init__(_get_output_spec_invert_fc(), op)
+        self.fields_container = Output(_get_output_spec_invert_fc(0), 0, op) 
 
 class _InvertFc(_Operator):
     """Operator's description:
@@ -1166,10 +1262,8 @@ class _InvertFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("invert_fc")
-        self._name = "invert_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecInvertFc(self._op)
-        self.outputs = _OutputSpecInvertFc(self._op)
+        self.inputs = _InputSpecInvertFc(self)
+        self.outputs = _OutputSpecInvertFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1208,30 +1302,39 @@ def invert_fc():
 
 #internal name: Pow
 #scripting name: pow
-def _get_input_spec_pow(pin):
+def _get_input_spec_pow(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "factor", type_names = ["double"], optional = False, document = """""")
     inputs_dict_pow = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_pow[pin]
+    if pin is None:
+        return inputs_dict_pow
+    else:
+        return inputs_dict_pow[pin]
 
-def _get_output_spec_pow(pin):
+def _get_output_spec_pow(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_pow = { 
         0 : outpin0
     }
-    return outputs_dict_pow[pin]
+    if pin is None:
+        return outputs_dict_pow
+    else:
+        return outputs_dict_pow[pin]
 
 class _InputSpecPow(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_pow(0), 0, op, -1) 
-        self.factor = _Input(_get_input_spec_pow(1), 1, op, -1) 
+        super().__init__(_get_input_spec_pow(), op)
+        self.field = Input(_get_input_spec_pow(0), 0, op, -1) 
+        super().__init__(_get_input_spec_pow(), op)
+        self.factor = Input(_get_input_spec_pow(1), 1, op, -1) 
 
 class _OutputSpecPow(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_pow(0), 0, op) 
+        super().__init__(_get_output_spec_pow(), op)
+        self.field = Output(_get_output_spec_pow(0), 0, op) 
 
 class _Pow(_Operator):
     """Operator's description:
@@ -1256,10 +1359,8 @@ class _Pow(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("Pow")
-        self._name = "Pow"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPow(self._op)
-        self.outputs = _OutputSpecPow(self._op)
+        self.inputs = _InputSpecPow(self)
+        self.outputs = _OutputSpecPow(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1299,30 +1400,39 @@ def pow():
 
 #internal name: add_constant_fc
 #scripting name: add_constant_fc
-def _get_input_spec_add_constant_fc(pin):
+def _get_input_spec_add_constant_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "ponderation", type_names = ["double"], optional = False, document = """double or vector of double""")
     inputs_dict_add_constant_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_add_constant_fc[pin]
+    if pin is None:
+        return inputs_dict_add_constant_fc
+    else:
+        return inputs_dict_add_constant_fc[pin]
 
-def _get_output_spec_add_constant_fc(pin):
+def _get_output_spec_add_constant_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_add_constant_fc = { 
         0 : outpin0
     }
-    return outputs_dict_add_constant_fc[pin]
+    if pin is None:
+        return outputs_dict_add_constant_fc
+    else:
+        return outputs_dict_add_constant_fc[pin]
 
 class _InputSpecAddConstantFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_add_constant_fc(0), 0, op, -1) 
-        self.ponderation = _Input(_get_input_spec_add_constant_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_add_constant_fc(), op)
+        self.fields_container = Input(_get_input_spec_add_constant_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_add_constant_fc(), op)
+        self.ponderation = Input(_get_input_spec_add_constant_fc(1), 1, op, -1) 
 
 class _OutputSpecAddConstantFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_add_constant_fc(0), 0, op) 
+        super().__init__(_get_output_spec_add_constant_fc(), op)
+        self.fields_container = Output(_get_output_spec_add_constant_fc(0), 0, op) 
 
 class _AddConstantFc(_Operator):
     """Operator's description:
@@ -1347,10 +1457,8 @@ class _AddConstantFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("add_constant_fc")
-        self._name = "add_constant_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAddConstantFc(self._op)
-        self.outputs = _OutputSpecAddConstantFc(self._op)
+        self.inputs = _InputSpecAddConstantFc(self)
+        self.outputs = _OutputSpecAddConstantFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1390,7 +1498,7 @@ def add_constant_fc():
 
 #internal name: scale
 #scripting name: scale
-def _get_input_spec_scale(pin):
+def _get_input_spec_scale(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "ponderation", type_names = ["double","field"], optional = False, document = """Double/Field scoped on overall""")
     inpin2 = _PinSpecification(name = "boolean", type_names = ["bool"], optional = True, document = """bool(optional, default false) if set to true, output of scale is mane dimensionless""")
@@ -1399,24 +1507,34 @@ def _get_input_spec_scale(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_scale[pin]
+    if pin is None:
+        return inputs_dict_scale
+    else:
+        return inputs_dict_scale[pin]
 
-def _get_output_spec_scale(pin):
+def _get_output_spec_scale(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_scale = { 
         0 : outpin0
     }
-    return outputs_dict_scale[pin]
+    if pin is None:
+        return outputs_dict_scale
+    else:
+        return outputs_dict_scale[pin]
 
 class _InputSpecScale(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_scale(0), 0, op, -1) 
-        self.ponderation = _Input(_get_input_spec_scale(1), 1, op, -1) 
-        self.boolean = _Input(_get_input_spec_scale(2), 2, op, -1) 
+        super().__init__(_get_input_spec_scale(), op)
+        self.field = Input(_get_input_spec_scale(0), 0, op, -1) 
+        super().__init__(_get_input_spec_scale(), op)
+        self.ponderation = Input(_get_input_spec_scale(1), 1, op, -1) 
+        super().__init__(_get_input_spec_scale(), op)
+        self.boolean = Input(_get_input_spec_scale(2), 2, op, -1) 
 
 class _OutputSpecScale(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_scale(0), 0, op) 
+        super().__init__(_get_output_spec_scale(), op)
+        self.field = Output(_get_output_spec_scale(0), 0, op) 
 
 class _Scale(_Operator):
     """Operator's description:
@@ -1442,10 +1560,8 @@ class _Scale(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scale")
-        self._name = "scale"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecScale(self._op)
-        self.outputs = _OutputSpecScale(self._op)
+        self.inputs = _InputSpecScale(self)
+        self.outputs = _OutputSpecScale(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1486,30 +1602,39 @@ def scale():
 
 #internal name: Pow_fc
 #scripting name: pow_fc
-def _get_input_spec_pow_fc(pin):
+def _get_input_spec_pow_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "factor", type_names = ["double"], optional = False, document = """""")
     inputs_dict_pow_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_pow_fc[pin]
+    if pin is None:
+        return inputs_dict_pow_fc
+    else:
+        return inputs_dict_pow_fc[pin]
 
-def _get_output_spec_pow_fc(pin):
+def _get_output_spec_pow_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_pow_fc = { 
         0 : outpin0
     }
-    return outputs_dict_pow_fc[pin]
+    if pin is None:
+        return outputs_dict_pow_fc
+    else:
+        return outputs_dict_pow_fc[pin]
 
 class _InputSpecPowFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_pow_fc(0), 0, op, -1) 
-        self.factor = _Input(_get_input_spec_pow_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_pow_fc(), op)
+        self.fields_container = Input(_get_input_spec_pow_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_pow_fc(), op)
+        self.factor = Input(_get_input_spec_pow_fc(1), 1, op, -1) 
 
 class _OutputSpecPowFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_pow_fc(0), 0, op) 
+        super().__init__(_get_output_spec_pow_fc(), op)
+        self.fields_container = Output(_get_output_spec_pow_fc(0), 0, op) 
 
 class _PowFc(_Operator):
     """Operator's description:
@@ -1534,10 +1659,8 @@ class _PowFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("Pow_fc")
-        self._name = "Pow_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPowFc(self._op)
-        self.outputs = _OutputSpecPowFc(self._op)
+        self.inputs = _InputSpecPowFc(self)
+        self.outputs = _OutputSpecPowFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1577,7 +1700,7 @@ def pow_fc():
 
 #internal name: scale_fc
 #scripting name: scale_fc
-def _get_input_spec_scale_fc(pin):
+def _get_input_spec_scale_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "ponderation", type_names = ["double","field"], optional = False, document = """Double/Field scoped on overall""")
     inpin2 = _PinSpecification(name = "boolean", type_names = ["bool"], optional = True, document = """bool(optional, default false) if set to true, output of scale is mane dimensionless""")
@@ -1586,24 +1709,34 @@ def _get_input_spec_scale_fc(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_scale_fc[pin]
+    if pin is None:
+        return inputs_dict_scale_fc
+    else:
+        return inputs_dict_scale_fc[pin]
 
-def _get_output_spec_scale_fc(pin):
+def _get_output_spec_scale_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_scale_fc = { 
         0 : outpin0
     }
-    return outputs_dict_scale_fc[pin]
+    if pin is None:
+        return outputs_dict_scale_fc
+    else:
+        return outputs_dict_scale_fc[pin]
 
 class _InputSpecScaleFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_scale_fc(0), 0, op, -1) 
-        self.ponderation = _Input(_get_input_spec_scale_fc(1), 1, op, -1) 
-        self.boolean = _Input(_get_input_spec_scale_fc(2), 2, op, -1) 
+        super().__init__(_get_input_spec_scale_fc(), op)
+        self.fields_container = Input(_get_input_spec_scale_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_scale_fc(), op)
+        self.ponderation = Input(_get_input_spec_scale_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_scale_fc(), op)
+        self.boolean = Input(_get_input_spec_scale_fc(2), 2, op, -1) 
 
 class _OutputSpecScaleFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_scale_fc(0), 0, op) 
+        super().__init__(_get_output_spec_scale_fc(), op)
+        self.fields_container = Output(_get_output_spec_scale_fc(0), 0, op) 
 
 class _ScaleFc(_Operator):
     """Operator's description:
@@ -1629,10 +1762,8 @@ class _ScaleFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scale_fc")
-        self._name = "scale_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecScaleFc(self._op)
-        self.outputs = _OutputSpecScaleFc(self._op)
+        self.inputs = _InputSpecScaleFc(self)
+        self.outputs = _OutputSpecScaleFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1673,7 +1804,7 @@ def scale_fc():
 
 #internal name: centroid
 #scripting name: centroid
-def _get_input_spec_centroid(pin):
+def _get_input_spec_centroid(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin2 = _PinSpecification(name = "factor", type_names = ["double"], optional = False, document = """Scalar""")
@@ -1682,24 +1813,34 @@ def _get_input_spec_centroid(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_centroid[pin]
+    if pin is None:
+        return inputs_dict_centroid
+    else:
+        return inputs_dict_centroid[pin]
 
-def _get_output_spec_centroid(pin):
+def _get_output_spec_centroid(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_centroid = { 
         0 : outpin0
     }
-    return outputs_dict_centroid[pin]
+    if pin is None:
+        return outputs_dict_centroid
+    else:
+        return outputs_dict_centroid[pin]
 
 class _InputSpecCentroid(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_centroid(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_centroid(1), 1, op, -1) 
-        self.factor = _Input(_get_input_spec_centroid(2), 2, op, -1) 
+        super().__init__(_get_input_spec_centroid(), op)
+        self.fieldA = Input(_get_input_spec_centroid(0), 0, op, -1) 
+        super().__init__(_get_input_spec_centroid(), op)
+        self.fieldB = Input(_get_input_spec_centroid(1), 1, op, -1) 
+        super().__init__(_get_input_spec_centroid(), op)
+        self.factor = Input(_get_input_spec_centroid(2), 2, op, -1) 
 
 class _OutputSpecCentroid(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_centroid(0), 0, op) 
+        super().__init__(_get_output_spec_centroid(), op)
+        self.field = Output(_get_output_spec_centroid(0), 0, op) 
 
 class _Centroid(_Operator):
     """Operator's description:
@@ -1725,10 +1866,8 @@ class _Centroid(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("centroid")
-        self._name = "centroid"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCentroid(self._op)
-        self.outputs = _OutputSpecCentroid(self._op)
+        self.inputs = _InputSpecCentroid(self)
+        self.outputs = _OutputSpecCentroid(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1769,7 +1908,7 @@ def centroid():
 
 #internal name: sweeping_phase
 #scripting name: sweeping_phase
-def _get_input_spec_sweeping_phase(pin):
+def _get_input_spec_sweeping_phase(pin = None):
     inpin0 = _PinSpecification(name = "real_field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "imaginary_field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin2 = _PinSpecification(name = "angle", type_names = ["double"], optional = False, document = """""")
@@ -1784,27 +1923,40 @@ def _get_input_spec_sweeping_phase(pin):
         4 : inpin4,
         5 : inpin5
     }
-    return inputs_dict_sweeping_phase[pin]
+    if pin is None:
+        return inputs_dict_sweeping_phase
+    else:
+        return inputs_dict_sweeping_phase[pin]
 
-def _get_output_spec_sweeping_phase(pin):
+def _get_output_spec_sweeping_phase(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_sweeping_phase = { 
         0 : outpin0
     }
-    return outputs_dict_sweeping_phase[pin]
+    if pin is None:
+        return outputs_dict_sweeping_phase
+    else:
+        return outputs_dict_sweeping_phase[pin]
 
 class _InputSpecSweepingPhase(_Inputs):
     def __init__(self, op: _Operator):
-        self.real_field = _Input(_get_input_spec_sweeping_phase(0), 0, op, -1) 
-        self.imaginary_field = _Input(_get_input_spec_sweeping_phase(1), 1, op, -1) 
-        self.angle = _Input(_get_input_spec_sweeping_phase(2), 2, op, -1) 
-        self.unit_name = _Input(_get_input_spec_sweeping_phase(3), 3, op, -1) 
-        self.abs_value = _Input(_get_input_spec_sweeping_phase(4), 4, op, -1) 
-        self.imaginary_part_null = _Input(_get_input_spec_sweeping_phase(5), 5, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase(), op)
+        self.real_field = Input(_get_input_spec_sweeping_phase(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase(), op)
+        self.imaginary_field = Input(_get_input_spec_sweeping_phase(1), 1, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase(), op)
+        self.angle = Input(_get_input_spec_sweeping_phase(2), 2, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase(), op)
+        self.unit_name = Input(_get_input_spec_sweeping_phase(3), 3, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase(), op)
+        self.abs_value = Input(_get_input_spec_sweeping_phase(4), 4, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase(), op)
+        self.imaginary_part_null = Input(_get_input_spec_sweeping_phase(5), 5, op, -1) 
 
 class _OutputSpecSweepingPhase(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_sweeping_phase(0), 0, op) 
+        super().__init__(_get_output_spec_sweeping_phase(), op)
+        self.field = Output(_get_output_spec_sweeping_phase(0), 0, op) 
 
 class _SweepingPhase(_Operator):
     """Operator's description:
@@ -1833,10 +1985,8 @@ class _SweepingPhase(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sweeping_phase")
-        self._name = "sweeping_phase"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSweepingPhase(self._op)
-        self.outputs = _OutputSpecSweepingPhase(self._op)
+        self.inputs = _InputSpecSweepingPhase(self)
+        self.outputs = _OutputSpecSweepingPhase(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1880,27 +2030,35 @@ def sweeping_phase():
 
 #internal name: sin
 #scripting name: sin
-def _get_input_spec_sin(pin):
+def _get_input_spec_sin(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field"], optional = False, document = """""")
     inputs_dict_sin = { 
         0 : inpin0
     }
-    return inputs_dict_sin[pin]
+    if pin is None:
+        return inputs_dict_sin
+    else:
+        return inputs_dict_sin[pin]
 
-def _get_output_spec_sin(pin):
+def _get_output_spec_sin(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_sin = { 
         0 : outpin0
     }
-    return outputs_dict_sin[pin]
+    if pin is None:
+        return outputs_dict_sin
+    else:
+        return outputs_dict_sin[pin]
 
 class _InputSpecSin(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_sin(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sin(), op)
+        self.field = Input(_get_input_spec_sin(0), 0, op, -1) 
 
 class _OutputSpecSin(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_sin(0), 0, op) 
+        super().__init__(_get_output_spec_sin(), op)
+        self.field = Output(_get_output_spec_sin(0), 0, op) 
 
 class _Sin(_Operator):
     """Operator's description:
@@ -1924,10 +2082,8 @@ class _Sin(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sin")
-        self._name = "sin"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSin(self._op)
-        self.outputs = _OutputSpecSin(self._op)
+        self.inputs = _InputSpecSin(self)
+        self.outputs = _OutputSpecSin(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1966,27 +2122,35 @@ def sin():
 
 #internal name: cos
 #scripting name: cos
-def _get_input_spec_cos(pin):
+def _get_input_spec_cos(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_cos = { 
         0 : inpin0
     }
-    return inputs_dict_cos[pin]
+    if pin is None:
+        return inputs_dict_cos
+    else:
+        return inputs_dict_cos[pin]
 
-def _get_output_spec_cos(pin):
+def _get_output_spec_cos(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_cos = { 
         0 : outpin0
     }
-    return outputs_dict_cos[pin]
+    if pin is None:
+        return outputs_dict_cos
+    else:
+        return outputs_dict_cos[pin]
 
 class _InputSpecCos(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_cos(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cos(), op)
+        self.field = Input(_get_input_spec_cos(0), 0, op, -1) 
 
 class _OutputSpecCos(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_cos(0), 0, op) 
+        super().__init__(_get_output_spec_cos(), op)
+        self.field = Output(_get_output_spec_cos(0), 0, op) 
 
 class _Cos(_Operator):
     """Operator's description:
@@ -2010,10 +2174,8 @@ class _Cos(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cos")
-        self._name = "cos"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCos(self._op)
-        self.outputs = _OutputSpecCos(self._op)
+        self.inputs = _InputSpecCos(self)
+        self.outputs = _OutputSpecCos(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2052,27 +2214,35 @@ def cos():
 
 #internal name: cos_fc
 #scripting name: cos_fc
-def _get_input_spec_cos_fc(pin):
+def _get_input_spec_cos_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_cos_fc = { 
         0 : inpin0
     }
-    return inputs_dict_cos_fc[pin]
+    if pin is None:
+        return inputs_dict_cos_fc
+    else:
+        return inputs_dict_cos_fc[pin]
 
-def _get_output_spec_cos_fc(pin):
+def _get_output_spec_cos_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_cos_fc = { 
         0 : outpin0
     }
-    return outputs_dict_cos_fc[pin]
+    if pin is None:
+        return outputs_dict_cos_fc
+    else:
+        return outputs_dict_cos_fc[pin]
 
 class _InputSpecCosFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_cos_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cos_fc(), op)
+        self.fields_container = Input(_get_input_spec_cos_fc(0), 0, op, -1) 
 
 class _OutputSpecCosFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cos_fc(0), 0, op) 
+        super().__init__(_get_output_spec_cos_fc(), op)
+        self.fields_container = Output(_get_output_spec_cos_fc(0), 0, op) 
 
 class _CosFc(_Operator):
     """Operator's description:
@@ -2096,10 +2266,8 @@ class _CosFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cos_fc")
-        self._name = "cos_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCosFc(self._op)
-        self.outputs = _OutputSpecCosFc(self._op)
+        self.inputs = _InputSpecCosFc(self)
+        self.outputs = _OutputSpecCosFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2138,7 +2306,7 @@ def cos_fc():
 
 #internal name: sweeping_phase_fc
 #scripting name: sweeping_phase_fc
-def _get_input_spec_sweeping_phase_fc(pin):
+def _get_input_spec_sweeping_phase_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "angle", type_names = ["double"], optional = False, document = """""")
     inpin3 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = False, document = """String Unit""")
@@ -2149,25 +2317,36 @@ def _get_input_spec_sweeping_phase_fc(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_sweeping_phase_fc[pin]
+    if pin is None:
+        return inputs_dict_sweeping_phase_fc
+    else:
+        return inputs_dict_sweeping_phase_fc[pin]
 
-def _get_output_spec_sweeping_phase_fc(pin):
+def _get_output_spec_sweeping_phase_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_sweeping_phase_fc = { 
         0 : outpin0
     }
-    return outputs_dict_sweeping_phase_fc[pin]
+    if pin is None:
+        return outputs_dict_sweeping_phase_fc
+    else:
+        return outputs_dict_sweeping_phase_fc[pin]
 
 class _InputSpecSweepingPhaseFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_sweeping_phase_fc(0), 0, op, -1) 
-        self.angle = _Input(_get_input_spec_sweeping_phase_fc(2), 2, op, -1) 
-        self.unit_name = _Input(_get_input_spec_sweeping_phase_fc(3), 3, op, -1) 
-        self.abs_value = _Input(_get_input_spec_sweeping_phase_fc(4), 4, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
+        self.fields_container = Input(_get_input_spec_sweeping_phase_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
+        self.angle = Input(_get_input_spec_sweeping_phase_fc(2), 2, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
+        self.unit_name = Input(_get_input_spec_sweeping_phase_fc(3), 3, op, -1) 
+        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
+        self.abs_value = Input(_get_input_spec_sweeping_phase_fc(4), 4, op, -1) 
 
 class _OutputSpecSweepingPhaseFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_sweeping_phase_fc(0), 0, op) 
+        super().__init__(_get_output_spec_sweeping_phase_fc(), op)
+        self.fields_container = Output(_get_output_spec_sweeping_phase_fc(0), 0, op) 
 
 class _SweepingPhaseFc(_Operator):
     """Operator's description:
@@ -2194,10 +2373,8 @@ class _SweepingPhaseFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sweeping_phase_fc")
-        self._name = "sweeping_phase_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSweepingPhaseFc(self._op)
-        self.outputs = _OutputSpecSweepingPhaseFc(self._op)
+        self.inputs = _InputSpecSweepingPhaseFc(self)
+        self.outputs = _OutputSpecSweepingPhaseFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2239,27 +2416,35 @@ def sweeping_phase_fc():
 
 #internal name: sqr
 #scripting name: sqr
-def _get_input_spec_sqr(pin):
+def _get_input_spec_sqr(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_sqr = { 
         0 : inpin0
     }
-    return inputs_dict_sqr[pin]
+    if pin is None:
+        return inputs_dict_sqr
+    else:
+        return inputs_dict_sqr[pin]
 
-def _get_output_spec_sqr(pin):
+def _get_output_spec_sqr(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_sqr = { 
         0 : outpin0
     }
-    return outputs_dict_sqr[pin]
+    if pin is None:
+        return outputs_dict_sqr
+    else:
+        return outputs_dict_sqr[pin]
 
 class _InputSpecSqr(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_sqr(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sqr(), op)
+        self.field = Input(_get_input_spec_sqr(0), 0, op, -1) 
 
 class _OutputSpecSqr(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_sqr(0), 0, op) 
+        super().__init__(_get_output_spec_sqr(), op)
+        self.field = Output(_get_output_spec_sqr(0), 0, op) 
 
 class _Sqr(_Operator):
     """Operator's description:
@@ -2283,10 +2468,8 @@ class _Sqr(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sqr")
-        self._name = "sqr"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSqr(self._op)
-        self.outputs = _OutputSpecSqr(self._op)
+        self.inputs = _InputSpecSqr(self)
+        self.outputs = _OutputSpecSqr(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2325,7 +2508,7 @@ def sqr():
 
 #internal name: CplxOp
 #scripting name: linear_combination
-def _get_input_spec_linear_combination(pin):
+def _get_input_spec_linear_combination(pin = None):
     inpin0 = _PinSpecification(name = "a", type_names = ["double"], optional = False, document = """Double""")
     inpin1 = _PinSpecification(name = "fields_containerA", type_names = ["fields_container"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "fields_containerB", type_names = ["fields_container"], optional = False, document = """""")
@@ -2338,26 +2521,38 @@ def _get_input_spec_linear_combination(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_linear_combination[pin]
+    if pin is None:
+        return inputs_dict_linear_combination
+    else:
+        return inputs_dict_linear_combination[pin]
 
-def _get_output_spec_linear_combination(pin):
+def _get_output_spec_linear_combination(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_linear_combination = { 
         0 : outpin0
     }
-    return outputs_dict_linear_combination[pin]
+    if pin is None:
+        return outputs_dict_linear_combination
+    else:
+        return outputs_dict_linear_combination[pin]
 
 class _InputSpecLinearCombination(_Inputs):
     def __init__(self, op: _Operator):
-        self.a = _Input(_get_input_spec_linear_combination(0), 0, op, -1) 
-        self.fields_containerA = _Input(_get_input_spec_linear_combination(1), 1, op, -1) 
-        self.fields_containerB = _Input(_get_input_spec_linear_combination(2), 2, op, -1) 
-        self.b = _Input(_get_input_spec_linear_combination(3), 3, op, -1) 
-        self.fields_containerC = _Input(_get_input_spec_linear_combination(4), 4, op, -1) 
+        super().__init__(_get_input_spec_linear_combination(), op)
+        self.a = Input(_get_input_spec_linear_combination(0), 0, op, -1) 
+        super().__init__(_get_input_spec_linear_combination(), op)
+        self.fields_containerA = Input(_get_input_spec_linear_combination(1), 1, op, -1) 
+        super().__init__(_get_input_spec_linear_combination(), op)
+        self.fields_containerB = Input(_get_input_spec_linear_combination(2), 2, op, -1) 
+        super().__init__(_get_input_spec_linear_combination(), op)
+        self.b = Input(_get_input_spec_linear_combination(3), 3, op, -1) 
+        super().__init__(_get_input_spec_linear_combination(), op)
+        self.fields_containerC = Input(_get_input_spec_linear_combination(4), 4, op, -1) 
 
 class _OutputSpecLinearCombination(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_linear_combination(0), 0, op) 
+        super().__init__(_get_output_spec_linear_combination(), op)
+        self.fields_container = Output(_get_output_spec_linear_combination(0), 0, op) 
 
 class _LinearCombination(_Operator):
     """Operator's description:
@@ -2385,10 +2580,8 @@ class _LinearCombination(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("CplxOp")
-        self._name = "CplxOp"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecLinearCombination(self._op)
-        self.outputs = _OutputSpecLinearCombination(self._op)
+        self.inputs = _InputSpecLinearCombination(self)
+        self.outputs = _OutputSpecLinearCombination(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2431,27 +2624,35 @@ def linear_combination():
 
 #internal name: sqr_fc
 #scripting name: sqr_fc
-def _get_input_spec_sqr_fc(pin):
+def _get_input_spec_sqr_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_sqr_fc = { 
         0 : inpin0
     }
-    return inputs_dict_sqr_fc[pin]
+    if pin is None:
+        return inputs_dict_sqr_fc
+    else:
+        return inputs_dict_sqr_fc[pin]
 
-def _get_output_spec_sqr_fc(pin):
+def _get_output_spec_sqr_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_sqr_fc = { 
         0 : outpin0
     }
-    return outputs_dict_sqr_fc[pin]
+    if pin is None:
+        return outputs_dict_sqr_fc
+    else:
+        return outputs_dict_sqr_fc[pin]
 
 class _InputSpecSqrFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_sqr_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sqr_fc(), op)
+        self.fields_container = Input(_get_input_spec_sqr_fc(0), 0, op, -1) 
 
 class _OutputSpecSqrFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_sqr_fc(0), 0, op) 
+        super().__init__(_get_output_spec_sqr_fc(), op)
+        self.fields_container = Output(_get_output_spec_sqr_fc(0), 0, op) 
 
 class _SqrFc(_Operator):
     """Operator's description:
@@ -2475,10 +2676,8 @@ class _SqrFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sqr_fc")
-        self._name = "sqr_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSqrFc(self._op)
-        self.outputs = _OutputSpecSqrFc(self._op)
+        self.inputs = _InputSpecSqrFc(self)
+        self.outputs = _OutputSpecSqrFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2517,27 +2716,35 @@ def sqr_fc():
 
 #internal name: sqrt
 #scripting name: sqrt
-def _get_input_spec_sqrt(pin):
+def _get_input_spec_sqrt(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_sqrt = { 
         0 : inpin0
     }
-    return inputs_dict_sqrt[pin]
+    if pin is None:
+        return inputs_dict_sqrt
+    else:
+        return inputs_dict_sqrt[pin]
 
-def _get_output_spec_sqrt(pin):
+def _get_output_spec_sqrt(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_sqrt = { 
         0 : outpin0
     }
-    return outputs_dict_sqrt[pin]
+    if pin is None:
+        return outputs_dict_sqrt
+    else:
+        return outputs_dict_sqrt[pin]
 
 class _InputSpecSqrt(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_sqrt(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sqrt(), op)
+        self.field = Input(_get_input_spec_sqrt(0), 0, op, -1) 
 
 class _OutputSpecSqrt(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_sqrt(0), 0, op) 
+        super().__init__(_get_output_spec_sqrt(), op)
+        self.field = Output(_get_output_spec_sqrt(0), 0, op) 
 
 class _Sqrt(_Operator):
     """Operator's description:
@@ -2561,10 +2768,8 @@ class _Sqrt(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sqrt")
-        self._name = "sqrt"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSqrt(self._op)
-        self.outputs = _OutputSpecSqrt(self._op)
+        self.inputs = _InputSpecSqrt(self)
+        self.outputs = _OutputSpecSqrt(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2603,27 +2808,35 @@ def sqrt():
 
 #internal name: norm
 #scripting name: norm
-def _get_input_spec_norm(pin):
+def _get_input_spec_norm(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_norm = { 
         0 : inpin0
     }
-    return inputs_dict_norm[pin]
+    if pin is None:
+        return inputs_dict_norm
+    else:
+        return inputs_dict_norm[pin]
 
-def _get_output_spec_norm(pin):
+def _get_output_spec_norm(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_norm = { 
         0 : outpin0
     }
-    return outputs_dict_norm[pin]
+    if pin is None:
+        return outputs_dict_norm
+    else:
+        return outputs_dict_norm[pin]
 
 class _InputSpecNorm(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_norm(0), 0, op, -1) 
+        super().__init__(_get_input_spec_norm(), op)
+        self.field = Input(_get_input_spec_norm(0), 0, op, -1) 
 
 class _OutputSpecNorm(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_norm(0), 0, op) 
+        super().__init__(_get_output_spec_norm(), op)
+        self.field = Output(_get_output_spec_norm(0), 0, op) 
 
 class _Norm(_Operator):
     """Operator's description:
@@ -2647,10 +2860,8 @@ class _Norm(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("norm")
-        self._name = "norm"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNorm(self._op)
-        self.outputs = _OutputSpecNorm(self._op)
+        self.inputs = _InputSpecNorm(self)
+        self.outputs = _OutputSpecNorm(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2689,27 +2900,35 @@ def norm():
 
 #internal name: sqrt_fc
 #scripting name: sqrt_fc
-def _get_input_spec_sqrt_fc(pin):
+def _get_input_spec_sqrt_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_sqrt_fc = { 
         0 : inpin0
     }
-    return inputs_dict_sqrt_fc[pin]
+    if pin is None:
+        return inputs_dict_sqrt_fc
+    else:
+        return inputs_dict_sqrt_fc[pin]
 
-def _get_output_spec_sqrt_fc(pin):
+def _get_output_spec_sqrt_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_sqrt_fc = { 
         0 : outpin0
     }
-    return outputs_dict_sqrt_fc[pin]
+    if pin is None:
+        return outputs_dict_sqrt_fc
+    else:
+        return outputs_dict_sqrt_fc[pin]
 
 class _InputSpecSqrtFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_sqrt_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_sqrt_fc(), op)
+        self.fields_container = Input(_get_input_spec_sqrt_fc(0), 0, op, -1) 
 
 class _OutputSpecSqrtFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_sqrt_fc(0), 0, op) 
+        super().__init__(_get_output_spec_sqrt_fc(), op)
+        self.fields_container = Output(_get_output_spec_sqrt_fc(0), 0, op) 
 
 class _SqrtFc(_Operator):
     """Operator's description:
@@ -2733,10 +2952,8 @@ class _SqrtFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("sqrt_fc")
-        self._name = "sqrt_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSqrtFc(self._op)
-        self.outputs = _OutputSpecSqrtFc(self._op)
+        self.inputs = _InputSpecSqrtFc(self)
+        self.outputs = _OutputSpecSqrtFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2775,27 +2992,35 @@ def sqrt_fc():
 
 #internal name: norm_fc
 #scripting name: norm_fc
-def _get_input_spec_norm_fc(pin):
+def _get_input_spec_norm_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_norm_fc = { 
         0 : inpin0
     }
-    return inputs_dict_norm_fc[pin]
+    if pin is None:
+        return inputs_dict_norm_fc
+    else:
+        return inputs_dict_norm_fc[pin]
 
-def _get_output_spec_norm_fc(pin):
+def _get_output_spec_norm_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_norm_fc = { 
         0 : outpin0
     }
-    return outputs_dict_norm_fc[pin]
+    if pin is None:
+        return outputs_dict_norm_fc
+    else:
+        return outputs_dict_norm_fc[pin]
 
 class _InputSpecNormFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_norm_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_norm_fc(), op)
+        self.fields_container = Input(_get_input_spec_norm_fc(0), 0, op, -1) 
 
 class _OutputSpecNormFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_norm_fc(0), 0, op) 
+        super().__init__(_get_output_spec_norm_fc(), op)
+        self.fields_container = Output(_get_output_spec_norm_fc(0), 0, op) 
 
 class _NormFc(_Operator):
     """Operator's description:
@@ -2819,10 +3044,8 @@ class _NormFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("norm_fc")
-        self._name = "norm_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNormFc(self._op)
-        self.outputs = _OutputSpecNormFc(self._op)
+        self.inputs = _InputSpecNormFc(self)
+        self.outputs = _OutputSpecNormFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2861,30 +3084,39 @@ def norm_fc():
 
 #internal name: component_wise_divide
 #scripting name: component_wise_divide
-def _get_input_spec_component_wise_divide(pin):
+def _get_input_spec_component_wise_divide(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_component_wise_divide = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_component_wise_divide[pin]
+    if pin is None:
+        return inputs_dict_component_wise_divide
+    else:
+        return inputs_dict_component_wise_divide[pin]
 
-def _get_output_spec_component_wise_divide(pin):
+def _get_output_spec_component_wise_divide(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_component_wise_divide = { 
         0 : outpin0
     }
-    return outputs_dict_component_wise_divide[pin]
+    if pin is None:
+        return outputs_dict_component_wise_divide
+    else:
+        return outputs_dict_component_wise_divide[pin]
 
 class _InputSpecComponentWiseDivide(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_component_wise_divide(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_component_wise_divide(1), 1, op, -1) 
+        super().__init__(_get_input_spec_component_wise_divide(), op)
+        self.fieldA = Input(_get_input_spec_component_wise_divide(0), 0, op, -1) 
+        super().__init__(_get_input_spec_component_wise_divide(), op)
+        self.fieldB = Input(_get_input_spec_component_wise_divide(1), 1, op, -1) 
 
 class _OutputSpecComponentWiseDivide(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_component_wise_divide(0), 0, op) 
+        super().__init__(_get_output_spec_component_wise_divide(), op)
+        self.field = Output(_get_output_spec_component_wise_divide(0), 0, op) 
 
 class _ComponentWiseDivide(_Operator):
     """Operator's description:
@@ -2909,10 +3141,8 @@ class _ComponentWiseDivide(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("component_wise_divide")
-        self._name = "component_wise_divide"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecComponentWiseDivide(self._op)
-        self.outputs = _OutputSpecComponentWiseDivide(self._op)
+        self.inputs = _InputSpecComponentWiseDivide(self)
+        self.outputs = _OutputSpecComponentWiseDivide(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2952,30 +3182,39 @@ def component_wise_divide():
 
 #internal name: component_wise_divide_fc
 #scripting name: component_wise_divide_fc
-def _get_input_spec_component_wise_divide_fc(pin):
+def _get_input_spec_component_wise_divide_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_containerA", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "fields_containerB", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_component_wise_divide_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_component_wise_divide_fc[pin]
+    if pin is None:
+        return inputs_dict_component_wise_divide_fc
+    else:
+        return inputs_dict_component_wise_divide_fc[pin]
 
-def _get_output_spec_component_wise_divide_fc(pin):
+def _get_output_spec_component_wise_divide_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_component_wise_divide_fc = { 
         0 : outpin0
     }
-    return outputs_dict_component_wise_divide_fc[pin]
+    if pin is None:
+        return outputs_dict_component_wise_divide_fc
+    else:
+        return outputs_dict_component_wise_divide_fc[pin]
 
 class _InputSpecComponentWiseDivideFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_containerA = _Input(_get_input_spec_component_wise_divide_fc(0), 0, op, -1) 
-        self.fields_containerB = _Input(_get_input_spec_component_wise_divide_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_component_wise_divide_fc(), op)
+        self.fields_containerA = Input(_get_input_spec_component_wise_divide_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_component_wise_divide_fc(), op)
+        self.fields_containerB = Input(_get_input_spec_component_wise_divide_fc(1), 1, op, -1) 
 
 class _OutputSpecComponentWiseDivideFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_component_wise_divide_fc(0), 0, op) 
+        super().__init__(_get_output_spec_component_wise_divide_fc(), op)
+        self.fields_container = Output(_get_output_spec_component_wise_divide_fc(0), 0, op) 
 
 class _ComponentWiseDivideFc(_Operator):
     """Operator's description:
@@ -3000,10 +3239,8 @@ class _ComponentWiseDivideFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("component_wise_divide_fc")
-        self._name = "component_wise_divide_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecComponentWiseDivideFc(self._op)
-        self.outputs = _OutputSpecComponentWiseDivideFc(self._op)
+        self.inputs = _InputSpecComponentWiseDivideFc(self)
+        self.outputs = _OutputSpecComponentWiseDivideFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3043,30 +3280,39 @@ def component_wise_divide_fc():
 
 #internal name: kronecker_prod
 #scripting name: kronecker_prod
-def _get_input_spec_kronecker_prod(pin):
+def _get_input_spec_kronecker_prod(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_kronecker_prod = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_kronecker_prod[pin]
+    if pin is None:
+        return inputs_dict_kronecker_prod
+    else:
+        return inputs_dict_kronecker_prod[pin]
 
-def _get_output_spec_kronecker_prod(pin):
+def _get_output_spec_kronecker_prod(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_kronecker_prod = { 
         0 : outpin0
     }
-    return outputs_dict_kronecker_prod[pin]
+    if pin is None:
+        return outputs_dict_kronecker_prod
+    else:
+        return outputs_dict_kronecker_prod[pin]
 
 class _InputSpecKroneckerProd(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_kronecker_prod(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_kronecker_prod(1), 1, op, -1) 
+        super().__init__(_get_input_spec_kronecker_prod(), op)
+        self.fieldA = Input(_get_input_spec_kronecker_prod(0), 0, op, -1) 
+        super().__init__(_get_input_spec_kronecker_prod(), op)
+        self.fieldB = Input(_get_input_spec_kronecker_prod(1), 1, op, -1) 
 
 class _OutputSpecKroneckerProd(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_kronecker_prod(0), 0, op) 
+        super().__init__(_get_output_spec_kronecker_prod(), op)
+        self.field = Output(_get_output_spec_kronecker_prod(0), 0, op) 
 
 class _KroneckerProd(_Operator):
     """Operator's description:
@@ -3091,10 +3337,8 @@ class _KroneckerProd(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("kronecker_prod")
-        self._name = "kronecker_prod"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecKroneckerProd(self._op)
-        self.outputs = _OutputSpecKroneckerProd(self._op)
+        self.inputs = _InputSpecKroneckerProd(self)
+        self.outputs = _OutputSpecKroneckerProd(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3134,27 +3378,35 @@ def kronecker_prod():
 
 #internal name: realP_part
 #scripting name: real_part
-def _get_input_spec_real_part(pin):
+def _get_input_spec_real_part(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_real_part = { 
         0 : inpin0
     }
-    return inputs_dict_real_part[pin]
+    if pin is None:
+        return inputs_dict_real_part
+    else:
+        return inputs_dict_real_part[pin]
 
-def _get_output_spec_real_part(pin):
+def _get_output_spec_real_part(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_real_part = { 
         0 : outpin0
     }
-    return outputs_dict_real_part[pin]
+    if pin is None:
+        return outputs_dict_real_part
+    else:
+        return outputs_dict_real_part[pin]
 
 class _InputSpecRealPart(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_real_part(0), 0, op, -1) 
+        super().__init__(_get_input_spec_real_part(), op)
+        self.fields_container = Input(_get_input_spec_real_part(0), 0, op, -1) 
 
 class _OutputSpecRealPart(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_real_part(0), 0, op) 
+        super().__init__(_get_output_spec_real_part(), op)
+        self.fields_container = Output(_get_output_spec_real_part(0), 0, op) 
 
 class _RealPart(_Operator):
     """Operator's description:
@@ -3178,10 +3430,8 @@ class _RealPart(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("realP_part")
-        self._name = "realP_part"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRealPart(self._op)
-        self.outputs = _OutputSpecRealPart(self._op)
+        self.inputs = _InputSpecRealPart(self)
+        self.outputs = _OutputSpecRealPart(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3220,27 +3470,35 @@ def real_part():
 
 #internal name: conjugate
 #scripting name: conjugate
-def _get_input_spec_conjugate(pin):
+def _get_input_spec_conjugate(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_conjugate = { 
         0 : inpin0
     }
-    return inputs_dict_conjugate[pin]
+    if pin is None:
+        return inputs_dict_conjugate
+    else:
+        return inputs_dict_conjugate[pin]
 
-def _get_output_spec_conjugate(pin):
+def _get_output_spec_conjugate(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_conjugate = { 
         0 : outpin0
     }
-    return outputs_dict_conjugate[pin]
+    if pin is None:
+        return outputs_dict_conjugate
+    else:
+        return outputs_dict_conjugate[pin]
 
 class _InputSpecConjugate(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_conjugate(0), 0, op, -1) 
+        super().__init__(_get_input_spec_conjugate(), op)
+        self.fields_container = Input(_get_input_spec_conjugate(0), 0, op, -1) 
 
 class _OutputSpecConjugate(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_conjugate(0), 0, op) 
+        super().__init__(_get_output_spec_conjugate(), op)
+        self.fields_container = Output(_get_output_spec_conjugate(0), 0, op) 
 
 class _Conjugate(_Operator):
     """Operator's description:
@@ -3264,10 +3522,8 @@ class _Conjugate(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("conjugate")
-        self._name = "conjugate"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecConjugate(self._op)
-        self.outputs = _OutputSpecConjugate(self._op)
+        self.inputs = _InputSpecConjugate(self)
+        self.outputs = _OutputSpecConjugate(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3306,27 +3562,35 @@ def conjugate():
 
 #internal name: img_part
 #scripting name: img_part
-def _get_input_spec_img_part(pin):
+def _get_input_spec_img_part(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_img_part = { 
         0 : inpin0
     }
-    return inputs_dict_img_part[pin]
+    if pin is None:
+        return inputs_dict_img_part
+    else:
+        return inputs_dict_img_part[pin]
 
-def _get_output_spec_img_part(pin):
+def _get_output_spec_img_part(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_img_part = { 
         0 : outpin0
     }
-    return outputs_dict_img_part[pin]
+    if pin is None:
+        return outputs_dict_img_part
+    else:
+        return outputs_dict_img_part[pin]
 
 class _InputSpecImgPart(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_img_part(0), 0, op, -1) 
+        super().__init__(_get_input_spec_img_part(), op)
+        self.fields_container = Input(_get_input_spec_img_part(0), 0, op, -1) 
 
 class _OutputSpecImgPart(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_img_part(0), 0, op) 
+        super().__init__(_get_output_spec_img_part(), op)
+        self.fields_container = Output(_get_output_spec_img_part(0), 0, op) 
 
 class _ImgPart(_Operator):
     """Operator's description:
@@ -3350,10 +3614,8 @@ class _ImgPart(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("img_part")
-        self._name = "img_part"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecImgPart(self._op)
-        self.outputs = _OutputSpecImgPart(self._op)
+        self.inputs = _InputSpecImgPart(self)
+        self.outputs = _OutputSpecImgPart(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3392,30 +3654,39 @@ def img_part():
 
 #internal name: amplitude
 #scripting name: amplitude
-def _get_input_spec_amplitude(pin):
+def _get_input_spec_amplitude(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_amplitude = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_amplitude[pin]
+    if pin is None:
+        return inputs_dict_amplitude
+    else:
+        return inputs_dict_amplitude[pin]
 
-def _get_output_spec_amplitude(pin):
+def _get_output_spec_amplitude(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_amplitude = { 
         0 : outpin0
     }
-    return outputs_dict_amplitude[pin]
+    if pin is None:
+        return outputs_dict_amplitude
+    else:
+        return outputs_dict_amplitude[pin]
 
 class _InputSpecAmplitude(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_amplitude(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_amplitude(1), 1, op, -1) 
+        super().__init__(_get_input_spec_amplitude(), op)
+        self.fieldA = Input(_get_input_spec_amplitude(0), 0, op, -1) 
+        super().__init__(_get_input_spec_amplitude(), op)
+        self.fieldB = Input(_get_input_spec_amplitude(1), 1, op, -1) 
 
 class _OutputSpecAmplitude(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_amplitude(0), 0, op) 
+        super().__init__(_get_output_spec_amplitude(), op)
+        self.field = Output(_get_output_spec_amplitude(0), 0, op) 
 
 class _Amplitude(_Operator):
     """Operator's description:
@@ -3440,10 +3711,8 @@ class _Amplitude(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("amplitude")
-        self._name = "amplitude"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAmplitude(self._op)
-        self.outputs = _OutputSpecAmplitude(self._op)
+        self.inputs = _InputSpecAmplitude(self)
+        self.outputs = _OutputSpecAmplitude(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3483,30 +3752,39 @@ def amplitude():
 
 #internal name: cplx_add
 #scripting name: cplx_add
-def _get_input_spec_cplx_add(pin):
+def _get_input_spec_cplx_add(pin = None):
     inpin0 = _PinSpecification(name = "fields_containerA", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "fields_containerB", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_cplx_add = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_cplx_add[pin]
+    if pin is None:
+        return inputs_dict_cplx_add
+    else:
+        return inputs_dict_cplx_add[pin]
 
-def _get_output_spec_cplx_add(pin):
+def _get_output_spec_cplx_add(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_cplx_add = { 
         0 : outpin0
     }
-    return outputs_dict_cplx_add[pin]
+    if pin is None:
+        return outputs_dict_cplx_add
+    else:
+        return outputs_dict_cplx_add[pin]
 
 class _InputSpecCplxAdd(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_containerA = _Input(_get_input_spec_cplx_add(0), 0, op, -1) 
-        self.fields_containerB = _Input(_get_input_spec_cplx_add(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cplx_add(), op)
+        self.fields_containerA = Input(_get_input_spec_cplx_add(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cplx_add(), op)
+        self.fields_containerB = Input(_get_input_spec_cplx_add(1), 1, op, -1) 
 
 class _OutputSpecCplxAdd(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cplx_add(0), 0, op) 
+        super().__init__(_get_output_spec_cplx_add(), op)
+        self.fields_container = Output(_get_output_spec_cplx_add(0), 0, op) 
 
 class _CplxAdd(_Operator):
     """Operator's description:
@@ -3531,10 +3809,8 @@ class _CplxAdd(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cplx_add")
-        self._name = "cplx_add"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCplxAdd(self._op)
-        self.outputs = _OutputSpecCplxAdd(self._op)
+        self.inputs = _InputSpecCplxAdd(self)
+        self.outputs = _OutputSpecCplxAdd(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3574,30 +3850,39 @@ def cplx_add():
 
 #internal name: cplx_dot
 #scripting name: cplx_dot
-def _get_input_spec_cplx_dot(pin):
+def _get_input_spec_cplx_dot(pin = None):
     inpin0 = _PinSpecification(name = "fields_containerA", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "fields_containerB", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_cplx_dot = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_cplx_dot[pin]
+    if pin is None:
+        return inputs_dict_cplx_dot
+    else:
+        return inputs_dict_cplx_dot[pin]
 
-def _get_output_spec_cplx_dot(pin):
+def _get_output_spec_cplx_dot(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_cplx_dot = { 
         0 : outpin0
     }
-    return outputs_dict_cplx_dot[pin]
+    if pin is None:
+        return outputs_dict_cplx_dot
+    else:
+        return outputs_dict_cplx_dot[pin]
 
 class _InputSpecCplxDot(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_containerA = _Input(_get_input_spec_cplx_dot(0), 0, op, -1) 
-        self.fields_containerB = _Input(_get_input_spec_cplx_dot(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cplx_dot(), op)
+        self.fields_containerA = Input(_get_input_spec_cplx_dot(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cplx_dot(), op)
+        self.fields_containerB = Input(_get_input_spec_cplx_dot(1), 1, op, -1) 
 
 class _OutputSpecCplxDot(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cplx_dot(0), 0, op) 
+        super().__init__(_get_output_spec_cplx_dot(), op)
+        self.fields_container = Output(_get_output_spec_cplx_dot(0), 0, op) 
 
 class _CplxDot(_Operator):
     """Operator's description:
@@ -3622,10 +3907,8 @@ class _CplxDot(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cplx_dot")
-        self._name = "cplx_dot"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCplxDot(self._op)
-        self.outputs = _OutputSpecCplxDot(self._op)
+        self.inputs = _InputSpecCplxDot(self)
+        self.outputs = _OutputSpecCplxDot(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3665,30 +3948,39 @@ def cplx_dot():
 
 #internal name: cplx_divide
 #scripting name: cplx_divide
-def _get_input_spec_cplx_divide(pin):
+def _get_input_spec_cplx_divide(pin = None):
     inpin0 = _PinSpecification(name = "fields_containerA", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "fields_containerB", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_cplx_divide = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_cplx_divide[pin]
+    if pin is None:
+        return inputs_dict_cplx_divide
+    else:
+        return inputs_dict_cplx_divide[pin]
 
-def _get_output_spec_cplx_divide(pin):
+def _get_output_spec_cplx_divide(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_cplx_divide = { 
         0 : outpin0
     }
-    return outputs_dict_cplx_divide[pin]
+    if pin is None:
+        return outputs_dict_cplx_divide
+    else:
+        return outputs_dict_cplx_divide[pin]
 
 class _InputSpecCplxDivide(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_containerA = _Input(_get_input_spec_cplx_divide(0), 0, op, -1) 
-        self.fields_containerB = _Input(_get_input_spec_cplx_divide(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cplx_divide(), op)
+        self.fields_containerA = Input(_get_input_spec_cplx_divide(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cplx_divide(), op)
+        self.fields_containerB = Input(_get_input_spec_cplx_divide(1), 1, op, -1) 
 
 class _OutputSpecCplxDivide(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cplx_divide(0), 0, op) 
+        super().__init__(_get_output_spec_cplx_divide(), op)
+        self.fields_container = Output(_get_output_spec_cplx_divide(0), 0, op) 
 
 class _CplxDivide(_Operator):
     """Operator's description:
@@ -3713,10 +4005,8 @@ class _CplxDivide(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cplx_divide")
-        self._name = "cplx_divide"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCplxDivide(self._op)
-        self.outputs = _OutputSpecCplxDivide(self._op)
+        self.inputs = _InputSpecCplxDivide(self)
+        self.outputs = _OutputSpecCplxDivide(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3756,30 +4046,39 @@ def cplx_divide():
 
 #internal name: dot
 #scripting name: dot
-def _get_input_spec_dot(pin):
+def _get_input_spec_dot(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_dot = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_dot[pin]
+    if pin is None:
+        return inputs_dict_dot
+    else:
+        return inputs_dict_dot[pin]
 
-def _get_output_spec_dot(pin):
+def _get_output_spec_dot(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_dot = { 
         0 : outpin0
     }
-    return outputs_dict_dot[pin]
+    if pin is None:
+        return outputs_dict_dot
+    else:
+        return outputs_dict_dot[pin]
 
 class _InputSpecDot(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_dot(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_dot(1), 1, op, -1) 
+        super().__init__(_get_input_spec_dot(), op)
+        self.fieldA = Input(_get_input_spec_dot(0), 0, op, -1) 
+        super().__init__(_get_input_spec_dot(), op)
+        self.fieldB = Input(_get_input_spec_dot(1), 1, op, -1) 
 
 class _OutputSpecDot(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_dot(0), 0, op) 
+        super().__init__(_get_output_spec_dot(), op)
+        self.field = Output(_get_output_spec_dot(0), 0, op) 
 
 class _Dot(_Operator):
     """Operator's description:
@@ -3804,10 +4103,8 @@ class _Dot(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("dot")
-        self._name = "dot"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecDot(self._op)
-        self.outputs = _OutputSpecDot(self._op)
+        self.inputs = _InputSpecDot(self)
+        self.outputs = _OutputSpecDot(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3847,27 +4144,35 @@ def dot():
 
 #internal name: cplx_derive
 #scripting name: cplx_derive
-def _get_input_spec_cplx_derive(pin):
+def _get_input_spec_cplx_derive(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_cplx_derive = { 
         0 : inpin0
     }
-    return inputs_dict_cplx_derive[pin]
+    if pin is None:
+        return inputs_dict_cplx_derive
+    else:
+        return inputs_dict_cplx_derive[pin]
 
-def _get_output_spec_cplx_derive(pin):
+def _get_output_spec_cplx_derive(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_cplx_derive = { 
         0 : outpin0
     }
-    return outputs_dict_cplx_derive[pin]
+    if pin is None:
+        return outputs_dict_cplx_derive
+    else:
+        return outputs_dict_cplx_derive[pin]
 
 class _InputSpecCplxDerive(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_cplx_derive(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cplx_derive(), op)
+        self.fields_container = Input(_get_input_spec_cplx_derive(0), 0, op, -1) 
 
 class _OutputSpecCplxDerive(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cplx_derive(0), 0, op) 
+        super().__init__(_get_output_spec_cplx_derive(), op)
+        self.fields_container = Output(_get_output_spec_cplx_derive(0), 0, op) 
 
 class _CplxDerive(_Operator):
     """Operator's description:
@@ -3891,10 +4196,8 @@ class _CplxDerive(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cplx_derive")
-        self._name = "cplx_derive"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCplxDerive(self._op)
-        self.outputs = _OutputSpecCplxDerive(self._op)
+        self.inputs = _InputSpecCplxDerive(self)
+        self.outputs = _OutputSpecCplxDerive(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3933,27 +4236,35 @@ def cplx_derive():
 
 #internal name: polar_to_cplx
 #scripting name: polar_to_cplx
-def _get_input_spec_polar_to_cplx(pin):
+def _get_input_spec_polar_to_cplx(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_polar_to_cplx = { 
         0 : inpin0
     }
-    return inputs_dict_polar_to_cplx[pin]
+    if pin is None:
+        return inputs_dict_polar_to_cplx
+    else:
+        return inputs_dict_polar_to_cplx[pin]
 
-def _get_output_spec_polar_to_cplx(pin):
+def _get_output_spec_polar_to_cplx(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_polar_to_cplx = { 
         0 : outpin0
     }
-    return outputs_dict_polar_to_cplx[pin]
+    if pin is None:
+        return outputs_dict_polar_to_cplx
+    else:
+        return outputs_dict_polar_to_cplx[pin]
 
 class _InputSpecPolarToCplx(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_polar_to_cplx(0), 0, op, -1) 
+        super().__init__(_get_input_spec_polar_to_cplx(), op)
+        self.fields_container = Input(_get_input_spec_polar_to_cplx(0), 0, op, -1) 
 
 class _OutputSpecPolarToCplx(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_polar_to_cplx(0), 0, op) 
+        super().__init__(_get_output_spec_polar_to_cplx(), op)
+        self.fields_container = Output(_get_output_spec_polar_to_cplx(0), 0, op) 
 
 class _PolarToCplx(_Operator):
     """Operator's description:
@@ -3977,10 +4288,8 @@ class _PolarToCplx(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("polar_to_cplx")
-        self._name = "polar_to_cplx"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPolarToCplx(self._op)
-        self.outputs = _OutputSpecPolarToCplx(self._op)
+        self.inputs = _InputSpecPolarToCplx(self)
+        self.outputs = _OutputSpecPolarToCplx(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4019,27 +4328,35 @@ def polar_to_cplx():
 
 #internal name: modulus
 #scripting name: modulus
-def _get_input_spec_modulus(pin):
+def _get_input_spec_modulus(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_modulus = { 
         0 : inpin0
     }
-    return inputs_dict_modulus[pin]
+    if pin is None:
+        return inputs_dict_modulus
+    else:
+        return inputs_dict_modulus[pin]
 
-def _get_output_spec_modulus(pin):
+def _get_output_spec_modulus(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_modulus = { 
         0 : outpin0
     }
-    return outputs_dict_modulus[pin]
+    if pin is None:
+        return outputs_dict_modulus
+    else:
+        return outputs_dict_modulus[pin]
 
 class _InputSpecModulus(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_modulus(0), 0, op, -1) 
+        super().__init__(_get_input_spec_modulus(), op)
+        self.fields_container = Input(_get_input_spec_modulus(0), 0, op, -1) 
 
 class _OutputSpecModulus(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_modulus(0), 0, op) 
+        super().__init__(_get_output_spec_modulus(), op)
+        self.fields_container = Output(_get_output_spec_modulus(0), 0, op) 
 
 class _Modulus(_Operator):
     """Operator's description:
@@ -4063,10 +4380,8 @@ class _Modulus(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("modulus")
-        self._name = "modulus"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecModulus(self._op)
-        self.outputs = _OutputSpecModulus(self._op)
+        self.inputs = _InputSpecModulus(self)
+        self.outputs = _OutputSpecModulus(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4105,27 +4420,35 @@ def modulus():
 
 #internal name: accumulate_fc
 #scripting name: accumulate_fc
-def _get_input_spec_accumulate_fc(pin):
+def _get_input_spec_accumulate_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_accumulate_fc = { 
         0 : inpin0
     }
-    return inputs_dict_accumulate_fc[pin]
+    if pin is None:
+        return inputs_dict_accumulate_fc
+    else:
+        return inputs_dict_accumulate_fc[pin]
 
-def _get_output_spec_accumulate_fc(pin):
+def _get_output_spec_accumulate_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_accumulate_fc = { 
         0 : outpin0
     }
-    return outputs_dict_accumulate_fc[pin]
+    if pin is None:
+        return outputs_dict_accumulate_fc
+    else:
+        return outputs_dict_accumulate_fc[pin]
 
 class _InputSpecAccumulateFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_accumulate_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_accumulate_fc(), op)
+        self.fields_container = Input(_get_input_spec_accumulate_fc(0), 0, op, -1) 
 
 class _OutputSpecAccumulateFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_accumulate_fc(0), 0, op) 
+        super().__init__(_get_output_spec_accumulate_fc(), op)
+        self.fields_container = Output(_get_output_spec_accumulate_fc(0), 0, op) 
 
 class _AccumulateFc(_Operator):
     """Operator's description:
@@ -4149,10 +4472,8 @@ class _AccumulateFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("accumulate_fc")
-        self._name = "accumulate_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccumulateFc(self._op)
-        self.outputs = _OutputSpecAccumulateFc(self._op)
+        self.inputs = _InputSpecAccumulateFc(self)
+        self.outputs = _OutputSpecAccumulateFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4191,30 +4512,39 @@ def accumulate_fc():
 
 #internal name: generalized_inner_product
 #scripting name: generalized_inner_product
-def _get_input_spec_generalized_inner_product(pin):
+def _get_input_spec_generalized_inner_product(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_generalized_inner_product = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_generalized_inner_product[pin]
+    if pin is None:
+        return inputs_dict_generalized_inner_product
+    else:
+        return inputs_dict_generalized_inner_product[pin]
 
-def _get_output_spec_generalized_inner_product(pin):
+def _get_output_spec_generalized_inner_product(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_generalized_inner_product = { 
         0 : outpin0
     }
-    return outputs_dict_generalized_inner_product[pin]
+    if pin is None:
+        return outputs_dict_generalized_inner_product
+    else:
+        return outputs_dict_generalized_inner_product[pin]
 
 class _InputSpecGeneralizedInnerProduct(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_generalized_inner_product(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_generalized_inner_product(1), 1, op, -1) 
+        super().__init__(_get_input_spec_generalized_inner_product(), op)
+        self.fieldA = Input(_get_input_spec_generalized_inner_product(0), 0, op, -1) 
+        super().__init__(_get_input_spec_generalized_inner_product(), op)
+        self.fieldB = Input(_get_input_spec_generalized_inner_product(1), 1, op, -1) 
 
 class _OutputSpecGeneralizedInnerProduct(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_generalized_inner_product(0), 0, op) 
+        super().__init__(_get_output_spec_generalized_inner_product(), op)
+        self.field = Output(_get_output_spec_generalized_inner_product(0), 0, op) 
 
 class _GeneralizedInnerProduct(_Operator):
     """Operator's description:
@@ -4239,10 +4569,8 @@ class _GeneralizedInnerProduct(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("generalized_inner_product")
-        self._name = "generalized_inner_product"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecGeneralizedInnerProduct(self._op)
-        self.outputs = _OutputSpecGeneralizedInnerProduct(self._op)
+        self.inputs = _InputSpecGeneralizedInnerProduct(self)
+        self.outputs = _OutputSpecGeneralizedInnerProduct(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4282,30 +4610,39 @@ def generalized_inner_product():
 
 #internal name: scale_by_field
 #scripting name: scale_by_field
-def _get_input_spec_scale_by_field(pin):
+def _get_input_spec_scale_by_field(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_scale_by_field = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_scale_by_field[pin]
+    if pin is None:
+        return inputs_dict_scale_by_field
+    else:
+        return inputs_dict_scale_by_field[pin]
 
-def _get_output_spec_scale_by_field(pin):
+def _get_output_spec_scale_by_field(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_scale_by_field = { 
         0 : outpin0
     }
-    return outputs_dict_scale_by_field[pin]
+    if pin is None:
+        return outputs_dict_scale_by_field
+    else:
+        return outputs_dict_scale_by_field[pin]
 
 class _InputSpecScaleByField(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_scale_by_field(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_scale_by_field(1), 1, op, -1) 
+        super().__init__(_get_input_spec_scale_by_field(), op)
+        self.fieldA = Input(_get_input_spec_scale_by_field(0), 0, op, -1) 
+        super().__init__(_get_input_spec_scale_by_field(), op)
+        self.fieldB = Input(_get_input_spec_scale_by_field(1), 1, op, -1) 
 
 class _OutputSpecScaleByField(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_scale_by_field(0), 0, op) 
+        super().__init__(_get_output_spec_scale_by_field(), op)
+        self.field = Output(_get_output_spec_scale_by_field(0), 0, op) 
 
 class _ScaleByField(_Operator):
     """Operator's description:
@@ -4330,10 +4667,8 @@ class _ScaleByField(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scale_by_field")
-        self._name = "scale_by_field"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecScaleByField(self._op)
-        self.outputs = _OutputSpecScaleByField(self._op)
+        self.inputs = _InputSpecScaleByField(self)
+        self.outputs = _OutputSpecScaleByField(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4373,30 +4708,39 @@ def scale_by_field():
 
 #internal name: generalized_inner_product_fc
 #scripting name: generalized_inner_product_fc
-def _get_input_spec_generalized_inner_product_fc(pin):
+def _get_input_spec_generalized_inner_product_fc(pin = None):
     inpin0 = _PinSpecification(name = "field_or_fields_container_A", type_names = ["fields_container","field"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "field_or_fields_container_B", type_names = ["fields_container","field"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_generalized_inner_product_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_generalized_inner_product_fc[pin]
+    if pin is None:
+        return inputs_dict_generalized_inner_product_fc
+    else:
+        return inputs_dict_generalized_inner_product_fc[pin]
 
-def _get_output_spec_generalized_inner_product_fc(pin):
+def _get_output_spec_generalized_inner_product_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_generalized_inner_product_fc = { 
         0 : outpin0
     }
-    return outputs_dict_generalized_inner_product_fc[pin]
+    if pin is None:
+        return outputs_dict_generalized_inner_product_fc
+    else:
+        return outputs_dict_generalized_inner_product_fc[pin]
 
 class _InputSpecGeneralizedInnerProductFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.field_or_fields_container_A = _Input(_get_input_spec_generalized_inner_product_fc(0), 0, op, -1) 
-        self.field_or_fields_container_B = _Input(_get_input_spec_generalized_inner_product_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_generalized_inner_product_fc(), op)
+        self.field_or_fields_container_A = Input(_get_input_spec_generalized_inner_product_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_generalized_inner_product_fc(), op)
+        self.field_or_fields_container_B = Input(_get_input_spec_generalized_inner_product_fc(1), 1, op, -1) 
 
 class _OutputSpecGeneralizedInnerProductFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_generalized_inner_product_fc(0), 0, op) 
+        super().__init__(_get_output_spec_generalized_inner_product_fc(), op)
+        self.fields_container = Output(_get_output_spec_generalized_inner_product_fc(0), 0, op) 
 
 class _GeneralizedInnerProductFc(_Operator):
     """Operator's description:
@@ -4421,10 +4765,8 @@ class _GeneralizedInnerProductFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("generalized_inner_product_fc")
-        self._name = "generalized_inner_product_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecGeneralizedInnerProductFc(self._op)
-        self.outputs = _OutputSpecGeneralizedInnerProductFc(self._op)
+        self.inputs = _InputSpecGeneralizedInnerProductFc(self)
+        self.outputs = _OutputSpecGeneralizedInnerProductFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4466,7 +4808,7 @@ from . import native #native::overall_dot
 
 #internal name: max_over_time
 #scripting name: max_over_time
-def _get_input_spec_max_over_time(pin):
+def _get_input_spec_max_over_time(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "angle", type_names = ["double"], optional = True, document = """Phase angle used for complex field container""")
     inpin2 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = True, document = """Phase angle unit. Default is radian.""")
@@ -4479,26 +4821,38 @@ def _get_input_spec_max_over_time(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_max_over_time[pin]
+    if pin is None:
+        return inputs_dict_max_over_time
+    else:
+        return inputs_dict_max_over_time[pin]
 
-def _get_output_spec_max_over_time(pin):
+def _get_output_spec_max_over_time(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_max_over_time = { 
         0 : outpin0
     }
-    return outputs_dict_max_over_time[pin]
+    if pin is None:
+        return outputs_dict_max_over_time
+    else:
+        return outputs_dict_max_over_time[pin]
 
 class _InputSpecMaxOverTime(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_max_over_time(0), 0, op, -1) 
-        self.angle = _Input(_get_input_spec_max_over_time(1), 1, op, -1) 
-        self.unit_name = _Input(_get_input_spec_max_over_time(2), 2, op, -1) 
-        self.abs_value = _Input(_get_input_spec_max_over_time(3), 3, op, -1) 
-        self.compute_amplitude = _Input(_get_input_spec_max_over_time(4), 4, op, -1) 
+        super().__init__(_get_input_spec_max_over_time(), op)
+        self.fields_container = Input(_get_input_spec_max_over_time(0), 0, op, -1) 
+        super().__init__(_get_input_spec_max_over_time(), op)
+        self.angle = Input(_get_input_spec_max_over_time(1), 1, op, -1) 
+        super().__init__(_get_input_spec_max_over_time(), op)
+        self.unit_name = Input(_get_input_spec_max_over_time(2), 2, op, -1) 
+        super().__init__(_get_input_spec_max_over_time(), op)
+        self.abs_value = Input(_get_input_spec_max_over_time(3), 3, op, -1) 
+        super().__init__(_get_input_spec_max_over_time(), op)
+        self.compute_amplitude = Input(_get_input_spec_max_over_time(4), 4, op, -1) 
 
 class _OutputSpecMaxOverTime(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_max_over_time(0), 0, op) 
+        super().__init__(_get_output_spec_max_over_time(), op)
+        self.field = Output(_get_output_spec_max_over_time(0), 0, op) 
 
 class _MaxOverTime(_Operator):
     """Operator's description:
@@ -4526,10 +4880,8 @@ class _MaxOverTime(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("max_over_time")
-        self._name = "max_over_time"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMaxOverTime(self._op)
-        self.outputs = _OutputSpecMaxOverTime(self._op)
+        self.inputs = _InputSpecMaxOverTime(self)
+        self.outputs = _OutputSpecMaxOverTime(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4572,7 +4924,7 @@ def max_over_time():
 
 #internal name: time_of_max
 #scripting name: time_of_max
-def _get_input_spec_time_of_max(pin):
+def _get_input_spec_time_of_max(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "angle", type_names = ["double"], optional = True, document = """Phase angle used for complex field container""")
     inpin2 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = True, document = """Phase angle unit. Default is radian.""")
@@ -4585,26 +4937,38 @@ def _get_input_spec_time_of_max(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_time_of_max[pin]
+    if pin is None:
+        return inputs_dict_time_of_max
+    else:
+        return inputs_dict_time_of_max[pin]
 
-def _get_output_spec_time_of_max(pin):
+def _get_output_spec_time_of_max(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_time_of_max = { 
         0 : outpin0
     }
-    return outputs_dict_time_of_max[pin]
+    if pin is None:
+        return outputs_dict_time_of_max
+    else:
+        return outputs_dict_time_of_max[pin]
 
 class _InputSpecTimeOfMax(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_time_of_max(0), 0, op, -1) 
-        self.angle = _Input(_get_input_spec_time_of_max(1), 1, op, -1) 
-        self.unit_name = _Input(_get_input_spec_time_of_max(2), 2, op, -1) 
-        self.abs_value = _Input(_get_input_spec_time_of_max(3), 3, op, -1) 
-        self.compute_amplitude = _Input(_get_input_spec_time_of_max(4), 4, op, -1) 
+        super().__init__(_get_input_spec_time_of_max(), op)
+        self.fields_container = Input(_get_input_spec_time_of_max(0), 0, op, -1) 
+        super().__init__(_get_input_spec_time_of_max(), op)
+        self.angle = Input(_get_input_spec_time_of_max(1), 1, op, -1) 
+        super().__init__(_get_input_spec_time_of_max(), op)
+        self.unit_name = Input(_get_input_spec_time_of_max(2), 2, op, -1) 
+        super().__init__(_get_input_spec_time_of_max(), op)
+        self.abs_value = Input(_get_input_spec_time_of_max(3), 3, op, -1) 
+        super().__init__(_get_input_spec_time_of_max(), op)
+        self.compute_amplitude = Input(_get_input_spec_time_of_max(4), 4, op, -1) 
 
 class _OutputSpecTimeOfMax(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_time_of_max(0), 0, op) 
+        super().__init__(_get_output_spec_time_of_max(), op)
+        self.field = Output(_get_output_spec_time_of_max(0), 0, op) 
 
 class _TimeOfMax(_Operator):
     """Operator's description:
@@ -4632,10 +4996,8 @@ class _TimeOfMax(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("time_of_max")
-        self._name = "time_of_max"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecTimeOfMax(self._op)
-        self.outputs = _OutputSpecTimeOfMax(self._op)
+        self.inputs = _InputSpecTimeOfMax(self)
+        self.outputs = _OutputSpecTimeOfMax(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4678,7 +5040,7 @@ def time_of_max():
 
 #internal name: min_over_time
 #scripting name: min_over_time
-def _get_input_spec_min_over_time(pin):
+def _get_input_spec_min_over_time(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "angle", type_names = ["double"], optional = True, document = """Phase angle used for complex field container""")
     inpin2 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = True, document = """Phase angle unit. Default is radian.""")
@@ -4691,26 +5053,38 @@ def _get_input_spec_min_over_time(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_min_over_time[pin]
+    if pin is None:
+        return inputs_dict_min_over_time
+    else:
+        return inputs_dict_min_over_time[pin]
 
-def _get_output_spec_min_over_time(pin):
+def _get_output_spec_min_over_time(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_min_over_time = { 
         0 : outpin0
     }
-    return outputs_dict_min_over_time[pin]
+    if pin is None:
+        return outputs_dict_min_over_time
+    else:
+        return outputs_dict_min_over_time[pin]
 
 class _InputSpecMinOverTime(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_min_over_time(0), 0, op, -1) 
-        self.angle = _Input(_get_input_spec_min_over_time(1), 1, op, -1) 
-        self.unit_name = _Input(_get_input_spec_min_over_time(2), 2, op, -1) 
-        self.abs_value = _Input(_get_input_spec_min_over_time(3), 3, op, -1) 
-        self.compute_amplitude = _Input(_get_input_spec_min_over_time(4), 4, op, -1) 
+        super().__init__(_get_input_spec_min_over_time(), op)
+        self.fields_container = Input(_get_input_spec_min_over_time(0), 0, op, -1) 
+        super().__init__(_get_input_spec_min_over_time(), op)
+        self.angle = Input(_get_input_spec_min_over_time(1), 1, op, -1) 
+        super().__init__(_get_input_spec_min_over_time(), op)
+        self.unit_name = Input(_get_input_spec_min_over_time(2), 2, op, -1) 
+        super().__init__(_get_input_spec_min_over_time(), op)
+        self.abs_value = Input(_get_input_spec_min_over_time(3), 3, op, -1) 
+        super().__init__(_get_input_spec_min_over_time(), op)
+        self.compute_amplitude = Input(_get_input_spec_min_over_time(4), 4, op, -1) 
 
 class _OutputSpecMinOverTime(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_min_over_time(0), 0, op) 
+        super().__init__(_get_output_spec_min_over_time(), op)
+        self.field = Output(_get_output_spec_min_over_time(0), 0, op) 
 
 class _MinOverTime(_Operator):
     """Operator's description:
@@ -4738,10 +5112,8 @@ class _MinOverTime(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("min_over_time")
-        self._name = "min_over_time"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMinOverTime(self._op)
-        self.outputs = _OutputSpecMinOverTime(self._op)
+        self.inputs = _InputSpecMinOverTime(self)
+        self.outputs = _OutputSpecMinOverTime(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4784,7 +5156,7 @@ def min_over_time():
 
 #internal name: time_of_min
 #scripting name: time_of_min
-def _get_input_spec_time_of_min(pin):
+def _get_input_spec_time_of_min(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "angle", type_names = ["double"], optional = True, document = """Phase angle used for complex field container""")
     inpin2 = _PinSpecification(name = "unit_name", type_names = ["string"], optional = True, document = """Phase angle unit. Default is radian.""")
@@ -4797,26 +5169,38 @@ def _get_input_spec_time_of_min(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_time_of_min[pin]
+    if pin is None:
+        return inputs_dict_time_of_min
+    else:
+        return inputs_dict_time_of_min[pin]
 
-def _get_output_spec_time_of_min(pin):
+def _get_output_spec_time_of_min(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_time_of_min = { 
         0 : outpin0
     }
-    return outputs_dict_time_of_min[pin]
+    if pin is None:
+        return outputs_dict_time_of_min
+    else:
+        return outputs_dict_time_of_min[pin]
 
 class _InputSpecTimeOfMin(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_time_of_min(0), 0, op, -1) 
-        self.angle = _Input(_get_input_spec_time_of_min(1), 1, op, -1) 
-        self.unit_name = _Input(_get_input_spec_time_of_min(2), 2, op, -1) 
-        self.abs_value = _Input(_get_input_spec_time_of_min(3), 3, op, -1) 
-        self.compute_amplitude = _Input(_get_input_spec_time_of_min(4), 4, op, -1) 
+        super().__init__(_get_input_spec_time_of_min(), op)
+        self.fields_container = Input(_get_input_spec_time_of_min(0), 0, op, -1) 
+        super().__init__(_get_input_spec_time_of_min(), op)
+        self.angle = Input(_get_input_spec_time_of_min(1), 1, op, -1) 
+        super().__init__(_get_input_spec_time_of_min(), op)
+        self.unit_name = Input(_get_input_spec_time_of_min(2), 2, op, -1) 
+        super().__init__(_get_input_spec_time_of_min(), op)
+        self.abs_value = Input(_get_input_spec_time_of_min(3), 3, op, -1) 
+        super().__init__(_get_input_spec_time_of_min(), op)
+        self.compute_amplitude = Input(_get_input_spec_time_of_min(4), 4, op, -1) 
 
 class _OutputSpecTimeOfMin(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_time_of_min(0), 0, op) 
+        super().__init__(_get_output_spec_time_of_min(), op)
+        self.field = Output(_get_output_spec_time_of_min(0), 0, op) 
 
 class _TimeOfMin(_Operator):
     """Operator's description:
@@ -4844,10 +5228,8 @@ class _TimeOfMin(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("time_of_min")
-        self._name = "time_of_min"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecTimeOfMin(self._op)
-        self.outputs = _OutputSpecTimeOfMin(self._op)
+        self.inputs = _InputSpecTimeOfMin(self)
+        self.outputs = _OutputSpecTimeOfMin(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4890,7 +5272,7 @@ def time_of_min():
 
 #internal name: max_over_phase
 #scripting name: max_over_phase
-def _get_input_spec_max_over_phase(pin):
+def _get_input_spec_max_over_phase(pin = None):
     inpin0 = _PinSpecification(name = "real_field", type_names = ["field"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "imaginary_field", type_names = ["field"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "abs_value", type_names = ["bool"], optional = True, document = """Should use absolute value.""")
@@ -4901,25 +5283,36 @@ def _get_input_spec_max_over_phase(pin):
         2 : inpin2,
         3 : inpin3
     }
-    return inputs_dict_max_over_phase[pin]
+    if pin is None:
+        return inputs_dict_max_over_phase
+    else:
+        return inputs_dict_max_over_phase[pin]
 
-def _get_output_spec_max_over_phase(pin):
+def _get_output_spec_max_over_phase(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_max_over_phase = { 
         0 : outpin0
     }
-    return outputs_dict_max_over_phase[pin]
+    if pin is None:
+        return outputs_dict_max_over_phase
+    else:
+        return outputs_dict_max_over_phase[pin]
 
 class _InputSpecMaxOverPhase(_Inputs):
     def __init__(self, op: _Operator):
-        self.real_field = _Input(_get_input_spec_max_over_phase(0), 0, op, -1) 
-        self.imaginary_field = _Input(_get_input_spec_max_over_phase(1), 1, op, -1) 
-        self.abs_value = _Input(_get_input_spec_max_over_phase(2), 2, op, -1) 
-        self.phase_increment = _Input(_get_input_spec_max_over_phase(3), 3, op, -1) 
+        super().__init__(_get_input_spec_max_over_phase(), op)
+        self.real_field = Input(_get_input_spec_max_over_phase(0), 0, op, -1) 
+        super().__init__(_get_input_spec_max_over_phase(), op)
+        self.imaginary_field = Input(_get_input_spec_max_over_phase(1), 1, op, -1) 
+        super().__init__(_get_input_spec_max_over_phase(), op)
+        self.abs_value = Input(_get_input_spec_max_over_phase(2), 2, op, -1) 
+        super().__init__(_get_input_spec_max_over_phase(), op)
+        self.phase_increment = Input(_get_input_spec_max_over_phase(3), 3, op, -1) 
 
 class _OutputSpecMaxOverPhase(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_max_over_phase(0), 0, op) 
+        super().__init__(_get_output_spec_max_over_phase(), op)
+        self.field = Output(_get_output_spec_max_over_phase(0), 0, op) 
 
 class _MaxOverPhase(_Operator):
     """Operator's description:
@@ -4946,10 +5339,8 @@ class _MaxOverPhase(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("max_over_phase")
-        self._name = "max_over_phase"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMaxOverPhase(self._op)
-        self.outputs = _OutputSpecMaxOverPhase(self._op)
+        self.inputs = _InputSpecMaxOverPhase(self)
+        self.outputs = _OutputSpecMaxOverPhase(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4991,30 +5382,39 @@ def max_over_phase():
 
 #internal name: dot_tensor
 #scripting name: dot_tensor
-def _get_input_spec_dot_tensor(pin):
+def _get_input_spec_dot_tensor(pin = None):
     inpin0 = _PinSpecification(name = "fieldA", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "fieldB", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_dot_tensor = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_dot_tensor[pin]
+    if pin is None:
+        return inputs_dict_dot_tensor
+    else:
+        return inputs_dict_dot_tensor[pin]
 
-def _get_output_spec_dot_tensor(pin):
+def _get_output_spec_dot_tensor(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_dot_tensor = { 
         0 : outpin0
     }
-    return outputs_dict_dot_tensor[pin]
+    if pin is None:
+        return outputs_dict_dot_tensor
+    else:
+        return outputs_dict_dot_tensor[pin]
 
 class _InputSpecDotTensor(_Inputs):
     def __init__(self, op: _Operator):
-        self.fieldA = _Input(_get_input_spec_dot_tensor(0), 0, op, -1) 
-        self.fieldB = _Input(_get_input_spec_dot_tensor(1), 1, op, -1) 
+        super().__init__(_get_input_spec_dot_tensor(), op)
+        self.fieldA = Input(_get_input_spec_dot_tensor(0), 0, op, -1) 
+        super().__init__(_get_input_spec_dot_tensor(), op)
+        self.fieldB = Input(_get_input_spec_dot_tensor(1), 1, op, -1) 
 
 class _OutputSpecDotTensor(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_dot_tensor(0), 0, op) 
+        super().__init__(_get_output_spec_dot_tensor(), op)
+        self.field = Output(_get_output_spec_dot_tensor(0), 0, op) 
 
 class _DotTensor(_Operator):
     """Operator's description:
@@ -5039,10 +5439,8 @@ class _DotTensor(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("dot_tensor")
-        self._name = "dot_tensor"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecDotTensor(self._op)
-        self.outputs = _OutputSpecDotTensor(self._op)
+        self.inputs = _InputSpecDotTensor(self)
+        self.outputs = _OutputSpecDotTensor(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5082,30 +5480,39 @@ def dot_tensor():
 
 #internal name: scale_by_field_fc
 #scripting name: scale_by_field_fc
-def _get_input_spec_scale_by_field_fc(pin):
+def _get_input_spec_scale_by_field_fc(pin = None):
     inpin0 = _PinSpecification(name = "field_or_fields_container_A", type_names = ["fields_container","field"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "field_or_fields_container_B", type_names = ["fields_container","field"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_scale_by_field_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_scale_by_field_fc[pin]
+    if pin is None:
+        return inputs_dict_scale_by_field_fc
+    else:
+        return inputs_dict_scale_by_field_fc[pin]
 
-def _get_output_spec_scale_by_field_fc(pin):
+def _get_output_spec_scale_by_field_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_scale_by_field_fc = { 
         0 : outpin0
     }
-    return outputs_dict_scale_by_field_fc[pin]
+    if pin is None:
+        return outputs_dict_scale_by_field_fc
+    else:
+        return outputs_dict_scale_by_field_fc[pin]
 
 class _InputSpecScaleByFieldFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.field_or_fields_container_A = _Input(_get_input_spec_scale_by_field_fc(0), 0, op, -1) 
-        self.field_or_fields_container_B = _Input(_get_input_spec_scale_by_field_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_scale_by_field_fc(), op)
+        self.field_or_fields_container_A = Input(_get_input_spec_scale_by_field_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_scale_by_field_fc(), op)
+        self.field_or_fields_container_B = Input(_get_input_spec_scale_by_field_fc(1), 1, op, -1) 
 
 class _OutputSpecScaleByFieldFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_scale_by_field_fc(0), 0, op) 
+        super().__init__(_get_output_spec_scale_by_field_fc(), op)
+        self.fields_container = Output(_get_output_spec_scale_by_field_fc(0), 0, op) 
 
 class _ScaleByFieldFc(_Operator):
     """Operator's description:
@@ -5130,10 +5537,8 @@ class _ScaleByFieldFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scale_by_field_fc")
-        self._name = "scale_by_field_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecScaleByFieldFc(self._op)
-        self.outputs = _OutputSpecScaleByFieldFc(self._op)
+        self.inputs = _InputSpecScaleByFieldFc(self)
+        self.outputs = _OutputSpecScaleByFieldFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5173,27 +5578,35 @@ def scale_by_field_fc():
 
 #internal name: invert
 #scripting name: invert
-def _get_input_spec_invert(pin):
+def _get_input_spec_invert(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inputs_dict_invert = { 
         0 : inpin0
     }
-    return inputs_dict_invert[pin]
+    if pin is None:
+        return inputs_dict_invert
+    else:
+        return inputs_dict_invert[pin]
 
-def _get_output_spec_invert(pin):
+def _get_output_spec_invert(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_invert = { 
         0 : outpin0
     }
-    return outputs_dict_invert[pin]
+    if pin is None:
+        return outputs_dict_invert
+    else:
+        return outputs_dict_invert[pin]
 
 class _InputSpecInvert(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_invert(0), 0, op, -1) 
+        super().__init__(_get_input_spec_invert(), op)
+        self.field = Input(_get_input_spec_invert(0), 0, op, -1) 
 
 class _OutputSpecInvert(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_invert(0), 0, op) 
+        super().__init__(_get_output_spec_invert(), op)
+        self.field = Output(_get_output_spec_invert(0), 0, op) 
 
 class _Invert(_Operator):
     """Operator's description:
@@ -5217,10 +5630,8 @@ class _Invert(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("invert")
-        self._name = "invert"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecInvert(self._op)
-        self.outputs = _OutputSpecInvert(self._op)
+        self.inputs = _InputSpecInvert(self)
+        self.outputs = _OutputSpecInvert(self)
 
     def __str__(self):
         return """Specific operator object.

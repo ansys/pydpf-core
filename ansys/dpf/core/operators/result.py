@@ -1,6 +1,6 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -10,7 +10,7 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: EPPL1
 #scripting name: plastic_strain_principal_1
-def _get_input_spec_plastic_strain_principal_1(pin):
+def _get_input_spec_plastic_strain_principal_1(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -31,30 +31,46 @@ def _get_input_spec_plastic_strain_principal_1(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_principal_1[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_principal_1
+    else:
+        return inputs_dict_plastic_strain_principal_1[pin]
 
-def _get_output_spec_plastic_strain_principal_1(pin):
+def _get_output_spec_plastic_strain_principal_1(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_principal_1 = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_principal_1[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_principal_1
+    else:
+        return outputs_dict_plastic_strain_principal_1[pin]
 
 class _InputSpecPlasticStrainPrincipal1(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_principal_1(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_principal_1(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_principal_1(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_principal_1(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_principal_1(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_principal_1(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_principal_1(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_principal_1(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_principal_1(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_principal_1(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_principal_1(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_principal_1(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_principal_1(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_principal_1(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_principal_1(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_principal_1(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_principal_1(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_1(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_principal_1(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainPrincipal1(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_principal_1(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_principal_1(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_principal_1(0), 0, op) 
 
 class _PlasticStrainPrincipal1(_Operator):
     """Operator's description:
@@ -86,10 +102,8 @@ class _PlasticStrainPrincipal1(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPL1")
-        self._name = "EPPL1"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainPrincipal1(self._op)
-        self.outputs = _OutputSpecPlasticStrainPrincipal1(self._op)
+        self.inputs = _InputSpecPlasticStrainPrincipal1(self)
+        self.outputs = _OutputSpecPlasticStrainPrincipal1(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -136,7 +150,7 @@ def plastic_strain_principal_1():
 
 #internal name: EPPL3
 #scripting name: plastic_strain_principal_3
-def _get_input_spec_plastic_strain_principal_3(pin):
+def _get_input_spec_plastic_strain_principal_3(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -157,30 +171,46 @@ def _get_input_spec_plastic_strain_principal_3(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_principal_3[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_principal_3
+    else:
+        return inputs_dict_plastic_strain_principal_3[pin]
 
-def _get_output_spec_plastic_strain_principal_3(pin):
+def _get_output_spec_plastic_strain_principal_3(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_principal_3 = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_principal_3[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_principal_3
+    else:
+        return outputs_dict_plastic_strain_principal_3[pin]
 
 class _InputSpecPlasticStrainPrincipal3(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_principal_3(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_principal_3(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_principal_3(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_principal_3(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_principal_3(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_principal_3(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_principal_3(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_principal_3(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_principal_3(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_principal_3(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_principal_3(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_principal_3(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_principal_3(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_principal_3(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_principal_3(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_principal_3(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_principal_3(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_3(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_principal_3(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainPrincipal3(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_principal_3(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_principal_3(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_principal_3(0), 0, op) 
 
 class _PlasticStrainPrincipal3(_Operator):
     """Operator's description:
@@ -212,10 +242,8 @@ class _PlasticStrainPrincipal3(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPL3")
-        self._name = "EPPL3"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainPrincipal3(self._op)
-        self.outputs = _OutputSpecPlasticStrainPrincipal3(self._op)
+        self.inputs = _InputSpecPlasticStrainPrincipal3(self)
+        self.outputs = _OutputSpecPlasticStrainPrincipal3(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -262,30 +290,39 @@ def plastic_strain_principal_3():
 
 #internal name: RigidTransformationProvider
 #scripting name: rigid_transformation
-def _get_input_spec_rigid_transformation(pin):
+def _get_input_spec_rigid_transformation(pin = None):
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """streams (result file container) (optional)""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """if the stream is null then we need to get the file path from the data sources""")
     inputs_dict_rigid_transformation = { 
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_rigid_transformation[pin]
+    if pin is None:
+        return inputs_dict_rigid_transformation
+    else:
+        return inputs_dict_rigid_transformation[pin]
 
-def _get_output_spec_rigid_transformation(pin):
+def _get_output_spec_rigid_transformation(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_rigid_transformation = { 
         0 : outpin0
     }
-    return outputs_dict_rigid_transformation[pin]
+    if pin is None:
+        return outputs_dict_rigid_transformation
+    else:
+        return outputs_dict_rigid_transformation[pin]
 
 class _InputSpecRigidTransformation(_Inputs):
     def __init__(self, op: _Operator):
-        self.streams_container = _Input(_get_input_spec_rigid_transformation(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_rigid_transformation(4), 4, op, -1) 
+        super().__init__(_get_input_spec_rigid_transformation(), op)
+        self.streams_container = Input(_get_input_spec_rigid_transformation(3), 3, op, -1) 
+        super().__init__(_get_input_spec_rigid_transformation(), op)
+        self.data_sources = Input(_get_input_spec_rigid_transformation(4), 4, op, -1) 
 
 class _OutputSpecRigidTransformation(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_rigid_transformation(0), 0, op) 
+        super().__init__(_get_output_spec_rigid_transformation(), op)
+        self.fields_container = Output(_get_output_spec_rigid_transformation(0), 0, op) 
 
 class _RigidTransformation(_Operator):
     """Operator's description:
@@ -310,10 +347,8 @@ class _RigidTransformation(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("RigidTransformationProvider")
-        self._name = "RigidTransformationProvider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRigidTransformation(self._op)
-        self.outputs = _OutputSpecRigidTransformation(self._op)
+        self.inputs = _InputSpecRigidTransformation(self)
+        self.outputs = _OutputSpecRigidTransformation(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -353,7 +388,7 @@ def rigid_transformation():
 
 #internal name: EPELY
 #scripting name: elastic_strain_Y
-def _get_input_spec_elastic_strain_Y(pin):
+def _get_input_spec_elastic_strain_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -374,30 +409,46 @@ def _get_input_spec_elastic_strain_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_Y[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_Y
+    else:
+        return inputs_dict_elastic_strain_Y[pin]
 
-def _get_output_spec_elastic_strain_Y(pin):
+def _get_output_spec_elastic_strain_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_Y = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_Y[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_Y
+    else:
+        return outputs_dict_elastic_strain_Y[pin]
 
 class _InputSpecElasticStrainY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Y(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_Y(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_Y(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_Y(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_Y(0), 0, op) 
 
 class _ElasticStrainY(_Operator):
     """Operator's description:
@@ -429,10 +480,8 @@ class _ElasticStrainY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPELY")
-        self._name = "EPELY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainY(self._op)
-        self.outputs = _OutputSpecElasticStrainY(self._op)
+        self.inputs = _InputSpecElasticStrainY(self)
+        self.outputs = _OutputSpecElasticStrainY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -479,7 +528,7 @@ def elastic_strain_Y():
 
 #internal name: ElementalMass
 #scripting name: elemental_mass
-def _get_input_spec_elemental_mass(pin):
+def _get_input_spec_elemental_mass(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -500,30 +549,46 @@ def _get_input_spec_elemental_mass(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elemental_mass[pin]
+    if pin is None:
+        return inputs_dict_elemental_mass
+    else:
+        return inputs_dict_elemental_mass[pin]
 
-def _get_output_spec_elemental_mass(pin):
+def _get_output_spec_elemental_mass(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elemental_mass = { 
         0 : outpin0
     }
-    return outputs_dict_elemental_mass[pin]
+    if pin is None:
+        return outputs_dict_elemental_mass
+    else:
+        return outputs_dict_elemental_mass[pin]
 
 class _InputSpecElementalMass(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elemental_mass(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elemental_mass(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elemental_mass(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elemental_mass(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elemental_mass(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elemental_mass(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elemental_mass(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elemental_mass(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elemental_mass(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.time_scoping = Input(_get_input_spec_elemental_mass(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.mesh_scoping = Input(_get_input_spec_elemental_mass(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.fields_container = Input(_get_input_spec_elemental_mass(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.streams_container = Input(_get_input_spec_elemental_mass(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.data_sources = Input(_get_input_spec_elemental_mass(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elemental_mass(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.mesh = Input(_get_input_spec_elemental_mass(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.requested_location = Input(_get_input_spec_elemental_mass(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elemental_mass(), op)
+        self.domain_id = Input(_get_input_spec_elemental_mass(17), 17, op, -1) 
 
 class _OutputSpecElementalMass(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elemental_mass(0), 0, op) 
+        super().__init__(_get_output_spec_elemental_mass(), op)
+        self.fields_container = Output(_get_output_spec_elemental_mass(0), 0, op) 
 
 class _ElementalMass(_Operator):
     """Operator's description:
@@ -555,10 +620,8 @@ class _ElementalMass(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ElementalMass")
-        self._name = "ElementalMass"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementalMass(self._op)
-        self.outputs = _OutputSpecElementalMass(self._op)
+        self.inputs = _InputSpecElementalMass(self)
+        self.outputs = _OutputSpecElementalMass(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -605,7 +668,7 @@ def elemental_mass():
 
 #internal name: TF
 #scripting name: heat_flux
-def _get_input_spec_heat_flux(pin):
+def _get_input_spec_heat_flux(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -626,30 +689,46 @@ def _get_input_spec_heat_flux(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_heat_flux[pin]
+    if pin is None:
+        return inputs_dict_heat_flux
+    else:
+        return inputs_dict_heat_flux[pin]
 
-def _get_output_spec_heat_flux(pin):
+def _get_output_spec_heat_flux(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_heat_flux = { 
         0 : outpin0
     }
-    return outputs_dict_heat_flux[pin]
+    if pin is None:
+        return outputs_dict_heat_flux
+    else:
+        return outputs_dict_heat_flux[pin]
 
 class _InputSpecHeatFlux(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_heat_flux(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_heat_flux(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_heat_flux(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_heat_flux(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_heat_flux(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_heat_flux(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_heat_flux(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_heat_flux(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_heat_flux(17), 17, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.time_scoping = Input(_get_input_spec_heat_flux(0), 0, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.mesh_scoping = Input(_get_input_spec_heat_flux(1), 1, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.fields_container = Input(_get_input_spec_heat_flux(2), 2, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.streams_container = Input(_get_input_spec_heat_flux(3), 3, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.data_sources = Input(_get_input_spec_heat_flux(4), 4, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_heat_flux(5), 5, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.mesh = Input(_get_input_spec_heat_flux(7), 7, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.requested_location = Input(_get_input_spec_heat_flux(9), 9, op, -1) 
+        super().__init__(_get_input_spec_heat_flux(), op)
+        self.domain_id = Input(_get_input_spec_heat_flux(17), 17, op, -1) 
 
 class _OutputSpecHeatFlux(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_heat_flux(0), 0, op) 
+        super().__init__(_get_output_spec_heat_flux(), op)
+        self.fields_container = Output(_get_output_spec_heat_flux(0), 0, op) 
 
 class _HeatFlux(_Operator):
     """Operator's description:
@@ -681,10 +760,8 @@ class _HeatFlux(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("TF")
-        self._name = "TF"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecHeatFlux(self._op)
-        self.outputs = _OutputSpecHeatFlux(self._op)
+        self.inputs = _InputSpecHeatFlux(self)
+        self.outputs = _OutputSpecHeatFlux(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -731,7 +808,7 @@ def heat_flux():
 
 #internal name: ENG_CO
 #scripting name: co_energy
-def _get_input_spec_co_energy(pin):
+def _get_input_spec_co_energy(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -752,30 +829,46 @@ def _get_input_spec_co_energy(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_co_energy[pin]
+    if pin is None:
+        return inputs_dict_co_energy
+    else:
+        return inputs_dict_co_energy[pin]
 
-def _get_output_spec_co_energy(pin):
+def _get_output_spec_co_energy(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_co_energy = { 
         0 : outpin0
     }
-    return outputs_dict_co_energy[pin]
+    if pin is None:
+        return outputs_dict_co_energy
+    else:
+        return outputs_dict_co_energy[pin]
 
 class _InputSpecCoEnergy(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_co_energy(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_co_energy(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_co_energy(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_co_energy(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_co_energy(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_co_energy(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_co_energy(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_co_energy(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_co_energy(17), 17, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.time_scoping = Input(_get_input_spec_co_energy(0), 0, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.mesh_scoping = Input(_get_input_spec_co_energy(1), 1, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.fields_container = Input(_get_input_spec_co_energy(2), 2, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.streams_container = Input(_get_input_spec_co_energy(3), 3, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.data_sources = Input(_get_input_spec_co_energy(4), 4, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_co_energy(5), 5, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.mesh = Input(_get_input_spec_co_energy(7), 7, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.requested_location = Input(_get_input_spec_co_energy(9), 9, op, -1) 
+        super().__init__(_get_input_spec_co_energy(), op)
+        self.domain_id = Input(_get_input_spec_co_energy(17), 17, op, -1) 
 
 class _OutputSpecCoEnergy(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_co_energy(0), 0, op) 
+        super().__init__(_get_output_spec_co_energy(), op)
+        self.fields_container = Output(_get_output_spec_co_energy(0), 0, op) 
 
 class _CoEnergy(_Operator):
     """Operator's description:
@@ -807,10 +900,8 @@ class _CoEnergy(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_CO")
-        self._name = "ENG_CO"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCoEnergy(self._op)
-        self.outputs = _OutputSpecCoEnergy(self._op)
+        self.inputs = _InputSpecCoEnergy(self)
+        self.outputs = _OutputSpecCoEnergy(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -857,7 +948,7 @@ def co_energy():
 
 #internal name: EPELZ
 #scripting name: elastic_strain_Z
-def _get_input_spec_elastic_strain_Z(pin):
+def _get_input_spec_elastic_strain_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -878,30 +969,46 @@ def _get_input_spec_elastic_strain_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_Z[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_Z
+    else:
+        return inputs_dict_elastic_strain_Z[pin]
 
-def _get_output_spec_elastic_strain_Z(pin):
+def _get_output_spec_elastic_strain_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_Z = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_Z[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_Z
+    else:
+        return outputs_dict_elastic_strain_Z[pin]
 
 class _InputSpecElasticStrainZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_Z(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_Z(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_Z(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_Z(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_Z(0), 0, op) 
 
 class _ElasticStrainZ(_Operator):
     """Operator's description:
@@ -933,10 +1040,8 @@ class _ElasticStrainZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPELZ")
-        self._name = "EPELZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainZ(self._op)
-        self.outputs = _OutputSpecElasticStrainZ(self._op)
+        self.inputs = _InputSpecElasticStrainZ(self)
+        self.outputs = _OutputSpecElasticStrainZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -983,7 +1088,7 @@ def elastic_strain_Z():
 
 #internal name: S
 #scripting name: stress
-def _get_input_spec_stress(pin):
+def _get_input_spec_stress(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -1004,30 +1109,46 @@ def _get_input_spec_stress(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress[pin]
+    if pin is None:
+        return inputs_dict_stress
+    else:
+        return inputs_dict_stress[pin]
 
-def _get_output_spec_stress(pin):
+def _get_output_spec_stress(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress = { 
         0 : outpin0
     }
-    return outputs_dict_stress[pin]
+    if pin is None:
+        return outputs_dict_stress
+    else:
+        return outputs_dict_stress[pin]
 
 class _InputSpecStress(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.time_scoping = Input(_get_input_spec_stress(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.fields_container = Input(_get_input_spec_stress(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.streams_container = Input(_get_input_spec_stress(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.data_sources = Input(_get_input_spec_stress(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.mesh = Input(_get_input_spec_stress(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.requested_location = Input(_get_input_spec_stress(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress(), op)
+        self.domain_id = Input(_get_input_spec_stress(17), 17, op, -1) 
 
 class _OutputSpecStress(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress(0), 0, op) 
+        super().__init__(_get_output_spec_stress(), op)
+        self.fields_container = Output(_get_output_spec_stress(0), 0, op) 
 
 class _Stress(_Operator):
     """Operator's description:
@@ -1059,10 +1180,8 @@ class _Stress(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("S")
-        self._name = "S"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStress(self._op)
-        self.outputs = _OutputSpecStress(self._op)
+        self.inputs = _InputSpecStress(self)
+        self.outputs = _OutputSpecStress(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1109,7 +1228,7 @@ def stress():
 
 #internal name: SX
 #scripting name: stress_X
-def _get_input_spec_stress_X(pin):
+def _get_input_spec_stress_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -1130,30 +1249,46 @@ def _get_input_spec_stress_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_X[pin]
+    if pin is None:
+        return inputs_dict_stress_X
+    else:
+        return inputs_dict_stress_X[pin]
 
-def _get_output_spec_stress_X(pin):
+def _get_output_spec_stress_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_X = { 
         0 : outpin0
     }
-    return outputs_dict_stress_X[pin]
+    if pin is None:
+        return outputs_dict_stress_X
+    else:
+        return outputs_dict_stress_X[pin]
 
 class _InputSpecStressX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.time_scoping = Input(_get_input_spec_stress_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.fields_container = Input(_get_input_spec_stress_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.streams_container = Input(_get_input_spec_stress_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.data_sources = Input(_get_input_spec_stress_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.mesh = Input(_get_input_spec_stress_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.requested_location = Input(_get_input_spec_stress_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_X(), op)
+        self.domain_id = Input(_get_input_spec_stress_X(17), 17, op, -1) 
 
 class _OutputSpecStressX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_X(0), 0, op) 
+        super().__init__(_get_output_spec_stress_X(), op)
+        self.fields_container = Output(_get_output_spec_stress_X(0), 0, op) 
 
 class _StressX(_Operator):
     """Operator's description:
@@ -1185,10 +1320,8 @@ class _StressX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("SX")
-        self._name = "SX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressX(self._op)
-        self.outputs = _OutputSpecStressX(self._op)
+        self.inputs = _InputSpecStressX(self)
+        self.outputs = _OutputSpecStressX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1235,7 +1368,7 @@ def stress_X():
 
 #internal name: SY
 #scripting name: stress_Y
-def _get_input_spec_stress_Y(pin):
+def _get_input_spec_stress_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -1256,30 +1389,46 @@ def _get_input_spec_stress_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_Y[pin]
+    if pin is None:
+        return inputs_dict_stress_Y
+    else:
+        return inputs_dict_stress_Y[pin]
 
-def _get_output_spec_stress_Y(pin):
+def _get_output_spec_stress_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_Y = { 
         0 : outpin0
     }
-    return outputs_dict_stress_Y[pin]
+    if pin is None:
+        return outputs_dict_stress_Y
+    else:
+        return outputs_dict_stress_Y[pin]
 
 class _InputSpecStressY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.time_scoping = Input(_get_input_spec_stress_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.fields_container = Input(_get_input_spec_stress_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.streams_container = Input(_get_input_spec_stress_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.data_sources = Input(_get_input_spec_stress_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.mesh = Input(_get_input_spec_stress_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.requested_location = Input(_get_input_spec_stress_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_Y(), op)
+        self.domain_id = Input(_get_input_spec_stress_Y(17), 17, op, -1) 
 
 class _OutputSpecStressY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_Y(0), 0, op) 
+        super().__init__(_get_output_spec_stress_Y(), op)
+        self.fields_container = Output(_get_output_spec_stress_Y(0), 0, op) 
 
 class _StressY(_Operator):
     """Operator's description:
@@ -1311,10 +1460,8 @@ class _StressY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("SY")
-        self._name = "SY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressY(self._op)
-        self.outputs = _OutputSpecStressY(self._op)
+        self.inputs = _InputSpecStressY(self)
+        self.outputs = _OutputSpecStressY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1361,7 +1508,7 @@ def stress_Y():
 
 #internal name: SZ
 #scripting name: stress_Z
-def _get_input_spec_stress_Z(pin):
+def _get_input_spec_stress_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -1382,30 +1529,46 @@ def _get_input_spec_stress_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_Z[pin]
+    if pin is None:
+        return inputs_dict_stress_Z
+    else:
+        return inputs_dict_stress_Z[pin]
 
-def _get_output_spec_stress_Z(pin):
+def _get_output_spec_stress_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_Z = { 
         0 : outpin0
     }
-    return outputs_dict_stress_Z[pin]
+    if pin is None:
+        return outputs_dict_stress_Z
+    else:
+        return outputs_dict_stress_Z[pin]
 
 class _InputSpecStressZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.time_scoping = Input(_get_input_spec_stress_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.fields_container = Input(_get_input_spec_stress_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.streams_container = Input(_get_input_spec_stress_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.data_sources = Input(_get_input_spec_stress_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.mesh = Input(_get_input_spec_stress_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.requested_location = Input(_get_input_spec_stress_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_Z(), op)
+        self.domain_id = Input(_get_input_spec_stress_Z(17), 17, op, -1) 
 
 class _OutputSpecStressZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_Z(0), 0, op) 
+        super().__init__(_get_output_spec_stress_Z(), op)
+        self.fields_container = Output(_get_output_spec_stress_Z(0), 0, op) 
 
 class _StressZ(_Operator):
     """Operator's description:
@@ -1437,10 +1600,8 @@ class _StressZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("SZ")
-        self._name = "SZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressZ(self._op)
-        self.outputs = _OutputSpecStressZ(self._op)
+        self.inputs = _InputSpecStressZ(self)
+        self.outputs = _OutputSpecStressZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1487,7 +1648,7 @@ def stress_Z():
 
 #internal name: SXY
 #scripting name: stress_XY
-def _get_input_spec_stress_XY(pin):
+def _get_input_spec_stress_XY(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -1508,30 +1669,46 @@ def _get_input_spec_stress_XY(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_XY[pin]
+    if pin is None:
+        return inputs_dict_stress_XY
+    else:
+        return inputs_dict_stress_XY[pin]
 
-def _get_output_spec_stress_XY(pin):
+def _get_output_spec_stress_XY(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_XY = { 
         0 : outpin0
     }
-    return outputs_dict_stress_XY[pin]
+    if pin is None:
+        return outputs_dict_stress_XY
+    else:
+        return outputs_dict_stress_XY[pin]
 
 class _InputSpecStressXY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_XY(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_XY(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_XY(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_XY(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_XY(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_XY(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_XY(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_XY(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_XY(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.time_scoping = Input(_get_input_spec_stress_XY(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_XY(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.fields_container = Input(_get_input_spec_stress_XY(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.streams_container = Input(_get_input_spec_stress_XY(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.data_sources = Input(_get_input_spec_stress_XY(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_XY(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.mesh = Input(_get_input_spec_stress_XY(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.requested_location = Input(_get_input_spec_stress_XY(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_XY(), op)
+        self.domain_id = Input(_get_input_spec_stress_XY(17), 17, op, -1) 
 
 class _OutputSpecStressXY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_XY(0), 0, op) 
+        super().__init__(_get_output_spec_stress_XY(), op)
+        self.fields_container = Output(_get_output_spec_stress_XY(0), 0, op) 
 
 class _StressXY(_Operator):
     """Operator's description:
@@ -1563,10 +1740,8 @@ class _StressXY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("SXY")
-        self._name = "SXY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressXY(self._op)
-        self.outputs = _OutputSpecStressXY(self._op)
+        self.inputs = _InputSpecStressXY(self)
+        self.outputs = _OutputSpecStressXY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1613,7 +1788,7 @@ def stress_XY():
 
 #internal name: SYZ
 #scripting name: stress_YZ
-def _get_input_spec_stress_YZ(pin):
+def _get_input_spec_stress_YZ(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -1634,30 +1809,46 @@ def _get_input_spec_stress_YZ(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_YZ[pin]
+    if pin is None:
+        return inputs_dict_stress_YZ
+    else:
+        return inputs_dict_stress_YZ[pin]
 
-def _get_output_spec_stress_YZ(pin):
+def _get_output_spec_stress_YZ(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_YZ = { 
         0 : outpin0
     }
-    return outputs_dict_stress_YZ[pin]
+    if pin is None:
+        return outputs_dict_stress_YZ
+    else:
+        return outputs_dict_stress_YZ[pin]
 
 class _InputSpecStressYZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_YZ(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_YZ(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_YZ(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_YZ(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_YZ(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_YZ(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_YZ(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_YZ(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_YZ(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.time_scoping = Input(_get_input_spec_stress_YZ(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_YZ(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.fields_container = Input(_get_input_spec_stress_YZ(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.streams_container = Input(_get_input_spec_stress_YZ(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.data_sources = Input(_get_input_spec_stress_YZ(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_YZ(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.mesh = Input(_get_input_spec_stress_YZ(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.requested_location = Input(_get_input_spec_stress_YZ(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_YZ(), op)
+        self.domain_id = Input(_get_input_spec_stress_YZ(17), 17, op, -1) 
 
 class _OutputSpecStressYZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_YZ(0), 0, op) 
+        super().__init__(_get_output_spec_stress_YZ(), op)
+        self.fields_container = Output(_get_output_spec_stress_YZ(0), 0, op) 
 
 class _StressYZ(_Operator):
     """Operator's description:
@@ -1689,10 +1880,8 @@ class _StressYZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("SYZ")
-        self._name = "SYZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressYZ(self._op)
-        self.outputs = _OutputSpecStressYZ(self._op)
+        self.inputs = _InputSpecStressYZ(self)
+        self.outputs = _OutputSpecStressYZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1739,7 +1928,7 @@ def stress_YZ():
 
 #internal name: ModalBasis
 #scripting name: modal_basis
-def _get_input_spec_modal_basis(pin):
+def _get_input_spec_modal_basis(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -1760,30 +1949,46 @@ def _get_input_spec_modal_basis(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_modal_basis[pin]
+    if pin is None:
+        return inputs_dict_modal_basis
+    else:
+        return inputs_dict_modal_basis[pin]
 
-def _get_output_spec_modal_basis(pin):
+def _get_output_spec_modal_basis(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_modal_basis = { 
         0 : outpin0
     }
-    return outputs_dict_modal_basis[pin]
+    if pin is None:
+        return outputs_dict_modal_basis
+    else:
+        return outputs_dict_modal_basis[pin]
 
 class _InputSpecModalBasis(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_modal_basis(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_modal_basis(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_modal_basis(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_modal_basis(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_modal_basis(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_modal_basis(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_modal_basis(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_modal_basis(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_modal_basis(17), 17, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.time_scoping = Input(_get_input_spec_modal_basis(0), 0, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.mesh_scoping = Input(_get_input_spec_modal_basis(1), 1, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.fields_container = Input(_get_input_spec_modal_basis(2), 2, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.streams_container = Input(_get_input_spec_modal_basis(3), 3, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.data_sources = Input(_get_input_spec_modal_basis(4), 4, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_modal_basis(5), 5, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.mesh = Input(_get_input_spec_modal_basis(7), 7, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.requested_location = Input(_get_input_spec_modal_basis(9), 9, op, -1) 
+        super().__init__(_get_input_spec_modal_basis(), op)
+        self.domain_id = Input(_get_input_spec_modal_basis(17), 17, op, -1) 
 
 class _OutputSpecModalBasis(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_modal_basis(0), 0, op) 
+        super().__init__(_get_output_spec_modal_basis(), op)
+        self.fields_container = Output(_get_output_spec_modal_basis(0), 0, op) 
 
 class _ModalBasis(_Operator):
     """Operator's description:
@@ -1815,10 +2020,8 @@ class _ModalBasis(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ModalBasis")
-        self._name = "ModalBasis"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecModalBasis(self._op)
-        self.outputs = _OutputSpecModalBasis(self._op)
+        self.inputs = _InputSpecModalBasis(self)
+        self.outputs = _OutputSpecModalBasis(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1865,7 +2068,7 @@ def modal_basis():
 
 #internal name: SXZ
 #scripting name: stress_XZ
-def _get_input_spec_stress_XZ(pin):
+def _get_input_spec_stress_XZ(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -1886,30 +2089,46 @@ def _get_input_spec_stress_XZ(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_XZ[pin]
+    if pin is None:
+        return inputs_dict_stress_XZ
+    else:
+        return inputs_dict_stress_XZ[pin]
 
-def _get_output_spec_stress_XZ(pin):
+def _get_output_spec_stress_XZ(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_XZ = { 
         0 : outpin0
     }
-    return outputs_dict_stress_XZ[pin]
+    if pin is None:
+        return outputs_dict_stress_XZ
+    else:
+        return outputs_dict_stress_XZ[pin]
 
 class _InputSpecStressXZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_XZ(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_XZ(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_XZ(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_XZ(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_XZ(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_XZ(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_XZ(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_XZ(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_XZ(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.time_scoping = Input(_get_input_spec_stress_XZ(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_XZ(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.fields_container = Input(_get_input_spec_stress_XZ(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.streams_container = Input(_get_input_spec_stress_XZ(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.data_sources = Input(_get_input_spec_stress_XZ(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_XZ(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.mesh = Input(_get_input_spec_stress_XZ(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.requested_location = Input(_get_input_spec_stress_XZ(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_XZ(), op)
+        self.domain_id = Input(_get_input_spec_stress_XZ(17), 17, op, -1) 
 
 class _OutputSpecStressXZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_XZ(0), 0, op) 
+        super().__init__(_get_output_spec_stress_XZ(), op)
+        self.fields_container = Output(_get_output_spec_stress_XZ(0), 0, op) 
 
 class _StressXZ(_Operator):
     """Operator's description:
@@ -1941,10 +2160,8 @@ class _StressXZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("SXZ")
-        self._name = "SXZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressXZ(self._op)
-        self.outputs = _OutputSpecStressXZ(self._op)
+        self.inputs = _InputSpecStressXZ(self)
+        self.outputs = _OutputSpecStressXZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1991,7 +2208,7 @@ def stress_XZ():
 
 #internal name: S1
 #scripting name: stress_principal_1
-def _get_input_spec_stress_principal_1(pin):
+def _get_input_spec_stress_principal_1(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2012,30 +2229,46 @@ def _get_input_spec_stress_principal_1(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_principal_1[pin]
+    if pin is None:
+        return inputs_dict_stress_principal_1
+    else:
+        return inputs_dict_stress_principal_1[pin]
 
-def _get_output_spec_stress_principal_1(pin):
+def _get_output_spec_stress_principal_1(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_principal_1 = { 
         0 : outpin0
     }
-    return outputs_dict_stress_principal_1[pin]
+    if pin is None:
+        return outputs_dict_stress_principal_1
+    else:
+        return outputs_dict_stress_principal_1[pin]
 
 class _InputSpecStressPrincipal1(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_principal_1(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_principal_1(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_principal_1(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_principal_1(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_principal_1(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_principal_1(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_principal_1(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_principal_1(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_principal_1(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.time_scoping = Input(_get_input_spec_stress_principal_1(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_principal_1(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.fields_container = Input(_get_input_spec_stress_principal_1(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.streams_container = Input(_get_input_spec_stress_principal_1(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.data_sources = Input(_get_input_spec_stress_principal_1(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_principal_1(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.mesh = Input(_get_input_spec_stress_principal_1(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.requested_location = Input(_get_input_spec_stress_principal_1(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_1(), op)
+        self.domain_id = Input(_get_input_spec_stress_principal_1(17), 17, op, -1) 
 
 class _OutputSpecStressPrincipal1(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_principal_1(0), 0, op) 
+        super().__init__(_get_output_spec_stress_principal_1(), op)
+        self.fields_container = Output(_get_output_spec_stress_principal_1(0), 0, op) 
 
 class _StressPrincipal1(_Operator):
     """Operator's description:
@@ -2067,10 +2300,8 @@ class _StressPrincipal1(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("S1")
-        self._name = "S1"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressPrincipal1(self._op)
-        self.outputs = _OutputSpecStressPrincipal1(self._op)
+        self.inputs = _InputSpecStressPrincipal1(self)
+        self.outputs = _OutputSpecStressPrincipal1(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2117,7 +2348,7 @@ def stress_principal_1():
 
 #internal name: S2
 #scripting name: stress_principal_2
-def _get_input_spec_stress_principal_2(pin):
+def _get_input_spec_stress_principal_2(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2138,30 +2369,46 @@ def _get_input_spec_stress_principal_2(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_principal_2[pin]
+    if pin is None:
+        return inputs_dict_stress_principal_2
+    else:
+        return inputs_dict_stress_principal_2[pin]
 
-def _get_output_spec_stress_principal_2(pin):
+def _get_output_spec_stress_principal_2(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_principal_2 = { 
         0 : outpin0
     }
-    return outputs_dict_stress_principal_2[pin]
+    if pin is None:
+        return outputs_dict_stress_principal_2
+    else:
+        return outputs_dict_stress_principal_2[pin]
 
 class _InputSpecStressPrincipal2(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_principal_2(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_principal_2(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_principal_2(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_principal_2(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_principal_2(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_principal_2(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_principal_2(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_principal_2(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_principal_2(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.time_scoping = Input(_get_input_spec_stress_principal_2(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_principal_2(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.fields_container = Input(_get_input_spec_stress_principal_2(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.streams_container = Input(_get_input_spec_stress_principal_2(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.data_sources = Input(_get_input_spec_stress_principal_2(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_principal_2(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.mesh = Input(_get_input_spec_stress_principal_2(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.requested_location = Input(_get_input_spec_stress_principal_2(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_2(), op)
+        self.domain_id = Input(_get_input_spec_stress_principal_2(17), 17, op, -1) 
 
 class _OutputSpecStressPrincipal2(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_principal_2(0), 0, op) 
+        super().__init__(_get_output_spec_stress_principal_2(), op)
+        self.fields_container = Output(_get_output_spec_stress_principal_2(0), 0, op) 
 
 class _StressPrincipal2(_Operator):
     """Operator's description:
@@ -2193,10 +2440,8 @@ class _StressPrincipal2(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("S2")
-        self._name = "S2"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressPrincipal2(self._op)
-        self.outputs = _OutputSpecStressPrincipal2(self._op)
+        self.inputs = _InputSpecStressPrincipal2(self)
+        self.outputs = _OutputSpecStressPrincipal2(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2243,7 +2488,7 @@ def stress_principal_2():
 
 #internal name: S3
 #scripting name: stress_principal_3
-def _get_input_spec_stress_principal_3(pin):
+def _get_input_spec_stress_principal_3(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2264,30 +2509,46 @@ def _get_input_spec_stress_principal_3(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_principal_3[pin]
+    if pin is None:
+        return inputs_dict_stress_principal_3
+    else:
+        return inputs_dict_stress_principal_3[pin]
 
-def _get_output_spec_stress_principal_3(pin):
+def _get_output_spec_stress_principal_3(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_principal_3 = { 
         0 : outpin0
     }
-    return outputs_dict_stress_principal_3[pin]
+    if pin is None:
+        return outputs_dict_stress_principal_3
+    else:
+        return outputs_dict_stress_principal_3[pin]
 
 class _InputSpecStressPrincipal3(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_principal_3(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_principal_3(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_principal_3(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_principal_3(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_principal_3(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_principal_3(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_principal_3(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_principal_3(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_principal_3(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.time_scoping = Input(_get_input_spec_stress_principal_3(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_principal_3(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.fields_container = Input(_get_input_spec_stress_principal_3(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.streams_container = Input(_get_input_spec_stress_principal_3(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.data_sources = Input(_get_input_spec_stress_principal_3(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_principal_3(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.mesh = Input(_get_input_spec_stress_principal_3(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.requested_location = Input(_get_input_spec_stress_principal_3(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_principal_3(), op)
+        self.domain_id = Input(_get_input_spec_stress_principal_3(17), 17, op, -1) 
 
 class _OutputSpecStressPrincipal3(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_principal_3(0), 0, op) 
+        super().__init__(_get_output_spec_stress_principal_3(), op)
+        self.fields_container = Output(_get_output_spec_stress_principal_3(0), 0, op) 
 
 class _StressPrincipal3(_Operator):
     """Operator's description:
@@ -2319,10 +2580,8 @@ class _StressPrincipal3(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("S3")
-        self._name = "S3"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressPrincipal3(self._op)
-        self.outputs = _OutputSpecStressPrincipal3(self._op)
+        self.inputs = _InputSpecStressPrincipal3(self)
+        self.outputs = _OutputSpecStressPrincipal3(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2369,7 +2628,7 @@ def stress_principal_3():
 
 #internal name: EPEL
 #scripting name: elastic_strain
-def _get_input_spec_elastic_strain(pin):
+def _get_input_spec_elastic_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -2390,30 +2649,46 @@ def _get_input_spec_elastic_strain(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain
+    else:
+        return inputs_dict_elastic_strain[pin]
 
-def _get_output_spec_elastic_strain(pin):
+def _get_output_spec_elastic_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain
+    else:
+        return outputs_dict_elastic_strain[pin]
 
 class _InputSpecElasticStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain(17), 17, op, -1) 
 
 class _OutputSpecElasticStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain(0), 0, op) 
 
 class _ElasticStrain(_Operator):
     """Operator's description:
@@ -2445,10 +2720,8 @@ class _ElasticStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPEL")
-        self._name = "EPEL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrain(self._op)
-        self.outputs = _OutputSpecElasticStrain(self._op)
+        self.inputs = _InputSpecElasticStrain(self)
+        self.outputs = _OutputSpecElasticStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2495,7 +2768,7 @@ def elastic_strain():
 
 #internal name: EPELX
 #scripting name: elastic_strain_X
-def _get_input_spec_elastic_strain_X(pin):
+def _get_input_spec_elastic_strain_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2516,30 +2789,46 @@ def _get_input_spec_elastic_strain_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_X[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_X
+    else:
+        return inputs_dict_elastic_strain_X[pin]
 
-def _get_output_spec_elastic_strain_X(pin):
+def _get_output_spec_elastic_strain_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_X = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_X[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_X
+    else:
+        return outputs_dict_elastic_strain_X[pin]
 
 class _InputSpecElasticStrainX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_X(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_X(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_X(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_X(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_X(0), 0, op) 
 
 class _ElasticStrainX(_Operator):
     """Operator's description:
@@ -2571,10 +2860,8 @@ class _ElasticStrainX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPELX")
-        self._name = "EPELX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainX(self._op)
-        self.outputs = _OutputSpecElasticStrainX(self._op)
+        self.inputs = _InputSpecElasticStrainX(self)
+        self.outputs = _OutputSpecElasticStrainX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2621,7 +2908,7 @@ def elastic_strain_X():
 
 #internal name: EPELXY
 #scripting name: elastic_strain_XY
-def _get_input_spec_elastic_strain_XY(pin):
+def _get_input_spec_elastic_strain_XY(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2642,30 +2929,46 @@ def _get_input_spec_elastic_strain_XY(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_XY[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_XY
+    else:
+        return inputs_dict_elastic_strain_XY[pin]
 
-def _get_output_spec_elastic_strain_XY(pin):
+def _get_output_spec_elastic_strain_XY(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_XY = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_XY[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_XY
+    else:
+        return outputs_dict_elastic_strain_XY[pin]
 
 class _InputSpecElasticStrainXY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_XY(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_XY(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_XY(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_XY(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_XY(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_XY(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_XY(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_XY(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_XY(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_XY(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_XY(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_XY(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_XY(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_XY(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_XY(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_XY(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_XY(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XY(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_XY(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainXY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_XY(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_XY(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_XY(0), 0, op) 
 
 class _ElasticStrainXY(_Operator):
     """Operator's description:
@@ -2697,10 +3000,8 @@ class _ElasticStrainXY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPELXY")
-        self._name = "EPELXY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainXY(self._op)
-        self.outputs = _OutputSpecElasticStrainXY(self._op)
+        self.inputs = _InputSpecElasticStrainXY(self)
+        self.outputs = _OutputSpecElasticStrainXY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2747,7 +3048,7 @@ def elastic_strain_XY():
 
 #internal name: EPELYZ
 #scripting name: elastic_strain_YZ
-def _get_input_spec_elastic_strain_YZ(pin):
+def _get_input_spec_elastic_strain_YZ(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2768,30 +3069,46 @@ def _get_input_spec_elastic_strain_YZ(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_YZ[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_YZ
+    else:
+        return inputs_dict_elastic_strain_YZ[pin]
 
-def _get_output_spec_elastic_strain_YZ(pin):
+def _get_output_spec_elastic_strain_YZ(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_YZ = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_YZ[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_YZ
+    else:
+        return outputs_dict_elastic_strain_YZ[pin]
 
 class _InputSpecElasticStrainYZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_YZ(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_YZ(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_YZ(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_YZ(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_YZ(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_YZ(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_YZ(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_YZ(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_YZ(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_YZ(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_YZ(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_YZ(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_YZ(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_YZ(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_YZ(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_YZ(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_YZ(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_YZ(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_YZ(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainYZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_YZ(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_YZ(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_YZ(0), 0, op) 
 
 class _ElasticStrainYZ(_Operator):
     """Operator's description:
@@ -2823,10 +3140,8 @@ class _ElasticStrainYZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPELYZ")
-        self._name = "EPELYZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainYZ(self._op)
-        self.outputs = _OutputSpecElasticStrainYZ(self._op)
+        self.inputs = _InputSpecElasticStrainYZ(self)
+        self.outputs = _OutputSpecElasticStrainYZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2873,7 +3188,7 @@ def elastic_strain_YZ():
 
 #internal name: EPELXZ
 #scripting name: elastic_strain_XZ
-def _get_input_spec_elastic_strain_XZ(pin):
+def _get_input_spec_elastic_strain_XZ(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -2894,30 +3209,46 @@ def _get_input_spec_elastic_strain_XZ(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_XZ[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_XZ
+    else:
+        return inputs_dict_elastic_strain_XZ[pin]
 
-def _get_output_spec_elastic_strain_XZ(pin):
+def _get_output_spec_elastic_strain_XZ(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_XZ = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_XZ[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_XZ
+    else:
+        return outputs_dict_elastic_strain_XZ[pin]
 
 class _InputSpecElasticStrainXZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_XZ(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_XZ(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_XZ(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_XZ(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_XZ(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_XZ(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_XZ(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_XZ(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_XZ(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_XZ(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_XZ(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_XZ(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_XZ(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_XZ(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_XZ(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_XZ(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_XZ(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_XZ(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_XZ(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainXZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_XZ(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_XZ(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_XZ(0), 0, op) 
 
 class _ElasticStrainXZ(_Operator):
     """Operator's description:
@@ -2949,10 +3280,8 @@ class _ElasticStrainXZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPELXZ")
-        self._name = "EPELXZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainXZ(self._op)
-        self.outputs = _OutputSpecElasticStrainXZ(self._op)
+        self.inputs = _InputSpecElasticStrainXZ(self)
+        self.outputs = _OutputSpecElasticStrainXZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -2999,7 +3328,7 @@ def elastic_strain_XZ():
 
 #internal name: EPEL1
 #scripting name: elastic_strain_principal_1
-def _get_input_spec_elastic_strain_principal_1(pin):
+def _get_input_spec_elastic_strain_principal_1(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -3020,30 +3349,46 @@ def _get_input_spec_elastic_strain_principal_1(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_principal_1[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_principal_1
+    else:
+        return inputs_dict_elastic_strain_principal_1[pin]
 
-def _get_output_spec_elastic_strain_principal_1(pin):
+def _get_output_spec_elastic_strain_principal_1(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_principal_1 = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_principal_1[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_principal_1
+    else:
+        return outputs_dict_elastic_strain_principal_1[pin]
 
 class _InputSpecElasticStrainPrincipal1(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_principal_1(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_principal_1(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_principal_1(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_principal_1(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_principal_1(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_principal_1(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_principal_1(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_principal_1(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_principal_1(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_principal_1(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_principal_1(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_principal_1(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_principal_1(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_principal_1(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_principal_1(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_principal_1(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_principal_1(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_1(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_principal_1(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainPrincipal1(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_principal_1(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_principal_1(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_principal_1(0), 0, op) 
 
 class _ElasticStrainPrincipal1(_Operator):
     """Operator's description:
@@ -3075,10 +3420,8 @@ class _ElasticStrainPrincipal1(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPEL1")
-        self._name = "EPEL1"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainPrincipal1(self._op)
-        self.outputs = _OutputSpecElasticStrainPrincipal1(self._op)
+        self.inputs = _InputSpecElasticStrainPrincipal1(self)
+        self.outputs = _OutputSpecElasticStrainPrincipal1(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3125,7 +3468,7 @@ def elastic_strain_principal_1():
 
 #internal name: EPEL2
 #scripting name: elastic_strain_principal_2
-def _get_input_spec_elastic_strain_principal_2(pin):
+def _get_input_spec_elastic_strain_principal_2(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -3146,30 +3489,46 @@ def _get_input_spec_elastic_strain_principal_2(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_principal_2[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_principal_2
+    else:
+        return inputs_dict_elastic_strain_principal_2[pin]
 
-def _get_output_spec_elastic_strain_principal_2(pin):
+def _get_output_spec_elastic_strain_principal_2(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_principal_2 = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_principal_2[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_principal_2
+    else:
+        return outputs_dict_elastic_strain_principal_2[pin]
 
 class _InputSpecElasticStrainPrincipal2(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_principal_2(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_principal_2(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_principal_2(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_principal_2(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_principal_2(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_principal_2(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_principal_2(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_principal_2(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_principal_2(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_principal_2(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_principal_2(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_principal_2(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_principal_2(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_principal_2(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_principal_2(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_principal_2(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_principal_2(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_2(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_principal_2(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainPrincipal2(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_principal_2(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_principal_2(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_principal_2(0), 0, op) 
 
 class _ElasticStrainPrincipal2(_Operator):
     """Operator's description:
@@ -3201,10 +3560,8 @@ class _ElasticStrainPrincipal2(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPEL2")
-        self._name = "EPEL2"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainPrincipal2(self._op)
-        self.outputs = _OutputSpecElasticStrainPrincipal2(self._op)
+        self.inputs = _InputSpecElasticStrainPrincipal2(self)
+        self.outputs = _OutputSpecElasticStrainPrincipal2(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3251,7 +3608,7 @@ def elastic_strain_principal_2():
 
 #internal name: EPEL3
 #scripting name: elastic_strain_principal_3
-def _get_input_spec_elastic_strain_principal_3(pin):
+def _get_input_spec_elastic_strain_principal_3(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -3272,30 +3629,46 @@ def _get_input_spec_elastic_strain_principal_3(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_principal_3[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_principal_3
+    else:
+        return inputs_dict_elastic_strain_principal_3[pin]
 
-def _get_output_spec_elastic_strain_principal_3(pin):
+def _get_output_spec_elastic_strain_principal_3(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_principal_3 = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_principal_3[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_principal_3
+    else:
+        return outputs_dict_elastic_strain_principal_3[pin]
 
 class _InputSpecElasticStrainPrincipal3(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_principal_3(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_principal_3(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_principal_3(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_principal_3(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_principal_3(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_principal_3(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_principal_3(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_principal_3(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_principal_3(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_principal_3(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_principal_3(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_principal_3(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_principal_3(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_principal_3(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_principal_3(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_principal_3(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_principal_3(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_principal_3(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_principal_3(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainPrincipal3(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_principal_3(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_principal_3(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_principal_3(0), 0, op) 
 
 class _ElasticStrainPrincipal3(_Operator):
     """Operator's description:
@@ -3327,10 +3700,8 @@ class _ElasticStrainPrincipal3(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPEL3")
-        self._name = "EPEL3"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainPrincipal3(self._op)
-        self.outputs = _OutputSpecElasticStrainPrincipal3(self._op)
+        self.inputs = _InputSpecElasticStrainPrincipal3(self)
+        self.outputs = _OutputSpecElasticStrainPrincipal3(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3377,7 +3748,7 @@ def elastic_strain_principal_3():
 
 #internal name: EPPL
 #scripting name: plastic_strain
-def _get_input_spec_plastic_strain(pin):
+def _get_input_spec_plastic_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -3398,30 +3769,46 @@ def _get_input_spec_plastic_strain(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain
+    else:
+        return inputs_dict_plastic_strain[pin]
 
-def _get_output_spec_plastic_strain(pin):
+def _get_output_spec_plastic_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain
+    else:
+        return outputs_dict_plastic_strain[pin]
 
 class _InputSpecPlasticStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain(0), 0, op) 
 
 class _PlasticStrain(_Operator):
     """Operator's description:
@@ -3453,10 +3840,8 @@ class _PlasticStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPL")
-        self._name = "EPPL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrain(self._op)
-        self.outputs = _OutputSpecPlasticStrain(self._op)
+        self.inputs = _InputSpecPlasticStrain(self)
+        self.outputs = _OutputSpecPlasticStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3503,7 +3888,7 @@ def plastic_strain():
 
 #internal name: EPPLX
 #scripting name: plastic_strain_X
-def _get_input_spec_plastic_strain_X(pin):
+def _get_input_spec_plastic_strain_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -3524,30 +3909,46 @@ def _get_input_spec_plastic_strain_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_X[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_X
+    else:
+        return inputs_dict_plastic_strain_X[pin]
 
-def _get_output_spec_plastic_strain_X(pin):
+def _get_output_spec_plastic_strain_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_X = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_X[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_X
+    else:
+        return outputs_dict_plastic_strain_X[pin]
 
 class _InputSpecPlasticStrainX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_X(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_X(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_X(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_X(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_X(0), 0, op) 
 
 class _PlasticStrainX(_Operator):
     """Operator's description:
@@ -3579,10 +3980,8 @@ class _PlasticStrainX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPLX")
-        self._name = "EPPLX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainX(self._op)
-        self.outputs = _OutputSpecPlasticStrainX(self._op)
+        self.inputs = _InputSpecPlasticStrainX(self)
+        self.outputs = _OutputSpecPlasticStrainX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3629,7 +4028,7 @@ def plastic_strain_X():
 
 #internal name: EPPLY
 #scripting name: plastic_strain_Y
-def _get_input_spec_plastic_strain_Y(pin):
+def _get_input_spec_plastic_strain_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -3650,30 +4049,46 @@ def _get_input_spec_plastic_strain_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_Y[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_Y
+    else:
+        return inputs_dict_plastic_strain_Y[pin]
 
-def _get_output_spec_plastic_strain_Y(pin):
+def _get_output_spec_plastic_strain_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_Y = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_Y[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_Y
+    else:
+        return outputs_dict_plastic_strain_Y[pin]
 
 class _InputSpecPlasticStrainY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Y(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_Y(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_Y(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_Y(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_Y(0), 0, op) 
 
 class _PlasticStrainY(_Operator):
     """Operator's description:
@@ -3705,10 +4120,8 @@ class _PlasticStrainY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPLY")
-        self._name = "EPPLY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainY(self._op)
-        self.outputs = _OutputSpecPlasticStrainY(self._op)
+        self.inputs = _InputSpecPlasticStrainY(self)
+        self.outputs = _OutputSpecPlasticStrainY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3755,7 +4168,7 @@ def plastic_strain_Y():
 
 #internal name: EPPLZ
 #scripting name: plastic_strain_Z
-def _get_input_spec_plastic_strain_Z(pin):
+def _get_input_spec_plastic_strain_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -3776,30 +4189,46 @@ def _get_input_spec_plastic_strain_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_Z[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_Z
+    else:
+        return inputs_dict_plastic_strain_Z[pin]
 
-def _get_output_spec_plastic_strain_Z(pin):
+def _get_output_spec_plastic_strain_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_Z = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_Z[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_Z
+    else:
+        return outputs_dict_plastic_strain_Z[pin]
 
 class _InputSpecPlasticStrainZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_Z(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_Z(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_Z(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_Z(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_Z(0), 0, op) 
 
 class _PlasticStrainZ(_Operator):
     """Operator's description:
@@ -3831,10 +4260,8 @@ class _PlasticStrainZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPLZ")
-        self._name = "EPPLZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainZ(self._op)
-        self.outputs = _OutputSpecPlasticStrainZ(self._op)
+        self.inputs = _InputSpecPlasticStrainZ(self)
+        self.outputs = _OutputSpecPlasticStrainZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -3881,7 +4308,7 @@ def plastic_strain_Z():
 
 #internal name: ENL_HPRES
 #scripting name: hydrostatic_pressure
-def _get_input_spec_hydrostatic_pressure(pin):
+def _get_input_spec_hydrostatic_pressure(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -3902,30 +4329,46 @@ def _get_input_spec_hydrostatic_pressure(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_hydrostatic_pressure[pin]
+    if pin is None:
+        return inputs_dict_hydrostatic_pressure
+    else:
+        return inputs_dict_hydrostatic_pressure[pin]
 
-def _get_output_spec_hydrostatic_pressure(pin):
+def _get_output_spec_hydrostatic_pressure(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_hydrostatic_pressure = { 
         0 : outpin0
     }
-    return outputs_dict_hydrostatic_pressure[pin]
+    if pin is None:
+        return outputs_dict_hydrostatic_pressure
+    else:
+        return outputs_dict_hydrostatic_pressure[pin]
 
 class _InputSpecHydrostaticPressure(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_hydrostatic_pressure(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_hydrostatic_pressure(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_hydrostatic_pressure(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_hydrostatic_pressure(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_hydrostatic_pressure(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_hydrostatic_pressure(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_hydrostatic_pressure(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_hydrostatic_pressure(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_hydrostatic_pressure(17), 17, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.time_scoping = Input(_get_input_spec_hydrostatic_pressure(0), 0, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.mesh_scoping = Input(_get_input_spec_hydrostatic_pressure(1), 1, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.fields_container = Input(_get_input_spec_hydrostatic_pressure(2), 2, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.streams_container = Input(_get_input_spec_hydrostatic_pressure(3), 3, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.data_sources = Input(_get_input_spec_hydrostatic_pressure(4), 4, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_hydrostatic_pressure(5), 5, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.mesh = Input(_get_input_spec_hydrostatic_pressure(7), 7, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.requested_location = Input(_get_input_spec_hydrostatic_pressure(9), 9, op, -1) 
+        super().__init__(_get_input_spec_hydrostatic_pressure(), op)
+        self.domain_id = Input(_get_input_spec_hydrostatic_pressure(17), 17, op, -1) 
 
 class _OutputSpecHydrostaticPressure(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_hydrostatic_pressure(0), 0, op) 
+        super().__init__(_get_output_spec_hydrostatic_pressure(), op)
+        self.fields_container = Output(_get_output_spec_hydrostatic_pressure(0), 0, op) 
 
 class _HydrostaticPressure(_Operator):
     """Operator's description:
@@ -3957,10 +4400,8 @@ class _HydrostaticPressure(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_HPRES")
-        self._name = "ENL_HPRES"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecHydrostaticPressure(self._op)
-        self.outputs = _OutputSpecHydrostaticPressure(self._op)
+        self.inputs = _InputSpecHydrostaticPressure(self)
+        self.outputs = _OutputSpecHydrostaticPressure(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4007,7 +4448,7 @@ def hydrostatic_pressure():
 
 #internal name: EPPLXY
 #scripting name: plastic_strain_XY
-def _get_input_spec_plastic_strain_XY(pin):
+def _get_input_spec_plastic_strain_XY(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -4028,30 +4469,46 @@ def _get_input_spec_plastic_strain_XY(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_XY[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_XY
+    else:
+        return inputs_dict_plastic_strain_XY[pin]
 
-def _get_output_spec_plastic_strain_XY(pin):
+def _get_output_spec_plastic_strain_XY(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_XY = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_XY[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_XY
+    else:
+        return outputs_dict_plastic_strain_XY[pin]
 
 class _InputSpecPlasticStrainXY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_XY(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_XY(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_XY(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_XY(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_XY(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_XY(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_XY(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_XY(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_XY(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_XY(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_XY(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_XY(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_XY(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_XY(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_XY(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_XY(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_XY(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XY(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_XY(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainXY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_XY(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_XY(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_XY(0), 0, op) 
 
 class _PlasticStrainXY(_Operator):
     """Operator's description:
@@ -4083,10 +4540,8 @@ class _PlasticStrainXY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPLXY")
-        self._name = "EPPLXY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainXY(self._op)
-        self.outputs = _OutputSpecPlasticStrainXY(self._op)
+        self.inputs = _InputSpecPlasticStrainXY(self)
+        self.outputs = _OutputSpecPlasticStrainXY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4133,7 +4588,7 @@ def plastic_strain_XY():
 
 #internal name: EPPLYZ
 #scripting name: plastic_strain_YZ
-def _get_input_spec_plastic_strain_YZ(pin):
+def _get_input_spec_plastic_strain_YZ(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -4154,30 +4609,46 @@ def _get_input_spec_plastic_strain_YZ(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_YZ[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_YZ
+    else:
+        return inputs_dict_plastic_strain_YZ[pin]
 
-def _get_output_spec_plastic_strain_YZ(pin):
+def _get_output_spec_plastic_strain_YZ(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_YZ = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_YZ[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_YZ
+    else:
+        return outputs_dict_plastic_strain_YZ[pin]
 
 class _InputSpecPlasticStrainYZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_YZ(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_YZ(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_YZ(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_YZ(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_YZ(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_YZ(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_YZ(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_YZ(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_YZ(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_YZ(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_YZ(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_YZ(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_YZ(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_YZ(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_YZ(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_YZ(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_YZ(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_YZ(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_YZ(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainYZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_YZ(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_YZ(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_YZ(0), 0, op) 
 
 class _PlasticStrainYZ(_Operator):
     """Operator's description:
@@ -4209,10 +4680,8 @@ class _PlasticStrainYZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPLYZ")
-        self._name = "EPPLYZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainYZ(self._op)
-        self.outputs = _OutputSpecPlasticStrainYZ(self._op)
+        self.inputs = _InputSpecPlasticStrainYZ(self)
+        self.outputs = _OutputSpecPlasticStrainYZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4259,7 +4728,7 @@ def plastic_strain_YZ():
 
 #internal name: EPPLXZ
 #scripting name: plastic_strain_XZ
-def _get_input_spec_plastic_strain_XZ(pin):
+def _get_input_spec_plastic_strain_XZ(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -4280,30 +4749,46 @@ def _get_input_spec_plastic_strain_XZ(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_XZ[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_XZ
+    else:
+        return inputs_dict_plastic_strain_XZ[pin]
 
-def _get_output_spec_plastic_strain_XZ(pin):
+def _get_output_spec_plastic_strain_XZ(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_XZ = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_XZ[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_XZ
+    else:
+        return outputs_dict_plastic_strain_XZ[pin]
 
 class _InputSpecPlasticStrainXZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_XZ(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_XZ(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_XZ(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_XZ(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_XZ(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_XZ(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_XZ(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_XZ(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_XZ(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_XZ(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_XZ(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_XZ(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_XZ(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_XZ(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_XZ(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_XZ(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_XZ(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_XZ(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_XZ(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainXZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_XZ(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_XZ(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_XZ(0), 0, op) 
 
 class _PlasticStrainXZ(_Operator):
     """Operator's description:
@@ -4335,10 +4820,8 @@ class _PlasticStrainXZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPLXZ")
-        self._name = "EPPLXZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainXZ(self._op)
-        self.outputs = _OutputSpecPlasticStrainXZ(self._op)
+        self.inputs = _InputSpecPlasticStrainXZ(self)
+        self.outputs = _OutputSpecPlasticStrainXZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4385,7 +4868,7 @@ def plastic_strain_XZ():
 
 #internal name: EPPL2
 #scripting name: plastic_strain_principal_2
-def _get_input_spec_plastic_strain_principal_2(pin):
+def _get_input_spec_plastic_strain_principal_2(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -4406,30 +4889,46 @@ def _get_input_spec_plastic_strain_principal_2(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_principal_2[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_principal_2
+    else:
+        return inputs_dict_plastic_strain_principal_2[pin]
 
-def _get_output_spec_plastic_strain_principal_2(pin):
+def _get_output_spec_plastic_strain_principal_2(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_principal_2 = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_principal_2[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_principal_2
+    else:
+        return outputs_dict_plastic_strain_principal_2[pin]
 
 class _InputSpecPlasticStrainPrincipal2(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_principal_2(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_principal_2(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_principal_2(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_principal_2(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_principal_2(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_principal_2(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_principal_2(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_principal_2(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_principal_2(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_principal_2(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_principal_2(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_principal_2(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_principal_2(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_principal_2(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_principal_2(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_principal_2(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_principal_2(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_principal_2(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_principal_2(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainPrincipal2(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_principal_2(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_principal_2(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_principal_2(0), 0, op) 
 
 class _PlasticStrainPrincipal2(_Operator):
     """Operator's description:
@@ -4461,10 +4960,8 @@ class _PlasticStrainPrincipal2(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EPPL2")
-        self._name = "EPPL2"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainPrincipal2(self._op)
-        self.outputs = _OutputSpecPlasticStrainPrincipal2(self._op)
+        self.inputs = _InputSpecPlasticStrainPrincipal2(self)
+        self.outputs = _OutputSpecPlasticStrainPrincipal2(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4511,7 +5008,7 @@ def plastic_strain_principal_2():
 
 #internal name: A
 #scripting name: acceleration
-def _get_input_spec_acceleration(pin):
+def _get_input_spec_acceleration(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -4532,30 +5029,46 @@ def _get_input_spec_acceleration(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_acceleration[pin]
+    if pin is None:
+        return inputs_dict_acceleration
+    else:
+        return inputs_dict_acceleration[pin]
 
-def _get_output_spec_acceleration(pin):
+def _get_output_spec_acceleration(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_acceleration = { 
         0 : outpin0
     }
-    return outputs_dict_acceleration[pin]
+    if pin is None:
+        return outputs_dict_acceleration
+    else:
+        return outputs_dict_acceleration[pin]
 
 class _InputSpecAcceleration(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_acceleration(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_acceleration(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_acceleration(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_acceleration(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_acceleration(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_acceleration(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_acceleration(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_acceleration(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_acceleration(17), 17, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.time_scoping = Input(_get_input_spec_acceleration(0), 0, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.mesh_scoping = Input(_get_input_spec_acceleration(1), 1, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.fields_container = Input(_get_input_spec_acceleration(2), 2, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.streams_container = Input(_get_input_spec_acceleration(3), 3, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.data_sources = Input(_get_input_spec_acceleration(4), 4, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_acceleration(5), 5, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.mesh = Input(_get_input_spec_acceleration(7), 7, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.requested_location = Input(_get_input_spec_acceleration(9), 9, op, -1) 
+        super().__init__(_get_input_spec_acceleration(), op)
+        self.domain_id = Input(_get_input_spec_acceleration(17), 17, op, -1) 
 
 class _OutputSpecAcceleration(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_acceleration(0), 0, op) 
+        super().__init__(_get_output_spec_acceleration(), op)
+        self.fields_container = Output(_get_output_spec_acceleration(0), 0, op) 
 
 class _Acceleration(_Operator):
     """Operator's description:
@@ -4587,10 +5100,8 @@ class _Acceleration(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("A")
-        self._name = "A"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAcceleration(self._op)
-        self.outputs = _OutputSpecAcceleration(self._op)
+        self.inputs = _InputSpecAcceleration(self)
+        self.outputs = _OutputSpecAcceleration(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4637,7 +5148,7 @@ def acceleration():
 
 #internal name: AX
 #scripting name: acceleration_X
-def _get_input_spec_acceleration_X(pin):
+def _get_input_spec_acceleration_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -4658,30 +5169,46 @@ def _get_input_spec_acceleration_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_acceleration_X[pin]
+    if pin is None:
+        return inputs_dict_acceleration_X
+    else:
+        return inputs_dict_acceleration_X[pin]
 
-def _get_output_spec_acceleration_X(pin):
+def _get_output_spec_acceleration_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_acceleration_X = { 
         0 : outpin0
     }
-    return outputs_dict_acceleration_X[pin]
+    if pin is None:
+        return outputs_dict_acceleration_X
+    else:
+        return outputs_dict_acceleration_X[pin]
 
 class _InputSpecAccelerationX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_acceleration_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_acceleration_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_acceleration_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_acceleration_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_acceleration_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_acceleration_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_acceleration_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_acceleration_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_acceleration_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.time_scoping = Input(_get_input_spec_acceleration_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_acceleration_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.fields_container = Input(_get_input_spec_acceleration_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.streams_container = Input(_get_input_spec_acceleration_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.data_sources = Input(_get_input_spec_acceleration_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_acceleration_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.mesh = Input(_get_input_spec_acceleration_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.requested_location = Input(_get_input_spec_acceleration_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_acceleration_X(), op)
+        self.domain_id = Input(_get_input_spec_acceleration_X(17), 17, op, -1) 
 
 class _OutputSpecAccelerationX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_acceleration_X(0), 0, op) 
+        super().__init__(_get_output_spec_acceleration_X(), op)
+        self.fields_container = Output(_get_output_spec_acceleration_X(0), 0, op) 
 
 class _AccelerationX(_Operator):
     """Operator's description:
@@ -4713,10 +5240,8 @@ class _AccelerationX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("AX")
-        self._name = "AX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccelerationX(self._op)
-        self.outputs = _OutputSpecAccelerationX(self._op)
+        self.inputs = _InputSpecAccelerationX(self)
+        self.outputs = _OutputSpecAccelerationX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4763,7 +5288,7 @@ def acceleration_X():
 
 #internal name: AY
 #scripting name: acceleration_Y
-def _get_input_spec_acceleration_Y(pin):
+def _get_input_spec_acceleration_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -4784,30 +5309,46 @@ def _get_input_spec_acceleration_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_acceleration_Y[pin]
+    if pin is None:
+        return inputs_dict_acceleration_Y
+    else:
+        return inputs_dict_acceleration_Y[pin]
 
-def _get_output_spec_acceleration_Y(pin):
+def _get_output_spec_acceleration_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_acceleration_Y = { 
         0 : outpin0
     }
-    return outputs_dict_acceleration_Y[pin]
+    if pin is None:
+        return outputs_dict_acceleration_Y
+    else:
+        return outputs_dict_acceleration_Y[pin]
 
 class _InputSpecAccelerationY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_acceleration_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_acceleration_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_acceleration_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_acceleration_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_acceleration_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_acceleration_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_acceleration_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_acceleration_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_acceleration_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.time_scoping = Input(_get_input_spec_acceleration_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_acceleration_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.fields_container = Input(_get_input_spec_acceleration_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.streams_container = Input(_get_input_spec_acceleration_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.data_sources = Input(_get_input_spec_acceleration_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_acceleration_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.mesh = Input(_get_input_spec_acceleration_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.requested_location = Input(_get_input_spec_acceleration_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Y(), op)
+        self.domain_id = Input(_get_input_spec_acceleration_Y(17), 17, op, -1) 
 
 class _OutputSpecAccelerationY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_acceleration_Y(0), 0, op) 
+        super().__init__(_get_output_spec_acceleration_Y(), op)
+        self.fields_container = Output(_get_output_spec_acceleration_Y(0), 0, op) 
 
 class _AccelerationY(_Operator):
     """Operator's description:
@@ -4839,10 +5380,8 @@ class _AccelerationY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("AY")
-        self._name = "AY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccelerationY(self._op)
-        self.outputs = _OutputSpecAccelerationY(self._op)
+        self.inputs = _InputSpecAccelerationY(self)
+        self.outputs = _OutputSpecAccelerationY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -4889,7 +5428,7 @@ def acceleration_Y():
 
 #internal name: centroids
 #scripting name: element_centroids
-def _get_input_spec_element_centroids(pin):
+def _get_input_spec_element_centroids(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -4910,30 +5449,46 @@ def _get_input_spec_element_centroids(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_element_centroids[pin]
+    if pin is None:
+        return inputs_dict_element_centroids
+    else:
+        return inputs_dict_element_centroids[pin]
 
-def _get_output_spec_element_centroids(pin):
+def _get_output_spec_element_centroids(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_element_centroids = { 
         0 : outpin0
     }
-    return outputs_dict_element_centroids[pin]
+    if pin is None:
+        return outputs_dict_element_centroids
+    else:
+        return outputs_dict_element_centroids[pin]
 
 class _InputSpecElementCentroids(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_element_centroids(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_element_centroids(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_element_centroids(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_element_centroids(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_element_centroids(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_element_centroids(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_element_centroids(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_element_centroids(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_element_centroids(17), 17, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.time_scoping = Input(_get_input_spec_element_centroids(0), 0, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.mesh_scoping = Input(_get_input_spec_element_centroids(1), 1, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.fields_container = Input(_get_input_spec_element_centroids(2), 2, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.streams_container = Input(_get_input_spec_element_centroids(3), 3, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.data_sources = Input(_get_input_spec_element_centroids(4), 4, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_element_centroids(5), 5, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.mesh = Input(_get_input_spec_element_centroids(7), 7, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.requested_location = Input(_get_input_spec_element_centroids(9), 9, op, -1) 
+        super().__init__(_get_input_spec_element_centroids(), op)
+        self.domain_id = Input(_get_input_spec_element_centroids(17), 17, op, -1) 
 
 class _OutputSpecElementCentroids(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_element_centroids(0), 0, op) 
+        super().__init__(_get_output_spec_element_centroids(), op)
+        self.fields_container = Output(_get_output_spec_element_centroids(0), 0, op) 
 
 class _ElementCentroids(_Operator):
     """Operator's description:
@@ -4965,10 +5520,8 @@ class _ElementCentroids(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("centroids")
-        self._name = "centroids"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementCentroids(self._op)
-        self.outputs = _OutputSpecElementCentroids(self._op)
+        self.inputs = _InputSpecElementCentroids(self)
+        self.outputs = _OutputSpecElementCentroids(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5015,7 +5568,7 @@ def element_centroids():
 
 #internal name: AZ
 #scripting name: acceleration_Z
-def _get_input_spec_acceleration_Z(pin):
+def _get_input_spec_acceleration_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -5036,30 +5589,46 @@ def _get_input_spec_acceleration_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_acceleration_Z[pin]
+    if pin is None:
+        return inputs_dict_acceleration_Z
+    else:
+        return inputs_dict_acceleration_Z[pin]
 
-def _get_output_spec_acceleration_Z(pin):
+def _get_output_spec_acceleration_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_acceleration_Z = { 
         0 : outpin0
     }
-    return outputs_dict_acceleration_Z[pin]
+    if pin is None:
+        return outputs_dict_acceleration_Z
+    else:
+        return outputs_dict_acceleration_Z[pin]
 
 class _InputSpecAccelerationZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_acceleration_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_acceleration_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_acceleration_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_acceleration_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_acceleration_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_acceleration_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_acceleration_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_acceleration_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_acceleration_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.time_scoping = Input(_get_input_spec_acceleration_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_acceleration_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.fields_container = Input(_get_input_spec_acceleration_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.streams_container = Input(_get_input_spec_acceleration_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.data_sources = Input(_get_input_spec_acceleration_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_acceleration_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.mesh = Input(_get_input_spec_acceleration_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.requested_location = Input(_get_input_spec_acceleration_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_acceleration_Z(), op)
+        self.domain_id = Input(_get_input_spec_acceleration_Z(17), 17, op, -1) 
 
 class _OutputSpecAccelerationZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_acceleration_Z(0), 0, op) 
+        super().__init__(_get_output_spec_acceleration_Z(), op)
+        self.fields_container = Output(_get_output_spec_acceleration_Z(0), 0, op) 
 
 class _AccelerationZ(_Operator):
     """Operator's description:
@@ -5091,10 +5660,8 @@ class _AccelerationZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("AZ")
-        self._name = "AZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccelerationZ(self._op)
-        self.outputs = _OutputSpecAccelerationZ(self._op)
+        self.inputs = _InputSpecAccelerationZ(self)
+        self.outputs = _OutputSpecAccelerationZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5141,7 +5708,7 @@ def acceleration_Z():
 
 #internal name: RF
 #scripting name: reaction_force
-def _get_input_spec_reaction_force(pin):
+def _get_input_spec_reaction_force(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -5162,30 +5729,46 @@ def _get_input_spec_reaction_force(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_reaction_force[pin]
+    if pin is None:
+        return inputs_dict_reaction_force
+    else:
+        return inputs_dict_reaction_force[pin]
 
-def _get_output_spec_reaction_force(pin):
+def _get_output_spec_reaction_force(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_reaction_force = { 
         0 : outpin0
     }
-    return outputs_dict_reaction_force[pin]
+    if pin is None:
+        return outputs_dict_reaction_force
+    else:
+        return outputs_dict_reaction_force[pin]
 
 class _InputSpecReactionForce(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_reaction_force(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_reaction_force(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_reaction_force(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_reaction_force(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_reaction_force(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_reaction_force(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_reaction_force(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_reaction_force(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_reaction_force(17), 17, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.time_scoping = Input(_get_input_spec_reaction_force(0), 0, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.mesh_scoping = Input(_get_input_spec_reaction_force(1), 1, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.fields_container = Input(_get_input_spec_reaction_force(2), 2, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.streams_container = Input(_get_input_spec_reaction_force(3), 3, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.data_sources = Input(_get_input_spec_reaction_force(4), 4, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_reaction_force(5), 5, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.mesh = Input(_get_input_spec_reaction_force(7), 7, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.requested_location = Input(_get_input_spec_reaction_force(9), 9, op, -1) 
+        super().__init__(_get_input_spec_reaction_force(), op)
+        self.domain_id = Input(_get_input_spec_reaction_force(17), 17, op, -1) 
 
 class _OutputSpecReactionForce(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_reaction_force(0), 0, op) 
+        super().__init__(_get_output_spec_reaction_force(), op)
+        self.fields_container = Output(_get_output_spec_reaction_force(0), 0, op) 
 
 class _ReactionForce(_Operator):
     """Operator's description:
@@ -5217,10 +5800,8 @@ class _ReactionForce(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("RF")
-        self._name = "RF"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecReactionForce(self._op)
-        self.outputs = _OutputSpecReactionForce(self._op)
+        self.inputs = _InputSpecReactionForce(self)
+        self.outputs = _OutputSpecReactionForce(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5267,7 +5848,7 @@ def reaction_force():
 
 #internal name: V
 #scripting name: velocity
-def _get_input_spec_velocity(pin):
+def _get_input_spec_velocity(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -5288,30 +5869,46 @@ def _get_input_spec_velocity(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_velocity[pin]
+    if pin is None:
+        return inputs_dict_velocity
+    else:
+        return inputs_dict_velocity[pin]
 
-def _get_output_spec_velocity(pin):
+def _get_output_spec_velocity(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_velocity = { 
         0 : outpin0
     }
-    return outputs_dict_velocity[pin]
+    if pin is None:
+        return outputs_dict_velocity
+    else:
+        return outputs_dict_velocity[pin]
 
 class _InputSpecVelocity(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_velocity(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_velocity(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_velocity(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_velocity(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_velocity(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_velocity(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_velocity(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_velocity(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_velocity(17), 17, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.time_scoping = Input(_get_input_spec_velocity(0), 0, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.mesh_scoping = Input(_get_input_spec_velocity(1), 1, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.fields_container = Input(_get_input_spec_velocity(2), 2, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.streams_container = Input(_get_input_spec_velocity(3), 3, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.data_sources = Input(_get_input_spec_velocity(4), 4, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_velocity(5), 5, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.mesh = Input(_get_input_spec_velocity(7), 7, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.requested_location = Input(_get_input_spec_velocity(9), 9, op, -1) 
+        super().__init__(_get_input_spec_velocity(), op)
+        self.domain_id = Input(_get_input_spec_velocity(17), 17, op, -1) 
 
 class _OutputSpecVelocity(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_velocity(0), 0, op) 
+        super().__init__(_get_output_spec_velocity(), op)
+        self.fields_container = Output(_get_output_spec_velocity(0), 0, op) 
 
 class _Velocity(_Operator):
     """Operator's description:
@@ -5343,10 +5940,8 @@ class _Velocity(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("V")
-        self._name = "V"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecVelocity(self._op)
-        self.outputs = _OutputSpecVelocity(self._op)
+        self.inputs = _InputSpecVelocity(self)
+        self.outputs = _OutputSpecVelocity(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5393,7 +5988,7 @@ def velocity():
 
 #internal name: VX
 #scripting name: velocity_X
-def _get_input_spec_velocity_X(pin):
+def _get_input_spec_velocity_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -5414,30 +6009,46 @@ def _get_input_spec_velocity_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_velocity_X[pin]
+    if pin is None:
+        return inputs_dict_velocity_X
+    else:
+        return inputs_dict_velocity_X[pin]
 
-def _get_output_spec_velocity_X(pin):
+def _get_output_spec_velocity_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_velocity_X = { 
         0 : outpin0
     }
-    return outputs_dict_velocity_X[pin]
+    if pin is None:
+        return outputs_dict_velocity_X
+    else:
+        return outputs_dict_velocity_X[pin]
 
 class _InputSpecVelocityX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_velocity_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_velocity_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_velocity_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_velocity_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_velocity_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_velocity_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_velocity_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_velocity_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_velocity_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.time_scoping = Input(_get_input_spec_velocity_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_velocity_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.fields_container = Input(_get_input_spec_velocity_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.streams_container = Input(_get_input_spec_velocity_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.data_sources = Input(_get_input_spec_velocity_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_velocity_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.mesh = Input(_get_input_spec_velocity_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.requested_location = Input(_get_input_spec_velocity_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_velocity_X(), op)
+        self.domain_id = Input(_get_input_spec_velocity_X(17), 17, op, -1) 
 
 class _OutputSpecVelocityX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_velocity_X(0), 0, op) 
+        super().__init__(_get_output_spec_velocity_X(), op)
+        self.fields_container = Output(_get_output_spec_velocity_X(0), 0, op) 
 
 class _VelocityX(_Operator):
     """Operator's description:
@@ -5469,10 +6080,8 @@ class _VelocityX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("VX")
-        self._name = "VX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecVelocityX(self._op)
-        self.outputs = _OutputSpecVelocityX(self._op)
+        self.inputs = _InputSpecVelocityX(self)
+        self.outputs = _OutputSpecVelocityX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5519,7 +6128,7 @@ def velocity_X():
 
 #internal name: VY
 #scripting name: velocity_Y
-def _get_input_spec_velocity_Y(pin):
+def _get_input_spec_velocity_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -5540,30 +6149,46 @@ def _get_input_spec_velocity_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_velocity_Y[pin]
+    if pin is None:
+        return inputs_dict_velocity_Y
+    else:
+        return inputs_dict_velocity_Y[pin]
 
-def _get_output_spec_velocity_Y(pin):
+def _get_output_spec_velocity_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_velocity_Y = { 
         0 : outpin0
     }
-    return outputs_dict_velocity_Y[pin]
+    if pin is None:
+        return outputs_dict_velocity_Y
+    else:
+        return outputs_dict_velocity_Y[pin]
 
 class _InputSpecVelocityY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_velocity_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_velocity_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_velocity_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_velocity_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_velocity_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_velocity_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_velocity_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_velocity_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_velocity_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.time_scoping = Input(_get_input_spec_velocity_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_velocity_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.fields_container = Input(_get_input_spec_velocity_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.streams_container = Input(_get_input_spec_velocity_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.data_sources = Input(_get_input_spec_velocity_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_velocity_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.mesh = Input(_get_input_spec_velocity_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.requested_location = Input(_get_input_spec_velocity_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_velocity_Y(), op)
+        self.domain_id = Input(_get_input_spec_velocity_Y(17), 17, op, -1) 
 
 class _OutputSpecVelocityY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_velocity_Y(0), 0, op) 
+        super().__init__(_get_output_spec_velocity_Y(), op)
+        self.fields_container = Output(_get_output_spec_velocity_Y(0), 0, op) 
 
 class _VelocityY(_Operator):
     """Operator's description:
@@ -5595,10 +6220,8 @@ class _VelocityY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("VY")
-        self._name = "VY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecVelocityY(self._op)
-        self.outputs = _OutputSpecVelocityY(self._op)
+        self.inputs = _InputSpecVelocityY(self)
+        self.outputs = _OutputSpecVelocityY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5645,7 +6268,7 @@ def velocity_Y():
 
 #internal name: VZ
 #scripting name: velocity_Z
-def _get_input_spec_velocity_Z(pin):
+def _get_input_spec_velocity_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -5666,30 +6289,46 @@ def _get_input_spec_velocity_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_velocity_Z[pin]
+    if pin is None:
+        return inputs_dict_velocity_Z
+    else:
+        return inputs_dict_velocity_Z[pin]
 
-def _get_output_spec_velocity_Z(pin):
+def _get_output_spec_velocity_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_velocity_Z = { 
         0 : outpin0
     }
-    return outputs_dict_velocity_Z[pin]
+    if pin is None:
+        return outputs_dict_velocity_Z
+    else:
+        return outputs_dict_velocity_Z[pin]
 
 class _InputSpecVelocityZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_velocity_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_velocity_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_velocity_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_velocity_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_velocity_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_velocity_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_velocity_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_velocity_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_velocity_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.time_scoping = Input(_get_input_spec_velocity_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_velocity_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.fields_container = Input(_get_input_spec_velocity_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.streams_container = Input(_get_input_spec_velocity_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.data_sources = Input(_get_input_spec_velocity_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_velocity_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.mesh = Input(_get_input_spec_velocity_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.requested_location = Input(_get_input_spec_velocity_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_velocity_Z(), op)
+        self.domain_id = Input(_get_input_spec_velocity_Z(17), 17, op, -1) 
 
 class _OutputSpecVelocityZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_velocity_Z(0), 0, op) 
+        super().__init__(_get_output_spec_velocity_Z(), op)
+        self.fields_container = Output(_get_output_spec_velocity_Z(0), 0, op) 
 
 class _VelocityZ(_Operator):
     """Operator's description:
@@ -5721,10 +6360,8 @@ class _VelocityZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("VZ")
-        self._name = "VZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecVelocityZ(self._op)
-        self.outputs = _OutputSpecVelocityZ(self._op)
+        self.inputs = _InputSpecVelocityZ(self)
+        self.outputs = _OutputSpecVelocityZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5771,7 +6408,7 @@ def velocity_Z():
 
 #internal name: U
 #scripting name: displacement
-def _get_input_spec_displacement(pin):
+def _get_input_spec_displacement(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -5792,30 +6429,46 @@ def _get_input_spec_displacement(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_displacement[pin]
+    if pin is None:
+        return inputs_dict_displacement
+    else:
+        return inputs_dict_displacement[pin]
 
-def _get_output_spec_displacement(pin):
+def _get_output_spec_displacement(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_displacement = { 
         0 : outpin0
     }
-    return outputs_dict_displacement[pin]
+    if pin is None:
+        return outputs_dict_displacement
+    else:
+        return outputs_dict_displacement[pin]
 
 class _InputSpecDisplacement(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_displacement(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_displacement(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_displacement(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_displacement(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_displacement(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_displacement(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_displacement(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_displacement(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_displacement(17), 17, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.time_scoping = Input(_get_input_spec_displacement(0), 0, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.mesh_scoping = Input(_get_input_spec_displacement(1), 1, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.fields_container = Input(_get_input_spec_displacement(2), 2, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.streams_container = Input(_get_input_spec_displacement(3), 3, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.data_sources = Input(_get_input_spec_displacement(4), 4, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_displacement(5), 5, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.mesh = Input(_get_input_spec_displacement(7), 7, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.requested_location = Input(_get_input_spec_displacement(9), 9, op, -1) 
+        super().__init__(_get_input_spec_displacement(), op)
+        self.domain_id = Input(_get_input_spec_displacement(17), 17, op, -1) 
 
 class _OutputSpecDisplacement(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_displacement(0), 0, op) 
+        super().__init__(_get_output_spec_displacement(), op)
+        self.fields_container = Output(_get_output_spec_displacement(0), 0, op) 
 
 class _Displacement(_Operator):
     """Operator's description:
@@ -5847,10 +6500,8 @@ class _Displacement(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("U")
-        self._name = "U"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecDisplacement(self._op)
-        self.outputs = _OutputSpecDisplacement(self._op)
+        self.inputs = _InputSpecDisplacement(self)
+        self.outputs = _OutputSpecDisplacement(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -5897,7 +6548,7 @@ def displacement():
 
 #internal name: UX
 #scripting name: displacement_X
-def _get_input_spec_displacement_X(pin):
+def _get_input_spec_displacement_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -5918,30 +6569,46 @@ def _get_input_spec_displacement_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_displacement_X[pin]
+    if pin is None:
+        return inputs_dict_displacement_X
+    else:
+        return inputs_dict_displacement_X[pin]
 
-def _get_output_spec_displacement_X(pin):
+def _get_output_spec_displacement_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_displacement_X = { 
         0 : outpin0
     }
-    return outputs_dict_displacement_X[pin]
+    if pin is None:
+        return outputs_dict_displacement_X
+    else:
+        return outputs_dict_displacement_X[pin]
 
 class _InputSpecDisplacementX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_displacement_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_displacement_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_displacement_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_displacement_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_displacement_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_displacement_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_displacement_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_displacement_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_displacement_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.time_scoping = Input(_get_input_spec_displacement_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_displacement_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.fields_container = Input(_get_input_spec_displacement_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.streams_container = Input(_get_input_spec_displacement_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.data_sources = Input(_get_input_spec_displacement_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_displacement_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.mesh = Input(_get_input_spec_displacement_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.requested_location = Input(_get_input_spec_displacement_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_displacement_X(), op)
+        self.domain_id = Input(_get_input_spec_displacement_X(17), 17, op, -1) 
 
 class _OutputSpecDisplacementX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_displacement_X(0), 0, op) 
+        super().__init__(_get_output_spec_displacement_X(), op)
+        self.fields_container = Output(_get_output_spec_displacement_X(0), 0, op) 
 
 class _DisplacementX(_Operator):
     """Operator's description:
@@ -5973,10 +6640,8 @@ class _DisplacementX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("UX")
-        self._name = "UX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecDisplacementX(self._op)
-        self.outputs = _OutputSpecDisplacementX(self._op)
+        self.inputs = _InputSpecDisplacementX(self)
+        self.outputs = _OutputSpecDisplacementX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6023,7 +6688,7 @@ def displacement_X():
 
 #internal name: UY
 #scripting name: displacement_Y
-def _get_input_spec_displacement_Y(pin):
+def _get_input_spec_displacement_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -6044,30 +6709,46 @@ def _get_input_spec_displacement_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_displacement_Y[pin]
+    if pin is None:
+        return inputs_dict_displacement_Y
+    else:
+        return inputs_dict_displacement_Y[pin]
 
-def _get_output_spec_displacement_Y(pin):
+def _get_output_spec_displacement_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_displacement_Y = { 
         0 : outpin0
     }
-    return outputs_dict_displacement_Y[pin]
+    if pin is None:
+        return outputs_dict_displacement_Y
+    else:
+        return outputs_dict_displacement_Y[pin]
 
 class _InputSpecDisplacementY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_displacement_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_displacement_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_displacement_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_displacement_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_displacement_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_displacement_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_displacement_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_displacement_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_displacement_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.time_scoping = Input(_get_input_spec_displacement_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_displacement_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.fields_container = Input(_get_input_spec_displacement_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.streams_container = Input(_get_input_spec_displacement_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.data_sources = Input(_get_input_spec_displacement_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_displacement_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.mesh = Input(_get_input_spec_displacement_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.requested_location = Input(_get_input_spec_displacement_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_displacement_Y(), op)
+        self.domain_id = Input(_get_input_spec_displacement_Y(17), 17, op, -1) 
 
 class _OutputSpecDisplacementY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_displacement_Y(0), 0, op) 
+        super().__init__(_get_output_spec_displacement_Y(), op)
+        self.fields_container = Output(_get_output_spec_displacement_Y(0), 0, op) 
 
 class _DisplacementY(_Operator):
     """Operator's description:
@@ -6099,10 +6780,8 @@ class _DisplacementY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("UY")
-        self._name = "UY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecDisplacementY(self._op)
-        self.outputs = _OutputSpecDisplacementY(self._op)
+        self.inputs = _InputSpecDisplacementY(self)
+        self.outputs = _OutputSpecDisplacementY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6149,7 +6828,7 @@ def displacement_Y():
 
 #internal name: UZ
 #scripting name: displacement_Z
-def _get_input_spec_displacement_Z(pin):
+def _get_input_spec_displacement_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -6170,30 +6849,46 @@ def _get_input_spec_displacement_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_displacement_Z[pin]
+    if pin is None:
+        return inputs_dict_displacement_Z
+    else:
+        return inputs_dict_displacement_Z[pin]
 
-def _get_output_spec_displacement_Z(pin):
+def _get_output_spec_displacement_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_displacement_Z = { 
         0 : outpin0
     }
-    return outputs_dict_displacement_Z[pin]
+    if pin is None:
+        return outputs_dict_displacement_Z
+    else:
+        return outputs_dict_displacement_Z[pin]
 
 class _InputSpecDisplacementZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_displacement_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_displacement_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_displacement_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_displacement_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_displacement_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_displacement_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_displacement_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_displacement_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_displacement_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.time_scoping = Input(_get_input_spec_displacement_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_displacement_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.fields_container = Input(_get_input_spec_displacement_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.streams_container = Input(_get_input_spec_displacement_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.data_sources = Input(_get_input_spec_displacement_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_displacement_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.mesh = Input(_get_input_spec_displacement_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.requested_location = Input(_get_input_spec_displacement_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_displacement_Z(), op)
+        self.domain_id = Input(_get_input_spec_displacement_Z(17), 17, op, -1) 
 
 class _OutputSpecDisplacementZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_displacement_Z(0), 0, op) 
+        super().__init__(_get_output_spec_displacement_Z(), op)
+        self.fields_container = Output(_get_output_spec_displacement_Z(0), 0, op) 
 
 class _DisplacementZ(_Operator):
     """Operator's description:
@@ -6225,10 +6920,8 @@ class _DisplacementZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("UZ")
-        self._name = "UZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecDisplacementZ(self._op)
-        self.outputs = _OutputSpecDisplacementZ(self._op)
+        self.inputs = _InputSpecDisplacementZ(self)
+        self.outputs = _OutputSpecDisplacementZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6275,7 +6968,7 @@ def displacement_Z():
 
 #internal name: TFX
 #scripting name: heat_flux_X
-def _get_input_spec_heat_flux_X(pin):
+def _get_input_spec_heat_flux_X(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -6296,30 +6989,46 @@ def _get_input_spec_heat_flux_X(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_heat_flux_X[pin]
+    if pin is None:
+        return inputs_dict_heat_flux_X
+    else:
+        return inputs_dict_heat_flux_X[pin]
 
-def _get_output_spec_heat_flux_X(pin):
+def _get_output_spec_heat_flux_X(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_heat_flux_X = { 
         0 : outpin0
     }
-    return outputs_dict_heat_flux_X[pin]
+    if pin is None:
+        return outputs_dict_heat_flux_X
+    else:
+        return outputs_dict_heat_flux_X[pin]
 
 class _InputSpecHeatFluxX(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_heat_flux_X(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_heat_flux_X(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_heat_flux_X(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_heat_flux_X(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_heat_flux_X(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_heat_flux_X(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_heat_flux_X(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_heat_flux_X(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_heat_flux_X(17), 17, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.time_scoping = Input(_get_input_spec_heat_flux_X(0), 0, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.mesh_scoping = Input(_get_input_spec_heat_flux_X(1), 1, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.fields_container = Input(_get_input_spec_heat_flux_X(2), 2, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.streams_container = Input(_get_input_spec_heat_flux_X(3), 3, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.data_sources = Input(_get_input_spec_heat_flux_X(4), 4, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_heat_flux_X(5), 5, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.mesh = Input(_get_input_spec_heat_flux_X(7), 7, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.requested_location = Input(_get_input_spec_heat_flux_X(9), 9, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_X(), op)
+        self.domain_id = Input(_get_input_spec_heat_flux_X(17), 17, op, -1) 
 
 class _OutputSpecHeatFluxX(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_heat_flux_X(0), 0, op) 
+        super().__init__(_get_output_spec_heat_flux_X(), op)
+        self.fields_container = Output(_get_output_spec_heat_flux_X(0), 0, op) 
 
 class _HeatFluxX(_Operator):
     """Operator's description:
@@ -6351,10 +7060,8 @@ class _HeatFluxX(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("TFX")
-        self._name = "TFX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecHeatFluxX(self._op)
-        self.outputs = _OutputSpecHeatFluxX(self._op)
+        self.inputs = _InputSpecHeatFluxX(self)
+        self.outputs = _OutputSpecHeatFluxX(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6401,7 +7108,7 @@ def heat_flux_X():
 
 #internal name: EF
 #scripting name: electric_field
-def _get_input_spec_electric_field(pin):
+def _get_input_spec_electric_field(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -6422,30 +7129,46 @@ def _get_input_spec_electric_field(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_electric_field[pin]
+    if pin is None:
+        return inputs_dict_electric_field
+    else:
+        return inputs_dict_electric_field[pin]
 
-def _get_output_spec_electric_field(pin):
+def _get_output_spec_electric_field(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_electric_field = { 
         0 : outpin0
     }
-    return outputs_dict_electric_field[pin]
+    if pin is None:
+        return outputs_dict_electric_field
+    else:
+        return outputs_dict_electric_field[pin]
 
 class _InputSpecElectricField(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_electric_field(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_electric_field(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_electric_field(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_electric_field(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_electric_field(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_electric_field(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_electric_field(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_electric_field(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_electric_field(17), 17, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.time_scoping = Input(_get_input_spec_electric_field(0), 0, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.mesh_scoping = Input(_get_input_spec_electric_field(1), 1, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.fields_container = Input(_get_input_spec_electric_field(2), 2, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.streams_container = Input(_get_input_spec_electric_field(3), 3, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.data_sources = Input(_get_input_spec_electric_field(4), 4, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_electric_field(5), 5, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.mesh = Input(_get_input_spec_electric_field(7), 7, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.requested_location = Input(_get_input_spec_electric_field(9), 9, op, -1) 
+        super().__init__(_get_input_spec_electric_field(), op)
+        self.domain_id = Input(_get_input_spec_electric_field(17), 17, op, -1) 
 
 class _OutputSpecElectricField(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_electric_field(0), 0, op) 
+        super().__init__(_get_output_spec_electric_field(), op)
+        self.fields_container = Output(_get_output_spec_electric_field(0), 0, op) 
 
 class _ElectricField(_Operator):
     """Operator's description:
@@ -6477,10 +7200,8 @@ class _ElectricField(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("EF")
-        self._name = "EF"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElectricField(self._op)
-        self.outputs = _OutputSpecElectricField(self._op)
+        self.inputs = _InputSpecElectricField(self)
+        self.outputs = _OutputSpecElectricField(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6527,7 +7248,7 @@ def electric_field():
 
 #internal name: TFY
 #scripting name: heat_flux_Y
-def _get_input_spec_heat_flux_Y(pin):
+def _get_input_spec_heat_flux_Y(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -6548,30 +7269,46 @@ def _get_input_spec_heat_flux_Y(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_heat_flux_Y[pin]
+    if pin is None:
+        return inputs_dict_heat_flux_Y
+    else:
+        return inputs_dict_heat_flux_Y[pin]
 
-def _get_output_spec_heat_flux_Y(pin):
+def _get_output_spec_heat_flux_Y(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_heat_flux_Y = { 
         0 : outpin0
     }
-    return outputs_dict_heat_flux_Y[pin]
+    if pin is None:
+        return outputs_dict_heat_flux_Y
+    else:
+        return outputs_dict_heat_flux_Y[pin]
 
 class _InputSpecHeatFluxY(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_heat_flux_Y(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_heat_flux_Y(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_heat_flux_Y(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_heat_flux_Y(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_heat_flux_Y(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_heat_flux_Y(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_heat_flux_Y(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_heat_flux_Y(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_heat_flux_Y(17), 17, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.time_scoping = Input(_get_input_spec_heat_flux_Y(0), 0, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.mesh_scoping = Input(_get_input_spec_heat_flux_Y(1), 1, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.fields_container = Input(_get_input_spec_heat_flux_Y(2), 2, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.streams_container = Input(_get_input_spec_heat_flux_Y(3), 3, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.data_sources = Input(_get_input_spec_heat_flux_Y(4), 4, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_heat_flux_Y(5), 5, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.mesh = Input(_get_input_spec_heat_flux_Y(7), 7, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.requested_location = Input(_get_input_spec_heat_flux_Y(9), 9, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Y(), op)
+        self.domain_id = Input(_get_input_spec_heat_flux_Y(17), 17, op, -1) 
 
 class _OutputSpecHeatFluxY(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_heat_flux_Y(0), 0, op) 
+        super().__init__(_get_output_spec_heat_flux_Y(), op)
+        self.fields_container = Output(_get_output_spec_heat_flux_Y(0), 0, op) 
 
 class _HeatFluxY(_Operator):
     """Operator's description:
@@ -6603,10 +7340,8 @@ class _HeatFluxY(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("TFY")
-        self._name = "TFY"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecHeatFluxY(self._op)
-        self.outputs = _OutputSpecHeatFluxY(self._op)
+        self.inputs = _InputSpecHeatFluxY(self)
+        self.outputs = _OutputSpecHeatFluxY(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6653,7 +7388,7 @@ def heat_flux_Y():
 
 #internal name: TFZ
 #scripting name: heat_flux_Z
-def _get_input_spec_heat_flux_Z(pin):
+def _get_input_spec_heat_flux_Z(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -6674,30 +7409,46 @@ def _get_input_spec_heat_flux_Z(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_heat_flux_Z[pin]
+    if pin is None:
+        return inputs_dict_heat_flux_Z
+    else:
+        return inputs_dict_heat_flux_Z[pin]
 
-def _get_output_spec_heat_flux_Z(pin):
+def _get_output_spec_heat_flux_Z(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_heat_flux_Z = { 
         0 : outpin0
     }
-    return outputs_dict_heat_flux_Z[pin]
+    if pin is None:
+        return outputs_dict_heat_flux_Z
+    else:
+        return outputs_dict_heat_flux_Z[pin]
 
 class _InputSpecHeatFluxZ(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_heat_flux_Z(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_heat_flux_Z(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_heat_flux_Z(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_heat_flux_Z(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_heat_flux_Z(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_heat_flux_Z(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_heat_flux_Z(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_heat_flux_Z(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_heat_flux_Z(17), 17, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.time_scoping = Input(_get_input_spec_heat_flux_Z(0), 0, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.mesh_scoping = Input(_get_input_spec_heat_flux_Z(1), 1, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.fields_container = Input(_get_input_spec_heat_flux_Z(2), 2, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.streams_container = Input(_get_input_spec_heat_flux_Z(3), 3, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.data_sources = Input(_get_input_spec_heat_flux_Z(4), 4, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_heat_flux_Z(5), 5, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.mesh = Input(_get_input_spec_heat_flux_Z(7), 7, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.requested_location = Input(_get_input_spec_heat_flux_Z(9), 9, op, -1) 
+        super().__init__(_get_input_spec_heat_flux_Z(), op)
+        self.domain_id = Input(_get_input_spec_heat_flux_Z(17), 17, op, -1) 
 
 class _OutputSpecHeatFluxZ(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_heat_flux_Z(0), 0, op) 
+        super().__init__(_get_output_spec_heat_flux_Z(), op)
+        self.fields_container = Output(_get_output_spec_heat_flux_Z(0), 0, op) 
 
 class _HeatFluxZ(_Operator):
     """Operator's description:
@@ -6729,10 +7480,8 @@ class _HeatFluxZ(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("TFZ")
-        self._name = "TFZ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecHeatFluxZ(self._op)
-        self.outputs = _OutputSpecHeatFluxZ(self._op)
+        self.inputs = _InputSpecHeatFluxZ(self)
+        self.outputs = _OutputSpecHeatFluxZ(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6779,7 +7528,7 @@ def heat_flux_Z():
 
 #internal name: ENF
 #scripting name: element_nodal_forces
-def _get_input_spec_element_nodal_forces(pin):
+def _get_input_spec_element_nodal_forces(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -6800,30 +7549,46 @@ def _get_input_spec_element_nodal_forces(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_element_nodal_forces[pin]
+    if pin is None:
+        return inputs_dict_element_nodal_forces
+    else:
+        return inputs_dict_element_nodal_forces[pin]
 
-def _get_output_spec_element_nodal_forces(pin):
+def _get_output_spec_element_nodal_forces(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_element_nodal_forces = { 
         0 : outpin0
     }
-    return outputs_dict_element_nodal_forces[pin]
+    if pin is None:
+        return outputs_dict_element_nodal_forces
+    else:
+        return outputs_dict_element_nodal_forces[pin]
 
 class _InputSpecElementNodalForces(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_element_nodal_forces(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_element_nodal_forces(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_element_nodal_forces(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_element_nodal_forces(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_element_nodal_forces(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_element_nodal_forces(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_element_nodal_forces(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_element_nodal_forces(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_element_nodal_forces(17), 17, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.time_scoping = Input(_get_input_spec_element_nodal_forces(0), 0, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.mesh_scoping = Input(_get_input_spec_element_nodal_forces(1), 1, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.fields_container = Input(_get_input_spec_element_nodal_forces(2), 2, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.streams_container = Input(_get_input_spec_element_nodal_forces(3), 3, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.data_sources = Input(_get_input_spec_element_nodal_forces(4), 4, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_element_nodal_forces(5), 5, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.mesh = Input(_get_input_spec_element_nodal_forces(7), 7, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.requested_location = Input(_get_input_spec_element_nodal_forces(9), 9, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_forces(), op)
+        self.domain_id = Input(_get_input_spec_element_nodal_forces(17), 17, op, -1) 
 
 class _OutputSpecElementNodalForces(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_element_nodal_forces(0), 0, op) 
+        super().__init__(_get_output_spec_element_nodal_forces(), op)
+        self.fields_container = Output(_get_output_spec_element_nodal_forces(0), 0, op) 
 
 class _ElementNodalForces(_Operator):
     """Operator's description:
@@ -6855,10 +7620,8 @@ class _ElementNodalForces(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENF")
-        self._name = "ENF"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementNodalForces(self._op)
-        self.outputs = _OutputSpecElementNodalForces(self._op)
+        self.inputs = _InputSpecElementNodalForces(self)
+        self.outputs = _OutputSpecElementNodalForces(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -6905,7 +7668,7 @@ def element_nodal_forces():
 
 #internal name: BFE
 #scripting name: structural_temperature
-def _get_input_spec_structural_temperature(pin):
+def _get_input_spec_structural_temperature(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -6926,30 +7689,46 @@ def _get_input_spec_structural_temperature(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_structural_temperature[pin]
+    if pin is None:
+        return inputs_dict_structural_temperature
+    else:
+        return inputs_dict_structural_temperature[pin]
 
-def _get_output_spec_structural_temperature(pin):
+def _get_output_spec_structural_temperature(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_structural_temperature = { 
         0 : outpin0
     }
-    return outputs_dict_structural_temperature[pin]
+    if pin is None:
+        return outputs_dict_structural_temperature
+    else:
+        return outputs_dict_structural_temperature[pin]
 
 class _InputSpecStructuralTemperature(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_structural_temperature(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_structural_temperature(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_structural_temperature(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_structural_temperature(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_structural_temperature(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_structural_temperature(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_structural_temperature(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_structural_temperature(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_structural_temperature(17), 17, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.time_scoping = Input(_get_input_spec_structural_temperature(0), 0, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.mesh_scoping = Input(_get_input_spec_structural_temperature(1), 1, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.fields_container = Input(_get_input_spec_structural_temperature(2), 2, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.streams_container = Input(_get_input_spec_structural_temperature(3), 3, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.data_sources = Input(_get_input_spec_structural_temperature(4), 4, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_structural_temperature(5), 5, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.mesh = Input(_get_input_spec_structural_temperature(7), 7, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.requested_location = Input(_get_input_spec_structural_temperature(9), 9, op, -1) 
+        super().__init__(_get_input_spec_structural_temperature(), op)
+        self.domain_id = Input(_get_input_spec_structural_temperature(17), 17, op, -1) 
 
 class _OutputSpecStructuralTemperature(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_structural_temperature(0), 0, op) 
+        super().__init__(_get_output_spec_structural_temperature(), op)
+        self.fields_container = Output(_get_output_spec_structural_temperature(0), 0, op) 
 
 class _StructuralTemperature(_Operator):
     """Operator's description:
@@ -6981,10 +7760,8 @@ class _StructuralTemperature(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("BFE")
-        self._name = "BFE"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStructuralTemperature(self._op)
-        self.outputs = _OutputSpecStructuralTemperature(self._op)
+        self.inputs = _InputSpecStructuralTemperature(self)
+        self.outputs = _OutputSpecStructuralTemperature(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7031,7 +7808,7 @@ def structural_temperature():
 
 #internal name: ENG_INC
 #scripting name: incremental_energy
-def _get_input_spec_incremental_energy(pin):
+def _get_input_spec_incremental_energy(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7052,30 +7829,46 @@ def _get_input_spec_incremental_energy(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_incremental_energy[pin]
+    if pin is None:
+        return inputs_dict_incremental_energy
+    else:
+        return inputs_dict_incremental_energy[pin]
 
-def _get_output_spec_incremental_energy(pin):
+def _get_output_spec_incremental_energy(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_incremental_energy = { 
         0 : outpin0
     }
-    return outputs_dict_incremental_energy[pin]
+    if pin is None:
+        return outputs_dict_incremental_energy
+    else:
+        return outputs_dict_incremental_energy[pin]
 
 class _InputSpecIncrementalEnergy(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_incremental_energy(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_incremental_energy(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_incremental_energy(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_incremental_energy(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_incremental_energy(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_incremental_energy(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_incremental_energy(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_incremental_energy(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_incremental_energy(17), 17, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.time_scoping = Input(_get_input_spec_incremental_energy(0), 0, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.mesh_scoping = Input(_get_input_spec_incremental_energy(1), 1, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.fields_container = Input(_get_input_spec_incremental_energy(2), 2, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.streams_container = Input(_get_input_spec_incremental_energy(3), 3, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.data_sources = Input(_get_input_spec_incremental_energy(4), 4, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_incremental_energy(5), 5, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.mesh = Input(_get_input_spec_incremental_energy(7), 7, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.requested_location = Input(_get_input_spec_incremental_energy(9), 9, op, -1) 
+        super().__init__(_get_input_spec_incremental_energy(), op)
+        self.domain_id = Input(_get_input_spec_incremental_energy(17), 17, op, -1) 
 
 class _OutputSpecIncrementalEnergy(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_incremental_energy(0), 0, op) 
+        super().__init__(_get_output_spec_incremental_energy(), op)
+        self.fields_container = Output(_get_output_spec_incremental_energy(0), 0, op) 
 
 class _IncrementalEnergy(_Operator):
     """Operator's description:
@@ -7107,10 +7900,8 @@ class _IncrementalEnergy(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_INC")
-        self._name = "ENG_INC"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecIncrementalEnergy(self._op)
-        self.outputs = _OutputSpecIncrementalEnergy(self._op)
+        self.inputs = _InputSpecIncrementalEnergy(self)
+        self.outputs = _OutputSpecIncrementalEnergy(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7157,7 +7948,7 @@ def incremental_energy():
 
 #internal name: ENG_SE
 #scripting name: stiffness_matrix_energy
-def _get_input_spec_stiffness_matrix_energy(pin):
+def _get_input_spec_stiffness_matrix_energy(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7178,30 +7969,46 @@ def _get_input_spec_stiffness_matrix_energy(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stiffness_matrix_energy[pin]
+    if pin is None:
+        return inputs_dict_stiffness_matrix_energy
+    else:
+        return inputs_dict_stiffness_matrix_energy[pin]
 
-def _get_output_spec_stiffness_matrix_energy(pin):
+def _get_output_spec_stiffness_matrix_energy(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stiffness_matrix_energy = { 
         0 : outpin0
     }
-    return outputs_dict_stiffness_matrix_energy[pin]
+    if pin is None:
+        return outputs_dict_stiffness_matrix_energy
+    else:
+        return outputs_dict_stiffness_matrix_energy[pin]
 
 class _InputSpecStiffnessMatrixEnergy(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stiffness_matrix_energy(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stiffness_matrix_energy(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stiffness_matrix_energy(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stiffness_matrix_energy(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stiffness_matrix_energy(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stiffness_matrix_energy(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stiffness_matrix_energy(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stiffness_matrix_energy(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stiffness_matrix_energy(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.time_scoping = Input(_get_input_spec_stiffness_matrix_energy(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.mesh_scoping = Input(_get_input_spec_stiffness_matrix_energy(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.fields_container = Input(_get_input_spec_stiffness_matrix_energy(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.streams_container = Input(_get_input_spec_stiffness_matrix_energy(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.data_sources = Input(_get_input_spec_stiffness_matrix_energy(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stiffness_matrix_energy(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.mesh = Input(_get_input_spec_stiffness_matrix_energy(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.requested_location = Input(_get_input_spec_stiffness_matrix_energy(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stiffness_matrix_energy(), op)
+        self.domain_id = Input(_get_input_spec_stiffness_matrix_energy(17), 17, op, -1) 
 
 class _OutputSpecStiffnessMatrixEnergy(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stiffness_matrix_energy(0), 0, op) 
+        super().__init__(_get_output_spec_stiffness_matrix_energy(), op)
+        self.fields_container = Output(_get_output_spec_stiffness_matrix_energy(0), 0, op) 
 
 class _StiffnessMatrixEnergy(_Operator):
     """Operator's description:
@@ -7233,10 +8040,8 @@ class _StiffnessMatrixEnergy(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_SE")
-        self._name = "ENG_SE"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStiffnessMatrixEnergy(self._op)
-        self.outputs = _OutputSpecStiffnessMatrixEnergy(self._op)
+        self.inputs = _InputSpecStiffnessMatrixEnergy(self)
+        self.outputs = _OutputSpecStiffnessMatrixEnergy(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7283,7 +8088,7 @@ def stiffness_matrix_energy():
 
 #internal name: ETH
 #scripting name: thermal_strain
-def _get_input_spec_thermal_strain(pin):
+def _get_input_spec_thermal_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7304,30 +8109,46 @@ def _get_input_spec_thermal_strain(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_thermal_strain[pin]
+    if pin is None:
+        return inputs_dict_thermal_strain
+    else:
+        return inputs_dict_thermal_strain[pin]
 
-def _get_output_spec_thermal_strain(pin):
+def _get_output_spec_thermal_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_thermal_strain = { 
         0 : outpin0
     }
-    return outputs_dict_thermal_strain[pin]
+    if pin is None:
+        return outputs_dict_thermal_strain
+    else:
+        return outputs_dict_thermal_strain[pin]
 
 class _InputSpecThermalStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_thermal_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_thermal_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_thermal_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_thermal_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_thermal_strain(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_thermal_strain(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_thermal_strain(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_thermal_strain(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_thermal_strain(17), 17, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.time_scoping = Input(_get_input_spec_thermal_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_thermal_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.fields_container = Input(_get_input_spec_thermal_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.streams_container = Input(_get_input_spec_thermal_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.data_sources = Input(_get_input_spec_thermal_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_thermal_strain(5), 5, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.mesh = Input(_get_input_spec_thermal_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.requested_location = Input(_get_input_spec_thermal_strain(9), 9, op, -1) 
+        super().__init__(_get_input_spec_thermal_strain(), op)
+        self.domain_id = Input(_get_input_spec_thermal_strain(17), 17, op, -1) 
 
 class _OutputSpecThermalStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_thermal_strain(0), 0, op) 
+        super().__init__(_get_output_spec_thermal_strain(), op)
+        self.fields_container = Output(_get_output_spec_thermal_strain(0), 0, op) 
 
 class _ThermalStrain(_Operator):
     """Operator's description:
@@ -7359,10 +8180,8 @@ class _ThermalStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ETH")
-        self._name = "ETH"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecThermalStrain(self._op)
-        self.outputs = _OutputSpecThermalStrain(self._op)
+        self.inputs = _InputSpecThermalStrain(self)
+        self.outputs = _OutputSpecThermalStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7409,7 +8228,7 @@ def thermal_strain():
 
 #internal name: ENL_SEPL
 #scripting name: eqv_stress_parameter
-def _get_input_spec_eqv_stress_parameter(pin):
+def _get_input_spec_eqv_stress_parameter(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7430,30 +8249,46 @@ def _get_input_spec_eqv_stress_parameter(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_eqv_stress_parameter[pin]
+    if pin is None:
+        return inputs_dict_eqv_stress_parameter
+    else:
+        return inputs_dict_eqv_stress_parameter[pin]
 
-def _get_output_spec_eqv_stress_parameter(pin):
+def _get_output_spec_eqv_stress_parameter(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_eqv_stress_parameter = { 
         0 : outpin0
     }
-    return outputs_dict_eqv_stress_parameter[pin]
+    if pin is None:
+        return outputs_dict_eqv_stress_parameter
+    else:
+        return outputs_dict_eqv_stress_parameter[pin]
 
 class _InputSpecEqvStressParameter(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_eqv_stress_parameter(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_eqv_stress_parameter(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_eqv_stress_parameter(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_eqv_stress_parameter(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_eqv_stress_parameter(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_eqv_stress_parameter(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_eqv_stress_parameter(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_eqv_stress_parameter(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_eqv_stress_parameter(17), 17, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.time_scoping = Input(_get_input_spec_eqv_stress_parameter(0), 0, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.mesh_scoping = Input(_get_input_spec_eqv_stress_parameter(1), 1, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.fields_container = Input(_get_input_spec_eqv_stress_parameter(2), 2, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.streams_container = Input(_get_input_spec_eqv_stress_parameter(3), 3, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.data_sources = Input(_get_input_spec_eqv_stress_parameter(4), 4, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_eqv_stress_parameter(5), 5, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.mesh = Input(_get_input_spec_eqv_stress_parameter(7), 7, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.requested_location = Input(_get_input_spec_eqv_stress_parameter(9), 9, op, -1) 
+        super().__init__(_get_input_spec_eqv_stress_parameter(), op)
+        self.domain_id = Input(_get_input_spec_eqv_stress_parameter(17), 17, op, -1) 
 
 class _OutputSpecEqvStressParameter(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_eqv_stress_parameter(0), 0, op) 
+        super().__init__(_get_output_spec_eqv_stress_parameter(), op)
+        self.fields_container = Output(_get_output_spec_eqv_stress_parameter(0), 0, op) 
 
 class _EqvStressParameter(_Operator):
     """Operator's description:
@@ -7485,10 +8320,8 @@ class _EqvStressParameter(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_SEPL")
-        self._name = "ENL_SEPL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecEqvStressParameter(self._op)
-        self.outputs = _OutputSpecEqvStressParameter(self._op)
+        self.inputs = _InputSpecEqvStressParameter(self)
+        self.outputs = _OutputSpecEqvStressParameter(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7535,7 +8368,7 @@ def eqv_stress_parameter():
 
 #internal name: ENL_SRAT
 #scripting name: stress_ratio
-def _get_input_spec_stress_ratio(pin):
+def _get_input_spec_stress_ratio(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7556,30 +8389,46 @@ def _get_input_spec_stress_ratio(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_ratio[pin]
+    if pin is None:
+        return inputs_dict_stress_ratio
+    else:
+        return inputs_dict_stress_ratio[pin]
 
-def _get_output_spec_stress_ratio(pin):
+def _get_output_spec_stress_ratio(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_ratio = { 
         0 : outpin0
     }
-    return outputs_dict_stress_ratio[pin]
+    if pin is None:
+        return outputs_dict_stress_ratio
+    else:
+        return outputs_dict_stress_ratio[pin]
 
 class _InputSpecStressRatio(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_ratio(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_ratio(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_ratio(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_ratio(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_ratio(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_ratio(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_ratio(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_ratio(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_ratio(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.time_scoping = Input(_get_input_spec_stress_ratio(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_ratio(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.fields_container = Input(_get_input_spec_stress_ratio(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.streams_container = Input(_get_input_spec_stress_ratio(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.data_sources = Input(_get_input_spec_stress_ratio(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_ratio(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.mesh = Input(_get_input_spec_stress_ratio(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.requested_location = Input(_get_input_spec_stress_ratio(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_ratio(), op)
+        self.domain_id = Input(_get_input_spec_stress_ratio(17), 17, op, -1) 
 
 class _OutputSpecStressRatio(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_ratio(0), 0, op) 
+        super().__init__(_get_output_spec_stress_ratio(), op)
+        self.fields_container = Output(_get_output_spec_stress_ratio(0), 0, op) 
 
 class _StressRatio(_Operator):
     """Operator's description:
@@ -7611,10 +8460,8 @@ class _StressRatio(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_SRAT")
-        self._name = "ENL_SRAT"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressRatio(self._op)
-        self.outputs = _OutputSpecStressRatio(self._op)
+        self.inputs = _InputSpecStressRatio(self)
+        self.outputs = _OutputSpecStressRatio(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7661,7 +8508,7 @@ def stress_ratio():
 
 #internal name: ENL_EPEQ
 #scripting name: accu_eqv_plastic_strain
-def _get_input_spec_accu_eqv_plastic_strain(pin):
+def _get_input_spec_accu_eqv_plastic_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7682,30 +8529,46 @@ def _get_input_spec_accu_eqv_plastic_strain(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_accu_eqv_plastic_strain[pin]
+    if pin is None:
+        return inputs_dict_accu_eqv_plastic_strain
+    else:
+        return inputs_dict_accu_eqv_plastic_strain[pin]
 
-def _get_output_spec_accu_eqv_plastic_strain(pin):
+def _get_output_spec_accu_eqv_plastic_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_accu_eqv_plastic_strain = { 
         0 : outpin0
     }
-    return outputs_dict_accu_eqv_plastic_strain[pin]
+    if pin is None:
+        return outputs_dict_accu_eqv_plastic_strain
+    else:
+        return outputs_dict_accu_eqv_plastic_strain[pin]
 
 class _InputSpecAccuEqvPlasticStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_accu_eqv_plastic_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_accu_eqv_plastic_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_accu_eqv_plastic_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_accu_eqv_plastic_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_accu_eqv_plastic_strain(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_accu_eqv_plastic_strain(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_accu_eqv_plastic_strain(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_accu_eqv_plastic_strain(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_accu_eqv_plastic_strain(17), 17, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.time_scoping = Input(_get_input_spec_accu_eqv_plastic_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_accu_eqv_plastic_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.fields_container = Input(_get_input_spec_accu_eqv_plastic_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.streams_container = Input(_get_input_spec_accu_eqv_plastic_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.data_sources = Input(_get_input_spec_accu_eqv_plastic_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_accu_eqv_plastic_strain(5), 5, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.mesh = Input(_get_input_spec_accu_eqv_plastic_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.requested_location = Input(_get_input_spec_accu_eqv_plastic_strain(9), 9, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_plastic_strain(), op)
+        self.domain_id = Input(_get_input_spec_accu_eqv_plastic_strain(17), 17, op, -1) 
 
 class _OutputSpecAccuEqvPlasticStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_accu_eqv_plastic_strain(0), 0, op) 
+        super().__init__(_get_output_spec_accu_eqv_plastic_strain(), op)
+        self.fields_container = Output(_get_output_spec_accu_eqv_plastic_strain(0), 0, op) 
 
 class _AccuEqvPlasticStrain(_Operator):
     """Operator's description:
@@ -7737,10 +8600,8 @@ class _AccuEqvPlasticStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_EPEQ")
-        self._name = "ENL_EPEQ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccuEqvPlasticStrain(self._op)
-        self.outputs = _OutputSpecAccuEqvPlasticStrain(self._op)
+        self.inputs = _InputSpecAccuEqvPlasticStrain(self)
+        self.outputs = _OutputSpecAccuEqvPlasticStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7787,7 +8648,7 @@ def accu_eqv_plastic_strain():
 
 #internal name: ENL_PSV
 #scripting name: plastic_state_variable
-def _get_input_spec_plastic_state_variable(pin):
+def _get_input_spec_plastic_state_variable(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7808,30 +8669,46 @@ def _get_input_spec_plastic_state_variable(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_state_variable[pin]
+    if pin is None:
+        return inputs_dict_plastic_state_variable
+    else:
+        return inputs_dict_plastic_state_variable[pin]
 
-def _get_output_spec_plastic_state_variable(pin):
+def _get_output_spec_plastic_state_variable(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_state_variable = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_state_variable[pin]
+    if pin is None:
+        return outputs_dict_plastic_state_variable
+    else:
+        return outputs_dict_plastic_state_variable[pin]
 
 class _InputSpecPlasticStateVariable(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_state_variable(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_state_variable(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_state_variable(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_state_variable(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_state_variable(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_state_variable(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_state_variable(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_state_variable(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_state_variable(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_state_variable(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_state_variable(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.fields_container = Input(_get_input_spec_plastic_state_variable(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.streams_container = Input(_get_input_spec_plastic_state_variable(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.data_sources = Input(_get_input_spec_plastic_state_variable(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_state_variable(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.mesh = Input(_get_input_spec_plastic_state_variable(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.requested_location = Input(_get_input_spec_plastic_state_variable(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_state_variable(), op)
+        self.domain_id = Input(_get_input_spec_plastic_state_variable(17), 17, op, -1) 
 
 class _OutputSpecPlasticStateVariable(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_state_variable(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_state_variable(), op)
+        self.fields_container = Output(_get_output_spec_plastic_state_variable(0), 0, op) 
 
 class _PlasticStateVariable(_Operator):
     """Operator's description:
@@ -7863,10 +8740,8 @@ class _PlasticStateVariable(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_PSV")
-        self._name = "ENL_PSV"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStateVariable(self._op)
-        self.outputs = _OutputSpecPlasticStateVariable(self._op)
+        self.inputs = _InputSpecPlasticStateVariable(self)
+        self.outputs = _OutputSpecPlasticStateVariable(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -7913,7 +8788,7 @@ def plastic_state_variable():
 
 #internal name: ENL_CREQ
 #scripting name: accu_eqv_creep_strain
-def _get_input_spec_accu_eqv_creep_strain(pin):
+def _get_input_spec_accu_eqv_creep_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -7934,30 +8809,46 @@ def _get_input_spec_accu_eqv_creep_strain(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_accu_eqv_creep_strain[pin]
+    if pin is None:
+        return inputs_dict_accu_eqv_creep_strain
+    else:
+        return inputs_dict_accu_eqv_creep_strain[pin]
 
-def _get_output_spec_accu_eqv_creep_strain(pin):
+def _get_output_spec_accu_eqv_creep_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_accu_eqv_creep_strain = { 
         0 : outpin0
     }
-    return outputs_dict_accu_eqv_creep_strain[pin]
+    if pin is None:
+        return outputs_dict_accu_eqv_creep_strain
+    else:
+        return outputs_dict_accu_eqv_creep_strain[pin]
 
 class _InputSpecAccuEqvCreepStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_accu_eqv_creep_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_accu_eqv_creep_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_accu_eqv_creep_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_accu_eqv_creep_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_accu_eqv_creep_strain(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_accu_eqv_creep_strain(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_accu_eqv_creep_strain(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_accu_eqv_creep_strain(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_accu_eqv_creep_strain(17), 17, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.time_scoping = Input(_get_input_spec_accu_eqv_creep_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_accu_eqv_creep_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.fields_container = Input(_get_input_spec_accu_eqv_creep_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.streams_container = Input(_get_input_spec_accu_eqv_creep_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.data_sources = Input(_get_input_spec_accu_eqv_creep_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_accu_eqv_creep_strain(5), 5, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.mesh = Input(_get_input_spec_accu_eqv_creep_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.requested_location = Input(_get_input_spec_accu_eqv_creep_strain(9), 9, op, -1) 
+        super().__init__(_get_input_spec_accu_eqv_creep_strain(), op)
+        self.domain_id = Input(_get_input_spec_accu_eqv_creep_strain(17), 17, op, -1) 
 
 class _OutputSpecAccuEqvCreepStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_accu_eqv_creep_strain(0), 0, op) 
+        super().__init__(_get_output_spec_accu_eqv_creep_strain(), op)
+        self.fields_container = Output(_get_output_spec_accu_eqv_creep_strain(0), 0, op) 
 
 class _AccuEqvCreepStrain(_Operator):
     """Operator's description:
@@ -7989,10 +8880,8 @@ class _AccuEqvCreepStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_CREQ")
-        self._name = "ENL_CREQ"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAccuEqvCreepStrain(self._op)
-        self.outputs = _OutputSpecAccuEqvCreepStrain(self._op)
+        self.inputs = _InputSpecAccuEqvCreepStrain(self)
+        self.outputs = _OutputSpecAccuEqvCreepStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8039,7 +8928,7 @@ def accu_eqv_creep_strain():
 
 #internal name: ENL_PLWK
 #scripting name: plastic_strain_energy_density
-def _get_input_spec_plastic_strain_energy_density(pin):
+def _get_input_spec_plastic_strain_energy_density(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8060,30 +8949,46 @@ def _get_input_spec_plastic_strain_energy_density(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_plastic_strain_energy_density[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_energy_density
+    else:
+        return inputs_dict_plastic_strain_energy_density[pin]
 
-def _get_output_spec_plastic_strain_energy_density(pin):
+def _get_output_spec_plastic_strain_energy_density(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_energy_density = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_energy_density[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_energy_density
+    else:
+        return outputs_dict_plastic_strain_energy_density[pin]
 
 class _InputSpecPlasticStrainEnergyDensity(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_plastic_strain_energy_density(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_plastic_strain_energy_density(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_plastic_strain_energy_density(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_energy_density(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_energy_density(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_plastic_strain_energy_density(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_plastic_strain_energy_density(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_plastic_strain_energy_density(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_plastic_strain_energy_density(17), 17, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.time_scoping = Input(_get_input_spec_plastic_strain_energy_density(0), 0, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.mesh_scoping = Input(_get_input_spec_plastic_strain_energy_density(1), 1, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_energy_density(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_energy_density(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_energy_density(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_plastic_strain_energy_density(5), 5, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.mesh = Input(_get_input_spec_plastic_strain_energy_density(7), 7, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.requested_location = Input(_get_input_spec_plastic_strain_energy_density(9), 9, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_energy_density(), op)
+        self.domain_id = Input(_get_input_spec_plastic_strain_energy_density(17), 17, op, -1) 
 
 class _OutputSpecPlasticStrainEnergyDensity(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_energy_density(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_energy_density(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_energy_density(0), 0, op) 
 
 class _PlasticStrainEnergyDensity(_Operator):
     """Operator's description:
@@ -8115,10 +9020,8 @@ class _PlasticStrainEnergyDensity(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_PLWK")
-        self._name = "ENL_PLWK"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainEnergyDensity(self._op)
-        self.outputs = _OutputSpecPlasticStrainEnergyDensity(self._op)
+        self.inputs = _InputSpecPlasticStrainEnergyDensity(self)
+        self.outputs = _OutputSpecPlasticStrainEnergyDensity(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8165,30 +9068,39 @@ def plastic_strain_energy_density():
 
 #internal name: MaterialPropertyOfElement
 #scripting name: material_property_of_element
-def _get_input_spec_material_property_of_element(pin):
+def _get_input_spec_material_property_of_element(pin = None):
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
     inputs_dict_material_property_of_element = { 
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_material_property_of_element[pin]
+    if pin is None:
+        return inputs_dict_material_property_of_element
+    else:
+        return inputs_dict_material_property_of_element[pin]
 
-def _get_output_spec_material_property_of_element(pin):
+def _get_output_spec_material_property_of_element(pin = None):
     outpin0 = _PinSpecification(name = "material_properties", type_names = ["field"], document = """material properties""")
     outputs_dict_material_property_of_element = { 
         0 : outpin0
     }
-    return outputs_dict_material_property_of_element[pin]
+    if pin is None:
+        return outputs_dict_material_property_of_element
+    else:
+        return outputs_dict_material_property_of_element[pin]
 
 class _InputSpecMaterialPropertyOfElement(_Inputs):
     def __init__(self, op: _Operator):
-        self.streams_container = _Input(_get_input_spec_material_property_of_element(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_material_property_of_element(4), 4, op, -1) 
+        super().__init__(_get_input_spec_material_property_of_element(), op)
+        self.streams_container = Input(_get_input_spec_material_property_of_element(3), 3, op, -1) 
+        super().__init__(_get_input_spec_material_property_of_element(), op)
+        self.data_sources = Input(_get_input_spec_material_property_of_element(4), 4, op, -1) 
 
 class _OutputSpecMaterialPropertyOfElement(_Outputs):
     def __init__(self, op: _Operator):
-        self.material_properties = _Output(_get_output_spec_material_property_of_element(0), 0, op) 
+        super().__init__(_get_output_spec_material_property_of_element(), op)
+        self.material_properties = Output(_get_output_spec_material_property_of_element(0), 0, op) 
 
 class _MaterialPropertyOfElement(_Operator):
     """Operator's description:
@@ -8213,10 +9125,8 @@ class _MaterialPropertyOfElement(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("MaterialPropertyOfElement")
-        self._name = "MaterialPropertyOfElement"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMaterialPropertyOfElement(self._op)
-        self.outputs = _OutputSpecMaterialPropertyOfElement(self._op)
+        self.inputs = _InputSpecMaterialPropertyOfElement(self)
+        self.outputs = _OutputSpecMaterialPropertyOfElement(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8256,7 +9166,7 @@ def material_property_of_element():
 
 #internal name: ENL_CRWK
 #scripting name: creep_strain_energy_density
-def _get_input_spec_creep_strain_energy_density(pin):
+def _get_input_spec_creep_strain_energy_density(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8277,30 +9187,46 @@ def _get_input_spec_creep_strain_energy_density(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_creep_strain_energy_density[pin]
+    if pin is None:
+        return inputs_dict_creep_strain_energy_density
+    else:
+        return inputs_dict_creep_strain_energy_density[pin]
 
-def _get_output_spec_creep_strain_energy_density(pin):
+def _get_output_spec_creep_strain_energy_density(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_creep_strain_energy_density = { 
         0 : outpin0
     }
-    return outputs_dict_creep_strain_energy_density[pin]
+    if pin is None:
+        return outputs_dict_creep_strain_energy_density
+    else:
+        return outputs_dict_creep_strain_energy_density[pin]
 
 class _InputSpecCreepStrainEnergyDensity(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_creep_strain_energy_density(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_creep_strain_energy_density(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_creep_strain_energy_density(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_creep_strain_energy_density(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_creep_strain_energy_density(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_creep_strain_energy_density(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_creep_strain_energy_density(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_creep_strain_energy_density(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_creep_strain_energy_density(17), 17, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.time_scoping = Input(_get_input_spec_creep_strain_energy_density(0), 0, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.mesh_scoping = Input(_get_input_spec_creep_strain_energy_density(1), 1, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.fields_container = Input(_get_input_spec_creep_strain_energy_density(2), 2, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.streams_container = Input(_get_input_spec_creep_strain_energy_density(3), 3, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.data_sources = Input(_get_input_spec_creep_strain_energy_density(4), 4, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_creep_strain_energy_density(5), 5, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.mesh = Input(_get_input_spec_creep_strain_energy_density(7), 7, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.requested_location = Input(_get_input_spec_creep_strain_energy_density(9), 9, op, -1) 
+        super().__init__(_get_input_spec_creep_strain_energy_density(), op)
+        self.domain_id = Input(_get_input_spec_creep_strain_energy_density(17), 17, op, -1) 
 
 class _OutputSpecCreepStrainEnergyDensity(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_creep_strain_energy_density(0), 0, op) 
+        super().__init__(_get_output_spec_creep_strain_energy_density(), op)
+        self.fields_container = Output(_get_output_spec_creep_strain_energy_density(0), 0, op) 
 
 class _CreepStrainEnergyDensity(_Operator):
     """Operator's description:
@@ -8332,10 +9258,8 @@ class _CreepStrainEnergyDensity(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_CRWK")
-        self._name = "ENL_CRWK"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCreepStrainEnergyDensity(self._op)
-        self.outputs = _OutputSpecCreepStrainEnergyDensity(self._op)
+        self.inputs = _InputSpecCreepStrainEnergyDensity(self)
+        self.outputs = _OutputSpecCreepStrainEnergyDensity(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8382,7 +9306,7 @@ def creep_strain_energy_density():
 
 #internal name: ENL_ELENG
 #scripting name: elastic_strain_energy_density
-def _get_input_spec_elastic_strain_energy_density(pin):
+def _get_input_spec_elastic_strain_energy_density(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8403,30 +9327,46 @@ def _get_input_spec_elastic_strain_energy_density(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elastic_strain_energy_density[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_energy_density
+    else:
+        return inputs_dict_elastic_strain_energy_density[pin]
 
-def _get_output_spec_elastic_strain_energy_density(pin):
+def _get_output_spec_elastic_strain_energy_density(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_energy_density = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_energy_density[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_energy_density
+    else:
+        return outputs_dict_elastic_strain_energy_density[pin]
 
 class _InputSpecElasticStrainEnergyDensity(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elastic_strain_energy_density(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elastic_strain_energy_density(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elastic_strain_energy_density(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_energy_density(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_energy_density(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elastic_strain_energy_density(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elastic_strain_energy_density(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elastic_strain_energy_density(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elastic_strain_energy_density(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.time_scoping = Input(_get_input_spec_elastic_strain_energy_density(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.mesh_scoping = Input(_get_input_spec_elastic_strain_energy_density(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_energy_density(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_energy_density(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_energy_density(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elastic_strain_energy_density(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.mesh = Input(_get_input_spec_elastic_strain_energy_density(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.requested_location = Input(_get_input_spec_elastic_strain_energy_density(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_energy_density(), op)
+        self.domain_id = Input(_get_input_spec_elastic_strain_energy_density(17), 17, op, -1) 
 
 class _OutputSpecElasticStrainEnergyDensity(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_energy_density(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_energy_density(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_energy_density(0), 0, op) 
 
 class _ElasticStrainEnergyDensity(_Operator):
     """Operator's description:
@@ -8458,10 +9398,8 @@ class _ElasticStrainEnergyDensity(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENL_ELENG")
-        self._name = "ENL_ELENG"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainEnergyDensity(self._op)
-        self.outputs = _OutputSpecElasticStrainEnergyDensity(self._op)
+        self.inputs = _InputSpecElasticStrainEnergyDensity(self)
+        self.outputs = _OutputSpecElasticStrainEnergyDensity(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8508,7 +9446,7 @@ def elastic_strain_energy_density():
 
 #internal name: ECT_STAT
 #scripting name: contact_status
-def _get_input_spec_contact_status(pin):
+def _get_input_spec_contact_status(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8529,30 +9467,46 @@ def _get_input_spec_contact_status(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_status[pin]
+    if pin is None:
+        return inputs_dict_contact_status
+    else:
+        return inputs_dict_contact_status[pin]
 
-def _get_output_spec_contact_status(pin):
+def _get_output_spec_contact_status(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_status = { 
         0 : outpin0
     }
-    return outputs_dict_contact_status[pin]
+    if pin is None:
+        return outputs_dict_contact_status
+    else:
+        return outputs_dict_contact_status[pin]
 
 class _InputSpecContactStatus(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_status(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_status(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_status(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_status(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_status(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_status(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_status(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_status(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_status(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.time_scoping = Input(_get_input_spec_contact_status(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_status(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.fields_container = Input(_get_input_spec_contact_status(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.streams_container = Input(_get_input_spec_contact_status(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.data_sources = Input(_get_input_spec_contact_status(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_status(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.mesh = Input(_get_input_spec_contact_status(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.requested_location = Input(_get_input_spec_contact_status(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_status(), op)
+        self.domain_id = Input(_get_input_spec_contact_status(17), 17, op, -1) 
 
 class _OutputSpecContactStatus(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_status(0), 0, op) 
+        super().__init__(_get_output_spec_contact_status(), op)
+        self.fields_container = Output(_get_output_spec_contact_status(0), 0, op) 
 
 class _ContactStatus(_Operator):
     """Operator's description:
@@ -8584,10 +9538,8 @@ class _ContactStatus(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_STAT")
-        self._name = "ECT_STAT"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactStatus(self._op)
-        self.outputs = _OutputSpecContactStatus(self._op)
+        self.inputs = _InputSpecContactStatus(self)
+        self.outputs = _OutputSpecContactStatus(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8634,7 +9586,7 @@ def contact_status():
 
 #internal name: ECT_PENE
 #scripting name: contact_penetration
-def _get_input_spec_contact_penetration(pin):
+def _get_input_spec_contact_penetration(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8655,30 +9607,46 @@ def _get_input_spec_contact_penetration(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_penetration[pin]
+    if pin is None:
+        return inputs_dict_contact_penetration
+    else:
+        return inputs_dict_contact_penetration[pin]
 
-def _get_output_spec_contact_penetration(pin):
+def _get_output_spec_contact_penetration(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_penetration = { 
         0 : outpin0
     }
-    return outputs_dict_contact_penetration[pin]
+    if pin is None:
+        return outputs_dict_contact_penetration
+    else:
+        return outputs_dict_contact_penetration[pin]
 
 class _InputSpecContactPenetration(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_penetration(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_penetration(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_penetration(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_penetration(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_penetration(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_penetration(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_penetration(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_penetration(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_penetration(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.time_scoping = Input(_get_input_spec_contact_penetration(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_penetration(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.fields_container = Input(_get_input_spec_contact_penetration(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.streams_container = Input(_get_input_spec_contact_penetration(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.data_sources = Input(_get_input_spec_contact_penetration(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_penetration(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.mesh = Input(_get_input_spec_contact_penetration(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.requested_location = Input(_get_input_spec_contact_penetration(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_penetration(), op)
+        self.domain_id = Input(_get_input_spec_contact_penetration(17), 17, op, -1) 
 
 class _OutputSpecContactPenetration(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_penetration(0), 0, op) 
+        super().__init__(_get_output_spec_contact_penetration(), op)
+        self.fields_container = Output(_get_output_spec_contact_penetration(0), 0, op) 
 
 class _ContactPenetration(_Operator):
     """Operator's description:
@@ -8710,10 +9678,8 @@ class _ContactPenetration(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_PENE")
-        self._name = "ECT_PENE"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactPenetration(self._op)
-        self.outputs = _OutputSpecContactPenetration(self._op)
+        self.inputs = _InputSpecContactPenetration(self)
+        self.outputs = _OutputSpecContactPenetration(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8760,7 +9726,7 @@ def contact_penetration():
 
 #internal name: ECT_PRES
 #scripting name: contact_pressure
-def _get_input_spec_contact_pressure(pin):
+def _get_input_spec_contact_pressure(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8781,30 +9747,46 @@ def _get_input_spec_contact_pressure(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_pressure[pin]
+    if pin is None:
+        return inputs_dict_contact_pressure
+    else:
+        return inputs_dict_contact_pressure[pin]
 
-def _get_output_spec_contact_pressure(pin):
+def _get_output_spec_contact_pressure(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_pressure = { 
         0 : outpin0
     }
-    return outputs_dict_contact_pressure[pin]
+    if pin is None:
+        return outputs_dict_contact_pressure
+    else:
+        return outputs_dict_contact_pressure[pin]
 
 class _InputSpecContactPressure(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_pressure(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_pressure(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_pressure(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_pressure(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_pressure(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_pressure(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_pressure(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_pressure(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_pressure(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.time_scoping = Input(_get_input_spec_contact_pressure(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_pressure(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.fields_container = Input(_get_input_spec_contact_pressure(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.streams_container = Input(_get_input_spec_contact_pressure(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.data_sources = Input(_get_input_spec_contact_pressure(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_pressure(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.mesh = Input(_get_input_spec_contact_pressure(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.requested_location = Input(_get_input_spec_contact_pressure(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_pressure(), op)
+        self.domain_id = Input(_get_input_spec_contact_pressure(17), 17, op, -1) 
 
 class _OutputSpecContactPressure(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_pressure(0), 0, op) 
+        super().__init__(_get_output_spec_contact_pressure(), op)
+        self.fields_container = Output(_get_output_spec_contact_pressure(0), 0, op) 
 
 class _ContactPressure(_Operator):
     """Operator's description:
@@ -8836,10 +9818,8 @@ class _ContactPressure(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_PRES")
-        self._name = "ECT_PRES"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactPressure(self._op)
-        self.outputs = _OutputSpecContactPressure(self._op)
+        self.inputs = _InputSpecContactPressure(self)
+        self.outputs = _OutputSpecContactPressure(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -8886,7 +9866,7 @@ def contact_pressure():
 
 #internal name: ECT_SFRIC
 #scripting name: contact_friction_stress
-def _get_input_spec_contact_friction_stress(pin):
+def _get_input_spec_contact_friction_stress(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -8907,30 +9887,46 @@ def _get_input_spec_contact_friction_stress(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_friction_stress[pin]
+    if pin is None:
+        return inputs_dict_contact_friction_stress
+    else:
+        return inputs_dict_contact_friction_stress[pin]
 
-def _get_output_spec_contact_friction_stress(pin):
+def _get_output_spec_contact_friction_stress(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_friction_stress = { 
         0 : outpin0
     }
-    return outputs_dict_contact_friction_stress[pin]
+    if pin is None:
+        return outputs_dict_contact_friction_stress
+    else:
+        return outputs_dict_contact_friction_stress[pin]
 
 class _InputSpecContactFrictionStress(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_friction_stress(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_friction_stress(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_friction_stress(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_friction_stress(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_friction_stress(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_friction_stress(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_friction_stress(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_friction_stress(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_friction_stress(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.time_scoping = Input(_get_input_spec_contact_friction_stress(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_friction_stress(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.fields_container = Input(_get_input_spec_contact_friction_stress(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.streams_container = Input(_get_input_spec_contact_friction_stress(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.data_sources = Input(_get_input_spec_contact_friction_stress(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_friction_stress(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.mesh = Input(_get_input_spec_contact_friction_stress(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.requested_location = Input(_get_input_spec_contact_friction_stress(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_friction_stress(), op)
+        self.domain_id = Input(_get_input_spec_contact_friction_stress(17), 17, op, -1) 
 
 class _OutputSpecContactFrictionStress(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_friction_stress(0), 0, op) 
+        super().__init__(_get_output_spec_contact_friction_stress(), op)
+        self.fields_container = Output(_get_output_spec_contact_friction_stress(0), 0, op) 
 
 class _ContactFrictionStress(_Operator):
     """Operator's description:
@@ -8962,10 +9958,8 @@ class _ContactFrictionStress(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_SFRIC")
-        self._name = "ECT_SFRIC"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactFrictionStress(self._op)
-        self.outputs = _OutputSpecContactFrictionStress(self._op)
+        self.inputs = _InputSpecContactFrictionStress(self)
+        self.outputs = _OutputSpecContactFrictionStress(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9012,7 +10006,7 @@ def contact_friction_stress():
 
 #internal name: ECT_STOT
 #scripting name: contact_total_stress
-def _get_input_spec_contact_total_stress(pin):
+def _get_input_spec_contact_total_stress(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9033,30 +10027,46 @@ def _get_input_spec_contact_total_stress(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_total_stress[pin]
+    if pin is None:
+        return inputs_dict_contact_total_stress
+    else:
+        return inputs_dict_contact_total_stress[pin]
 
-def _get_output_spec_contact_total_stress(pin):
+def _get_output_spec_contact_total_stress(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_total_stress = { 
         0 : outpin0
     }
-    return outputs_dict_contact_total_stress[pin]
+    if pin is None:
+        return outputs_dict_contact_total_stress
+    else:
+        return outputs_dict_contact_total_stress[pin]
 
 class _InputSpecContactTotalStress(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_total_stress(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_total_stress(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_total_stress(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_total_stress(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_total_stress(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_total_stress(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_total_stress(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_total_stress(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_total_stress(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.time_scoping = Input(_get_input_spec_contact_total_stress(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_total_stress(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.fields_container = Input(_get_input_spec_contact_total_stress(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.streams_container = Input(_get_input_spec_contact_total_stress(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.data_sources = Input(_get_input_spec_contact_total_stress(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_total_stress(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.mesh = Input(_get_input_spec_contact_total_stress(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.requested_location = Input(_get_input_spec_contact_total_stress(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_total_stress(), op)
+        self.domain_id = Input(_get_input_spec_contact_total_stress(17), 17, op, -1) 
 
 class _OutputSpecContactTotalStress(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_total_stress(0), 0, op) 
+        super().__init__(_get_output_spec_contact_total_stress(), op)
+        self.fields_container = Output(_get_output_spec_contact_total_stress(0), 0, op) 
 
 class _ContactTotalStress(_Operator):
     """Operator's description:
@@ -9088,10 +10098,8 @@ class _ContactTotalStress(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_STOT")
-        self._name = "ECT_STOT"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactTotalStress(self._op)
-        self.outputs = _OutputSpecContactTotalStress(self._op)
+        self.inputs = _InputSpecContactTotalStress(self)
+        self.outputs = _OutputSpecContactTotalStress(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9138,7 +10146,7 @@ def contact_total_stress():
 
 #internal name: ECT_SLIDE
 #scripting name: contact_sliding_distance
-def _get_input_spec_contact_sliding_distance(pin):
+def _get_input_spec_contact_sliding_distance(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9159,30 +10167,46 @@ def _get_input_spec_contact_sliding_distance(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_sliding_distance[pin]
+    if pin is None:
+        return inputs_dict_contact_sliding_distance
+    else:
+        return inputs_dict_contact_sliding_distance[pin]
 
-def _get_output_spec_contact_sliding_distance(pin):
+def _get_output_spec_contact_sliding_distance(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_sliding_distance = { 
         0 : outpin0
     }
-    return outputs_dict_contact_sliding_distance[pin]
+    if pin is None:
+        return outputs_dict_contact_sliding_distance
+    else:
+        return outputs_dict_contact_sliding_distance[pin]
 
 class _InputSpecContactSlidingDistance(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_sliding_distance(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_sliding_distance(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_sliding_distance(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_sliding_distance(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_sliding_distance(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_sliding_distance(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_sliding_distance(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_sliding_distance(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_sliding_distance(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.time_scoping = Input(_get_input_spec_contact_sliding_distance(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_sliding_distance(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.fields_container = Input(_get_input_spec_contact_sliding_distance(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.streams_container = Input(_get_input_spec_contact_sliding_distance(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.data_sources = Input(_get_input_spec_contact_sliding_distance(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_sliding_distance(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.mesh = Input(_get_input_spec_contact_sliding_distance(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.requested_location = Input(_get_input_spec_contact_sliding_distance(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_sliding_distance(), op)
+        self.domain_id = Input(_get_input_spec_contact_sliding_distance(17), 17, op, -1) 
 
 class _OutputSpecContactSlidingDistance(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_sliding_distance(0), 0, op) 
+        super().__init__(_get_output_spec_contact_sliding_distance(), op)
+        self.fields_container = Output(_get_output_spec_contact_sliding_distance(0), 0, op) 
 
 class _ContactSlidingDistance(_Operator):
     """Operator's description:
@@ -9214,10 +10238,8 @@ class _ContactSlidingDistance(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_SLIDE")
-        self._name = "ECT_SLIDE"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactSlidingDistance(self._op)
-        self.outputs = _OutputSpecContactSlidingDistance(self._op)
+        self.inputs = _InputSpecContactSlidingDistance(self)
+        self.outputs = _OutputSpecContactSlidingDistance(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9264,7 +10286,7 @@ def contact_sliding_distance():
 
 #internal name: ECT_GAP
 #scripting name: contact_gap_distance
-def _get_input_spec_contact_gap_distance(pin):
+def _get_input_spec_contact_gap_distance(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9285,30 +10307,46 @@ def _get_input_spec_contact_gap_distance(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_gap_distance[pin]
+    if pin is None:
+        return inputs_dict_contact_gap_distance
+    else:
+        return inputs_dict_contact_gap_distance[pin]
 
-def _get_output_spec_contact_gap_distance(pin):
+def _get_output_spec_contact_gap_distance(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_gap_distance = { 
         0 : outpin0
     }
-    return outputs_dict_contact_gap_distance[pin]
+    if pin is None:
+        return outputs_dict_contact_gap_distance
+    else:
+        return outputs_dict_contact_gap_distance[pin]
 
 class _InputSpecContactGapDistance(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_gap_distance(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_gap_distance(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_gap_distance(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_gap_distance(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_gap_distance(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_gap_distance(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_gap_distance(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_gap_distance(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_gap_distance(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.time_scoping = Input(_get_input_spec_contact_gap_distance(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_gap_distance(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.fields_container = Input(_get_input_spec_contact_gap_distance(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.streams_container = Input(_get_input_spec_contact_gap_distance(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.data_sources = Input(_get_input_spec_contact_gap_distance(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_gap_distance(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.mesh = Input(_get_input_spec_contact_gap_distance(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.requested_location = Input(_get_input_spec_contact_gap_distance(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_gap_distance(), op)
+        self.domain_id = Input(_get_input_spec_contact_gap_distance(17), 17, op, -1) 
 
 class _OutputSpecContactGapDistance(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_gap_distance(0), 0, op) 
+        super().__init__(_get_output_spec_contact_gap_distance(), op)
+        self.fields_container = Output(_get_output_spec_contact_gap_distance(0), 0, op) 
 
 class _ContactGapDistance(_Operator):
     """Operator's description:
@@ -9340,10 +10378,8 @@ class _ContactGapDistance(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_GAP")
-        self._name = "ECT_GAP"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactGapDistance(self._op)
-        self.outputs = _OutputSpecContactGapDistance(self._op)
+        self.inputs = _InputSpecContactGapDistance(self)
+        self.outputs = _OutputSpecContactGapDistance(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9390,7 +10426,7 @@ def contact_gap_distance():
 
 #internal name: ECT_FLUX
 #scripting name: contact_surface_heat_flux
-def _get_input_spec_contact_surface_heat_flux(pin):
+def _get_input_spec_contact_surface_heat_flux(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9411,30 +10447,46 @@ def _get_input_spec_contact_surface_heat_flux(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_surface_heat_flux[pin]
+    if pin is None:
+        return inputs_dict_contact_surface_heat_flux
+    else:
+        return inputs_dict_contact_surface_heat_flux[pin]
 
-def _get_output_spec_contact_surface_heat_flux(pin):
+def _get_output_spec_contact_surface_heat_flux(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_surface_heat_flux = { 
         0 : outpin0
     }
-    return outputs_dict_contact_surface_heat_flux[pin]
+    if pin is None:
+        return outputs_dict_contact_surface_heat_flux
+    else:
+        return outputs_dict_contact_surface_heat_flux[pin]
 
 class _InputSpecContactSurfaceHeatFlux(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_surface_heat_flux(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_surface_heat_flux(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_surface_heat_flux(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_surface_heat_flux(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_surface_heat_flux(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_surface_heat_flux(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_surface_heat_flux(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_surface_heat_flux(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_surface_heat_flux(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.time_scoping = Input(_get_input_spec_contact_surface_heat_flux(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_surface_heat_flux(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.fields_container = Input(_get_input_spec_contact_surface_heat_flux(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.streams_container = Input(_get_input_spec_contact_surface_heat_flux(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.data_sources = Input(_get_input_spec_contact_surface_heat_flux(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_surface_heat_flux(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.mesh = Input(_get_input_spec_contact_surface_heat_flux(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.requested_location = Input(_get_input_spec_contact_surface_heat_flux(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_surface_heat_flux(), op)
+        self.domain_id = Input(_get_input_spec_contact_surface_heat_flux(17), 17, op, -1) 
 
 class _OutputSpecContactSurfaceHeatFlux(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_surface_heat_flux(0), 0, op) 
+        super().__init__(_get_output_spec_contact_surface_heat_flux(), op)
+        self.fields_container = Output(_get_output_spec_contact_surface_heat_flux(0), 0, op) 
 
 class _ContactSurfaceHeatFlux(_Operator):
     """Operator's description:
@@ -9466,10 +10518,8 @@ class _ContactSurfaceHeatFlux(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_FLUX")
-        self._name = "ECT_FLUX"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactSurfaceHeatFlux(self._op)
-        self.outputs = _OutputSpecContactSurfaceHeatFlux(self._op)
+        self.inputs = _InputSpecContactSurfaceHeatFlux(self)
+        self.outputs = _OutputSpecContactSurfaceHeatFlux(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9516,7 +10566,7 @@ def contact_surface_heat_flux():
 
 #internal name: ECT_CNOS
 #scripting name: num_surface_status_changes
-def _get_input_spec_num_surface_status_changes(pin):
+def _get_input_spec_num_surface_status_changes(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9537,30 +10587,46 @@ def _get_input_spec_num_surface_status_changes(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_num_surface_status_changes[pin]
+    if pin is None:
+        return inputs_dict_num_surface_status_changes
+    else:
+        return inputs_dict_num_surface_status_changes[pin]
 
-def _get_output_spec_num_surface_status_changes(pin):
+def _get_output_spec_num_surface_status_changes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_num_surface_status_changes = { 
         0 : outpin0
     }
-    return outputs_dict_num_surface_status_changes[pin]
+    if pin is None:
+        return outputs_dict_num_surface_status_changes
+    else:
+        return outputs_dict_num_surface_status_changes[pin]
 
 class _InputSpecNumSurfaceStatusChanges(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_num_surface_status_changes(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_num_surface_status_changes(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_num_surface_status_changes(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_num_surface_status_changes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_num_surface_status_changes(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_num_surface_status_changes(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_num_surface_status_changes(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_num_surface_status_changes(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_num_surface_status_changes(17), 17, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.time_scoping = Input(_get_input_spec_num_surface_status_changes(0), 0, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.mesh_scoping = Input(_get_input_spec_num_surface_status_changes(1), 1, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.fields_container = Input(_get_input_spec_num_surface_status_changes(2), 2, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.streams_container = Input(_get_input_spec_num_surface_status_changes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.data_sources = Input(_get_input_spec_num_surface_status_changes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_num_surface_status_changes(5), 5, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.mesh = Input(_get_input_spec_num_surface_status_changes(7), 7, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.requested_location = Input(_get_input_spec_num_surface_status_changes(9), 9, op, -1) 
+        super().__init__(_get_input_spec_num_surface_status_changes(), op)
+        self.domain_id = Input(_get_input_spec_num_surface_status_changes(17), 17, op, -1) 
 
 class _OutputSpecNumSurfaceStatusChanges(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_num_surface_status_changes(0), 0, op) 
+        super().__init__(_get_output_spec_num_surface_status_changes(), op)
+        self.fields_container = Output(_get_output_spec_num_surface_status_changes(0), 0, op) 
 
 class _NumSurfaceStatusChanges(_Operator):
     """Operator's description:
@@ -9592,10 +10658,8 @@ class _NumSurfaceStatusChanges(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_CNOS")
-        self._name = "ECT_CNOS"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNumSurfaceStatusChanges(self._op)
-        self.outputs = _OutputSpecNumSurfaceStatusChanges(self._op)
+        self.inputs = _InputSpecNumSurfaceStatusChanges(self)
+        self.outputs = _OutputSpecNumSurfaceStatusChanges(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9642,7 +10706,7 @@ def num_surface_status_changes():
 
 #internal name: ECT_FRES
 #scripting name: contact_fluid_penetration_pressure
-def _get_input_spec_contact_fluid_penetration_pressure(pin):
+def _get_input_spec_contact_fluid_penetration_pressure(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9663,30 +10727,46 @@ def _get_input_spec_contact_fluid_penetration_pressure(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_contact_fluid_penetration_pressure[pin]
+    if pin is None:
+        return inputs_dict_contact_fluid_penetration_pressure
+    else:
+        return inputs_dict_contact_fluid_penetration_pressure[pin]
 
-def _get_output_spec_contact_fluid_penetration_pressure(pin):
+def _get_output_spec_contact_fluid_penetration_pressure(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_contact_fluid_penetration_pressure = { 
         0 : outpin0
     }
-    return outputs_dict_contact_fluid_penetration_pressure[pin]
+    if pin is None:
+        return outputs_dict_contact_fluid_penetration_pressure
+    else:
+        return outputs_dict_contact_fluid_penetration_pressure[pin]
 
 class _InputSpecContactFluidPenetrationPressure(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_contact_fluid_penetration_pressure(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_contact_fluid_penetration_pressure(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_contact_fluid_penetration_pressure(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_contact_fluid_penetration_pressure(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_contact_fluid_penetration_pressure(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_contact_fluid_penetration_pressure(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_contact_fluid_penetration_pressure(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_contact_fluid_penetration_pressure(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_contact_fluid_penetration_pressure(17), 17, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.time_scoping = Input(_get_input_spec_contact_fluid_penetration_pressure(0), 0, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.mesh_scoping = Input(_get_input_spec_contact_fluid_penetration_pressure(1), 1, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.fields_container = Input(_get_input_spec_contact_fluid_penetration_pressure(2), 2, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.streams_container = Input(_get_input_spec_contact_fluid_penetration_pressure(3), 3, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.data_sources = Input(_get_input_spec_contact_fluid_penetration_pressure(4), 4, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_contact_fluid_penetration_pressure(5), 5, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.mesh = Input(_get_input_spec_contact_fluid_penetration_pressure(7), 7, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.requested_location = Input(_get_input_spec_contact_fluid_penetration_pressure(9), 9, op, -1) 
+        super().__init__(_get_input_spec_contact_fluid_penetration_pressure(), op)
+        self.domain_id = Input(_get_input_spec_contact_fluid_penetration_pressure(17), 17, op, -1) 
 
 class _OutputSpecContactFluidPenetrationPressure(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_contact_fluid_penetration_pressure(0), 0, op) 
+        super().__init__(_get_output_spec_contact_fluid_penetration_pressure(), op)
+        self.fields_container = Output(_get_output_spec_contact_fluid_penetration_pressure(0), 0, op) 
 
 class _ContactFluidPenetrationPressure(_Operator):
     """Operator's description:
@@ -9718,10 +10798,8 @@ class _ContactFluidPenetrationPressure(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ECT_FRES")
-        self._name = "ECT_FRES"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecContactFluidPenetrationPressure(self._op)
-        self.outputs = _OutputSpecContactFluidPenetrationPressure(self._op)
+        self.inputs = _InputSpecContactFluidPenetrationPressure(self)
+        self.outputs = _OutputSpecContactFluidPenetrationPressure(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9768,7 +10846,7 @@ def contact_fluid_penetration_pressure():
 
 #internal name: ENG_VOL
 #scripting name: elemental_volume
-def _get_input_spec_elemental_volume(pin):
+def _get_input_spec_elemental_volume(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9789,30 +10867,46 @@ def _get_input_spec_elemental_volume(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_elemental_volume[pin]
+    if pin is None:
+        return inputs_dict_elemental_volume
+    else:
+        return inputs_dict_elemental_volume[pin]
 
-def _get_output_spec_elemental_volume(pin):
+def _get_output_spec_elemental_volume(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elemental_volume = { 
         0 : outpin0
     }
-    return outputs_dict_elemental_volume[pin]
+    if pin is None:
+        return outputs_dict_elemental_volume
+    else:
+        return outputs_dict_elemental_volume[pin]
 
 class _InputSpecElementalVolume(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_elemental_volume(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_elemental_volume(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_elemental_volume(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elemental_volume(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elemental_volume(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_elemental_volume(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_elemental_volume(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_elemental_volume(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_elemental_volume(17), 17, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.time_scoping = Input(_get_input_spec_elemental_volume(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.mesh_scoping = Input(_get_input_spec_elemental_volume(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.fields_container = Input(_get_input_spec_elemental_volume(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.streams_container = Input(_get_input_spec_elemental_volume(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.data_sources = Input(_get_input_spec_elemental_volume(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_elemental_volume(5), 5, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.mesh = Input(_get_input_spec_elemental_volume(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.requested_location = Input(_get_input_spec_elemental_volume(9), 9, op, -1) 
+        super().__init__(_get_input_spec_elemental_volume(), op)
+        self.domain_id = Input(_get_input_spec_elemental_volume(17), 17, op, -1) 
 
 class _OutputSpecElementalVolume(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elemental_volume(0), 0, op) 
+        super().__init__(_get_output_spec_elemental_volume(), op)
+        self.fields_container = Output(_get_output_spec_elemental_volume(0), 0, op) 
 
 class _ElementalVolume(_Operator):
     """Operator's description:
@@ -9844,10 +10938,8 @@ class _ElementalVolume(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_VOL")
-        self._name = "ENG_VOL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementalVolume(self._op)
-        self.outputs = _OutputSpecElementalVolume(self._op)
+        self.inputs = _InputSpecElementalVolume(self)
+        self.outputs = _OutputSpecElementalVolume(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -9894,7 +10986,7 @@ def elemental_volume():
 
 #internal name: ENG_AHO
 #scripting name: artificial_hourglass_energy
-def _get_input_spec_artificial_hourglass_energy(pin):
+def _get_input_spec_artificial_hourglass_energy(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -9915,30 +11007,46 @@ def _get_input_spec_artificial_hourglass_energy(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_artificial_hourglass_energy[pin]
+    if pin is None:
+        return inputs_dict_artificial_hourglass_energy
+    else:
+        return inputs_dict_artificial_hourglass_energy[pin]
 
-def _get_output_spec_artificial_hourglass_energy(pin):
+def _get_output_spec_artificial_hourglass_energy(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_artificial_hourglass_energy = { 
         0 : outpin0
     }
-    return outputs_dict_artificial_hourglass_energy[pin]
+    if pin is None:
+        return outputs_dict_artificial_hourglass_energy
+    else:
+        return outputs_dict_artificial_hourglass_energy[pin]
 
 class _InputSpecArtificialHourglassEnergy(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_artificial_hourglass_energy(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_artificial_hourglass_energy(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_artificial_hourglass_energy(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_artificial_hourglass_energy(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_artificial_hourglass_energy(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_artificial_hourglass_energy(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_artificial_hourglass_energy(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_artificial_hourglass_energy(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_artificial_hourglass_energy(17), 17, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.time_scoping = Input(_get_input_spec_artificial_hourglass_energy(0), 0, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.mesh_scoping = Input(_get_input_spec_artificial_hourglass_energy(1), 1, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.fields_container = Input(_get_input_spec_artificial_hourglass_energy(2), 2, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.streams_container = Input(_get_input_spec_artificial_hourglass_energy(3), 3, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.data_sources = Input(_get_input_spec_artificial_hourglass_energy(4), 4, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_artificial_hourglass_energy(5), 5, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.mesh = Input(_get_input_spec_artificial_hourglass_energy(7), 7, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.requested_location = Input(_get_input_spec_artificial_hourglass_energy(9), 9, op, -1) 
+        super().__init__(_get_input_spec_artificial_hourglass_energy(), op)
+        self.domain_id = Input(_get_input_spec_artificial_hourglass_energy(17), 17, op, -1) 
 
 class _OutputSpecArtificialHourglassEnergy(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_artificial_hourglass_energy(0), 0, op) 
+        super().__init__(_get_output_spec_artificial_hourglass_energy(), op)
+        self.fields_container = Output(_get_output_spec_artificial_hourglass_energy(0), 0, op) 
 
 class _ArtificialHourglassEnergy(_Operator):
     """Operator's description:
@@ -9970,10 +11078,8 @@ class _ArtificialHourglassEnergy(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_AHO")
-        self._name = "ENG_AHO"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecArtificialHourglassEnergy(self._op)
-        self.outputs = _OutputSpecArtificialHourglassEnergy(self._op)
+        self.inputs = _InputSpecArtificialHourglassEnergy(self)
+        self.outputs = _OutputSpecArtificialHourglassEnergy(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10020,7 +11126,7 @@ def artificial_hourglass_energy():
 
 #internal name: ENG_KE
 #scripting name: kinetic_energy
-def _get_input_spec_kinetic_energy(pin):
+def _get_input_spec_kinetic_energy(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10041,30 +11147,46 @@ def _get_input_spec_kinetic_energy(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_kinetic_energy[pin]
+    if pin is None:
+        return inputs_dict_kinetic_energy
+    else:
+        return inputs_dict_kinetic_energy[pin]
 
-def _get_output_spec_kinetic_energy(pin):
+def _get_output_spec_kinetic_energy(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_kinetic_energy = { 
         0 : outpin0
     }
-    return outputs_dict_kinetic_energy[pin]
+    if pin is None:
+        return outputs_dict_kinetic_energy
+    else:
+        return outputs_dict_kinetic_energy[pin]
 
 class _InputSpecKineticEnergy(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_kinetic_energy(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_kinetic_energy(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_kinetic_energy(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_kinetic_energy(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_kinetic_energy(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_kinetic_energy(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_kinetic_energy(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_kinetic_energy(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_kinetic_energy(17), 17, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.time_scoping = Input(_get_input_spec_kinetic_energy(0), 0, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.mesh_scoping = Input(_get_input_spec_kinetic_energy(1), 1, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.fields_container = Input(_get_input_spec_kinetic_energy(2), 2, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.streams_container = Input(_get_input_spec_kinetic_energy(3), 3, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.data_sources = Input(_get_input_spec_kinetic_energy(4), 4, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_kinetic_energy(5), 5, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.mesh = Input(_get_input_spec_kinetic_energy(7), 7, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.requested_location = Input(_get_input_spec_kinetic_energy(9), 9, op, -1) 
+        super().__init__(_get_input_spec_kinetic_energy(), op)
+        self.domain_id = Input(_get_input_spec_kinetic_energy(17), 17, op, -1) 
 
 class _OutputSpecKineticEnergy(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_kinetic_energy(0), 0, op) 
+        super().__init__(_get_output_spec_kinetic_energy(), op)
+        self.fields_container = Output(_get_output_spec_kinetic_energy(0), 0, op) 
 
 class _KineticEnergy(_Operator):
     """Operator's description:
@@ -10096,10 +11218,8 @@ class _KineticEnergy(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_KE")
-        self._name = "ENG_KE"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecKineticEnergy(self._op)
-        self.outputs = _OutputSpecKineticEnergy(self._op)
+        self.inputs = _InputSpecKineticEnergy(self)
+        self.outputs = _OutputSpecKineticEnergy(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10146,7 +11266,7 @@ def kinetic_energy():
 
 #internal name: ENG_TH
 #scripting name: thermal_dissipation_energy
-def _get_input_spec_thermal_dissipation_energy(pin):
+def _get_input_spec_thermal_dissipation_energy(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10167,30 +11287,46 @@ def _get_input_spec_thermal_dissipation_energy(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_thermal_dissipation_energy[pin]
+    if pin is None:
+        return inputs_dict_thermal_dissipation_energy
+    else:
+        return inputs_dict_thermal_dissipation_energy[pin]
 
-def _get_output_spec_thermal_dissipation_energy(pin):
+def _get_output_spec_thermal_dissipation_energy(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_thermal_dissipation_energy = { 
         0 : outpin0
     }
-    return outputs_dict_thermal_dissipation_energy[pin]
+    if pin is None:
+        return outputs_dict_thermal_dissipation_energy
+    else:
+        return outputs_dict_thermal_dissipation_energy[pin]
 
 class _InputSpecThermalDissipationEnergy(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_thermal_dissipation_energy(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_thermal_dissipation_energy(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_thermal_dissipation_energy(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_thermal_dissipation_energy(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_thermal_dissipation_energy(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_thermal_dissipation_energy(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_thermal_dissipation_energy(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_thermal_dissipation_energy(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_thermal_dissipation_energy(17), 17, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.time_scoping = Input(_get_input_spec_thermal_dissipation_energy(0), 0, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.mesh_scoping = Input(_get_input_spec_thermal_dissipation_energy(1), 1, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.fields_container = Input(_get_input_spec_thermal_dissipation_energy(2), 2, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.streams_container = Input(_get_input_spec_thermal_dissipation_energy(3), 3, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.data_sources = Input(_get_input_spec_thermal_dissipation_energy(4), 4, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_thermal_dissipation_energy(5), 5, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.mesh = Input(_get_input_spec_thermal_dissipation_energy(7), 7, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.requested_location = Input(_get_input_spec_thermal_dissipation_energy(9), 9, op, -1) 
+        super().__init__(_get_input_spec_thermal_dissipation_energy(), op)
+        self.domain_id = Input(_get_input_spec_thermal_dissipation_energy(17), 17, op, -1) 
 
 class _OutputSpecThermalDissipationEnergy(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_thermal_dissipation_energy(0), 0, op) 
+        super().__init__(_get_output_spec_thermal_dissipation_energy(), op)
+        self.fields_container = Output(_get_output_spec_thermal_dissipation_energy(0), 0, op) 
 
 class _ThermalDissipationEnergy(_Operator):
     """Operator's description:
@@ -10222,10 +11358,8 @@ class _ThermalDissipationEnergy(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENG_TH")
-        self._name = "ENG_TH"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecThermalDissipationEnergy(self._op)
-        self.outputs = _OutputSpecThermalDissipationEnergy(self._op)
+        self.inputs = _InputSpecThermalDissipationEnergy(self)
+        self.outputs = _OutputSpecThermalDissipationEnergy(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10272,7 +11406,7 @@ def thermal_dissipation_energy():
 
 #internal name: F
 #scripting name: nodal_force
-def _get_input_spec_nodal_force(pin):
+def _get_input_spec_nodal_force(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10293,30 +11427,46 @@ def _get_input_spec_nodal_force(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_nodal_force[pin]
+    if pin is None:
+        return inputs_dict_nodal_force
+    else:
+        return inputs_dict_nodal_force[pin]
 
-def _get_output_spec_nodal_force(pin):
+def _get_output_spec_nodal_force(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_nodal_force = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_force[pin]
+    if pin is None:
+        return outputs_dict_nodal_force
+    else:
+        return outputs_dict_nodal_force[pin]
 
 class _InputSpecNodalForce(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_force(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_force(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_force(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_force(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_force(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_nodal_force(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_force(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_nodal_force(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_nodal_force(17), 17, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_force(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_force(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.fields_container = Input(_get_input_spec_nodal_force(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.streams_container = Input(_get_input_spec_nodal_force(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.data_sources = Input(_get_input_spec_nodal_force(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_nodal_force(5), 5, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.mesh = Input(_get_input_spec_nodal_force(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.requested_location = Input(_get_input_spec_nodal_force(9), 9, op, -1) 
+        super().__init__(_get_input_spec_nodal_force(), op)
+        self.domain_id = Input(_get_input_spec_nodal_force(17), 17, op, -1) 
 
 class _OutputSpecNodalForce(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_force(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_force(), op)
+        self.fields_container = Output(_get_output_spec_nodal_force(0), 0, op) 
 
 class _NodalForce(_Operator):
     """Operator's description:
@@ -10348,10 +11498,8 @@ class _NodalForce(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("F")
-        self._name = "F"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalForce(self._op)
-        self.outputs = _OutputSpecNodalForce(self._op)
+        self.inputs = _InputSpecNodalForce(self)
+        self.outputs = _OutputSpecNodalForce(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10398,7 +11546,7 @@ def nodal_force():
 
 #internal name: M
 #scripting name: nodal_moment
-def _get_input_spec_nodal_moment(pin):
+def _get_input_spec_nodal_moment(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10419,30 +11567,46 @@ def _get_input_spec_nodal_moment(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_nodal_moment[pin]
+    if pin is None:
+        return inputs_dict_nodal_moment
+    else:
+        return inputs_dict_nodal_moment[pin]
 
-def _get_output_spec_nodal_moment(pin):
+def _get_output_spec_nodal_moment(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_nodal_moment = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_moment[pin]
+    if pin is None:
+        return outputs_dict_nodal_moment
+    else:
+        return outputs_dict_nodal_moment[pin]
 
 class _InputSpecNodalMoment(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_moment(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_moment(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_moment(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_moment(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_moment(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_nodal_moment(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_moment(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_nodal_moment(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_nodal_moment(17), 17, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_moment(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_moment(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.fields_container = Input(_get_input_spec_nodal_moment(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.streams_container = Input(_get_input_spec_nodal_moment(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.data_sources = Input(_get_input_spec_nodal_moment(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_nodal_moment(5), 5, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.mesh = Input(_get_input_spec_nodal_moment(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.requested_location = Input(_get_input_spec_nodal_moment(9), 9, op, -1) 
+        super().__init__(_get_input_spec_nodal_moment(), op)
+        self.domain_id = Input(_get_input_spec_nodal_moment(17), 17, op, -1) 
 
 class _OutputSpecNodalMoment(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_moment(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_moment(), op)
+        self.fields_container = Output(_get_output_spec_nodal_moment(0), 0, op) 
 
 class _NodalMoment(_Operator):
     """Operator's description:
@@ -10474,10 +11638,8 @@ class _NodalMoment(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("M")
-        self._name = "M"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalMoment(self._op)
-        self.outputs = _OutputSpecNodalMoment(self._op)
+        self.inputs = _InputSpecNodalMoment(self)
+        self.outputs = _OutputSpecNodalMoment(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10524,7 +11686,7 @@ def nodal_moment():
 
 #internal name: TEMP
 #scripting name: temperature
-def _get_input_spec_temperature(pin):
+def _get_input_spec_temperature(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10545,30 +11707,46 @@ def _get_input_spec_temperature(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_temperature[pin]
+    if pin is None:
+        return inputs_dict_temperature
+    else:
+        return inputs_dict_temperature[pin]
 
-def _get_output_spec_temperature(pin):
+def _get_output_spec_temperature(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_temperature = { 
         0 : outpin0
     }
-    return outputs_dict_temperature[pin]
+    if pin is None:
+        return outputs_dict_temperature
+    else:
+        return outputs_dict_temperature[pin]
 
 class _InputSpecTemperature(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_temperature(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_temperature(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_temperature(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_temperature(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_temperature(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_temperature(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_temperature(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_temperature(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_temperature(17), 17, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.time_scoping = Input(_get_input_spec_temperature(0), 0, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.mesh_scoping = Input(_get_input_spec_temperature(1), 1, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.fields_container = Input(_get_input_spec_temperature(2), 2, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.streams_container = Input(_get_input_spec_temperature(3), 3, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.data_sources = Input(_get_input_spec_temperature(4), 4, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_temperature(5), 5, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.mesh = Input(_get_input_spec_temperature(7), 7, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.requested_location = Input(_get_input_spec_temperature(9), 9, op, -1) 
+        super().__init__(_get_input_spec_temperature(), op)
+        self.domain_id = Input(_get_input_spec_temperature(17), 17, op, -1) 
 
 class _OutputSpecTemperature(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_temperature(0), 0, op) 
+        super().__init__(_get_output_spec_temperature(), op)
+        self.fields_container = Output(_get_output_spec_temperature(0), 0, op) 
 
 class _Temperature(_Operator):
     """Operator's description:
@@ -10600,10 +11778,8 @@ class _Temperature(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("TEMP")
-        self._name = "TEMP"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecTemperature(self._op)
-        self.outputs = _OutputSpecTemperature(self._op)
+        self.inputs = _InputSpecTemperature(self)
+        self.outputs = _OutputSpecTemperature(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10650,7 +11826,7 @@ def temperature():
 
 #internal name: UTOT
 #scripting name: raw_displacement
-def _get_input_spec_raw_displacement(pin):
+def _get_input_spec_raw_displacement(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10671,30 +11847,46 @@ def _get_input_spec_raw_displacement(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_raw_displacement[pin]
+    if pin is None:
+        return inputs_dict_raw_displacement
+    else:
+        return inputs_dict_raw_displacement[pin]
 
-def _get_output_spec_raw_displacement(pin):
+def _get_output_spec_raw_displacement(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_raw_displacement = { 
         0 : outpin0
     }
-    return outputs_dict_raw_displacement[pin]
+    if pin is None:
+        return outputs_dict_raw_displacement
+    else:
+        return outputs_dict_raw_displacement[pin]
 
 class _InputSpecRawDisplacement(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_raw_displacement(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_raw_displacement(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_raw_displacement(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_raw_displacement(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_raw_displacement(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_raw_displacement(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_raw_displacement(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_raw_displacement(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_raw_displacement(17), 17, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.time_scoping = Input(_get_input_spec_raw_displacement(0), 0, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.mesh_scoping = Input(_get_input_spec_raw_displacement(1), 1, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.fields_container = Input(_get_input_spec_raw_displacement(2), 2, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.streams_container = Input(_get_input_spec_raw_displacement(3), 3, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.data_sources = Input(_get_input_spec_raw_displacement(4), 4, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_raw_displacement(5), 5, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.mesh = Input(_get_input_spec_raw_displacement(7), 7, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.requested_location = Input(_get_input_spec_raw_displacement(9), 9, op, -1) 
+        super().__init__(_get_input_spec_raw_displacement(), op)
+        self.domain_id = Input(_get_input_spec_raw_displacement(17), 17, op, -1) 
 
 class _OutputSpecRawDisplacement(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_raw_displacement(0), 0, op) 
+        super().__init__(_get_output_spec_raw_displacement(), op)
+        self.fields_container = Output(_get_output_spec_raw_displacement(0), 0, op) 
 
 class _RawDisplacement(_Operator):
     """Operator's description:
@@ -10726,10 +11918,8 @@ class _RawDisplacement(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("UTOT")
-        self._name = "UTOT"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRawDisplacement(self._op)
-        self.outputs = _OutputSpecRawDisplacement(self._op)
+        self.inputs = _InputSpecRawDisplacement(self)
+        self.outputs = _OutputSpecRawDisplacement(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10776,7 +11966,7 @@ def raw_displacement():
 
 #internal name: RFTOT
 #scripting name: raw_reaction_force
-def _get_input_spec_raw_reaction_force(pin):
+def _get_input_spec_raw_reaction_force(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10797,30 +11987,46 @@ def _get_input_spec_raw_reaction_force(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_raw_reaction_force[pin]
+    if pin is None:
+        return inputs_dict_raw_reaction_force
+    else:
+        return inputs_dict_raw_reaction_force[pin]
 
-def _get_output_spec_raw_reaction_force(pin):
+def _get_output_spec_raw_reaction_force(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_raw_reaction_force = { 
         0 : outpin0
     }
-    return outputs_dict_raw_reaction_force[pin]
+    if pin is None:
+        return outputs_dict_raw_reaction_force
+    else:
+        return outputs_dict_raw_reaction_force[pin]
 
 class _InputSpecRawReactionForce(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_raw_reaction_force(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_raw_reaction_force(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_raw_reaction_force(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_raw_reaction_force(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_raw_reaction_force(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_raw_reaction_force(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_raw_reaction_force(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_raw_reaction_force(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_raw_reaction_force(17), 17, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.time_scoping = Input(_get_input_spec_raw_reaction_force(0), 0, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.mesh_scoping = Input(_get_input_spec_raw_reaction_force(1), 1, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.fields_container = Input(_get_input_spec_raw_reaction_force(2), 2, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.streams_container = Input(_get_input_spec_raw_reaction_force(3), 3, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.data_sources = Input(_get_input_spec_raw_reaction_force(4), 4, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_raw_reaction_force(5), 5, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.mesh = Input(_get_input_spec_raw_reaction_force(7), 7, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.requested_location = Input(_get_input_spec_raw_reaction_force(9), 9, op, -1) 
+        super().__init__(_get_input_spec_raw_reaction_force(), op)
+        self.domain_id = Input(_get_input_spec_raw_reaction_force(17), 17, op, -1) 
 
 class _OutputSpecRawReactionForce(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_raw_reaction_force(0), 0, op) 
+        super().__init__(_get_output_spec_raw_reaction_force(), op)
+        self.fields_container = Output(_get_output_spec_raw_reaction_force(0), 0, op) 
 
 class _RawReactionForce(_Operator):
     """Operator's description:
@@ -10852,10 +12058,8 @@ class _RawReactionForce(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("RFTOT")
-        self._name = "RFTOT"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRawReactionForce(self._op)
-        self.outputs = _OutputSpecRawReactionForce(self._op)
+        self.inputs = _InputSpecRawReactionForce(self)
+        self.outputs = _OutputSpecRawReactionForce(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -10902,7 +12106,7 @@ def raw_reaction_force():
 
 #internal name: VOLT
 #scripting name: electric_potential
-def _get_input_spec_electric_potential(pin):
+def _get_input_spec_electric_potential(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -10923,30 +12127,46 @@ def _get_input_spec_electric_potential(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_electric_potential[pin]
+    if pin is None:
+        return inputs_dict_electric_potential
+    else:
+        return inputs_dict_electric_potential[pin]
 
-def _get_output_spec_electric_potential(pin):
+def _get_output_spec_electric_potential(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_electric_potential = { 
         0 : outpin0
     }
-    return outputs_dict_electric_potential[pin]
+    if pin is None:
+        return outputs_dict_electric_potential
+    else:
+        return outputs_dict_electric_potential[pin]
 
 class _InputSpecElectricPotential(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_electric_potential(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_electric_potential(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_electric_potential(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_electric_potential(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_electric_potential(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_electric_potential(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_electric_potential(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_electric_potential(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_electric_potential(17), 17, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.time_scoping = Input(_get_input_spec_electric_potential(0), 0, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.mesh_scoping = Input(_get_input_spec_electric_potential(1), 1, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.fields_container = Input(_get_input_spec_electric_potential(2), 2, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.streams_container = Input(_get_input_spec_electric_potential(3), 3, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.data_sources = Input(_get_input_spec_electric_potential(4), 4, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_electric_potential(5), 5, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.mesh = Input(_get_input_spec_electric_potential(7), 7, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.requested_location = Input(_get_input_spec_electric_potential(9), 9, op, -1) 
+        super().__init__(_get_input_spec_electric_potential(), op)
+        self.domain_id = Input(_get_input_spec_electric_potential(17), 17, op, -1) 
 
 class _OutputSpecElectricPotential(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_electric_potential(0), 0, op) 
+        super().__init__(_get_output_spec_electric_potential(), op)
+        self.fields_container = Output(_get_output_spec_electric_potential(0), 0, op) 
 
 class _ElectricPotential(_Operator):
     """Operator's description:
@@ -10978,10 +12198,8 @@ class _ElectricPotential(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("VOLT")
-        self._name = "VOLT"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElectricPotential(self._op)
-        self.outputs = _OutputSpecElectricPotential(self._op)
+        self.inputs = _InputSpecElectricPotential(self)
+        self.outputs = _OutputSpecElectricPotential(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11028,7 +12246,7 @@ def electric_potential():
 
 #internal name: thickness
 #scripting name: thickness
-def _get_input_spec_thickness(pin):
+def _get_input_spec_thickness(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """Fields container already allocated modified inplace""")
@@ -11049,30 +12267,46 @@ def _get_input_spec_thickness(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_thickness[pin]
+    if pin is None:
+        return inputs_dict_thickness
+    else:
+        return inputs_dict_thickness[pin]
 
-def _get_output_spec_thickness(pin):
+def _get_output_spec_thickness(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_thickness = { 
         0 : outpin0
     }
-    return outputs_dict_thickness[pin]
+    if pin is None:
+        return outputs_dict_thickness
+    else:
+        return outputs_dict_thickness[pin]
 
 class _InputSpecThickness(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_thickness(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_thickness(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_thickness(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_thickness(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_thickness(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_thickness(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_thickness(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_thickness(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_thickness(17), 17, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.time_scoping = Input(_get_input_spec_thickness(0), 0, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.mesh_scoping = Input(_get_input_spec_thickness(1), 1, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.fields_container = Input(_get_input_spec_thickness(2), 2, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.streams_container = Input(_get_input_spec_thickness(3), 3, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.data_sources = Input(_get_input_spec_thickness(4), 4, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_thickness(5), 5, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.mesh = Input(_get_input_spec_thickness(7), 7, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.requested_location = Input(_get_input_spec_thickness(9), 9, op, -1) 
+        super().__init__(_get_input_spec_thickness(), op)
+        self.domain_id = Input(_get_input_spec_thickness(17), 17, op, -1) 
 
 class _OutputSpecThickness(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_thickness(0), 0, op) 
+        super().__init__(_get_output_spec_thickness(), op)
+        self.fields_container = Output(_get_output_spec_thickness(0), 0, op) 
 
 class _Thickness(_Operator):
     """Operator's description:
@@ -11104,10 +12338,8 @@ class _Thickness(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("thickness")
-        self._name = "thickness"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecThickness(self._op)
-        self.outputs = _OutputSpecThickness(self._op)
+        self.inputs = _InputSpecThickness(self)
+        self.outputs = _OutputSpecThickness(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11154,7 +12386,7 @@ def thickness():
 
 #internal name: S_eqv
 #scripting name: stress_von_mises
-def _get_input_spec_stress_von_mises(pin):
+def _get_input_spec_stress_von_mises(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """mesh entities scoping, unordered_map<int, int> id to index (optional) (index is optional, to be set if a user wants the results at a given order)""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -11175,30 +12407,46 @@ def _get_input_spec_stress_von_mises(pin):
         9 : inpin9,
         17 : inpin17
     }
-    return inputs_dict_stress_von_mises[pin]
+    if pin is None:
+        return inputs_dict_stress_von_mises
+    else:
+        return inputs_dict_stress_von_mises[pin]
 
-def _get_output_spec_stress_von_mises(pin):
+def _get_output_spec_stress_von_mises(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_von_mises = { 
         0 : outpin0
     }
-    return outputs_dict_stress_von_mises[pin]
+    if pin is None:
+        return outputs_dict_stress_von_mises
+    else:
+        return outputs_dict_stress_von_mises[pin]
 
 class _InputSpecStressVonMises(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_stress_von_mises(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_stress_von_mises(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_stress_von_mises(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_von_mises(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_von_mises(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_stress_von_mises(5), 5, op, -1) 
-        self.mesh = _Input(_get_input_spec_stress_von_mises(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_stress_von_mises(9), 9, op, -1) 
-        self.domain_id = _Input(_get_input_spec_stress_von_mises(17), 17, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.time_scoping = Input(_get_input_spec_stress_von_mises(0), 0, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.mesh_scoping = Input(_get_input_spec_stress_von_mises(1), 1, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.fields_container = Input(_get_input_spec_stress_von_mises(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.streams_container = Input(_get_input_spec_stress_von_mises(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.data_sources = Input(_get_input_spec_stress_von_mises(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_stress_von_mises(5), 5, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.mesh = Input(_get_input_spec_stress_von_mises(7), 7, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.requested_location = Input(_get_input_spec_stress_von_mises(9), 9, op, -1) 
+        super().__init__(_get_input_spec_stress_von_mises(), op)
+        self.domain_id = Input(_get_input_spec_stress_von_mises(17), 17, op, -1) 
 
 class _OutputSpecStressVonMises(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_von_mises(0), 0, op) 
+        super().__init__(_get_output_spec_stress_von_mises(), op)
+        self.fields_container = Output(_get_output_spec_stress_von_mises(0), 0, op) 
 
 class _StressVonMises(_Operator):
     """Operator's description:
@@ -11230,10 +12478,8 @@ class _StressVonMises(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("S_eqv")
-        self._name = "S_eqv"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressVonMises(self._op)
-        self.outputs = _OutputSpecStressVonMises(self._op)
+        self.inputs = _InputSpecStressVonMises(self)
+        self.outputs = _OutputSpecStressVonMises(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11279,8 +12525,8 @@ def stress_von_mises():
     return _StressVonMises()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -11290,7 +12536,7 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: cyclic_expansion
 #scripting name: cyclic_expansion
-def _get_input_spec_cyclic_expansion(pin):
+def _get_input_spec_cyclic_expansion(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field container with the base and duplicate sectors""")
@@ -11301,25 +12547,36 @@ def _get_input_spec_cyclic_expansion(pin):
         2 : inpin2,
         16 : inpin16
     }
-    return inputs_dict_cyclic_expansion[pin]
+    if pin is None:
+        return inputs_dict_cyclic_expansion
+    else:
+        return inputs_dict_cyclic_expansion[pin]
 
-def _get_output_spec_cyclic_expansion(pin):
+def _get_output_spec_cyclic_expansion(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_cyclic_expansion = { 
         0 : outpin0
     }
-    return outputs_dict_cyclic_expansion[pin]
+    if pin is None:
+        return outputs_dict_cyclic_expansion
+    else:
+        return outputs_dict_cyclic_expansion[pin]
 
 class _InputSpecCyclicExpansion(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_expansion(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_expansion(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_expansion(2), 2, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_expansion(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expansion(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_expansion(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expansion(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_expansion(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expansion(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_expansion(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expansion(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_expansion(16), 16, op, -1) 
 
 class _OutputSpecCyclicExpansion(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cyclic_expansion(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_expansion(), op)
+        self.fields_container = Output(_get_output_spec_cyclic_expansion(0), 0, op) 
 
 class _CyclicExpansion(_Operator):
     """Operator's description:
@@ -11347,10 +12604,8 @@ class _CyclicExpansion(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cyclic_expansion")
-        self._name = "cyclic_expansion"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicExpansion(self._op)
-        self.outputs = _OutputSpecCyclicExpansion(self._op)
+        self.inputs = _InputSpecCyclicExpansion(self)
+        self.outputs = _OutputSpecCyclicExpansion(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11393,7 +12648,7 @@ def cyclic_expansion():
 
 #internal name: ERP
 #scripting name: equivalent_radiated_power
-def _get_input_spec_equivalent_radiated_power(pin):
+def _get_input_spec_equivalent_radiated_power(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "meshed_region", type_names = ["meshed_region"], optional = True, document = """the mesh region in this pin have to be boundary or skin mesh""")
     inpin2 = _PinSpecification(name = "int32", type_names = ["int32"], optional = True, document = """load step number, if it's specified, the ERP is computed only on the substeps of this step""")
@@ -11402,24 +12657,34 @@ def _get_input_spec_equivalent_radiated_power(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_equivalent_radiated_power[pin]
+    if pin is None:
+        return inputs_dict_equivalent_radiated_power
+    else:
+        return inputs_dict_equivalent_radiated_power[pin]
 
-def _get_output_spec_equivalent_radiated_power(pin):
+def _get_output_spec_equivalent_radiated_power(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_equivalent_radiated_power = { 
         0 : outpin0
     }
-    return outputs_dict_equivalent_radiated_power[pin]
+    if pin is None:
+        return outputs_dict_equivalent_radiated_power
+    else:
+        return outputs_dict_equivalent_radiated_power[pin]
 
 class _InputSpecEquivalentRadiatedPower(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_equivalent_radiated_power(0), 0, op, -1) 
-        self.meshed_region = _Input(_get_input_spec_equivalent_radiated_power(1), 1, op, -1) 
-        self.int32 = _Input(_get_input_spec_equivalent_radiated_power(2), 2, op, -1) 
+        super().__init__(_get_input_spec_equivalent_radiated_power(), op)
+        self.fields_container = Input(_get_input_spec_equivalent_radiated_power(0), 0, op, -1) 
+        super().__init__(_get_input_spec_equivalent_radiated_power(), op)
+        self.meshed_region = Input(_get_input_spec_equivalent_radiated_power(1), 1, op, -1) 
+        super().__init__(_get_input_spec_equivalent_radiated_power(), op)
+        self.int32 = Input(_get_input_spec_equivalent_radiated_power(2), 2, op, -1) 
 
 class _OutputSpecEquivalentRadiatedPower(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_equivalent_radiated_power(0), 0, op) 
+        super().__init__(_get_output_spec_equivalent_radiated_power(), op)
+        self.field = Output(_get_output_spec_equivalent_radiated_power(0), 0, op) 
 
 class _EquivalentRadiatedPower(_Operator):
     """Operator's description:
@@ -11445,10 +12710,8 @@ class _EquivalentRadiatedPower(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ERP")
-        self._name = "ERP"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecEquivalentRadiatedPower(self._op)
-        self.outputs = _OutputSpecEquivalentRadiatedPower(self._op)
+        self.inputs = _InputSpecEquivalentRadiatedPower(self)
+        self.outputs = _OutputSpecEquivalentRadiatedPower(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11489,27 +12752,35 @@ def equivalent_radiated_power():
 
 #internal name: torque
 #scripting name: torque
-def _get_input_spec_torque(pin):
+def _get_input_spec_torque(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """fields_container""")
     inputs_dict_torque = { 
         0 : inpin0
     }
-    return inputs_dict_torque[pin]
+    if pin is None:
+        return inputs_dict_torque
+    else:
+        return inputs_dict_torque[pin]
 
-def _get_output_spec_torque(pin):
+def _get_output_spec_torque(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_torque = { 
         0 : outpin0
     }
-    return outputs_dict_torque[pin]
+    if pin is None:
+        return outputs_dict_torque
+    else:
+        return outputs_dict_torque[pin]
 
 class _InputSpecTorque(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_torque(0), 0, op, -1) 
+        super().__init__(_get_input_spec_torque(), op)
+        self.fields_container = Input(_get_input_spec_torque(0), 0, op, -1) 
 
 class _OutputSpecTorque(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_torque(0), 0, op) 
+        super().__init__(_get_output_spec_torque(), op)
+        self.fields_container = Output(_get_output_spec_torque(0), 0, op) 
 
 class _Torque(_Operator):
     """Operator's description:
@@ -11534,10 +12805,8 @@ class _Torque(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("torque")
-        self._name = "torque"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecTorque(self._op)
-        self.outputs = _OutputSpecTorque(self._op)
+        self.inputs = _InputSpecTorque(self)
+        self.outputs = _OutputSpecTorque(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11577,33 +12846,43 @@ def torque():
 
 #internal name: cyclic_expansion_mesh
 #scripting name: cyclic_mesh_expansion
-def _get_input_spec_cyclic_mesh_expansion(pin):
+def _get_input_spec_cyclic_mesh_expansion(pin = None):
     inpin7 = _PinSpecification(name = "sector_meshed_region", type_names = ["meshed_region"], optional = True, document = """""")
     inpin16 = _PinSpecification(name = "cyclic_support", type_names = ["cyclic_support"], optional = False, document = """""")
     inputs_dict_cyclic_mesh_expansion = { 
         7 : inpin7,
         16 : inpin16
     }
-    return inputs_dict_cyclic_mesh_expansion[pin]
+    if pin is None:
+        return inputs_dict_cyclic_mesh_expansion
+    else:
+        return inputs_dict_cyclic_mesh_expansion[pin]
 
-def _get_output_spec_cyclic_mesh_expansion(pin):
+def _get_output_spec_cyclic_mesh_expansion(pin = None):
     outpin0 = _PinSpecification(name = "meshed_region", type_names = ["meshed_region"], document = """expanded meshed region.""")
     outpin1 = _PinSpecification(name = "cyclic_support", type_names = ["cyclic_support"], document = """input cyclic support modified in place containing the new expanded meshed region.""")
     outputs_dict_cyclic_mesh_expansion = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_cyclic_mesh_expansion[pin]
+    if pin is None:
+        return outputs_dict_cyclic_mesh_expansion
+    else:
+        return outputs_dict_cyclic_mesh_expansion[pin]
 
 class _InputSpecCyclicMeshExpansion(_Inputs):
     def __init__(self, op: _Operator):
-        self.sector_meshed_region = _Input(_get_input_spec_cyclic_mesh_expansion(7), 7, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_mesh_expansion(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_mesh_expansion(), op)
+        self.sector_meshed_region = Input(_get_input_spec_cyclic_mesh_expansion(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_mesh_expansion(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_mesh_expansion(16), 16, op, -1) 
 
 class _OutputSpecCyclicMeshExpansion(_Outputs):
     def __init__(self, op: _Operator):
-        self.meshed_region = _Output(_get_output_spec_cyclic_mesh_expansion(0), 0, op) 
-        self.cyclic_support = _Output(_get_output_spec_cyclic_mesh_expansion(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_mesh_expansion(), op)
+        self.meshed_region = Output(_get_output_spec_cyclic_mesh_expansion(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_mesh_expansion(), op)
+        self.cyclic_support = Output(_get_output_spec_cyclic_mesh_expansion(1), 1, op) 
 
 class _CyclicMeshExpansion(_Operator):
     """Operator's description:
@@ -11629,10 +12908,8 @@ class _CyclicMeshExpansion(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cyclic_expansion_mesh")
-        self._name = "cyclic_expansion_mesh"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicMeshExpansion(self._op)
-        self.outputs = _OutputSpecCyclicMeshExpansion(self._op)
+        self.inputs = _InputSpecCyclicMeshExpansion(self)
+        self.outputs = _OutputSpecCyclicMeshExpansion(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11673,7 +12950,7 @@ def cyclic_mesh_expansion():
 
 #internal name: cyclic_analytic_usum_max
 #scripting name: cyclic_analytic_usum_max
-def _get_input_spec_cyclic_analytic_usum_max(pin):
+def _get_input_spec_cyclic_analytic_usum_max(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field container with the base and duplicate sectors""")
@@ -11684,25 +12961,36 @@ def _get_input_spec_cyclic_analytic_usum_max(pin):
         2 : inpin2,
         16 : inpin16
     }
-    return inputs_dict_cyclic_analytic_usum_max[pin]
+    if pin is None:
+        return inputs_dict_cyclic_analytic_usum_max
+    else:
+        return inputs_dict_cyclic_analytic_usum_max[pin]
 
-def _get_output_spec_cyclic_analytic_usum_max(pin):
+def _get_output_spec_cyclic_analytic_usum_max(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_cyclic_analytic_usum_max = { 
         0 : outpin0
     }
-    return outputs_dict_cyclic_analytic_usum_max[pin]
+    if pin is None:
+        return outputs_dict_cyclic_analytic_usum_max
+    else:
+        return outputs_dict_cyclic_analytic_usum_max[pin]
 
 class _InputSpecCyclicAnalyticUsumMax(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_analytic_usum_max(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_analytic_usum_max(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_analytic_usum_max(2), 2, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_analytic_usum_max(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_usum_max(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_analytic_usum_max(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_usum_max(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_analytic_usum_max(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_usum_max(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_analytic_usum_max(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_usum_max(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_analytic_usum_max(16), 16, op, -1) 
 
 class _OutputSpecCyclicAnalyticUsumMax(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cyclic_analytic_usum_max(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_analytic_usum_max(), op)
+        self.fields_container = Output(_get_output_spec_cyclic_analytic_usum_max(0), 0, op) 
 
 class _CyclicAnalyticUsumMax(_Operator):
     """Operator's description:
@@ -11729,10 +13017,8 @@ class _CyclicAnalyticUsumMax(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cyclic_analytic_usum_max")
-        self._name = "cyclic_analytic_usum_max"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicAnalyticUsumMax(self._op)
-        self.outputs = _OutputSpecCyclicAnalyticUsumMax(self._op)
+        self.inputs = _InputSpecCyclicAnalyticUsumMax(self)
+        self.outputs = _OutputSpecCyclicAnalyticUsumMax(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11774,7 +13060,7 @@ def cyclic_analytic_usum_max():
 
 #internal name: cyclic_analytic_stress_eqv_max
 #scripting name: cyclic_analytic_seqv_max
-def _get_input_spec_cyclic_analytic_seqv_max(pin):
+def _get_input_spec_cyclic_analytic_seqv_max(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field container with the base and duplicate sectors""")
@@ -11785,25 +13071,36 @@ def _get_input_spec_cyclic_analytic_seqv_max(pin):
         2 : inpin2,
         16 : inpin16
     }
-    return inputs_dict_cyclic_analytic_seqv_max[pin]
+    if pin is None:
+        return inputs_dict_cyclic_analytic_seqv_max
+    else:
+        return inputs_dict_cyclic_analytic_seqv_max[pin]
 
-def _get_output_spec_cyclic_analytic_seqv_max(pin):
+def _get_output_spec_cyclic_analytic_seqv_max(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_cyclic_analytic_seqv_max = { 
         0 : outpin0
     }
-    return outputs_dict_cyclic_analytic_seqv_max[pin]
+    if pin is None:
+        return outputs_dict_cyclic_analytic_seqv_max
+    else:
+        return outputs_dict_cyclic_analytic_seqv_max[pin]
 
 class _InputSpecCyclicAnalyticSeqvMax(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_analytic_seqv_max(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_analytic_seqv_max(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_analytic_seqv_max(2), 2, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_analytic_seqv_max(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_seqv_max(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_analytic_seqv_max(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_seqv_max(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_analytic_seqv_max(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_seqv_max(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_analytic_seqv_max(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_analytic_seqv_max(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_analytic_seqv_max(16), 16, op, -1) 
 
 class _OutputSpecCyclicAnalyticSeqvMax(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cyclic_analytic_seqv_max(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_analytic_seqv_max(), op)
+        self.fields_container = Output(_get_output_spec_cyclic_analytic_seqv_max(0), 0, op) 
 
 class _CyclicAnalyticSeqvMax(_Operator):
     """Operator's description:
@@ -11830,10 +13127,8 @@ class _CyclicAnalyticSeqvMax(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cyclic_analytic_stress_eqv_max")
-        self._name = "cyclic_analytic_stress_eqv_max"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicAnalyticSeqvMax(self._op)
-        self.outputs = _OutputSpecCyclicAnalyticSeqvMax(self._op)
+        self.inputs = _InputSpecCyclicAnalyticSeqvMax(self)
+        self.outputs = _OutputSpecCyclicAnalyticSeqvMax(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11875,27 +13170,35 @@ def cyclic_analytic_seqv_max():
 
 #internal name: recombine_harmonic_indeces_cyclic
 #scripting name: recombine_harmonic_indeces_cyclic
-def _get_input_spec_recombine_harmonic_indeces_cyclic(pin):
+def _get_input_spec_recombine_harmonic_indeces_cyclic(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inputs_dict_recombine_harmonic_indeces_cyclic = { 
         0 : inpin0
     }
-    return inputs_dict_recombine_harmonic_indeces_cyclic[pin]
+    if pin is None:
+        return inputs_dict_recombine_harmonic_indeces_cyclic
+    else:
+        return inputs_dict_recombine_harmonic_indeces_cyclic[pin]
 
-def _get_output_spec_recombine_harmonic_indeces_cyclic(pin):
+def _get_output_spec_recombine_harmonic_indeces_cyclic(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_recombine_harmonic_indeces_cyclic = { 
         0 : outpin0
     }
-    return outputs_dict_recombine_harmonic_indeces_cyclic[pin]
+    if pin is None:
+        return outputs_dict_recombine_harmonic_indeces_cyclic
+    else:
+        return outputs_dict_recombine_harmonic_indeces_cyclic[pin]
 
 class _InputSpecRecombineHarmonicIndecesCyclic(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_recombine_harmonic_indeces_cyclic(0), 0, op, -1) 
+        super().__init__(_get_input_spec_recombine_harmonic_indeces_cyclic(), op)
+        self.fields_container = Input(_get_input_spec_recombine_harmonic_indeces_cyclic(0), 0, op, -1) 
 
 class _OutputSpecRecombineHarmonicIndecesCyclic(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_recombine_harmonic_indeces_cyclic(0), 0, op) 
+        super().__init__(_get_output_spec_recombine_harmonic_indeces_cyclic(), op)
+        self.fields_container = Output(_get_output_spec_recombine_harmonic_indeces_cyclic(0), 0, op) 
 
 class _RecombineHarmonicIndecesCyclic(_Operator):
     """Operator's description:
@@ -11919,10 +13222,8 @@ class _RecombineHarmonicIndecesCyclic(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("recombine_harmonic_indeces_cyclic")
-        self._name = "recombine_harmonic_indeces_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRecombineHarmonicIndecesCyclic(self._op)
-        self.outputs = _OutputSpecRecombineHarmonicIndecesCyclic(self._op)
+        self.inputs = _InputSpecRecombineHarmonicIndecesCyclic(self)
+        self.outputs = _OutputSpecRecombineHarmonicIndecesCyclic(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -11960,8 +13261,8 @@ def recombine_harmonic_indeces_cyclic():
     return _RecombineHarmonicIndecesCyclic()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -11971,7 +13272,7 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: mapdl::rst::NPEL
 #scripting name: nodal_averaged_elastic_strains
-def _get_input_spec_nodal_averaged_elastic_strains(pin):
+def _get_input_spec_nodal_averaged_elastic_strains(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -11986,27 +13287,40 @@ def _get_input_spec_nodal_averaged_elastic_strains(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_elastic_strains[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_elastic_strains
+    else:
+        return inputs_dict_nodal_averaged_elastic_strains[pin]
 
-def _get_output_spec_nodal_averaged_elastic_strains(pin):
+def _get_output_spec_nodal_averaged_elastic_strains(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_elastic_strains = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_elastic_strains[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_elastic_strains
+    else:
+        return outputs_dict_nodal_averaged_elastic_strains[pin]
 
 class _InputSpecNodalAveragedElasticStrains(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_elastic_strains(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_elastic_strains(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_elastic_strains(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_elastic_strains(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_elastic_strains(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_elastic_strains(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_elastic_strains(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_elastic_strains(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_elastic_strains(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_elastic_strains(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_elastic_strains(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_elastic_strains(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_elastic_strains(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_elastic_strains(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_elastic_strains(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_elastic_strains(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_elastic_strains(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_elastic_strains(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedElasticStrains(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_elastic_strains(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_elastic_strains(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_elastic_strains(0), 0, op) 
 
 class _NodalAveragedElasticStrains(_Operator):
     """Operator's description:
@@ -12035,10 +13349,8 @@ class _NodalAveragedElasticStrains(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NPEL")
-        self._name = "mapdl::rst::NPEL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedElasticStrains(self._op)
-        self.outputs = _OutputSpecNodalAveragedElasticStrains(self._op)
+        self.inputs = _InputSpecNodalAveragedElasticStrains(self)
+        self.outputs = _OutputSpecNodalAveragedElasticStrains(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12082,7 +13394,7 @@ def nodal_averaged_elastic_strains():
 
 #internal name: RigidBodyAddition
 #scripting name: add_rigid_body_motion
-def _get_input_spec_add_rigid_body_motion(pin):
+def _get_input_spec_add_rigid_body_motion(pin = None):
     inpin0 = _PinSpecification(name = "displacement_field", type_names = ["field"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "translation_field", type_names = ["field"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "rotation_field", type_names = ["field"], optional = False, document = """""")
@@ -12095,26 +13407,38 @@ def _get_input_spec_add_rigid_body_motion(pin):
         3 : inpin3,
         7 : inpin7
     }
-    return inputs_dict_add_rigid_body_motion[pin]
+    if pin is None:
+        return inputs_dict_add_rigid_body_motion
+    else:
+        return inputs_dict_add_rigid_body_motion[pin]
 
-def _get_output_spec_add_rigid_body_motion(pin):
+def _get_output_spec_add_rigid_body_motion(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_add_rigid_body_motion = { 
         0 : outpin0
     }
-    return outputs_dict_add_rigid_body_motion[pin]
+    if pin is None:
+        return outputs_dict_add_rigid_body_motion
+    else:
+        return outputs_dict_add_rigid_body_motion[pin]
 
 class _InputSpecAddRigidBodyMotion(_Inputs):
     def __init__(self, op: _Operator):
-        self.displacement_field = _Input(_get_input_spec_add_rigid_body_motion(0), 0, op, -1) 
-        self.translation_field = _Input(_get_input_spec_add_rigid_body_motion(1), 1, op, -1) 
-        self.rotation_field = _Input(_get_input_spec_add_rigid_body_motion(2), 2, op, -1) 
-        self.center_field = _Input(_get_input_spec_add_rigid_body_motion(3), 3, op, -1) 
-        self.mesh = _Input(_get_input_spec_add_rigid_body_motion(7), 7, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion(), op)
+        self.displacement_field = Input(_get_input_spec_add_rigid_body_motion(0), 0, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion(), op)
+        self.translation_field = Input(_get_input_spec_add_rigid_body_motion(1), 1, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion(), op)
+        self.rotation_field = Input(_get_input_spec_add_rigid_body_motion(2), 2, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion(), op)
+        self.center_field = Input(_get_input_spec_add_rigid_body_motion(3), 3, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion(), op)
+        self.mesh = Input(_get_input_spec_add_rigid_body_motion(7), 7, op, -1) 
 
 class _OutputSpecAddRigidBodyMotion(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_add_rigid_body_motion(0), 0, op) 
+        super().__init__(_get_output_spec_add_rigid_body_motion(), op)
+        self.field = Output(_get_output_spec_add_rigid_body_motion(0), 0, op) 
 
 class _AddRigidBodyMotion(_Operator):
     """Operator's description:
@@ -12142,10 +13466,8 @@ class _AddRigidBodyMotion(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("RigidBodyAddition")
-        self._name = "RigidBodyAddition"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAddRigidBodyMotion(self._op)
-        self.outputs = _OutputSpecAddRigidBodyMotion(self._op)
+        self.inputs = _InputSpecAddRigidBodyMotion(self)
+        self.outputs = _OutputSpecAddRigidBodyMotion(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12188,7 +13510,7 @@ def add_rigid_body_motion():
 
 #internal name: mapdl::rst::NPEL_EQV
 #scripting name: nodal_averaged_equivalent_elastic_strain
-def _get_input_spec_nodal_averaged_equivalent_elastic_strain(pin):
+def _get_input_spec_nodal_averaged_equivalent_elastic_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12203,27 +13525,40 @@ def _get_input_spec_nodal_averaged_equivalent_elastic_strain(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_equivalent_elastic_strain[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_equivalent_elastic_strain
+    else:
+        return inputs_dict_nodal_averaged_equivalent_elastic_strain[pin]
 
-def _get_output_spec_nodal_averaged_equivalent_elastic_strain(pin):
+def _get_output_spec_nodal_averaged_equivalent_elastic_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_equivalent_elastic_strain = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_equivalent_elastic_strain[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_equivalent_elastic_strain
+    else:
+        return outputs_dict_nodal_averaged_equivalent_elastic_strain[pin]
 
 class _InputSpecNodalAveragedEquivalentElasticStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_equivalent_elastic_strain(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedEquivalentElasticStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_elastic_strain(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_equivalent_elastic_strain(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_equivalent_elastic_strain(0), 0, op) 
 
 class _NodalAveragedEquivalentElasticStrain(_Operator):
     """Operator's description:
@@ -12252,10 +13587,8 @@ class _NodalAveragedEquivalentElasticStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NPEL_EQV")
-        self._name = "mapdl::rst::NPEL_EQV"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedEquivalentElasticStrain(self._op)
-        self.outputs = _OutputSpecNodalAveragedEquivalentElasticStrain(self._op)
+        self.inputs = _InputSpecNodalAveragedEquivalentElasticStrain(self)
+        self.outputs = _OutputSpecNodalAveragedEquivalentElasticStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12301,7 +13634,7 @@ from . import mapdl #mapdl.run
 
 #internal name: mapdl::rst::V_cyclic
 #scripting name: cyclic_expanded_velocity
-def _get_input_spec_cyclic_expanded_velocity(pin):
+def _get_input_spec_cyclic_expanded_velocity(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12332,38 +13665,60 @@ def _get_input_spec_cyclic_expanded_velocity(pin):
         19 : inpin19,
         20 : inpin20
     }
-    return inputs_dict_cyclic_expanded_velocity[pin]
+    if pin is None:
+        return inputs_dict_cyclic_expanded_velocity
+    else:
+        return inputs_dict_cyclic_expanded_velocity[pin]
 
-def _get_output_spec_cyclic_expanded_velocity(pin):
+def _get_output_spec_cyclic_expanded_velocity(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outpin1 = _PinSpecification(name = "expanded_meshed_region", type_names = ["meshed_region"], document = """""")
     outputs_dict_cyclic_expanded_velocity = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_cyclic_expanded_velocity[pin]
+    if pin is None:
+        return outputs_dict_cyclic_expanded_velocity
+    else:
+        return outputs_dict_cyclic_expanded_velocity[pin]
 
 class _InputSpecCyclicExpandedVelocity(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_expanded_velocity(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_expanded_velocity(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_expanded_velocity(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_cyclic_expanded_velocity(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_cyclic_expanded_velocity(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_cyclic_expanded_velocity(5), 5, op, -1) 
-        self.sector_mesh = _Input(_get_input_spec_cyclic_expanded_velocity(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_cyclic_expanded_velocity(9), 9, op, -1) 
-        self.read_cyclic = _Input(_get_input_spec_cyclic_expanded_velocity(14), 14, op, -1) 
-        self.expanded_meshed_region = _Input(_get_input_spec_cyclic_expanded_velocity(15), 15, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_expanded_velocity(16), 16, op, -1) 
-        self.sectors_to_expand = _Input(_get_input_spec_cyclic_expanded_velocity(18), 18, op, -1) 
-        self.phi = _Input(_get_input_spec_cyclic_expanded_velocity(19), 19, op, -1) 
-        self.filter_degenerated_elements = _Input(_get_input_spec_cyclic_expanded_velocity(20), 20, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_expanded_velocity(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_expanded_velocity(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_expanded_velocity(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.streams_container = Input(_get_input_spec_cyclic_expanded_velocity(3), 3, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.data_sources = Input(_get_input_spec_cyclic_expanded_velocity(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_cyclic_expanded_velocity(5), 5, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.sector_mesh = Input(_get_input_spec_cyclic_expanded_velocity(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.requested_location = Input(_get_input_spec_cyclic_expanded_velocity(9), 9, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.read_cyclic = Input(_get_input_spec_cyclic_expanded_velocity(14), 14, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.expanded_meshed_region = Input(_get_input_spec_cyclic_expanded_velocity(15), 15, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_expanded_velocity(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.sectors_to_expand = Input(_get_input_spec_cyclic_expanded_velocity(18), 18, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.phi = Input(_get_input_spec_cyclic_expanded_velocity(19), 19, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_velocity(), op)
+        self.filter_degenerated_elements = Input(_get_input_spec_cyclic_expanded_velocity(20), 20, op, -1) 
 
 class _OutputSpecCyclicExpandedVelocity(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cyclic_expanded_velocity(0), 0, op) 
-        self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_velocity(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_velocity(), op)
+        self.fields_container = Output(_get_output_spec_cyclic_expanded_velocity(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_velocity(), op)
+        self.expanded_meshed_region = Output(_get_output_spec_cyclic_expanded_velocity(1), 1, op) 
 
 class _CyclicExpandedVelocity(_Operator):
     """Operator's description:
@@ -12401,10 +13756,8 @@ class _CyclicExpandedVelocity(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::V_cyclic")
-        self._name = "mapdl::rst::V_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicExpandedVelocity(self._op)
-        self.outputs = _OutputSpecCyclicExpandedVelocity(self._op)
+        self.inputs = _InputSpecCyclicExpandedVelocity(self)
+        self.outputs = _OutputSpecCyclicExpandedVelocity(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12457,7 +13810,7 @@ def cyclic_expanded_velocity():
 
 #internal name: mapdl::rst::EPEL_cyclic
 #scripting name: cyclic_expanded_el_strain
-def _get_input_spec_cyclic_expanded_el_strain(pin):
+def _get_input_spec_cyclic_expanded_el_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12488,38 +13841,60 @@ def _get_input_spec_cyclic_expanded_el_strain(pin):
         19 : inpin19,
         20 : inpin20
     }
-    return inputs_dict_cyclic_expanded_el_strain[pin]
+    if pin is None:
+        return inputs_dict_cyclic_expanded_el_strain
+    else:
+        return inputs_dict_cyclic_expanded_el_strain[pin]
 
-def _get_output_spec_cyclic_expanded_el_strain(pin):
+def _get_output_spec_cyclic_expanded_el_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outpin1 = _PinSpecification(name = "expanded_meshed_region", type_names = ["meshed_region"], document = """""")
     outputs_dict_cyclic_expanded_el_strain = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_cyclic_expanded_el_strain[pin]
+    if pin is None:
+        return outputs_dict_cyclic_expanded_el_strain
+    else:
+        return outputs_dict_cyclic_expanded_el_strain[pin]
 
 class _InputSpecCyclicExpandedElStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_expanded_el_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_expanded_el_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_expanded_el_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_cyclic_expanded_el_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_cyclic_expanded_el_strain(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_cyclic_expanded_el_strain(5), 5, op, -1) 
-        self.sector_mesh = _Input(_get_input_spec_cyclic_expanded_el_strain(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_cyclic_expanded_el_strain(9), 9, op, -1) 
-        self.read_cyclic = _Input(_get_input_spec_cyclic_expanded_el_strain(14), 14, op, -1) 
-        self.expanded_meshed_region = _Input(_get_input_spec_cyclic_expanded_el_strain(15), 15, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_expanded_el_strain(16), 16, op, -1) 
-        self.sectors_to_expand = _Input(_get_input_spec_cyclic_expanded_el_strain(18), 18, op, -1) 
-        self.phi = _Input(_get_input_spec_cyclic_expanded_el_strain(19), 19, op, -1) 
-        self.filter_degenerated_elements = _Input(_get_input_spec_cyclic_expanded_el_strain(20), 20, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_expanded_el_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_expanded_el_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_expanded_el_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.streams_container = Input(_get_input_spec_cyclic_expanded_el_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.data_sources = Input(_get_input_spec_cyclic_expanded_el_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_cyclic_expanded_el_strain(5), 5, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.sector_mesh = Input(_get_input_spec_cyclic_expanded_el_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.requested_location = Input(_get_input_spec_cyclic_expanded_el_strain(9), 9, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.read_cyclic = Input(_get_input_spec_cyclic_expanded_el_strain(14), 14, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.expanded_meshed_region = Input(_get_input_spec_cyclic_expanded_el_strain(15), 15, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_expanded_el_strain(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.sectors_to_expand = Input(_get_input_spec_cyclic_expanded_el_strain(18), 18, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.phi = Input(_get_input_spec_cyclic_expanded_el_strain(19), 19, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_el_strain(), op)
+        self.filter_degenerated_elements = Input(_get_input_spec_cyclic_expanded_el_strain(20), 20, op, -1) 
 
 class _OutputSpecCyclicExpandedElStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cyclic_expanded_el_strain(0), 0, op) 
-        self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_el_strain(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_el_strain(), op)
+        self.fields_container = Output(_get_output_spec_cyclic_expanded_el_strain(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_el_strain(), op)
+        self.expanded_meshed_region = Output(_get_output_spec_cyclic_expanded_el_strain(1), 1, op) 
 
 class _CyclicExpandedElStrain(_Operator):
     """Operator's description:
@@ -12557,10 +13932,8 @@ class _CyclicExpandedElStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::EPEL_cyclic")
-        self._name = "mapdl::rst::EPEL_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicExpandedElStrain(self._op)
-        self.outputs = _OutputSpecCyclicExpandedElStrain(self._op)
+        self.inputs = _InputSpecCyclicExpandedElStrain(self)
+        self.outputs = _OutputSpecCyclicExpandedElStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12613,7 +13986,7 @@ def cyclic_expanded_el_strain():
 
 #internal name: mapdl::rst::NTH_SWL
 #scripting name: nodal_averaged_thermal_swelling_strains
-def _get_input_spec_nodal_averaged_thermal_swelling_strains(pin):
+def _get_input_spec_nodal_averaged_thermal_swelling_strains(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12628,27 +14001,40 @@ def _get_input_spec_nodal_averaged_thermal_swelling_strains(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_thermal_swelling_strains[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_thermal_swelling_strains
+    else:
+        return inputs_dict_nodal_averaged_thermal_swelling_strains[pin]
 
-def _get_output_spec_nodal_averaged_thermal_swelling_strains(pin):
+def _get_output_spec_nodal_averaged_thermal_swelling_strains(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_thermal_swelling_strains = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_thermal_swelling_strains[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_thermal_swelling_strains
+    else:
+        return outputs_dict_nodal_averaged_thermal_swelling_strains[pin]
 
 class _InputSpecNodalAveragedThermalSwellingStrains(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_thermal_swelling_strains(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedThermalSwellingStrains(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_thermal_swelling_strains(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_thermal_swelling_strains(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_thermal_swelling_strains(0), 0, op) 
 
 class _NodalAveragedThermalSwellingStrains(_Operator):
     """Operator's description:
@@ -12677,10 +14063,8 @@ class _NodalAveragedThermalSwellingStrains(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NTH_SWL")
-        self._name = "mapdl::rst::NTH_SWL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedThermalSwellingStrains(self._op)
-        self.outputs = _OutputSpecNodalAveragedThermalSwellingStrains(self._op)
+        self.inputs = _InputSpecNodalAveragedThermalSwellingStrains(self)
+        self.outputs = _OutputSpecNodalAveragedThermalSwellingStrains(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12724,7 +14108,7 @@ def nodal_averaged_thermal_swelling_strains():
 
 #internal name: mapdl::rst::NS
 #scripting name: nodal_averaged_stresses
-def _get_input_spec_nodal_averaged_stresses(pin):
+def _get_input_spec_nodal_averaged_stresses(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12739,27 +14123,40 @@ def _get_input_spec_nodal_averaged_stresses(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_stresses[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_stresses
+    else:
+        return inputs_dict_nodal_averaged_stresses[pin]
 
-def _get_output_spec_nodal_averaged_stresses(pin):
+def _get_output_spec_nodal_averaged_stresses(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_stresses = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_stresses[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_stresses
+    else:
+        return outputs_dict_nodal_averaged_stresses[pin]
 
 class _InputSpecNodalAveragedStresses(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_stresses(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_stresses(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_stresses(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_stresses(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_stresses(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_stresses(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_stresses(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_stresses(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_stresses(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_stresses(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_stresses(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_stresses(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_stresses(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_stresses(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_stresses(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_stresses(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_stresses(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_stresses(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedStresses(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_stresses(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_stresses(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_stresses(0), 0, op) 
 
 class _NodalAveragedStresses(_Operator):
     """Operator's description:
@@ -12788,10 +14185,8 @@ class _NodalAveragedStresses(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NS")
-        self._name = "mapdl::rst::NS"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedStresses(self._op)
-        self.outputs = _OutputSpecNodalAveragedStresses(self._op)
+        self.inputs = _InputSpecNodalAveragedStresses(self)
+        self.outputs = _OutputSpecNodalAveragedStresses(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12835,7 +14230,7 @@ def nodal_averaged_stresses():
 
 #internal name: mapdl::rst::NTH
 #scripting name: nodal_averaged_thermal_strains
-def _get_input_spec_nodal_averaged_thermal_strains(pin):
+def _get_input_spec_nodal_averaged_thermal_strains(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12850,27 +14245,40 @@ def _get_input_spec_nodal_averaged_thermal_strains(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_thermal_strains[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_thermal_strains
+    else:
+        return inputs_dict_nodal_averaged_thermal_strains[pin]
 
-def _get_output_spec_nodal_averaged_thermal_strains(pin):
+def _get_output_spec_nodal_averaged_thermal_strains(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_thermal_strains = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_thermal_strains[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_thermal_strains
+    else:
+        return outputs_dict_nodal_averaged_thermal_strains[pin]
 
 class _InputSpecNodalAveragedThermalStrains(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_thermal_strains(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_thermal_strains(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_thermal_strains(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_thermal_strains(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_thermal_strains(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_thermal_strains(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_strains(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_thermal_strains(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_strains(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_thermal_strains(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_strains(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_thermal_strains(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_strains(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_thermal_strains(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_strains(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_thermal_strains(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_thermal_strains(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_thermal_strains(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedThermalStrains(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_thermal_strains(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_thermal_strains(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_thermal_strains(0), 0, op) 
 
 class _NodalAveragedThermalStrains(_Operator):
     """Operator's description:
@@ -12899,10 +14307,8 @@ class _NodalAveragedThermalStrains(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NTH")
-        self._name = "mapdl::rst::NTH"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedThermalStrains(self._op)
-        self.outputs = _OutputSpecNodalAveragedThermalStrains(self._op)
+        self.inputs = _InputSpecNodalAveragedThermalStrains(self)
+        self.outputs = _OutputSpecNodalAveragedThermalStrains(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -12946,7 +14352,7 @@ def nodal_averaged_thermal_strains():
 
 #internal name: mapdl::rst::NPPL
 #scripting name: nodal_averaged_plastic_strains
-def _get_input_spec_nodal_averaged_plastic_strains(pin):
+def _get_input_spec_nodal_averaged_plastic_strains(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -12961,27 +14367,40 @@ def _get_input_spec_nodal_averaged_plastic_strains(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_plastic_strains[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_plastic_strains
+    else:
+        return inputs_dict_nodal_averaged_plastic_strains[pin]
 
-def _get_output_spec_nodal_averaged_plastic_strains(pin):
+def _get_output_spec_nodal_averaged_plastic_strains(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_plastic_strains = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_plastic_strains[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_plastic_strains
+    else:
+        return outputs_dict_nodal_averaged_plastic_strains[pin]
 
 class _InputSpecNodalAveragedPlasticStrains(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_plastic_strains(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_plastic_strains(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_plastic_strains(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_plastic_strains(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_plastic_strains(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_plastic_strains(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_plastic_strains(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_plastic_strains(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_plastic_strains(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_plastic_strains(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_plastic_strains(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_plastic_strains(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_plastic_strains(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_plastic_strains(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_plastic_strains(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_plastic_strains(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_plastic_strains(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_plastic_strains(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedPlasticStrains(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_plastic_strains(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_plastic_strains(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_plastic_strains(0), 0, op) 
 
 class _NodalAveragedPlasticStrains(_Operator):
     """Operator's description:
@@ -13010,10 +14429,8 @@ class _NodalAveragedPlasticStrains(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NPPL")
-        self._name = "mapdl::rst::NPPL"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedPlasticStrains(self._op)
-        self.outputs = _OutputSpecNodalAveragedPlasticStrains(self._op)
+        self.inputs = _InputSpecNodalAveragedPlasticStrains(self)
+        self.outputs = _OutputSpecNodalAveragedPlasticStrains(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13057,7 +14474,7 @@ def nodal_averaged_plastic_strains():
 
 #internal name: mapdl::rst::NCR
 #scripting name: nodal_averaged_creep_strains
-def _get_input_spec_nodal_averaged_creep_strains(pin):
+def _get_input_spec_nodal_averaged_creep_strains(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -13072,27 +14489,40 @@ def _get_input_spec_nodal_averaged_creep_strains(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_creep_strains[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_creep_strains
+    else:
+        return inputs_dict_nodal_averaged_creep_strains[pin]
 
-def _get_output_spec_nodal_averaged_creep_strains(pin):
+def _get_output_spec_nodal_averaged_creep_strains(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_creep_strains = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_creep_strains[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_creep_strains
+    else:
+        return outputs_dict_nodal_averaged_creep_strains[pin]
 
 class _InputSpecNodalAveragedCreepStrains(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_creep_strains(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_creep_strains(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_creep_strains(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_creep_strains(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_creep_strains(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_creep_strains(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_creep_strains(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_creep_strains(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_creep_strains(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_creep_strains(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_creep_strains(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_creep_strains(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_creep_strains(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_creep_strains(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_creep_strains(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_creep_strains(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_creep_strains(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_creep_strains(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedCreepStrains(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_creep_strains(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_creep_strains(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_creep_strains(0), 0, op) 
 
 class _NodalAveragedCreepStrains(_Operator):
     """Operator's description:
@@ -13121,10 +14551,8 @@ class _NodalAveragedCreepStrains(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NCR")
-        self._name = "mapdl::rst::NCR"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedCreepStrains(self._op)
-        self.outputs = _OutputSpecNodalAveragedCreepStrains(self._op)
+        self.inputs = _InputSpecNodalAveragedCreepStrains(self)
+        self.outputs = _OutputSpecNodalAveragedCreepStrains(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13168,7 +14596,7 @@ def nodal_averaged_creep_strains():
 
 #internal name: mapdl::rst::NTH_EQV
 #scripting name: nodal_averaged_equivalent_thermal_strains
-def _get_input_spec_nodal_averaged_equivalent_thermal_strains(pin):
+def _get_input_spec_nodal_averaged_equivalent_thermal_strains(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -13183,27 +14611,40 @@ def _get_input_spec_nodal_averaged_equivalent_thermal_strains(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_equivalent_thermal_strains[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_equivalent_thermal_strains
+    else:
+        return inputs_dict_nodal_averaged_equivalent_thermal_strains[pin]
 
-def _get_output_spec_nodal_averaged_equivalent_thermal_strains(pin):
+def _get_output_spec_nodal_averaged_equivalent_thermal_strains(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_equivalent_thermal_strains = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_equivalent_thermal_strains[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_equivalent_thermal_strains
+    else:
+        return outputs_dict_nodal_averaged_equivalent_thermal_strains[pin]
 
 class _InputSpecNodalAveragedEquivalentThermalStrains(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_equivalent_thermal_strains(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedEquivalentThermalStrains(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_thermal_strains(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_equivalent_thermal_strains(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_equivalent_thermal_strains(0), 0, op) 
 
 class _NodalAveragedEquivalentThermalStrains(_Operator):
     """Operator's description:
@@ -13232,10 +14673,8 @@ class _NodalAveragedEquivalentThermalStrains(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NTH_EQV")
-        self._name = "mapdl::rst::NTH_EQV"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedEquivalentThermalStrains(self._op)
-        self.outputs = _OutputSpecNodalAveragedEquivalentThermalStrains(self._op)
+        self.inputs = _InputSpecNodalAveragedEquivalentThermalStrains(self)
+        self.outputs = _OutputSpecNodalAveragedEquivalentThermalStrains(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13279,7 +14718,7 @@ def nodal_averaged_equivalent_thermal_strains():
 
 #internal name: mapdl::rst::NPPL_EQV
 #scripting name: nodal_averaged_equivalent_plastic_strain
-def _get_input_spec_nodal_averaged_equivalent_plastic_strain(pin):
+def _get_input_spec_nodal_averaged_equivalent_plastic_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -13294,27 +14733,40 @@ def _get_input_spec_nodal_averaged_equivalent_plastic_strain(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_equivalent_plastic_strain[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_equivalent_plastic_strain
+    else:
+        return inputs_dict_nodal_averaged_equivalent_plastic_strain[pin]
 
-def _get_output_spec_nodal_averaged_equivalent_plastic_strain(pin):
+def _get_output_spec_nodal_averaged_equivalent_plastic_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_equivalent_plastic_strain = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_equivalent_plastic_strain[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_equivalent_plastic_strain
+    else:
+        return outputs_dict_nodal_averaged_equivalent_plastic_strain[pin]
 
 class _InputSpecNodalAveragedEquivalentPlasticStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_equivalent_plastic_strain(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedEquivalentPlasticStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_plastic_strain(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_equivalent_plastic_strain(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_equivalent_plastic_strain(0), 0, op) 
 
 class _NodalAveragedEquivalentPlasticStrain(_Operator):
     """Operator's description:
@@ -13343,10 +14795,8 @@ class _NodalAveragedEquivalentPlasticStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NPPL_EQV")
-        self._name = "mapdl::rst::NPPL_EQV"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedEquivalentPlasticStrain(self._op)
-        self.outputs = _OutputSpecNodalAveragedEquivalentPlasticStrain(self._op)
+        self.inputs = _InputSpecNodalAveragedEquivalentPlasticStrain(self)
+        self.outputs = _OutputSpecNodalAveragedEquivalentPlasticStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13390,7 +14840,7 @@ def nodal_averaged_equivalent_plastic_strain():
 
 #internal name: mapdl::rst::NCR_EQV
 #scripting name: nodal_averaged_equivalent_creep_strain
-def _get_input_spec_nodal_averaged_equivalent_creep_strain(pin):
+def _get_input_spec_nodal_averaged_equivalent_creep_strain(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -13405,27 +14855,40 @@ def _get_input_spec_nodal_averaged_equivalent_creep_strain(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nodal_averaged_equivalent_creep_strain[pin]
+    if pin is None:
+        return inputs_dict_nodal_averaged_equivalent_creep_strain
+    else:
+        return inputs_dict_nodal_averaged_equivalent_creep_strain[pin]
 
-def _get_output_spec_nodal_averaged_equivalent_creep_strain(pin):
+def _get_output_spec_nodal_averaged_equivalent_creep_strain(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nodal_averaged_equivalent_creep_strain = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_averaged_equivalent_creep_strain[pin]
+    if pin is None:
+        return outputs_dict_nodal_averaged_equivalent_creep_strain
+    else:
+        return outputs_dict_nodal_averaged_equivalent_creep_strain[pin]
 
 class _InputSpecNodalAveragedEquivalentCreepStrain(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.time_scoping = Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.mesh_scoping = Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.fields_container = Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.streams_container = Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.data_sources = Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.mesh = Input(_get_input_spec_nodal_averaged_equivalent_creep_strain(7), 7, op, -1) 
 
 class _OutputSpecNodalAveragedEquivalentCreepStrain(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_averaged_equivalent_creep_strain(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_averaged_equivalent_creep_strain(), op)
+        self.fields_container = Output(_get_output_spec_nodal_averaged_equivalent_creep_strain(0), 0, op) 
 
 class _NodalAveragedEquivalentCreepStrain(_Operator):
     """Operator's description:
@@ -13454,10 +14917,8 @@ class _NodalAveragedEquivalentCreepStrain(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::NCR_EQV")
-        self._name = "mapdl::rst::NCR_EQV"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalAveragedEquivalentCreepStrain(self._op)
-        self.outputs = _OutputSpecNodalAveragedEquivalentCreepStrain(self._op)
+        self.inputs = _InputSpecNodalAveragedEquivalentCreepStrain(self)
+        self.outputs = _OutputSpecNodalAveragedEquivalentCreepStrain(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13501,7 +14962,7 @@ def nodal_averaged_equivalent_creep_strain():
 
 #internal name: mapdl::rst::coords_and_euler_nodes
 #scripting name: euler_nodes
-def _get_input_spec_euler_nodes(pin):
+def _get_input_spec_euler_nodes(pin = None):
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container","stream"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
     inpin6 = _PinSpecification(name = "coord_and_euler", type_names = ["bool"], optional = False, document = """if true, then the field has ncomp=6 with 3 oords and 3 euler angles, else there is only the euler angles (default is true)""")
@@ -13512,25 +14973,36 @@ def _get_input_spec_euler_nodes(pin):
         6 : inpin6,
         7 : inpin7
     }
-    return inputs_dict_euler_nodes[pin]
+    if pin is None:
+        return inputs_dict_euler_nodes
+    else:
+        return inputs_dict_euler_nodes[pin]
 
-def _get_output_spec_euler_nodes(pin):
+def _get_output_spec_euler_nodes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_euler_nodes = { 
         0 : outpin0
     }
-    return outputs_dict_euler_nodes[pin]
+    if pin is None:
+        return outputs_dict_euler_nodes
+    else:
+        return outputs_dict_euler_nodes[pin]
 
 class _InputSpecEulerNodes(_Inputs):
     def __init__(self, op: _Operator):
-        self.streams_container = _Input(_get_input_spec_euler_nodes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_euler_nodes(4), 4, op, -1) 
-        self.coord_and_euler = _Input(_get_input_spec_euler_nodes(6), 6, op, -1) 
-        self.mesh = _Input(_get_input_spec_euler_nodes(7), 7, op, -1) 
+        super().__init__(_get_input_spec_euler_nodes(), op)
+        self.streams_container = Input(_get_input_spec_euler_nodes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_euler_nodes(), op)
+        self.data_sources = Input(_get_input_spec_euler_nodes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_euler_nodes(), op)
+        self.coord_and_euler = Input(_get_input_spec_euler_nodes(6), 6, op, -1) 
+        super().__init__(_get_input_spec_euler_nodes(), op)
+        self.mesh = Input(_get_input_spec_euler_nodes(7), 7, op, -1) 
 
 class _OutputSpecEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_euler_nodes(0), 0, op) 
+        super().__init__(_get_output_spec_euler_nodes(), op)
+        self.fields_container = Output(_get_output_spec_euler_nodes(0), 0, op) 
 
 class _EulerNodes(_Operator):
     """Operator's description:
@@ -13557,10 +15029,8 @@ class _EulerNodes(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::coords_and_euler_nodes")
-        self._name = "mapdl::rst::coords_and_euler_nodes"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecEulerNodes(self._op)
-        self.outputs = _OutputSpecEulerNodes(self._op)
+        self.inputs = _InputSpecEulerNodes(self)
+        self.outputs = _OutputSpecEulerNodes(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13604,7 +15074,7 @@ from . import mapdl #mapdl.nmisc
 
 #internal name: ENF_rotation_by_euler_nodes
 #scripting name: enf_rotation_by_euler_nodes
-def _get_input_spec_enf_rotation_by_euler_nodes(pin):
+def _get_input_spec_enf_rotation_by_euler_nodes(pin = None):
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """""")
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container","stream"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
@@ -13613,24 +15083,34 @@ def _get_input_spec_enf_rotation_by_euler_nodes(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_enf_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return inputs_dict_enf_rotation_by_euler_nodes
+    else:
+        return inputs_dict_enf_rotation_by_euler_nodes[pin]
 
-def _get_output_spec_enf_rotation_by_euler_nodes(pin):
+def _get_output_spec_enf_rotation_by_euler_nodes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_enf_rotation_by_euler_nodes = { 
         0 : outpin0
     }
-    return outputs_dict_enf_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return outputs_dict_enf_rotation_by_euler_nodes
+    else:
+        return outputs_dict_enf_rotation_by_euler_nodes[pin]
 
 class _InputSpecEnfRotationByEulerNodes(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_enf_rotation_by_euler_nodes(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_enf_rotation_by_euler_nodes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_enf_rotation_by_euler_nodes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_enf_rotation_by_euler_nodes(), op)
+        self.fields_container = Input(_get_input_spec_enf_rotation_by_euler_nodes(2), 2, op, -1) 
+        super().__init__(_get_input_spec_enf_rotation_by_euler_nodes(), op)
+        self.streams_container = Input(_get_input_spec_enf_rotation_by_euler_nodes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_enf_rotation_by_euler_nodes(), op)
+        self.data_sources = Input(_get_input_spec_enf_rotation_by_euler_nodes(4), 4, op, -1) 
 
 class _OutputSpecEnfRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_enf_rotation_by_euler_nodes(0), 0, op) 
+        super().__init__(_get_output_spec_enf_rotation_by_euler_nodes(), op)
+        self.fields_container = Output(_get_output_spec_enf_rotation_by_euler_nodes(0), 0, op) 
 
 class _EnfRotationByEulerNodes(_Operator):
     """Operator's description:
@@ -13656,10 +15136,8 @@ class _EnfRotationByEulerNodes(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ENF_rotation_by_euler_nodes")
-        self._name = "ENF_rotation_by_euler_nodes"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecEnfRotationByEulerNodes(self._op)
-        self.outputs = _OutputSpecEnfRotationByEulerNodes(self._op)
+        self.inputs = _InputSpecEnfRotationByEulerNodes(self)
+        self.outputs = _OutputSpecEnfRotationByEulerNodes(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13700,27 +15178,35 @@ def enf_rotation_by_euler_nodes():
 
 #internal name: cms_matrices_provider
 #scripting name: cms_matrices_provider
-def _get_input_spec_cms_matrices_provider(pin):
+def _get_input_spec_cms_matrices_provider(pin = None):
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """Data_sources (must contain at list one subfile).""")
     inputs_dict_cms_matrices_provider = { 
         4 : inpin4
     }
-    return inputs_dict_cms_matrices_provider[pin]
+    if pin is None:
+        return inputs_dict_cms_matrices_provider
+    else:
+        return inputs_dict_cms_matrices_provider[pin]
 
-def _get_output_spec_cms_matrices_provider(pin):
+def _get_output_spec_cms_matrices_provider(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """Fields container containing in this order : stiffness, damping, mass matrices, and then load vector.""")
     outputs_dict_cms_matrices_provider = { 
         0 : outpin0
     }
-    return outputs_dict_cms_matrices_provider[pin]
+    if pin is None:
+        return outputs_dict_cms_matrices_provider
+    else:
+        return outputs_dict_cms_matrices_provider[pin]
 
 class _InputSpecCmsMatricesProvider(_Inputs):
     def __init__(self, op: _Operator):
-        self.data_sources = _Input(_get_input_spec_cms_matrices_provider(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cms_matrices_provider(), op)
+        self.data_sources = Input(_get_input_spec_cms_matrices_provider(4), 4, op, -1) 
 
 class _OutputSpecCmsMatricesProvider(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_cms_matrices_provider(0), 0, op) 
+        super().__init__(_get_output_spec_cms_matrices_provider(), op)
+        self.fields_container = Output(_get_output_spec_cms_matrices_provider(0), 0, op) 
 
 class _CmsMatricesProvider(_Operator):
     """Operator's description:
@@ -13744,10 +15230,8 @@ class _CmsMatricesProvider(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("cms_matrices_provider")
-        self._name = "cms_matrices_provider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCmsMatricesProvider(self._op)
-        self.outputs = _OutputSpecCmsMatricesProvider(self._op)
+        self.inputs = _InputSpecCmsMatricesProvider(self)
+        self.outputs = _OutputSpecCmsMatricesProvider(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13788,7 +15272,7 @@ from . import mapdl #mapdl.smisc
 
 #internal name: mapdl::rst::RotateNodalFCByEulerNodes
 #scripting name: nodal_rotation_by_euler_nodes
-def _get_input_spec_nodal_rotation_by_euler_nodes(pin):
+def _get_input_spec_nodal_rotation_by_euler_nodes(pin = None):
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """""")
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container","stream"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
@@ -13797,24 +15281,34 @@ def _get_input_spec_nodal_rotation_by_euler_nodes(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_nodal_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return inputs_dict_nodal_rotation_by_euler_nodes
+    else:
+        return inputs_dict_nodal_rotation_by_euler_nodes[pin]
 
-def _get_output_spec_nodal_rotation_by_euler_nodes(pin):
+def _get_output_spec_nodal_rotation_by_euler_nodes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_nodal_rotation_by_euler_nodes = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return outputs_dict_nodal_rotation_by_euler_nodes
+    else:
+        return outputs_dict_nodal_rotation_by_euler_nodes[pin]
 
 class _InputSpecNodalRotationByEulerNodes(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_nodal_rotation_by_euler_nodes(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nodal_rotation_by_euler_nodes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nodal_rotation_by_euler_nodes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nodal_rotation_by_euler_nodes(), op)
+        self.fields_container = Input(_get_input_spec_nodal_rotation_by_euler_nodes(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nodal_rotation_by_euler_nodes(), op)
+        self.streams_container = Input(_get_input_spec_nodal_rotation_by_euler_nodes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nodal_rotation_by_euler_nodes(), op)
+        self.data_sources = Input(_get_input_spec_nodal_rotation_by_euler_nodes(4), 4, op, -1) 
 
 class _OutputSpecNodalRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nodal_rotation_by_euler_nodes(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_rotation_by_euler_nodes(), op)
+        self.fields_container = Output(_get_output_spec_nodal_rotation_by_euler_nodes(0), 0, op) 
 
 class _NodalRotationByEulerNodes(_Operator):
     """Operator's description:
@@ -13840,10 +15334,8 @@ class _NodalRotationByEulerNodes(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::RotateNodalFCByEulerNodes")
-        self._name = "mapdl::rst::RotateNodalFCByEulerNodes"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalRotationByEulerNodes(self._op)
-        self.outputs = _OutputSpecNodalRotationByEulerNodes(self._op)
+        self.inputs = _InputSpecNodalRotationByEulerNodes(self)
+        self.outputs = _OutputSpecNodalRotationByEulerNodes(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13884,7 +15376,7 @@ def nodal_rotation_by_euler_nodes():
 
 #internal name: mapdl::rst::S_rotation_by_euler_nodes
 #scripting name: stress_rotation_by_euler_nodes
-def _get_input_spec_stress_rotation_by_euler_nodes(pin):
+def _get_input_spec_stress_rotation_by_euler_nodes(pin = None):
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """""")
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container","stream"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
@@ -13893,24 +15385,34 @@ def _get_input_spec_stress_rotation_by_euler_nodes(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_stress_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return inputs_dict_stress_rotation_by_euler_nodes
+    else:
+        return inputs_dict_stress_rotation_by_euler_nodes[pin]
 
-def _get_output_spec_stress_rotation_by_euler_nodes(pin):
+def _get_output_spec_stress_rotation_by_euler_nodes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_stress_rotation_by_euler_nodes = { 
         0 : outpin0
     }
-    return outputs_dict_stress_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return outputs_dict_stress_rotation_by_euler_nodes
+    else:
+        return outputs_dict_stress_rotation_by_euler_nodes[pin]
 
 class _InputSpecStressRotationByEulerNodes(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_stress_rotation_by_euler_nodes(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_stress_rotation_by_euler_nodes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_stress_rotation_by_euler_nodes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_stress_rotation_by_euler_nodes(), op)
+        self.fields_container = Input(_get_input_spec_stress_rotation_by_euler_nodes(2), 2, op, -1) 
+        super().__init__(_get_input_spec_stress_rotation_by_euler_nodes(), op)
+        self.streams_container = Input(_get_input_spec_stress_rotation_by_euler_nodes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_stress_rotation_by_euler_nodes(), op)
+        self.data_sources = Input(_get_input_spec_stress_rotation_by_euler_nodes(4), 4, op, -1) 
 
 class _OutputSpecStressRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_stress_rotation_by_euler_nodes(0), 0, op) 
+        super().__init__(_get_output_spec_stress_rotation_by_euler_nodes(), op)
+        self.fields_container = Output(_get_output_spec_stress_rotation_by_euler_nodes(0), 0, op) 
 
 class _StressRotationByEulerNodes(_Operator):
     """Operator's description:
@@ -13936,10 +15438,8 @@ class _StressRotationByEulerNodes(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::S_rotation_by_euler_nodes")
-        self._name = "mapdl::rst::S_rotation_by_euler_nodes"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecStressRotationByEulerNodes(self._op)
-        self.outputs = _OutputSpecStressRotationByEulerNodes(self._op)
+        self.inputs = _InputSpecStressRotationByEulerNodes(self)
+        self.outputs = _OutputSpecStressRotationByEulerNodes(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -13980,7 +15480,7 @@ def stress_rotation_by_euler_nodes():
 
 #internal name: mapdl::rst::EPEL_rotation_by_euler_nodes
 #scripting name: elastic_strain_rotation_by_euler_nodes
-def _get_input_spec_elastic_strain_rotation_by_euler_nodes(pin):
+def _get_input_spec_elastic_strain_rotation_by_euler_nodes(pin = None):
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """""")
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container","stream"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
@@ -13989,24 +15489,34 @@ def _get_input_spec_elastic_strain_rotation_by_euler_nodes(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_elastic_strain_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return inputs_dict_elastic_strain_rotation_by_euler_nodes
+    else:
+        return inputs_dict_elastic_strain_rotation_by_euler_nodes[pin]
 
-def _get_output_spec_elastic_strain_rotation_by_euler_nodes(pin):
+def _get_output_spec_elastic_strain_rotation_by_euler_nodes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elastic_strain_rotation_by_euler_nodes = { 
         0 : outpin0
     }
-    return outputs_dict_elastic_strain_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return outputs_dict_elastic_strain_rotation_by_euler_nodes
+    else:
+        return outputs_dict_elastic_strain_rotation_by_euler_nodes[pin]
 
 class _InputSpecElasticStrainRotationByEulerNodes(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_elastic_strain_rotation_by_euler_nodes(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_elastic_strain_rotation_by_euler_nodes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_elastic_strain_rotation_by_euler_nodes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_rotation_by_euler_nodes(), op)
+        self.fields_container = Input(_get_input_spec_elastic_strain_rotation_by_euler_nodes(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_rotation_by_euler_nodes(), op)
+        self.streams_container = Input(_get_input_spec_elastic_strain_rotation_by_euler_nodes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_elastic_strain_rotation_by_euler_nodes(), op)
+        self.data_sources = Input(_get_input_spec_elastic_strain_rotation_by_euler_nodes(4), 4, op, -1) 
 
 class _OutputSpecElasticStrainRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elastic_strain_rotation_by_euler_nodes(0), 0, op) 
+        super().__init__(_get_output_spec_elastic_strain_rotation_by_euler_nodes(), op)
+        self.fields_container = Output(_get_output_spec_elastic_strain_rotation_by_euler_nodes(0), 0, op) 
 
 class _ElasticStrainRotationByEulerNodes(_Operator):
     """Operator's description:
@@ -14032,10 +15542,8 @@ class _ElasticStrainRotationByEulerNodes(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::EPEL_rotation_by_euler_nodes")
-        self._name = "mapdl::rst::EPEL_rotation_by_euler_nodes"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElasticStrainRotationByEulerNodes(self._op)
-        self.outputs = _OutputSpecElasticStrainRotationByEulerNodes(self._op)
+        self.inputs = _InputSpecElasticStrainRotationByEulerNodes(self)
+        self.outputs = _OutputSpecElasticStrainRotationByEulerNodes(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14076,7 +15584,7 @@ def elastic_strain_rotation_by_euler_nodes():
 
 #internal name: mapdl::rst::EPPL_rotation_by_euler_nodes
 #scripting name: plastic_strain_rotation_by_euler_nodes
-def _get_input_spec_plastic_strain_rotation_by_euler_nodes(pin):
+def _get_input_spec_plastic_strain_rotation_by_euler_nodes(pin = None):
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """""")
     inpin3 = _PinSpecification(name = "streams_container", type_names = ["streams_container","stream"], optional = True, document = """""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = False, document = """""")
@@ -14085,24 +15593,34 @@ def _get_input_spec_plastic_strain_rotation_by_euler_nodes(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_plastic_strain_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return inputs_dict_plastic_strain_rotation_by_euler_nodes
+    else:
+        return inputs_dict_plastic_strain_rotation_by_euler_nodes[pin]
 
-def _get_output_spec_plastic_strain_rotation_by_euler_nodes(pin):
+def _get_output_spec_plastic_strain_rotation_by_euler_nodes(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_plastic_strain_rotation_by_euler_nodes = { 
         0 : outpin0
     }
-    return outputs_dict_plastic_strain_rotation_by_euler_nodes[pin]
+    if pin is None:
+        return outputs_dict_plastic_strain_rotation_by_euler_nodes
+    else:
+        return outputs_dict_plastic_strain_rotation_by_euler_nodes[pin]
 
 class _InputSpecPlasticStrainRotationByEulerNodes(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_plastic_strain_rotation_by_euler_nodes(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_plastic_strain_rotation_by_euler_nodes(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_plastic_strain_rotation_by_euler_nodes(4), 4, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_rotation_by_euler_nodes(), op)
+        self.fields_container = Input(_get_input_spec_plastic_strain_rotation_by_euler_nodes(2), 2, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_rotation_by_euler_nodes(), op)
+        self.streams_container = Input(_get_input_spec_plastic_strain_rotation_by_euler_nodes(3), 3, op, -1) 
+        super().__init__(_get_input_spec_plastic_strain_rotation_by_euler_nodes(), op)
+        self.data_sources = Input(_get_input_spec_plastic_strain_rotation_by_euler_nodes(4), 4, op, -1) 
 
 class _OutputSpecPlasticStrainRotationByEulerNodes(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_plastic_strain_rotation_by_euler_nodes(0), 0, op) 
+        super().__init__(_get_output_spec_plastic_strain_rotation_by_euler_nodes(), op)
+        self.fields_container = Output(_get_output_spec_plastic_strain_rotation_by_euler_nodes(0), 0, op) 
 
 class _PlasticStrainRotationByEulerNodes(_Operator):
     """Operator's description:
@@ -14128,10 +15646,8 @@ class _PlasticStrainRotationByEulerNodes(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::EPPL_rotation_by_euler_nodes")
-        self._name = "mapdl::rst::EPPL_rotation_by_euler_nodes"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPlasticStrainRotationByEulerNodes(self._op)
-        self.outputs = _OutputSpecPlasticStrainRotationByEulerNodes(self._op)
+        self.inputs = _InputSpecPlasticStrainRotationByEulerNodes(self)
+        self.outputs = _OutputSpecPlasticStrainRotationByEulerNodes(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14176,7 +15692,7 @@ from . import mapdl #mapdl.prns_to_field
 
 #internal name: ExtractRigidBodyMotion
 #scripting name: remove_rigid_body_motion
-def _get_input_spec_remove_rigid_body_motion(pin):
+def _get_input_spec_remove_rigid_body_motion(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "reference_node_id", type_names = ["int32"], optional = True, document = """Id of the reference entity (node).""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """default is the mesh in the support""")
@@ -14185,24 +15701,34 @@ def _get_input_spec_remove_rigid_body_motion(pin):
         1 : inpin1,
         7 : inpin7
     }
-    return inputs_dict_remove_rigid_body_motion[pin]
+    if pin is None:
+        return inputs_dict_remove_rigid_body_motion
+    else:
+        return inputs_dict_remove_rigid_body_motion[pin]
 
-def _get_output_spec_remove_rigid_body_motion(pin):
+def _get_output_spec_remove_rigid_body_motion(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_remove_rigid_body_motion = { 
         0 : outpin0
     }
-    return outputs_dict_remove_rigid_body_motion[pin]
+    if pin is None:
+        return outputs_dict_remove_rigid_body_motion
+    else:
+        return outputs_dict_remove_rigid_body_motion[pin]
 
 class _InputSpecRemoveRigidBodyMotion(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_remove_rigid_body_motion(0), 0, op, -1) 
-        self.reference_node_id = _Input(_get_input_spec_remove_rigid_body_motion(1), 1, op, -1) 
-        self.mesh = _Input(_get_input_spec_remove_rigid_body_motion(7), 7, op, -1) 
+        super().__init__(_get_input_spec_remove_rigid_body_motion(), op)
+        self.field = Input(_get_input_spec_remove_rigid_body_motion(0), 0, op, -1) 
+        super().__init__(_get_input_spec_remove_rigid_body_motion(), op)
+        self.reference_node_id = Input(_get_input_spec_remove_rigid_body_motion(1), 1, op, -1) 
+        super().__init__(_get_input_spec_remove_rigid_body_motion(), op)
+        self.mesh = Input(_get_input_spec_remove_rigid_body_motion(7), 7, op, -1) 
 
 class _OutputSpecRemoveRigidBodyMotion(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_remove_rigid_body_motion(0), 0, op) 
+        super().__init__(_get_output_spec_remove_rigid_body_motion(), op)
+        self.field = Output(_get_output_spec_remove_rigid_body_motion(0), 0, op) 
 
 class _RemoveRigidBodyMotion(_Operator):
     """Operator's description:
@@ -14228,10 +15754,8 @@ class _RemoveRigidBodyMotion(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ExtractRigidBodyMotion")
-        self._name = "ExtractRigidBodyMotion"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRemoveRigidBodyMotion(self._op)
-        self.outputs = _OutputSpecRemoveRigidBodyMotion(self._op)
+        self.inputs = _InputSpecRemoveRigidBodyMotion(self)
+        self.outputs = _OutputSpecRemoveRigidBodyMotion(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14272,7 +15796,7 @@ def remove_rigid_body_motion():
 
 #internal name: ExtractRigidBodyMotion_fc
 #scripting name: remove_rigid_body_motion_fc
-def _get_input_spec_remove_rigid_body_motion_fc(pin):
+def _get_input_spec_remove_rigid_body_motion_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "reference_node_id", type_names = ["int32"], optional = True, document = """Id of the reference entity (node).""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """default is the mesh in the support""")
@@ -14281,24 +15805,34 @@ def _get_input_spec_remove_rigid_body_motion_fc(pin):
         1 : inpin1,
         7 : inpin7
     }
-    return inputs_dict_remove_rigid_body_motion_fc[pin]
+    if pin is None:
+        return inputs_dict_remove_rigid_body_motion_fc
+    else:
+        return inputs_dict_remove_rigid_body_motion_fc[pin]
 
-def _get_output_spec_remove_rigid_body_motion_fc(pin):
+def _get_output_spec_remove_rigid_body_motion_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_remove_rigid_body_motion_fc = { 
         0 : outpin0
     }
-    return outputs_dict_remove_rigid_body_motion_fc[pin]
+    if pin is None:
+        return outputs_dict_remove_rigid_body_motion_fc
+    else:
+        return outputs_dict_remove_rigid_body_motion_fc[pin]
 
 class _InputSpecRemoveRigidBodyMotionFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_remove_rigid_body_motion_fc(0), 0, op, -1) 
-        self.reference_node_id = _Input(_get_input_spec_remove_rigid_body_motion_fc(1), 1, op, -1) 
-        self.mesh = _Input(_get_input_spec_remove_rigid_body_motion_fc(7), 7, op, -1) 
+        super().__init__(_get_input_spec_remove_rigid_body_motion_fc(), op)
+        self.fields_container = Input(_get_input_spec_remove_rigid_body_motion_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_remove_rigid_body_motion_fc(), op)
+        self.reference_node_id = Input(_get_input_spec_remove_rigid_body_motion_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_remove_rigid_body_motion_fc(), op)
+        self.mesh = Input(_get_input_spec_remove_rigid_body_motion_fc(7), 7, op, -1) 
 
 class _OutputSpecRemoveRigidBodyMotionFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_remove_rigid_body_motion_fc(0), 0, op) 
+        super().__init__(_get_output_spec_remove_rigid_body_motion_fc(), op)
+        self.fields_container = Output(_get_output_spec_remove_rigid_body_motion_fc(0), 0, op) 
 
 class _RemoveRigidBodyMotionFc(_Operator):
     """Operator's description:
@@ -14324,10 +15858,8 @@ class _RemoveRigidBodyMotionFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("ExtractRigidBodyMotion_fc")
-        self._name = "ExtractRigidBodyMotion_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRemoveRigidBodyMotionFc(self._op)
-        self.outputs = _OutputSpecRemoveRigidBodyMotionFc(self._op)
+        self.inputs = _InputSpecRemoveRigidBodyMotionFc(self)
+        self.outputs = _OutputSpecRemoveRigidBodyMotionFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14368,7 +15900,7 @@ def remove_rigid_body_motion_fc():
 
 #internal name: RigidBodyAddition_fc
 #scripting name: add_rigid_body_motion_fc
-def _get_input_spec_add_rigid_body_motion_fc(pin):
+def _get_input_spec_add_rigid_body_motion_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "translation_field", type_names = ["field"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "rotation_field", type_names = ["field"], optional = False, document = """""")
@@ -14381,26 +15913,38 @@ def _get_input_spec_add_rigid_body_motion_fc(pin):
         3 : inpin3,
         7 : inpin7
     }
-    return inputs_dict_add_rigid_body_motion_fc[pin]
+    if pin is None:
+        return inputs_dict_add_rigid_body_motion_fc
+    else:
+        return inputs_dict_add_rigid_body_motion_fc[pin]
 
-def _get_output_spec_add_rigid_body_motion_fc(pin):
+def _get_output_spec_add_rigid_body_motion_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_add_rigid_body_motion_fc = { 
         0 : outpin0
     }
-    return outputs_dict_add_rigid_body_motion_fc[pin]
+    if pin is None:
+        return outputs_dict_add_rigid_body_motion_fc
+    else:
+        return outputs_dict_add_rigid_body_motion_fc[pin]
 
 class _InputSpecAddRigidBodyMotionFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_add_rigid_body_motion_fc(0), 0, op, -1) 
-        self.translation_field = _Input(_get_input_spec_add_rigid_body_motion_fc(1), 1, op, -1) 
-        self.rotation_field = _Input(_get_input_spec_add_rigid_body_motion_fc(2), 2, op, -1) 
-        self.center_field = _Input(_get_input_spec_add_rigid_body_motion_fc(3), 3, op, -1) 
-        self.mesh = _Input(_get_input_spec_add_rigid_body_motion_fc(7), 7, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion_fc(), op)
+        self.fields_container = Input(_get_input_spec_add_rigid_body_motion_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion_fc(), op)
+        self.translation_field = Input(_get_input_spec_add_rigid_body_motion_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion_fc(), op)
+        self.rotation_field = Input(_get_input_spec_add_rigid_body_motion_fc(2), 2, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion_fc(), op)
+        self.center_field = Input(_get_input_spec_add_rigid_body_motion_fc(3), 3, op, -1) 
+        super().__init__(_get_input_spec_add_rigid_body_motion_fc(), op)
+        self.mesh = Input(_get_input_spec_add_rigid_body_motion_fc(7), 7, op, -1) 
 
 class _OutputSpecAddRigidBodyMotionFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_add_rigid_body_motion_fc(0), 0, op) 
+        super().__init__(_get_output_spec_add_rigid_body_motion_fc(), op)
+        self.fields_container = Output(_get_output_spec_add_rigid_body_motion_fc(0), 0, op) 
 
 class _AddRigidBodyMotionFc(_Operator):
     """Operator's description:
@@ -14428,10 +15972,8 @@ class _AddRigidBodyMotionFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("RigidBodyAddition_fc")
-        self._name = "RigidBodyAddition_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecAddRigidBodyMotionFc(self._op)
-        self.outputs = _OutputSpecAddRigidBodyMotionFc(self._op)
+        self.inputs = _InputSpecAddRigidBodyMotionFc(self)
+        self.outputs = _OutputSpecAddRigidBodyMotionFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14474,7 +16016,7 @@ def add_rigid_body_motion_fc():
 
 #internal name: mapdl::rst::U_cyclic
 #scripting name: cyclic_expanded_displacement
-def _get_input_spec_cyclic_expanded_displacement(pin):
+def _get_input_spec_cyclic_expanded_displacement(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -14507,9 +16049,12 @@ def _get_input_spec_cyclic_expanded_displacement(pin):
         19 : inpin19,
         20 : inpin20
     }
-    return inputs_dict_cyclic_expanded_displacement[pin]
+    if pin is None:
+        return inputs_dict_cyclic_expanded_displacement
+    else:
+        return inputs_dict_cyclic_expanded_displacement[pin]
 
-def _get_output_spec_cyclic_expanded_displacement(pin):
+def _get_output_spec_cyclic_expanded_displacement(pin = None):
     outpin0 = _PinSpecification(name = "static_matrix", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outpin1 = _PinSpecification(name = "expanded_meshed_region", type_names = ["meshed_region"], document = """""")
     outpin2 = _PinSpecification(name = "inertia_matrix", type_names = ["fields_container"], document = """""")
@@ -14520,32 +16065,54 @@ def _get_output_spec_cyclic_expanded_displacement(pin):
         2 : outpin2,
         3 : outpin3
     }
-    return outputs_dict_cyclic_expanded_displacement[pin]
+    if pin is None:
+        return outputs_dict_cyclic_expanded_displacement
+    else:
+        return outputs_dict_cyclic_expanded_displacement[pin]
 
 class _InputSpecCyclicExpandedDisplacement(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_expanded_displacement(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_expanded_displacement(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_expanded_displacement(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_cyclic_expanded_displacement(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_cyclic_expanded_displacement(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_cyclic_expanded_displacement(5), 5, op, -1) 
-        self.sector_mesh = _Input(_get_input_spec_cyclic_expanded_displacement(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_cyclic_expanded_displacement(9), 9, op, -1) 
-        self.freq = _Input(_get_input_spec_cyclic_expanded_displacement(12), 12, op, -1) 
-        self.read_cyclic = _Input(_get_input_spec_cyclic_expanded_displacement(14), 14, op, -1) 
-        self.expanded_meshed_region = _Input(_get_input_spec_cyclic_expanded_displacement(15), 15, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_expanded_displacement(16), 16, op, -1) 
-        self.sectors_to_expand = _Input(_get_input_spec_cyclic_expanded_displacement(18), 18, op, -1) 
-        self.phi = _Input(_get_input_spec_cyclic_expanded_displacement(19), 19, op, -1) 
-        self.filter_degenerated_elements = _Input(_get_input_spec_cyclic_expanded_displacement(20), 20, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_expanded_displacement(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_expanded_displacement(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_expanded_displacement(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.streams_container = Input(_get_input_spec_cyclic_expanded_displacement(3), 3, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.data_sources = Input(_get_input_spec_cyclic_expanded_displacement(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_cyclic_expanded_displacement(5), 5, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.sector_mesh = Input(_get_input_spec_cyclic_expanded_displacement(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.requested_location = Input(_get_input_spec_cyclic_expanded_displacement(9), 9, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.freq = Input(_get_input_spec_cyclic_expanded_displacement(12), 12, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.read_cyclic = Input(_get_input_spec_cyclic_expanded_displacement(14), 14, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.expanded_meshed_region = Input(_get_input_spec_cyclic_expanded_displacement(15), 15, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_expanded_displacement(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.sectors_to_expand = Input(_get_input_spec_cyclic_expanded_displacement(18), 18, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.phi = Input(_get_input_spec_cyclic_expanded_displacement(19), 19, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_displacement(), op)
+        self.filter_degenerated_elements = Input(_get_input_spec_cyclic_expanded_displacement(20), 20, op, -1) 
 
 class _OutputSpecCyclicExpandedDisplacement(_Outputs):
     def __init__(self, op: _Operator):
-        self.static_matrix = _Output(_get_output_spec_cyclic_expanded_displacement(0), 0, op) 
-        self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_displacement(1), 1, op) 
-        self.inertia_matrix = _Output(_get_output_spec_cyclic_expanded_displacement(2), 2, op) 
-        self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_displacement(3), 3, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_displacement(), op)
+        self.static_matrix = Output(_get_output_spec_cyclic_expanded_displacement(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_displacement(), op)
+        self.expanded_meshed_region = Output(_get_output_spec_cyclic_expanded_displacement(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_displacement(), op)
+        self.inertia_matrix = Output(_get_output_spec_cyclic_expanded_displacement(2), 2, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_displacement(), op)
+        self.remote_point_id = Output(_get_output_spec_cyclic_expanded_displacement(3), 3, op) 
 
 class _CyclicExpandedDisplacement(_Operator):
     """Operator's description:
@@ -14586,10 +16153,8 @@ class _CyclicExpandedDisplacement(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::U_cyclic")
-        self._name = "mapdl::rst::U_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicExpandedDisplacement(self._op)
-        self.outputs = _OutputSpecCyclicExpandedDisplacement(self._op)
+        self.inputs = _InputSpecCyclicExpandedDisplacement(self)
+        self.outputs = _OutputSpecCyclicExpandedDisplacement(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14645,7 +16210,7 @@ def cyclic_expanded_displacement():
 
 #internal name: mapdl::rst::A_cyclic
 #scripting name: cyclic_expanded_acceleration
-def _get_input_spec_cyclic_expanded_acceleration(pin):
+def _get_input_spec_cyclic_expanded_acceleration(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -14678,9 +16243,12 @@ def _get_input_spec_cyclic_expanded_acceleration(pin):
         19 : inpin19,
         20 : inpin20
     }
-    return inputs_dict_cyclic_expanded_acceleration[pin]
+    if pin is None:
+        return inputs_dict_cyclic_expanded_acceleration
+    else:
+        return inputs_dict_cyclic_expanded_acceleration[pin]
 
-def _get_output_spec_cyclic_expanded_acceleration(pin):
+def _get_output_spec_cyclic_expanded_acceleration(pin = None):
     outpin0 = _PinSpecification(name = "static_matrix", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outpin1 = _PinSpecification(name = "expanded_meshed_region", type_names = ["meshed_region"], document = """""")
     outpin2 = _PinSpecification(name = "inertia_matrix", type_names = ["fields_container"], document = """""")
@@ -14691,32 +16259,54 @@ def _get_output_spec_cyclic_expanded_acceleration(pin):
         2 : outpin2,
         3 : outpin3
     }
-    return outputs_dict_cyclic_expanded_acceleration[pin]
+    if pin is None:
+        return outputs_dict_cyclic_expanded_acceleration
+    else:
+        return outputs_dict_cyclic_expanded_acceleration[pin]
 
 class _InputSpecCyclicExpandedAcceleration(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_expanded_acceleration(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_expanded_acceleration(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_expanded_acceleration(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_cyclic_expanded_acceleration(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_cyclic_expanded_acceleration(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_cyclic_expanded_acceleration(5), 5, op, -1) 
-        self.sector_mesh = _Input(_get_input_spec_cyclic_expanded_acceleration(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_cyclic_expanded_acceleration(9), 9, op, -1) 
-        self.freq = _Input(_get_input_spec_cyclic_expanded_acceleration(12), 12, op, -1) 
-        self.read_cyclic = _Input(_get_input_spec_cyclic_expanded_acceleration(14), 14, op, -1) 
-        self.expanded_meshed_region = _Input(_get_input_spec_cyclic_expanded_acceleration(15), 15, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_expanded_acceleration(16), 16, op, -1) 
-        self.sectors_to_expand = _Input(_get_input_spec_cyclic_expanded_acceleration(18), 18, op, -1) 
-        self.phi = _Input(_get_input_spec_cyclic_expanded_acceleration(19), 19, op, -1) 
-        self.filter_degenerated_elements = _Input(_get_input_spec_cyclic_expanded_acceleration(20), 20, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_expanded_acceleration(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_expanded_acceleration(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_expanded_acceleration(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.streams_container = Input(_get_input_spec_cyclic_expanded_acceleration(3), 3, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.data_sources = Input(_get_input_spec_cyclic_expanded_acceleration(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_cyclic_expanded_acceleration(5), 5, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.sector_mesh = Input(_get_input_spec_cyclic_expanded_acceleration(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.requested_location = Input(_get_input_spec_cyclic_expanded_acceleration(9), 9, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.freq = Input(_get_input_spec_cyclic_expanded_acceleration(12), 12, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.read_cyclic = Input(_get_input_spec_cyclic_expanded_acceleration(14), 14, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.expanded_meshed_region = Input(_get_input_spec_cyclic_expanded_acceleration(15), 15, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_expanded_acceleration(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.sectors_to_expand = Input(_get_input_spec_cyclic_expanded_acceleration(18), 18, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.phi = Input(_get_input_spec_cyclic_expanded_acceleration(19), 19, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_acceleration(), op)
+        self.filter_degenerated_elements = Input(_get_input_spec_cyclic_expanded_acceleration(20), 20, op, -1) 
 
 class _OutputSpecCyclicExpandedAcceleration(_Outputs):
     def __init__(self, op: _Operator):
-        self.static_matrix = _Output(_get_output_spec_cyclic_expanded_acceleration(0), 0, op) 
-        self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_acceleration(1), 1, op) 
-        self.inertia_matrix = _Output(_get_output_spec_cyclic_expanded_acceleration(2), 2, op) 
-        self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_acceleration(3), 3, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_acceleration(), op)
+        self.static_matrix = Output(_get_output_spec_cyclic_expanded_acceleration(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_acceleration(), op)
+        self.expanded_meshed_region = Output(_get_output_spec_cyclic_expanded_acceleration(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_acceleration(), op)
+        self.inertia_matrix = Output(_get_output_spec_cyclic_expanded_acceleration(2), 2, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_acceleration(), op)
+        self.remote_point_id = Output(_get_output_spec_cyclic_expanded_acceleration(3), 3, op) 
 
 class _CyclicExpandedAcceleration(_Operator):
     """Operator's description:
@@ -14757,10 +16347,8 @@ class _CyclicExpandedAcceleration(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::A_cyclic")
-        self._name = "mapdl::rst::A_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicExpandedAcceleration(self._op)
-        self.outputs = _OutputSpecCyclicExpandedAcceleration(self._op)
+        self.inputs = _InputSpecCyclicExpandedAcceleration(self)
+        self.outputs = _OutputSpecCyclicExpandedAcceleration(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14816,7 +16404,7 @@ def cyclic_expanded_acceleration():
 
 #internal name: mapdl::rst::S_cyclic
 #scripting name: cyclic_expanded_stress
-def _get_input_spec_cyclic_expanded_stress(pin):
+def _get_input_spec_cyclic_expanded_stress(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -14849,9 +16437,12 @@ def _get_input_spec_cyclic_expanded_stress(pin):
         19 : inpin19,
         20 : inpin20
     }
-    return inputs_dict_cyclic_expanded_stress[pin]
+    if pin is None:
+        return inputs_dict_cyclic_expanded_stress
+    else:
+        return inputs_dict_cyclic_expanded_stress[pin]
 
-def _get_output_spec_cyclic_expanded_stress(pin):
+def _get_output_spec_cyclic_expanded_stress(pin = None):
     outpin0 = _PinSpecification(name = "static_matrix", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outpin1 = _PinSpecification(name = "expanded_meshed_region", type_names = ["meshed_region"], document = """""")
     outpin2 = _PinSpecification(name = "inertia_matrix", type_names = ["fields_container"], document = """""")
@@ -14862,32 +16453,54 @@ def _get_output_spec_cyclic_expanded_stress(pin):
         2 : outpin2,
         3 : outpin3
     }
-    return outputs_dict_cyclic_expanded_stress[pin]
+    if pin is None:
+        return outputs_dict_cyclic_expanded_stress
+    else:
+        return outputs_dict_cyclic_expanded_stress[pin]
 
 class _InputSpecCyclicExpandedStress(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_expanded_stress(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_expanded_stress(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_expanded_stress(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_cyclic_expanded_stress(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_cyclic_expanded_stress(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_cyclic_expanded_stress(5), 5, op, -1) 
-        self.sector_mesh = _Input(_get_input_spec_cyclic_expanded_stress(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_cyclic_expanded_stress(9), 9, op, -1) 
-        self.freq = _Input(_get_input_spec_cyclic_expanded_stress(12), 12, op, -1) 
-        self.read_cyclic = _Input(_get_input_spec_cyclic_expanded_stress(14), 14, op, -1) 
-        self.expanded_meshed_region = _Input(_get_input_spec_cyclic_expanded_stress(15), 15, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_expanded_stress(16), 16, op, -1) 
-        self.sectors_to_expand = _Input(_get_input_spec_cyclic_expanded_stress(18), 18, op, -1) 
-        self.phi = _Input(_get_input_spec_cyclic_expanded_stress(19), 19, op, -1) 
-        self.filter_degenerated_elements = _Input(_get_input_spec_cyclic_expanded_stress(20), 20, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_expanded_stress(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_expanded_stress(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_expanded_stress(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.streams_container = Input(_get_input_spec_cyclic_expanded_stress(3), 3, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.data_sources = Input(_get_input_spec_cyclic_expanded_stress(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_cyclic_expanded_stress(5), 5, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.sector_mesh = Input(_get_input_spec_cyclic_expanded_stress(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.requested_location = Input(_get_input_spec_cyclic_expanded_stress(9), 9, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.freq = Input(_get_input_spec_cyclic_expanded_stress(12), 12, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.read_cyclic = Input(_get_input_spec_cyclic_expanded_stress(14), 14, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.expanded_meshed_region = Input(_get_input_spec_cyclic_expanded_stress(15), 15, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_expanded_stress(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.sectors_to_expand = Input(_get_input_spec_cyclic_expanded_stress(18), 18, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.phi = Input(_get_input_spec_cyclic_expanded_stress(19), 19, op, -1) 
+        super().__init__(_get_input_spec_cyclic_expanded_stress(), op)
+        self.filter_degenerated_elements = Input(_get_input_spec_cyclic_expanded_stress(20), 20, op, -1) 
 
 class _OutputSpecCyclicExpandedStress(_Outputs):
     def __init__(self, op: _Operator):
-        self.static_matrix = _Output(_get_output_spec_cyclic_expanded_stress(0), 0, op) 
-        self.expanded_meshed_region = _Output(_get_output_spec_cyclic_expanded_stress(1), 1, op) 
-        self.inertia_matrix = _Output(_get_output_spec_cyclic_expanded_stress(2), 2, op) 
-        self.remote_point_id = _Output(_get_output_spec_cyclic_expanded_stress(3), 3, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_stress(), op)
+        self.static_matrix = Output(_get_output_spec_cyclic_expanded_stress(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_stress(), op)
+        self.expanded_meshed_region = Output(_get_output_spec_cyclic_expanded_stress(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_stress(), op)
+        self.inertia_matrix = Output(_get_output_spec_cyclic_expanded_stress(2), 2, op) 
+        super().__init__(_get_output_spec_cyclic_expanded_stress(), op)
+        self.remote_point_id = Output(_get_output_spec_cyclic_expanded_stress(3), 3, op) 
 
 class _CyclicExpandedStress(_Operator):
     """Operator's description:
@@ -14928,10 +16541,8 @@ class _CyclicExpandedStress(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::S_cyclic")
-        self._name = "mapdl::rst::S_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicExpandedStress(self._op)
-        self.outputs = _OutputSpecCyclicExpandedStress(self._op)
+        self.inputs = _InputSpecCyclicExpandedStress(self)
+        self.outputs = _OutputSpecCyclicExpandedStress(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -14987,7 +16598,7 @@ def cyclic_expanded_stress():
 
 #internal name: mapdl::rst::ENG_VOL_cyclic
 #scripting name: cyclic_volume
-def _get_input_spec_cyclic_volume(pin):
+def _get_input_spec_cyclic_volume(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -15020,9 +16631,12 @@ def _get_input_spec_cyclic_volume(pin):
         19 : inpin19,
         20 : inpin20
     }
-    return inputs_dict_cyclic_volume[pin]
+    if pin is None:
+        return inputs_dict_cyclic_volume
+    else:
+        return inputs_dict_cyclic_volume[pin]
 
-def _get_output_spec_cyclic_volume(pin):
+def _get_output_spec_cyclic_volume(pin = None):
     outpin0 = _PinSpecification(name = "static_matrix", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outpin1 = _PinSpecification(name = "expanded_meshed_region", type_names = ["meshed_region"], document = """""")
     outpin2 = _PinSpecification(name = "inertia_matrix", type_names = ["fields_container"], document = """""")
@@ -15033,32 +16647,54 @@ def _get_output_spec_cyclic_volume(pin):
         2 : outpin2,
         3 : outpin3
     }
-    return outputs_dict_cyclic_volume[pin]
+    if pin is None:
+        return outputs_dict_cyclic_volume
+    else:
+        return outputs_dict_cyclic_volume[pin]
 
 class _InputSpecCyclicVolume(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_cyclic_volume(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_cyclic_volume(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_cyclic_volume(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_cyclic_volume(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_cyclic_volume(4), 4, op, -1) 
-        self.bool_rotate_to_global = _Input(_get_input_spec_cyclic_volume(5), 5, op, -1) 
-        self.sector_mesh = _Input(_get_input_spec_cyclic_volume(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_cyclic_volume(9), 9, op, -1) 
-        self.freq = _Input(_get_input_spec_cyclic_volume(12), 12, op, -1) 
-        self.read_cyclic = _Input(_get_input_spec_cyclic_volume(14), 14, op, -1) 
-        self.expanded_meshed_region = _Input(_get_input_spec_cyclic_volume(15), 15, op, -1) 
-        self.cyclic_support = _Input(_get_input_spec_cyclic_volume(16), 16, op, -1) 
-        self.sectors_to_expand = _Input(_get_input_spec_cyclic_volume(18), 18, op, -1) 
-        self.phi = _Input(_get_input_spec_cyclic_volume(19), 19, op, -1) 
-        self.filter_degenerated_elements = _Input(_get_input_spec_cyclic_volume(20), 20, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.time_scoping = Input(_get_input_spec_cyclic_volume(0), 0, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.mesh_scoping = Input(_get_input_spec_cyclic_volume(1), 1, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.fields_container = Input(_get_input_spec_cyclic_volume(2), 2, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.streams_container = Input(_get_input_spec_cyclic_volume(3), 3, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.data_sources = Input(_get_input_spec_cyclic_volume(4), 4, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.bool_rotate_to_global = Input(_get_input_spec_cyclic_volume(5), 5, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.sector_mesh = Input(_get_input_spec_cyclic_volume(7), 7, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.requested_location = Input(_get_input_spec_cyclic_volume(9), 9, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.freq = Input(_get_input_spec_cyclic_volume(12), 12, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.read_cyclic = Input(_get_input_spec_cyclic_volume(14), 14, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.expanded_meshed_region = Input(_get_input_spec_cyclic_volume(15), 15, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.cyclic_support = Input(_get_input_spec_cyclic_volume(16), 16, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.sectors_to_expand = Input(_get_input_spec_cyclic_volume(18), 18, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.phi = Input(_get_input_spec_cyclic_volume(19), 19, op, -1) 
+        super().__init__(_get_input_spec_cyclic_volume(), op)
+        self.filter_degenerated_elements = Input(_get_input_spec_cyclic_volume(20), 20, op, -1) 
 
 class _OutputSpecCyclicVolume(_Outputs):
     def __init__(self, op: _Operator):
-        self.static_matrix = _Output(_get_output_spec_cyclic_volume(0), 0, op) 
-        self.expanded_meshed_region = _Output(_get_output_spec_cyclic_volume(1), 1, op) 
-        self.inertia_matrix = _Output(_get_output_spec_cyclic_volume(2), 2, op) 
-        self.remote_point_id = _Output(_get_output_spec_cyclic_volume(3), 3, op) 
+        super().__init__(_get_output_spec_cyclic_volume(), op)
+        self.static_matrix = Output(_get_output_spec_cyclic_volume(0), 0, op) 
+        super().__init__(_get_output_spec_cyclic_volume(), op)
+        self.expanded_meshed_region = Output(_get_output_spec_cyclic_volume(1), 1, op) 
+        super().__init__(_get_output_spec_cyclic_volume(), op)
+        self.inertia_matrix = Output(_get_output_spec_cyclic_volume(2), 2, op) 
+        super().__init__(_get_output_spec_cyclic_volume(), op)
+        self.remote_point_id = Output(_get_output_spec_cyclic_volume(3), 3, op) 
 
 class _CyclicVolume(_Operator):
     """Operator's description:
@@ -15099,10 +16735,8 @@ class _CyclicVolume(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::rst::ENG_VOL_cyclic")
-        self._name = "mapdl::rst::ENG_VOL_cyclic"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCyclicVolume(self._op)
-        self.outputs = _OutputSpecCyclicVolume(self._op)
+        self.inputs = _InputSpecCyclicVolume(self)
+        self.outputs = _OutputSpecCyclicVolume(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -15157,8 +16791,8 @@ def cyclic_volume():
     return _CyclicVolume()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -15168,30 +16802,39 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: vtk::vtk::FieldProvider
 #scripting name: to_field
-def _get_input_spec_to_field(pin):
+def _get_input_spec_to_field(pin = None):
     inpin3 = _PinSpecification(name = "streams", type_names = ["streams_container"], optional = True, document = """streams""")
     inpin4 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], optional = True, document = """data_sources""")
     inputs_dict_to_field = { 
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_to_field[pin]
+    if pin is None:
+        return inputs_dict_to_field
+    else:
+        return inputs_dict_to_field[pin]
 
-def _get_output_spec_to_field(pin):
+def _get_output_spec_to_field(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """fields_container""")
     outputs_dict_to_field = { 
         0 : outpin0
     }
-    return outputs_dict_to_field[pin]
+    if pin is None:
+        return outputs_dict_to_field
+    else:
+        return outputs_dict_to_field[pin]
 
 class _InputSpecToField(_Inputs):
     def __init__(self, op: _Operator):
-        self.streams = _Input(_get_input_spec_to_field(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_to_field(4), 4, op, -1) 
+        super().__init__(_get_input_spec_to_field(), op)
+        self.streams = Input(_get_input_spec_to_field(3), 3, op, -1) 
+        super().__init__(_get_input_spec_to_field(), op)
+        self.data_sources = Input(_get_input_spec_to_field(4), 4, op, -1) 
 
 class _OutputSpecToField(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_to_field(0), 0, op) 
+        super().__init__(_get_output_spec_to_field(), op)
+        self.fields_container = Output(_get_output_spec_to_field(0), 0, op) 
 
 class _ToField(_Operator):
     """Operator's description:
@@ -15216,10 +16859,8 @@ class _ToField(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("vtk::vtk::FieldProvider")
-        self._name = "vtk::vtk::FieldProvider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecToField(self._op)
-        self.outputs = _OutputSpecToField(self._op)
+        self.inputs = _InputSpecToField(self)
+        self.outputs = _OutputSpecToField(self)
 
     def __str__(self):
         return """Specific operator object.

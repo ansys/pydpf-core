@@ -1,13 +1,13 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: mapdl::run
 #scripting name: mapdl.run
-def _get_input_spec_run(pin):
+def _get_input_spec_run(pin = None):
     inpin0 = _PinSpecification(name = "mapdl_exe_path", type_names = ["string"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "working_dir", type_names = ["string"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "number_of_processes", type_names = ["int32"], optional = True, document = """Set the number of MPI processes used for resolution (default is 2)""")
@@ -18,25 +18,36 @@ def _get_input_spec_run(pin):
         2 : inpin2,
         4 : inpin4
     }
-    return inputs_dict_run[pin]
+    if pin is None:
+        return inputs_dict_run
+    else:
+        return inputs_dict_run[pin]
 
-def _get_output_spec_run(pin):
+def _get_output_spec_run(pin = None):
     outpin0 = _PinSpecification(name = "data_sources", type_names = ["data_sources"], document = """""")
     outputs_dict_run = { 
         0 : outpin0
     }
-    return outputs_dict_run[pin]
+    if pin is None:
+        return outputs_dict_run
+    else:
+        return outputs_dict_run[pin]
 
 class _InputSpecRun(_Inputs):
     def __init__(self, op: _Operator):
-        self.mapdl_exe_path = _Input(_get_input_spec_run(0), 0, op, -1) 
-        self.working_dir = _Input(_get_input_spec_run(1), 1, op, -1) 
-        self.number_of_processes = _Input(_get_input_spec_run(2), 2, op, -1) 
-        self.data_sources = _Input(_get_input_spec_run(4), 4, op, -1) 
+        super().__init__(_get_input_spec_run(), op)
+        self.mapdl_exe_path = Input(_get_input_spec_run(0), 0, op, -1) 
+        super().__init__(_get_input_spec_run(), op)
+        self.working_dir = Input(_get_input_spec_run(1), 1, op, -1) 
+        super().__init__(_get_input_spec_run(), op)
+        self.number_of_processes = Input(_get_input_spec_run(2), 2, op, -1) 
+        super().__init__(_get_input_spec_run(), op)
+        self.data_sources = Input(_get_input_spec_run(4), 4, op, -1) 
 
 class _OutputSpecRun(_Outputs):
     def __init__(self, op: _Operator):
-        self.data_sources = _Output(_get_output_spec_run(0), 0, op) 
+        super().__init__(_get_output_spec_run(), op)
+        self.data_sources = Output(_get_output_spec_run(0), 0, op) 
 
 class _Run(_Operator):
     """Operator's description:
@@ -63,10 +74,8 @@ class _Run(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::run")
-        self._name = "mapdl::run"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRun(self._op)
-        self.outputs = _OutputSpecRun(self._op)
+        self.inputs = _InputSpecRun(self)
+        self.outputs = _OutputSpecRun(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -108,7 +117,7 @@ def run():
 
 #internal name: mapdl::nmisc
 #scripting name: mapdl.nmisc
-def _get_input_spec_nmisc(pin):
+def _get_input_spec_nmisc(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -123,27 +132,40 @@ def _get_input_spec_nmisc(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_nmisc[pin]
+    if pin is None:
+        return inputs_dict_nmisc
+    else:
+        return inputs_dict_nmisc[pin]
 
-def _get_output_spec_nmisc(pin):
+def _get_output_spec_nmisc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_nmisc = { 
         0 : outpin0
     }
-    return outputs_dict_nmisc[pin]
+    if pin is None:
+        return outputs_dict_nmisc
+    else:
+        return outputs_dict_nmisc[pin]
 
 class _InputSpecNmisc(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_nmisc(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_nmisc(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_nmisc(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_nmisc(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_nmisc(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_nmisc(7), 7, op, -1) 
+        super().__init__(_get_input_spec_nmisc(), op)
+        self.time_scoping = Input(_get_input_spec_nmisc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nmisc(), op)
+        self.mesh_scoping = Input(_get_input_spec_nmisc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_nmisc(), op)
+        self.fields_container = Input(_get_input_spec_nmisc(2), 2, op, -1) 
+        super().__init__(_get_input_spec_nmisc(), op)
+        self.streams_container = Input(_get_input_spec_nmisc(3), 3, op, -1) 
+        super().__init__(_get_input_spec_nmisc(), op)
+        self.data_sources = Input(_get_input_spec_nmisc(4), 4, op, -1) 
+        super().__init__(_get_input_spec_nmisc(), op)
+        self.mesh = Input(_get_input_spec_nmisc(7), 7, op, -1) 
 
 class _OutputSpecNmisc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_nmisc(0), 0, op) 
+        super().__init__(_get_output_spec_nmisc(), op)
+        self.fields_container = Output(_get_output_spec_nmisc(0), 0, op) 
 
 class _Nmisc(_Operator):
     """Operator's description:
@@ -172,10 +194,8 @@ class _Nmisc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::nmisc")
-        self._name = "mapdl::nmisc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNmisc(self._op)
-        self.outputs = _OutputSpecNmisc(self._op)
+        self.inputs = _InputSpecNmisc(self)
+        self.outputs = _OutputSpecNmisc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -219,7 +239,7 @@ def nmisc():
 
 #internal name: mapdl::smisc
 #scripting name: mapdl.smisc
-def _get_input_spec_smisc(pin):
+def _get_input_spec_smisc(pin = None):
     inpin0 = _PinSpecification(name = "time_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container","scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = True, document = """FieldsContainer already allocated modified inplace""")
@@ -234,27 +254,40 @@ def _get_input_spec_smisc(pin):
         4 : inpin4,
         7 : inpin7
     }
-    return inputs_dict_smisc[pin]
+    if pin is None:
+        return inputs_dict_smisc
+    else:
+        return inputs_dict_smisc[pin]
 
-def _get_output_spec_smisc(pin):
+def _get_output_spec_smisc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """FieldsContainer filled in""")
     outputs_dict_smisc = { 
         0 : outpin0
     }
-    return outputs_dict_smisc[pin]
+    if pin is None:
+        return outputs_dict_smisc
+    else:
+        return outputs_dict_smisc[pin]
 
 class _InputSpecSmisc(_Inputs):
     def __init__(self, op: _Operator):
-        self.time_scoping = _Input(_get_input_spec_smisc(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_smisc(1), 1, op, -1) 
-        self.fields_container = _Input(_get_input_spec_smisc(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_smisc(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_smisc(4), 4, op, -1) 
-        self.mesh = _Input(_get_input_spec_smisc(7), 7, op, -1) 
+        super().__init__(_get_input_spec_smisc(), op)
+        self.time_scoping = Input(_get_input_spec_smisc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_smisc(), op)
+        self.mesh_scoping = Input(_get_input_spec_smisc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_smisc(), op)
+        self.fields_container = Input(_get_input_spec_smisc(2), 2, op, -1) 
+        super().__init__(_get_input_spec_smisc(), op)
+        self.streams_container = Input(_get_input_spec_smisc(3), 3, op, -1) 
+        super().__init__(_get_input_spec_smisc(), op)
+        self.data_sources = Input(_get_input_spec_smisc(4), 4, op, -1) 
+        super().__init__(_get_input_spec_smisc(), op)
+        self.mesh = Input(_get_input_spec_smisc(7), 7, op, -1) 
 
 class _OutputSpecSmisc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_smisc(0), 0, op) 
+        super().__init__(_get_output_spec_smisc(), op)
+        self.fields_container = Output(_get_output_spec_smisc(0), 0, op) 
 
 class _Smisc(_Operator):
     """Operator's description:
@@ -283,10 +316,8 @@ class _Smisc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("mapdl::smisc")
-        self._name = "mapdl::smisc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSmisc(self._op)
-        self.outputs = _OutputSpecSmisc(self._op)
+        self.inputs = _InputSpecSmisc(self)
+        self.outputs = _OutputSpecSmisc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -330,27 +361,35 @@ def smisc():
 
 #internal name: PRES_Reader
 #scripting name: mapdl.pres_to_field
-def _get_input_spec_pres_to_field(pin):
+def _get_input_spec_pres_to_field(pin = None):
     inpin0 = _PinSpecification(name = "filepath", type_names = ["string"], optional = False, document = """filepath""")
     inputs_dict_pres_to_field = { 
         0 : inpin0
     }
-    return inputs_dict_pres_to_field[pin]
+    if pin is None:
+        return inputs_dict_pres_to_field
+    else:
+        return inputs_dict_pres_to_field[pin]
 
-def _get_output_spec_pres_to_field(pin):
+def _get_output_spec_pres_to_field(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_pres_to_field = { 
         0 : outpin0
     }
-    return outputs_dict_pres_to_field[pin]
+    if pin is None:
+        return outputs_dict_pres_to_field
+    else:
+        return outputs_dict_pres_to_field[pin]
 
 class _InputSpecPresToField(_Inputs):
     def __init__(self, op: _Operator):
-        self.filepath = _Input(_get_input_spec_pres_to_field(0), 0, op, -1) 
+        super().__init__(_get_input_spec_pres_to_field(), op)
+        self.filepath = Input(_get_input_spec_pres_to_field(0), 0, op, -1) 
 
 class _OutputSpecPresToField(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_pres_to_field(0), 0, op) 
+        super().__init__(_get_output_spec_pres_to_field(), op)
+        self.field = Output(_get_output_spec_pres_to_field(0), 0, op) 
 
 class _PresToField(_Operator):
     """Operator's description:
@@ -374,10 +413,8 @@ class _PresToField(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("PRES_Reader")
-        self._name = "PRES_Reader"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPresToField(self._op)
-        self.outputs = _OutputSpecPresToField(self._op)
+        self.inputs = _InputSpecPresToField(self)
+        self.outputs = _OutputSpecPresToField(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -416,27 +453,35 @@ def pres_to_field():
 
 #internal name: PRNS_Reader
 #scripting name: mapdl.prns_to_field
-def _get_input_spec_prns_to_field(pin):
+def _get_input_spec_prns_to_field(pin = None):
     inpin0 = _PinSpecification(name = "filepath", type_names = ["string"], optional = False, document = """filepath""")
     inputs_dict_prns_to_field = { 
         0 : inpin0
     }
-    return inputs_dict_prns_to_field[pin]
+    if pin is None:
+        return inputs_dict_prns_to_field
+    else:
+        return inputs_dict_prns_to_field[pin]
 
-def _get_output_spec_prns_to_field(pin):
+def _get_output_spec_prns_to_field(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_prns_to_field = { 
         0 : outpin0
     }
-    return outputs_dict_prns_to_field[pin]
+    if pin is None:
+        return outputs_dict_prns_to_field
+    else:
+        return outputs_dict_prns_to_field[pin]
 
 class _InputSpecPrnsToField(_Inputs):
     def __init__(self, op: _Operator):
-        self.filepath = _Input(_get_input_spec_prns_to_field(0), 0, op, -1) 
+        super().__init__(_get_input_spec_prns_to_field(), op)
+        self.filepath = Input(_get_input_spec_prns_to_field(0), 0, op, -1) 
 
 class _OutputSpecPrnsToField(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_prns_to_field(0), 0, op) 
+        super().__init__(_get_output_spec_prns_to_field(), op)
+        self.field = Output(_get_output_spec_prns_to_field(0), 0, op) 
 
 class _PrnsToField(_Operator):
     """Operator's description:
@@ -460,10 +505,8 @@ class _PrnsToField(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("PRNS_Reader")
-        self._name = "PRNS_Reader"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecPrnsToField(self._op)
-        self.outputs = _OutputSpecPrnsToField(self._op)
+        self.inputs = _InputSpecPrnsToField(self)
+        self.outputs = _OutputSpecPrnsToField(self)
 
     def __str__(self):
         return """Specific operator object.

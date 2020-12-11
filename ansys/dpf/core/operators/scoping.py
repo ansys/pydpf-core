@@ -1,6 +1,6 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -10,27 +10,35 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: GetElementScopingFromMesh
 #scripting name: elemental_from_mesh
-def _get_input_spec_elemental_from_mesh(pin):
+def _get_input_spec_elemental_from_mesh(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """""")
     inputs_dict_elemental_from_mesh = { 
         0 : inpin0
     }
-    return inputs_dict_elemental_from_mesh[pin]
+    if pin is None:
+        return inputs_dict_elemental_from_mesh
+    else:
+        return inputs_dict_elemental_from_mesh[pin]
 
-def _get_output_spec_elemental_from_mesh(pin):
+def _get_output_spec_elemental_from_mesh(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], document = """""")
     outputs_dict_elemental_from_mesh = { 
         0 : outpin0
     }
-    return outputs_dict_elemental_from_mesh[pin]
+    if pin is None:
+        return outputs_dict_elemental_from_mesh
+    else:
+        return outputs_dict_elemental_from_mesh[pin]
 
 class _InputSpecElementalFromMesh(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_elemental_from_mesh(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elemental_from_mesh(), op)
+        self.mesh = Input(_get_input_spec_elemental_from_mesh(0), 0, op, -1) 
 
 class _OutputSpecElementalFromMesh(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_elemental_from_mesh(0), 0, op) 
+        super().__init__(_get_output_spec_elemental_from_mesh(), op)
+        self.mesh_scoping = Output(_get_output_spec_elemental_from_mesh(0), 0, op) 
 
 class _ElementalFromMesh(_Operator):
     """Operator's description:
@@ -54,10 +62,8 @@ class _ElementalFromMesh(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("GetElementScopingFromMesh")
-        self._name = "GetElementScopingFromMesh"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementalFromMesh(self._op)
-        self.outputs = _OutputSpecElementalFromMesh(self._op)
+        self.inputs = _InputSpecElementalFromMesh(self)
+        self.outputs = _OutputSpecElementalFromMesh(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -96,33 +102,43 @@ def elemental_from_mesh():
 
 #internal name: scoping::intersect
 #scripting name: intersect
-def _get_input_spec_intersect(pin):
+def _get_input_spec_intersect(pin = None):
     inpin0 = _PinSpecification(name = "scopingA", type_names = ["scoping"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "scopingB", type_names = ["scoping"], optional = False, document = """""")
     inputs_dict_intersect = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_intersect[pin]
+    if pin is None:
+        return inputs_dict_intersect
+    else:
+        return inputs_dict_intersect[pin]
 
-def _get_output_spec_intersect(pin):
+def _get_output_spec_intersect(pin = None):
     outpin0 = _PinSpecification(name = "intersection", type_names = ["scoping"], document = """""")
     outpin1 = _PinSpecification(name = "scopingA_min_intersection", type_names = ["scoping"], document = """""")
     outputs_dict_intersect = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_intersect[pin]
+    if pin is None:
+        return outputs_dict_intersect
+    else:
+        return outputs_dict_intersect[pin]
 
 class _InputSpecIntersect(_Inputs):
     def __init__(self, op: _Operator):
-        self.scopingA = _Input(_get_input_spec_intersect(0), 0, op, -1) 
-        self.scopingB = _Input(_get_input_spec_intersect(1), 1, op, -1) 
+        super().__init__(_get_input_spec_intersect(), op)
+        self.scopingA = Input(_get_input_spec_intersect(0), 0, op, -1) 
+        super().__init__(_get_input_spec_intersect(), op)
+        self.scopingB = Input(_get_input_spec_intersect(1), 1, op, -1) 
 
 class _OutputSpecIntersect(_Outputs):
     def __init__(self, op: _Operator):
-        self.intersection = _Output(_get_output_spec_intersect(0), 0, op) 
-        self.scopingA_min_intersection = _Output(_get_output_spec_intersect(1), 1, op) 
+        super().__init__(_get_output_spec_intersect(), op)
+        self.intersection = Output(_get_output_spec_intersect(0), 0, op) 
+        super().__init__(_get_output_spec_intersect(), op)
+        self.scopingA_min_intersection = Output(_get_output_spec_intersect(1), 1, op) 
 
 class _Intersect(_Operator):
     """Operator's description:
@@ -148,10 +164,8 @@ class _Intersect(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scoping::intersect")
-        self._name = "scoping::intersect"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecIntersect(self._op)
-        self.outputs = _OutputSpecIntersect(self._op)
+        self.inputs = _InputSpecIntersect(self)
+        self.outputs = _OutputSpecIntersect(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -192,7 +206,7 @@ def intersect():
 
 #internal name: scoping_provider_by_prop
 #scripting name: on_property
-def _get_input_spec_on_property(pin):
+def _get_input_spec_on_property(pin = None):
     inpin0 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = False, document = """Nodal or Elemental location are expected""")
     inpin1 = _PinSpecification(name = "property_name", type_names = ["string"], optional = False, document = """ex: "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "apdl_section_id", "apdl_real_id", "shell_axi", "volume_axi"...""")
     inpin2 = _PinSpecification(name = "property_id", type_names = ["int32"], optional = False, document = """""")
@@ -207,27 +221,40 @@ def _get_input_spec_on_property(pin):
         4 : inpin4,
         5 : inpin5
     }
-    return inputs_dict_on_property[pin]
+    if pin is None:
+        return inputs_dict_on_property
+    else:
+        return inputs_dict_on_property[pin]
 
-def _get_output_spec_on_property(pin):
+def _get_output_spec_on_property(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], document = """Scoping""")
     outputs_dict_on_property = { 
         0 : outpin0
     }
-    return outputs_dict_on_property[pin]
+    if pin is None:
+        return outputs_dict_on_property
+    else:
+        return outputs_dict_on_property[pin]
 
 class _InputSpecOnProperty(_Inputs):
     def __init__(self, op: _Operator):
-        self.requested_location = _Input(_get_input_spec_on_property(0), 0, op, -1) 
-        self.property_name = _Input(_get_input_spec_on_property(1), 1, op, -1) 
-        self.property_id = _Input(_get_input_spec_on_property(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_on_property(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_on_property(4), 4, op, -1) 
-        self.inclusive = _Input(_get_input_spec_on_property(5), 5, op, -1) 
+        super().__init__(_get_input_spec_on_property(), op)
+        self.requested_location = Input(_get_input_spec_on_property(0), 0, op, -1) 
+        super().__init__(_get_input_spec_on_property(), op)
+        self.property_name = Input(_get_input_spec_on_property(1), 1, op, -1) 
+        super().__init__(_get_input_spec_on_property(), op)
+        self.property_id = Input(_get_input_spec_on_property(2), 2, op, -1) 
+        super().__init__(_get_input_spec_on_property(), op)
+        self.streams_container = Input(_get_input_spec_on_property(3), 3, op, -1) 
+        super().__init__(_get_input_spec_on_property(), op)
+        self.data_sources = Input(_get_input_spec_on_property(4), 4, op, -1) 
+        super().__init__(_get_input_spec_on_property(), op)
+        self.inclusive = Input(_get_input_spec_on_property(5), 5, op, -1) 
 
 class _OutputSpecOnProperty(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_on_property(0), 0, op) 
+        super().__init__(_get_output_spec_on_property(), op)
+        self.mesh_scoping = Output(_get_output_spec_on_property(0), 0, op) 
 
 class _OnProperty(_Operator):
     """Operator's description:
@@ -256,10 +283,8 @@ class _OnProperty(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scoping_provider_by_prop")
-        self._name = "scoping_provider_by_prop"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecOnProperty(self._op)
-        self.outputs = _OutputSpecOnProperty(self._op)
+        self.inputs = _InputSpecOnProperty(self)
+        self.outputs = _OutputSpecOnProperty(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -303,7 +328,7 @@ def on_property():
 
 #internal name: transpose_scoping
 #scripting name: transpose
-def _get_input_spec_transpose(pin):
+def _get_input_spec_transpose(pin = None):
     inpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping","scopings_container"], optional = False, document = """Scoping or scopings container (the input type is the output type)""")
     inpin1 = _PinSpecification(name = "meshed_region", type_names = ["meshed_region"], optional = False, document = """""")
     inpin2 = _PinSpecification(name = "inclusive", type_names = ["int32"], optional = True, document = """if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included""")
@@ -312,24 +337,34 @@ def _get_input_spec_transpose(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_transpose[pin]
+    if pin is None:
+        return inputs_dict_transpose
+    else:
+        return inputs_dict_transpose[pin]
 
-def _get_output_spec_transpose(pin):
+def _get_output_spec_transpose(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], document = """Scoping or scopings container (the input type is the output type)""")
     outputs_dict_transpose = { 
         0 : outpin0
     }
-    return outputs_dict_transpose[pin]
+    if pin is None:
+        return outputs_dict_transpose
+    else:
+        return outputs_dict_transpose[pin]
 
 class _InputSpecTranspose(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Input(_get_input_spec_transpose(0), 0, op, -1) 
-        self.meshed_region = _Input(_get_input_spec_transpose(1), 1, op, -1) 
-        self.inclusive = _Input(_get_input_spec_transpose(2), 2, op, -1) 
+        super().__init__(_get_input_spec_transpose(), op)
+        self.mesh_scoping = Input(_get_input_spec_transpose(0), 0, op, -1) 
+        super().__init__(_get_input_spec_transpose(), op)
+        self.meshed_region = Input(_get_input_spec_transpose(1), 1, op, -1) 
+        super().__init__(_get_input_spec_transpose(), op)
+        self.inclusive = Input(_get_input_spec_transpose(2), 2, op, -1) 
 
 class _OutputSpecTranspose(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_transpose(0), 0, op) 
+        super().__init__(_get_output_spec_transpose(), op)
+        self.mesh_scoping = Output(_get_output_spec_transpose(0), 0, op) 
 
 class _Transpose(_Operator):
     """Operator's description:
@@ -355,10 +390,8 @@ class _Transpose(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("transpose_scoping")
-        self._name = "transpose_scoping"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecTranspose(self._op)
-        self.outputs = _OutputSpecTranspose(self._op)
+        self.inputs = _InputSpecTranspose(self)
+        self.outputs = _OutputSpecTranspose(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -399,30 +432,39 @@ def transpose():
 
 #internal name: core::scoping::low_pass
 #scripting name: scoping.low_pass
-def _get_input_spec_low_pass(pin):
+def _get_input_spec_low_pass(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "threshold", type_names = ["double","field"], optional = False, document = """a threshold scalar or a field containing one value is expected""")
     inputs_dict_low_pass = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_low_pass[pin]
+    if pin is None:
+        return inputs_dict_low_pass
+    else:
+        return inputs_dict_low_pass[pin]
 
-def _get_output_spec_low_pass(pin):
+def _get_output_spec_low_pass(pin = None):
     outpin0 = _PinSpecification(name = "scoping", type_names = ["scoping"], document = """""")
     outputs_dict_low_pass = { 
         0 : outpin0
     }
-    return outputs_dict_low_pass[pin]
+    if pin is None:
+        return outputs_dict_low_pass
+    else:
+        return outputs_dict_low_pass[pin]
 
 class _InputSpecLowPass(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_low_pass(0), 0, op, -1) 
-        self.threshold = _Input(_get_input_spec_low_pass(1), 1, op, -1) 
+        super().__init__(_get_input_spec_low_pass(), op)
+        self.field = Input(_get_input_spec_low_pass(0), 0, op, -1) 
+        super().__init__(_get_input_spec_low_pass(), op)
+        self.threshold = Input(_get_input_spec_low_pass(1), 1, op, -1) 
 
 class _OutputSpecLowPass(_Outputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Output(_get_output_spec_low_pass(0), 0, op) 
+        super().__init__(_get_output_spec_low_pass(), op)
+        self.scoping = Output(_get_output_spec_low_pass(0), 0, op) 
 
 class _LowPass(_Operator):
     """Operator's description:
@@ -447,10 +489,8 @@ class _LowPass(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("core::scoping::low_pass")
-        self._name = "core::scoping::low_pass"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecLowPass(self._op)
-        self.outputs = _OutputSpecLowPass(self._op)
+        self.inputs = _InputSpecLowPass(self)
+        self.outputs = _OutputSpecLowPass(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -490,7 +530,7 @@ def low_pass():
 
 #internal name: scoping::by_property
 #scripting name: splitted_on_property_type
-def _get_input_spec_splitted_on_property_type(pin):
+def _get_input_spec_splitted_on_property_type(pin = None):
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = True, document = """Scoping""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """mesh region""")
     inpin9 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = False, document = """location (default is elemental)""")
@@ -503,26 +543,38 @@ def _get_input_spec_splitted_on_property_type(pin):
         13 : inpin13,
         14 : inpin14
     }
-    return inputs_dict_splitted_on_property_type[pin]
+    if pin is None:
+        return inputs_dict_splitted_on_property_type
+    else:
+        return inputs_dict_splitted_on_property_type[pin]
 
-def _get_output_spec_splitted_on_property_type(pin):
+def _get_output_spec_splitted_on_property_type(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scopings_container"], document = """Scoping""")
     outputs_dict_splitted_on_property_type = { 
         0 : outpin0
     }
-    return outputs_dict_splitted_on_property_type[pin]
+    if pin is None:
+        return outputs_dict_splitted_on_property_type
+    else:
+        return outputs_dict_splitted_on_property_type[pin]
 
 class _InputSpecSplittedOnPropertyType(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Input(_get_input_spec_splitted_on_property_type(1), 1, op, -1) 
-        self.mesh = _Input(_get_input_spec_splitted_on_property_type(7), 7, op, -1) 
-        self.requested_location = _Input(_get_input_spec_splitted_on_property_type(9), 9, op, -1) 
-        self.label1 = _Input(_get_input_spec_splitted_on_property_type(13), 13, op, 0) 
-        self.label2 = _Input(_get_input_spec_splitted_on_property_type(14), 14, op, -1) 
+        super().__init__(_get_input_spec_splitted_on_property_type(), op)
+        self.mesh_scoping = Input(_get_input_spec_splitted_on_property_type(1), 1, op, -1) 
+        super().__init__(_get_input_spec_splitted_on_property_type(), op)
+        self.mesh = Input(_get_input_spec_splitted_on_property_type(7), 7, op, -1) 
+        super().__init__(_get_input_spec_splitted_on_property_type(), op)
+        self.requested_location = Input(_get_input_spec_splitted_on_property_type(9), 9, op, -1) 
+        super().__init__(_get_input_spec_splitted_on_property_type(), op)
+        self.label1 = Input(_get_input_spec_splitted_on_property_type(13), 13, op, 0) 
+        super().__init__(_get_input_spec_splitted_on_property_type(), op)
+        self.label2 = Input(_get_input_spec_splitted_on_property_type(14), 14, op, -1) 
 
 class _OutputSpecSplittedOnPropertyType(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_splitted_on_property_type(0), 0, op) 
+        super().__init__(_get_output_spec_splitted_on_property_type(), op)
+        self.mesh_scoping = Output(_get_output_spec_splitted_on_property_type(0), 0, op) 
 
 class _SplittedOnPropertyType(_Operator):
     """Operator's description:
@@ -550,10 +602,8 @@ class _SplittedOnPropertyType(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scoping::by_property")
-        self._name = "scoping::by_property"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecSplittedOnPropertyType(self._op)
-        self.outputs = _OutputSpecSplittedOnPropertyType(self._op)
+        self.inputs = _InputSpecSplittedOnPropertyType(self)
+        self.outputs = _OutputSpecSplittedOnPropertyType(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -596,30 +646,39 @@ def splitted_on_property_type():
 
 #internal name: Rescope
 #scripting name: rescope
-def _get_input_spec_rescope(pin):
+def _get_input_spec_rescope(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = False, document = """""")
     inputs_dict_rescope = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_rescope[pin]
+    if pin is None:
+        return inputs_dict_rescope
+    else:
+        return inputs_dict_rescope[pin]
 
-def _get_output_spec_rescope(pin):
+def _get_output_spec_rescope(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_rescope = { 
         0 : outpin0
     }
-    return outputs_dict_rescope[pin]
+    if pin is None:
+        return outputs_dict_rescope
+    else:
+        return outputs_dict_rescope[pin]
 
 class _InputSpecRescope(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_rescope(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_rescope(1), 1, op, -1) 
+        super().__init__(_get_input_spec_rescope(), op)
+        self.fields_container = Input(_get_input_spec_rescope(0), 0, op, -1) 
+        super().__init__(_get_input_spec_rescope(), op)
+        self.mesh_scoping = Input(_get_input_spec_rescope(1), 1, op, -1) 
 
 class _OutputSpecRescope(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_rescope(0), 0, op) 
+        super().__init__(_get_output_spec_rescope(), op)
+        self.fields_container = Output(_get_output_spec_rescope(0), 0, op) 
 
 class _Rescope(_Operator):
     """Operator's description:
@@ -644,10 +703,8 @@ class _Rescope(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("Rescope")
-        self._name = "Rescope"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRescope(self._op)
-        self.outputs = _OutputSpecRescope(self._op)
+        self.inputs = _InputSpecRescope(self)
+        self.outputs = _OutputSpecRescope(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -687,7 +744,7 @@ def rescope():
 
 #internal name: scoping_provider_by_ns
 #scripting name: on_named_selection
-def _get_input_spec_on_named_selection(pin):
+def _get_input_spec_on_named_selection(pin = None):
     inpin0 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "named_selection_name", type_names = ["string"], optional = False, document = """the string is expected to be in upper case""")
     inpin2 = _PinSpecification(name = "int_inclusive", type_names = ["int32"], optional = True, document = """If element scoping is requested on a nodal named selection, if Inclusive == 1 then add all the elements adjacent to the nodes.If Inclusive == 0, only the elements which have all their nodes in the named selection are included""")
@@ -700,26 +757,38 @@ def _get_input_spec_on_named_selection(pin):
         3 : inpin3,
         4 : inpin4
     }
-    return inputs_dict_on_named_selection[pin]
+    if pin is None:
+        return inputs_dict_on_named_selection
+    else:
+        return inputs_dict_on_named_selection[pin]
 
-def _get_output_spec_on_named_selection(pin):
+def _get_output_spec_on_named_selection(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], document = """""")
     outputs_dict_on_named_selection = { 
         0 : outpin0
     }
-    return outputs_dict_on_named_selection[pin]
+    if pin is None:
+        return outputs_dict_on_named_selection
+    else:
+        return outputs_dict_on_named_selection[pin]
 
 class _InputSpecOnNamedSelection(_Inputs):
     def __init__(self, op: _Operator):
-        self.requested_location = _Input(_get_input_spec_on_named_selection(0), 0, op, -1) 
-        self.named_selection_name = _Input(_get_input_spec_on_named_selection(1), 1, op, -1) 
-        self.int_inclusive = _Input(_get_input_spec_on_named_selection(2), 2, op, -1) 
-        self.streams_container = _Input(_get_input_spec_on_named_selection(3), 3, op, -1) 
-        self.data_sources = _Input(_get_input_spec_on_named_selection(4), 4, op, -1) 
+        super().__init__(_get_input_spec_on_named_selection(), op)
+        self.requested_location = Input(_get_input_spec_on_named_selection(0), 0, op, -1) 
+        super().__init__(_get_input_spec_on_named_selection(), op)
+        self.named_selection_name = Input(_get_input_spec_on_named_selection(1), 1, op, -1) 
+        super().__init__(_get_input_spec_on_named_selection(), op)
+        self.int_inclusive = Input(_get_input_spec_on_named_selection(2), 2, op, -1) 
+        super().__init__(_get_input_spec_on_named_selection(), op)
+        self.streams_container = Input(_get_input_spec_on_named_selection(3), 3, op, -1) 
+        super().__init__(_get_input_spec_on_named_selection(), op)
+        self.data_sources = Input(_get_input_spec_on_named_selection(4), 4, op, -1) 
 
 class _OutputSpecOnNamedSelection(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_on_named_selection(0), 0, op) 
+        super().__init__(_get_output_spec_on_named_selection(), op)
+        self.mesh_scoping = Output(_get_output_spec_on_named_selection(0), 0, op) 
 
 class _OnNamedSelection(_Operator):
     """Operator's description:
@@ -747,10 +816,8 @@ class _OnNamedSelection(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scoping_provider_by_ns")
-        self._name = "scoping_provider_by_ns"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecOnNamedSelection(self._op)
-        self.outputs = _OutputSpecOnNamedSelection(self._op)
+        self.inputs = _InputSpecOnNamedSelection(self)
+        self.outputs = _OutputSpecOnNamedSelection(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -793,7 +860,7 @@ def on_named_selection():
 
 #internal name: scoping::connectivity_ids
 #scripting name: connectivity_ids
-def _get_input_spec_connectivity_ids(pin):
+def _get_input_spec_connectivity_ids(pin = None):
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = False, document = """Elemental scoping""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """the support of the scoping is expected if there is no mesh in input""")
     inpin10 = _PinSpecification(name = "take_mid_nodes", type_names = ["bool"], optional = True, document = """default is true""")
@@ -802,27 +869,38 @@ def _get_input_spec_connectivity_ids(pin):
         7 : inpin7,
         10 : inpin10
     }
-    return inputs_dict_connectivity_ids[pin]
+    if pin is None:
+        return inputs_dict_connectivity_ids
+    else:
+        return inputs_dict_connectivity_ids[pin]
 
-def _get_output_spec_connectivity_ids(pin):
+def _get_output_spec_connectivity_ids(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], document = """""")
     outpin1 = _PinSpecification(name = "elemental_scoping", type_names = ["scoping"], document = """same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping""")
     outputs_dict_connectivity_ids = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_connectivity_ids[pin]
+    if pin is None:
+        return outputs_dict_connectivity_ids
+    else:
+        return outputs_dict_connectivity_ids[pin]
 
 class _InputSpecConnectivityIds(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Input(_get_input_spec_connectivity_ids(1), 1, op, -1) 
-        self.mesh = _Input(_get_input_spec_connectivity_ids(7), 7, op, -1) 
-        self.take_mid_nodes = _Input(_get_input_spec_connectivity_ids(10), 10, op, -1) 
+        super().__init__(_get_input_spec_connectivity_ids(), op)
+        self.mesh_scoping = Input(_get_input_spec_connectivity_ids(1), 1, op, -1) 
+        super().__init__(_get_input_spec_connectivity_ids(), op)
+        self.mesh = Input(_get_input_spec_connectivity_ids(7), 7, op, -1) 
+        super().__init__(_get_input_spec_connectivity_ids(), op)
+        self.take_mid_nodes = Input(_get_input_spec_connectivity_ids(10), 10, op, -1) 
 
 class _OutputSpecConnectivityIds(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_connectivity_ids(0), 0, op) 
-        self.elemental_scoping = _Output(_get_output_spec_connectivity_ids(1), 1, op) 
+        super().__init__(_get_output_spec_connectivity_ids(), op)
+        self.mesh_scoping = Output(_get_output_spec_connectivity_ids(0), 0, op) 
+        super().__init__(_get_output_spec_connectivity_ids(), op)
+        self.elemental_scoping = Output(_get_output_spec_connectivity_ids(1), 1, op) 
 
 class _ConnectivityIds(_Operator):
     """Operator's description:
@@ -849,10 +927,8 @@ class _ConnectivityIds(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("scoping::connectivity_ids")
-        self._name = "scoping::connectivity_ids"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecConnectivityIds(self._op)
-        self.outputs = _OutputSpecConnectivityIds(self._op)
+        self.inputs = _InputSpecConnectivityIds(self)
+        self.outputs = _OutputSpecConnectivityIds(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -894,27 +970,35 @@ def connectivity_ids():
 
 #internal name: GetNodeScopingFromMesh
 #scripting name: nodal_from_mesh
-def _get_input_spec_nodal_from_mesh(pin):
+def _get_input_spec_nodal_from_mesh(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """""")
     inputs_dict_nodal_from_mesh = { 
         0 : inpin0
     }
-    return inputs_dict_nodal_from_mesh[pin]
+    if pin is None:
+        return inputs_dict_nodal_from_mesh
+    else:
+        return inputs_dict_nodal_from_mesh[pin]
 
-def _get_output_spec_nodal_from_mesh(pin):
+def _get_output_spec_nodal_from_mesh(pin = None):
     outpin0 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], document = """""")
     outputs_dict_nodal_from_mesh = { 
         0 : outpin0
     }
-    return outputs_dict_nodal_from_mesh[pin]
+    if pin is None:
+        return outputs_dict_nodal_from_mesh
+    else:
+        return outputs_dict_nodal_from_mesh[pin]
 
 class _InputSpecNodalFromMesh(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_nodal_from_mesh(0), 0, op, -1) 
+        super().__init__(_get_input_spec_nodal_from_mesh(), op)
+        self.mesh = Input(_get_input_spec_nodal_from_mesh(0), 0, op, -1) 
 
 class _OutputSpecNodalFromMesh(_Outputs):
     def __init__(self, op: _Operator):
-        self.mesh_scoping = _Output(_get_output_spec_nodal_from_mesh(0), 0, op) 
+        super().__init__(_get_output_spec_nodal_from_mesh(), op)
+        self.mesh_scoping = Output(_get_output_spec_nodal_from_mesh(0), 0, op) 
 
 class _NodalFromMesh(_Operator):
     """Operator's description:
@@ -938,10 +1022,8 @@ class _NodalFromMesh(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("GetNodeScopingFromMesh")
-        self._name = "GetNodeScopingFromMesh"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNodalFromMesh(self._op)
-        self.outputs = _OutputSpecNodalFromMesh(self._op)
+        self.inputs = _InputSpecNodalFromMesh(self)
+        self.outputs = _OutputSpecNodalFromMesh(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -980,30 +1062,39 @@ def nodal_from_mesh():
 
 #internal name: rescope_fc
 #scripting name: change_fc
-def _get_input_spec_change_fc(pin):
+def _get_input_spec_change_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "scopings_container", type_names = ["scopings_container"], optional = False, document = """""")
     inputs_dict_change_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_change_fc[pin]
+    if pin is None:
+        return inputs_dict_change_fc
+    else:
+        return inputs_dict_change_fc[pin]
 
-def _get_output_spec_change_fc(pin):
+def _get_output_spec_change_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_change_fc = { 
         0 : outpin0
     }
-    return outputs_dict_change_fc[pin]
+    if pin is None:
+        return outputs_dict_change_fc
+    else:
+        return outputs_dict_change_fc[pin]
 
 class _InputSpecChangeFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_change_fc(0), 0, op, -1) 
-        self.scopings_container = _Input(_get_input_spec_change_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_change_fc(), op)
+        self.fields_container = Input(_get_input_spec_change_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_change_fc(), op)
+        self.scopings_container = Input(_get_input_spec_change_fc(1), 1, op, -1) 
 
 class _OutputSpecChangeFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_change_fc(0), 0, op) 
+        super().__init__(_get_output_spec_change_fc(), op)
+        self.fields_container = Output(_get_output_spec_change_fc(0), 0, op) 
 
 class _ChangeFc(_Operator):
     """Operator's description:
@@ -1028,10 +1119,8 @@ class _ChangeFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("rescope_fc")
-        self._name = "rescope_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecChangeFc(self._op)
-        self.outputs = _OutputSpecChangeFc(self._op)
+        self.inputs = _InputSpecChangeFc(self)
+        self.outputs = _OutputSpecChangeFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1071,30 +1160,39 @@ def change_fc():
 
 #internal name: core::scoping::high_pass
 #scripting name: scoping.high_pass
-def _get_input_spec_high_pass(pin):
+def _get_input_spec_high_pass(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "threshold", type_names = ["double","field"], optional = False, document = """a threshold scalar or a field containing one value is expected""")
     inputs_dict_high_pass = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_high_pass[pin]
+    if pin is None:
+        return inputs_dict_high_pass
+    else:
+        return inputs_dict_high_pass[pin]
 
-def _get_output_spec_high_pass(pin):
+def _get_output_spec_high_pass(pin = None):
     outpin0 = _PinSpecification(name = "scoping", type_names = ["scoping"], document = """""")
     outputs_dict_high_pass = { 
         0 : outpin0
     }
-    return outputs_dict_high_pass[pin]
+    if pin is None:
+        return outputs_dict_high_pass
+    else:
+        return outputs_dict_high_pass[pin]
 
 class _InputSpecHighPass(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_high_pass(0), 0, op, -1) 
-        self.threshold = _Input(_get_input_spec_high_pass(1), 1, op, -1) 
+        super().__init__(_get_input_spec_high_pass(), op)
+        self.field = Input(_get_input_spec_high_pass(0), 0, op, -1) 
+        super().__init__(_get_input_spec_high_pass(), op)
+        self.threshold = Input(_get_input_spec_high_pass(1), 1, op, -1) 
 
 class _OutputSpecHighPass(_Outputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Output(_get_output_spec_high_pass(0), 0, op) 
+        super().__init__(_get_output_spec_high_pass(), op)
+        self.scoping = Output(_get_output_spec_high_pass(0), 0, op) 
 
 class _HighPass(_Operator):
     """Operator's description:
@@ -1119,10 +1217,8 @@ class _HighPass(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("core::scoping::high_pass")
-        self._name = "core::scoping::high_pass"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecHighPass(self._op)
-        self.outputs = _OutputSpecHighPass(self._op)
+        self.inputs = _InputSpecHighPass(self)
+        self.outputs = _OutputSpecHighPass(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1162,7 +1258,7 @@ def high_pass():
 
 #internal name: core::scoping::band_pass
 #scripting name: scoping.band_pass
-def _get_input_spec_band_pass(pin):
+def _get_input_spec_band_pass(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "min_threshold", type_names = ["double","field"], optional = False, document = """a min threshold scalar or a field containing one value is expected""")
     inpin2 = _PinSpecification(name = "max_threshold", type_names = ["double","field"], optional = False, document = """a max threshold scalar or a field containing one value is expected""")
@@ -1171,24 +1267,34 @@ def _get_input_spec_band_pass(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_band_pass[pin]
+    if pin is None:
+        return inputs_dict_band_pass
+    else:
+        return inputs_dict_band_pass[pin]
 
-def _get_output_spec_band_pass(pin):
+def _get_output_spec_band_pass(pin = None):
     outpin0 = _PinSpecification(name = "scoping", type_names = ["scoping"], document = """""")
     outputs_dict_band_pass = { 
         0 : outpin0
     }
-    return outputs_dict_band_pass[pin]
+    if pin is None:
+        return outputs_dict_band_pass
+    else:
+        return outputs_dict_band_pass[pin]
 
 class _InputSpecBandPass(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_band_pass(0), 0, op, -1) 
-        self.min_threshold = _Input(_get_input_spec_band_pass(1), 1, op, -1) 
-        self.max_threshold = _Input(_get_input_spec_band_pass(2), 2, op, -1) 
+        super().__init__(_get_input_spec_band_pass(), op)
+        self.field = Input(_get_input_spec_band_pass(0), 0, op, -1) 
+        super().__init__(_get_input_spec_band_pass(), op)
+        self.min_threshold = Input(_get_input_spec_band_pass(1), 1, op, -1) 
+        super().__init__(_get_input_spec_band_pass(), op)
+        self.max_threshold = Input(_get_input_spec_band_pass(2), 2, op, -1) 
 
 class _OutputSpecBandPass(_Outputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Output(_get_output_spec_band_pass(0), 0, op) 
+        super().__init__(_get_output_spec_band_pass(), op)
+        self.scoping = Output(_get_output_spec_band_pass(0), 0, op) 
 
 class _BandPass(_Operator):
     """Operator's description:
@@ -1214,10 +1320,8 @@ class _BandPass(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("core::scoping::band_pass")
-        self._name = "core::scoping::band_pass"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecBandPass(self._op)
-        self.outputs = _OutputSpecBandPass(self._op)
+        self.inputs = _InputSpecBandPass(self)
+        self.outputs = _OutputSpecBandPass(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1257,8 +1361,8 @@ def band_pass():
     return _BandPass()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -1268,30 +1372,39 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: MeshScopingProvider
 #scripting name: from_mesh
-def _get_input_spec_from_mesh(pin):
+def _get_input_spec_from_mesh(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "requested_location", type_names = ["string"], optional = True, document = """if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental""")
     inputs_dict_from_mesh = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_from_mesh[pin]
+    if pin is None:
+        return inputs_dict_from_mesh
+    else:
+        return inputs_dict_from_mesh[pin]
 
-def _get_output_spec_from_mesh(pin):
+def _get_output_spec_from_mesh(pin = None):
     outpin0 = _PinSpecification(name = "scoping", type_names = ["scoping"], document = """""")
     outputs_dict_from_mesh = { 
         0 : outpin0
     }
-    return outputs_dict_from_mesh[pin]
+    if pin is None:
+        return outputs_dict_from_mesh
+    else:
+        return outputs_dict_from_mesh[pin]
 
 class _InputSpecFromMesh(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_from_mesh(0), 0, op, -1) 
-        self.requested_location = _Input(_get_input_spec_from_mesh(1), 1, op, -1) 
+        super().__init__(_get_input_spec_from_mesh(), op)
+        self.mesh = Input(_get_input_spec_from_mesh(0), 0, op, -1) 
+        super().__init__(_get_input_spec_from_mesh(), op)
+        self.requested_location = Input(_get_input_spec_from_mesh(1), 1, op, -1) 
 
 class _OutputSpecFromMesh(_Outputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Output(_get_output_spec_from_mesh(0), 0, op) 
+        super().__init__(_get_output_spec_from_mesh(), op)
+        self.scoping = Output(_get_output_spec_from_mesh(0), 0, op) 
 
 class _FromMesh(_Operator):
     """Operator's description:
@@ -1316,10 +1429,8 @@ class _FromMesh(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("MeshScopingProvider")
-        self._name = "MeshScopingProvider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecFromMesh(self._op)
-        self.outputs = _OutputSpecFromMesh(self._op)
+        self.inputs = _InputSpecFromMesh(self)
+        self.outputs = _OutputSpecFromMesh(self)
 
     def __str__(self):
         return """Specific operator object.

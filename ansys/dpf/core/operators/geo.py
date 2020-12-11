@@ -1,6 +1,6 @@
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -10,7 +10,7 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: topology::mass
 #scripting name: mass
-def _get_input_spec_mass(pin):
+def _get_input_spec_mass(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = True, document = """Mesh scoping, if not set, all the elements of the mesh are considered.""")
     inpin2 = _PinSpecification(name = "field", type_names = ["field"], optional = True, document = """Elemental or nodal ponderation used in computation.""")
@@ -19,24 +19,34 @@ def _get_input_spec_mass(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_mass[pin]
+    if pin is None:
+        return inputs_dict_mass
+    else:
+        return inputs_dict_mass[pin]
 
-def _get_output_spec_mass(pin):
+def _get_output_spec_mass(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_mass = { 
         0 : outpin0
     }
-    return outputs_dict_mass[pin]
+    if pin is None:
+        return outputs_dict_mass
+    else:
+        return outputs_dict_mass[pin]
 
 class _InputSpecMass(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_mass(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_mass(1), 1, op, -1) 
-        self.field = _Input(_get_input_spec_mass(2), 2, op, -1) 
+        super().__init__(_get_input_spec_mass(), op)
+        self.mesh = Input(_get_input_spec_mass(0), 0, op, -1) 
+        super().__init__(_get_input_spec_mass(), op)
+        self.mesh_scoping = Input(_get_input_spec_mass(1), 1, op, -1) 
+        super().__init__(_get_input_spec_mass(), op)
+        self.field = Input(_get_input_spec_mass(2), 2, op, -1) 
 
 class _OutputSpecMass(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_mass(0), 0, op) 
+        super().__init__(_get_output_spec_mass(), op)
+        self.field = Output(_get_output_spec_mass(0), 0, op) 
 
 class _Mass(_Operator):
     """Operator's description:
@@ -62,10 +72,8 @@ class _Mass(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("topology::mass")
-        self._name = "topology::mass"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMass(self._op)
-        self.outputs = _OutputSpecMass(self._op)
+        self.inputs = _InputSpecMass(self)
+        self.outputs = _OutputSpecMass(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -106,30 +114,39 @@ def mass():
 
 #internal name: normals_provider_nl
 #scripting name: normals_provider_nl
-def _get_input_spec_normals_provider_nl(pin):
+def _get_input_spec_normals_provider_nl(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """skin or shell mesh region""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = False, document = """""")
     inputs_dict_normals_provider_nl = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_normals_provider_nl[pin]
+    if pin is None:
+        return inputs_dict_normals_provider_nl
+    else:
+        return inputs_dict_normals_provider_nl[pin]
 
-def _get_output_spec_normals_provider_nl(pin):
+def _get_output_spec_normals_provider_nl(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_normals_provider_nl = { 
         0 : outpin0
     }
-    return outputs_dict_normals_provider_nl[pin]
+    if pin is None:
+        return outputs_dict_normals_provider_nl
+    else:
+        return outputs_dict_normals_provider_nl[pin]
 
 class _InputSpecNormalsProviderNl(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_normals_provider_nl(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_normals_provider_nl(1), 1, op, -1) 
+        super().__init__(_get_input_spec_normals_provider_nl(), op)
+        self.mesh = Input(_get_input_spec_normals_provider_nl(0), 0, op, -1) 
+        super().__init__(_get_input_spec_normals_provider_nl(), op)
+        self.mesh_scoping = Input(_get_input_spec_normals_provider_nl(1), 1, op, -1) 
 
 class _OutputSpecNormalsProviderNl(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_normals_provider_nl(0), 0, op) 
+        super().__init__(_get_output_spec_normals_provider_nl(), op)
+        self.field = Output(_get_output_spec_normals_provider_nl(0), 0, op) 
 
 class _NormalsProviderNl(_Operator):
     """Operator's description:
@@ -154,10 +171,8 @@ class _NormalsProviderNl(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("normals_provider_nl")
-        self._name = "normals_provider_nl"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNormalsProviderNl(self._op)
-        self.outputs = _OutputSpecNormalsProviderNl(self._op)
+        self.inputs = _InputSpecNormalsProviderNl(self)
+        self.outputs = _OutputSpecNormalsProviderNl(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -197,30 +212,39 @@ def normals_provider_nl():
 
 #internal name: transform_cylindrical_cs_fc
 #scripting name: to_cylindrical_cs_fc
-def _get_input_spec_to_cylindrical_cs_fc(pin):
+def _get_input_spec_to_cylindrical_cs_fc(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "coordinate_system", type_names = ["field"], optional = True, document = """3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.""")
     inputs_dict_to_cylindrical_cs_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_to_cylindrical_cs_fc[pin]
+    if pin is None:
+        return inputs_dict_to_cylindrical_cs_fc
+    else:
+        return inputs_dict_to_cylindrical_cs_fc[pin]
 
-def _get_output_spec_to_cylindrical_cs_fc(pin):
+def _get_output_spec_to_cylindrical_cs_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_to_cylindrical_cs_fc = { 
         0 : outpin0
     }
-    return outputs_dict_to_cylindrical_cs_fc[pin]
+    if pin is None:
+        return outputs_dict_to_cylindrical_cs_fc
+    else:
+        return outputs_dict_to_cylindrical_cs_fc[pin]
 
 class _InputSpecToCylindricalCsFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_to_cylindrical_cs_fc(0), 0, op, -1) 
-        self.coordinate_system = _Input(_get_input_spec_to_cylindrical_cs_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_to_cylindrical_cs_fc(), op)
+        self.field = Input(_get_input_spec_to_cylindrical_cs_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_to_cylindrical_cs_fc(), op)
+        self.coordinate_system = Input(_get_input_spec_to_cylindrical_cs_fc(1), 1, op, -1) 
 
 class _OutputSpecToCylindricalCsFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_to_cylindrical_cs_fc(0), 0, op) 
+        super().__init__(_get_output_spec_to_cylindrical_cs_fc(), op)
+        self.fields_container = Output(_get_output_spec_to_cylindrical_cs_fc(0), 0, op) 
 
 class _ToCylindricalCsFc(_Operator):
     """Operator's description:
@@ -245,10 +269,8 @@ class _ToCylindricalCsFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("transform_cylindrical_cs_fc")
-        self._name = "transform_cylindrical_cs_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecToCylindricalCsFc(self._op)
-        self.outputs = _OutputSpecToCylindricalCsFc(self._op)
+        self.inputs = _InputSpecToCylindricalCsFc(self)
+        self.outputs = _OutputSpecToCylindricalCsFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -288,7 +310,7 @@ def to_cylindrical_cs_fc():
 
 #internal name: element::integrate
 #scripting name: integrate_over_elements
-def _get_input_spec_integrate_over_elements(pin):
+def _get_input_spec_integrate_over_elements(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "scoping", type_names = ["scoping"], optional = True, document = """Integrate the input field over a specific scoping.""")
     inpin2 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """Mesh to integrate on, if not provided the one from input field is provided.""")
@@ -297,24 +319,34 @@ def _get_input_spec_integrate_over_elements(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_integrate_over_elements[pin]
+    if pin is None:
+        return inputs_dict_integrate_over_elements
+    else:
+        return inputs_dict_integrate_over_elements[pin]
 
-def _get_output_spec_integrate_over_elements(pin):
+def _get_output_spec_integrate_over_elements(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_integrate_over_elements = { 
         0 : outpin0
     }
-    return outputs_dict_integrate_over_elements[pin]
+    if pin is None:
+        return outputs_dict_integrate_over_elements
+    else:
+        return outputs_dict_integrate_over_elements[pin]
 
 class _InputSpecIntegrateOverElements(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_integrate_over_elements(0), 0, op, -1) 
-        self.scoping = _Input(_get_input_spec_integrate_over_elements(1), 1, op, -1) 
-        self.mesh = _Input(_get_input_spec_integrate_over_elements(2), 2, op, -1) 
+        super().__init__(_get_input_spec_integrate_over_elements(), op)
+        self.field = Input(_get_input_spec_integrate_over_elements(0), 0, op, -1) 
+        super().__init__(_get_input_spec_integrate_over_elements(), op)
+        self.scoping = Input(_get_input_spec_integrate_over_elements(1), 1, op, -1) 
+        super().__init__(_get_input_spec_integrate_over_elements(), op)
+        self.mesh = Input(_get_input_spec_integrate_over_elements(2), 2, op, -1) 
 
 class _OutputSpecIntegrateOverElements(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_integrate_over_elements(0), 0, op) 
+        super().__init__(_get_output_spec_integrate_over_elements(), op)
+        self.field = Output(_get_output_spec_integrate_over_elements(0), 0, op) 
 
 class _IntegrateOverElements(_Operator):
     """Operator's description:
@@ -340,10 +372,8 @@ class _IntegrateOverElements(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("element::integrate")
-        self._name = "element::integrate"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecIntegrateOverElements(self._op)
-        self.outputs = _OutputSpecIntegrateOverElements(self._op)
+        self.inputs = _InputSpecIntegrateOverElements(self)
+        self.outputs = _OutputSpecIntegrateOverElements(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -384,7 +414,7 @@ def integrate_over_elements():
 
 #internal name: topology::center_of_gravity
 #scripting name: center_of_gravity
-def _get_input_spec_center_of_gravity(pin):
+def _get_input_spec_center_of_gravity(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = True, document = """Mesh scoping, if not set, all the elements of the mesh are considered.""")
     inpin2 = _PinSpecification(name = "field", type_names = ["field"], optional = True, document = """Elemental or nodal ponderation used in computation.""")
@@ -393,27 +423,38 @@ def _get_input_spec_center_of_gravity(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_center_of_gravity[pin]
+    if pin is None:
+        return inputs_dict_center_of_gravity
+    else:
+        return inputs_dict_center_of_gravity[pin]
 
-def _get_output_spec_center_of_gravity(pin):
+def _get_output_spec_center_of_gravity(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outpin1 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], document = """Center of gravity as a mesh""")
     outputs_dict_center_of_gravity = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_center_of_gravity[pin]
+    if pin is None:
+        return outputs_dict_center_of_gravity
+    else:
+        return outputs_dict_center_of_gravity[pin]
 
 class _InputSpecCenterOfGravity(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_center_of_gravity(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_center_of_gravity(1), 1, op, -1) 
-        self.field = _Input(_get_input_spec_center_of_gravity(2), 2, op, -1) 
+        super().__init__(_get_input_spec_center_of_gravity(), op)
+        self.mesh = Input(_get_input_spec_center_of_gravity(0), 0, op, -1) 
+        super().__init__(_get_input_spec_center_of_gravity(), op)
+        self.mesh_scoping = Input(_get_input_spec_center_of_gravity(1), 1, op, -1) 
+        super().__init__(_get_input_spec_center_of_gravity(), op)
+        self.field = Input(_get_input_spec_center_of_gravity(2), 2, op, -1) 
 
 class _OutputSpecCenterOfGravity(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_center_of_gravity(0), 0, op) 
-        self.mesh = _Output(_get_output_spec_center_of_gravity(1), 1, op) 
+        super().__init__(_get_output_spec_center_of_gravity(), op)
+        self.field = Output(_get_output_spec_center_of_gravity(0), 0, op) 
+        super().__init__(_get_output_spec_center_of_gravity(), op)
+        self.mesh = Output(_get_output_spec_center_of_gravity(1), 1, op) 
 
 class _CenterOfGravity(_Operator):
     """Operator's description:
@@ -440,10 +481,8 @@ class _CenterOfGravity(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("topology::center_of_gravity")
-        self._name = "topology::center_of_gravity"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecCenterOfGravity(self._op)
-        self.outputs = _OutputSpecCenterOfGravity(self._op)
+        self.inputs = _InputSpecCenterOfGravity(self)
+        self.outputs = _OutputSpecCenterOfGravity(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -485,30 +524,39 @@ def center_of_gravity():
 
 #internal name: transform_cylindricalCS
 #scripting name: to_cylindrical_cs
-def _get_input_spec_to_cylindrical_cs(pin):
+def _get_input_spec_to_cylindrical_cs(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "coordinate_system", type_names = ["field"], optional = True, document = """3-3 rotation matrix and origin coordinates must be set here to define a coordinate system.""")
     inputs_dict_to_cylindrical_cs = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_to_cylindrical_cs[pin]
+    if pin is None:
+        return inputs_dict_to_cylindrical_cs
+    else:
+        return inputs_dict_to_cylindrical_cs[pin]
 
-def _get_output_spec_to_cylindrical_cs(pin):
+def _get_output_spec_to_cylindrical_cs(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_to_cylindrical_cs = { 
         0 : outpin0
     }
-    return outputs_dict_to_cylindrical_cs[pin]
+    if pin is None:
+        return outputs_dict_to_cylindrical_cs
+    else:
+        return outputs_dict_to_cylindrical_cs[pin]
 
 class _InputSpecToCylindricalCs(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_to_cylindrical_cs(0), 0, op, -1) 
-        self.coordinate_system = _Input(_get_input_spec_to_cylindrical_cs(1), 1, op, -1) 
+        super().__init__(_get_input_spec_to_cylindrical_cs(), op)
+        self.field = Input(_get_input_spec_to_cylindrical_cs(0), 0, op, -1) 
+        super().__init__(_get_input_spec_to_cylindrical_cs(), op)
+        self.coordinate_system = Input(_get_input_spec_to_cylindrical_cs(1), 1, op, -1) 
 
 class _OutputSpecToCylindricalCs(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_to_cylindrical_cs(0), 0, op) 
+        super().__init__(_get_output_spec_to_cylindrical_cs(), op)
+        self.fields_container = Output(_get_output_spec_to_cylindrical_cs(0), 0, op) 
 
 class _ToCylindricalCs(_Operator):
     """Operator's description:
@@ -533,10 +581,8 @@ class _ToCylindricalCs(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("transform_cylindricalCS")
-        self._name = "transform_cylindricalCS"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecToCylindricalCs(self._op)
-        self.outputs = _OutputSpecToCylindricalCs(self._op)
+        self.inputs = _InputSpecToCylindricalCs(self)
+        self.outputs = _OutputSpecToCylindricalCs(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -576,30 +622,39 @@ def to_cylindrical_cs():
 
 #internal name: rotate
 #scripting name: rotate
-def _get_input_spec_rotate(pin):
+def _get_input_spec_rotate(pin = None):
     inpin0 = _PinSpecification(name = "field", type_names = ["field","fields_container"], optional = False, document = """field or fields container with only one field is expected""")
     inpin1 = _PinSpecification(name = "field_rotation_matrix", type_names = ["field"], optional = False, document = """3-3 rotation matrix""")
     inputs_dict_rotate = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_rotate[pin]
+    if pin is None:
+        return inputs_dict_rotate
+    else:
+        return inputs_dict_rotate[pin]
 
-def _get_output_spec_rotate(pin):
+def _get_output_spec_rotate(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_rotate = { 
         0 : outpin0
     }
-    return outputs_dict_rotate[pin]
+    if pin is None:
+        return outputs_dict_rotate
+    else:
+        return outputs_dict_rotate[pin]
 
 class _InputSpecRotate(_Inputs):
     def __init__(self, op: _Operator):
-        self.field = _Input(_get_input_spec_rotate(0), 0, op, -1) 
-        self.field_rotation_matrix = _Input(_get_input_spec_rotate(1), 1, op, -1) 
+        super().__init__(_get_input_spec_rotate(), op)
+        self.field = Input(_get_input_spec_rotate(0), 0, op, -1) 
+        super().__init__(_get_input_spec_rotate(), op)
+        self.field_rotation_matrix = Input(_get_input_spec_rotate(1), 1, op, -1) 
 
 class _OutputSpecRotate(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_rotate(0), 0, op) 
+        super().__init__(_get_output_spec_rotate(), op)
+        self.field = Output(_get_output_spec_rotate(0), 0, op) 
 
 class _Rotate(_Operator):
     """Operator's description:
@@ -624,10 +679,8 @@ class _Rotate(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("rotate")
-        self._name = "rotate"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRotate(self._op)
-        self.outputs = _OutputSpecRotate(self._op)
+        self.inputs = _InputSpecRotate(self)
+        self.outputs = _OutputSpecRotate(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -667,30 +720,39 @@ def rotate():
 
 #internal name: rotate_fc
 #scripting name: rotate_fc
-def _get_input_spec_rotate_fc(pin):
+def _get_input_spec_rotate_fc(pin = None):
     inpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "coordinate_system", type_names = ["field"], optional = False, document = """3-3 rotation matrix""")
     inputs_dict_rotate_fc = { 
         0 : inpin0,
         1 : inpin1
     }
-    return inputs_dict_rotate_fc[pin]
+    if pin is None:
+        return inputs_dict_rotate_fc
+    else:
+        return inputs_dict_rotate_fc[pin]
 
-def _get_output_spec_rotate_fc(pin):
+def _get_output_spec_rotate_fc(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_rotate_fc = { 
         0 : outpin0
     }
-    return outputs_dict_rotate_fc[pin]
+    if pin is None:
+        return outputs_dict_rotate_fc
+    else:
+        return outputs_dict_rotate_fc[pin]
 
 class _InputSpecRotateFc(_Inputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Input(_get_input_spec_rotate_fc(0), 0, op, -1) 
-        self.coordinate_system = _Input(_get_input_spec_rotate_fc(1), 1, op, -1) 
+        super().__init__(_get_input_spec_rotate_fc(), op)
+        self.fields_container = Input(_get_input_spec_rotate_fc(0), 0, op, -1) 
+        super().__init__(_get_input_spec_rotate_fc(), op)
+        self.coordinate_system = Input(_get_input_spec_rotate_fc(1), 1, op, -1) 
 
 class _OutputSpecRotateFc(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_rotate_fc(0), 0, op) 
+        super().__init__(_get_output_spec_rotate_fc(), op)
+        self.fields_container = Output(_get_output_spec_rotate_fc(0), 0, op) 
 
 class _RotateFc(_Operator):
     """Operator's description:
@@ -715,10 +777,8 @@ class _RotateFc(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("rotate_fc")
-        self._name = "rotate_fc"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecRotateFc(self._op)
-        self.outputs = _OutputSpecRotateFc(self._op)
+        self.inputs = _InputSpecRotateFc(self)
+        self.outputs = _OutputSpecRotateFc(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -758,7 +818,7 @@ def rotate_fc():
 
 #internal name: volumes_provider
 #scripting name: elements_volumes_over_time
-def _get_input_spec_elements_volumes_over_time(pin):
+def _get_input_spec_elements_volumes_over_time(pin = None):
     inpin1 = _PinSpecification(name = "scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "displacement", type_names = ["fields_container"], optional = True, document = """Displacement field's container. Must contain the mesh if mesh not specified in input.""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.""")
@@ -767,24 +827,34 @@ def _get_input_spec_elements_volumes_over_time(pin):
         2 : inpin2,
         7 : inpin7
     }
-    return inputs_dict_elements_volumes_over_time[pin]
+    if pin is None:
+        return inputs_dict_elements_volumes_over_time
+    else:
+        return inputs_dict_elements_volumes_over_time[pin]
 
-def _get_output_spec_elements_volumes_over_time(pin):
+def _get_output_spec_elements_volumes_over_time(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """""")
     outputs_dict_elements_volumes_over_time = { 
         0 : outpin0
     }
-    return outputs_dict_elements_volumes_over_time[pin]
+    if pin is None:
+        return outputs_dict_elements_volumes_over_time
+    else:
+        return outputs_dict_elements_volumes_over_time[pin]
 
 class _InputSpecElementsVolumesOverTime(_Inputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Input(_get_input_spec_elements_volumes_over_time(1), 1, op, -1) 
-        self.displacement = _Input(_get_input_spec_elements_volumes_over_time(2), 2, op, -1) 
-        self.mesh = _Input(_get_input_spec_elements_volumes_over_time(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elements_volumes_over_time(), op)
+        self.scoping = Input(_get_input_spec_elements_volumes_over_time(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elements_volumes_over_time(), op)
+        self.displacement = Input(_get_input_spec_elements_volumes_over_time(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elements_volumes_over_time(), op)
+        self.mesh = Input(_get_input_spec_elements_volumes_over_time(7), 7, op, -1) 
 
 class _OutputSpecElementsVolumesOverTime(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elements_volumes_over_time(0), 0, op) 
+        super().__init__(_get_output_spec_elements_volumes_over_time(), op)
+        self.fields_container = Output(_get_output_spec_elements_volumes_over_time(0), 0, op) 
 
 class _ElementsVolumesOverTime(_Operator):
     """Operator's description:
@@ -810,10 +880,8 @@ class _ElementsVolumesOverTime(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("volumes_provider")
-        self._name = "volumes_provider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementsVolumesOverTime(self._op)
-        self.outputs = _OutputSpecElementsVolumesOverTime(self._op)
+        self.inputs = _InputSpecElementsVolumesOverTime(self)
+        self.outputs = _OutputSpecElementsVolumesOverTime(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -854,7 +922,7 @@ def elements_volumes_over_time():
 
 #internal name: surfaces_provider
 #scripting name: elements_facets_surfaces_over_time
-def _get_input_spec_elements_facets_surfaces_over_time(pin):
+def _get_input_spec_elements_facets_surfaces_over_time(pin = None):
     inpin1 = _PinSpecification(name = "scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin2 = _PinSpecification(name = "displacement", type_names = ["fields_container"], optional = True, document = """Displacement field's container.""")
     inpin7 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """Mesh must be defined if the displacement field's container does not contain it, or if there is no displacement.""")
@@ -863,27 +931,38 @@ def _get_input_spec_elements_facets_surfaces_over_time(pin):
         2 : inpin2,
         7 : inpin7
     }
-    return inputs_dict_elements_facets_surfaces_over_time[pin]
+    if pin is None:
+        return inputs_dict_elements_facets_surfaces_over_time
+    else:
+        return inputs_dict_elements_facets_surfaces_over_time[pin]
 
-def _get_output_spec_elements_facets_surfaces_over_time(pin):
+def _get_output_spec_elements_facets_surfaces_over_time(pin = None):
     outpin0 = _PinSpecification(name = "fields_container", type_names = ["fields_container"], document = """Surfaces field.""")
     outpin1 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], document = """Mesh made of surface elements only.""")
     outputs_dict_elements_facets_surfaces_over_time = { 
         0 : outpin0,
         1 : outpin1
     }
-    return outputs_dict_elements_facets_surfaces_over_time[pin]
+    if pin is None:
+        return outputs_dict_elements_facets_surfaces_over_time
+    else:
+        return outputs_dict_elements_facets_surfaces_over_time[pin]
 
 class _InputSpecElementsFacetsSurfacesOverTime(_Inputs):
     def __init__(self, op: _Operator):
-        self.scoping = _Input(_get_input_spec_elements_facets_surfaces_over_time(1), 1, op, -1) 
-        self.displacement = _Input(_get_input_spec_elements_facets_surfaces_over_time(2), 2, op, -1) 
-        self.mesh = _Input(_get_input_spec_elements_facets_surfaces_over_time(7), 7, op, -1) 
+        super().__init__(_get_input_spec_elements_facets_surfaces_over_time(), op)
+        self.scoping = Input(_get_input_spec_elements_facets_surfaces_over_time(1), 1, op, -1) 
+        super().__init__(_get_input_spec_elements_facets_surfaces_over_time(), op)
+        self.displacement = Input(_get_input_spec_elements_facets_surfaces_over_time(2), 2, op, -1) 
+        super().__init__(_get_input_spec_elements_facets_surfaces_over_time(), op)
+        self.mesh = Input(_get_input_spec_elements_facets_surfaces_over_time(7), 7, op, -1) 
 
 class _OutputSpecElementsFacetsSurfacesOverTime(_Outputs):
     def __init__(self, op: _Operator):
-        self.fields_container = _Output(_get_output_spec_elements_facets_surfaces_over_time(0), 0, op) 
-        self.mesh = _Output(_get_output_spec_elements_facets_surfaces_over_time(1), 1, op) 
+        super().__init__(_get_output_spec_elements_facets_surfaces_over_time(), op)
+        self.fields_container = Output(_get_output_spec_elements_facets_surfaces_over_time(0), 0, op) 
+        super().__init__(_get_output_spec_elements_facets_surfaces_over_time(), op)
+        self.mesh = Output(_get_output_spec_elements_facets_surfaces_over_time(1), 1, op) 
 
 class _ElementsFacetsSurfacesOverTime(_Operator):
     """Operator's description:
@@ -910,10 +989,8 @@ class _ElementsFacetsSurfacesOverTime(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("surfaces_provider")
-        self._name = "surfaces_provider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementsFacetsSurfacesOverTime(self._op)
-        self.outputs = _OutputSpecElementsFacetsSurfacesOverTime(self._op)
+        self.inputs = _InputSpecElementsFacetsSurfacesOverTime(self)
+        self.outputs = _OutputSpecElementsFacetsSurfacesOverTime(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -955,27 +1032,35 @@ def elements_facets_surfaces_over_time():
 
 #internal name: element::volume
 #scripting name: elements_volume
-def _get_input_spec_elements_volume(pin):
+def _get_input_spec_elements_volume(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """""")
     inputs_dict_elements_volume = { 
         0 : inpin0
     }
-    return inputs_dict_elements_volume[pin]
+    if pin is None:
+        return inputs_dict_elements_volume
+    else:
+        return inputs_dict_elements_volume[pin]
 
-def _get_output_spec_elements_volume(pin):
+def _get_output_spec_elements_volume(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_elements_volume = { 
         0 : outpin0
     }
-    return outputs_dict_elements_volume[pin]
+    if pin is None:
+        return outputs_dict_elements_volume
+    else:
+        return outputs_dict_elements_volume[pin]
 
 class _InputSpecElementsVolume(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_elements_volume(0), 0, op, -1) 
+        super().__init__(_get_input_spec_elements_volume(), op)
+        self.mesh = Input(_get_input_spec_elements_volume(0), 0, op, -1) 
 
 class _OutputSpecElementsVolume(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_elements_volume(0), 0, op) 
+        super().__init__(_get_output_spec_elements_volume(), op)
+        self.field = Output(_get_output_spec_elements_volume(0), 0, op) 
 
 class _ElementsVolume(_Operator):
     """Operator's description:
@@ -999,10 +1084,8 @@ class _ElementsVolume(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("element::volume")
-        self._name = "element::volume"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementsVolume(self._op)
-        self.outputs = _OutputSpecElementsVolume(self._op)
+        self.inputs = _InputSpecElementsVolume(self)
+        self.outputs = _OutputSpecElementsVolume(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1041,7 +1124,7 @@ def elements_volume():
 
 #internal name: element::nodal_contribution
 #scripting name: element_nodal_contribution
-def _get_input_spec_element_nodal_contribution(pin):
+def _get_input_spec_element_nodal_contribution(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = False, document = """""")
     inpin1 = _PinSpecification(name = "scoping", type_names = ["scoping"], optional = True, document = """Integrate the input field over a specific scoping.""")
     inpin2 = _PinSpecification(name = "volume_fraction", type_names = ["bool"], optional = True, document = """if true, returns influence volume, if false, return influence volume fraction (i.e. integrated value of shape function for each node).""")
@@ -1050,24 +1133,34 @@ def _get_input_spec_element_nodal_contribution(pin):
         1 : inpin1,
         2 : inpin2
     }
-    return inputs_dict_element_nodal_contribution[pin]
+    if pin is None:
+        return inputs_dict_element_nodal_contribution
+    else:
+        return inputs_dict_element_nodal_contribution[pin]
 
-def _get_output_spec_element_nodal_contribution(pin):
+def _get_output_spec_element_nodal_contribution(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_element_nodal_contribution = { 
         0 : outpin0
     }
-    return outputs_dict_element_nodal_contribution[pin]
+    if pin is None:
+        return outputs_dict_element_nodal_contribution
+    else:
+        return outputs_dict_element_nodal_contribution[pin]
 
 class _InputSpecElementNodalContribution(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_element_nodal_contribution(0), 0, op, -1) 
-        self.scoping = _Input(_get_input_spec_element_nodal_contribution(1), 1, op, -1) 
-        self.volume_fraction = _Input(_get_input_spec_element_nodal_contribution(2), 2, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_contribution(), op)
+        self.mesh = Input(_get_input_spec_element_nodal_contribution(0), 0, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_contribution(), op)
+        self.scoping = Input(_get_input_spec_element_nodal_contribution(1), 1, op, -1) 
+        super().__init__(_get_input_spec_element_nodal_contribution(), op)
+        self.volume_fraction = Input(_get_input_spec_element_nodal_contribution(2), 2, op, -1) 
 
 class _OutputSpecElementNodalContribution(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_element_nodal_contribution(0), 0, op) 
+        super().__init__(_get_output_spec_element_nodal_contribution(), op)
+        self.field = Output(_get_output_spec_element_nodal_contribution(0), 0, op) 
 
 class _ElementNodalContribution(_Operator):
     """Operator's description:
@@ -1093,10 +1186,8 @@ class _ElementNodalContribution(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("element::nodal_contribution")
-        self._name = "element::nodal_contribution"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecElementNodalContribution(self._op)
-        self.outputs = _OutputSpecElementNodalContribution(self._op)
+        self.inputs = _InputSpecElementNodalContribution(self)
+        self.outputs = _OutputSpecElementNodalContribution(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1137,7 +1228,7 @@ def element_nodal_contribution():
 
 #internal name: topology::moment_of_inertia
 #scripting name: moment_of_inertia
-def _get_input_spec_moment_of_inertia(pin):
+def _get_input_spec_moment_of_inertia(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = True, document = """Mesh scoping, if not set, all the elements of the mesh are considered.""")
     inpin2 = _PinSpecification(name = "field", type_names = ["field"], optional = True, document = """Elemental or nodal ponderation used in computation.""")
@@ -1148,25 +1239,36 @@ def _get_input_spec_moment_of_inertia(pin):
         2 : inpin2,
         3 : inpin3
     }
-    return inputs_dict_moment_of_inertia[pin]
+    if pin is None:
+        return inputs_dict_moment_of_inertia
+    else:
+        return inputs_dict_moment_of_inertia[pin]
 
-def _get_output_spec_moment_of_inertia(pin):
+def _get_output_spec_moment_of_inertia(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_moment_of_inertia = { 
         0 : outpin0
     }
-    return outputs_dict_moment_of_inertia[pin]
+    if pin is None:
+        return outputs_dict_moment_of_inertia
+    else:
+        return outputs_dict_moment_of_inertia[pin]
 
 class _InputSpecMomentOfInertia(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_moment_of_inertia(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_moment_of_inertia(1), 1, op, -1) 
-        self.field = _Input(_get_input_spec_moment_of_inertia(2), 2, op, -1) 
-        self.boolean = _Input(_get_input_spec_moment_of_inertia(3), 3, op, -1) 
+        super().__init__(_get_input_spec_moment_of_inertia(), op)
+        self.mesh = Input(_get_input_spec_moment_of_inertia(0), 0, op, -1) 
+        super().__init__(_get_input_spec_moment_of_inertia(), op)
+        self.mesh_scoping = Input(_get_input_spec_moment_of_inertia(1), 1, op, -1) 
+        super().__init__(_get_input_spec_moment_of_inertia(), op)
+        self.field = Input(_get_input_spec_moment_of_inertia(2), 2, op, -1) 
+        super().__init__(_get_input_spec_moment_of_inertia(), op)
+        self.boolean = Input(_get_input_spec_moment_of_inertia(3), 3, op, -1) 
 
 class _OutputSpecMomentOfInertia(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_moment_of_inertia(0), 0, op) 
+        super().__init__(_get_output_spec_moment_of_inertia(), op)
+        self.field = Output(_get_output_spec_moment_of_inertia(0), 0, op) 
 
 class _MomentOfInertia(_Operator):
     """Operator's description:
@@ -1193,10 +1295,8 @@ class _MomentOfInertia(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("topology::moment_of_inertia")
-        self._name = "topology::moment_of_inertia"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecMomentOfInertia(self._op)
-        self.outputs = _OutputSpecMomentOfInertia(self._op)
+        self.inputs = _InputSpecMomentOfInertia(self)
+        self.outputs = _OutputSpecMomentOfInertia(self)
 
     def __str__(self):
         return """Specific operator object.
@@ -1237,8 +1337,8 @@ def moment_of_inertia():
     return _MomentOfInertia()
 
 from ansys.dpf.core.dpf_operator import Operator as _Operator
-from ansys.dpf.core.inputs import Input as _Input
-from ansys.dpf.core.outputs import Output as _Output
+from ansys.dpf.core.inputs import Input
+from ansys.dpf.core.outputs import Output
 from ansys.dpf.core.inputs import _Inputs
 from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
@@ -1248,7 +1348,7 @@ from ansys.dpf.core.database_tools import PinSpecification as _PinSpecification
 
 #internal name: normals_provider
 #scripting name: normals
-def _get_input_spec_normals(pin):
+def _get_input_spec_normals(pin = None):
     inpin0 = _PinSpecification(name = "mesh", type_names = ["meshed_region"], optional = True, document = """""")
     inpin1 = _PinSpecification(name = "mesh_scoping", type_names = ["scoping"], optional = True, document = """""")
     inpin3 = _PinSpecification(name = "field", type_names = ["field"], optional = True, document = """""")
@@ -1257,24 +1357,34 @@ def _get_input_spec_normals(pin):
         1 : inpin1,
         3 : inpin3
     }
-    return inputs_dict_normals[pin]
+    if pin is None:
+        return inputs_dict_normals
+    else:
+        return inputs_dict_normals[pin]
 
-def _get_output_spec_normals(pin):
+def _get_output_spec_normals(pin = None):
     outpin0 = _PinSpecification(name = "field", type_names = ["field"], document = """""")
     outputs_dict_normals = { 
         0 : outpin0
     }
-    return outputs_dict_normals[pin]
+    if pin is None:
+        return outputs_dict_normals
+    else:
+        return outputs_dict_normals[pin]
 
 class _InputSpecNormals(_Inputs):
     def __init__(self, op: _Operator):
-        self.mesh = _Input(_get_input_spec_normals(0), 0, op, -1) 
-        self.mesh_scoping = _Input(_get_input_spec_normals(1), 1, op, -1) 
-        self.field = _Input(_get_input_spec_normals(3), 3, op, -1) 
+        super().__init__(_get_input_spec_normals(), op)
+        self.mesh = Input(_get_input_spec_normals(0), 0, op, -1) 
+        super().__init__(_get_input_spec_normals(), op)
+        self.mesh_scoping = Input(_get_input_spec_normals(1), 1, op, -1) 
+        super().__init__(_get_input_spec_normals(), op)
+        self.field = Input(_get_input_spec_normals(3), 3, op, -1) 
 
 class _OutputSpecNormals(_Outputs):
     def __init__(self, op: _Operator):
-        self.field = _Output(_get_output_spec_normals(0), 0, op) 
+        super().__init__(_get_output_spec_normals(), op)
+        self.field = Output(_get_output_spec_normals(0), 0, op) 
 
 class _Normals(_Operator):
     """Operator's description:
@@ -1300,10 +1410,8 @@ class _Normals(_Operator):
     def __init__(self):
         """Specific operator class."""
         super().__init__("normals_provider")
-        self._name = "normals_provider"
-        self._op = _Operator(self._name)
-        self.inputs = _InputSpecNormals(self._op)
-        self.outputs = _OutputSpecNormals(self._op)
+        self.inputs = _InputSpecNormals(self)
+        self.outputs = _OutputSpecNormals(self)
 
     def __str__(self):
         return """Specific operator object.
