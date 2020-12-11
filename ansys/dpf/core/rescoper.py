@@ -3,9 +3,10 @@ from ansys.dpf.core.common import locations
 
 
 class Rescoper:
-    """Object which will help to rescope the results.
+    """Rescope a field relative to a mesh and its location.
+
     Its aim is to help while plotting results.
-    
+
     Parameters
     ----------
         mesh: dpf.core.meshed_region
@@ -26,15 +27,11 @@ class Rescoper:
         self._num_comp = num_comp    
 
     def get_nan_field(self):
-        """Returns a NaN (not a number) field of the 
-        mesh scoping length with only NaN values.
-        
-        Parameters
-        -----
-        None
-        
-        Return
-        -----
+        """Returns a NaN (not a number) field of the mesh scoping
+        length with only NaN values.
+
+        Returns
+        -------
         numpy.array (dpf.core.Field)
         """
         return self.nan_field
@@ -63,7 +60,10 @@ class Rescoper:
         """
         location = field_to_rescope.location
         if location != self.location:
-            raise Exception("Given field has not the same location as the rescoper ( "+ location + " is different from " + self.location + "). Create another rescoper with different location to rescope the field.")
+            raise ValueError('Given field has not the same location as the rescoper '
+                             f'({location} is different from {self.location}).  '
+                             'Create another rescoper with different location to'
+                             'rescope the field.')
         output = self.nan_field
 
         # looping is only faster when requesting just a few values
