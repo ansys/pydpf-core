@@ -26,16 +26,6 @@ class Rescoper:
         self.mesh_scoping = mesh_scoping
         self._num_comp = num_comp    
 
-    def get_nan_field(self):
-        """Returns a NaN (not a number) field of the mesh scoping
-        length with only NaN values.
-
-        Returns
-        -------
-        numpy.array (dpf.core.Field)
-        """
-        return self.nan_field
-
     @property
     def nan_field(self):
         """Array of NAN sized to match the mesh scoping"""

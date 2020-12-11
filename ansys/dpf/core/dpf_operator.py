@@ -6,7 +6,7 @@ import functools
 from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2
 from ansys.dpf.core import (fields_container, field, scoping,
                             meshed_region, result_info, time_freq_support,
-                            operators, collection, data_sources, server)
+                            operators_helper, collection, data_sources, server)
 from ansys.dpf.core.common import types, camel_to_snake_case
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.outputs import Outputs
