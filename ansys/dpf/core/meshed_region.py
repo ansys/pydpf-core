@@ -194,7 +194,7 @@ class MeshedRegion:
                 fields_container = field_or_fields_container
             pl.plot_contour(fields_container, notebook)
         elif(field_or_fields_container is None):
-            pl.plot_mesh(not notebook)
+            pl.plot_mesh(notebook)
 
 
 
