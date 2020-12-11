@@ -1,4 +1,4 @@
-import pytest
+import numpy as np
 
 from ansys.dpf import core
 import ansys.grpc.dpf
@@ -72,7 +72,7 @@ def test_get_result(allkindofcomplexity):
     out = avg.outputs.fields_container()
     assert len(out) == 2
     assert len(out[0]) == 1281
-    assert out[0].data[3] == 9328792.294959497
+    assert np.isclose(out[0].data[3], 9328792.294959497)
     
 
 def test_operator_inheritance(allkindofcomplexity):
@@ -86,7 +86,7 @@ def test_operator_inheritance(allkindofcomplexity):
     out = avg.outputs.fields_container()
     assert len(out) == 2
     assert len(out[0]) == 1281
-    assert out[0].data[3] == 9328792.294959497
+    assert np.isclose(out[0].data[3], 9328792.294959497)
     
     
 def test_operator_inheritance_2(allkindofcomplexity):
@@ -100,7 +100,7 @@ def test_operator_inheritance_2(allkindofcomplexity):
     out = avg.outputs.fields_container()
     assert len(out) == 2
     assert len(out[0]) == 1281
-    assert out[0].data[3] == 9328792.294959497
+    assert np.isclose(out[0].data[3], 9328792.294959497)
     
 
 def test_inputs_inheritance(allkindofcomplexity):
@@ -114,6 +114,6 @@ def test_inputs_inheritance(allkindofcomplexity):
     out = avg.outputs.fields_container()
     assert len(out) == 2
     assert len(out[0]) == 1281
-    assert out[0].data[3] == 9328792.294959497
+    assert np.isclose(out[0].data[3], 9328792.294959497)
     
     
