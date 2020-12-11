@@ -1,31 +1,16 @@
-import tempfile
-import os
-
 import pytest
 
 from ansys.dpf import core
-from ansys import dpf
 import ansys.grpc.dpf
 
-if 'AWP_UNIT_TEST_FILES' in os.environ:
-    unit_test_files = os.environ['AWP_UNIT_TEST_FILES']
-else:
-    raise KeyError('Please add the location of the DataProcessing '
-                   'test files "AWP_UNIT_TEST_FILES" to your env')
-
-# start local server if necessary
-if not dpf.core.has_local_server():
-    dpf.core.start_local_server()
-    
-TEST_FILE_PATH = os.path.join(unit_test_files, 'DataProcessing', 'rst_operators',
-                              'allKindOfComplexity.rst')
 
 #def test_generateoperatorscode():
 #    core.database_tools.loadOperators()
     
-def test_workflowwithgeneratedcode():
+
+def test_workflowwithgeneratedcode(allkindofcomplexity):
     disp = core.operators.result.displacement()
-    ds = core.DataSources(TEST_FILE_PATH)
+    ds = core.DataSources(allkindofcomplexity)
     nodes = [1]
     scop = core.Scoping()
     scop.ids = nodes
@@ -49,8 +34,9 @@ def test_workflowwithgeneratedcode():
     d = pow_op.outputs.field.get_data()
     assert d.data[0] == 2.0188684707833254e-18
     
-def test_calloperators():
-    my_data_sources = core.DataSources(TEST_FILE_PATH)
+    
+def test_calloperators(allkindofcomplexity):
+    my_data_sources = core.DataSources(allkindofcomplexity)
     my_model = core.Model(my_data_sources)
     displacement_op = my_model.results.displacement()
     assert isinstance(displacement_op, ansys.dpf.core.dpf_operator.Operator)
@@ -59,8 +45,9 @@ def test_calloperators():
     square_op = core.operators.math.sqr()
     assert isinstance(square_op, ansys.dpf.core.operators.math._Sqr)
     
-def test_makeconnections():
-    my_data_sources = core.DataSources(TEST_FILE_PATH)
+    
+def test_makeconnections(allkindofcomplexity):
+    my_data_sources = core.DataSources(allkindofcomplexity)
     my_model = core.Model(my_data_sources)
     displacement_op = my_model.results.displacement()
     norm_op = my_model.operator('norm')
@@ -74,20 +61,59 @@ def test_makeconnections():
     assert len(norm_op.inputs._connected_inputs)==1
     # assert len(square_op.inputs._connected_inputs)==1
     
-def test_get_result():
+    
+def test_get_result(allkindofcomplexity):
     stress = core.operators.result.stress_X()
-    ds = core.DataSources("d:/rst/twobodies.rst")
+    ds = core.DataSources(allkindofcomplexity)
     stress.inputs.data_sources.connect(ds)
-    stress.inputs.requested_location.connect('Elemental')
+    stress.inputs.requested_location.connect('Nodal')
     avg = core.operators.averaging.to_elemental_fc()
     avg.inputs.fields_container.connect(stress.outputs.fields_container)
     out = avg.outputs.fields_container()
-    assert len(out) == 1
-    assert len(out[0]) == 914
-    assert out[0].data[3] == -2947934263296.0
-    mesh_op = core.operators.mesh.mesh_provider()
-    mesh_op.inputs.data_sources.connect(ds)
-    mesh = mesh_op.outputs.mesh()    
-    mesh.plot(out)
+    assert len(out) == 2
+    assert len(out[0]) == 1281
+    assert out[0].data[3] == 9328792.294959497
+    
+
+def test_operator_inheritance(allkindofcomplexity):
+    stress = core.operators.result.stress_X()
+    ds = core.DataSources(allkindofcomplexity)
+    stress.connect(4, ds)
+    stress.inputs.requested_location.connect('Nodal')
+    avg = core.operators.averaging.to_elemental_fc()
+    avg.connect(0, stress)
+    avg.run()
+    out = avg.outputs.fields_container()
+    assert len(out) == 2
+    assert len(out[0]) == 1281
+    assert out[0].data[3] == 9328792.294959497
+    
+    
+def test_operator_inheritance_2(allkindofcomplexity):
+    stress = core.operators.result.stress_X()
+    ds = core.DataSources(allkindofcomplexity)
+    stress.inputs.data_sources.connect(ds)
+    stress.inputs.requested_location.connect('Nodal')
+    avg = core.operators.averaging.to_elemental_fc()
+    avg.connect(0, stress)
+    avg.run()
+    out = avg.outputs.fields_container()
+    assert len(out) == 2
+    assert len(out[0]) == 1281
+    assert out[0].data[3] == 9328792.294959497
+    
+
+def test_inputs_inheritance(allkindofcomplexity):
+    stress = core.operators.result.stress_X()
+    ds = core.DataSources(allkindofcomplexity)
+    stress.inputs.connect(ds)
+    stress.inputs.requested_location.connect('Nodal')
+    avg = core.operators.averaging.to_elemental_fc()
+    avg.connect(0, stress)
+    avg.run()
+    out = avg.outputs.fields_container()
+    assert len(out) == 2
+    assert len(out[0]) == 1281
+    assert out[0].data[3] == 9328792.294959497
     
     
