@@ -1,11 +1,17 @@
+import os
 import weakref
 
 import pytest
-from grpc._channel import _InactiveRpcError
 
 from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field
 from ansys.dpf.core import errors as dpf_errors
+
+
+# true when running on Azure Virtual enviornment on windows
+ON_WINDOWS_AZURE = False
+if os.name == 'nt':
+    ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
 
 
 @pytest.fixture()
@@ -95,6 +101,7 @@ def test_delete_fields_container():
     assert ref() is None
 
 
+@pytest.mark.skip(ON_WINDOWS_AZURE, reason='Causes segfault on Azure Windows testing')
 def test_delete_auto_fields_container():
     fc = FieldsContainer()
     fc2 = FieldsContainer(fields_container=fc)

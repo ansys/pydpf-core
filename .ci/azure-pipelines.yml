@@ -80,8 +80,7 @@ jobs:
     - script: |
         pip install -r requirements_test.txt
         cd tests
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --ignore=test_field.py
-        pytest -v test_field.py
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
       displayName: Test Core API
 
 
