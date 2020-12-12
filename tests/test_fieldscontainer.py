@@ -101,7 +101,7 @@ def test_delete_fields_container():
     assert ref() is None
 
 
-@pytest.mark.skip(ON_WINDOWS_AZURE, reason='Causes segfault on Azure Windows testing')
+@pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
 def test_delete_auto_fields_container():
     fc = FieldsContainer()
     fc2 = FieldsContainer(fields_container=fc)
