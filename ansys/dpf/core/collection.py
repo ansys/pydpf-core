@@ -7,6 +7,8 @@ from ansys.dpf.core.common import types
 from ansys.dpf.core.scoping import Scoping, scoping_pb2
 from ansys.dpf.core.field import Field, field_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.errors import protect_grpc
+
 
 class Collection:
     """A class used to represent a Collection which contains
@@ -18,19 +20,19 @@ class Collection:
         Create a collection from a Collection message.
 
     channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to the global channel.
+        Channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global channel.
 
     """
 
-    def __init__(self,dpf_type, collection=None, channel=None):
-        
+    def __init__(self, dpf_type, collection=None, channel=None):
         if channel is None:
             channel = dpf.core._global_channel()
 
         self._channel = channel
         self._stub = self._connect()
         self._type = dpf_type
-        
+
         if collection is None:
             request = collection_pb2.CollectionRequest()
             if hasattr(dpf_type, 'name'):
@@ -39,6 +41,8 @@ class Collection:
                 stype = dpf_type
             request.type = base_pb2.Type.Value(stype.upper())
             self._message = self._stub.Create(request)
+        elif hasattr(collection, '_message'):
+            self._message = collection._message
         else:
             self._message = collection
 
@@ -52,14 +56,14 @@ class Collection:
                 ['time','complex']
 
         """
-        if len(self.__info__()['labels'])!=0:
-            print("the collection has already labels :",self.__info__()['labels'],'deleting existing abels is  not implemented yet')
+        if len(self._info['labels'])!=0:
+            print("the collection has already labels :",self._info['labels'],'deleting existing abels is  not implemented yet')
             return
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
         request.labels.labels.extend(labels)
         self._stub.UpdateLabels(request)
-        
+
     def add_label(self, label):
         """add the requested label to scope the collection
 
@@ -70,12 +74,11 @@ class Collection:
                 'time'
 
         """
-       
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
         request.labels.labels.extend([label])
         self._stub.UpdateLabels(request)
-    
+
     def _get_labels(self):
         """get the labels scoping the collection
 
@@ -86,10 +89,10 @@ class Collection:
                 ['time','complex']
 
         """
-        return self.__info__()['labels']
-    
+        return self._info['labels']
+
     labels = property(_get_labels, set_labels, "labels")
-    
+
     def _get_entries(self, label_space_or_index):
         """Returns the entry at a requested index or label space
 
@@ -162,10 +165,11 @@ class Collection:
             dictOut[key]=out[key]
 
         return dictOut
-        
+
     def get_ids(self, label="time"):
-        
-        """
+        """Get the IDs corresponding to the input label.
+
+
         Parameters
         ----------
         label : str
@@ -176,13 +180,13 @@ class Collection:
         ids : list of int
             ids corresponding to the input label
         """
-        ids =[]
-        for i in range(0,self.__len__()):
-            current_scop =self.get_label_space(i)
-            if label in current_scop and current_scop[label] not in ids: 
+        ids = []
+        for i in range(len(self)):
+            current_scop = self.get_label_space(i)
+            if label in current_scop and current_scop[label] not in ids:
                 ids.append(current_scop[label])
         return ids
-    
+
     def __getitem__(self, key):
         """Returns the entry at a requested index
 
@@ -222,7 +226,7 @@ class Collection:
         for key in label_space:
             request.label_space.label_space[key] = label_space[key]
         self._stub.UpdateEntry(request)
-        
+
     def _get_time_freq_support(self):
         """
         Returns
@@ -235,19 +239,20 @@ class Collection:
         message = self._stub.GetSupport(request)
         return TimeFreqSupport(time_freq_support=message)
 
-
     def _connect(self):
         """Connect to the grpc service"""
         return collection_pb2_grpc.CollectionServiceStub(self._channel)
 
-    def __info__(self):
-        list = self._stub.List(self._message)
-        out = {"len":list.count_entries, "labels":list.labels.labels}
-        return out
-    
+    @property
+    @protect_grpc
+    def _info(self):
+        """Length and labels of this container"""
+        list_stub = self._stub.List(self._message)
+        return {"len": list_stub.count_entries, "labels": list_stub.labels.labels}
+
     def __len__(self):
         """Return number of entries"""
-        return self.__info__()["len"]
+        return self._info["len"]
 
     def __del__(self):
         try:
@@ -258,7 +263,3 @@ class Collection:
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]
-
-    
-# -*- coding: utf-8 -*-
-
