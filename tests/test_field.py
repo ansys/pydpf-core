@@ -4,10 +4,10 @@ import numpy as np
 
 from ansys import dpf
 
-# true when running on Azure Virtual enviornment on windows
-ON_WINDOWS_AZURE = False
-if os.name == 'nt':
-    ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
+# # true when running on Azure Virtual enviornment on windows
+# ON_WINDOWS_AZURE = False
+# if os.name == 'nt':
+#     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
 
 
 def test_create_field():
@@ -240,7 +240,7 @@ def test_mesh_support_field(allkindofcomplexity):
     assert len(mesh.elements.scoping) == 10292
 
 
-@pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
+# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
 def test_delete_auto_field():
     field = dpf.core.Field()
     field2 = dpf.core.Field(field=field)
