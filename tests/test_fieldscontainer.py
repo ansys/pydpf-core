@@ -5,7 +5,7 @@ from grpc._channel import _InactiveRpcError
 
 from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field
-from ansys.dpf.core.errors import DPFServerError
+from ansys.dpf.core import errors as dpf_errors
 
 
 @pytest.fixture()
@@ -99,7 +99,7 @@ def test_delete_auto_fields_container():
     fc = FieldsContainer()
     fc2 = FieldsContainer(fields_container=fc)
     del fc
-    with pytest.raises(DPFServerError):
+    with pytest.raises(dpf_errors.DPFServerNullObject):
         fc2._info
 
 
