@@ -5,7 +5,7 @@ import pyvista
 import numpy as np
 import sphinx_rtd_theme
 
-from ansys.core.dpf import __version__
+from ansys.dpf.core import __version__
 
 
 # Manage errors
@@ -19,6 +19,8 @@ pyvista.rcParams['window_size'] = np.array([1024, 768]) * 2
 pyvista.FIGURE_PATH = os.path.join(os.path.abspath('./images/'), 'auto-generated/')
 if not os.path.exists(pyvista.FIGURE_PATH):
     os.makedirs(pyvista.FIGURE_PATH)
+
+pyvista.BUILDING_GALLERY = True
 
 
 # -- Project information -----------------------------------------------------
@@ -44,7 +46,8 @@ release = __version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-              # 'sphinx_gallery.gen_gallery',
+              'sphinx_gallery.gen_gallery',
+              'sphinx.ext.todo',
               'sphinx.ext.napoleon']
 
 
@@ -74,6 +77,34 @@ exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
+
+
+# -- Sphinx Gallery Options
+from sphinx_gallery.sorting import FileNameSortKey
+
+sphinx_gallery_conf = {
+    # convert rst to md for ipynb
+    'pypandoc': True,
+    # path to your examples scripts
+    "examples_dirs": ["../../examples/"],
+    # path where to save gallery generated examples
+    "gallery_dirs": ["examples"],
+    # Patter to search for example files
+    "filename_pattern": r"\.py",
+    # Remove the "Download all examples" button from the top level gallery
+    "download_all_examples": False,
+    # Sort gallery example by file name instead of number of lines (default)
+    "within_subsection_order": FileNameSortKey,
+    # directory where function granular galleries are stored
+    "backreferences_dir": None,
+    # Modules for which function level galleries are created.  In
+    "doc_module": "ansys-mapdl",
+    "image_scrapers": ('pyvista', 'matplotlib'),
+    # 'first_notebook_cell': ("%matplotlib inline\n"
+    #                         "from pyvista import set_plot_theme\n"
+    #                         "set_plot_theme('document')"),
+}
+
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -140,7 +171,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'pyansys.tex', 'DPF PyANSYS Documentation',
-     f'{authors}', 'manual'),
+     f'{author}', 'manual'),
 ]
 
 

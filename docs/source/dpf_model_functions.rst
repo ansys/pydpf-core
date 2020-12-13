@@ -10,7 +10,7 @@ Model Class
 -----------
 The model class encapsulates several operators and methods and is used to streamline reading and plotting result files.
 
-.. autoclass:: ansys.dpf.Model
+.. autoclass:: ansys.dpf.core.model.Model
     :members:
     :private-members:
 
@@ -20,33 +20,35 @@ Operator Class
 The ``dpf.Operator`` class used to represent an Operator which is an
 elementary operation.
 
-.. autoclass:: ansys.dpf.Operator
+.. autoclass:: ansys.dpf.core.dpf_operator.Operator
     :members:
 
 
 FieldsContainer Class
 ---------------------
-.. autoclass:: ansys.dpf.FieldsContainer
+.. autoclass:: ansys.dpf.core.fields_container.FieldsContainer
     :members:
 
 
 Field Class
 -----------
-.. autoclass:: ansys.dpf.Field
+.. autoclass:: ansys.dpf.core.field.Field
     :members:
 
 
 Wrapped Operators
 -----------------
-These operators are available as functions from ``dpf.operators`` and simplify the creation of new chained operators.
+These operators are available as functions from ``dpf.operators`` and
+simplify the creation of new chained operators.
 
-.. automodule:: ansys.dpf.operators
+.. automodule:: ansys.dpf.core.operators
     :members:
 
 
-Plotting
---------
-The ``ansys.dpf.plotting`` module contains several plotting functions to simplify the creation of plots within Jupyter notebooks.
+..
+   Plotting
+   --------
+   The ``ansys.dpf.plotting`` module contains several plotting functions to simplify the creation of plots within Jupyter notebooks.
 
-.. automodule:: ansys.dpf.plotting
-    :members:
+   .. automodule:: ansys.dpf.plotting
+       :members:
