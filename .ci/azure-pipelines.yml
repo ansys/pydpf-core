@@ -129,7 +129,7 @@ jobs:
         echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
         docker pull $(DPF_IMAGE)
         docker run --restart always --name dpf -v `pwd`:/dpf -p $(DPF_PORT):50054 $(DPF_IMAGE) &
-        sleep 10
+        grep -q 'server started on ip' <(timeout 60 tail -f log.txt)
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
       displayName: Pull, launch, and validate DPF service
 
