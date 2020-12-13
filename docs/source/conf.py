@@ -1,10 +1,11 @@
+from datetime import datetime
 import os
 
 import pyvista
 import numpy as np
 import sphinx_rtd_theme
 
-from ansys.dpf import __version__
+from ansys.core.dpf import __version__
 
 
 # Manage errors
@@ -23,11 +24,12 @@ if not os.path.exists(pyvista.FIGURE_PATH):
 # -- Project information -----------------------------------------------------
 
 project = 'PyANSYS DPF'
-copyright = '2020, ANSYS'
-author = 'Camille Bellot & Ramdane Lagha & Alex Kaszynski'
+copyright = f'{datetime.now().year}, ANSYS'
+author = 'ANSYS Developers'
 
 # The short X.Y version
 version = __version__
+
 # The full version, including alpha/beta/rc tags
 release = __version__
 
@@ -138,7 +140,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'pyansys.tex', 'DPF PyANSYS Documentation',
-     'Camille Bellot & Alex Kaszynski', 'manual'),
+     f'{authors}', 'manual'),
 ]
 
 
