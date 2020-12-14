@@ -45,13 +45,6 @@ def _global_channel():
     return dpf.core.CHANNEL
 
 
-# def port_in_use(port):
-#     """Checks if a port is in use on localhost.  Returns True when
-#     port in use"""
-#     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sc:
-#         return sc.connect_ex(('localhost', port)) == 0
-
-
 def check_valid_ip(ip):
     """Raises an error when an invalid ip is entered"""
     try:
@@ -65,32 +58,6 @@ def close_servers():
     from ansys.dpf.core import _server_instances
     for instance in _server_instances:
         instance.shutdown()
-
-
-def start_server_using_service_manager():  # pragma: no cover
-    if dpf.core.module_exists("grpc_interceptor_headers"):
-        import grpc_interceptor_headers
-        from  grpc_interceptor_headers.header_manipulator_client_interceptor import header_adder_interceptor    
-    else:
-        raise ValueError('Module grpc_interceptor_headers is missing to use service manager, please install it using pip install grpc_interceptor_headers')
-
-    service_manager_url = "http://" + ip + ":8089/v1"
-
-    definition = requests.get(url=service_manager_url + "/definitions/dpf").json()
-    rsp = requests.post(url=service_manager_url + "/jobs", json=definition)
-    job = rsp.json()
-
-    dpf_task = job['taskGroups'][0]['tasks'][0]
-    dpf_service = dpf_task['services'][0]
-    dpf_service_name = dpf_service['name']
-    dpf_url = f"{dpf_service['host']}:{dpf_service['port']}"
-
-    channel = channel = grpc.insecure_channel(dpf_url)
-    header_adder =  header_adder_interceptor('service-name', dpf_service_name)
-    intercept_channel = grpc.intercept_channel(channel, header_adder)
-    dpf.core.CHANNEL = intercept_channel
-
-    dpf.core._server_instances.append(DpfJob(service_manager_url, dpf_service_name))
 
 
 def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
@@ -108,7 +75,8 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
         Port to connect to the remote instance on.
 
     ansys_path : str, optional
-        Root path containing ansys.  For example ``/ansys_inc/v212/``
+        Root path containing ansys.  For example ``/ansys_inc/v212/``.
+        Defaults to the latest install of ANSYS.
 
     as_global : bool, optional
         Stores this ip and port as global variables for the dpf
@@ -127,13 +95,15 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
                          'Manually enter one when starting the server or set it '
                          'as the enviornment variable "ANSYS_PATH"')
 
-    # parse the version to an int
-    ver = int(ansys_path[-3:])
+    # parse the version to an int and check for supported
+    try:
+        ver = int(ansys_path[-3:])
+    except ValueError:
+        raise ValueError(f'Unable to get version from the ANSYS path "{ansys_path}"')
     if ver < 211:
         raise errors.InvalidANSYSVersionError(f'ANSYS v{ver} does not support DPF')
-    elif ver == 211:
-        if is_ubuntu():
-            raise OSError('DPF on v211 does not support Ubuntu')
+    if ver == 211 and is_ubuntu():
+        raise OSError('DPF on v211 does not support Ubuntu')
 
     # avoid using any ports in use from existing servers
     used_ports = [srv.port for srv in dpf.core._server_instances]
@@ -148,7 +118,6 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
             break
         except InvalidPortError:  # allow socket in use errors
             port += 1
-            pass
 
     if server is None:
         raise OSError(f'Unable to launch the server after {num_attempts} attemps.  '
@@ -157,21 +126,6 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
 
     dpf.core._server_instances.append(server)
     return server.port
-
-
-class DpfJob:
-    def __init__(self, service_manager_url, job_name):
-        self.sm_url = service_manager_url
-        self.job_name = job_name
-        
-    def shutdown(self):
-        requests.delete(url=self.sm_url + "/jobs/"+self.job_name)
-
-    def __del__(self):
-        try:
-            self.shutdown()
-        except:
-            pass
 
 
 class DpfServer:
