@@ -5,10 +5,10 @@ import numpy as np
 from ansys import dpf
 from ansys.dpf.core.common import ShellLayers
 
-# true when running on Azure Virtual enviornment on windows
-ON_AZURE = False
-if os.name == 'nt':
-    ON_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
+# # true when running on Azure Virtual enviornment on windows
+# ON_WINDOWS_AZURE = False
+# if os.name == 'nt':
+#     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
 
 
 def test_create_field():
@@ -173,11 +173,11 @@ def test_resize_field():
     assert field.elementary_data_count == 20
     assert field.size == 20
 
-   
+
 def test_fromarray_field():
-    data = np.empty((100,6))
+    data = np.empty((100, 6))
     f = dpf.core.field_from_array(data)
-    assert f.shape ==(100,6)
+    assert f.shape == (100, 6)
 
 
 def test_field_definition_field(allkindofcomplexity):
@@ -259,13 +259,9 @@ def test_shell_layers_2(velocity_acceleration):
     assert f.shell_layers == ShellLayers.NONELAYER
 
 
-@pytest.mark.skip(ON_AZURE, reason='Seems to cause segfault on Azure')
+# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
 def test_delete_auto_field():
     field = dpf.core.Field()
     field2 = dpf.core.Field(field=field)
     del field
     assert field2.location == 'Nodal'
-
-
-if __name__ == '__main__':
-    test_create_field()

@@ -1,9 +1,17 @@
-import pytest
-from grpc._channel import _InactiveRpcError
+import os
+import weakref
 
+import pytest
 
 from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field
+from ansys.dpf.core import errors as dpf_errors
+
+
+# # true when running on Azure Virtual enviornment on windows
+# ON_WINDOWS_AZURE = False
+# if os.name == 'nt':
+#     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
 
 
 @pytest.fixture()
@@ -76,7 +84,7 @@ def test_set_get_field_fields_container_new_label():
         assert fc.get_label_space(i+20)=={"time":i+1,"complex":0, 'shape':1}
 
 
-def test_get_item_field_fields_container(): 
+def test_get_item_field_fields_container():
     fc= FieldsContainer()
     fc.labels =['time','complex']
     for i in range(0,20):
@@ -87,18 +95,19 @@ def test_get_item_field_fields_container():
 
 
 def test_delete_fields_container():
-    fc= FieldsContainer()
-    fc.__del__()
-    with pytest.raises(_InactiveRpcError):
-        fc.get_ids()
+    fc = FieldsContainer()
+    ref = weakref.ref(fc)
+    del fc
+    assert ref() is None
 
 
+# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
 def test_delete_auto_fields_container():
     fc = FieldsContainer()
     fc2 = FieldsContainer(fields_container=fc)
     del fc
-    with pytest.raises(Exception):
-        fc2.get_ids()
+    with pytest.raises(dpf_errors.DPFServerNullObject):
+        fc2._info
 
 
 def test_str_fields_container(disp_fc):
@@ -107,7 +116,7 @@ def test_str_fields_container(disp_fc):
 
 def test_support_fields_container(disp_fc):
     support = disp_fc.time_freq_support
-    assert len(support.frequencies)==1
+    assert len(support.frequencies) == 1
 
 
 def test_getitem_fields_container(disp_fc):

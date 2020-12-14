@@ -3,6 +3,7 @@ from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
 
+
 class FieldsContainer(Collection):
     """A class used to represent a FieldsContainer which contains
     fields belonging to an analysis.
@@ -11,10 +12,11 @@ class FieldsContainer(Collection):
     ----------
     fields_container : ansys.grpc.dpf.fields_container_pb2.FieldsContainer, optional
         Create a fields container from a FieldsContainer message.
-        
+
     channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to the global channel.
-       
+        Channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global channel.
+
     """
 
     def __init__(self, fields_container=None, channel=None):
@@ -22,17 +24,17 @@ class FieldsContainer(Collection):
         or by connecting to a stub.
         """
         if channel is None:
-            channel = dpf.core._global_channel()   
-        self._channel=channel
+            channel = dpf.core._global_channel()
+        self._channel = channel
         self._stub = self._connect()
-        
-        
+
         self._component_index = None  # component index
         self._component_info = None  # for norm/max/min
-        
-        Collection.__init__(self,types.field, collection=fields_container, channel= channel)
-        
-    def get_fields_by_time_complex_ids(self,timeid=None, complexid=None):
+
+        Collection.__init__(self, types.field,
+                            collection=fields_container, channel=channel)
+
+    def get_fields_by_time_complex_ids(self, timeid=None, complexid=None):
         """Returns the fields at a requested index or scoping
 
         Parameters

@@ -1,11 +1,18 @@
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 
 
-class DPFServerError(RuntimeError):
+class DPFServerException(Exception):
     """Raised when the DPF Server has encountered an error"""
 
     def __init__(self, msg=''):
-        RuntimeError.__init__(self, msg)
+        Exception.__init__(self, msg)
+
+
+class DPFServerNullObject(Exception):
+    """Raised when the DPF Server has encountered an error"""
+
+    def __init__(self, msg=''):
+        Exception.__init__(self, msg)
 
 
 class InvalidPortError(OSError):
@@ -25,7 +32,10 @@ def protect_grpc(func):
         try:
             out = func(*args, **kwargs)
         except (_InactiveRpcError, _MultiThreadedRendezvous) as error:
-            raise DPFServerError(error.details()) from None
+            details = error.details()
+            if 'object is null in the dataBase' in details:
+                raise DPFServerNullObject(details) from None
+            raise DPFServerException(details) from None
 
         return out
 
