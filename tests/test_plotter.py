@@ -28,7 +28,6 @@ def test_plotter_on_mesh(allkindofcomplexity):
 
 def test_plotter_on_field(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
     stress = model.results.stress()
     stress.inputs.requested_location.connect('Elemental')
     avg_op = Operator("to_elemental_fc")
@@ -41,3 +40,40 @@ def test_plotter_on_field(allkindofcomplexity):
     fields_container.add_field({'time': 1}, field)
     cpos = pl.plot_contour(fields_container)
     assert isinstance(cpos, CameraPosition)
+    
+    
+def test_plotter_on_fields_container_elemental(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
+    stress = model.results.stress()
+    stress.inputs.requested_location.connect('Elemental')
+    avg_op = Operator("to_elemental_fc")
+    avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
+    fc = avg_op.outputs.fields_container()
+    pl = DpfPlotter(model.metadata.meshed_region)
+    cpos = pl.plot_contour(fc)
+    assert isinstance(cpos, CameraPosition)
+    
+
+def test_plotter_on_fields_container_nodal(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
+    stress = model.results.stress()
+    stress.inputs.requested_location.connect('Elemental')
+    avg_op = Operator("to_nodal_fc")
+    avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
+    fc = avg_op.outputs.fields_container()
+    pl = DpfPlotter(model.metadata.meshed_region)
+    cpos = pl.plot_contour(fc)
+    assert isinstance(cpos, CameraPosition)
+    
+
+def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    stress = model.results.stress()
+    stress.inputs.requested_location.connect('Elemental')
+    avg_op = Operator("to_elemental_fc")
+    avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
+    fc = avg_op.outputs.fields_container()
+    mesh.plot(fc)
+    
+    

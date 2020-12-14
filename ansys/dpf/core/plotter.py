@@ -7,8 +7,9 @@ import matplotlib.pyplot as pyplot
 import os
 import sys
 from ansys import dpf
+from ansys.dpf import core
 from ansys.dpf.core.rescoper import Rescoper as _Rescoper
-from ansys.dpf.core.common import locations
+from ansys.dpf.core.common import locations, ShellLayers
 
 class Plotter:
     def __init__(self, mesh):
@@ -94,18 +95,32 @@ class Plotter:
         rescoperOp.inputs.fields_container.connect(fields_container)
         rescoperOp.connect(2,float("nan"))
         fields = rescoperOp.outputs.fields_container()
-        
+                
         #add meshes
-        if (len(fields) == 1):
-            dataR = fields[0].data
-            plotter.add_mesh(grid, scalars = dataR, opacity=1.0, nan_color=nan_color, 
-                              stitle = fields_container[0].name, show_edges=True)
-        else:
-            for field in fields:
-                name = field.name.split("_")[0]
-                dataR = field.data
-                plotter.add_mesh(grid, scalars = dataR, nan_color=nan_color, stitle = name, show_edges=True)
-        
+        i = 0
+        shelllayers_changed_fc = None
+        for field in fields:
+            name = field.name.split("_")[0]
+            data = field.data
+            #check if shell layers, if yes, make the transformation and store it
+            shell_layers = field.shell_layers
+            if (shell_layers == ShellLayers.TOP 
+                or shell_layers == ShellLayers.MID 
+                or shell_layers == ShellLayers.BOTTOM
+                or shell_layers == ShellLayers.TOPBOTTOM 
+                or shell_layers == ShellLayers.TOPBOTTOMMID):
+                if (shelllayers_changed_fc is None):
+                    changeOp = core.Operator("change_shellLayers")
+                    changeOp.inputs.fields_container.connect(fields_container)
+                    changeOp.inputs.e_shell_layer.connect(3) #mid layers taken
+                    rescoperOp.inputs.fields_container.connect(changeOp.outputs.fields_container)
+                    shelllayers_changed_fc = rescoperOp.outputs.fields_container()
+                    field = shelllayers_changed_fc[i]
+                    data = field.data
+                else:
+                    data = shelllayers_changed_fc[i].data
+            plotter.add_mesh(grid, scalars = data, stitle = name, nan_color=nan_color, show_edges=True)
+            i += 1
         #show result
         plotter.add_axes()
         return plotter.show()
