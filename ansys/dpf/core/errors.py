@@ -1,6 +1,13 @@
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 
 
+class InvalidANSYSVersionError(RuntimeError):
+    """Raised when ANSYS is an invalid version"""
+
+    def __init__(self, msg=''):
+        RuntimeError.__init__(self, msg)
+
+
 class DPFServerException(Exception):
     """Raised when the DPF Server has encountered an error"""
 
@@ -9,7 +16,7 @@ class DPFServerException(Exception):
 
 
 class DPFServerNullObject(Exception):
-    """Raised when the DPF Server has encountered an error"""
+    """Raised when the DPF Server cannot find an object"""
 
     def __init__(self, msg=''):
         Exception.__init__(self, msg)

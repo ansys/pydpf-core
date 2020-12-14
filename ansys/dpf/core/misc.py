@@ -1,4 +1,5 @@
 """Miscellaneous functions for DPF module"""
+import platform
 import glob
 import os
 from pkgutil import iter_modules
@@ -82,6 +83,13 @@ def is_float(string):
         return False
 
 
+def is_ubuntu():
+    """True when running Ubuntu"""
+    if os.name == 'posix':
+        return 'ubuntu' in platform.platform().lower()
+    return False
+
+
 def find_ansys():
     """Searches for ansys path within the standard install location
     and returns the path of the latest version.
@@ -89,16 +97,26 @@ def find_ansys():
     Reutrns
     -------
     ansys_path : str
-        Full path to ANSYS.  For example:
+        Full path to ANSYS.  For example, on windows:
         'C:\\Program Files\\ANSYS Inc\\v211'
-    """
-    if os.name != 'nt':
-        return None
 
-    base_path = os.path.join(os.environ['PROGRAMFILES'], 'ANSYS INC')
-    
+        On Linux:
+        '/ansys_inc/v211'
+    """
+    base_path = None
     if os.name == 'nt':
-        paths = glob.glob(os.path.join(base_path, 'v*'))
+        base_path = os.path.join(os.environ['PROGRAMFILES'], 'ANSYS INC')
+    elif os.name == 'posix':
+        for path in ['/usr/ansys_inc', '/ansys_inc']:
+            if os.path.isdir(path):
+                base_path = path
+    else:
+        raise OSError(f'Unsupported OS {os.name}')
+
+    if base_path is None:
+        return base_path
+
+    paths = glob.glob(os.path.join(base_path, 'v*'))
 
     if not paths:
         return None

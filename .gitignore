@@ -36,3 +36,6 @@ docker/v211
 # pytest -coverage
 .coverage
 test-output.xml
+
+# jupyterlab
+.ipynb_checkpoints/
