@@ -4,7 +4,7 @@ import numpy as np
 
 from ansys import dpf
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2, field_definition_pb2, field_definition_pb2_grpc
-from ansys.dpf.core.common import natures, types, locations
+from ansys.dpf.core.common import natures, types, locations, ShellLayers
 from ansys.dpf.core import operators_helper, plotting, scoping, meshed_region, time_freq_support
 
 
@@ -74,7 +74,7 @@ class Field:
                 raise TypeError(f'Cannot create a field from a "{type(field)}" object')
 
         self._field_definition = self._load_field_definition()
-
+        
         # add dynamic methods
         self._update_dynamic_methods()
 
@@ -106,11 +106,11 @@ class Field:
             self.to_nodal = self.__to_nodal
         
         # specify plot method based on field type
-        if self.location ==  locations.elemental:
-            self.plot = self.__plot_elemental
-        elif self.location in [locations.nodal, locations.elemental_nodal]:
-            self.plot = self.__plot_nodal
-            self.plot = self.__plot_lines
+        # if self.location ==  locations.elemental:
+        #     self.plot = self.__plot_elemental
+        # elif self.location in [locations.nodal, locations.elemental_nodal]:
+        #     self.plot = self.__plot_nodal
+        #     self.plot = self.__plot_lines
        
 
     @wraps(plotting.plot_lines)
@@ -141,6 +141,18 @@ class Field:
         """
         if self._field_definition:
             return self._field_definition.location
+        
+    @property
+    def shell_layers(self):
+        """Return the field shell layers.
+        
+        Returns
+        -------
+        Enum 
+            dpf.core.common.ShellLayers enum value
+        """
+        if self._field_definition:
+            return self._field_definition.shell_layers
         
     def __to_nodal(self):
         """create a to_nodal operator and evaluates it"""
@@ -487,6 +499,11 @@ class FieldDefinition:
     @property
     def unit(self):
         return self._stub.List(self._messageDefinition).unit.symbol
+    
+    @property
+    def shell_layers(self):
+        enum_val = self._stub.List(self._messageDefinition).shell_layers
+        return ShellLayers(enum_val)
 
     def __del__(self):
         try:
