@@ -5,7 +5,6 @@ import platform
 import logging
 import time
 import os
-import signal
 import socket
 import subprocess
 import grpc
@@ -36,8 +35,8 @@ def _global_channel():
     existing server.
     """
     if dpf.core.CHANNEL is None:
-        if os.environ.get('DPF_START_SERVER', '').lower() == 'true':
-            ip = os.environ.get('DPF_IP', '127.0.0.1')
+        if os.environ.get('DPF_START_SERVER', '').lower() == 'false':
+            ip = os.environ.get('DPF_IP', LOCALHOST)
             port = int(os.environ.get('DPF_PORT', DPF_DEFAULT_PORT))
             connect_to_server(ip, port)
         else:
@@ -145,8 +144,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     num_attempts = 10
     for _ in range(num_attempts):
         try:
-            server = DpfServer(ansys_path, ip, port, as_global,
-                               as_global)
+            server = DpfServer(ansys_path, ip, port, as_global, as_global)
             break
         except InvalidPortError:  # allow socket in use errors
             port += 1
