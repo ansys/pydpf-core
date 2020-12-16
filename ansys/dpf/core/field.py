@@ -75,6 +75,9 @@ class Field:
 
         self._field_definition = self._load_field_definition()
         
+        # add dynamic methods
+        self._update_dynamic_methods()
+        
 
     @property
     def size(self):
@@ -96,6 +99,12 @@ class Field:
             return (1, self.component_count)
         else :
             return self.component_count
+        
+    def _update_dynamic_methods(self):
+        """Add or remove dynamic methods to this instance based on the
+        field type"""
+        if self.location in [locations.elemental_nodal, locations.elemental]:
+            self.to_nodal = self.__to_nodal
 
     @property
     def location(self):
