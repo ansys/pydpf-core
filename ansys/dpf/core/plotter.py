@@ -55,7 +55,7 @@ class Plotter:
         pyplot.title( substr[0] + ": min/max values over time")
         return pyplot.legend()
 
-    def plot_contour(self, fields_container, notebook=None):
+    def plot_contour(self, field_or_fields_container, notebook=None):
         """Plot the contour result on its mesh support. The obtained
         figure depends on the support (can be a meshed_region or a
         time_freq_support).  If transient analysis, plot the last
@@ -75,6 +75,18 @@ class Plotter:
         if not sys.warnoptions:
             import warnings
             warnings.simplefilter("ignore")
+            
+        if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+            fields_container = None
+            if isinstance(field_or_fields_container, dpf.core.Field):
+                fields_container = dpf.core.FieldsContainer()
+                fields_container.add_label('time')
+                fields_container.add_field({'time':1}, field_or_fields_container)
+            elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+                fields_container = field_or_fields_container
+        else:
+            raise Exception("Field or Fields Container only can be plotted.")
+        
         plotter = pv.Plotter(notebook=notebook)
         mesh = self._mesh
         grid = mesh.grid

@@ -6,7 +6,7 @@ from ansys import dpf
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2, field_definition_pb2, field_definition_pb2_grpc
 from ansys.dpf.core.common import natures, types, locations, ShellLayers
 from ansys.dpf.core import operators_helper, plotting, scoping, meshed_region, time_freq_support
-
+from ansys.dpf.core.plotter import Plotter
 
 class Field:
     """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
@@ -75,8 +75,6 @@ class Field:
 
         self._field_definition = self._load_field_definition()
         
-        # add dynamic methods
-        self._update_dynamic_methods()
 
     @property
     def size(self):
@@ -98,38 +96,6 @@ class Field:
             return (1, self.component_count)
         else :
             return self.component_count
-
-    def _update_dynamic_methods(self):
-        """Add or remove dynamic methods to this instance based on the
-        field type"""
-        if self.location in [locations.elemental_nodal, locations.elemental]:
-            self.to_nodal = self.__to_nodal
-        
-        # specify plot method based on field type
-        # if self.location ==  locations.elemental:
-        #     self.plot = self.__plot_elemental
-        # elif self.location in [locations.nodal, locations.elemental_nodal]:
-        #     self.plot = self.__plot_nodal
-        #     self.plot = self.__plot_lines
-       
-
-    @wraps(plotting.plot_lines)
-    def __plot_lines(self, *args, **kwargs):
-        """Wraps plotting.plot_lines"""
-        return plotting.plot_lines(self, *args, **kwargs)
-
-    @wraps(plotting.plot_nodal)
-    def __plot_nodal(self, comp=None, **kwargs):
-        """wraps plotting.plot_nodal"""
-        return plotting.plot_nodal(self, comp, **kwargs)
-
-    @wraps(plotting.plot_elemental)
-    def __plot_elemental(self, comp=None, **kwargs):
-        """wraps plotting.plot_elemental
-
-        Should be only available when type == locations.elemental
-        """
-        return plotting.plot_elemental(self, comp, **kwargs)
 
     @property
     def location(self):
@@ -159,6 +125,17 @@ class Field:
         op = dpf.core.Operator("to_nodal")
         op.inputs.connect(self)
         return op.outputs.field()
+    
+    def plot(self, notebook = None):
+        """Plot the field/fields container on mesh support if exists.
+        
+        Parameters
+        ----------         
+        notebook (default: True)
+            bool, that specifies if the plotting is in the notebook (2D) or not (3D)
+        """
+        pl = Plotter(self.meshed_region)
+        pl.plot_contour(self, notebook)
     
     def resize(self, nentities, datasize):
         """allocate memory
