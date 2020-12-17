@@ -172,7 +172,7 @@ class MeshedRegion:
             self._full_grid = self._as_vtk()
         return self._full_grid
     
-    def plot(self, field_or_fields_container=None, notebook=None):
+    def plot(self, field_or_fields_container=None, notebook=None, shell_layers=None):
         """Plot the field/fields container on mesh.
         
         Parameters
@@ -182,10 +182,14 @@ class MeshedRegion:
             
         notebook (default: None)
             bool, that specifies if the plotting is in the notebook (2D) or not (3D)
+            
+        shell_layers : core.ShellLayers, optional
+            Enum used to set the shell layers if the model to plot 
+            contains shell elements.
         """
         pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
-            pl.plot_contour(field_or_fields_container, notebook)
+            pl.plot_contour(field_or_fields_container, notebook, shell_layers)
         else:
             pl.plot_mesh(notebook)
 

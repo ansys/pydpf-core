@@ -56,7 +56,7 @@ class Plotter:
         pyplot.title( substr[0] + ": min/max values over time")
         return pyplot.legend()
 
-    def plot_contour(self, field_or_fields_container, notebook=None):
+    def plot_contour(self, field_or_fields_container, notebook=None, shell_layers = None):
         """Plot the contour result on its mesh support. The obtained
         figure depends on the support (can be a meshed_region or a
         time_freq_support).  If transient analysis, plot the last
@@ -72,6 +72,10 @@ class Plotter:
             iPython notebook if available.  When ``False``, plot
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
+        
+        shell_layers : core.ShellLayers, optional
+            Enum used to set the shell layers if the model to plot 
+            contains shell elements.
         """
         if not sys.warnoptions:
             import warnings
@@ -123,11 +127,16 @@ class Plotter:
         #pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.Operator("change_shellLayers")
         for field in fields_container:
-            shell_layers = field.shell_layers
-            if (shell_layers == ShellLayers.TOPBOTTOM 
-                or shell_layers == ShellLayers.TOPBOTTOMMID):
+            shell_layer_check = field.shell_layers
+            if (shell_layer_check == ShellLayers.TOPBOTTOM 
+                or shell_layer_check == ShellLayers.TOPBOTTOMMID):
                 changeOp.inputs.fields_container.connect(fields_container)
-                changeOp.inputs.e_shell_layer.connect(3) #mid layers taken
+                sl = ShellLayers.TOP
+                if (shell_layers is not None):
+                    if not isinstance(shell_layers, ShellLayers):
+                        raise TypeError("shell_layer attribute must be a core.ShellLayers instance.")
+                    sl = shell_layers
+                changeOp.inputs.e_shell_layer.connect(sl.value) #top layers taken
                 fields_container = changeOp.outputs.fields_container()
                 break
             

@@ -152,7 +152,7 @@ def test_field_shell_plot_scoping_elemental(multishells):
     avg.inputs.fields_container.connect(stress.outputs.fields_container)
     s = avg.outputs.fields_container()
     f = s[1]
-    f.plot()
+    f.plot(shell_layers = core.ShellLayers.TOP)
 
 
 def test_plot_fieldscontainer_on_mesh_scoping(multishells):
@@ -168,7 +168,7 @@ def test_plot_fieldscontainer_on_mesh_scoping(multishells):
     scoping.ids = l
     stress.inputs.mesh_scoping.connect(scoping)
     s = stress.outputs.fields_container()
-    mesh.plot(s)
+    mesh.plot(s, shell_layers = core.ShellLayers.TOP)
 
 
 def test_plot_fields_on_mesh_scoping(multishells):

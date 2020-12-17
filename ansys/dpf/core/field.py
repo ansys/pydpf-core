@@ -135,16 +135,20 @@ class Field:
         op.inputs.connect(self)
         return op.outputs.field()
     
-    def plot(self, notebook = None):
+    def plot(self, notebook = None, shell_layers = None):
         """Plot the field/fields container on mesh support if exists.
         
         Parameters
         ----------         
         notebook (default: True)
             bool, that specifies if the plotting is in the notebook (2D) or not (3D)
+            
+        shell_layers : core.ShellLayers, optional
+            Enum used to set the shell layers if the model to plot 
+            contains shell elements.
         """
         pl = Plotter(self.meshed_region)
-        pl.plot_contour(self, notebook)
+        pl.plot_contour(self, notebook, shell_layers)
     
     def resize(self, nentities, datasize):
         """allocate memory

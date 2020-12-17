@@ -23,7 +23,7 @@ from ansys.dpf.core.server import (start_local_server,
                                    _global_channel, connect_to_server)
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.common import types, natures, field_from_array, locations
+from ansys.dpf.core.common import types, natures, field_from_array, locations, ShellLayers
 from ansys.dpf.core.core import BaseService
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.operators_helper import sum, to_nodal, norm, eqv
