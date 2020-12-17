@@ -59,12 +59,13 @@ class Rescoper:
         # looping is only faster when requesting just a few values
         mesh_ids = np.asarray(self.mesh_scoping.ids)
         field_scoping = field_to_rescope.scoping.ids
+        data = field_to_rescope.data
         if len(mesh_ids) < 25 or self.location == 'Elemental':
             for i, data_id in enumerate(mesh_ids):
                 try:
                     # output[i] = field_to_rescope.get_entity_data_by_id(data_id)
                     index = field_scoping.index(data_id)
-                    output[i] = field_to_rescope.data[index]
+                    output[i] = data[index]
                 except:
                     pass
             if len(output[0]) == 1:
@@ -86,6 +87,6 @@ class Rescoper:
 
             # indes of the data must be sorted to match the mesh
             idx = sidx[mask_b]
-            output[mask_a] = field_to_rescope.data[idx]
+            output[mask_a] = data[idx]
 
         return output
