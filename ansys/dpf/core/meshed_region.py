@@ -190,7 +190,6 @@ class MeshedRegion:
             pl.plot_mesh(notebook)
 
 
-
 class Node:
     """A class used to represent a Node"""
     def __init__(self, mesh, nodeid, index, coordinates):
@@ -296,9 +295,9 @@ class Element:
 
 class Nodes():
     """Class to encapsulate mesh nodes"""
-
     def __init__(self, mesh):
         self._mesh = mesh
+        self._mapping_id_to_index = None
 
     def __str__(self):
         return 'DPF Nodes object with %d nodes\n' % len(self)
@@ -382,13 +381,31 @@ class Nodes():
         request.nodal_property = meshed_region_pb2.COORDINATES
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(self._mesh._channel, field=fieldOut)
+    
+    
+    def _build_mapping_id_to_index(self):
+        """Return a mapping between ids and indeces of the entity."""
+        dic_out = {}
+        ids = self._mesh.nodes.scoping.ids
+        i = 0
+        for node_id in ids:
+            dic_out[node_id] = i
+            i += 1
+        return dic_out
+        
+    @property
+    def mapping_id_to_index(self):
+        if self._mapping_id_to_index is None:
+            self._mapping_id_to_index = self._build_mapping_id_to_index()
+        return self._mapping_id_to_index
 
 
 class Elements():
     """Class to encapsulate mesh elements"""
-
+    
     def __init__(self, mesh):
         self._mesh = mesh
+        self._mapping_id_to_index = None
 
     def __str__(self):
         return 'DPF Elements object with %d elements' % len(self)
@@ -516,10 +533,25 @@ class Elements():
         request.elemental_property = meshed_region_pb2.CONNECTIVITY
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(self._mesh._channel, field=fieldOut)
-    
 
     @property
     def n_elements(self):
         """Number of elements"""
         return self.scoping.size
+    
+    def _build_mapping_id_to_index(self):
+        """Return a mapping between ids and indeces of the entity."""
+        dic_out = {}
+        ids = self._mesh.elements.scoping.ids
+        i = 0
+        for element_id in ids:
+            dic_out[element_id] = i
+            i += 1
+        return dic_out
+        
+    @property
+    def mapping_id_to_index(self):
+        if self._mapping_id_to_index is None:
+            self._mapping_id_to_index = self._build_mapping_id_to_index()
+        return self._mapping_id_to_index
 
