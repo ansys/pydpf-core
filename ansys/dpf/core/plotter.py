@@ -6,6 +6,7 @@ import pyvista as pv
 import matplotlib.pyplot as pyplot
 import os
 import sys
+import numpy as np
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.rescoper import Rescoper as _Rescoper
@@ -94,45 +95,57 @@ class Plotter:
         
         #get mesh scoping
         mesh_scoping = None
-        if (fields_container[0].location == locations.nodal):
+        m_id_to_index = None
+        location = None
+        component_count = None
+        name = None
+        #pre-loop to get location and component count
+        for field in fields_container:
+            if len(field.data) != 0:
+                location = field.location
+                component_count = field.component_count
+                name = field.name.split("_")[0]
+                break
+        
+        if (location == locations.nodal):
             mesh_scoping = mesh.nodes.scoping
-        elif(fields_container[0].location == locations.elemental):
+            m_id_to_index = mesh.nodes.mapping_id_to_index
+        elif(location == locations.elemental):
             mesh_scoping = mesh.elements.scoping
+            m_id_to_index = mesh.elements.mapping_id_to_index
         else:
             raise Exception("Only elemental or nodal location are supported for plotting.")
+            
+        #request all data to compute the final field to plot
+        overall_data = np.empty((len(mesh_scoping), component_count))
+        overall_data[:] = np.nan
         
-        #rescoper operator from dpf with nan values as default values
-        rescoperOp = dpf.core.Operator("Rescope")
-        rescoperOp.inputs.mesh_scoping.connect(mesh_scoping)
-        rescoperOp.inputs.fields_container.connect(fields_container)
-        rescoperOp.connect(2,float("nan"))
-        fields = rescoperOp.outputs.fields_container()
-                
-        #add meshes
-        i = 0
-        shelllayers_changed_fc = None
-        for field in fields:
-            name = field.name.split("_")[0]
-            data = field.data
-            #check if shell layers, if yes, make the transformation and store it
+        #pre-loop: check if shell layers for each field, if yes, set the shell layers
+        changeOp = core.Operator("change_shellLayers")
+        for field in fields_container:
             shell_layers = field.shell_layers
-            if (shell_layers == ShellLayers.TOP 
-                or shell_layers == ShellLayers.MID 
-                or shell_layers == ShellLayers.BOTTOM
-                or shell_layers == ShellLayers.TOPBOTTOM 
+            if (shell_layers == ShellLayers.TOPBOTTOM 
                 or shell_layers == ShellLayers.TOPBOTTOMMID):
-                if (shelllayers_changed_fc is None):
-                    changeOp = core.Operator("change_shellLayers")
-                    changeOp.inputs.fields_container.connect(fields_container)
-                    changeOp.inputs.e_shell_layer.connect(3) #mid layers taken
-                    rescoperOp.inputs.fields_container.connect(changeOp.outputs.fields_container)
-                    shelllayers_changed_fc = rescoperOp.outputs.fields_container()
-                    field = shelllayers_changed_fc[i]
-                    data = field.data
-                else:
-                    data = shelllayers_changed_fc[i].data
-            plotter.add_mesh(grid, scalars = data, stitle = name, nan_color=nan_color, show_edges=True)
-            i += 1
+                changeOp.inputs.fields_container.connect(fields_container)
+                changeOp.inputs.e_shell_layer.connect(3) #mid layers taken
+                fields_container = changeOp.outputs.fields_container()
+                break
+            
+        #loop: merge fields
+        for field in fields_container:
+            data = field.data
+            scop_ids = field.scoping.ids
+            size = len(scop_ids)
+            i = 0
+            while i < size:
+                ind = m_id_to_index[scop_ids[i]]
+                #case where the value is splitted between two fields
+                overall_data[ind] = data[i]
+                i += 1
+                    
+        #add meshes
+        plotter.add_mesh(grid, scalars = overall_data, stitle = name, nan_color=nan_color, show_edges=True)
+            
         #show result
         plotter.add_axes()
         return plotter.show()
