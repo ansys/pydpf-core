@@ -6,9 +6,10 @@ import pyvista as pv
 import matplotlib.pyplot as pyplot
 import os
 import sys
+import numpy as np
 from ansys import dpf
-from ansys.dpf.core.rescoper import Rescoper as _Rescoper
-from ansys.dpf.core.common import locations
+from ansys.dpf import core
+from ansys.dpf.core.common import locations, ShellLayers
 
 class Plotter:
     def __init__(self, mesh):
@@ -37,8 +38,22 @@ class Plotter:
         ----------
         field_container
             dpf.core.FieldsContainer that must contains a result for each time step of the time_freq_support.
+            
+        Examples
+        --------
+        >>> from ansys.dpf import core
+        >>> model = core.Model('file.rst')
+        >>> stress = model.results.stress()
+        >>> scoping = core.Scoping()
+        >>> scoping.ids = list(range(1, len(model.metadata.time_freq_support.frequencies) + 1))
+        >>> stress.inputs.time_scoping.connect(scoping)
+        >>> fc = stress.outputs.fields_container()
+        >>> plotter = core.plotter.Plotter(model.metadata.meshed_region)
+        >>> plotter.plot_chart(fc)
         """
         tfq = fields_container.time_freq_support
+        if len(fields_container) != len(tfq.frequencies):
+            raise Exception("Fields container must contain real fields at all time steps of the time_freq_support.")
         time_field = tfq.frequencies
         normOp = dpf.core.Operator("norm_fc")
         minmaxOp = dpf.core.Operator("min_max_fc")
@@ -54,11 +69,9 @@ class Plotter:
         pyplot.title( substr[0] + ": min/max values over time")
         return pyplot.legend()
 
-    def plot_contour(self, fields_container, notebook=None):
-        """Plot the contour result on its mesh support. The obtained
-        figure depends on the support (can be a meshed_region or a
-        time_freq_support).  If transient analysis, plot the last
-        result if no time_scoping has been specified.
+    def plot_contour(self, field_or_fields_container, notebook=None, shell_layers = None):
+        """Plot the contour result on its mesh support.
+        Can not plot fields container containing results at several time steps.
 
         Parameters
         ----------
@@ -70,10 +83,38 @@ class Plotter:
             iPython notebook if available.  When ``False``, plot
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
+        
+        shell_layers : core.ShellLayers, optional
+            Enum used to set the shell layers if the model to plot 
+            contains shell elements.
         """
         if not sys.warnoptions:
             import warnings
             warnings.simplefilter("ignore")
+            
+        if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+            fields_container = None
+            if isinstance(field_or_fields_container, dpf.core.Field):
+                fields_container = dpf.core.FieldsContainer()
+                fields_container.add_label('time')
+                fields_container.add_field({'time':1}, field_or_fields_container)
+            elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
+                fields_container = field_or_fields_container
+        else:
+            raise Exception("Field or Fields Container only can be plotted.")
+            
+        #pre-loop to check if the there are several time steps
+        labels = fields_container.get_label_space(0)
+        if "time" in labels.keys():
+            i = 1
+            size = len(fields_container)
+            first_time = labels["time"]
+            while i < size:
+                label = fields_container.get_label_space(i)
+                if label["time"] != first_time:
+                    raise Exception("Several time steps are contained in this fields container. Only one time-step result can be plotted.")
+                i += 1
+        
         plotter = pv.Plotter(notebook=notebook)
         mesh = self._mesh
         grid = mesh.grid
@@ -81,31 +122,61 @@ class Plotter:
         
         #get mesh scoping
         mesh_scoping = None
-        if (fields_container[0].location == locations.nodal):
+        m_id_to_index = None
+        location = None
+        component_count = None
+        name = None
+        #pre-loop to get location and component count
+        for field in fields_container:
+            if len(field.data) != 0:
+                location = field.location
+                component_count = field.component_count
+                name = field.name.split("_")[0]
+                break
+        
+        if (location == locations.nodal):
             mesh_scoping = mesh.nodes.scoping
-        elif(fields_container[0].location == locations.elemental):
+            m_id_to_index = mesh.nodes.mapping_id_to_index
+        elif(location == locations.elemental):
             mesh_scoping = mesh.elements.scoping
+            m_id_to_index = mesh.elements.mapping_id_to_index
         else:
             raise Exception("Only elemental or nodal location are supported for plotting.")
+            
+        #request all data to compute the final field to plot
+        overall_data = np.empty((len(mesh_scoping), component_count))
+        overall_data[:] = np.nan
         
-        #rescoper operator from dpf with nan values as default values
-        rescoperOp = dpf.core.Operator("Rescope")
-        rescoperOp.inputs.mesh_scoping.connect(mesh_scoping)
-        rescoperOp.inputs.fields_container.connect(fields_container)
-        rescoperOp.connect(2,float("nan"))
-        fields = rescoperOp.outputs.fields_container()
-        
+        #pre-loop: check if shell layers for each field, if yes, set the shell layers
+        changeOp = core.Operator("change_shellLayers")
+        for field in fields_container:
+            shell_layer_check = field.shell_layers
+            if (shell_layer_check == ShellLayers.TOPBOTTOM 
+                or shell_layer_check == ShellLayers.TOPBOTTOMMID):
+                changeOp.inputs.fields_container.connect(fields_container)
+                sl = ShellLayers.TOP
+                if (shell_layers is not None):
+                    if not isinstance(shell_layers, ShellLayers):
+                        raise TypeError("shell_layer attribute must be a core.ShellLayers instance.")
+                    sl = shell_layers
+                changeOp.inputs.e_shell_layer.connect(sl.value) #top layers taken
+                fields_container = changeOp.outputs.fields_container()
+                break
+            
+        #loop: merge fields
+        for field in fields_container:
+            data = field.data
+            scop_ids = field.scoping.ids
+            size = len(scop_ids)
+            i = 0
+            while i < size:
+                ind = m_id_to_index[scop_ids[i]]
+                overall_data[ind] = data[i]
+                i += 1
+                    
         #add meshes
-        if (len(fields) == 1):
-            dataR = fields[0].data
-            plotter.add_mesh(grid, scalars = dataR, opacity=1.0, nan_color=nan_color, 
-                              stitle = fields_container[0].name, show_edges=True)
-        else:
-            for field in fields:
-                name = field.name.split("_")[0]
-                dataR = field.data
-                plotter.add_mesh(grid, scalars = dataR, nan_color=nan_color, stitle = name, show_edges=True)
-        
+        plotter.add_mesh(grid, scalars = overall_data, stitle = name, nan_color=nan_color, show_edges=True)
+            
         #show result
         plotter.add_axes()
         return plotter.show()

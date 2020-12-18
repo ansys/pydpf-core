@@ -4,9 +4,9 @@ import numpy as np
 
 from ansys import dpf
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2, field_definition_pb2, field_definition_pb2_grpc
-from ansys.dpf.core.common import natures, types, locations
-from ansys.dpf.core import operators, plotting, scoping, meshed_region, time_freq_support
-
+from ansys.dpf.core.common import natures, types, locations, ShellLayers
+from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
+from ansys.dpf.core.plotter import Plotter
 
 class Field:
     """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
@@ -74,9 +74,10 @@ class Field:
                 raise TypeError(f'Cannot create a field from a "{type(field)}" object')
 
         self._field_definition = self._load_field_definition()
-
+        
         # add dynamic methods
         self._update_dynamic_methods()
+        
 
     @property
     def size(self):
@@ -98,38 +99,12 @@ class Field:
             return (1, self.component_count)
         else :
             return self.component_count
-
+        
     def _update_dynamic_methods(self):
         """Add or remove dynamic methods to this instance based on the
         field type"""
         if self.location in [locations.elemental_nodal, locations.elemental]:
             self.to_nodal = self.__to_nodal
-        
-        # specify plot method based on field type
-        if self.location ==  locations.elemental:
-            self.plot = self.__plot_elemental
-        elif self.location in [locations.nodal, locations.elemental_nodal]:
-            self.plot = self.__plot_nodal
-            self.plot = self.__plot_lines
-       
-
-    @wraps(plotting.plot_lines)
-    def __plot_lines(self, *args, **kwargs):
-        """Wraps plotting.plot_lines"""
-        return plotting.plot_lines(self, *args, **kwargs)
-
-    @wraps(plotting.plot_nodal)
-    def __plot_nodal(self, comp=None, **kwargs):
-        """wraps plotting.plot_nodal"""
-        return plotting.plot_nodal(self, comp, **kwargs)
-
-    @wraps(plotting.plot_elemental)
-    def __plot_elemental(self, comp=None, **kwargs):
-        """wraps plotting.plot_elemental
-
-        Should be only available when type == locations.elemental
-        """
-        return plotting.plot_elemental(self, comp, **kwargs)
 
     @property
     def location(self):
@@ -142,11 +117,45 @@ class Field:
         if self._field_definition:
             return self._field_definition.location
         
+    @property
+    def shell_layers(self):
+        """Return the field shell layers.
+        
+        Returns
+        -------
+        Enum 
+            dpf.core.common.ShellLayers enum value
+        """
+        if self._field_definition:
+            return self._field_definition.shell_layers
+        
     def __to_nodal(self):
         """create a to_nodal operator and evaluates it"""
         op = dpf.core.Operator("to_nodal")
         op.inputs.connect(self)
         return op.outputs.field()
+    
+    def plot(self, notebook = None, shell_layers = None):
+        """Plot the field/fields container on mesh support if exists.
+        
+        Warning
+        -------
+        Regarding the interactions with the GRPc server, this can be slower than:
+        >>> mesh = model.metadata.meshed_region
+        >>> mesh.plot(field)
+        Better use the previous lines.  
+        
+        Parameters
+        ----------         
+        notebook (default: True)
+            bool, that specifies if the plotting is in the notebook (2D) or not (3D)
+            
+        shell_layers : core.ShellLayers, optional
+            Enum used to set the shell layers if the model to plot 
+            contains shell elements.
+        """
+        pl = Plotter(self.meshed_region)
+        pl.plot_contour(self, notebook, shell_layers)
     
     def resize(self, nentities, datasize):
         """allocate memory
@@ -392,12 +401,12 @@ class Field:
     
     def __add__(self, field_b):
         """Adds two fields together"""
-        return dpf.core.operators.add(self, field_b)
+        return dpf.core.operators_helper.add(self, field_b)
 
     def __pow__(self, value):
         if value != 2:
             raise ValueError('DPF only the value is "2" suppported')
-        return dpf.core.operators.sqr(self)
+        return dpf.core.operators_helper.sqr(self)
 
     def _del_data(self):
         pass
@@ -442,9 +451,9 @@ class Field:
         return self.size
 
 
-    @wraps(operators.min_max)
+    @wraps(operators_helper.min_max)
     def _min_max(self):
-        return operators.min_max(self)
+        return operators_helper.min_max(self)
 
     def min(self):
         """Component-wise minimum over this field
@@ -487,6 +496,11 @@ class FieldDefinition:
     @property
     def unit(self):
         return self._stub.List(self._messageDefinition).unit.symbol
+    
+    @property
+    def shell_layers(self):
+        enum_val = self._stub.List(self._messageDefinition).shell_layers
+        return ShellLayers(enum_val)
 
     def __del__(self):
         try:

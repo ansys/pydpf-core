@@ -58,7 +58,17 @@ class locations:
 
     #applies everywhere
     overall = "overall"
-
+    
+    
+class ShellLayers(Enum):
+    """Contains shell layers types."""
+    TOP = 0
+    BOTTOM = 1
+    TOPBOTTOM = 2
+    MID = 3
+    TOPBOTTOMMID = 4
+    NONELAYER = 5
+    INDEPENDANTLAYER = 6
 
 
 def field_from_array(arr):
