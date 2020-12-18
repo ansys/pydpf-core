@@ -30,8 +30,6 @@ from ansys.dpf.core.operators_helper import sum, to_nodal, norm, eqv
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.result_info import ResultInfo
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core import operators
-from ansys.dpf.core import database_tools
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

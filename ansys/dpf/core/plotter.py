@@ -9,7 +9,6 @@ import sys
 import numpy as np
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.rescoper import Rescoper as _Rescoper
 from ansys.dpf.core.common import locations, ShellLayers
 
 class Plotter:
@@ -148,7 +147,6 @@ class Plotter:
             i = 0
             while i < size:
                 ind = m_id_to_index[scop_ids[i]]
-                #case where the value is splitted between two fields
                 overall_data[ind] = data[i]
                 i += 1
                     

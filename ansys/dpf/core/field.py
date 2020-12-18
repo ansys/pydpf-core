@@ -5,7 +5,7 @@ import numpy as np
 from ansys import dpf
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2, field_definition_pb2, field_definition_pb2_grpc
 from ansys.dpf.core.common import natures, types, locations, ShellLayers
-from ansys.dpf.core import operators_helper, plotting, scoping, meshed_region, time_freq_support
+from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
 from ansys.dpf.core.plotter import Plotter
 
 class Field:
@@ -137,6 +137,13 @@ class Field:
     
     def plot(self, notebook = None, shell_layers = None):
         """Plot the field/fields container on mesh support if exists.
+        
+        Warning
+        -------
+        Regarding the interactions with the GRPc server, this can be slower than:
+        >>> mesh = model.metadata.meshed_region
+        >>> mesh.plot(field)
+        Better use the previous lines.  
         
         Parameters
         ----------         
