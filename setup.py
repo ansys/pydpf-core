@@ -24,7 +24,7 @@ readme_file = os.path.join(filepath, 'README.md')
 
 setup(
     name='ansys-dpf-core',
-    packages=['ansys.dpf.core', 'ansys.dpf.core.operators'],
+    packages=['ansys.dpf.core'],
     author='Camille Bellot, Ramdane Lagha',
     version=__version__,
     
