@@ -38,8 +38,22 @@ class Plotter:
         ----------
         field_container
             dpf.core.FieldsContainer that must contains a result for each time step of the time_freq_support.
+            
+        Examples
+        --------
+        >>> from ansys.dpf import core
+        >>> model = core.Model('file.rst')
+        >>> stress = model.results.stress()
+        >>> scoping = core.Scoping()
+        >>> scoping.ids = list(range(1, len(model.metadata.time_freq_support.frequencies) + 1))
+        >>> stress.inputs.time_scoping.connect(scoping)
+        >>> fc = stress.outputs.fields_container()
+        >>> plotter = core.plotter.Plotter(model.metadata.meshed_region)
+        >>> plotter.plot_chart(fc)
         """
         tfq = fields_container.time_freq_support
+        if len(fields_container) != len(tfq.frequencies):
+            raise Exception("Fields container must contain real fields at all time steps of the time_freq_support.")
         time_field = tfq.frequencies
         normOp = dpf.core.Operator("norm_fc")
         minmaxOp = dpf.core.Operator("min_max_fc")
@@ -56,10 +70,8 @@ class Plotter:
         return pyplot.legend()
 
     def plot_contour(self, field_or_fields_container, notebook=None, shell_layers = None):
-        """Plot the contour result on its mesh support. The obtained
-        figure depends on the support (can be a meshed_region or a
-        time_freq_support).  If transient analysis, plot the last
-        result if no time_scoping has been specified.
+        """Plot the contour result on its mesh support.
+        Can not plot fields container containing results at several time steps.
 
         Parameters
         ----------
@@ -90,6 +102,18 @@ class Plotter:
                 fields_container = field_or_fields_container
         else:
             raise Exception("Field or Fields Container only can be plotted.")
+            
+        #pre-loop to check if the there are several time steps
+        labels = fields_container.get_label_space(0)
+        if "time" in labels.keys():
+            i = 1
+            size = len(fields_container)
+            first_time = labels["time"]
+            while i < size:
+                label = fields_container.get_label_space(i)
+                if label["time"] != first_time:
+                    raise Exception("Several time steps are contained in this fields container. Only one time-step result can be plotted.")
+                i += 1
         
         plotter = pv.Plotter(notebook=notebook)
         mesh = self._mesh
