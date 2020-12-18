@@ -36,7 +36,6 @@ class _InputSpecMinus(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_minus(), op)
         self.fieldA = Input(_get_input_spec_minus(0), 0, op, -1) 
-        super().__init__(_get_input_spec_minus(), op)
         self.fieldB = Input(_get_input_spec_minus(1), 1, op, -1) 
 
 class _OutputSpecMinus(_Outputs):
@@ -134,7 +133,6 @@ class _InputSpecCplxMultiply(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_cplx_multiply(), op)
         self.fields_containerA = Input(_get_input_spec_cplx_multiply(0), 0, op, -1) 
-        super().__init__(_get_input_spec_cplx_multiply(), op)
         self.fields_containerB = Input(_get_input_spec_cplx_multiply(1), 1, op, -1) 
 
 class _OutputSpecCplxMultiply(_Outputs):
@@ -232,7 +230,6 @@ class _InputSpecUnitConvert(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_unit_convert(), op)
         self.field = Input(_get_input_spec_unit_convert(0), 0, op, -1) 
-        super().__init__(_get_input_spec_unit_convert(), op)
         self.unit_name = Input(_get_input_spec_unit_convert(1), 1, op, -1) 
 
 class _OutputSpecUnitConvert(_Outputs):
@@ -338,15 +335,10 @@ class _InputSpecMinMaxOverTime(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_min_max_over_time(), op)
         self.fields_container = Input(_get_input_spec_min_max_over_time(0), 0, op, -1) 
-        super().__init__(_get_input_spec_min_max_over_time(), op)
         self.angle = Input(_get_input_spec_min_max_over_time(1), 1, op, -1) 
-        super().__init__(_get_input_spec_min_max_over_time(), op)
         self.unit_name = Input(_get_input_spec_min_max_over_time(2), 2, op, -1) 
-        super().__init__(_get_input_spec_min_max_over_time(), op)
         self.abs_value = Input(_get_input_spec_min_max_over_time(3), 3, op, -1) 
-        super().__init__(_get_input_spec_min_max_over_time(), op)
         self.compute_amplitude = Input(_get_input_spec_min_max_over_time(4), 4, op, -1) 
-        super().__init__(_get_input_spec_min_max_over_time(), op)
         self.int32 = Input(_get_input_spec_min_max_over_time(5), 5, op, -1) 
 
 class _OutputSpecMinMaxOverTime(_Outputs):
@@ -452,7 +444,6 @@ class _InputSpecMinusFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_minus_fc(), op)
         self.field_or_fields_container_A = Input(_get_input_spec_minus_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_minus_fc(), op)
         self.field_or_fields_container_B = Input(_get_input_spec_minus_fc(1), 1, op, -1) 
 
 class _OutputSpecMinusFc(_Outputs):
@@ -642,7 +633,6 @@ class _InputSpecUnitConvertFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_unit_convert_fc(), op)
         self.fields_container = Input(_get_input_spec_unit_convert_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_unit_convert_fc(), op)
         self.unit_name = Input(_get_input_spec_unit_convert_fc(1), 1, op, -1) 
 
 class _OutputSpecUnitConvertFc(_Outputs):
@@ -740,7 +730,6 @@ class _InputSpecAdd(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_add(), op)
         self.fieldA = Input(_get_input_spec_add(0), 0, op, -1) 
-        super().__init__(_get_input_spec_add(), op)
         self.fieldB = Input(_get_input_spec_add(1), 1, op, -1) 
 
 class _OutputSpecAdd(_Outputs):
@@ -838,7 +827,6 @@ class _InputSpecAddFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_add_fc(), op)
         self.fields_container1 = Input(_get_input_spec_add_fc(0), 0, op, 0) 
-        super().__init__(_get_input_spec_add_fc(), op)
         self.fields_container2 = Input(_get_input_spec_add_fc(1), 1, op, -1) 
 
 class _OutputSpecAddFc(_Outputs):
@@ -940,11 +928,8 @@ class _InputSpecPhaseOfMax(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_phase_of_max(), op)
         self.real_field = Input(_get_input_spec_phase_of_max(0), 0, op, -1) 
-        super().__init__(_get_input_spec_phase_of_max(), op)
         self.imaginary_field = Input(_get_input_spec_phase_of_max(1), 1, op, -1) 
-        super().__init__(_get_input_spec_phase_of_max(), op)
         self.abs_value = Input(_get_input_spec_phase_of_max(2), 2, op, -1) 
-        super().__init__(_get_input_spec_phase_of_max(), op)
         self.phase_increment = Input(_get_input_spec_phase_of_max(3), 3, op, -1) 
 
 class _OutputSpecPhaseOfMax(_Outputs):
@@ -1138,7 +1123,6 @@ class _InputSpecAddConstant(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_add_constant(), op)
         self.field = Input(_get_input_spec_add_constant(0), 0, op, -1) 
-        super().__init__(_get_input_spec_add_constant(), op)
         self.ponderation = Input(_get_input_spec_add_constant(1), 1, op, -1) 
 
 class _OutputSpecAddConstant(_Outputs):
@@ -1328,7 +1312,6 @@ class _InputSpecPow(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_pow(), op)
         self.field = Input(_get_input_spec_pow(0), 0, op, -1) 
-        super().__init__(_get_input_spec_pow(), op)
         self.factor = Input(_get_input_spec_pow(1), 1, op, -1) 
 
 class _OutputSpecPow(_Outputs):
@@ -1426,7 +1409,6 @@ class _InputSpecAddConstantFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_add_constant_fc(), op)
         self.fields_container = Input(_get_input_spec_add_constant_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_add_constant_fc(), op)
         self.ponderation = Input(_get_input_spec_add_constant_fc(1), 1, op, -1) 
 
 class _OutputSpecAddConstantFc(_Outputs):
@@ -1526,9 +1508,7 @@ class _InputSpecScale(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_scale(), op)
         self.field = Input(_get_input_spec_scale(0), 0, op, -1) 
-        super().__init__(_get_input_spec_scale(), op)
         self.ponderation = Input(_get_input_spec_scale(1), 1, op, -1) 
-        super().__init__(_get_input_spec_scale(), op)
         self.boolean = Input(_get_input_spec_scale(2), 2, op, -1) 
 
 class _OutputSpecScale(_Outputs):
@@ -1628,7 +1608,6 @@ class _InputSpecPowFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_pow_fc(), op)
         self.fields_container = Input(_get_input_spec_pow_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_pow_fc(), op)
         self.factor = Input(_get_input_spec_pow_fc(1), 1, op, -1) 
 
 class _OutputSpecPowFc(_Outputs):
@@ -1728,9 +1707,7 @@ class _InputSpecScaleFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_scale_fc(), op)
         self.fields_container = Input(_get_input_spec_scale_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_scale_fc(), op)
         self.ponderation = Input(_get_input_spec_scale_fc(1), 1, op, -1) 
-        super().__init__(_get_input_spec_scale_fc(), op)
         self.boolean = Input(_get_input_spec_scale_fc(2), 2, op, -1) 
 
 class _OutputSpecScaleFc(_Outputs):
@@ -1832,9 +1809,7 @@ class _InputSpecCentroid(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_centroid(), op)
         self.fieldA = Input(_get_input_spec_centroid(0), 0, op, -1) 
-        super().__init__(_get_input_spec_centroid(), op)
         self.fieldB = Input(_get_input_spec_centroid(1), 1, op, -1) 
-        super().__init__(_get_input_spec_centroid(), op)
         self.factor = Input(_get_input_spec_centroid(2), 2, op, -1) 
 
 class _OutputSpecCentroid(_Outputs):
@@ -1942,15 +1917,10 @@ class _InputSpecSweepingPhase(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_sweeping_phase(), op)
         self.real_field = Input(_get_input_spec_sweeping_phase(0), 0, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase(), op)
         self.imaginary_field = Input(_get_input_spec_sweeping_phase(1), 1, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase(), op)
         self.angle = Input(_get_input_spec_sweeping_phase(2), 2, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase(), op)
         self.unit_name = Input(_get_input_spec_sweeping_phase(3), 3, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase(), op)
         self.abs_value = Input(_get_input_spec_sweeping_phase(4), 4, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase(), op)
         self.imaginary_part_null = Input(_get_input_spec_sweeping_phase(5), 5, op, -1) 
 
 class _OutputSpecSweepingPhase(_Outputs):
@@ -2336,11 +2306,8 @@ class _InputSpecSweepingPhaseFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_sweeping_phase_fc(), op)
         self.fields_container = Input(_get_input_spec_sweeping_phase_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
         self.angle = Input(_get_input_spec_sweeping_phase_fc(2), 2, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
         self.unit_name = Input(_get_input_spec_sweeping_phase_fc(3), 3, op, -1) 
-        super().__init__(_get_input_spec_sweeping_phase_fc(), op)
         self.abs_value = Input(_get_input_spec_sweeping_phase_fc(4), 4, op, -1) 
 
 class _OutputSpecSweepingPhaseFc(_Outputs):
@@ -2540,13 +2507,9 @@ class _InputSpecLinearCombination(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_linear_combination(), op)
         self.a = Input(_get_input_spec_linear_combination(0), 0, op, -1) 
-        super().__init__(_get_input_spec_linear_combination(), op)
         self.fields_containerA = Input(_get_input_spec_linear_combination(1), 1, op, -1) 
-        super().__init__(_get_input_spec_linear_combination(), op)
         self.fields_containerB = Input(_get_input_spec_linear_combination(2), 2, op, -1) 
-        super().__init__(_get_input_spec_linear_combination(), op)
         self.b = Input(_get_input_spec_linear_combination(3), 3, op, -1) 
-        super().__init__(_get_input_spec_linear_combination(), op)
         self.fields_containerC = Input(_get_input_spec_linear_combination(4), 4, op, -1) 
 
 class _OutputSpecLinearCombination(_Outputs):
@@ -3110,7 +3073,6 @@ class _InputSpecComponentWiseDivide(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_component_wise_divide(), op)
         self.fieldA = Input(_get_input_spec_component_wise_divide(0), 0, op, -1) 
-        super().__init__(_get_input_spec_component_wise_divide(), op)
         self.fieldB = Input(_get_input_spec_component_wise_divide(1), 1, op, -1) 
 
 class _OutputSpecComponentWiseDivide(_Outputs):
@@ -3208,7 +3170,6 @@ class _InputSpecComponentWiseDivideFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_component_wise_divide_fc(), op)
         self.fields_containerA = Input(_get_input_spec_component_wise_divide_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_component_wise_divide_fc(), op)
         self.fields_containerB = Input(_get_input_spec_component_wise_divide_fc(1), 1, op, -1) 
 
 class _OutputSpecComponentWiseDivideFc(_Outputs):
@@ -3306,7 +3267,6 @@ class _InputSpecKroneckerProd(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_kronecker_prod(), op)
         self.fieldA = Input(_get_input_spec_kronecker_prod(0), 0, op, -1) 
-        super().__init__(_get_input_spec_kronecker_prod(), op)
         self.fieldB = Input(_get_input_spec_kronecker_prod(1), 1, op, -1) 
 
 class _OutputSpecKroneckerProd(_Outputs):
@@ -3680,7 +3640,6 @@ class _InputSpecAmplitude(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_amplitude(), op)
         self.fieldA = Input(_get_input_spec_amplitude(0), 0, op, -1) 
-        super().__init__(_get_input_spec_amplitude(), op)
         self.fieldB = Input(_get_input_spec_amplitude(1), 1, op, -1) 
 
 class _OutputSpecAmplitude(_Outputs):
@@ -3778,7 +3737,6 @@ class _InputSpecCplxAdd(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_cplx_add(), op)
         self.fields_containerA = Input(_get_input_spec_cplx_add(0), 0, op, -1) 
-        super().__init__(_get_input_spec_cplx_add(), op)
         self.fields_containerB = Input(_get_input_spec_cplx_add(1), 1, op, -1) 
 
 class _OutputSpecCplxAdd(_Outputs):
@@ -3876,7 +3834,6 @@ class _InputSpecCplxDot(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_cplx_dot(), op)
         self.fields_containerA = Input(_get_input_spec_cplx_dot(0), 0, op, -1) 
-        super().__init__(_get_input_spec_cplx_dot(), op)
         self.fields_containerB = Input(_get_input_spec_cplx_dot(1), 1, op, -1) 
 
 class _OutputSpecCplxDot(_Outputs):
@@ -3974,7 +3931,6 @@ class _InputSpecCplxDivide(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_cplx_divide(), op)
         self.fields_containerA = Input(_get_input_spec_cplx_divide(0), 0, op, -1) 
-        super().__init__(_get_input_spec_cplx_divide(), op)
         self.fields_containerB = Input(_get_input_spec_cplx_divide(1), 1, op, -1) 
 
 class _OutputSpecCplxDivide(_Outputs):
@@ -4072,7 +4028,6 @@ class _InputSpecDot(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_dot(), op)
         self.fieldA = Input(_get_input_spec_dot(0), 0, op, -1) 
-        super().__init__(_get_input_spec_dot(), op)
         self.fieldB = Input(_get_input_spec_dot(1), 1, op, -1) 
 
 class _OutputSpecDot(_Outputs):
@@ -4538,7 +4493,6 @@ class _InputSpecGeneralizedInnerProduct(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_generalized_inner_product(), op)
         self.fieldA = Input(_get_input_spec_generalized_inner_product(0), 0, op, -1) 
-        super().__init__(_get_input_spec_generalized_inner_product(), op)
         self.fieldB = Input(_get_input_spec_generalized_inner_product(1), 1, op, -1) 
 
 class _OutputSpecGeneralizedInnerProduct(_Outputs):
@@ -4636,7 +4590,6 @@ class _InputSpecScaleByField(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_scale_by_field(), op)
         self.fieldA = Input(_get_input_spec_scale_by_field(0), 0, op, -1) 
-        super().__init__(_get_input_spec_scale_by_field(), op)
         self.fieldB = Input(_get_input_spec_scale_by_field(1), 1, op, -1) 
 
 class _OutputSpecScaleByField(_Outputs):
@@ -4734,7 +4687,6 @@ class _InputSpecGeneralizedInnerProductFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_generalized_inner_product_fc(), op)
         self.field_or_fields_container_A = Input(_get_input_spec_generalized_inner_product_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_generalized_inner_product_fc(), op)
         self.field_or_fields_container_B = Input(_get_input_spec_generalized_inner_product_fc(1), 1, op, -1) 
 
 class _OutputSpecGeneralizedInnerProductFc(_Outputs):
@@ -4840,13 +4792,9 @@ class _InputSpecMaxOverTime(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_max_over_time(), op)
         self.fields_container = Input(_get_input_spec_max_over_time(0), 0, op, -1) 
-        super().__init__(_get_input_spec_max_over_time(), op)
         self.angle = Input(_get_input_spec_max_over_time(1), 1, op, -1) 
-        super().__init__(_get_input_spec_max_over_time(), op)
         self.unit_name = Input(_get_input_spec_max_over_time(2), 2, op, -1) 
-        super().__init__(_get_input_spec_max_over_time(), op)
         self.abs_value = Input(_get_input_spec_max_over_time(3), 3, op, -1) 
-        super().__init__(_get_input_spec_max_over_time(), op)
         self.compute_amplitude = Input(_get_input_spec_max_over_time(4), 4, op, -1) 
 
 class _OutputSpecMaxOverTime(_Outputs):
@@ -4956,13 +4904,9 @@ class _InputSpecTimeOfMax(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_time_of_max(), op)
         self.fields_container = Input(_get_input_spec_time_of_max(0), 0, op, -1) 
-        super().__init__(_get_input_spec_time_of_max(), op)
         self.angle = Input(_get_input_spec_time_of_max(1), 1, op, -1) 
-        super().__init__(_get_input_spec_time_of_max(), op)
         self.unit_name = Input(_get_input_spec_time_of_max(2), 2, op, -1) 
-        super().__init__(_get_input_spec_time_of_max(), op)
         self.abs_value = Input(_get_input_spec_time_of_max(3), 3, op, -1) 
-        super().__init__(_get_input_spec_time_of_max(), op)
         self.compute_amplitude = Input(_get_input_spec_time_of_max(4), 4, op, -1) 
 
 class _OutputSpecTimeOfMax(_Outputs):
@@ -5072,13 +5016,9 @@ class _InputSpecMinOverTime(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_min_over_time(), op)
         self.fields_container = Input(_get_input_spec_min_over_time(0), 0, op, -1) 
-        super().__init__(_get_input_spec_min_over_time(), op)
         self.angle = Input(_get_input_spec_min_over_time(1), 1, op, -1) 
-        super().__init__(_get_input_spec_min_over_time(), op)
         self.unit_name = Input(_get_input_spec_min_over_time(2), 2, op, -1) 
-        super().__init__(_get_input_spec_min_over_time(), op)
         self.abs_value = Input(_get_input_spec_min_over_time(3), 3, op, -1) 
-        super().__init__(_get_input_spec_min_over_time(), op)
         self.compute_amplitude = Input(_get_input_spec_min_over_time(4), 4, op, -1) 
 
 class _OutputSpecMinOverTime(_Outputs):
@@ -5188,13 +5128,9 @@ class _InputSpecTimeOfMin(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_time_of_min(), op)
         self.fields_container = Input(_get_input_spec_time_of_min(0), 0, op, -1) 
-        super().__init__(_get_input_spec_time_of_min(), op)
         self.angle = Input(_get_input_spec_time_of_min(1), 1, op, -1) 
-        super().__init__(_get_input_spec_time_of_min(), op)
         self.unit_name = Input(_get_input_spec_time_of_min(2), 2, op, -1) 
-        super().__init__(_get_input_spec_time_of_min(), op)
         self.abs_value = Input(_get_input_spec_time_of_min(3), 3, op, -1) 
-        super().__init__(_get_input_spec_time_of_min(), op)
         self.compute_amplitude = Input(_get_input_spec_time_of_min(4), 4, op, -1) 
 
 class _OutputSpecTimeOfMin(_Outputs):
@@ -5302,11 +5238,8 @@ class _InputSpecMaxOverPhase(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_max_over_phase(), op)
         self.real_field = Input(_get_input_spec_max_over_phase(0), 0, op, -1) 
-        super().__init__(_get_input_spec_max_over_phase(), op)
         self.imaginary_field = Input(_get_input_spec_max_over_phase(1), 1, op, -1) 
-        super().__init__(_get_input_spec_max_over_phase(), op)
         self.abs_value = Input(_get_input_spec_max_over_phase(2), 2, op, -1) 
-        super().__init__(_get_input_spec_max_over_phase(), op)
         self.phase_increment = Input(_get_input_spec_max_over_phase(3), 3, op, -1) 
 
 class _OutputSpecMaxOverPhase(_Outputs):
@@ -5408,7 +5341,6 @@ class _InputSpecDotTensor(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_dot_tensor(), op)
         self.fieldA = Input(_get_input_spec_dot_tensor(0), 0, op, -1) 
-        super().__init__(_get_input_spec_dot_tensor(), op)
         self.fieldB = Input(_get_input_spec_dot_tensor(1), 1, op, -1) 
 
 class _OutputSpecDotTensor(_Outputs):
@@ -5506,7 +5438,6 @@ class _InputSpecScaleByFieldFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_scale_by_field_fc(), op)
         self.field_or_fields_container_A = Input(_get_input_spec_scale_by_field_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_scale_by_field_fc(), op)
         self.field_or_fields_container_B = Input(_get_input_spec_scale_by_field_fc(1), 1, op, -1) 
 
 class _OutputSpecScaleByFieldFc(_Outputs):

@@ -319,9 +319,7 @@ class _OutputSpecInvariants(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_invariants(), op)
         self.field_int = Output(_get_output_spec_invariants(0), 0, op) 
-        super().__init__(_get_output_spec_invariants(), op)
         self.field_eqv = Output(_get_output_spec_invariants(1), 1, op) 
-        super().__init__(_get_output_spec_invariants(), op)
         self.field_max_shear = Output(_get_output_spec_invariants(2), 2, op) 
 
 class _Invariants(_Operator):
@@ -423,9 +421,7 @@ class _OutputSpecPrincipalInvariantsFc(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_principal_invariants_fc(), op)
         self.fields_eig_1 = Output(_get_output_spec_principal_invariants_fc(0), 0, op) 
-        super().__init__(_get_output_spec_principal_invariants_fc(), op)
         self.fields_eig_2 = Output(_get_output_spec_principal_invariants_fc(1), 1, op) 
-        super().__init__(_get_output_spec_principal_invariants_fc(), op)
         self.fields_eig_3 = Output(_get_output_spec_principal_invariants_fc(2), 2, op) 
 
 class _PrincipalInvariantsFc(_Operator):
@@ -619,9 +615,7 @@ class _OutputSpecInvariantsFc(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_invariants_fc(), op)
         self.fields_int = Output(_get_output_spec_invariants_fc(0), 0, op) 
-        super().__init__(_get_output_spec_invariants_fc(), op)
         self.fields_eqv = Output(_get_output_spec_invariants_fc(1), 1, op) 
-        super().__init__(_get_output_spec_invariants_fc(), op)
         self.fields_max_shear = Output(_get_output_spec_invariants_fc(2), 2, op) 
 
 class _InvariantsFc(_Operator):

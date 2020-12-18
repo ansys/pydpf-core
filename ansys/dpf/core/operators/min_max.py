@@ -41,7 +41,6 @@ class _OutputSpecMinMax(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_min_max(), op)
         self.field_min = Output(_get_output_spec_min_max(0), 0, op) 
-        super().__init__(_get_output_spec_min_max(), op)
         self.field_max = Output(_get_output_spec_min_max(1), 1, op) 
 
 class _MinMax(_Operator):
@@ -139,7 +138,6 @@ class _OutputSpecMinMaxFc(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_min_max_fc(), op)
         self.field_min = Output(_get_output_spec_min_max_fc(0), 0, op) 
-        super().__init__(_get_output_spec_min_max_fc(), op)
         self.field_max = Output(_get_output_spec_min_max_fc(1), 1, op) 
 
 class _MinMaxFc(_Operator):
@@ -234,14 +232,12 @@ class _InputSpecMinMaxOverLabelFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_min_max_over_label_fc(), op)
         self.fields_container = Input(_get_input_spec_min_max_over_label_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_min_max_over_label_fc(), op)
         self.label = Input(_get_input_spec_min_max_over_label_fc(1), 1, op, -1) 
 
 class _OutputSpecMinMaxOverLabelFc(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_min_max_over_label_fc(), op)
         self.field_min = Output(_get_output_spec_min_max_over_label_fc(0), 0, op) 
-        super().__init__(_get_output_spec_min_max_over_label_fc(), op)
         self.field_max = Output(_get_output_spec_min_max_over_label_fc(1), 1, op) 
 
 class _MinMaxOverLabelFc(_Operator):
@@ -340,11 +336,8 @@ class _InputSpecMinByComponent(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_min_by_component(), op)
         self.use_absolute_value = Input(_get_input_spec_min_by_component(0), 0, op, -1) 
-        super().__init__(_get_input_spec_min_by_component(), op)
         self.fieldA1 = Input(_get_input_spec_min_by_component(1), 1, op, 0) 
-        super().__init__(_get_input_spec_min_by_component(), op)
         self.fieldA2 = Input(_get_input_spec_min_by_component(2), 2, op, 0) 
-        super().__init__(_get_input_spec_min_by_component(), op)
         self.fieldB2 = Input(_get_input_spec_min_by_component(3), 3, op, -1) 
 
 class _OutputSpecMinByComponent(_Outputs):
@@ -450,11 +443,8 @@ class _InputSpecMaxByComponent(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_max_by_component(), op)
         self.use_absolute_value = Input(_get_input_spec_max_by_component(0), 0, op, -1) 
-        super().__init__(_get_input_spec_max_by_component(), op)
         self.fieldA1 = Input(_get_input_spec_max_by_component(1), 1, op, 0) 
-        super().__init__(_get_input_spec_max_by_component(), op)
         self.fieldA2 = Input(_get_input_spec_max_by_component(2), 2, op, 0) 
-        super().__init__(_get_input_spec_max_by_component(), op)
         self.fieldB2 = Input(_get_input_spec_max_by_component(3), 3, op, -1) 
 
 class _OutputSpecMaxByComponent(_Outputs):
@@ -561,7 +551,6 @@ class _OutputSpecMinMaxFcInc(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_min_max_fc_inc(), op)
         self.field_min = Output(_get_output_spec_min_max_fc_inc(0), 0, op) 
-        super().__init__(_get_output_spec_min_max_fc_inc(), op)
         self.field_max = Output(_get_output_spec_min_max_fc_inc(1), 1, op) 
 
 class _MinMaxFcInc(_Operator):
@@ -660,18 +649,14 @@ class _InputSpecMinMaxInc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_min_max_inc(), op)
         self.field = Input(_get_input_spec_min_max_inc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_min_max_inc(), op)
         self.domain_id = Input(_get_input_spec_min_max_inc(17), 17, op, -1) 
 
 class _OutputSpecMinMaxInc(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_min_max_inc(), op)
         self.field_min = Output(_get_output_spec_min_max_inc(0), 0, op) 
-        super().__init__(_get_output_spec_min_max_inc(), op)
         self.field_max = Output(_get_output_spec_min_max_inc(1), 1, op) 
-        super().__init__(_get_output_spec_min_max_inc(), op)
         self.domain_ids_min = Output(_get_output_spec_min_max_inc(2), 2, op) 
-        super().__init__(_get_output_spec_min_max_inc(), op)
         self.domain_ids_max = Output(_get_output_spec_min_max_inc(3), 3, op) 
 
 class _MinMaxInc(_Operator):

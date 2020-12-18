@@ -33,7 +33,6 @@ class _InputSpecLowPassFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_low_pass_fc(), op)
         self.fields_container = Input(_get_input_spec_low_pass_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_low_pass_fc(), op)
         self.threshold = Input(_get_input_spec_low_pass_fc(1), 1, op, -1) 
 
 class _OutputSpecLowPassFc(_Outputs):
@@ -133,9 +132,7 @@ class _InputSpecBandPassFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_band_pass_fc(), op)
         self.fields_container = Input(_get_input_spec_band_pass_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_band_pass_fc(), op)
         self.min_threshold = Input(_get_input_spec_band_pass_fc(1), 1, op, -1) 
-        super().__init__(_get_input_spec_band_pass_fc(), op)
         self.max_threshold = Input(_get_input_spec_band_pass_fc(2), 2, op, -1) 
 
 class _OutputSpecBandPassFc(_Outputs):
@@ -235,7 +232,6 @@ class _InputSpecHighPass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_high_pass(), op)
         self.field = Input(_get_input_spec_high_pass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_high_pass(), op)
         self.threshold = Input(_get_input_spec_high_pass(1), 1, op, -1) 
 
 class _OutputSpecHighPass(_Outputs):
@@ -333,7 +329,6 @@ class _InputSpecHighPassFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_high_pass_fc(), op)
         self.fields_container = Input(_get_input_spec_high_pass_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_high_pass_fc(), op)
         self.threshold = Input(_get_input_spec_high_pass_fc(1), 1, op, -1) 
 
 class _OutputSpecHighPassFc(_Outputs):
@@ -431,7 +426,6 @@ class _InputSpecLowPass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_low_pass(), op)
         self.field = Input(_get_input_spec_low_pass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_low_pass(), op)
         self.threshold = Input(_get_input_spec_low_pass(1), 1, op, -1) 
 
 class _OutputSpecLowPass(_Outputs):
@@ -531,9 +525,7 @@ class _InputSpecBandPass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_band_pass(), op)
         self.field = Input(_get_input_spec_band_pass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_band_pass(), op)
         self.min_threshold = Input(_get_input_spec_band_pass(1), 1, op, -1) 
-        super().__init__(_get_input_spec_band_pass(), op)
         self.max_threshold = Input(_get_input_spec_band_pass(2), 2, op, -1) 
 
 class _OutputSpecBandPass(_Outputs):

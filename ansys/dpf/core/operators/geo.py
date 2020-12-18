@@ -38,9 +38,7 @@ class _InputSpecMass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_mass(), op)
         self.mesh = Input(_get_input_spec_mass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_mass(), op)
         self.mesh_scoping = Input(_get_input_spec_mass(1), 1, op, -1) 
-        super().__init__(_get_input_spec_mass(), op)
         self.field = Input(_get_input_spec_mass(2), 2, op, -1) 
 
 class _OutputSpecMass(_Outputs):
@@ -140,7 +138,6 @@ class _InputSpecNormalsProviderNl(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_normals_provider_nl(), op)
         self.mesh = Input(_get_input_spec_normals_provider_nl(0), 0, op, -1) 
-        super().__init__(_get_input_spec_normals_provider_nl(), op)
         self.mesh_scoping = Input(_get_input_spec_normals_provider_nl(1), 1, op, -1) 
 
 class _OutputSpecNormalsProviderNl(_Outputs):
@@ -238,7 +235,6 @@ class _InputSpecToCylindricalCsFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_to_cylindrical_cs_fc(), op)
         self.field = Input(_get_input_spec_to_cylindrical_cs_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_to_cylindrical_cs_fc(), op)
         self.coordinate_system = Input(_get_input_spec_to_cylindrical_cs_fc(1), 1, op, -1) 
 
 class _OutputSpecToCylindricalCsFc(_Outputs):
@@ -338,9 +334,7 @@ class _InputSpecIntegrateOverElements(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_integrate_over_elements(), op)
         self.field = Input(_get_input_spec_integrate_over_elements(0), 0, op, -1) 
-        super().__init__(_get_input_spec_integrate_over_elements(), op)
         self.scoping = Input(_get_input_spec_integrate_over_elements(1), 1, op, -1) 
-        super().__init__(_get_input_spec_integrate_over_elements(), op)
         self.mesh = Input(_get_input_spec_integrate_over_elements(2), 2, op, -1) 
 
 class _OutputSpecIntegrateOverElements(_Outputs):
@@ -444,16 +438,13 @@ class _InputSpecCenterOfGravity(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_center_of_gravity(), op)
         self.mesh = Input(_get_input_spec_center_of_gravity(0), 0, op, -1) 
-        super().__init__(_get_input_spec_center_of_gravity(), op)
         self.mesh_scoping = Input(_get_input_spec_center_of_gravity(1), 1, op, -1) 
-        super().__init__(_get_input_spec_center_of_gravity(), op)
         self.field = Input(_get_input_spec_center_of_gravity(2), 2, op, -1) 
 
 class _OutputSpecCenterOfGravity(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_center_of_gravity(), op)
         self.field = Output(_get_output_spec_center_of_gravity(0), 0, op) 
-        super().__init__(_get_output_spec_center_of_gravity(), op)
         self.mesh = Output(_get_output_spec_center_of_gravity(1), 1, op) 
 
 class _CenterOfGravity(_Operator):
@@ -550,7 +541,6 @@ class _InputSpecToCylindricalCs(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_to_cylindrical_cs(), op)
         self.field = Input(_get_input_spec_to_cylindrical_cs(0), 0, op, -1) 
-        super().__init__(_get_input_spec_to_cylindrical_cs(), op)
         self.coordinate_system = Input(_get_input_spec_to_cylindrical_cs(1), 1, op, -1) 
 
 class _OutputSpecToCylindricalCs(_Outputs):
@@ -648,7 +638,6 @@ class _InputSpecRotate(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_rotate(), op)
         self.field = Input(_get_input_spec_rotate(0), 0, op, -1) 
-        super().__init__(_get_input_spec_rotate(), op)
         self.field_rotation_matrix = Input(_get_input_spec_rotate(1), 1, op, -1) 
 
 class _OutputSpecRotate(_Outputs):
@@ -746,7 +735,6 @@ class _InputSpecRotateFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_rotate_fc(), op)
         self.fields_container = Input(_get_input_spec_rotate_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_rotate_fc(), op)
         self.coordinate_system = Input(_get_input_spec_rotate_fc(1), 1, op, -1) 
 
 class _OutputSpecRotateFc(_Outputs):
@@ -846,9 +834,7 @@ class _InputSpecElementsVolumesOverTime(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_elements_volumes_over_time(), op)
         self.scoping = Input(_get_input_spec_elements_volumes_over_time(1), 1, op, -1) 
-        super().__init__(_get_input_spec_elements_volumes_over_time(), op)
         self.displacement = Input(_get_input_spec_elements_volumes_over_time(2), 2, op, -1) 
-        super().__init__(_get_input_spec_elements_volumes_over_time(), op)
         self.mesh = Input(_get_input_spec_elements_volumes_over_time(7), 7, op, -1) 
 
 class _OutputSpecElementsVolumesOverTime(_Outputs):
@@ -952,16 +938,13 @@ class _InputSpecElementsFacetsSurfacesOverTime(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_elements_facets_surfaces_over_time(), op)
         self.scoping = Input(_get_input_spec_elements_facets_surfaces_over_time(1), 1, op, -1) 
-        super().__init__(_get_input_spec_elements_facets_surfaces_over_time(), op)
         self.displacement = Input(_get_input_spec_elements_facets_surfaces_over_time(2), 2, op, -1) 
-        super().__init__(_get_input_spec_elements_facets_surfaces_over_time(), op)
         self.mesh = Input(_get_input_spec_elements_facets_surfaces_over_time(7), 7, op, -1) 
 
 class _OutputSpecElementsFacetsSurfacesOverTime(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_elements_facets_surfaces_over_time(), op)
         self.fields_container = Output(_get_output_spec_elements_facets_surfaces_over_time(0), 0, op) 
-        super().__init__(_get_output_spec_elements_facets_surfaces_over_time(), op)
         self.mesh = Output(_get_output_spec_elements_facets_surfaces_over_time(1), 1, op) 
 
 class _ElementsFacetsSurfacesOverTime(_Operator):
@@ -1152,9 +1135,7 @@ class _InputSpecElementNodalContribution(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_element_nodal_contribution(), op)
         self.mesh = Input(_get_input_spec_element_nodal_contribution(0), 0, op, -1) 
-        super().__init__(_get_input_spec_element_nodal_contribution(), op)
         self.scoping = Input(_get_input_spec_element_nodal_contribution(1), 1, op, -1) 
-        super().__init__(_get_input_spec_element_nodal_contribution(), op)
         self.volume_fraction = Input(_get_input_spec_element_nodal_contribution(2), 2, op, -1) 
 
 class _OutputSpecElementNodalContribution(_Outputs):
@@ -1258,11 +1239,8 @@ class _InputSpecMomentOfInertia(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_moment_of_inertia(), op)
         self.mesh = Input(_get_input_spec_moment_of_inertia(0), 0, op, -1) 
-        super().__init__(_get_input_spec_moment_of_inertia(), op)
         self.mesh_scoping = Input(_get_input_spec_moment_of_inertia(1), 1, op, -1) 
-        super().__init__(_get_input_spec_moment_of_inertia(), op)
         self.field = Input(_get_input_spec_moment_of_inertia(2), 2, op, -1) 
-        super().__init__(_get_input_spec_moment_of_inertia(), op)
         self.boolean = Input(_get_input_spec_moment_of_inertia(3), 3, op, -1) 
 
 class _OutputSpecMomentOfInertia(_Outputs):
@@ -1376,9 +1354,7 @@ class _InputSpecNormals(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_normals(), op)
         self.mesh = Input(_get_input_spec_normals(0), 0, op, -1) 
-        super().__init__(_get_input_spec_normals(), op)
         self.mesh_scoping = Input(_get_input_spec_normals(1), 1, op, -1) 
-        super().__init__(_get_input_spec_normals(), op)
         self.field = Input(_get_input_spec_normals(3), 3, op, -1) 
 
 class _OutputSpecNormals(_Outputs):

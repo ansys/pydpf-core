@@ -36,7 +36,6 @@ class _InputSpecWrapInTopology(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_wrap_in_topology(), op)
         self.mesh = Input(_get_input_spec_wrap_in_topology(0), 0, op, -1) 
-        super().__init__(_get_input_spec_wrap_in_topology(), op)
         self.id = Input(_get_input_spec_wrap_in_topology(1), 1, op, -1) 
 
 class _OutputSpecWrapInTopology(_Outputs):

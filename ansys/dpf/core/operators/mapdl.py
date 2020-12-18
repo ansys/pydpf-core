@@ -37,11 +37,8 @@ class _InputSpecRun(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_run(), op)
         self.mapdl_exe_path = Input(_get_input_spec_run(0), 0, op, -1) 
-        super().__init__(_get_input_spec_run(), op)
         self.working_dir = Input(_get_input_spec_run(1), 1, op, -1) 
-        super().__init__(_get_input_spec_run(), op)
         self.number_of_processes = Input(_get_input_spec_run(2), 2, op, -1) 
-        super().__init__(_get_input_spec_run(), op)
         self.data_sources = Input(_get_input_spec_run(4), 4, op, -1) 
 
 class _OutputSpecRun(_Outputs):
@@ -151,15 +148,10 @@ class _InputSpecNmisc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_nmisc(), op)
         self.time_scoping = Input(_get_input_spec_nmisc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_nmisc(), op)
         self.mesh_scoping = Input(_get_input_spec_nmisc(1), 1, op, -1) 
-        super().__init__(_get_input_spec_nmisc(), op)
         self.fields_container = Input(_get_input_spec_nmisc(2), 2, op, -1) 
-        super().__init__(_get_input_spec_nmisc(), op)
         self.streams_container = Input(_get_input_spec_nmisc(3), 3, op, -1) 
-        super().__init__(_get_input_spec_nmisc(), op)
         self.data_sources = Input(_get_input_spec_nmisc(4), 4, op, -1) 
-        super().__init__(_get_input_spec_nmisc(), op)
         self.mesh = Input(_get_input_spec_nmisc(7), 7, op, -1) 
 
 class _OutputSpecNmisc(_Outputs):
@@ -273,15 +265,10 @@ class _InputSpecSmisc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_smisc(), op)
         self.time_scoping = Input(_get_input_spec_smisc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_smisc(), op)
         self.mesh_scoping = Input(_get_input_spec_smisc(1), 1, op, -1) 
-        super().__init__(_get_input_spec_smisc(), op)
         self.fields_container = Input(_get_input_spec_smisc(2), 2, op, -1) 
-        super().__init__(_get_input_spec_smisc(), op)
         self.streams_container = Input(_get_input_spec_smisc(3), 3, op, -1) 
-        super().__init__(_get_input_spec_smisc(), op)
         self.data_sources = Input(_get_input_spec_smisc(4), 4, op, -1) 
-        super().__init__(_get_input_spec_smisc(), op)
         self.mesh = Input(_get_input_spec_smisc(7), 7, op, -1) 
 
 class _OutputSpecSmisc(_Outputs):

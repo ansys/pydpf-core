@@ -130,14 +130,12 @@ class _InputSpecIntersect(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_intersect(), op)
         self.scopingA = Input(_get_input_spec_intersect(0), 0, op, -1) 
-        super().__init__(_get_input_spec_intersect(), op)
         self.scopingB = Input(_get_input_spec_intersect(1), 1, op, -1) 
 
 class _OutputSpecIntersect(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_intersect(), op)
         self.intersection = Output(_get_output_spec_intersect(0), 0, op) 
-        super().__init__(_get_output_spec_intersect(), op)
         self.scopingA_min_intersection = Output(_get_output_spec_intersect(1), 1, op) 
 
 class _Intersect(_Operator):
@@ -240,15 +238,10 @@ class _InputSpecOnProperty(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_on_property(), op)
         self.requested_location = Input(_get_input_spec_on_property(0), 0, op, -1) 
-        super().__init__(_get_input_spec_on_property(), op)
         self.property_name = Input(_get_input_spec_on_property(1), 1, op, -1) 
-        super().__init__(_get_input_spec_on_property(), op)
         self.property_id = Input(_get_input_spec_on_property(2), 2, op, -1) 
-        super().__init__(_get_input_spec_on_property(), op)
         self.streams_container = Input(_get_input_spec_on_property(3), 3, op, -1) 
-        super().__init__(_get_input_spec_on_property(), op)
         self.data_sources = Input(_get_input_spec_on_property(4), 4, op, -1) 
-        super().__init__(_get_input_spec_on_property(), op)
         self.inclusive = Input(_get_input_spec_on_property(5), 5, op, -1) 
 
 class _OutputSpecOnProperty(_Outputs):
@@ -356,9 +349,7 @@ class _InputSpecTranspose(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_transpose(), op)
         self.mesh_scoping = Input(_get_input_spec_transpose(0), 0, op, -1) 
-        super().__init__(_get_input_spec_transpose(), op)
         self.meshed_region = Input(_get_input_spec_transpose(1), 1, op, -1) 
-        super().__init__(_get_input_spec_transpose(), op)
         self.inclusive = Input(_get_input_spec_transpose(2), 2, op, -1) 
 
 class _OutputSpecTranspose(_Outputs):
@@ -458,7 +449,6 @@ class _InputSpecLowPass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_low_pass(), op)
         self.field = Input(_get_input_spec_low_pass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_low_pass(), op)
         self.threshold = Input(_get_input_spec_low_pass(1), 1, op, -1) 
 
 class _OutputSpecLowPass(_Outputs):
@@ -562,13 +552,9 @@ class _InputSpecSplittedOnPropertyType(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_splitted_on_property_type(), op)
         self.mesh_scoping = Input(_get_input_spec_splitted_on_property_type(1), 1, op, -1) 
-        super().__init__(_get_input_spec_splitted_on_property_type(), op)
         self.mesh = Input(_get_input_spec_splitted_on_property_type(7), 7, op, -1) 
-        super().__init__(_get_input_spec_splitted_on_property_type(), op)
         self.requested_location = Input(_get_input_spec_splitted_on_property_type(9), 9, op, -1) 
-        super().__init__(_get_input_spec_splitted_on_property_type(), op)
         self.label1 = Input(_get_input_spec_splitted_on_property_type(13), 13, op, 0) 
-        super().__init__(_get_input_spec_splitted_on_property_type(), op)
         self.label2 = Input(_get_input_spec_splitted_on_property_type(14), 14, op, -1) 
 
 class _OutputSpecSplittedOnPropertyType(_Outputs):
@@ -672,7 +658,6 @@ class _InputSpecRescope(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_rescope(), op)
         self.fields_container = Input(_get_input_spec_rescope(0), 0, op, -1) 
-        super().__init__(_get_input_spec_rescope(), op)
         self.mesh_scoping = Input(_get_input_spec_rescope(1), 1, op, -1) 
 
 class _OutputSpecRescope(_Outputs):
@@ -776,13 +761,9 @@ class _InputSpecOnNamedSelection(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_on_named_selection(), op)
         self.requested_location = Input(_get_input_spec_on_named_selection(0), 0, op, -1) 
-        super().__init__(_get_input_spec_on_named_selection(), op)
         self.named_selection_name = Input(_get_input_spec_on_named_selection(1), 1, op, -1) 
-        super().__init__(_get_input_spec_on_named_selection(), op)
         self.int_inclusive = Input(_get_input_spec_on_named_selection(2), 2, op, -1) 
-        super().__init__(_get_input_spec_on_named_selection(), op)
         self.streams_container = Input(_get_input_spec_on_named_selection(3), 3, op, -1) 
-        super().__init__(_get_input_spec_on_named_selection(), op)
         self.data_sources = Input(_get_input_spec_on_named_selection(4), 4, op, -1) 
 
 class _OutputSpecOnNamedSelection(_Outputs):
@@ -890,16 +871,13 @@ class _InputSpecConnectivityIds(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_connectivity_ids(), op)
         self.mesh_scoping = Input(_get_input_spec_connectivity_ids(1), 1, op, -1) 
-        super().__init__(_get_input_spec_connectivity_ids(), op)
         self.mesh = Input(_get_input_spec_connectivity_ids(7), 7, op, -1) 
-        super().__init__(_get_input_spec_connectivity_ids(), op)
         self.take_mid_nodes = Input(_get_input_spec_connectivity_ids(10), 10, op, -1) 
 
 class _OutputSpecConnectivityIds(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_connectivity_ids(), op)
         self.mesh_scoping = Output(_get_output_spec_connectivity_ids(0), 0, op) 
-        super().__init__(_get_output_spec_connectivity_ids(), op)
         self.elemental_scoping = Output(_get_output_spec_connectivity_ids(1), 1, op) 
 
 class _ConnectivityIds(_Operator):
@@ -1088,7 +1066,6 @@ class _InputSpecChangeFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_change_fc(), op)
         self.fields_container = Input(_get_input_spec_change_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_change_fc(), op)
         self.scopings_container = Input(_get_input_spec_change_fc(1), 1, op, -1) 
 
 class _OutputSpecChangeFc(_Outputs):
@@ -1186,7 +1163,6 @@ class _InputSpecHighPass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_high_pass(), op)
         self.field = Input(_get_input_spec_high_pass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_high_pass(), op)
         self.threshold = Input(_get_input_spec_high_pass(1), 1, op, -1) 
 
 class _OutputSpecHighPass(_Outputs):
@@ -1286,9 +1262,7 @@ class _InputSpecBandPass(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_band_pass(), op)
         self.field = Input(_get_input_spec_band_pass(0), 0, op, -1) 
-        super().__init__(_get_input_spec_band_pass(), op)
         self.min_threshold = Input(_get_input_spec_band_pass(1), 1, op, -1) 
-        super().__init__(_get_input_spec_band_pass(), op)
         self.max_threshold = Input(_get_input_spec_band_pass(2), 2, op, -1) 
 
 class _OutputSpecBandPass(_Outputs):
@@ -1398,7 +1372,6 @@ class _InputSpecFromMesh(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_from_mesh(), op)
         self.mesh = Input(_get_input_spec_from_mesh(0), 0, op, -1) 
-        super().__init__(_get_input_spec_from_mesh(), op)
         self.requested_location = Input(_get_input_spec_from_mesh(1), 1, op, -1) 
 
 class _OutputSpecFromMesh(_Outputs):

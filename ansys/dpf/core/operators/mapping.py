@@ -36,7 +36,6 @@ class _InputSpecSolidToSkin(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_solid_to_skin(), op)
         self.field = Input(_get_input_spec_solid_to_skin(0), 0, op, -1) 
-        super().__init__(_get_input_spec_solid_to_skin(), op)
         self.mesh_scoping = Input(_get_input_spec_solid_to_skin(1), 1, op, -1) 
 
 class _OutputSpecSolidToSkin(_Outputs):
@@ -140,13 +139,9 @@ class _InputSpecOnCoordinates(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_on_coordinates(), op)
         self.fields_container = Input(_get_input_spec_on_coordinates(0), 0, op, -1) 
-        super().__init__(_get_input_spec_on_coordinates(), op)
         self.coordinates = Input(_get_input_spec_on_coordinates(1), 1, op, -1) 
-        super().__init__(_get_input_spec_on_coordinates(), op)
         self.create_support = Input(_get_input_spec_on_coordinates(2), 2, op, -1) 
-        super().__init__(_get_input_spec_on_coordinates(), op)
         self.mapping_on_scoping = Input(_get_input_spec_on_coordinates(3), 3, op, -1) 
-        super().__init__(_get_input_spec_on_coordinates(), op)
         self.mesh = Input(_get_input_spec_on_coordinates(7), 7, op, -1) 
 
 class _OutputSpecOnCoordinates(_Outputs):
@@ -250,7 +245,6 @@ class _InputSpecScopingOnCoordinates(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_scoping_on_coordinates(), op)
         self.coordinates = Input(_get_input_spec_scoping_on_coordinates(0), 0, op, -1) 
-        super().__init__(_get_input_spec_scoping_on_coordinates(), op)
         self.mesh = Input(_get_input_spec_scoping_on_coordinates(7), 7, op, -1) 
 
 class _OutputSpecScopingOnCoordinates(_Outputs):

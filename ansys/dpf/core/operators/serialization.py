@@ -130,9 +130,7 @@ class _InputSpecMechanicalCsvToField(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_mechanical_csv_to_field(), op)
         self.mesh = Input(_get_input_spec_mechanical_csv_to_field(1), 1, op, -1) 
-        super().__init__(_get_input_spec_mechanical_csv_to_field(), op)
         self.data_sources = Input(_get_input_spec_mechanical_csv_to_field(4), 4, op, -1) 
-        super().__init__(_get_input_spec_mechanical_csv_to_field(), op)
         self.requested_location = Input(_get_input_spec_mechanical_csv_to_field(9), 9, op, -1) 
 
 class _OutputSpecMechanicalCsvToField(_Outputs):
@@ -232,13 +230,12 @@ class _InputSpecFieldToCsv(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_field_to_csv(), op)
         self.field_or_fields_container = Input(_get_input_spec_field_to_csv(0), 0, op, -1) 
-        super().__init__(_get_input_spec_field_to_csv(), op)
         self.file_path = Input(_get_input_spec_field_to_csv(1), 1, op, -1) 
-        super().__init__(_get_input_spec_field_to_csv(), op)
         self.storage_type = Input(_get_input_spec_field_to_csv(2), 2, op, -1) 
 
 class _OutputSpecFieldToCsv(_Outputs):
     def __init__(self, op: _Operator):
+        super().__init__(_get_output_spec_field_to_csv(), op)
         pass 
 
 class _FieldToCsv(_Operator):
@@ -332,6 +329,7 @@ class _InputSpecDeserializer(_Inputs):
 
 class _OutputSpecDeserializer(_Outputs):
     def __init__(self, op: _Operator):
+        super().__init__(_get_output_spec_deserializer(), op)
         pass 
         pass 
 
@@ -425,7 +423,6 @@ class _InputSpecCsvToField(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_csv_to_field(), op)
         self.time_scoping = Input(_get_input_spec_csv_to_field(0), 0, op, -1) 
-        super().__init__(_get_input_spec_csv_to_field(), op)
         self.data_sources = Input(_get_input_spec_csv_to_field(4), 4, op, -1) 
 
 class _OutputSpecCsvToField(_Outputs):
@@ -535,15 +532,13 @@ class _InputSpecVtkExport(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_vtk_export(), op)
         self.file_path = Input(_get_input_spec_vtk_export(0), 0, op, -1) 
-        super().__init__(_get_input_spec_vtk_export(), op)
         self.mesh = Input(_get_input_spec_vtk_export(1), 1, op, -1) 
-        super().__init__(_get_input_spec_vtk_export(), op)
         self.fields1 = Input(_get_input_spec_vtk_export(2), 2, op, 0) 
-        super().__init__(_get_input_spec_vtk_export(), op)
         self.fields2 = Input(_get_input_spec_vtk_export(3), 3, op, -1) 
 
 class _OutputSpecVtkExport(_Outputs):
     def __init__(self, op: _Operator):
+        super().__init__(_get_output_spec_vtk_export(), op)
         pass 
 
 class _VtkExport(_Operator):

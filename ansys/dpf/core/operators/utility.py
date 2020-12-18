@@ -219,6 +219,7 @@ class _InputSpecHtmlDoc(_Inputs):
 
 class _OutputSpecHtmlDoc(_Outputs):
     def __init__(self, op: _Operator):
+        super().__init__(_get_output_spec_html_doc(), op)
         pass 
 
 class _HtmlDoc(_Operator):
@@ -401,7 +402,6 @@ class _InputSpecBindSupport(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_bind_support(), op)
         self.field = Input(_get_input_spec_bind_support(0), 0, op, -1) 
-        super().__init__(_get_input_spec_bind_support(), op)
         self.support = Input(_get_input_spec_bind_support(1), 1, op, -1) 
 
 class _OutputSpecBindSupport(_Outputs):
@@ -591,7 +591,6 @@ class _InputSpecChangeLocation(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_change_location(), op)
         self.field = Input(_get_input_spec_change_location(0), 0, op, -1) 
-        super().__init__(_get_input_spec_change_location(), op)
         self.new_location = Input(_get_input_spec_change_location(1), 1, op, -1) 
 
 class _OutputSpecChangeLocation(_Outputs):
@@ -783,9 +782,7 @@ class _InputSpecSetProperty(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_set_property(), op)
         self.field = Input(_get_input_spec_set_property(0), 0, op, -1) 
-        super().__init__(_get_input_spec_set_property(), op)
         self.property_name = Input(_get_input_spec_set_property(1), 1, op, -1) 
-        super().__init__(_get_input_spec_set_property(), op)
         self.property_value = Input(_get_input_spec_set_property(2), 2, op, -1) 
 
 class _OutputSpecSetProperty(_Outputs):
@@ -1068,6 +1065,7 @@ class _InputSpecTxtFileToDpf(_Inputs):
 
 class _OutputSpecTxtFileToDpf(_Outputs):
     def __init__(self, op: _Operator):
+        super().__init__(_get_output_spec_txt_file_to_dpf(), op)
         pass 
         pass 
 
@@ -1161,7 +1159,6 @@ class _InputSpecBindSupportFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_bind_support_fc(), op)
         self.fields_container = Input(_get_input_spec_bind_support_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_bind_support_fc(), op)
         self.support = Input(_get_input_spec_bind_support_fc(1), 1, op, -1) 
 
 class _OutputSpecBindSupportFc(_Outputs):
@@ -1269,7 +1266,6 @@ class _InputSpecChangeShellLayers(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_change_shell_layers(), op)
         self.fields_container = Input(_get_input_spec_change_shell_layers(0), 0, op, -1) 
-        super().__init__(_get_input_spec_change_shell_layers(), op)
         self.e_shell_layer = Input(_get_input_spec_change_shell_layers(1), 1, op, -1) 
 
 class _OutputSpecChangeShellLayers(_Outputs):

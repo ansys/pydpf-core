@@ -33,7 +33,6 @@ class _InputSpecOverallDot(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_overall_dot(), op)
         self.FieldA = Input(_get_input_spec_overall_dot(0), 0, op, -1) 
-        super().__init__(_get_input_spec_overall_dot(), op)
         self.FieldB = Input(_get_input_spec_overall_dot(1), 1, op, -1) 
 
 class _OutputSpecOverallDot(_Outputs):

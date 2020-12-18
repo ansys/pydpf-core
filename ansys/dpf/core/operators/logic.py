@@ -40,11 +40,8 @@ class _InputSpecIdenticalMeshes(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_identical_meshes(), op)
         self.meshA = Input(_get_input_spec_identical_meshes(0), 0, op, -1) 
-        super().__init__(_get_input_spec_identical_meshes(), op)
         self.meshB = Input(_get_input_spec_identical_meshes(1), 1, op, -1) 
-        super().__init__(_get_input_spec_identical_meshes(), op)
         self.small_value = Input(_get_input_spec_identical_meshes(2), 2, op, -1) 
-        super().__init__(_get_input_spec_identical_meshes(), op)
         self.tolerence = Input(_get_input_spec_identical_meshes(3), 3, op, -1) 
 
 class _OutputSpecIdenticalMeshes(_Outputs):
@@ -146,7 +143,6 @@ class _InputSpecComponentSelectorFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_component_selector_fc(), op)
         self.fields_container = Input(_get_input_spec_component_selector_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_component_selector_fc(), op)
         self.component_number = Input(_get_input_spec_component_selector_fc(1), 1, op, -1) 
 
 class _OutputSpecComponentSelectorFc(_Outputs):
@@ -246,9 +242,7 @@ class _InputSpecComponentSelector(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_component_selector(), op)
         self.field = Input(_get_input_spec_component_selector(0), 0, op, -1) 
-        super().__init__(_get_input_spec_component_selector(), op)
         self.component_number = Input(_get_input_spec_component_selector(1), 1, op, -1) 
-        super().__init__(_get_input_spec_component_selector(), op)
         self.default_value = Input(_get_input_spec_component_selector(2), 2, op, -1) 
 
 class _OutputSpecComponentSelector(_Outputs):
@@ -350,14 +344,12 @@ class _InputSpecIdenticalPropertyFields(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_identical_property_fields(), op)
         self.property_fieldA = Input(_get_input_spec_identical_property_fields(0), 0, op, -1) 
-        super().__init__(_get_input_spec_identical_property_fields(), op)
         self.property_fieldB = Input(_get_input_spec_identical_property_fields(1), 1, op, -1) 
 
 class _OutputSpecIdenticalPropertyFields(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_identical_property_fields(), op)
         self.are_identical = Output(_get_output_spec_identical_property_fields(0), 0, op) 
-        super().__init__(_get_output_spec_identical_property_fields(), op)
         self.informations = Output(_get_output_spec_identical_property_fields(1), 1, op) 
 
 class _IdenticalPropertyFields(_Operator):
@@ -458,18 +450,14 @@ class _InputSpecMergeFieldsByLabel(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_merge_fields_by_label(), op)
         self.fields_container = Input(_get_input_spec_merge_fields_by_label(0), 0, op, -1) 
-        super().__init__(_get_input_spec_merge_fields_by_label(), op)
         self.label = Input(_get_input_spec_merge_fields_by_label(1), 1, op, -1) 
-        super().__init__(_get_input_spec_merge_fields_by_label(), op)
         self.merged_field_support = Input(_get_input_spec_merge_fields_by_label(2), 2, op, -1) 
-        super().__init__(_get_input_spec_merge_fields_by_label(), op)
         self.sumMerge = Input(_get_input_spec_merge_fields_by_label(3), 3, op, -1) 
 
 class _OutputSpecMergeFieldsByLabel(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_merge_fields_by_label(), op)
         self.fields_container = Output(_get_output_spec_merge_fields_by_label(0), 0, op) 
-        super().__init__(_get_output_spec_merge_fields_by_label(), op)
         self.merged_field_support = Output(_get_output_spec_merge_fields_by_label(1), 1, op) 
 
 class _MergeFieldsByLabel(_Operator):
@@ -576,18 +564,14 @@ class _InputSpecIdenticalFields(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_identical_fields(), op)
         self.fieldA = Input(_get_input_spec_identical_fields(0), 0, op, -1) 
-        super().__init__(_get_input_spec_identical_fields(), op)
         self.fieldB = Input(_get_input_spec_identical_fields(1), 1, op, -1) 
-        super().__init__(_get_input_spec_identical_fields(), op)
         self.double_value = Input(_get_input_spec_identical_fields(2), 2, op, -1) 
-        super().__init__(_get_input_spec_identical_fields(), op)
         self.double_tolerance = Input(_get_input_spec_identical_fields(3), 3, op, -1) 
 
 class _OutputSpecIdenticalFields(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_identical_fields(), op)
         self.boolean = Output(_get_output_spec_identical_fields(0), 0, op) 
-        super().__init__(_get_output_spec_identical_fields(), op)
         self.message = Output(_get_output_spec_identical_fields(1), 1, op) 
 
 class _IdenticalFields(_Operator):
@@ -692,18 +676,14 @@ class _InputSpecIncludedFields(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_included_fields(), op)
         self.fieldA = Input(_get_input_spec_included_fields(0), 0, op, -1) 
-        super().__init__(_get_input_spec_included_fields(), op)
         self.fieldB = Input(_get_input_spec_included_fields(1), 1, op, -1) 
-        super().__init__(_get_input_spec_included_fields(), op)
         self.double_value = Input(_get_input_spec_included_fields(2), 2, op, -1) 
-        super().__init__(_get_input_spec_included_fields(), op)
         self.double_tolerance = Input(_get_input_spec_included_fields(3), 3, op, -1) 
 
 class _OutputSpecIncludedFields(_Outputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_output_spec_included_fields(), op)
         self.included = Output(_get_output_spec_included_fields(0), 0, op) 
-        super().__init__(_get_output_spec_included_fields(), op)
         self.message = Output(_get_output_spec_included_fields(1), 1, op) 
 
 class _IncludedFields(_Operator):
@@ -806,11 +786,8 @@ class _InputSpecIdenticalFc(_Inputs):
     def __init__(self, op: _Operator):
         super().__init__(_get_input_spec_identical_fc(), op)
         self.fields_containerA = Input(_get_input_spec_identical_fc(0), 0, op, -1) 
-        super().__init__(_get_input_spec_identical_fc(), op)
         self.fields_containerB = Input(_get_input_spec_identical_fc(1), 1, op, -1) 
-        super().__init__(_get_input_spec_identical_fc(), op)
         self.tolerance = Input(_get_input_spec_identical_fc(2), 2, op, -1) 
-        super().__init__(_get_input_spec_identical_fc(), op)
         self.small_value = Input(_get_input_spec_identical_fc(3), 3, op, -1) 
 
 class _OutputSpecIdenticalFc(_Outputs):
