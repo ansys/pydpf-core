@@ -63,7 +63,13 @@ class Plotter:
         fieldMax = minmaxOp.outputs.field_max()
         pyplot.plot(time_field.data,fieldMax.data,'r',label='Maximum')
         pyplot.plot(time_field.data,fieldMin.data,'b',label='Minimum')
-        pyplot.xlabel("time (s)")
+        unit = tfq.frequencies.unit
+        if unit == "Hz":
+            pyplot.xlabel("frequencies (Hz)")
+        elif unit == "s":
+            pyplot.xlabel("time (s)")
+        elif unit is not None:
+            pyplot.xlabel(unit)
         substr = fields_container[0].name.split("_")
         pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title( substr[0] + ": min/max values over time")
