@@ -4,6 +4,8 @@ from ansys import dpf
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core.plotter import Plotter as DpfPlotter
 from ansys.dpf import core
+import unittest
+import pytest
 
 
 def test_chart_plotter(plate_msup):
@@ -187,4 +189,49 @@ def test_plot_fields_on_mesh_scoping(multishells):
     mesh.plot(s[0])
 
 
+class SeveralTimeSteps(unittest.TestCase):
+    
+    @pytest.fixture(autouse=True)
+    def set_filepath(self, plate_msup):
+        self._filepath = plate_msup
+        
+    def test_throw_on_several_time_steps(self):
+        model = core.Model(self._filepath)
+        scoping = core.Scoping()
+        scoping.ids = list(range(3, len(model.metadata.time_freq_support.frequencies) + 1))
+        stress = model.results.displacement()
+        stress.inputs.time_scoping.connect(scoping)
+        fc = stress.outputs.fields_container()
+        mesh = model.metadata.meshed_region
+        self.assertRaises(Exception, mesh.plot, fc)
+        try:
+            mesh.plot(fc)
+        except Exception as e:
+            message = "Several time steps are contained in this fields container. Only one time-step result can be plotted."
+            e2 = Exception(message)
+            assert e.args == e2.args
+            assert type(e) == type(e2)
+            
+            
+class ComplexFile(unittest.TestCase):
+    
+    @pytest.fixture(autouse=True)
+    def set_filepath(self, complex_model):
+        self._filepath = complex_model
+        
+    def test_throw_complex_file(self):
+        model = core.Model(self._filepath)
+        stress = model.results.displacement()
+        fc = stress.outputs.fields_container()
+        mesh = model.metadata.meshed_region
+        self.assertRaises(Exception, mesh.plot, fc)
+        try:
+            mesh.plot(fc)
+        except Exception as e:
+            message = "Complex field can not be plotted. Use operators to get the amplitude or the result at a defined sweeping phase before plotting."
+            e2 = Exception(message)
+            assert e.args == e2.args
+            assert type(e) == type(e2)
+    
+    
     

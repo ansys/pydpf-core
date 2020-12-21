@@ -41,7 +41,7 @@ natures = Enum('natures', names)
 
 
 class locations:
-    """Contains python field types"""
+    """Contains Python field types"""
     none = "none"
 
     # data is one per element
@@ -70,6 +70,12 @@ class ShellLayers(Enum):
     NONELAYER = 5
     INDEPENDANTLAYER = 6
 
+
+class DefinitionLabels:
+    """Contains Python definition labels."""
+    time = "time"
+    complex = "complex"
+    
 
 def field_from_array(arr):
     """Creates DPF vector or scalar field from a numpy array or a

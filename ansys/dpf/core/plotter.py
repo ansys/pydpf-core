@@ -9,7 +9,7 @@ import sys
 import numpy as np
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import locations, ShellLayers
+from ansys.dpf.core.common import locations, ShellLayers, DefinitionLabels
 
 class Plotter:
     def __init__(self, mesh):
@@ -63,7 +63,13 @@ class Plotter:
         fieldMax = minmaxOp.outputs.field_max()
         pyplot.plot(time_field.data,fieldMax.data,'r',label='Maximum')
         pyplot.plot(time_field.data,fieldMin.data,'b',label='Minimum')
-        pyplot.xlabel("time (s)")
+        unit = tfq.frequencies.unit
+        if unit == "Hz":
+            pyplot.xlabel("frequencies (Hz)")
+        elif unit == "s":
+            pyplot.xlabel("time (s)")
+        elif unit is not None:
+            pyplot.xlabel(unit)
         substr = fields_container[0].name.split("_")
         pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title( substr[0] + ": min/max values over time")
@@ -96,8 +102,8 @@ class Plotter:
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
                 fields_container = dpf.core.FieldsContainer()
-                fields_container.add_label('time')
-                fields_container.add_field({'time':1}, field_or_fields_container)
+                fields_container.add_label(DefinitionLabels.time)
+                fields_container.add_field({DefinitionLabels.time:1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
         else:
@@ -105,13 +111,15 @@ class Plotter:
             
         #pre-loop to check if the there are several time steps
         labels = fields_container.get_label_space(0)
-        if "time" in labels.keys():
+        if DefinitionLabels.complex in labels.keys():
+            raise Exception("Complex field can not be plotted. Use operators to get the amplitude or the result at a defined sweeping phase before plotting.")
+        if DefinitionLabels.time in labels.keys():
             i = 1
             size = len(fields_container)
-            first_time = labels["time"]
+            first_time = labels[DefinitionLabels.time]
             while i < size:
                 label = fields_container.get_label_space(i)
-                if label["time"] != first_time:
+                if label[DefinitionLabels.time] != first_time:
                     raise Exception("Several time steps are contained in this fields container. Only one time-step result can be plotted.")
                 i += 1
         
