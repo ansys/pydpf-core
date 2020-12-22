@@ -19,7 +19,6 @@ from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.server import (start_local_server,
-                                   start_server_using_service_manager,
                                    _global_channel, connect_to_server)
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
