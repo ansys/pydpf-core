@@ -124,7 +124,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     """
 
     if ansys_path is None:
-        ansys_path = os.environ.get('ANSYS_PATH', find_ansys())
+        ansys_path = os.environ.get('AWP_ROOT211', find_ansys())
     if ansys_path is None:
         raise ValueError('Unable to automatically locate the ANSYS path.  '
                          'Manually enter one when starting the server or set it '
@@ -313,6 +313,7 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
     # verify ansys path 
 
     paths = ['/tp/IntelMKL/2020.0.166/winx64/',
+             '/tp/IntelCompiler/2019.3.203/winx64/',
              '/tp/hdf5/1.8.14/winx64/',
              '/tp/CFFSDK/lib/winx64']
 
