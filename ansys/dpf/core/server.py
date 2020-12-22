@@ -47,11 +47,22 @@ def _global_channel():
     return dpf.core.CHANNEL
 
 
-# def port_in_use(port):
-#     """Checks if a port is in use on localhost.  Returns True when
-#     port in use"""
-#     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sc:
-#         return sc.connect_ex(('localhost', port)) == 0
+def port_in_use(port, host=LOCALHOST):
+    """Returns True when a port is in use at the given host.
+
+    Must actually "bind" the address.  Just checking if we can create
+    a socket is insufficient as it's possible to run into permission
+    errors like:
+
+    - An attempt was made to access a socket in a way forbidden by its
+      access permissions.
+    """
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        try:
+            sock.bind((host, port))
+            return False
+        except:
+            return True
 
 
 def check_valid_ip(ip):
@@ -63,36 +74,9 @@ def check_valid_ip(ip):
 
 
 def close_servers():
-    if hasattr(dpf,'_server_instances'):
+    if hasattr(dpf, '_server_instances'):
         for server in dpf.core._server_instances:
             server.shutdown()
-
-
-def start_server_using_service_manager():
-    if dpf.core.module_exists("grpc_interceptor_headers") :
-        import grpc_interceptor_headers
-        from  grpc_interceptor_headers.header_manipulator_client_interceptor import header_adder_interceptor    
-    else:
-        raise ValueError('Module grpc_interceptor_headers is missing to use service manager, please install it using pip install grpc_interceptor_headers')
-        
-    service_manager_url = "http://"+ip+":8089/v1"
-    
-    definition = requests.get(url=service_manager_url + "/definitions/dpf").json()
-    rsp = requests.post(url=service_manager_url + "/jobs", json=definition)
-    job = rsp.json()
-    
-    dpf_task = job['taskGroups'][0]['tasks'][0]
-    dpf_service = dpf_task['services'][0]
-    dpf_service_name = dpf_service['name']
-    dpf_url = f"{dpf_service['host']}:{dpf_service['port']}"
-
-        
-    channel = channel = grpc.insecure_channel(dpf_url)
-    header_adder =  header_adder_interceptor('service-name', dpf_service_name)
-    intercept_channel = grpc.intercept_channel(channel, header_adder)
-    dpf.core.CHANNEL = intercept_channel
-    
-    dpf.core._server_instances.append(DpfJob(service_manager_url, dpf_service_name))
 
 
 def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
@@ -135,6 +119,10 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     while port in used_ports:
         port += 1
 
+    # verify port is free
+    while port_in_use(port):
+        port += 1
+
     server = None
     n_attempts = 10
     for _ in range(n_attempts):
@@ -153,21 +141,6 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
 
     dpf.core._server_instances.append(server)
     return server.port
-
-
-class DpfJob:
-    def __init__(self, service_manager_url, job_name):
-        self.sm_url = service_manager_url
-        self.job_name = job_name
-        
-    def shutdown(self):
-        requests.delete(url=self.sm_url + "/jobs/"+self.job_name)
-
-    def __del__(self):
-        try:
-            self.shutdown()
-        except:
-            pass
 
 
 class DpfServer:
@@ -221,7 +194,7 @@ class DpfServer:
             NotImplementedError('OS {os.name} not supported')
 
         channel = grpc.insecure_channel('%s:%d' % (ip, port))
-        BaseService(channel,timeout=1, load_operators=load_operators)
+        BaseService(channel, timeout=1, load_operators=load_operators)
 
         # assign to global channel when requested
         if as_global:
