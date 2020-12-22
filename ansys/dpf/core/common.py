@@ -6,25 +6,31 @@ import re
 
 from ansys.grpc.dpf import base_pb2 as base_pb2
 
+
 def camel_to_snake_case(name):
     return re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
 
+
 def remove_spaces(name):
     out = name.lower()
-    out = out.replace(" ", "_") 
-    out = out.replace("-", "_") 
+    out = out.replace(" ", "_")
+    out = out.replace("-", "_")
     return out
+
 
 def snake_to_camel_case(name):
     return ''.join(word.title() for word in name.split('_'))
 
+
 class smart_dict_camel(dict):
     def __missing__(self, key):
         return camel_to_snake_case(key)
-    
+
+
 class smart_dict_unit_system(dict):
     def __missing__(self, key):
         return 'unknown'
+
 
 names = [m.lower() for m in base_pb2.Type.keys()]
 names.append("fields_container")
@@ -35,7 +41,7 @@ natures = Enum('natures', names)
 
 
 class locations:
-    """Contains python field types"""
+    """Contains Python field types"""
     none = "none"
 
     # data is one per element
@@ -49,11 +55,27 @@ class locations:
 
     # one per time step
     time_freq = "TimeFreq_sets"
-    
-    #applies everywhere
-    overall="overall"
-            
 
+    #applies everywhere
+    overall = "overall"
+    
+    
+class ShellLayers(Enum):
+    """Contains shell layers types."""
+    TOP = 0
+    BOTTOM = 1
+    TOPBOTTOM = 2
+    MID = 3
+    TOPBOTTOMMID = 4
+    NONELAYER = 5
+    INDEPENDANTLAYER = 6
+
+
+class DefinitionLabels:
+    """Contains Python definition labels."""
+    time = "time"
+    complex = "complex"
+    
 
 def field_from_array(arr):
     """Creates DPF vector or scalar field from a numpy array or a
@@ -92,17 +114,8 @@ def field_from_array(arr):
     else:
         raise shp_err
 
-    # TODO: speedup, very inefficient
-    nentities = arr.shape[0]
-    ids=[]
-    field = Field(nentities=nentities, nature=nature)
+    n_entities = arr.shape[0]
+    field = Field(nentities=n_entities, nature=nature)
     field.data = arr
-        
-    for i in range(nentities):
-        ids.append(i+1)
-    
-    field.scoping.ids =ids
-
+    field.scoping.ids = np.arange(1, n_entities + 1)
     return field
-
-

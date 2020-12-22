@@ -172,7 +172,7 @@ class MeshedRegion:
             self._full_grid = self._as_vtk()
         return self._full_grid
     
-    def plot(self, field_or_fields_container=None, is3dplotting=False):
+    def plot(self, field_or_fields_container=None, notebook=None, shell_layers=None):
         """Plot the field/fields container on mesh.
         
         Parameters
@@ -180,22 +180,18 @@ class MeshedRegion:
         field_or_fields_container
             dpf.core.Field or dpf.core.FieldsContainer
             
-        is3dplotting (default: False)
-            bool, that specifies if the plotting is 3D or not
+        notebook (default: None)
+            bool, that specifies if the plotting is in the notebook (2D) or not (3D)
+            
+        shell_layers : core.ShellLayers, optional
+            Enum used to set the shell layers if the model to plot 
+            contains shell elements.
         """
         pl = _DpfPlotter(self)
-        if isinstance(field_or_fields_container, dpf.core.Field) or isinstance(field_or_fields_container, dpf.core.FieldsContainer):
-            fields_container = None
-            if isinstance(field_or_fields_container, dpf.core.Field):
-                fields_container = dpf.core.FieldsContainer()
-                fields_container.add_label('time')
-                fields_container.add_field({'time':1}, field_or_fields_container)
-            elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
-                fields_container = field_or_fields_container
-            pl.plot_contour(fields_container, not is3dplotting)
-        elif(field_or_fields_container is None):
-            pl.plot_mesh(not is3dplotting)
-
+        if field_or_fields_container is not None:
+            pl.plot_contour(field_or_fields_container, notebook, shell_layers)
+        else:
+            pl.plot_mesh(notebook)
 
 
 class Node:
@@ -303,9 +299,9 @@ class Element:
 
 class Nodes():
     """Class to encapsulate mesh nodes"""
-
     def __init__(self, mesh):
         self._mesh = mesh
+        self._mapping_id_to_index = None
 
     def __str__(self):
         return 'DPF Nodes object with %d nodes\n' % len(self)
@@ -389,13 +385,31 @@ class Nodes():
         request.nodal_property = meshed_region_pb2.COORDINATES
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(self._mesh._channel, field=fieldOut)
+    
+    
+    def _build_mapping_id_to_index(self):
+        """Return a mapping between ids and indeces of the entity."""
+        dic_out = {}
+        ids = self._mesh.nodes.scoping.ids
+        i = 0
+        for node_id in ids:
+            dic_out[node_id] = i
+            i += 1
+        return dic_out
+        
+    @property
+    def mapping_id_to_index(self):
+        if self._mapping_id_to_index is None:
+            self._mapping_id_to_index = self._build_mapping_id_to_index()
+        return self._mapping_id_to_index
 
 
 class Elements():
     """Class to encapsulate mesh elements"""
-
+    
     def __init__(self, mesh):
         self._mesh = mesh
+        self._mapping_id_to_index = None
 
     def __str__(self):
         return 'DPF Elements object with %d elements' % len(self)
@@ -523,10 +537,25 @@ class Elements():
         request.elemental_property = meshed_region_pb2.CONNECTIVITY
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(self._mesh._channel, field=fieldOut)
-    
 
     @property
     def n_elements(self):
         """Number of elements"""
         return self.scoping.size
+    
+    def _build_mapping_id_to_index(self):
+        """Return a mapping between ids and indeces of the entity."""
+        dic_out = {}
+        ids = self._mesh.elements.scoping.ids
+        i = 0
+        for element_id in ids:
+            dic_out[element_id] = i
+            i += 1
+        return dic_out
+        
+    @property
+    def mapping_id_to_index(self):
+        if self._mapping_id_to_index is None:
+            self._mapping_id_to_index = self._build_mapping_id_to_index()
+        return self._mapping_id_to_index
 

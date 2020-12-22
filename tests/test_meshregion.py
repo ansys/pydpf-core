@@ -154,3 +154,48 @@ def test_delete_auto_meshedregion(simple_bar):
     del meshOut
     with pytest.raises(Exception):
         meshOut2.get_element_type(1)
+        
+        
+def test_id_indeces_mapping_on_nodes_1(multishells):
+    model = dpf.core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    mapping = mesh.nodes.mapping_id_to_index
+    nodes = mesh.nodes
+    assert len(mapping) == len(nodes)
+    assert len(nodes)  == 7079
+    assert mapping[995] == 994
+    assert mapping[500] == 499
+    
+
+def test_id_indeces_mapping_on_nodes_2(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    mapping = mesh.nodes.mapping_id_to_index
+    nodes = mesh.nodes
+    assert len(mapping) == len(nodes)
+    assert len(nodes)  == 15129
+    assert mapping[20] == 19
+    assert mapping[9008] == 9007
+    assert mapping[12346] == 12345
+
+
+def test_id_indeces_mapping_on_elements_1(multishells):
+    model = dpf.core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    mapping = mesh.elements.mapping_id_to_index
+    elements = mesh.elements
+    assert len(mapping) == len(elements)
+    assert len(elements)  == 4220
+    assert mapping[2500] == 2895
+    assert mapping[1999] == 191
+
+
+def test_id_indeces_mapping_on_elements_2(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    mapping = mesh.elements.mapping_id_to_index
+    elements = mesh.elements
+    assert len(mapping) == len(elements)
+    assert len(elements)  == 10292
+    assert mapping[23] == 24
+    assert mapping[4520] == 2011

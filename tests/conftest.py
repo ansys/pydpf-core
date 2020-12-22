@@ -82,6 +82,18 @@ def simple_rst():
 
 
 @pytest.fixture()
+def multishells():
+    """Resolve the path of the "rst_operators/multishells.rst" result file."""
+    return resolve_test_file('multishells.rst', 'rst_operators')
+
+
+@pytest.fixture()
+def complex_model():
+    """Resolve the path of the "complex/fileComplex.rst" result file."""
+    return resolve_test_file('fileComplex.rst', 'complex')
+
+
+@pytest.fixture()
 def plate_msup():
     """Resolve the path of the "msup/plate1.rst" result file.
 
