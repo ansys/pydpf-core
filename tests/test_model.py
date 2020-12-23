@@ -55,11 +55,9 @@ def test_print_model(simple_bar_model):
     print(simple_bar_model)
 
 
-# TODO: Many of the field plot functions are broken.
-@pytest.mark.skipif(True, reason="Many of the field plot functions are broken...")
-@pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
-def test_displacements_plot(simple_bar_model):
-    from pyvista import CameraPosition
-    disp = simple_bar_model.results.displacement()
-    cpos = disp.outputs.fields_container()[0].plot('x')
-    assert isinstance(cpos, CameraPosition)
+# @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
+# def test_displacements_plot(simple_bar_model):
+#     from pyvista import CameraPosition
+#     disp = simple_bar_model.results.displacement()
+#     cpos = disp.outputs.fields_container()[0].plot('x')
+#     assert isinstance(cpos, CameraPosition)

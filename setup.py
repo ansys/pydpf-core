@@ -27,6 +27,7 @@ setup(
     packages=['ansys.dpf.core'],
     author='Camille Bellot, Ramdane Lagha',
     version=__version__,
+    
     description='DPF Python gRPC client',
     license='MIT',
     classifiers=[

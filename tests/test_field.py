@@ -3,6 +3,7 @@ import pytest
 import numpy as np
 
 from ansys import dpf
+from ansys.dpf.core.common import ShellLayers
 
 # # true when running on Azure Virtual enviornment on windows
 # ON_WINDOWS_AZURE = False
@@ -238,6 +239,24 @@ def test_mesh_support_field(allkindofcomplexity):
     mesh = f.meshed_region
     assert len(mesh.nodes.scoping) == 15129
     assert len(mesh.elements.scoping) == 10292
+    
+
+def test_shell_layers_1(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    stress = model.results.stress()
+    f = stress.outputs.fields_container()[0]
+    assert f.shell_layers == ShellLayers.TOPBOTTOMMID
+    model = dpf.core.Model(allkindofcomplexity)
+    disp = model.results.displacement()
+    f = disp.outputs.fields_container()[0]
+    assert f.shell_layers == ShellLayers.INDEPENDANTLAYER
+    
+    
+def test_shell_layers_2(velocity_acceleration):    
+    model = dpf.core.Model(velocity_acceleration)
+    stress = model.results.stress()
+    f = stress.outputs.fields_container()[0]
+    assert f.shell_layers == ShellLayers.NONELAYER
 
 
 # @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')

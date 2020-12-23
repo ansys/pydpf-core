@@ -1,18 +1,25 @@
-# python temp files
-__pycache__/
-
-# spyder
+/__pycache__
+/.pytest_cache
 /.spyproject
 
-# testing
-.pytest_cache
-.coverage
-test-output.xml
+#tests
+__pycache__
+/tests/.pytest_cache
 
-# other
+#ansys/dpf
+/ansys/dpf/__pycache__
+
+#ansys/dpf/core
+/ansys/dpf/core/__pycache__
+
+#operators
+/ansys/dpf/core/operators/__pycache__
+
+#other
 /perso
+.ipynb_checkpoints/
 
-# Documentation
+# compiled documentation
 docs/build
 docs/source/examples
 
@@ -30,5 +37,6 @@ flycheck*
 # docker bin
 docker/v211
 
-# jupyterlab
-.ipynb_checkpoints/
+# pytest -coverage
+.coverage
+test-output.xml
