@@ -312,10 +312,10 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
 
     # verify ansys path 
 
-    paths = ['/tp/IntelMKL/2020.0.166/winx64/',
-             '/tp/IntelCompiler/2019.3.203/winx64/',
-             '/tp/hdf5/1.8.14/winx64/',
-             '/tp/CFFSDK/lib/winx64']
+    paths = [r'\tp\IntelMKL\2020.0.166\winx64\\',
+             r'\tp\IntelCompiler\2019.3.203\winx64\\',
+             r'\tp\hdf5\1.8.14\winx64\\',
+             r'\tp\CFFSDK\lib\winx64']
 
     add_path = ';'.join([ansys_path + path for path in paths])
     run_cmd = f'Ans.Dpf.Grpc.exe --address {ip} --port {port}'
@@ -335,7 +335,7 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
     env = dict(os.environ)
-    env['PATH'] = env['PATH'] + add_path
+    env['PATH'] = add_path + env['PATH']
     process = subprocess.Popen(run_cmd, env=env,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
