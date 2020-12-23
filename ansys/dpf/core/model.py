@@ -138,7 +138,7 @@ class Results:
         self._result_info = model.metadata.result_info
         self._model = model
         self._connect_operators()
-    
+
     def __operator_with_sub_res(self, name, sub_results):
         """Returns an operator and binds it with other operators for its subresults
         Dynamically add operators instanciation for subresults 

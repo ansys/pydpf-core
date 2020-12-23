@@ -14,6 +14,7 @@ test-output.xml
 
 # Documentation
 docs/build
+docs/source/examples
 
 # pip files
 *.egg-info
