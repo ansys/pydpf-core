@@ -11,12 +11,16 @@ as `ansys.dpf.core` takes care of launching all the services required
 to start post-processing ANSYS files.
 
 First, import the DPF-Core module as `dpf_core` and also import the
-included examples file.  Next, open an example 
+included examples file.
 
-Then print out the `model` object, 
+
 """
+
 from ansys.dpf import core as dpf_core
 from ansys.dpf.core import examples
 
+###############################################################################
+# Next, open an example and then print out the ``model`` object
+#
 model = dpf_core.Model(examples.simple_bar)
 print(model)

@@ -1,9 +1,8 @@
 .. _dpf_model_functions_ref:
 
-PyANSYS DPF Documentation
-=========================
-This is a basic draft of the source documentation.  It is meant to be
-paired with live Jupyterlab notebooks and is for reference only.
+API Reference
+=============
+Details of the DPF API.
 
 
 Model Class
@@ -41,7 +40,7 @@ Wrapped Operators
 These operators are available as functions from ``dpf.operators`` and
 simplify the creation of new chained operators.
 
-.. automodule:: ansys.dpf.core.operators
+ .. automodule:: ansys.dpf.core.operators_helper
     :members:
 
 

@@ -1,0 +1,40 @@
+body {
+ /* font-size: 100%; */
+ /* font-family: Arial; */
+ font-family: 'Source Sans Pro Light', sans-serif;
+ color: black;
+ /* font-weight: 400; */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* color: #ffb71b; */
+    /* color: black; */
+    color: #3972a1;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+
+.sig-prename {
+    color: #ffb71b;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.sig-name {
+    color: #ffb71b;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.docutils {
+    color: #ffb71b;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+@font-face {
+    font-family: "Source Sans Pro Light";
+    src: url(../fonts/SourceSansPro-Light.ttf);
+}
+
+@font-face {
+    font-family: "Source Sans Pro";
+    src: url(../fonts/SourceSansPro-Regular.ttf);
+}

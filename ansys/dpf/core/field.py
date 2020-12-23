@@ -28,12 +28,6 @@ class Field:
 
     field : ansys.grpc.dpf.field_pb2.Field, optional
         Field message generated from a grpc stub.
-
-    Attributes
-    ----------
-    data : data of the field
-
-    scoping : ids used to link the field to its support (often a meshedregion)
     """
 
     def __init__(self, nentities=0,
@@ -140,10 +134,13 @@ class Field:
         
         Warning
         -------
-        Regarding the interactions with the GRPc server, this can be slower than:
+        Regarding the interactions with the gRPC server, this can be
+        slower than:
+
         >>> mesh = model.metadata.meshed_region
         >>> mesh.plot(field)
-        Better use the previous lines.  
+
+        Better use the previous lines.
         
         Parameters
         ----------         
@@ -158,7 +155,7 @@ class Field:
         pl.plot_contour(self, notebook, shell_layers)
     
     def resize(self, nentities, datasize):
-        """allocate memory
+        """Allocate memory.
 
         Parameters
         ----------
@@ -196,21 +193,6 @@ class Field:
         out = self._stub.GetFieldDefinition(request)
         return out.name
 
-    def _set_data(self, data):
-        """
-        Parameters
-        ----------
-        data : list of double or array
-        """
-        if isinstance(data,  (np.ndarray, np.generic)):
-            if data.shape !=  self.shape and data.size != self.size:
-                raise ValueError(f'an array of shape {self.shape} is expected and shape {data.shape} is in input')
-            else:
-                data = data.reshape(data.size).tolist()
-        request = field_pb2.UpdateDataRequest()
-        request.data_containers.data.datadouble.rep_double.extend(data)
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateData(request)
 
     def get_entity_data(self, index):
         """
@@ -286,9 +268,9 @@ class Field:
         request.field.CopyFrom(self._message)
         self._stub.UpdateScoping(request)
 
-    def _get_data(self):
-        """
-        Returns all the data of the field
+    @property
+    def data(self):
+        """Returns all the data of the field
         
         Returns
         -------
@@ -321,6 +303,24 @@ class Field:
             arr =arr.reshape(self.shape)
 
         return arr
+
+    @data.setter
+    def data(self, data):
+        """Set the data of the field.
+
+        Parameters
+        ----------
+        data : list of double or array
+        """
+        if isinstance(data,  (np.ndarray, np.generic)):
+            if data.shape !=  self.shape and data.size != self.size:
+                raise ValueError(f'an array of shape {self.shape} is expected and shape {data.shape} is in input')
+            else:
+                data = data.reshape(data.size).tolist()
+        request = field_pb2.UpdateDataRequest()
+        request.data_containers.data.datadouble.rep_double.extend(data)
+        request.field.CopyFrom(self._message)
+        self._stub.UpdateData(request)
 
     @property
     def elementary_data_count(self):
@@ -408,9 +408,6 @@ class Field:
             raise ValueError('DPF only the value is "2" suppported')
         return dpf.core.operators_helper.sqr(self)
 
-    def _del_data(self):
-        pass
-
     def _del_scoping(self, scoping):
         scoping.__del__()
 
@@ -425,7 +422,6 @@ class Field:
         return field_pb2_grpc.FieldServiceStub(self._channel)
 
     # TOOD: Consider writing out setters and getters
-    data = property(_get_data, _set_data, _del_data, "data")
     scoping = property(_get_scoping, _set_scoping, _del_scoping, "scoping")
 
     @property

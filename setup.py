@@ -24,10 +24,10 @@ readme_file = os.path.join(filepath, 'README.md')
 
 setup(
     name='ansys-dpf-core',
-    packages=['ansys.dpf.core'],
+    packages=['ansys.dpf.core', 'ansys.dpf.core.examples'],
     author='Camille Bellot, Ramdane Lagha',
     version=__version__,
-    
+
     description='DPF Python gRPC client',
     license='MIT',
     classifiers=[
