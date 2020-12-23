@@ -51,6 +51,8 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
 ]
 
+autosummary_generate = True
+
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -118,7 +120,7 @@ html_theme = 'pydata_sphinx_theme'
 # html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # zerovm-sphinx-theme
 
-html_logo = '_static/logo_white.png'
+html_logo = '_static/pyansys-logo-black-cropped.png'
 
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -127,7 +129,8 @@ html_logo = '_static/logo_white.png'
 #
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
-    "show_toc_level": 1,
+    # "show_toc_level": 1,
+    # "show_prev_next": False
 }
 
 
@@ -145,8 +148,7 @@ html_css_files = ['css/ansys.css']
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-# html_sidebars = {}
-
+html_sidebars = {}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
