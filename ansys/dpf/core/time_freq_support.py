@@ -56,7 +56,7 @@ class TimeFreqSupport:
         cum_index = 1
         for loadstep in range(len(field_freq.scoping.ids)) :
             substeps = field_freq.get_entity_data(loadstep).tolist()
-            if rpms is notNone:
+            if rpms is not None:
                 rpm = rpms.get_entity_data(loadstep)
             if harmonic_indeces is not None:
                 hi = harmonic_indeces.get_entity_data(loadstep)
