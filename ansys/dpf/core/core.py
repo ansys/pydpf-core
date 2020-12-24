@@ -80,12 +80,14 @@ class BaseService():
 
         Examples
         --------
-        Load the mapdl operators for linux
+        Load the mapdl operators for Linux
+
         >>> from ansys import dpf
         >>> base = dpf.core.BaseService()
         >>> base.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
 
-        Load a new operators libary
+        Load a new operators library
+
         >>> base.load_library('someNewOperators.so', 'new_operators')
 
         """

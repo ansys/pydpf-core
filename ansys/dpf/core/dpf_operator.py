@@ -49,40 +49,41 @@ class Operator:
     """
 
     def __init__(self, name, channel=None):
-        """Intialize the operator with its name by connecting to a
+        """Initialize the operator with its name by connecting to a
         stub.
         """
         if channel is None:
-            channel = server._global_channel()   
-            
+            channel = server._global_channel()
+
         self.name = name
         self._channel = channel
         self._stub = self._connect()
-        
+
         self._message = None
         self._description = None
         self.inputs = None
         self.outputs = None
         try:
             self.__send_init_request()
-            
+
             # add dynamic inputs
             if len(self._message.spec.map_input_pin_spec) > 0:
                 self.inputs = Inputs(self._message.spec.map_input_pin_spec, self)
             if len(self._message.spec.map_output_pin_spec)!=0:
                 self.outputs = Outputs(self._message.spec.map_output_pin_spec, self)
             self._description = self._message.spec.description
-            
+
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.INVALID_ARGUMENT:
                 print ("invalid operator name")
-        
 
     def _add_sub_res_operators(self, sub_results):        
-        """Dynamically add operators instanciation for subresults 
-        (the new operators subresults are connected to the parent operator's inputs when created,
-        but are, then, completly independent of the parent operator's)
-        
+        """Dynamically add operators instantiating for sub-results.
+
+        The new operators subresults are connected to the parent
+        operator's inputs when created, but are, then, completely
+        independent of the parent operators.
+
         Examples
         --------
         disp_oper = model.displacement()
@@ -150,10 +151,10 @@ class Operator:
         Parameters
         ----------
         pin : int, optional
-            Number of the ouput pin
+            Number of the output pin.
 
         output_type : core.type enum, optional
-            the requested type on the output
+            The requested type of the output.
         """
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(self._message)

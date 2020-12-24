@@ -9,26 +9,24 @@ class MeshedRegion:
     """A class used to represent a Mesh"""
 
     def __init__(self, mesh, channel=None):
-        """
-        Intialize the mesh with MeshedRegion message
+        """Initialize the mesh with MeshedRegion message
 
         Parameters
         ----------
         mesh : ansys.grpc.dpf.meshed_region_pb2.MeshedRegion
-        
+
         Attributes
         ----------
         nodes : ansys.dpf.core.meshed_region.Nodes
             Entity containing all the nodal properties
-        
+
         elements : ansys.dpf.core.meshed_region.Elements
             Entity containing all the elemental properties
         """
-        
+
         if channel is None:
-            channel = dpf.core._global_channel()       
-        
-        
+            channel = dpf.core._global_channel()
+
         if isinstance(mesh, MeshedRegion):
             self._message = mesh._mesh
         elif isinstance(mesh, meshed_region_pb2.MeshedRegion):
@@ -36,7 +34,7 @@ class MeshedRegion:
         else:
             self._message=meshed_region_pb2.MeshedRegion()
             self._message.id = mesh.id
-                
+
         self._channel = channel
         self._stub = self._connect()
         self._full_grid = None
@@ -71,11 +69,9 @@ class MeshedRegion:
     @property
     def nodes(self):
         """ returns instance of Nodes which contains all the nodal properties"""
-        if self._nodes == None:
-            self._nodes= Nodes(self)
+        if self._nodes is None:
+            self._nodes = Nodes(self)
         return self._nodes
-    
-    
 
     @property
     def unit(self):
@@ -385,10 +381,9 @@ class Nodes():
         request.nodal_property = meshed_region_pb2.COORDINATES
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(self._mesh._channel, field=fieldOut)
-    
-    
+
     def _build_mapping_id_to_index(self):
-        """Return a mapping between ids and indeces of the entity."""
+        """Return a mapping between ids and indices of the entity."""
         dic_out = {}
         ids = self._mesh.nodes.scoping.ids
         i = 0
@@ -396,7 +391,7 @@ class Nodes():
             dic_out[node_id] = i
             i += 1
         return dic_out
-        
+
     @property
     def mapping_id_to_index(self):
         if self._mapping_id_to_index is None:
@@ -406,7 +401,7 @@ class Nodes():
 
 class Elements():
     """Class to encapsulate mesh elements"""
-    
+
     def __init__(self, mesh):
         self._mesh = mesh
         self._mapping_id_to_index = None
@@ -542,9 +537,9 @@ class Elements():
     def n_elements(self):
         """Number of elements"""
         return self.scoping.size
-    
+
     def _build_mapping_id_to_index(self):
-        """Return a mapping between ids and indeces of the entity."""
+        """Return a mapping between ids and indices of the entity."""
         dic_out = {}
         ids = self._mesh.elements.scoping.ids
         i = 0
@@ -552,10 +547,9 @@ class Elements():
             dic_out[element_id] = i
             i += 1
         return dic_out
-        
+
     @property
     def mapping_id_to_index(self):
         if self._mapping_id_to_index is None:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
-

@@ -14,7 +14,7 @@ getting a licensed copy of Ansys.
    docker
 
 
-Compatability
+Compatibility
 ~~~~~~~~~~~~~
 As of 20201R1, DPF supports Windows 10 and CentOS 7 and newer.  For
 more details, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.

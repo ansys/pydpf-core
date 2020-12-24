@@ -9,35 +9,6 @@ from ansys.dpf.core.common import types
 
 from grpc._channel import _InactiveRpcError
 
-# BASE_RST_OP_DOC = """
-
-# Parameters
-# ----------
-# time_scoping : int or list, optional
-#     Index of the results requested.  One based indexing.  Defaults to
-#     last result.
-
-# mesh_entities_scoping : mesh_entities_scoping
-#     Mesh entities scoping, unordered_map id to index (optional) (index
-#     is optional, to be set if a user wants the results at a given
-#     order)
-
-# fields_container : fields_container, optional
-#     Fields container to update/create and set as output.
-
-# streams : result file container, optional
-#     Results file container
-
-# solution_cs : bool, optional
-#     If False get the results in the solution CS.
-
-# Returns
-# -------
-# oper : ansys.Operator
-#     Operator containing a field container matching the number of
-#     result sets.
-# """
-
 
 class Model():
     """This class connects to a gRPC DPF server and allows you to
@@ -140,33 +111,34 @@ class Results:
         self._connect_operators()
 
     def __operator_with_sub_res(self, name, sub_results):
-        """Returns an operator and binds it with other operators for its subresults
-        Dynamically add operators instanciation for subresults 
-        (the new operators subresults are connected to the parent operator's inputs when created,
-        but are, then, completly independent of the parent operator's)
-        
+        """Dynamically add operators for subresults.
+
+        The new operators sub-results are connected to the parent
+        operator's inputs when created, but are then completely
+        independent of the parent operator.
+
         Parameters
         ----------
         name : str
             Operator name.  Must be a valid operator name.
-            
+
         sub_results : list
-        
+
         Examples
         --------
         disp_oper = model.displacement()
         generates: model.displacement().X() model.displacement().Y() model.displacement().Z()
-        
-        
         """
         op= self._model.operator(name)
         op._add_sub_res_operators(sub_results)
         return op
-    
+
     def _connect_operators(self):
-        """Dynamically add operators instanciation for results 
-        (the new operators subresults are connected to the model's streams)
-        
+        """Dynamically add operators for results.
+
+        The new operators subresults are connected to the model's
+        streams.
+
         Examples
         --------
         generated: model.displacement(), model.stress()...

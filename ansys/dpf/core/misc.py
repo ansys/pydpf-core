@@ -5,7 +5,7 @@ import os
 from pkgutil import iter_modules
 
 
-# ANSYS CPython workbench enviornment may not have scooby installed
+# ANSYS CPython workbench environment may not have scooby installed
 try:
     from scooby import Report as ScoobyReport
 except ImportError:
@@ -94,14 +94,23 @@ def find_ansys():
     """Searches for ansys path within the standard install location
     and returns the path of the latest version.
 
-    Reutrns
+    Returns
     -------
     ansys_path : str
         Full path to ANSYS.  For example, on windows:
-        'C:\\Program Files\\ANSYS Inc\\v211'
 
-        On Linux:
-        '/ansys_inc/v211'
+    Examples
+    --------
+    Within Windows
+
+    >>> from ansys.dpf.core.misc import find_ansys
+    >>> find_ansys()
+    C:\Program Files\ANSYS Inc\v211
+
+    Within Linux
+
+    >>> find_ansys()
+    /ansys_inc/v211
     """
     base_path = None
     if os.name == 'nt':

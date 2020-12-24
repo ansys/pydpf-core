@@ -1,10 +1,9 @@
 import os
 import socket
 
-
 from ansys.dpf.core._version import __version__
 
-# enviornmental variables for pyansys.com
+# environment variables for pyansys.com
 if 'jupyter' in socket.gethostname():
     if 'ANSYS_PATH' not in os.environ:
         os.environ['ANSYS_PATH'] = '/mnt/ansys_inc/v212/'

@@ -16,11 +16,10 @@ class FieldsContainer(Collection):
     channel : channel, optional
         Channel connected to the remote or local instance. When
         ``None``, attempts to use the the global channel.
-
     """
 
     def __init__(self, fields_container=None, channel=None):
-        """Intialize the scoping with either optional scoping message,
+        """Initialize the scoping with either optional scoping message,
         or by connecting to a stub.
         """
         if channel is None:
@@ -55,9 +54,8 @@ class FieldsContainer(Collection):
             label_space["time"] = timeid
         if complexid is not None:
             label_space["complex"] = complexid
-            
+
         return super()._get_entries(label_space)
-   
 
     def get_fields(self, label_space_or_index):
         """Returns the fields at a requested index or scoping
@@ -68,15 +66,14 @@ class FieldsContainer(Collection):
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
             or Index of the field.
-            
+
         Returns
         -------
         fields : list of fields or field (if only one)
             fields corresponding to the request
         """
-    
         return super()._get_entries(label_space_or_index)
-    
+
     def __getitem__(self, key):
         """Returns the field at a requested index
 
@@ -90,13 +87,10 @@ class FieldsContainer(Collection):
         field : Field
             field corresponding to the request
         """
-        field= super().__getitem__(key)
-        
-        return field
-    
-    
+        return super().__getitem__(key)
+
     def add_field(self, label_space, field):
-        """Update or add the field at a requested scoping
+        """Update or add the field at a requested scoping.
 
         parameters
         ----------
@@ -140,8 +134,7 @@ class FieldsContainer(Collection):
         comp_select.connect(0,self)
         comp_select.connect(1,index)
         return comp_select.outputs.fields_container.get_data()
-    
+
     @property
     def time_freq_support(self):
         return self._get_time_freq_support()
-    

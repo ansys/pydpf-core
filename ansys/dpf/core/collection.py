@@ -52,7 +52,7 @@ class Collection:
         Parameters
         ----------
         labels (optional) : list(string)
-            labels on which the enntries will be scoped, for example:
+            labels on which the entries will be scoped, for example:
                 ['time','complex']
 
         """
@@ -65,14 +65,16 @@ class Collection:
         self._stub.UpdateLabels(request)
 
     def add_label(self, label):
-        """add the requested label to scope the collection
+        """Add the requested label to scope the collection
 
         Parameters
         ----------
         label (optional) : string
-            labels on which the enntries will be scoped, for example:
-                'time'
+            Labels on which the entries will be scoped, for example ``'time'``.
 
+        Examples
+        --------
+        >>> coll.add_label('time')
         """
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
@@ -86,8 +88,7 @@ class Collection:
         -------
         labels: list(string)
             labels on which the entries are scoped, for example:
-                ['time','complex']
-
+                ``['time', 'complex']``
         """
         return self._info['labels']
 
@@ -222,7 +223,7 @@ class Collection:
             request.entry.dpf_type.Pack(entry._message)
         elif self._type == types.field:
             request.entry.dpf_type.Pack(entry._message)
-        
+
         for key in label_space:
             request.label_space.label_space[key] = label_space[key]
         self._stub.UpdateEntry(request)

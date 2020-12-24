@@ -6,28 +6,28 @@ from ansys.grpc.dpf import time_freq_support_pb2, time_freq_support_pb2_grpc, ba
 
 class TimeFreqSupport:
     """A class used to represent a TimeFreqSupport which is a
-    description of the temporal/frequency analysis"""
+    description of the temporal/frequency analysis
+
+    Parameters
+    ----------
+    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport message
+
+    channel : channel, optional
+        Channel connected to the remote or local instance. Defaults to
+        the global channel.
+    """
 
     def __init__(self, time_freq_support, channel=None):
-        """Intialize the TimeFreqSupport with its TimeFreqSupport message
-
-        Parameters
-        ----------
-        time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport message
-        
-        channel : channel, optional
-            Channel connected to the remote or local instance. Defaults to the global channel.
-        """
-        
+        """Initialize the TimeFreqSupport with its TimeFreqSupport message"""
         if channel is None:
             channel = dpf.core._global_channel()       
-            
+
         self._channel = channel
         self._stub = self._connect()
         if isinstance(time_freq_support, time_freq_support_pb2.TimeFreqSupport):
             self._message = time_freq_support
         else:
-            self._message =time_freq_support_pb2.TimeFreqSupport()
+            self._message = time_freq_support_pb2.TimeFreqSupport()
             self._message.id = time_freq_support.id
 
     def __str__(self):
@@ -37,46 +37,46 @@ class TimeFreqSupport:
         harmonic_indeces = self.harmonic_indeces
         txt = 'Time/Frequency Info:\n'
         txt += '\tNumber of sets: %d\n\n' % self.n_sets
-        if field_freq_cplx!= None :
+        if field_freq_cplx is not None :
             txt += 'With complex values\n \n'
         freq_unit = field_freq.unit
-        if freq_unit != None :
+        if freq_unit is not None:
             if 's' in freq_unit:
-                line = ['Cumulative',f'Time ({freq_unit})', 'Loadstep','Substep']  
-            else : 
-                line = ['Cumulative',f'Frequency ({freq_unit})', 'Loadstep','Substep']             
+                line = ['Cumulative', f'Time ({freq_unit})', 'Loadstep', 'Substep']
+            else:
+                line = ['Cumulative', f'Frequency ({freq_unit})', 'Loadstep', 'Substep']
         else:
-            line = ['Cumulative','Time', 'Loadstep','Substep'] 
-        txt+='{:^12} {:^16} {:^12} {:^12}'.format(*line)
-        if rpms!=None:
-            txt+='{:^12}'.format('RPM')
-        if harmonic_indeces!=None:
-            txt+='{:^18}'.format('Harmonic index')
-        txt+='\n'
-        cum_index=1
+            line = ['Cumulative', 'Time', 'Loadstep', 'Substep']
+        txt += '{:^12} {:^16} {:^12} {:^12}'.format(*line)
+        if rpms is not None:
+            txt += '{:^12}'.format('RPM')
+        if harmonic_indeces != None:
+            txt += '{:^18}'.format('Harmonic index')
+        txt += '\n'
+        cum_index = 1
         for loadstep in range(len(field_freq.scoping.ids)) :
             substeps = field_freq.get_entity_data(loadstep).tolist()
-            if rpms!=None:
-                rpm =rpms.get_entity_data(loadstep)
-            if harmonic_indeces!=None:
+            if rpms is notNone:
+                rpm = rpms.get_entity_data(loadstep)
+            if harmonic_indeces is not None:
                 hi = harmonic_indeces.get_entity_data(loadstep)
-            substep=1
-            if substeps !=None:
-                for frequency in substeps :
-                    line = [cum_index,frequency,loadstep+1,substep]
-                    txt+='{:^12} {:^16.3} {:^12} {:^12}'.format(*line)
-                    if rpms!=None:
-                        txt+='{:^12.3}'.format(rpm[loadstep-1])
-                    if harmonic_indeces!=None:
-                        txt+='{:^18}'.format(int(abs(hi[substep-1])))
-                    txt+='\n'
-                    cum_index+=1
-                    substep+=1
+            substep = 1
+            if substeps is not None:
+                for frequency in substeps:
+                    line = [cum_index, frequency, loadstep+1, substep]
+                    txt += '{:^12} {:^16.3} {:^12} {:^12}'.format(*line)
+                    if rpms is not None:
+                        txt += '{:^12.3}'.format(rpm[loadstep-1])
+                    if harmonic_indeces != None:
+                        txt += '{:^18}'.format(int(abs(hi[substep-1])))
+                    txt += '\n'
+                    cum_index += 1
+                    substep += 1
             else :
-#                line = [cum_index,frequency,loadstep+1]
-#                txt+='{:^12} {:^16.3} {:^12}'.format(*line)
-#                txt+='\n'
-                cum_index+=1
+                # line = [cum_index,frequency,loadstep+1]
+                # txt+='{:^12} {:^16.3} {:^12}'.format(*line)
+                # txt+='\n'
+                cum_index += 1
         return txt
 
     @property
@@ -88,12 +88,12 @@ class TimeFreqSupport:
     def complex_frequencies(self):
         """Field of complex frequencies for the active result"""
         return self._get_frequencies(cplx=1)
-    
+
     @property
     def rpms(self):
         """Field of rpms for the active result"""
         return self._get_rpms()
-    
+
     @property
     def harmonic_indeces(self):
         """Field of rpms for the active result"""
@@ -207,7 +207,7 @@ class TimeFreqSupport:
         elif list_response.freq_real.id!=0:
              return dpf.core.Field(channel=self._channel, field=list_response.freq_real)
         return None
-    
+
     def _get_rpms(self):
         """Returns a field of all the rpms in the model
 
@@ -218,23 +218,23 @@ class TimeFreqSupport:
         """
         request = time_freq_support_pb2.GetRequest()
         request.time_freq_support.CopyFrom(self._message)
-        
+
         list_response = self._stub.List(request)
         if list_response.rpm.id!=0:
             return dpf.core.Field(channel=self._channel, field=list_response.rpm)
         return None
-    
+
     def _get_harmonic_indeces(self):
-        """Returns a field of all the harmonic indeces in the model
+        """Returns a field of all the harmonic indices in the model
 
         Returns
         -------
         field : dpf.core.Field
-            Field of all the harmonic indeces in the model (complex or real)
+            Field of all the harmonic indices in the model (complex or real)
         """
         request = time_freq_support_pb2.GetRequest()
         request.time_freq_support.CopyFrom(self._message)
-        
+
         list_response = self._stub.List(request)
         if list_response.cyc_harmonic_index.id!=0:
             return dpf.core.Field(channel=self._channel, field=list_response.cyc_harmonic_index)

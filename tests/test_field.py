@@ -5,7 +5,7 @@ import numpy as np
 from ansys import dpf
 from ansys.dpf.core.common import ShellLayers
 
-# # true when running on Azure Virtual enviornment on windows
+# # true when running on Azure Virtual environment on windows
 # ON_WINDOWS_AZURE = False
 # if os.name == 'nt':
 #     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'

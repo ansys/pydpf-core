@@ -19,11 +19,11 @@ running_docker = os.environ.get('DPF_DOCKER', False)
 
 
 def resolve_test_file(basename, additional_path=''):
-    """Resolves a test file's full path based on the base name and the enviornment.
+    """Resolves a test file's full path based on the base name and the
+    environment.
 
     Normally returns local path unless server is running on docker and
     this repository has been mapped to the docker image at /dpf.
-
     """
     if running_docker:
         # assumes repository root is mounted at '/dpf'

@@ -19,7 +19,7 @@ product designed to handle large amount of data.
 The Python ``ansys.dpf.core`` module provides a Python interface to
 the powerful DPF framework enabling rapid post-processing of a variety
 of Ansys file formats and physics solutions without ever leaving a
-Python enviornment.  
+Python environment.  
 
 
 Brief Demo
@@ -79,6 +79,6 @@ framework.
 
    getting_started/index
    user_guide
-   api
+   api/index
    examples/index
    contributing

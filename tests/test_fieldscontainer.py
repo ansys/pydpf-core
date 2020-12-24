@@ -1,4 +1,3 @@
-import os
 import weakref
 
 import pytest
@@ -6,12 +5,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field
 from ansys.dpf.core import errors as dpf_errors
-
-
-# # true when running on Azure Virtual enviornment on windows
-# ON_WINDOWS_AZURE = False
-# if os.name == 'nt':
-#     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
 
 
 @pytest.fixture()

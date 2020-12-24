@@ -30,7 +30,7 @@ def _global_channel():
     """Return the global channel if it exists.
 
     If the global channel has not been specified, check if the user
-    has specified the "DPF_START_SERVER" enviornment variable.  If
+    has specified the "DPF_START_SERVER" environment variable.  If
     ``True``, start the server locally.  If ``False``, connect to the
     existing server.
     """
@@ -93,7 +93,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     if ansys_path is None:
         raise ValueError('Unable to automatically locate the ANSYS path.  '
                          'Manually enter one when starting the server or set it '
-                         'as the enviornment variable "ANSYS_PATH"')
+                         'as the environment variable "ANSYS_PATH"')
 
     # parse the version to an int and check for supported
     try:
@@ -120,7 +120,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
             port += 1
 
     if server is None:
-        raise OSError(f'Unable to launch the server after {n_attempts} attemps.  '
+        raise OSError(f'Unable to launch the server after {n_attempts} attempts.  '
                       'Check the following path:\n{ansys_path}\n\n'
                       'or attempt to use a different port')
 
