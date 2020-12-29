@@ -104,6 +104,40 @@ class Model():
     #     self.result_info.physics_type
 
 class Results:
+    """Organize the results from DPF into acessible methods
+
+    Examples
+    --------
+    Extract the result object from a model.
+
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.simple_bar)
+    >>> results = model.results
+
+    Print the available results
+
+    >>> print(results)
+    Static analysis
+    Unit system: Metric (m, kg, N, s, V, A)
+    Physics Type: Mecanic
+    Available results:
+         -  displacement
+         -  element_nodal_forces
+         -  volume
+         -  energy_stiffness_matrix
+         -  hourglass_energy
+         -  thermal_dissipation_energy
+         -  kinetic_energy
+         -  co_energy
+         -  incremental_energy
+         -  temperature
+
+    Access the displacement operator
+
+    >>> displacements = model.results.displacement()
+
+    """
 
     def __init__(self, model):
         self._result_info = model.metadata.result_info
@@ -129,7 +163,7 @@ class Results:
         disp_oper = model.displacement()
         generates: model.displacement().X() model.displacement().Y() model.displacement().Z()
         """
-        op= self._model.operator(name)
+        op = self._model.operator(name)
         op._add_sub_res_operators(sub_results)
         return op
 
@@ -152,8 +186,11 @@ class Results:
             bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
             method2=functools.partial(bound_method,name=result_type.operator_name, sub_results=result_type.sub_results)
             setattr(self, result_type.name, method2)
-
             self._op_map_rev[result_type.name] = result_type.name
+
+    def __str__(self):
+        print(self._result_info)
+
 
 class Metadata:
     def __init__(self, data_sources, channel):

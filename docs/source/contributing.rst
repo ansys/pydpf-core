@@ -140,7 +140,7 @@ section <#creating-a-new-pull-request>`__.
 Creating a New Pull Request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once you have tested your branch locally, create a pull request on
-`DPF-Core GitHub <https://github.com/pyansys/DPF-Core>`_ and target your
+`DPF-Core <https://github.com/pyansys/DPF-Core>`_ and target your
 merge to `master`.  This will automatically run continuous
 integration (CI) testing and verify your changes will work across all
 supported platforms.
