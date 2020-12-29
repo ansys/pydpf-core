@@ -77,5 +77,6 @@ print(metadata.time_freq_support)
 results = model.results
 displacements = results.displacement()
 fields = displacements.outputs.fields_container()
-print(displacements.inputs)
-breakpoint()
+
+# finally, extract the data of the displacement field
+disp = fields[0].data
