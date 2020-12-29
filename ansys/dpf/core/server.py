@@ -45,6 +45,24 @@ def _global_channel():
     return dpf.core.CHANNEL
 
 
+def port_in_use(port, host=LOCALHOST):
+    """Returns True when a port is in use at the given host.
+
+    Must actually "bind" the address.  Just checking if we can create
+    a socket is insufficient as it's possible to run into permission
+    errors like:
+
+    - An attempt was made to access a socket in a way forbidden by its
+      access permissions.
+    """
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        try:
+            sock.bind((host, port))
+            return False
+        except:
+            return True
+
+
 def check_valid_ip(ip):
     """Raises an error when an invalid ip is entered"""
     try:
@@ -89,7 +107,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
         Port server was launched on.
     """
     if ansys_path is None:
-        ansys_path = os.environ.get('ANSYS_PATH', find_ansys())
+        ansys_path = os.environ.get('AWP_ROOT211', find_ansys())
     if ansys_path is None:
         raise ValueError('Unable to automatically locate the ANSYS path.  '
                          'Manually enter one when starting the server or set it '
@@ -108,6 +126,10 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     # avoid using any ports in use from existing servers
     used_ports = [srv.port for srv in dpf.core._server_instances]
     while port in used_ports:
+        port += 1
+
+    # verify port is free
+    while port_in_use(port):
         port += 1
 
     server = None
@@ -145,12 +167,12 @@ class DpfServer:
     timeout : float, optional
         Fails when a connection takes longer than ``timeout`` seconds
         to initialize.
-        
+
     as_global : bool, optional
         Stores this ip and port as global variables for the dpf
         module.  All DPF objects created in this Python session will
         use this IP and port.
-        
+
     load_operators : bool, optional
         Automatically load the mesh and mapdl operators
 
@@ -179,7 +201,7 @@ class DpfServer:
             NotImplementedError('OS {os.name} not supported')
 
         channel = grpc.insecure_channel('%s:%d' % (ip, port))
-        BaseService(channel,timeout=1, load_operators=load_operators)
+        BaseService(channel, timeout=1, load_operators=load_operators)
 
         # assign to global channel when requested
         if as_global:
@@ -267,9 +289,11 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
     process : subprocess.Popen
         DPF Process.
     """
-    paths = ['/tp/IntelMKL/2020.0.166/winx64/',
-             '/tp/hdf5/1.8.14/winx64/',
-             '/tp/CFFSDK/lib/winx64']
+    # append ansys libs to path
+    paths = [r'\tp\IntelMKL\2020.0.166\winx64\\',
+             r'\tp\IntelCompiler\2019.3.203\winx64\\',
+             r'\tp\hdf5\1.8.14\winx64\\',
+             r'\tp\CFFSDK\lib\winx64']
 
     add_path = ';'.join([ansys_path + path for path in paths])
     run_cmd = f'Ans.Dpf.Grpc.exe --address {ip} --port {port}'
@@ -289,7 +313,7 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
     env = dict(os.environ)
-    env['PATH'] = env['PATH'] + add_path
+    env['PATH'] = add_path + env['PATH']
     process = subprocess.Popen(run_cmd, env=env,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)

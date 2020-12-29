@@ -276,3 +276,27 @@ class Operator:
         request = operator_pb2.OperatorName()
         request.name = self.name
         self._message = self._stub.Create(request)
+    
+    def __mul__(self, inpt):
+        if isinstance(inpt, Operator):
+            op = Operator("dot")
+            op.connect(0,self,0)  
+            op.connect(1,inpt,0)            
+        elif isinstance(inpt, float):
+            op = Operator("scale")
+            op.connect(0,self,0)  
+            op.connect(1,inpt)
+        return op
+    
+    def __truediv__(self, inpt):
+        if isinstance(inpt, Operator):
+            op = Operator("div")
+            op.connect(0,self,0)  
+            op.connect(1,inpt,0)            
+        elif isinstance(inpt, float):
+            op = Operator("scale")
+            op.connect(0,self,0)  
+            op.connect(1,1.0/inpt)
+        return op
+    
+            

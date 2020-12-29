@@ -42,15 +42,12 @@ if module_exists("pyvista"):
     pv.rcParams["font"]["family"] = "courier"
     pv.rcParams["title"] = "DPF"
 
-    
+
 CHANNEL = None
 
 def has_local_server():
     """Returns True when a local DPF gRPC server has been created"""
     return CHANNEL is not None
-
-
-
 
 
 _server_instances = []
