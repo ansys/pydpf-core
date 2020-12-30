@@ -104,7 +104,7 @@ class Model():
     #     self.result_info.physics_type
 
 class Results:
-    """Organize the results from DPF into acessible methods
+    """Organize the results from DPF into accessible methods.
 
     Examples
     --------
