@@ -1,8 +1,9 @@
 from ansys import dpf
-from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
+from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc, base_pb2
 from ansys.dpf.core import scoping, field
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.errors import protect_grpc
 
 
 class MeshedRegion:
@@ -32,7 +33,7 @@ class MeshedRegion:
         elif isinstance(mesh, meshed_region_pb2.MeshedRegion):
             self._message = mesh
         else:
-            self._message=meshed_region_pb2.MeshedRegion()
+            self._message = meshed_region_pb2.MeshedRegion()
             self._message.id = mesh.id
 
         self._channel = channel
@@ -313,15 +314,15 @@ class Nodes():
         for i in range(len(self)):
             yield self[i]
 
-    
     def node_by_id(self, id):
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeid=id)
-    
+
     def node_by_index(self, index):
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeindex=index)
 
+    @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
         """Returns the node by its id or its index
 
@@ -368,6 +369,7 @@ class Nodes():
         """
         return self._get_coordinates_field()
 
+    @protect_grpc
     def _get_coordinates_field(self):
         """
         Returns

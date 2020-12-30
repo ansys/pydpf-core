@@ -9,6 +9,7 @@ import pytest
 import pyvista as pv
 
 from ansys.dpf import core
+from ansys.dpf.core import examples
 
 # enable off_screen plotting to avoid test interruption
 pv.OFF_SCREEN = True
@@ -48,7 +49,7 @@ def allkindofcomplexity():
 @pytest.fixture()
 def simple_bar():
     """Resolve the path of the "ASimpleBar.rst" result file."""
-    return resolve_test_file('ASimpleBar.rst')
+    return examples.simple_bar
 
 
 @pytest.fixture()
@@ -107,5 +108,4 @@ def plate_msup():
 def load_operators(request):
     """This loads all the operators on initialization"""
     # could use baseservice instead...
-    core.Model(resolve_test_file('ASimpleBar.rst'))
-
+    core.Model(examples.static_rst)

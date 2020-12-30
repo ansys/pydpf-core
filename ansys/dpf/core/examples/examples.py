@@ -10,3 +10,4 @@ else:
 
 # this files can be imported with from `ansys.dpf.core import examples`:
 simple_bar = os.path.join(_module_path, 'ASimpleBar.rst')
+static_rst = os.path.join(_module_path, 'static.rst')

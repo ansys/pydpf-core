@@ -360,7 +360,7 @@ class Field:
             message = self._stub.GetSupport(request)
             return meshed_region.MeshedRegion(mesh=message)
         except:
-            print("the field's support is not a mesh (try a time_freq_support)")
+            raise RuntimeError("The field's support is not a mesh.  Try a time_freq_support.")
 
     def _get_time_freq_support(self):
         """
@@ -375,7 +375,7 @@ class Field:
             message = self._stub.GetSupport(request)
             return time_freq_support.TimeFreqSupport(time_freq_support=message)
         except:
-            print("the field's support is not a timefreqsupport (try a mesh)")
+            raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
 
     @property
     def time_freq_support(self):
