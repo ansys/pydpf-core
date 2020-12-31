@@ -109,17 +109,21 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     if ansys_path is None:
         ansys_path = os.environ.get('AWP_ROOT211', find_ansys())
     if ansys_path is None:
-        raise ValueError('Unable to automatically locate the ANSYS path.  '
+        raise ValueError('Unable to automatically locate the Ansys path.  '
                          'Manually enter one when starting the server or set it '
                          'as the environment variable "ANSYS_PATH"')
+
+    # verify path exists
+    if not os.path.isdir(ansys_path):
+        raise NotADirectoryError(f'Invalid Ansys path "{ansys_path}"')
 
     # parse the version to an int and check for supported
     try:
         ver = int(ansys_path[-3:])
     except ValueError:
-        raise ValueError(f'Unable to get version from the ANSYS path "{ansys_path}"')
+        raise ValueError(f'Unable to get version from the Ansys path "{ansys_path}"')
     if ver < 211:
-        raise errors.InvalidANSYSVersionError(f'ANSYS v{ver} does not support DPF')
+        raise errors.InvalidANSYSVersionError(f'Ansys v{ver} does not support DPF')
     if ver == 211 and is_ubuntu():
         raise OSError('DPF on v211 does not support Ubuntu')
 

@@ -41,6 +41,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
+    package_data={'ansys.dpf.core.examples': ['ASimpleBar.rst', 'static.rst']},
     python_requires='>=3.5.*',
     install_requires=install_requires,
 )
