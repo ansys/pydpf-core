@@ -30,10 +30,10 @@ class Input:
         MeshedRegion, Output, Outputs
             input of the operator
         """
-        input_type_name =type(inpt).__name__
-        if (input_type_name in self._python_expected_types or ["Outputs", "Output","Any"])==False :
+        input_type_name = type(inpt).__name__
+        if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
-               print(types, end = ' ')
+                print(types, end = ' ')
             print("types are expected for", self._spec.name, "pin")
             return
 
@@ -50,15 +50,15 @@ class Input:
             err_str = "The input operator should have one of this output expected types:\n"
             for python_type in self._python_expected_types:
                 err_str += f"   - {python_type}"
-            err_str += f"for the {self._spec.name} pin\n"
+            err_str += f" for the {self._spec.name} pin\n"
             raise TypeError(err_str)
 
         if input_type_name not in ["Outputs", "Output"]:
             self._operator.connect(self._pin, inpt)
             self._operator.inputs._connected_inputs[self._pin] = inpt
         elif input_type_name == "Output":
-             self._operator.connect(self._pin, inpt._operator, inpt._pin)
-             self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
+            self._operator.connect(self._pin, inpt._operator, inpt._pin)
+            self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
         else:
             self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
             self._operator.inputs._connected_inputs[self._pin] = {corresponding_pins[0][1]: inpt._operator}

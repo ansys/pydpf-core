@@ -32,6 +32,7 @@ class Collection:
         self._channel = channel
         self._stub = self._connect()
         self._type = dpf_type
+        # self.__info = None  # cached info
 
         if collection is None:
             request = collection_pb2.CollectionRequest()
@@ -188,7 +189,7 @@ class Collection:
                 ids.append(current_scop[label])
         return ids
 
-    def __getitem__(self, key):
+    def __getitem__(self, index):
         """Returns the entry at a requested index
 
         Parameters
@@ -199,12 +200,18 @@ class Collection:
         Returns
         -------
         entry : Field or Scoping
-            entry corresponding to the request
+            Entry at the index corresponding to the request.
         """
-        if key < 0:  # verify key is valid
-            raise ValueError('Index must be greater or equal to 0')
+        self_len = len(self)
+        if index < 0:  # no negative indices
+            index = self_len - index
 
-        return self._get_entries(key)
+        if not self_len:
+            raise IndexError('This collection contains no items')
+        if index >= self_len:
+            raise IndexError(f'This collection contains only {self_len} entries')
+
+        return self._get_entries(index)
 
     def _add_entry(self, label_space, entry):
         """Update or add the entry at a requested label space

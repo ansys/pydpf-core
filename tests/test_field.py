@@ -1,4 +1,3 @@
-import pyvista as pv
 import pytest
 import numpy as np
 

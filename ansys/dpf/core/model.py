@@ -77,12 +77,12 @@ class Model():
 
         >>> disp = model.operator('accumulate')
         """
-        op= Operator(name, self._channel)
-        if self.metadata._stream_provider!=None and hasattr(op.inputs, 'streams') :
+        op = Operator(name, self._channel)
+        if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
             op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources!=None and hasattr(op.inputs, 'data_sources') :
+        elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
             op.inputs.data_sources.connect(self.metadata._data_sources)
-            
+
         return op
 
     def __str__(self):
@@ -184,12 +184,14 @@ class Results:
         self._op_map_rev = {}
         for result_type in self._result_info:
             bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
-            method2=functools.partial(bound_method,name=result_type.operator_name, sub_results=result_type.sub_results)
+            method2 = functools.partial(bound_method,
+                                        name=result_type.operator_name,
+                                        sub_results=result_type.sub_results)
             setattr(self, result_type.name, method2)
             self._op_map_rev[result_type.name] = result_type.name
 
     def __str__(self):
-        print(self._result_info)
+        return str(self._result_info)
 
 
 class Metadata:

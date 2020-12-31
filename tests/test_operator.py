@@ -18,6 +18,11 @@ def test_create_operator():
     assert op._message.id
 
 
+def test_invalid_operator_name():
+    with pytest.raises(ValueError):
+        dpf.core.Operator("not-an-operator")
+
+
 def test_connect_field_operator():
     op= dpf.core.Operator("min_max")
     inpt = dpf.core.Field(nentities=3)
@@ -129,9 +134,9 @@ def test_connect_operator_operator():
 def test_eval_operator():
     op = dpf.core.Operator("min_max")
     inpt = dpf.core.Field(nentities=3)
-    data = [1,2,3,4,5,6,7,8,9]
+    data = range(1, 10)
     scop = dpf.core.Scoping()
-    scop.ids = [1,2,3]
+    scop.ids = [1, 2, 3]
     inpt.data = data
     inpt.scoping = scop
 
@@ -247,8 +252,8 @@ def test_inputs_outputs_datasources_operator(cyclic_ds):
     op = dpf.core.Operator("mapdl::run")
     op.inputs.connect(data_sources)
     dsout = op.outputs.data_sources()
-    assert dsout!=None
-    assert dsout.result_key=="rst"
+    assert dsout is not None
+    assert dsout.result_key == "rst"
     path = os.path.join(dsout.result_files[0])
     shutil.rmtree(os.path.dirname(path))
 
@@ -273,7 +278,7 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
     assert size_tot/3 == len(ux[0].data)
     assert size_tot/3 == len(uy[0].data)
     assert size_tot/3 == len(uz[0].data)
-    
+
     s_op = model.results.stress()
     s_op.eqv()
     s_op.principal1()
@@ -281,8 +286,7 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
     s_op.principal3()
     s_op.X()
     s_op.XY()
-        
-    
+
 
 # test commented because "mapdl::rst::U" isn't available in
 # "mapdl::rst::ResultInfoProvider"
@@ -331,7 +335,3 @@ def test_delete_auto_operator():
     del op
     gc.collect()
     assert op_ref() is None
-    
-
-if __name__ == '__main__':
-    test_inputs_outputs_datasources_operator()

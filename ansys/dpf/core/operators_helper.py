@@ -108,7 +108,6 @@ def to_nodal(var_inp):
         Field containing the nodal averaged field
     """
     # try to use the same server as input
-   
     _check_type(var_inp, dpf.core.Field)
     if isinstance(var_inp, dpf.core.Field):
         oper = dpf.core.Operator('to_nodal')
@@ -118,8 +117,6 @@ def to_nodal(var_inp):
         return oper.get_output(0, dpf_types.fields_container)
     else:
         raise TypeError('Input type must be a Field, FieldContainer')
-    
-
 
 
 def norm(var_inp):
