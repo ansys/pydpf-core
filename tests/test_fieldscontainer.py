@@ -1,4 +1,3 @@
-import os
 import weakref
 
 import pytest
@@ -6,12 +5,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field
 from ansys.dpf.core import errors as dpf_errors
-
-
-# # true when running on Azure Virtual enviornment on windows
-# ON_WINDOWS_AZURE = False
-# if os.name == 'nt':
-#     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
 
 
 @pytest.fixture()
@@ -28,8 +21,8 @@ def test_create_fields_container():
 
 def test_empty_index():
     fc = FieldsContainer()
-    field = fc[0]
-    assert field is None
+    with pytest.raises(IndexError):
+        fc[0]
 
 
 def test_createbycopy_fields_container():
@@ -51,8 +44,8 @@ def test_set_get_field_fields_container():
         assert fc.get_fields(i)._message.id !=0
         assert fc.get_fields_by_time_complex_ids(timeid=i+1,complexid=0)._message.id !=0
         assert fc[i]._message.id != 0
-        
-    
+
+
 def test_set_get_field_fields_container_new_label(): 
     fc= FieldsContainer()
     fc.labels =['time','complex']

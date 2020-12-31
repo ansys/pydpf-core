@@ -7,30 +7,30 @@ class Scoping:
     """A class used to represent a Scoping which is a subset of a
     model support.
 
+    Parameters
+    ----------
+    scoping : ansys.grpc.dpf.scoping_pb2.Scoping message, optional
+
+    channel : channel, optional
+        Channel connected to the remote or local instance. Defaults to
+        the global channel.
+
     Attributes
     ----------
     ids : list of int
 
     location : str
-        location of the ids ("Nodal", "Elemental"...)
+        Location of the ids.  For example ``"Nodal"`` or ``"Elemental"``.
     """
 
     def __init__(self, scoping=None, channel=None):
-        """
-        Intialize the scoping with either optional scoping message, or
+        """Initialize the scoping with either optional scoping message, or
         by connecting to a stub.
-
-        Parameters
-        ----------
-        scoping : ansys.grpc.dpf.scoping_pb2.Scoping message, optional
-        
-        channel : channel, optional
-            Channel connected to the remote or local instance. Defaults to the global channel.
         """
         if channel is None:
-            channel = dpf.core._global_channel()       
-            
-        self._channel = channel    
+            channel = dpf.core._global_channel()
+
+        self._channel = channel
         self._stub = self._connect()
 
         if scoping is None:
@@ -151,10 +151,10 @@ class Scoping:
         request.id = scopingid
         request.scoping.CopyFrom(self._message)
         return self._stub.Get(request).index
-    
+
     def id(self, index):
         return self._get_id(index)
-    
+
     def index(self, id):
         return self._get_index(id)
 

@@ -9,35 +9,6 @@ from ansys.dpf.core.common import types
 
 from grpc._channel import _InactiveRpcError
 
-# BASE_RST_OP_DOC = """
-
-# Parameters
-# ----------
-# time_scoping : int or list, optional
-#     Index of the results requested.  One based indexing.  Defaults to
-#     last result.
-
-# mesh_entities_scoping : mesh_entities_scoping
-#     Mesh entities scoping, unordered_map id to index (optional) (index
-#     is optional, to be set if a user wants the results at a given
-#     order)
-
-# fields_container : fields_container, optional
-#     Fields container to update/create and set as output.
-
-# streams : result file container, optional
-#     Results file container
-
-# solution_cs : bool, optional
-#     If False get the results in the solution CS.
-
-# Returns
-# -------
-# oper : ansys.Operator
-#     Operator containing a field container matching the number of
-#     result sets.
-# """
-
 
 class Model():
     """This class connects to a gRPC DPF server and allows you to
@@ -106,12 +77,12 @@ class Model():
 
         >>> disp = model.operator('accumulate')
         """
-        op= Operator(name, self._channel)
-        if self.metadata._stream_provider!=None and hasattr(op.inputs, 'streams') :
+        op = Operator(name, self._channel)
+        if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
             op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources!=None and hasattr(op.inputs, 'data_sources') :
+        elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
             op.inputs.data_sources.connect(self.metadata._data_sources)
-            
+
         return op
 
     def __str__(self):
@@ -133,40 +104,75 @@ class Model():
     #     self.result_info.physics_type
 
 class Results:
+    """Organize the results from DPF into accessible methods.
+
+    Examples
+    --------
+    Extract the result object from a model.
+
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.simple_bar)
+    >>> results = model.results
+
+    Print the available results
+
+    >>> print(results)
+    Static analysis
+    Unit system: Metric (m, kg, N, s, V, A)
+    Physics Type: Mecanic
+    Available results:
+         -  displacement
+         -  element_nodal_forces
+         -  volume
+         -  energy_stiffness_matrix
+         -  hourglass_energy
+         -  thermal_dissipation_energy
+         -  kinetic_energy
+         -  co_energy
+         -  incremental_energy
+         -  temperature
+
+    Access the displacement operator
+
+    >>> displacements = model.results.displacement()
+
+    """
 
     def __init__(self, model):
         self._result_info = model.metadata.result_info
         self._model = model
         self._connect_operators()
-    
+
     def __operator_with_sub_res(self, name, sub_results):
-        """Returns an operator and binds it with other operators for its subresults
-        Dynamically add operators instanciation for subresults 
-        (the new operators subresults are connected to the parent operator's inputs when created,
-        but are, then, completly independent of the parent operator's)
-        
+        """Dynamically add operators for subresults.
+
+        The new operators sub-results are connected to the parent
+        operator's inputs when created, but are then completely
+        independent of the parent operator.
+
         Parameters
         ----------
         name : str
             Operator name.  Must be a valid operator name.
-            
+
         sub_results : list
-        
+
         Examples
         --------
         disp_oper = model.displacement()
         generates: model.displacement().X() model.displacement().Y() model.displacement().Z()
-        
-        
         """
-        op= self._model.operator(name)
+        op = self._model.operator(name)
         op._add_sub_res_operators(sub_results)
         return op
-    
+
     def _connect_operators(self):
-        """Dynamically add operators instanciation for results 
-        (the new operators subresults are connected to the model's streams)
-        
+        """Dynamically add operators for results.
+
+        The new operators subresults are connected to the model's
+        streams.
+
         Examples
         --------
         generated: model.displacement(), model.stress()...
@@ -178,10 +184,15 @@ class Results:
         self._op_map_rev = {}
         for result_type in self._result_info:
             bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
-            method2=functools.partial(bound_method,name=result_type.operator_name, sub_results=result_type.sub_results)
+            method2 = functools.partial(bound_method,
+                                        name=result_type.operator_name,
+                                        sub_results=result_type.sub_results)
             setattr(self, result_type.name, method2)
-
             self._op_map_rev[result_type.name] = result_type.name
+
+    def __str__(self):
+        return str(self._result_info)
+
 
 class Metadata:
     def __init__(self, data_sources, channel):

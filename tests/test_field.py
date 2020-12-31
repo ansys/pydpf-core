@@ -1,14 +1,15 @@
-import os
 import pytest
 import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core.common import ShellLayers
 
-# # true when running on Azure Virtual enviornment on windows
-# ON_WINDOWS_AZURE = False
-# if os.name == 'nt':
-#     ON_WINDOWS_AZURE = os.environ.get('ON_AZURE', '').lower() == 'true'
+
+@pytest.fixture()
+def stress_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    stress = model.results.stress()
+    return stress.outputs.fields_container()[0]
 
 
 def test_create_field():
@@ -43,11 +44,11 @@ def test_set_get_scoping():
     assert field.scoping.ids == ids
 
 
-def test_set_get_data_field(): 
-    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
+def test_set_get_data_field():
+    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
     scoping = dpf.core.Scoping()
-    ids =[]
-    data=[]
+    ids = []
+    data= []
     for i in range(0, 20):
         ids.append(i+1)
         data.append(i+0.001)
@@ -194,11 +195,11 @@ def test_field_definition_field(allkindofcomplexity):
 
 def test_create_overall_field():
     field_overall = dpf.core.Field(nentities=1, location="overall", nature="vector")
-    field_overall.scoping.location="overall"
-    field_overall.data = [1.0,2.0,3.0]
-    
+    field_overall.scoping.location = "overall"
+    field_overall.data = [1.0, 2.0, 3.0]
+
     field = dpf.core.Field(nentities=5, location="nodal")
-    field.scoping.location="nodal"
+    field.scoping.location = "nodal"
     field.scoping.ids = list(range(1,6))
     data =[float(i) for i in range(0,15)]
     field.data = data
@@ -225,21 +226,18 @@ def test_set_entity_data_elemental_nodal_field(allkindofcomplexity):
         assert np.allclose(f_new.get_entity_data(i), f.get_entity_data(i))
 
 
-def test_print_field(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
-    stress = model.results.stress()
-    f = stress.outputs.fields_container()[0]
-    str(f)
+def test_str_field(stress_field):
+    assert 'Location: ElementalNodal' in str(stress_field)
+    assert 'Unit: Pa' in str(stress_field)
+    assert '9255 id(s)' in str(stress_field)
+    assert 'shape: (40016, 6)' in str(stress_field)
 
 
-def test_mesh_support_field(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
-    stress = model.results.stress()
-    f = stress.outputs.fields_container()[0]
-    mesh = f.meshed_region
+def test_mesh_support_field(stress_field):
+    mesh = stress_field.meshed_region
     assert len(mesh.nodes.scoping) == 15129
     assert len(mesh.elements.scoping) == 10292
-    
+
 
 def test_shell_layers_1(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
@@ -250,16 +248,15 @@ def test_shell_layers_1(allkindofcomplexity):
     disp = model.results.displacement()
     f = disp.outputs.fields_container()[0]
     assert f.shell_layers == ShellLayers.INDEPENDANTLAYER
-    
-    
-def test_shell_layers_2(velocity_acceleration):    
+
+
+def test_shell_layers_2(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     stress = model.results.stress()
     f = stress.outputs.fields_container()[0]
     assert f.shell_layers == ShellLayers.NONELAYER
 
 
-# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
 def test_delete_auto_field():
     field = dpf.core.Field()
     field2 = dpf.core.Field(field=field)

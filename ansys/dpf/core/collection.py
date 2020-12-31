@@ -32,6 +32,7 @@ class Collection:
         self._channel = channel
         self._stub = self._connect()
         self._type = dpf_type
+        # self.__info = None  # cached info
 
         if collection is None:
             request = collection_pb2.CollectionRequest()
@@ -52,7 +53,7 @@ class Collection:
         Parameters
         ----------
         labels (optional) : list(string)
-            labels on which the enntries will be scoped, for example:
+            labels on which the entries will be scoped, for example:
                 ['time','complex']
 
         """
@@ -65,14 +66,16 @@ class Collection:
         self._stub.UpdateLabels(request)
 
     def add_label(self, label):
-        """add the requested label to scope the collection
+        """Add the requested label to scope the collection
 
         Parameters
         ----------
         label (optional) : string
-            labels on which the enntries will be scoped, for example:
-                'time'
+            Labels on which the entries will be scoped, for example ``'time'``.
 
+        Examples
+        --------
+        >>> coll.add_label('time')
         """
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
@@ -86,8 +89,7 @@ class Collection:
         -------
         labels: list(string)
             labels on which the entries are scoped, for example:
-                ['time','complex']
-
+                ``['time', 'complex']``
         """
         return self._info['labels']
 
@@ -187,7 +189,7 @@ class Collection:
                 ids.append(current_scop[label])
         return ids
 
-    def __getitem__(self, key):
+    def __getitem__(self, index):
         """Returns the entry at a requested index
 
         Parameters
@@ -198,12 +200,18 @@ class Collection:
         Returns
         -------
         entry : Field or Scoping
-            entry corresponding to the request
+            Entry at the index corresponding to the request.
         """
-        if key < 0:  # verify key is valid
-            raise ValueError('Index must be greater or equal to 0')
+        self_len = len(self)
+        if index < 0:  # no negative indices
+            index = self_len - index
 
-        return self._get_entries(key)
+        if not self_len:
+            raise IndexError('This collection contains no items')
+        if index >= self_len:
+            raise IndexError(f'This collection contains only {self_len} entries')
+
+        return self._get_entries(index)
 
     def _add_entry(self, label_space, entry):
         """Update or add the entry at a requested label space
@@ -222,7 +230,7 @@ class Collection:
             request.entry.dpf_type.Pack(entry._message)
         elif self._type == types.field:
             request.entry.dpf_type.Pack(entry._message)
-        
+
         for key in label_space:
             request.label_space.label_space[key] = label_space[key]
         self._stub.UpdateEntry(request)

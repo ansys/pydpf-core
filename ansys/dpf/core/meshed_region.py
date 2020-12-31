@@ -1,42 +1,41 @@
 from ansys import dpf
-from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
+from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc, base_pb2
 from ansys.dpf.core import scoping, field
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.errors import protect_grpc
 
 
 class MeshedRegion:
     """A class used to represent a Mesh"""
 
     def __init__(self, mesh, channel=None):
-        """
-        Intialize the mesh with MeshedRegion message
+        """Initialize the mesh with MeshedRegion message
 
         Parameters
         ----------
         mesh : ansys.grpc.dpf.meshed_region_pb2.MeshedRegion
-        
+
         Attributes
         ----------
         nodes : ansys.dpf.core.meshed_region.Nodes
             Entity containing all the nodal properties
-        
+
         elements : ansys.dpf.core.meshed_region.Elements
             Entity containing all the elemental properties
         """
-        
+
         if channel is None:
-            channel = dpf.core._global_channel()       
-        
-        
+            channel = dpf.core._global_channel()
+
         if isinstance(mesh, MeshedRegion):
             self._message = mesh._mesh
         elif isinstance(mesh, meshed_region_pb2.MeshedRegion):
             self._message = mesh
         else:
-            self._message=meshed_region_pb2.MeshedRegion()
+            self._message = meshed_region_pb2.MeshedRegion()
             self._message.id = mesh.id
-                
+
         self._channel = channel
         self._stub = self._connect()
         self._full_grid = None
@@ -71,11 +70,9 @@ class MeshedRegion:
     @property
     def nodes(self):
         """ returns instance of Nodes which contains all the nodal properties"""
-        if self._nodes == None:
-            self._nodes= Nodes(self)
+        if self._nodes is None:
+            self._nodes = Nodes(self)
         return self._nodes
-    
-    
 
     @property
     def unit(self):
@@ -317,15 +314,15 @@ class Nodes():
         for i in range(len(self)):
             yield self[i]
 
-    
     def node_by_id(self, id):
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeid=id)
-    
+
     def node_by_index(self, index):
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeindex=index)
 
+    @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
         """Returns the node by its id or its index
 
@@ -372,6 +369,7 @@ class Nodes():
         """
         return self._get_coordinates_field()
 
+    @protect_grpc
     def _get_coordinates_field(self):
         """
         Returns
@@ -385,10 +383,9 @@ class Nodes():
         request.nodal_property = meshed_region_pb2.COORDINATES
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(self._mesh._channel, field=fieldOut)
-    
-    
+
     def _build_mapping_id_to_index(self):
-        """Return a mapping between ids and indeces of the entity."""
+        """Return a mapping between ids and indices of the entity."""
         dic_out = {}
         ids = self._mesh.nodes.scoping.ids
         i = 0
@@ -396,7 +393,7 @@ class Nodes():
             dic_out[node_id] = i
             i += 1
         return dic_out
-        
+
     @property
     def mapping_id_to_index(self):
         if self._mapping_id_to_index is None:
@@ -406,7 +403,7 @@ class Nodes():
 
 class Elements():
     """Class to encapsulate mesh elements"""
-    
+
     def __init__(self, mesh):
         self._mesh = mesh
         self._mapping_id_to_index = None
@@ -542,9 +539,9 @@ class Elements():
     def n_elements(self):
         """Number of elements"""
         return self.scoping.size
-    
+
     def _build_mapping_id_to_index(self):
-        """Return a mapping between ids and indeces of the entity."""
+        """Return a mapping between ids and indices of the entity."""
         dic_out = {}
         ids = self._mesh.elements.scoping.ids
         i = 0
@@ -552,10 +549,9 @@ class Elements():
             dic_out[element_id] = i
             i += 1
         return dic_out
-        
+
     @property
     def mapping_id_to_index(self):
         if self._mapping_id_to_index is None:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
-

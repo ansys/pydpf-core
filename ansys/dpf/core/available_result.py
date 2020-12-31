@@ -12,7 +12,7 @@ class AvailableResult:
     """
 
     def __init__(self, availableresult):
-        """Intialize the AvailableResult with an availableResult message"""
+        """Initialize the AvailableResult with an availableResult message"""
         self._message = availableresult
 
     def __str__(self):

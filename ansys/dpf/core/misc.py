@@ -1,10 +1,11 @@
 """Miscellaneous functions for DPF module"""
+import platform
 import glob
 import os
 from pkgutil import iter_modules
 
 
-# ANSYS CPython workbench enviornment may not have scooby installed
+# ANSYS CPython workbench environment may not have scooby installed
 try:
     from scooby import Report as ScoobyReport
 except ImportError:
@@ -82,23 +83,49 @@ def is_float(string):
         return False
 
 
+def is_ubuntu():
+    """True when running Ubuntu"""
+    if os.name == 'posix':
+        return 'ubuntu' in platform.platform().lower()
+    return False
+
+
 def find_ansys():
     """Searches for ansys path within the standard install location
     and returns the path of the latest version.
 
-    Reutrns
+    Returns
     -------
     ansys_path : str
-        Full path to ANSYS.  For example:
-        'C:\\Program Files\\ANSYS Inc\\v211'
-    """
-    if os.name != 'nt':
-        return None
+        Full path to ANSYS.  For example, on windows:
 
-    base_path = os.path.join(os.environ['PROGRAMFILES'], 'ANSYS INC')
-    
+    Examples
+    --------
+    Within Windows
+
+    >>> from ansys.dpf.core.misc import find_ansys
+    >>> find_ansys()
+    C:\Program Files\ANSYS Inc\v211
+
+    Within Linux
+
+    >>> find_ansys()
+    /ansys_inc/v211
+    """
+    base_path = None
     if os.name == 'nt':
-        paths = glob.glob(os.path.join(base_path, 'v*'))
+        base_path = os.path.join(os.environ['PROGRAMFILES'], 'ANSYS INC')
+    elif os.name == 'posix':
+        for path in ['/usr/ansys_inc', '/ansys_inc']:
+            if os.path.isdir(path):
+                base_path = path
+    else:
+        raise OSError(f'Unsupported OS {os.name}')
+
+    if base_path is None:
+        return base_path
+
+    paths = glob.glob(os.path.join(base_path, 'v*'))
 
     if not paths:
         return None

@@ -1,4 +1,3 @@
-import grpc
 from enum import Enum
 
 from ansys import dpf
@@ -14,25 +13,24 @@ analysis_types = Enum('analysis_types', names)
 
 
 class ResultInfo:
-    """A class used to represent a ResultInfo is a definition of the
-    results expected.
+    """Class representation the result information.
+
+    Parameters
+    ----------
+    result_info : ansys.grpc.dpf.result_info_pb2.ResultInfo message
+
+    channel : channel, optional
+        Channel connected to the remote or local
+        instance. Defaults to the global channel.
+
     """
 
     def __init__(self, result_info, channel=None):
-        """Intialize the ResultInfo with a ResultInfo message
-
-        Parameters
-        ----------
-        result_info : ansys.grpc.dpf.result_info_pb2.ResultInfo message
-        
-        channel : channel, optional
-            Channel connected to the remote or local instance. Defaults to the global channel.
-    
-        """
+        """Initialize with a ResultInfo message"""
         if channel is None:
-            channel = dpf.core._global_channel()   
-         
-        self._channel= channel
+            channel = dpf.core._global_channel()
+
+        self._channel = channel
         self._stub = self._connect()
 
         if isinstance(result_info, ResultInfo):
@@ -43,14 +41,13 @@ class ResultInfo:
         self._names = [item.name for item in self.available_results]
 
     def __str__(self):
-       
         txt = '%s analysis\n' % self.analysis_type.capitalize() +\
               'Unit system: %s\n' % self.unit_system +\
               'Physics Type: %s\n' % self.physics_type.capitalize() +\
               'Available results:\n'
         for res in self.available_results:
-            line=['','-',res.name]
-            txt+='{0:^4} {1:^2} {2:<30}'.format(*line)+'\n'
+            line = ['', '-', res.name]
+            txt += '{0:^4} {1:^2} {2:<30}'.format(*line)+'\n'
 
         return txt
 
@@ -71,7 +68,20 @@ class ResultInfo:
 
     @property
     def physics_type(self):
-        """Type of physics (ex : mecanic, electric...)"""
+        """Type of physics.
+
+        Examples
+        --------
+        Mechical result
+
+        >>> scoping.physics_type
+        mecanic
+
+        Electrical result
+
+        >>> scoping.physics_type
+        electric
+        """
         intOut = self._stub.List(self._message).physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
 
@@ -92,17 +102,16 @@ class ResultInfo:
 
     @property
     def unit_system(self):
-        """Unit system str"""
+        """Unit system"""
         val = self._stub.List(self._message).unit_system
         return map_unit_system[val]
-    
+
     @property
     def available_results(self):
         """Available results"""
-        out =[]
+        out = []
         for i in range(len(self)):
             out.append(self._get_result(i))
-        
         return out
 
     def _get_result(self, numres):

@@ -3,7 +3,8 @@ from functools import wraps
 import numpy as np
 
 from ansys import dpf
-from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2, field_definition_pb2, field_definition_pb2_grpc
+from ansys.grpc.dpf import (field_pb2, field_pb2_grpc, base_pb2,
+                            field_definition_pb2, field_definition_pb2_grpc)
 from ansys.dpf.core.common import natures, types, locations, ShellLayers
 from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
 from ansys.dpf.core.plotter import Plotter
@@ -14,9 +15,9 @@ class Field:
     Parameters
     ----------
     channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to the global channel.
-     
-    
+        Channel connected to the remote or local instance. Defaults to
+        the global channel.
+
     nentities : int
         Number of entities
 
@@ -24,28 +25,25 @@ class Field:
         Nature of the field.
 
     location : str optional
-        Location of the field ("Nodal", "Elemental", "ElementalNodal"...)
+        Location of the field.  For example:
+
+        - ``"Nodal"``
+        - ``"Elemental"``
+        - ``"ElementalNodal"``
 
     field : ansys.grpc.dpf.field_pb2.Field, optional
         Field message generated from a grpc stub.
-
-    Attributes
-    ----------
-    data : data of the field
-
-    scoping : ids used to link the field to its support (often a meshedregion)
     """
 
-    def __init__(self, nentities=0,
-                 nature=natures.vector,
+    def __init__(self, nentities=0, nature=natures.vector,
                  location=locations.nodal, field=None, channel=None):
-        """Intialize the field with either optional field message, or
+        """Initialize the field with either optional field message, or
         by connecting to a stub.
         """
         if channel is None:
-            channel = dpf.core._global_channel()       
-            
-        self._channel=channel
+            channel = dpf.core._global_channel()
+
+        self._channel = channel
         self._stub = self._connect()
 
         if field is None:
@@ -74,10 +72,9 @@ class Field:
                 raise TypeError(f'Cannot create a field from a "{type(field)}" object')
 
         self._field_definition = self._load_field_definition()
-        
+
         # add dynamic methods
         self._update_dynamic_methods()
-        
 
     @property
     def size(self):
@@ -87,19 +84,19 @@ class Field:
     @property
     def shape(self):
         """Numpy-like shape of the field"""
-        if self.component_count!=1:
+        if self.component_count != 1:
             return (self.elementary_data_count, self.component_count)
-        else :
+        else:
             return self.elementary_data_count
-        
+
     @property
     def elementary_data_shape(self):
         """Numpy-like shape of the field"""
-        if self.component_count!=1:
+        if self.component_count !=1 :
             return (1, self.component_count)
-        else :
+        else:
             return self.component_count
-        
+
     def _update_dynamic_methods(self):
         """Add or remove dynamic methods to this instance based on the
         field type"""
@@ -116,54 +113,60 @@ class Field:
         """
         if self._field_definition:
             return self._field_definition.location
-        
+
     @property
     def shell_layers(self):
         """Return the field shell layers.
-        
+
         Returns
         -------
-        Enum 
+        Enum
             dpf.core.common.ShellLayers enum value
         """
         if self._field_definition:
             return self._field_definition.shell_layers
-        
+
     def __to_nodal(self):
         """create a to_nodal operator and evaluates it"""
         op = dpf.core.Operator("to_nodal")
         op.inputs.connect(self)
         return op.outputs.field()
-    
-    def plot(self, notebook = None, shell_layers = None):
+
+    def plot(self, notebook=None, shell_layers=None):
         """Plot the field/fields container on mesh support if exists.
-        
+
         Warning
         -------
-        Regarding the interactions with the GRPc server, this can be slower than:
+        This is primarily added out of convenience as plotting
+        directly from the field can be slower than extracting the
+        meshed region and plotting the field on top of that.  It is
+        more efficient to plot with:
+
         >>> mesh = model.metadata.meshed_region
         >>> mesh.plot(field)
-        Better use the previous lines.  
-        
+
         Parameters
-        ----------         
-        notebook (default: True)
-            bool, that specifies if the plotting is in the notebook (2D) or not (3D)
-            
+        ----------
+        notebook : bool, optional
+            Bool, that specifies if the plotting is in the notebook as
+            a static image or or as a dynamic plot outside of the
+            notebook.
+
         shell_layers : core.ShellLayers, optional
-            Enum used to set the shell layers if the model to plot 
+            Enum used to set the shell layers if the model to plot
             contains shell elements.
         """
         pl = Plotter(self.meshed_region)
         pl.plot_contour(self, notebook, shell_layers)
-    
+
     def resize(self, nentities, datasize):
-        """allocate memory
+        """Allocate memory.
 
         Parameters
         ----------
         nentities : int
             num ids in the scoping
+
         datasize : int
             data vector size
         """
@@ -172,7 +175,6 @@ class Field:
         request.size.scoping_size = nentities
         request.size.data_size = datasize
         self._stub.UpdateSize(request)
-        
 
     def _load_field_definition(self):
         """Attempt to load the field definition for this field"""
@@ -183,6 +185,7 @@ class Field:
             return FieldDefinition(out.field_definition)
         except:
             return
+
     @property
     def unit(self):
         """Units of the field"""
@@ -191,31 +194,15 @@ class Field:
 
     @property
     def name(self):
-        request=field_pb2.GetRequest()
+        request = field_pb2.GetRequest()
         request.field.CopyFrom(self._message)
         out = self._stub.GetFieldDefinition(request)
         return out.name
 
-    def _set_data(self, data):
-        """
-        Parameters
-        ----------
-        data : list of double or array
-        """
-        if isinstance(data,  (np.ndarray, np.generic)):
-            if data.shape !=  self.shape and data.size != self.size:
-                raise ValueError(f'an array of shape {self.shape} is expected and shape {data.shape} is in input')
-            else:
-                data = data.reshape(data.size).tolist()
-        request = field_pb2.UpdateDataRequest()
-        request.data_containers.data.datadouble.rep_double.extend(data)
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateData(request)
-
     def get_entity_data(self, index):
-        """
-        Returns the data of the scoping's index in parameter of the field
-        
+        """Returns the data of the scoping's index in parameter of the
+        field.
+
         Returns
         -------
         data : numpy.array
@@ -224,34 +211,35 @@ class Field:
         request.field.CopyFrom(self._message)
         request.index = index
         list_message = self._stub.GetElementaryData(request, metadata=[(b'float_or_double', b'double')])
-        list = []
+        data = []
         if list_message.elemdata_containers.data.HasField("datadouble"):
-            list= list_message.elemdata_containers.data.datadouble.rep_double
+            data = list_message.elemdata_containers.data.datadouble.rep_double
         elif list_message.elemdata_containers.data.HasField("dataint"):
-            list = list_message.elemdata_containers.data.dataint.rep_int
-        
-        array = np.array(list)
-        if self.component_count !=1 :
-            array = array.reshape((len(list)//self.component_count,self.component_count))
-        
+            data = list_message.elemdata_containers.data.dataint.rep_int
+
+        array = np.array(data)
+        if self.component_count !=1:
+            n_comp = self.component_count
+            array = array.reshape((len(data)//n_comp, n_comp))
+
         return array
 
     def get_entity_data_by_id(self, id):
-        """
-        Returns the data of the scoping's id in parameter of the field
-        
+        """Return the data of the scoping's id in parameter of the field.
+
         Returns
         -------
         data : numpy.array
+            Data based on the scoping id.
         """
         index = self.scoping.index(id)
-        if index<0:
-            raise ValueError(f'the id {id} doesn\'t belong to this field')
-        else:
-            return self.get_entity_data(index)
-        
+        if index < 0:
+            raise ValueError(f'The id {id} must be greater than 0')
+        return self.get_entity_data(index)
+
     def set_entity_data(self, data, index, scopingid):
-        """
+        """Set entity data.
+
         Parameters
         ----------
         data : list of double or array
@@ -262,16 +250,16 @@ class Field:
         scopingid : int
             id of the scoping
         """
-        if isinstance(data,  (np.ndarray, np.generic)):
+        if isinstance(data, (np.ndarray, np.generic)):
             data = data.reshape(data.size).tolist()
         request = field_pb2.UpdateDataRequest()
         request.elemdata_containers.data.datadouble.rep_double.extend(data)
         request.elemdata_containers.scoping_index = index
         if scopingid is None:
-            scopingid=self.scoping.id(index)
-            
+            scopingid = self.scoping.id(index)
+
         request.elemdata_containers.scoping_id = scopingid
-            
+
         request.field.CopyFrom(self._message)
         self._stub.UpdateData(request)
 
@@ -286,10 +274,10 @@ class Field:
         request.field.CopyFrom(self._message)
         self._stub.UpdateScoping(request)
 
-    def _get_data(self):
-        """
-        Returns all the data of the field
-        
+    @property
+    def data(self):
+        """The data of the field
+
         Returns
         -------
         data : numpy.array
@@ -307,7 +295,7 @@ class Field:
         for iMeta in range(len(tupleMetaData)):
             if tupleMetaData[iMeta].key == u"size_tot":
                 size = int(tupleMetaData[iMeta].value)
-    
+
         ncomp=self.component_count
         itemsize = np.dtype(dtype).itemsize
         arr = np.empty(size//itemsize,dtype)
@@ -322,14 +310,27 @@ class Field:
 
         return arr
 
+    @data.setter
+    def data(self, data):
+        """Set the data of the field.
+
+        Parameters
+        ----------
+        data : list of double or array
+        """
+        if isinstance(data,  (np.ndarray, np.generic)):
+            if data.shape !=  self.shape and data.size != self.size:
+                raise ValueError(f'An array of shape {self.shape} is expected and shape {data.shape} is in input')
+            else:
+                data = data.reshape(data.size).tolist()
+        request = field_pb2.UpdateDataRequest()
+        request.data_containers.data.datadouble.rep_double.extend(data)
+        request.field.CopyFrom(self._message)
+        self._stub.UpdateData(request)
+
     @property
     def elementary_data_count(self):
-        """
-        Returns
-        ------- 
-        ndata : int
-            number of elementary data in the field
-        """
+        """Number of elementary data in the field"""
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_ELEMENTARY_DATA
         request.field.CopyFrom(self._message)
@@ -345,7 +346,7 @@ class Field:
         request.field.CopyFrom(self._message)
         message = self._stub.GetScoping(request)
         return scoping.Scoping(scoping=message.scoping)
-    
+
     def _get_meshed_region(self):
         """
         Returns
@@ -359,8 +360,8 @@ class Field:
             message = self._stub.GetSupport(request)
             return meshed_region.MeshedRegion(mesh=message)
         except:
-            print("the field's support is not a mesh (try a time_freq_support)")
-    
+            raise RuntimeError("The field's support is not a mesh.  Try a time_freq_support.")
+
     def _get_time_freq_support(self):
         """
         Returns
@@ -374,17 +375,16 @@ class Field:
             message = self._stub.GetSupport(request)
             return time_freq_support.TimeFreqSupport(time_freq_support=message)
         except:
-            print("the field's support is not a timefreqsupport (try a mesh)")
-    
+            raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
 
     @property
     def time_freq_support(self):
         return self._get_time_freq_support()
-    
+
     @property
     def meshed_region(self):
         return self._get_meshed_region()
-    
+
     # TODO: Consider making this private or just using the ndim property
     @property
     def component_count(self):
@@ -398,7 +398,7 @@ class Field:
         request.entity = base_pb2.NUM_COMPONENT
         request.field.CopyFrom(self._message)
         return self._stub.Count(request).count
-    
+
     def __add__(self, field_b):
         """Adds two fields together"""
         return dpf.core.operators_helper.add(self, field_b)
@@ -407,9 +407,6 @@ class Field:
         if value != 2:
             raise ValueError('DPF only the value is "2" suppported')
         return dpf.core.operators_helper.sqr(self)
-
-    def _del_data(self):
-        pass
 
     def _del_scoping(self, scoping):
         scoping.__del__()
@@ -424,8 +421,7 @@ class Field:
         """Connect to the grpc service"""
         return field_pb2_grpc.FieldServiceStub(self._channel)
 
-    # TOOD: Consider writing out setters and getters
-    data = property(_get_data, _set_data, _del_data, "data")
+    # TODO: Consider writing out setters and getters
     scoping = property(_get_scoping, _set_scoping, _del_scoping, "scoping")
 
     @property
@@ -446,10 +442,9 @@ class Field:
             pass
 
         return txt
-    
+
     def __len__(self):
         return self.size
-
 
     @wraps(operators_helper.min_max)
     def _min_max(self):
@@ -463,7 +458,6 @@ class Field:
         min : ansys.dpf.core.Field
             Component-wise minimum field.
         """
-        
         return self._min_max().get_output(0, types.field)
 
     def max(self):
@@ -476,7 +470,6 @@ class Field:
         """
         return self._min_max().get_output(1, types.field)
 
-  
 
 class FieldDefinition:
     """Represent a Field definition"""
@@ -492,11 +485,11 @@ class FieldDefinition:
     def location(self):
         out = self._stub.List(self._messageDefinition)
         return out.location.location
-    
+
     @property
     def unit(self):
         return self._stub.List(self._messageDefinition).unit.symbol
-    
+
     @property
     def shell_layers(self):
         enum_val = self._stub.List(self._messageDefinition).shell_layers

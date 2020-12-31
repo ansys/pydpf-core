@@ -61,16 +61,15 @@ class Outputs:
 
     def __str__(self):
         docstr = 'Available outputs:\n'
-        for output in self._outputs :
-            tot_string =output.__str__()
+        for output in self._outputs:
+            tot_string = str(output)
             input_string = tot_string.split('\n')
             input_string1 = input_string[0]
-            line = ["   ","o ",input_string1]
-            docstr+='{:<5}{:<4}{:<20}'.format(*line)
-            docstr+='\n'
-            for inputstr in input_string :
+            line = ["   ", "- ", input_string1]
+            docstr += '{:<5}{:<4}{:<20}\n'.format(*line)
+            for inputstr in input_string:
                 if inputstr != input_string1:
-                    line = ["   ","  ",inputstr]
-                    docstr+='{:<5}{:<4}{:<20}'.format(*line)
-                    docstr+='\n'
+                    line = ["   ", "  ", inputstr]
+                    docstr += '{:<5}{:<4}{:<20}'.format(*line)
+                    docstr += '\n'
         return docstr

@@ -16,10 +16,11 @@ def build_docs():
     """Build HTML documentation.  This outputs all available
     operator types for the loaded operators
 
-    HTML is saved in the curent python directory
+    HTML is saved in the current python directory
     """
     dpf.core.Operator('html_doc').run()
-    
+
+
 def sum(var_inp):
     """Sum all the elementary data of a field to get one elementary
     data at the end.  If an Operator, must only contain one field.
@@ -107,7 +108,6 @@ def to_nodal(var_inp):
         Field containing the nodal averaged field
     """
     # try to use the same server as input
-   
     _check_type(var_inp, dpf.core.Field)
     if isinstance(var_inp, dpf.core.Field):
         oper = dpf.core.Operator('to_nodal')
@@ -117,8 +117,6 @@ def to_nodal(var_inp):
         return oper.get_output(0, dpf_types.fields_container)
     else:
         raise TypeError('Input type must be a Field, FieldContainer')
-    
-
 
 
 def norm(var_inp):
@@ -160,7 +158,7 @@ def _norm_fc(fields):
     Returns
     -------
     fields : ansys.dpf.core.FieldsContainer
-        Euclidian norm of the fields.
+        Euclidean norm of the fields.
     """
     _check_type(fields, dpf.core.FieldsContainer)
     norm_op = dpf.core.Operator('norm_fc')
@@ -178,12 +176,10 @@ def _norm_op(oper):
     """
     _check_type(oper, dpf.core.Operator)
 
-    # try to use the same server as input
-    
+    # try to use the same server as input    
     norm_op = dpf.core.Operator('norm_fc')
     norm_op.inputs.connect(oper.outputs)
     return norm_op
-
 
 
 def eqv(var_inp):
@@ -388,7 +384,7 @@ def sqr(field):
 
     Examples
     --------
-    Using build-in operator
+    Using built-in operator
 
     >>> field = dpf.core.field_from_array([1, 8])
     >>> field_sqr = field**2
@@ -452,6 +448,7 @@ def dot_tensor(a, b):
     return op.get_output(0, dpf.core.types.field)
 
 
+# TODO: Depreciate, appears unused
 def component_selector(var_inp, index):
     """Select a component from either a field or a fields container.
 

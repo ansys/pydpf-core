@@ -1,8 +1,7 @@
-import os
 import pytest
 
 from ansys.dpf import core
-
+from ansys.dpf.core.misc import is_ubuntu
 
 ansys_path = core.misc.find_ansys()
 
@@ -13,9 +12,10 @@ if ansys_path is not None:
     except:
         invalid_version = True
 
+
 # skip unless ansys v211 is installed
-if ansys_path is None or invalid_version:
-    pytestmark = pytest.mark.skip("Requires local install of ANSYS 202R1")
+if ansys_path is None or invalid_version or is_ubuntu():
+    pytestmark = pytest.mark.skip("Requires local install of ANSYS 2020R1")
 
 
 def test_start_local():

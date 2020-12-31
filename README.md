@@ -60,7 +60,7 @@ pytest
 If you have ANSYS v2021R1 installed locally, the unit tests will
 automatically start up the DPF server and run the tests.  If you need
 to disable this and have the unit tests run against a remote server,
-setup the following enviornment variables:
+setup the following environment variables:
 
 ```
 set DPF_START_SERVER=False

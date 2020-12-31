@@ -1,10 +1,9 @@
 import os
 import socket
 
-
 from ansys.dpf.core._version import __version__
 
-# enviornmental variables for pyansys.com
+# environment variables for pyansys.com
 if 'jupyter' in socket.gethostname():
     if 'ANSYS_PATH' not in os.environ:
         os.environ['ANSYS_PATH'] = '/mnt/ansys_inc/v212/'
@@ -18,8 +17,8 @@ from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field
 from ansys.dpf.core.fields_container import FieldsContainer
-from ansys.dpf.core.server import (start_local_server,
-                                   _global_channel, connect_to_server)
+from ansys.dpf.core.server import (start_local_server, _global_channel,
+                                   connect_to_server)
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.common import types, natures, field_from_array, locations, ShellLayers
@@ -43,15 +42,12 @@ if module_exists("pyvista"):
     pv.rcParams["font"]["family"] = "courier"
     pv.rcParams["title"] = "DPF"
 
-    
+
 CHANNEL = None
 
 def has_local_server():
     """Returns True when a local DPF gRPC server has been created"""
     return CHANNEL is not None
-
-
-
 
 
 _server_instances = []

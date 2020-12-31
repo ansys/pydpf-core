@@ -3,7 +3,7 @@
 /.spyproject
 
 #tests
-/tests/__pycache__
+__pycache__
 /tests/.pytest_cache
 
 #ansys/dpf
@@ -17,10 +17,11 @@
 
 #other
 /perso
-/examples/.ipynb_checkpoints
+.ipynb_checkpoints/
 
 # compiled documentation
 docs/build
+docs/source/examples
 
 # pip files
 *.egg-info

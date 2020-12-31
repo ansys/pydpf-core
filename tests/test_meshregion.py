@@ -4,7 +4,6 @@ import vtk
 from ansys import dpf
 
 
-
 @pytest.fixture()
 def simple_bar_model(simple_bar):
     return dpf.core.Model(simple_bar)
