@@ -120,14 +120,11 @@ class Plotter:
         if DefinitionLabels.complex in labels.keys():
             raise dpf_errors.ComplexPlottingError
         if DefinitionLabels.time in labels.keys():
-            i = 1
-            size = len(fields_container)
             first_time = labels[DefinitionLabels.time]
-            while i < size:
+            for i in range(1, len(fields_container)):
                 label = fields_container.get_label_space(i)
                 if label[DefinitionLabels.time] != first_time:
                     raise dpf_errors.FieldContainerPlottingError
-                i += 1
 
         mesh = self._mesh
 
