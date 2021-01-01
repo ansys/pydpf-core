@@ -9,6 +9,7 @@ from ansys.dpf.core.common import natures, types, locations, ShellLayers
 from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
 from ansys.dpf.core.plotter import Plotter
 
+
 class Field:
     """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
 
@@ -33,6 +34,24 @@ class Field:
 
     field : ansys.grpc.dpf.field_pb2.Field, optional
         Field message generated from a grpc stub.
+
+    Examples
+    --------
+    Extract a displacement field from a transient result file.
+
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = dpf.Model(transient)
+    >>> disp = model.results.displacement()
+    >>> fields_container = disp.outputs.fields_container()
+    >>> field = fields_container[0]
+    >>> print(field)
+    DPF displacement_0.676628s Field
+        Location:   Nodal
+        Unit:       m
+        Num. id(s): 3820
+        Shape:      (3820, 3)
     """
 
     def __init__(self, nentities=0, nature=natures.vector,
@@ -83,16 +102,23 @@ class Field:
 
     @property
     def shape(self):
-        """Numpy-like shape of the field"""
+        """Numpy-like shape of the field
+
+        Examples
+        --------
+        Shape of a stress field
+
+        >>> field.shape
+        (5720, 6)
+        """
         if self.component_count != 1:
             return (self.elementary_data_count, self.component_count)
-        else:
-            return self.elementary_data_count
+        return self.elementary_data_count
 
     @property
     def elementary_data_shape(self):
         """Numpy-like shape of the field"""
-        if self.component_count !=1 :
+        if self.component_count != 1:
             return (1, self.component_count)
         else:
             return self.component_count
@@ -110,6 +136,15 @@ class Field:
         Returns
         -------
         location : str
+            Location string.  Either ``'Nodal'``, ``'Elemental'``, or
+            ``'ElementalNodal'``.
+
+        Examples
+        --------
+        Location for a stress field evaluated at nodes
+
+        >>> field.location
+        'Nodal'
         """
         if self._field_definition:
             return self._field_definition.location
@@ -170,7 +205,7 @@ class Field:
         datasize : int
             data vector size
         """
-        request=field_pb2.UpdateSizeRequest()
+        request = field_pb2.UpdateSizeRequest()
         request.field.CopyFrom(self._message)
         request.size.scoping_size = nentities
         request.size.data_size = datasize
@@ -188,7 +223,15 @@ class Field:
 
     @property
     def unit(self):
-        """Units of the field"""
+        """Units of the field
+
+        Examples
+        --------
+        Units of a stress field
+
+        >>> field.unit
+        'Pa'
+        """
         if self._field_definition:
             return self._field_definition.unit
 
@@ -276,18 +319,28 @@ class Field:
 
     @property
     def data(self):
-        """The data of the field
+        """The data of this field.
 
         Returns
         -------
-        data : numpy.array
+        data : numpy.ndarray
+            Data of this field.
+
+        Examples
+        --------
+        >>> field.data
+        array([0.00000000e+00, 6.21536180e+02, 1.01791331e+03,
+               8.09503532e+02, 9.04515762e+01, 9.59176333e+02,
+               ...
+               1.00709302e+03, 1.03186142e+03, 1.76060480e+03,
+               1.51723816e+06, 1.28246347e+06, 1.39214534e+06])
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
         if self._message.datatype == u"int":
             data_type = u"int"
             dtype = np.int32
-        else :
+        else:
             data_type = u"double"
             dtype = np.float
         service = self._stub.List(request, metadata=[(u"float_or_double", data_type)])
@@ -296,17 +349,17 @@ class Field:
             if tupleMetaData[iMeta].key == u"size_tot":
                 size = int(tupleMetaData[iMeta].value)
 
-        ncomp=self.component_count
+        ncomp = self.component_count
         itemsize = np.dtype(dtype).itemsize
-        arr = np.empty(size//itemsize,dtype)
+        arr = np.empty(size//itemsize, dtype)
         i = 0
         for chunk in service:
-            curr_size=len(chunk.array)//itemsize
+            curr_size = len(chunk.array)//itemsize
             arr[i:i + curr_size] = np.frombuffer(chunk.array, dtype)
             i += curr_size
-            
-        if ncomp!=1:
-            arr =arr.reshape(self.shape)
+
+        if ncomp != 1:
+            arr = arr.reshape(self.shape)
 
         return arr
 
@@ -408,8 +461,8 @@ class Field:
             raise ValueError('DPF only the value is "2" suppported')
         return dpf.core.operators_helper.sqr(self)
 
-    def _del_scoping(self, scoping):
-        scoping.__del__()
+    def _del_scoping(self, scope):
+        scope.__del__()
 
     def __del__(self):
         try:
@@ -429,18 +482,16 @@ class Field:
         return self.component_count
 
     def __str__(self):
-        txt = 'DPF %s Field\n' % self.name
-        txt += '\tLocation: %s\n' % self.location
-        txt += '\tUnit: %s\n' % self.unit
-        txt += '\t%d id(s)\n' % self.scoping.size
-        txt += '\tdata size: %s\n' % self.size
-        txt += f'\tshape: {self.shape}\n'
+        txt = f'DPF {self.name} Field\n'
+        txt += f'    Location:   {self.location}\n'
+        txt += f'    Unit:       {self.unit}\n'
+        txt += f'    Num. id(s): {self.scoping.size}\n'
+        txt += f'    Shape:      {self.shape}\n'
         try:
             if self.size == 1:
                 txt += f'\tValue: {self.data[0]}\n'
         except:
             pass
-
         return txt
 
     def __len__(self):
@@ -476,8 +527,8 @@ class FieldDefinition:
 
     def __init__(self, field_definition=None, channel=None):
         if channel is None:
-            channel = dpf.core._global_channel()  
-            
+            channel = dpf.core._global_channel()
+
         self._messageDefinition = field_definition
         self._stub = self._connect(channel)
 

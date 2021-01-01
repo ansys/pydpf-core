@@ -1,4 +1,5 @@
 """Interface to underlying gRPC Operator"""
+from textwrap import wrap
 import logging
 import grpc
 import functools
@@ -218,19 +219,20 @@ class Operator:
 
     def __str__(self):
         # return this repr and operator one level up
-        txt = f'DPF "{self.name}" operator\n'
+        txt = f'DPF "{self.name}" Operator\n'
         if self._description:
-            line = [' ','description:', self._description]
-            txt+='{:^3} {:^6} {:^15}'.format(*line)
-            txt+='\n'
+            txt += '    Description:\n'
+            txt += '\n'.join(wrap(self._description, initial_indent='    ',
+                                  subsequent_indent='    '))
+            txt += '\n\n'
         if self.inputs:
-            line = [' ',self.inputs.__str__()]
-            txt+='{:^3} {:^21}'.format(*line)
-            txt+='\n'
+            line = [' ', self.inputs.__str__()]
+            txt += '{:^3} {:^21}'.format(*line)
+            txt += '\n'
         if self.outputs:
-            line = [' ',self.outputs.__str__()]
-            txt+='{:^3} {:^21}'.format(*line)
-            txt+='\n'
+            line = [' ', self.outputs.__str__()]
+            txt += '{:^3} {:^21}'.format(*line)
+            txt += '\n'
 
         return txt
 
@@ -265,7 +267,7 @@ class Operator:
                 if type(inpt).__name__ == 'dict':
                     for keyout in inpt:
                         op.connect(key,inpt[keyout],keyout)
-                else :
+                else:
                     op.connect(key,inpt)
         return op
 
@@ -277,12 +279,12 @@ class Operator:
     def __mul__(self, inpt):
         if isinstance(inpt, Operator):
             op = Operator("dot")
-            op.connect(0,self,0)  
-            op.connect(1,inpt,0)            
+            op.connect(0, self, 0)
+            op.connect(1, inpt, 0)
         elif isinstance(inpt, float):
             op = Operator("scale")
-            op.connect(0,self,0)  
-            op.connect(1,inpt)
+            op.connect(0, self, 0)
+            op.connect(1, inpt)
         return op
 
     def __truediv__(self, inpt):

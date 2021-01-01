@@ -3,7 +3,7 @@ from ansys.dpf.core.mapping_types import map_types_to_cpp, map_types_to_python
 
 
 class Input:
-    def __init__(self,spec, pin, operator, count_ellipsis=-1):
+    def __init__(self, spec, pin, operator, count_ellipsis=-1):
         self._spec = spec
         self._operator=operator
         self._pin = pin
@@ -15,8 +15,8 @@ class Input:
             self._python_expected_types.append("Any")
         docstr = self.__str__()
         self.name = self._spec.name
-        if self._count_ellipsis !=-1:
-            self.name+=str(self._count_ellipsis +1)
+        if self._count_ellipsis != -1:
+            self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr,self.name)
 
     def connect(self, inpt):
@@ -30,27 +30,29 @@ class Input:
         MeshedRegion, Output, Outputs
             input of the operator
         """
+        # always convert ranges to lists
+        if isinstance(inpt, range):
+            inpt = list(inpt)
+
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
-                print(types, end = ' ')
+                print(types, end=' ')
             print("types are expected for", self._spec.name, "pin")
             return
 
-        corresponding_pins=[]
+        corresponding_pins = []
 
         self._operator._find_outputs_corresponding_pins(self._python_expected_types,inpt, self._pin, corresponding_pins)
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the pin with:\n"
             for pin in corresponding_pins:
-                err_str += "   - operator.inputs."+self._spec.name+"(out_op."+inpt._dict_outputs[pin[1]].name+")"
+                err_str += "   - operator.inputs." + self._spec.name+"(out_op." + inpt._dict_outputs[pin[1]].name + ")"
             raise ValueError(err_str)
 
         if len(corresponding_pins) == 0:
-            err_str = "The input operator should have one of this output expected types:\n"
-            for python_type in self._python_expected_types:
-                err_str += f"   - {python_type}"
-            err_str += f" for the {self._spec.name} pin\n"
+            err_str = f"The input operator for the {self._spec.name} pin be one of the following types:\n"
+            err_str += '\n'.join([f'- {py_type}' for py_type in self._python_expected_types])
             raise TypeError(err_str)
 
         if input_type_name not in ["Outputs", "Output"]:

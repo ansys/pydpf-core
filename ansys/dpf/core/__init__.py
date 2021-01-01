@@ -1,3 +1,4 @@
+import inspect
 import os
 import socket
 
@@ -32,6 +33,30 @@ from ansys.dpf.core.collection import Collection
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
 os.environ['QT_STYLE_OVERRIDE'] = ''
+
+# Setup data directory
+USER_DATA_PATH = None
+EXAMPLES_PATH = None
+if os.environ.get('DPF_DOCKER', False):  # pragma: no cover
+    # Running DPF within docker (likely for CI)
+    # path must be relative to DPF directory
+    _module_path = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    EXAMPLES_PATH = os.path.join(_module_path, 'examples', '_cache')
+    if not os.path.isdir(EXAMPLES_PATH):
+        os.makedirs(EXAMPLES_PATH)
+
+else:
+    try:
+        import appdirs
+        USER_DATA_PATH = appdirs.user_data_dir('ansys-dpf-core')
+        if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
+            os.makedirs(USER_DATA_PATH)
+
+        EXAMPLES_PATH = os.path.join(USER_DATA_PATH, 'examples')
+        if not os.path.exists(EXAMPLES_PATH):  # pragma: no cover
+            os.makedirs(EXAMPLES_PATH)
+    except:  # pragma: no cover
+        pass
 
 
 # Configure PyVista's ``rcParams`` for dpf
