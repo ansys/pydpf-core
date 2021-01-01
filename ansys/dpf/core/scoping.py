@@ -81,6 +81,9 @@ class Scoping:
         ids : list of int
             The ids to set
         """
+        if isinstance(ids, range):
+            ids = list(ids)
+
         request = scoping_pb2.UpdateRequest()
         request.ids.ids.rep_int.extend(ids)
         request.scoping.CopyFrom(self._message)

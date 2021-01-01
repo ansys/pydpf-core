@@ -168,37 +168,45 @@ class MeshedRegion:
         if self._full_grid is None:
             self._full_grid = self._as_vtk()
         return self._full_grid
-    
-    def plot(self, field_or_fields_container=None, notebook=None, shell_layers=None):
+
+    def plot(self, field_or_fields_container=None, notebook=None,
+             shell_layers=None, off_screen=None, show_axes=True, **kwargs):
         """Plot the field/fields container on mesh.
-        
+
         Parameters
         ----------
         field_or_fields_container
             dpf.core.Field or dpf.core.FieldsContainer
-            
-        notebook (default: None)
-            bool, that specifies if the plotting is in the notebook (2D) or not (3D)
-            
+
+        notebook : bool, optional
+            That specifies if the plotting is in the notebook (2D) or not (3D).
+
         shell_layers : core.ShellLayers, optional
-            Enum used to set the shell layers if the model to plot 
+            Enum used to set the shell layers if the model to plot
             contains shell elements.
+
+        off_screen : bool, optional
+            Plot without showing the plotting window.  Best when
+            saving screenshots in batch processing.
+
         """
         pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
-            pl.plot_contour(field_or_fields_container, notebook, shell_layers)
+            return pl.plot_contour(field_or_fields_container, notebook, shell_layers,
+                                   off_screen, show_axes, **kwargs)
         else:
-            pl.plot_mesh(notebook)
+            return pl.plot_mesh(notebook)
 
 
 class Node:
-    """A class used to represent a Node"""
+    """Represent a DPF Node"""
+
     def __init__(self, mesh, nodeid, index, coordinates):
         self._id = nodeid
         self._index = index
         self._coordinates = coordinates
         self._mesh = mesh
-        
+
     @property
     def index(self):
         return self._index
@@ -216,12 +224,10 @@ class Node:
         txt += 'Index: %d\n' % self.index
         txt += f'{self.coordinates}\n'
         return txt
-    
-    
 
 
 class Element:
-    """A class used to represent an Element"""
+    """Represent a DPF element"""
     def __init__(self, mesh, elementid, index, nodes):
         self._id = elementid
         self._index = index
@@ -230,10 +236,7 @@ class Element:
 
     @property
     def node_ids(self):
-        node_ids=[]
-        for node in self._nodes:
-            node_ids.append(node.id)
-        return node_ids
+        return [node.id for node in self._nodes]
 
     @property
     def id(self):
@@ -256,18 +259,18 @@ class Element:
         txt += '\tIndex: %d\n' % self.index
         txt += '\tNumber of nodes: %d\n' % self.n_nodes
         return txt
-    
+
     @property
     def element_type(self):
         return self._get_element_type()
-    
+
     @property
     def element_shape(self):
         return self._get_element_shape()
-    
+
     def _get_element_type(self):
         """Returns the element type of the element
-       
+
         Returns
         -------
         element_type : int
