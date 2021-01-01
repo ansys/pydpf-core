@@ -170,7 +170,7 @@ class Plotter:
                 changeOp.inputs.e_shell_layer.connect(sl.value) #top layers taken
                 fields_container = changeOp.outputs.fields_container()
                 break
-
+             
         #loop: merge fields
         for field in fields_container:
             data = field.data
@@ -181,15 +181,14 @@ class Plotter:
                 ind = m_id_to_index[scop_ids[i]]
                 overall_data[ind] = data[i]
                 i += 1
-
+                    
         #add meshes
-        plotter.add_mesh(grid, scalars=overall_data, stitle=name,
-                         nan_color=nan_color, show_edges=True)
-
-        # show result
+        plotter.add_mesh(grid, scalars = overall_data, stitle = name, nan_color=nan_color, show_edges=True)
+            
+        #show result
         plotter.add_axes()
         return plotter.show()
-
+    
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support. The obtained figure depends on the 
         support (can be a meshed_region or a time_freq_support).
