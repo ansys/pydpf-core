@@ -3,7 +3,6 @@ import os
 
 import pyvista
 import numpy as np
-import sphinx_rtd_theme
 
 from ansys.dpf.core import __version__
 

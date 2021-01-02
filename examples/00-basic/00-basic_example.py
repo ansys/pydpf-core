@@ -1,5 +1,5 @@
 """
-.. _ref_dpf_core:
+.. _ref_basic_example:
 
 Basic DPF-Core Usage
 ~~~~~~~~~~~~~~~~~~~~

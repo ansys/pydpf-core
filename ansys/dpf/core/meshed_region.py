@@ -197,6 +197,7 @@ class MeshedRegion:
         """VTK pyvista UnstructuredGrid
 
         Returns
+        -------
         pyvista.UnstructuredGrid
             UnstructuredGrid of the mesh.
 

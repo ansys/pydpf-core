@@ -32,7 +32,7 @@ def _retrieve_file(url, filename, directory):
     if not os.path.isdir(dirpath):
         os.mkdir(dirpath)
 
-    # Perfrom download
+    # Perform download
     _, resp = urlretrieve(url, local_path)
     return local_path
 

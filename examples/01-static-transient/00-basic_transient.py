@@ -1,5 +1,5 @@
 """
-.. _ref_dpf_core:
+.. _ref_basic_transient:
 
 Transient Analysis Result Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -134,7 +134,7 @@ print(field.scoping.ids[:10])
 # individual request must be sent to the DPF service.
 
 # load the mesh from the model
-mesh = model.meshed_region
+mesh = model.metadata.meshed_region
 
 # print the first 10 coordinates for the field
 node_ids = field.scoping.ids
@@ -151,4 +151,3 @@ for node_id in node_ids[:10]:
 mesh_node_ids = np.array(mesh.nodes.scoping.ids)
 
 coord = mesh.nodes.coordinates_field.data
-
