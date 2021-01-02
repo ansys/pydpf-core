@@ -25,7 +25,6 @@ def test_chart_plotter(plate_msup):
 
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    mesh = model.metadata.meshed_region
     pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_mesh()
     assert isinstance(cpos, CameraPosition)
@@ -45,8 +44,8 @@ def test_plotter_on_field(allkindofcomplexity):
     fields_container.add_field({'time': 1}, field)
     cpos = pl.plot_contour(fields_container)
     assert isinstance(cpos, CameraPosition)
-    
-    
+
+
 def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     stress = model.results.stress()
@@ -57,7 +56,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
     assert isinstance(cpos, CameraPosition)
-    
+
 
 def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     model = Model(allkindofcomplexity)

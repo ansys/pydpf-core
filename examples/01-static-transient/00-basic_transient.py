@@ -111,8 +111,8 @@ plt.legend()
 plt.show()
 
 ###############################################################################
-# Stress Field Coordinates
-# ~~~~~~~~~~~~~~~~~~~~~~~~
+# Scoping and Stress Field Coordinates
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The scoping of the stress field can be used to extract the
 # coordinates used for each result.
 
@@ -121,6 +121,7 @@ field = eqv.outputs.fields_container()[28]
 
 # print the first node IDs from the field
 print(field.scoping.ids[:10])
+
 
 ################################################################################
 # As you can see, these node numbers are not in order.  Additionally,
@@ -134,20 +135,35 @@ print(field.scoping.ids[:10])
 # individual request must be sent to the DPF service.
 
 # load the mesh from the model
-mesh = model.metadata.meshed_region
+meshed_region = model.metadata.meshed_region
 
 # print the first 10 coordinates for the field
 node_ids = field.scoping.ids
 for node_id in node_ids[:10]:
     # fetch each individual node by node ID
-    node_coord = mesh.nodes.node_by_id(node_id).coordinates
+    node_coord = meshed_region.nodes.node_by_id(node_id).coordinates
     print(f'Node ID {node_id} : %8.5f, %8.5f, %8.5f' % tuple(node_coord))
 
+
 ###############################################################################
+# Rather than individually querying for each node coordinate of the
+# field, you can instead remap the field data to match the order of
+# the nodes in the meshed region by using the ``map_scoping`` method.
 #
-#
+# This provides the indices needed to get the data from ``field.data``
+# to match the order of nodes in the mesh.
 
-# Get all the coordinate
-mesh_node_ids = np.array(mesh.nodes.scoping.ids)
+nodes = meshed_region.nodes
+ind = nodes.map_scoping(field.scoping)
 
-coord = mesh.nodes.coordinates_field.data
+# show that the order of the remapped node scoping matches the field scoping
+print('Scoping matches:', np.allclose(np.array(nodes.scoping.ids)[ind],
+                                      field.scoping.ids))
+
+# We can now plot the von mises stress relative to the Z coordinates
+z_coord = nodes.coordinates_field.data[ind, 2]
+
+plt.plot(z_coord, field.data, '.')
+plt.xlabel('Z Coordinate (m)')
+plt.ylabel('Equivalent Stress (Pa)')
+plt.show()

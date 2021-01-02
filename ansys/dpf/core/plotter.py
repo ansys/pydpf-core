@@ -139,8 +139,6 @@ class Plotter:
         mesh = self._mesh
 
         # get mesh scoping
-        mesh_scoping = None
-        m_id_to_index = None
         location = None
         component_count = None
         name = None
@@ -154,13 +152,11 @@ class Plotter:
                 break
 
         if location == locations.nodal:
-            mesh_scoping = mesh.nodes.scoping
-            m_id_to_index = mesh.nodes.mapping_id_to_index
+            mesh_location = mesh.nodes
         elif location == locations.elemental:
-            mesh_scoping = mesh.elements.scoping
-            m_id_to_index = mesh.elements.mapping_id_to_index
+            mesh_location = mesh.elements
         else:
-            raise Exception("Only elemental or nodal location are supported for plotting.")
+            raise ValueError("Only elemental or nodal location are supported for plotting.")
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.Operator("change_shellLayers")
@@ -178,9 +174,9 @@ class Plotter:
                 break
 
         # Merge field data into a single array
-        overall_data = np.full((len(mesh_scoping), component_count), np.nan)
+        overall_data = np.full((len(mesh_location), component_count), np.nan)
         for field in fields_container:
-            ind = list(map(m_id_to_index.get, field.scoping.ids))
+            ind = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data
 
         # create the plotter and add the meshes
