@@ -51,3 +51,21 @@ simplify the creation of new chained operators.
 
    .. automodule:: ansys.dpf.plotting
        :members:
+
+
+MeshedRegion Class
+------------------
+.. autoclass:: ansys.dpf.core.meshed_region.MeshedRegion
+    :members:
+
+
+Elements Class
+--------------
+.. autoclass:: ansys.dpf.core.meshed_region.Elements
+    :members:
+
+
+Element Class
+--------------
+.. autoclass:: ansys.dpf.core.meshed_region.Element
+    :members:

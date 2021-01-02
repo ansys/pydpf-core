@@ -37,8 +37,8 @@ def test_vtk_grid_from_model(simple_bar_model):
 
 def test_get_element_type_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    assert mesh.elements.element_by_index(1).element_type == 11
-    assert mesh.elements.element_by_index(1).element_shape == 'solid'
+    assert mesh.elements.element_by_index(1).type == 11
+    assert mesh.elements.element_by_index(1).shape == 'solid'
 
 
 def test_get_unit_meshedregion(simple_bar_model):

@@ -206,6 +206,7 @@ class Scoping:
         return self._count()
 
     def __str__(self):
-        txt = 'DPF Scoping Object with\n'
-        txt += '\tSize: %d\n' % self.size
+        txt = 'DPF Scoping Object\n'
+        txt += f'Size: {self.size}\n'
+        txt += f'Location: {self.location}\n'
         return txt

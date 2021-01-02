@@ -99,6 +99,16 @@ class Plotter:
         shell_layers : core.ShellLayers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
+
+        off_screen : bool, optional
+            Renders off screen when ``True``.  Useful for automated screenshots.
+
+        show_axes : bool, optional
+            Shows a vtk axes widget.  Enabled by default.
+
+        **kwargs : optional
+            Additional keyword arguments for the plotter.  See
+            ``help(pyvista.plot)`` for additional keyword arguments.
         """
         if not sys.warnoptions:
             import warnings
