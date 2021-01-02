@@ -81,6 +81,10 @@ class Scoping:
         ids : list of int
             The ids to set
         """
+        # must convert to a list for gRPC
+        if isinstance(ids, range):
+            ids = list(ids)
+
         request = scoping_pb2.UpdateRequest()
         request.ids.ids.rep_int.extend(ids)
         request.scoping.CopyFrom(self._message)
@@ -90,20 +94,24 @@ class Scoping:
         """
         Returns
         -------
-        ids : list of int
+        ids : list[int]
+            List of ids.
         """
         service = self._stub.List(self._message)
-        tupleMetaData = service.initial_metadata()
-        for iMeta in range(len(tupleMetaData)):
-            if (tupleMetaData[iMeta].key == 'size_tot'):
-                totsize = int(tupleMetaData[iMeta].value)
-        out = [None]*totsize
-        i = 0
-        for dataout in service:
-            for idata in dataout.ids.rep_int:
-                out[i] = idata
-                i += 1
+
+        # Get total size, removed as it's unnecessary since Python has
+        # to create a list from the ids
+        #
+        # tupleMetaData = service.initial_metadata()
+        # for iMeta in range(len(tupleMetaData)):
+        #     if (tupleMetaData[iMeta].key == 'size_tot'):
+        #         totsize = int(tupleMetaData[iMeta].value)
+
+        out = []
+        for chunk in service:
+            out.extend(chunk.ids.rep_int)
         return out
+
 
     def set_id(self, index, scopingid):
         """Set the id of an index of the scoping
@@ -179,16 +187,16 @@ class Scoping:
     def _connect(self):
         """Connect to the grpc service containing the reader"""
         return scoping_pb2_grpc.ScopingServiceStub(self._channel)
-    
+
     def __len__(self):
         return self._count()
-    
+
     def __del__(self):
         try:
             self._stub.Delete(self._message)
         except:
             pass
-    
+
     def __getitem__(self, key):
         """Returns the id at a requested index"""
         return self.id(key)
@@ -198,6 +206,7 @@ class Scoping:
         return self._count()
 
     def __str__(self):
-        txt = 'DPF Scoping Object with\n'
-        txt += '\tSize: %d\n' % self.size
+        txt = 'DPF Scoping Object\n'
+        txt += f'Size: {self.size}\n'
+        txt += f'Location: {self.location}\n'
         return txt
