@@ -28,7 +28,7 @@ class Model():
     ----------
     metadata : ansys.dpf.core.model.Metadata
         Entity containing model's metadata: data_sources,
-        meshed_region, time_freq_support, result_info
+        meshed_region, time_freq_support, result_info.
 
     results : ansys.dpf.core.model.Results
         Entity containing all the available results for this model
@@ -47,7 +47,7 @@ class Model():
     """
 
     def __init__(self, data_sources=None, channel=None):
-        """ Initialize connection with mapdl """
+        """Initialize connection with DPF server."""
 
         if channel is None:
             channel = dpf.core._global_channel()
@@ -55,8 +55,101 @@ class Model():
         self._channel = channel
         # base service required to load operators
         self._base = BaseService(self._channel)
-        self.metadata = Metadata(data_sources, channel)
-        self.results = Results(self)
+        self._metadata = Metadata(data_sources, channel)
+        self._results = Results(self)
+
+    @property
+    def metadata(self):
+        """Model metadata
+
+        Includes:
+
+        - ``data_sources``
+        - ``meshed_region``
+        - ``time_freq_support``
+        - ``result_info``
+
+        Examples
+        --------
+        Get the meshed region of the model and extract the element
+        numbers.
+
+        >>> meshed_region = model.metadata.meshed_region
+        >>> meshed_region.elements.scoping.ids
+        [760,
+         761,
+         759,
+         763,
+        ...
+        ]
+
+        Get the data_sources of the model.
+
+        >>> ds = model.metadata.data_sources
+
+        Print the number of result sets.
+
+        >>> tf = model.metadata.time_freq_support
+        >>> tf.n_sets
+        35
+
+        Get the unit system used in the analysis
+
+        >>> rinfo = model.metadata.result_info
+        >>> rinfo.unit_system
+        'Metric (m, kg, N, s, V, A)'
+
+        """
+        return self._metadata
+
+    @property
+    def results(self):
+        """Available results of the model
+
+        Returns
+        -------
+        Results
+            Available results of the model
+
+        Examples
+        --------
+        Print available results
+
+        >>> model.results
+        Static analysis
+        Unit system: Metric (m, kg, N, s, V, A)
+        Physics Type: Mecanic
+        Available results:
+             -  displacement
+             -  force
+             -  element_nodal_forces
+             -  stress
+             -  volume
+             -  energy_stiffness_matrix
+             -  hourglass_energy
+             -  thermal_dissipation_energy
+             -  kinetic_energy
+             -  co_energy
+             -  incremental_energy
+             -  strain
+             -  thermal_strains
+             -  thermal_strains_eqv
+             -  swelling_strains
+             -  temperature
+
+        Access an individual result operator
+
+        >>> temp = model.results.temperature
+        >>> temp
+        DPF "BFE" Operator
+            Description:
+            Load the appropriate operator based on the data sources and
+            read/compute element structural nodal temperatures. Regarding the
+            requested location and the input mesh scoping, the result location
+            can be Nodal/ElementalNodal/Elemental.
+
+        """
+        return self._results
 
     def operator(self, name):
         """Returns an operator associated with the data sources of
@@ -88,20 +181,25 @@ class Model():
     def __str__(self):
         txt = 'DPF Model\n'
         txt += '-'*30 + '\n'
-        txt += self.metadata.result_info.__str__()
+        txt += str(self.results)
         txt += '-'*30 + '\n'
-        txt += self.metadata.meshed_region.__str__()
+        txt += str(self.metadata.meshed_region)
         txt += '-'*30 + '\n'
-        txt += self.metadata.time_freq_support.__str__()
+        txt += str(self.metadata.time_freq_support)
         return txt
 
     def plot(self, color='w', show_edges=True, **kwargs):
-        self.metadata.meshed_region.grid.plot(color=color, show_edges=show_edges, **kwargs)
+        """Plot the mesh of the model
 
-    # @property
-    # def physics_type(self):
-    #     """The physics type of the model"""
-    #     self.result_info.physics_type
+        Examples
+        --------
+        Plot the model with the default options.
+
+        >>> model.plot()
+        """
+        self.metadata.meshed_region.grid.plot(color=color,
+                                              show_edges=show_edges, **kwargs)
+
 
 class Results:
     """Organize the results from DPF into accessible methods.
@@ -195,6 +293,8 @@ class Results:
 
 
 class Metadata:
+    """Contains the metadata of a data source."""
+
     def __init__(self, data_sources, channel):
         self._channel = channel
         self._set_data_sources(data_sources)
@@ -216,21 +316,57 @@ class Metadata:
 
     @property
     def time_freq_support(self):
-        """TimeFreqSupportProvider"""
+        """Time frequency support.
+
+        Returns
+        -------
+        ansys.dpf.core.time_freq_support.TimeFreqSupport
+            Time frequency support.
+
+        Examples
+        --------
+        Get the number of sets from the result file.
+
+        >>> tf = model.metadata.time_freq_support
+        >>> tf.n_sets
+        35
+
+        Get the time values for the active result.
+
+        >>> tf.frequencies.data
+        array([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
+               0.099975  , 0.119975  , 0.139975  , 0.159975  , 0.179975  ,
+               0.199975  , 0.218975  , 0.238975  , 0.258975  , 0.278975  ,
+               0.298975  , 0.318975  , 0.338975  , 0.358975  , 0.378975  ,
+               0.398975  , 0.417975  , 0.437975  , 0.457975  , 0.477975  ,
+               0.497975  , 0.517975  , 0.53754972, 0.55725277, 0.57711786,
+               0.59702054, 0.61694639, 0.63683347, 0.65673452, 0.67662783])
+
+        """
         if self._time_freq_support is None:
             timeProvider = Operator("TimeFreqSupportProvider")
             timeProvider.inputs.connect(self._stream_provider.outputs)
             self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
         return self._time_freq_support
-    
+
     @property
     def data_sources(self):
         """DataSources instance.
-        this object is read only
-        
+
+        This data source can be connected to other operators.
+
         Returns
         -------
-        ds : ansys.dpf.core.DataSources
+        ansys.dpf.core.DataSources
+
+        Examples
+        --------
+        Connect the model data sources to the 'U' operator.
+
+        >>> ds = model.data_sources
+        >>> op = dpf.Operator('U')
+        >>> op.inputs.data_sources.connect(ds)
+
         """
         return self._data_sources
 

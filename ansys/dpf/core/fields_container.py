@@ -92,7 +92,7 @@ class FieldsContainer(Collection):
     def add_field(self, label_space, field):
         """Update or add the field at a requested scoping.
 
-        parameters
+        Parameters
         ----------
         label_space : dict(string:int)
             label_space of the requested fields, ex : {"time":1, "complex":0}
@@ -127,6 +127,7 @@ class FieldsContainer(Collection):
         Examples
         --------
         Select using a component index
+
         >>> disp_x_fields = disp_fields.select_component(0)
 
         """
