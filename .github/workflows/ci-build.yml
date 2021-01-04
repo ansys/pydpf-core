@@ -35,8 +35,7 @@ jobs:
         run: |
           pip install ansys.grpc.dpf --extra-index-url https://$DEVOPS_PAT@pkgs.dev.azure.com/pyansys/_packaging/pyansys/pypi/simple/
           pip install -r requirements_build.txt
-          python setup.py bdist_wheel
-          pip install dist/*.whl
+          pip install -e .
           cd tests
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
         env:
