@@ -63,19 +63,15 @@ class Operator:
         self._description = None
         self.inputs = None
         self.outputs = None
-        try:
-            self.__send_init_request()
 
-            # add dynamic inputs
-            if len(self._message.spec.map_input_pin_spec) > 0:
-                self.inputs = Inputs(self._message.spec.map_input_pin_spec, self)
-            if len(self._message.spec.map_output_pin_spec) != 0:
-                self.outputs = Outputs(self._message.spec.map_output_pin_spec, self)
-            self._description = self._message.spec.description
+        self.__send_init_request()
 
-        except grpc.RpcError as e:
-            if e.code() == grpc.StatusCode.INVALID_ARGUMENT:
-                raise ValueError(f'Invalid operator name "{name}"')
+        # add dynamic inputs
+        if len(self._message.spec.map_input_pin_spec) > 0:
+            self.inputs = Inputs(self._message.spec.map_input_pin_spec, self)
+        if len(self._message.spec.map_output_pin_spec) != 0:
+            self.outputs = Outputs(self._message.spec.map_output_pin_spec, self)
+        self._description = self._message.spec.description
 
     def _add_sub_res_operators(self, sub_results):
         """Dynamically add operators instantiating for sub-results.
