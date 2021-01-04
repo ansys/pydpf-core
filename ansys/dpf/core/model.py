@@ -24,16 +24,6 @@ class Model():
         Channel connected to the remote or local instance. Defaults to
         the global channel.
 
-    Attributes
-    ----------
-    metadata : ansys.dpf.core.model.Metadata
-        Entity containing model's metadata: data_sources,
-        meshed_region, time_freq_support, result_info.
-
-    results : ansys.dpf.core.model.Results
-        Entity containing all the available results for this model
-        (operators already connected to the model's streams)
-
     Examples
     --------
     >>> from ansys.dpf import core
@@ -137,7 +127,7 @@ class Model():
              -  swelling_strains
              -  temperature
 
-        Access an individual result operator
+        Access an individual result operator.
 
         >>> temp = model.results.temperature
         >>> temp

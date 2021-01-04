@@ -93,7 +93,7 @@ class Input:
         if self._count_ellipsis >=0:
             self._count_ellipsis+=1
             if isinstance(self._operator.inputs, Inputs):
-                self._operator.inputs.__add_input__(self._pin + self._count_ellipsis, self._spec, self._count_ellipsis)
+                self._operator.inputs._add_input(self._pin + self._count_ellipsis, self._spec, self._count_ellipsis)
 
 
 class Inputs:
@@ -102,20 +102,23 @@ class Inputs:
         self._operator = operator
         self._inputs = []
         self._connected_inputs = {}
-        self._python_expected_types_by_pin={}
+        self._python_expected_types_by_pin = {}
 
         # dynamically populate input attributes
         for pin, spec in self._dict_inputs.items():
             if spec.ellipsis:
-                self.__add_input__(pin, spec, 0)
+                self._add_input(pin, spec, 0)
             else:
-                self.__add_input__(pin, spec)
+                self._add_input(pin, spec)
 
-    def __add_input__(self,pin,spec, count_ellipsis=-1):
+    def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:
             class_input = Input(spec, pin, self._operator,count_ellipsis)
             class_input.__doc__ = spec.name
-            setattr(self, class_input.name, class_input)
+            if not hasattr(self, class_input.name):
+                setattr(self, class_input.name, class_input)
+            else:
+                setattr(self, '_' + class_input.name, class_input)
             self._inputs.append(class_input)
 
             python_types=[]

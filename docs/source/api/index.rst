@@ -1,8 +1,15 @@
 .. _dpf_model_functions_ref:
 
+=============
 API Reference
 =============
 Details of the DPF API.
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   
+   operators
 
 
 Model Class

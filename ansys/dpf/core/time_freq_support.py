@@ -177,6 +177,7 @@ class TimeFreqSupport:
         """
         return self._get_frequency(step, substep, cumulative_index, cplx)
 
+    @protect_grpc
     def _get_frequency(self, step, substep, cumulative_index, cplx):
         """Returns the frequence corresponding to step/substep or
         cumulative index requested.

@@ -12,7 +12,6 @@ from ansys.dpf.core.common import types, camel_to_snake_case
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.outputs import Outputs
 from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.raw_operators import DPF_HTML_OPERATOR_DOCS
 from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
@@ -70,7 +69,7 @@ class Operator:
             # add dynamic inputs
             if len(self._message.spec.map_input_pin_spec) > 0:
                 self.inputs = Inputs(self._message.spec.map_input_pin_spec, self)
-            if len(self._message.spec.map_output_pin_spec)!=0:
+            if len(self._message.spec.map_output_pin_spec) != 0:
                 self.outputs = Outputs(self._message.spec.map_output_pin_spec, self)
             self._description = self._message.spec.description
 
@@ -78,7 +77,7 @@ class Operator:
             if e.code() == grpc.StatusCode.INVALID_ARGUMENT:
                 raise ValueError(f'Invalid operator name "{name}"')
 
-    def _add_sub_res_operators(self, sub_results):        
+    def _add_sub_res_operators(self, sub_results):
         """Dynamically add operators instantiating for sub-results.
 
         The new operators subresults are connected to the parent
@@ -226,11 +225,11 @@ class Operator:
                                   subsequent_indent='    '))
             txt += '\n\n'
         if self.inputs:
-            line = [' ', self.inputs.__str__()]
+            line = [' ', str(self.inputs)]
             txt += '{:^3} {:^21}'.format(*line)
             txt += '\n'
         if self.outputs:
-            line = [' ', self.outputs.__str__()]
+            line = [' ', str(self.outputs)]
             txt += '{:^3} {:^21}'.format(*line)
             txt += '\n'
 
@@ -259,9 +258,10 @@ class Operator:
             elif python_name == "Any":
                 corresponding_pins.append(pin)
 
+    @protect_grpc
     def _sub_result_op(self, name):
         op = Operator(name)
-        if self.inputs!=None:
+        if self.inputs is not None:
             for key in self.inputs._connected_inputs:
                 inpt = self.inputs._connected_inputs[key]
                 if type(inpt).__name__ == 'dict':
@@ -271,6 +271,7 @@ class Operator:
                     op.connect(key,inpt)
         return op
 
+    @protect_grpc
     def __send_init_request(self):
         request = operator_pb2.OperatorName()
         request.name = self.name

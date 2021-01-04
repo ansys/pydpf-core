@@ -1,5 +1,6 @@
 .. _user_guide_model:
 
+
 *************
 The DPF Model
 *************
@@ -17,10 +18,11 @@ server.
     from ansys.dpf import core as dpf
 
     model = dpf.Model('C:/Users/user/file.rst')
-
-    # or
-
+    # or on linux
     model = dpf.Model('/home/user/file.rst')
+
+
+For a full example using the model, see :ref:`ref_basic_example`.
 
 
 Model Results
@@ -56,4 +58,3 @@ Or, you can get the field containing the nodal coordinates with:
         Shape:      (3820, 3)
 
 .. automethod:: ansys.dpf.core.model.Model.metadata
-

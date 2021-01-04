@@ -7,8 +7,8 @@ This guide provides a general overview of the basics and usage of DPF.
    :maxdepth: 2
 
    model
-   results
    operators
+   results
    fields_containers
    fields
    meshed_region
