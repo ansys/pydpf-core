@@ -11,3 +11,9 @@ else:
 # this files can be imported with from `ansys.dpf.core import examples`:
 simple_bar = os.path.join(_module_path, 'ASimpleBar.rst')
 static_rst = os.path.join(_module_path, 'static.rst')
+complex_rst = os.path.join(_module_path, 'complex.rst')
+multishells_rst = os.path.join(_module_path, 'model_with_ns.rst')
+static_rst = os.path.join(_module_path, 'msup_transient_plate1.rst')
+electric_therm = os.path.join(_module_path, 'rth', 'rth_electric.rth')
+steady_therm = os.path.join(_module_path, 'rth', 'rth_steady.rth')
+transient_therm = os.path.join(_module_path, 'rth', 'rth_transient.rth')

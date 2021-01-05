@@ -54,3 +54,13 @@ def _download_file(directory, filename):
 def download_transient_result():
     """Download an example transient result and return the download path"""
     return _download_file('transient', 'transient.rst')
+
+
+def download_all_kinds_of_complexity():
+    """Download an example transient result and return the download path"""
+    return _download_file('testing', 'allKindOfComplexity.rst')
+
+
+def download_all_kinds_of_complexity_modal():
+    """Download an example transient result and return the download path"""
+    return _download_file('testing', 'modal_allKindOfComplexity.rst')
