@@ -43,7 +43,7 @@ def resolve_test_file(basename, additional_path=''):
 @pytest.fixture()
 def allkindofcomplexity():
     """Resolve the path of the "allKindOfComplexity.rst" result file."""
-    return resolve_test_file('allKindOfComplexity.rst')
+    return examples.download_all_kinds_of_complexity()
 
 
 @pytest.fixture()
