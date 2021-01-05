@@ -227,10 +227,10 @@ def test_set_entity_data_elemental_nodal_field(allkindofcomplexity):
 
 
 def test_str_field(stress_field):
-    assert 'Location: ElementalNodal' in str(stress_field)
-    assert 'Unit: Pa' in str(stress_field)
-    assert '9255 id(s)' in str(stress_field)
-    assert 'shape: (40016, 6)' in str(stress_field)
+    assert 'Location:   ElementalNodal' in str(stress_field)
+    assert 'Unit:       Pa' in str(stress_field)
+    assert 'Num. id(s): 9255' in str(stress_field)
+    assert 'Shape:      (40016, 6)' in str(stress_field)
 
 
 def test_mesh_support_field(stress_field):

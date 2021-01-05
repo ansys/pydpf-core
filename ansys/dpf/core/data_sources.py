@@ -2,6 +2,7 @@ import os
 
 from ansys import dpf
 from ansys.grpc.dpf import data_sources_pb2, data_sources_pb2_grpc, base_pb2
+from ansys.dpf.core.errors import protect_grpc
 
 
 class DataSources:
@@ -28,7 +29,6 @@ class DataSources:
     Initialize a model from a result path
     >>> import dpf
     >>> dpf.core.DataSources('file.rst')
-
     """
 
     def __init__(self, result_path=None, data_sources=None, channel=None):
@@ -48,6 +48,7 @@ class DataSources:
         if result_path is not None:
             self.set_result_file_path(result_path)
 
+    @protect_grpc
     def _connect(self):
         """Connect to the grpc service"""
         return data_sources_pb2_grpc.DataSourcesServiceStub(self._channel)
@@ -71,12 +72,6 @@ class DataSources:
         >>> data_sources = dpf.core.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
         """
-        # The filename needs to be a fully qualified file name
-        if not os.path.dirname(filepath):
-            # append local path
-            # TODO: this will not work on a remote server
-            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
-
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
         request.key = key
@@ -96,8 +91,8 @@ class DataSources:
 
         Examples
         --------
-        >>> import dpf
-        >>> data_sources = dpf.core.DataSources()
+        >>> from ansys.dpf import core as dpf
+        >>> data_sources = dpf.DataSources()
         >>> data_sources.add_file_path('/tmp/ds.dat')
         """
         # The filename needs to be a fully qualified file name
@@ -111,51 +106,48 @@ class DataSources:
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
-    def add_upstream(self, upstream_data_sources, upstream_id = -2):
+    def add_upstream(self, upstream_data_sources, upstream_id=-2):
         """Add an upstream datasources.
 
-        This is used to add a set of path creating an upstram for recursive workflows.
+        This is used to add a set of path creating an upstram for
+        recursive workflows.
 
         Parameters
         ----------
         datasources : DataSources
 
         """
-        
         request = data_sources_pb2.UpdateUpstreamRequest()
         request.upstream_id = upstream_id
         request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
         request.data_sources.CopyFrom(self._message)
-        self._stub.UpdateUpstream(request)  
+        self._stub.UpdateUpstream(request)
 
     @property
     def result_key(self):
-        info =self.__info__()
-        return info["result_key"]
-    
+        return self._info["result_key"]
+
     @property
     def result_files(self):
-        info =self.__info__()
-        return info["paths"][self.result_key]
-    
-    def __info__(self):
+        return self._info["paths"][self.result_key]
+
+    @property
+    def _info(self):
         list = self._stub.List(self._message)
-        paths ={}
+        paths = {}
         for key in list.paths:
             key_paths=[]
             for path in list.paths[key].paths:
                 key_paths.append(path)
-            paths[key]=key_paths
-        out = {"result_key":list.result_key, "paths":paths}
+            paths[key] = key_paths
+        out = {"result_key": list.result_key, "paths": paths}
         return out
-    
+
     def __str__(self):
-        info =self.__info__()
-        txt = f'DPF data_sources with result key: {self.result_key} \n'
+        info = self._info
+        txt = f'DPF data_sources with result key: {self.result_key}\n'
         txt += f'paths: {info["paths"]}\n'
         return txt
-     
-         
 
     def __del__(self):
         try:  # should silently fail

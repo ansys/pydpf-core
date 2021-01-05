@@ -1,5 +1,5 @@
 """
-.. _ref_dpf_core:
+.. _ref_basic_operators_example:
 
 Operators Overview
 ~~~~~~~~~~~~~~~~~~

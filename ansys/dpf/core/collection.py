@@ -203,8 +203,9 @@ class Collection:
             Entry at the index corresponding to the request.
         """
         self_len = len(self)
-        if index < 0:  # no negative indices
-            index = self_len - index
+        if index < 0:
+            # convert to a positive index
+            index = self_len + index
 
         if not self_len:
             raise IndexError('This collection contains no items')

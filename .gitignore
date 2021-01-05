@@ -40,3 +40,6 @@ docker/v211
 # pytest -coverage
 .coverage
 test-output.xml
+
+# downloaded files
+ansys/dpf/core/examples/_cache/

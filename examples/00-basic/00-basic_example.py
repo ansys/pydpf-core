@@ -1,5 +1,5 @@
 """
-.. _ref_dpf_core:
+.. _ref_basic_example:
 
 Basic DPF-Core Usage
 ~~~~~~~~~~~~~~~~~~~~
@@ -73,8 +73,7 @@ print(metadata.time_freq_support)
 #
 # Here, we connect the ``'U'`` operator with the data_sources, which
 # takes place automatically when running ``results.displacement()``.
-# By default, this is connected to the first result set, which for
-# this static result is the only result.
+# By default, this is connected to the first result set, which for this static result is the only result.
 results = model.results
 displacements = results.displacement()
 fields = displacements.outputs.fields_container()

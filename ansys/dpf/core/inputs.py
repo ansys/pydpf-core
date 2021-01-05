@@ -3,7 +3,7 @@ from ansys.dpf.core.mapping_types import map_types_to_cpp, map_types_to_python
 
 
 class Input:
-    def __init__(self,spec, pin, operator, count_ellipsis=-1):
+    def __init__(self, spec, pin, operator, count_ellipsis=-1):
         self._spec = spec
         self._operator=operator
         self._pin = pin
@@ -15,8 +15,8 @@ class Input:
             self._python_expected_types.append("Any")
         docstr = self.__str__()
         self.name = self._spec.name
-        if self._count_ellipsis !=-1:
-            self.name+=str(self._count_ellipsis +1)
+        if self._count_ellipsis != -1:
+            self.name += str(self._count_ellipsis + 1)
         self._update_doc_str(docstr,self.name)
 
     def connect(self, inpt):
@@ -30,27 +30,29 @@ class Input:
         MeshedRegion, Output, Outputs
             input of the operator
         """
+        # always convert ranges to lists
+        if isinstance(inpt, range):
+            inpt = list(inpt)
+
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
-                print(types, end = ' ')
+                print(types, end=' ')
             print("types are expected for", self._spec.name, "pin")
             return
 
-        corresponding_pins=[]
+        corresponding_pins = []
 
         self._operator._find_outputs_corresponding_pins(self._python_expected_types,inpt, self._pin, corresponding_pins)
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the pin with:\n"
             for pin in corresponding_pins:
-                err_str += "   - operator.inputs."+self._spec.name+"(out_op."+inpt._dict_outputs[pin[1]].name+")"
+                err_str += "   - operator.inputs." + self._spec.name+"(out_op." + inpt._dict_outputs[pin[1]].name + ")"
             raise ValueError(err_str)
 
         if len(corresponding_pins) == 0:
-            err_str = "The input operator should have one of this output expected types:\n"
-            for python_type in self._python_expected_types:
-                err_str += f"   - {python_type}"
-            err_str += f" for the {self._spec.name} pin\n"
+            err_str = f"The input operator for the {self._spec.name} pin be one of the following types:\n"
+            err_str += '\n'.join([f'- {py_type}' for py_type in self._python_expected_types])
             raise TypeError(err_str)
 
         if input_type_name not in ["Outputs", "Output"]:
@@ -91,7 +93,7 @@ class Input:
         if self._count_ellipsis >=0:
             self._count_ellipsis+=1
             if isinstance(self._operator.inputs, Inputs):
-                self._operator.inputs.__add_input__(self._pin + self._count_ellipsis, self._spec, self._count_ellipsis)
+                self._operator.inputs._add_input(self._pin + self._count_ellipsis, self._spec, self._count_ellipsis)
 
 
 class Inputs:
@@ -100,20 +102,23 @@ class Inputs:
         self._operator = operator
         self._inputs = []
         self._connected_inputs = {}
-        self._python_expected_types_by_pin={}
+        self._python_expected_types_by_pin = {}
 
         # dynamically populate input attributes
         for pin, spec in self._dict_inputs.items():
             if spec.ellipsis:
-                self.__add_input__(pin, spec, 0)
+                self._add_input(pin, spec, 0)
             else:
-                self.__add_input__(pin, spec)
+                self._add_input(pin, spec)
 
-    def __add_input__(self,pin,spec, count_ellipsis=-1):
+    def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:
             class_input = Input(spec, pin, self._operator,count_ellipsis)
             class_input.__doc__ = spec.name
-            setattr(self, class_input.name, class_input)
+            if not hasattr(self, class_input.name):
+                setattr(self, class_input.name, class_input)
+            else:
+                setattr(self, '_' + class_input.name, class_input)
             self._inputs.append(class_input)
 
             python_types=[]

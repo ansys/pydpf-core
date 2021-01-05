@@ -1,3 +1,5 @@
+import numpy as np
+
 from ansys import dpf
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc, base_pb2
 from ansys.dpf.core import scoping, field
@@ -197,6 +199,7 @@ class MeshedRegion:
         """VTK pyvista UnstructuredGrid
 
         Returns
+        -------
         pyvista.UnstructuredGrid
             UnstructuredGrid of the mesh.
 
@@ -451,9 +454,19 @@ class Element:
         return txt
 
     @property
-    @protect_grpc
     def type(self) -> int:
-        """Ansys element type"""
+        """Element type of this element.
+
+        Examples
+        --------
+        >>> element.type
+        6
+        """
+        return self._get_type()
+
+    @protect_grpc
+    def _get_type(self):
+        """Return the Ansys element type"""
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
@@ -461,7 +474,6 @@ class Element:
         return self._mesh._stub.GetElementalProperty(request).prop
 
     @property
-    @protect_grpc
     def shape(self) -> str:
         """Element shape.
 
@@ -472,12 +484,18 @@ class Element:
         >>> element.shape
         'solid'
         """
+        return self._get_shape()
+
+    @protect_grpc
+    def _get_shape(self):
+        """Return the element shape"""
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
         request.property = meshed_region_pb2.ELEMENT_SHAPE
         prop = self._mesh._stub.GetElementalProperty(request).prop
         return meshed_region_pb2.ElementShape.Name(prop).lower()
+
 
 class Nodes():
     """Collection of DPF Nodes.
@@ -576,7 +594,6 @@ class Nodes():
         return self.scoping.size
 
     @property
-    @protect_grpc
     def coordinates_field(self):
         """Coordinates field
 
@@ -603,6 +620,11 @@ class Nodes():
                [ 3.453663  , -0.14285579,  0.61316773],
                [ 3.39599888, -0.22926613,  0.66507732]])
         """
+        return self._get_coordinates_field()
+
+    @protect_grpc
+    def _get_coordinates_field(self):
+        """Return the coordinates field"""
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         # request.nodal_property = meshed_region_pb2.NodalPropertyType.COORDINATES
@@ -619,6 +641,46 @@ class Nodes():
         if self._mapping_id_to_index is None:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
+
+    def map_scoping(self, scope):
+        """Return the indices to map the scoping of these elements to
+        the scoping of a field.
+
+        Parameters
+        ----------
+        scope : scoping.Scoping
+            Scoping to map to.
+
+        Returns
+        -------
+        indices : numpy.ndarray
+            List of indices to map from the external scope to the
+            scoping of these nodes.
+
+        Examples
+        --------
+        Return the indices that map a field to a nodes collection.
+
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> nodes = model.metadata.meshed_region.nodes
+        >>> disp = model.results.displacements()
+        >>> field = disp.outputs.field_containers()[0]
+        >>> ind = nodes.map_scoping(field.scoping)
+        >>> ind
+        array([ 508,  509,  909, ..., 3472, 3471, 3469])
+
+        These indices can then be used to remap ``nodes.coordinates`` to
+        match the order of the field data.  That way the field data matches the
+        order of the nodes in the ``meshed_region``
+
+        >>> mapped_nodes = nodes.coordinates[ind]
+
+        """
+        if scope.location in ['Elemental', 'NodalElemental']:
+            raise ValueError('Input scope location must be "Nodal"')
+        return np.array(list(map(self.mapping_id_to_index.get, scope.ids)))
 
 
 class Elements():
@@ -780,15 +842,25 @@ class Elements():
         return field.Field(self._mesh._channel, field=fieldOut)
 
     @property
-    @protect_grpc
     def connectivities_field(self):
         """Connectivity field
 
         Returns
         -------
         connectivities_field : Field
-            Field of all the connectivities (nodes indices associated to an element)
+            Field of the node indices associated to each element.
+
+        Examples
+        --------
+        >>> field = elements.connectivities_field
+        >>> field.data
+        array([ 523,  532,  531, ..., 2734, 2732, 2736], dtype=int32)
         """
+        return self._get_connectivities_field()
+
+    @protect_grpc
+    def _get_connectivities_field(self):
+        """Return the connectivities field"""
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         # request.elemental_property = meshed_region_pb2.ElementalPropertyType.CONNECTIVITY
@@ -826,3 +898,50 @@ class Elements():
         if self._mapping_id_to_index is None:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
+
+    def map_scoping(self, scope):
+        """Return the indices to map the scoping of these elements to
+        the scoping of a field.
+
+        Parameters
+        ----------
+        scope : scoping.Scoping
+            Scoping to map to.
+
+        Returns
+        -------
+        indices : numpy.ndarray
+            List of indices to map from the external scope to the
+            scoping of these elements.
+
+        Examples
+        --------
+        Return the indices that map a field to an elements collection.
+
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
+        >>> vol = model.results.volume()
+        >>> field = vol.outputs.field_containers()[0]
+        >>> ind = elements.map_scoping(field.scoping)
+        >>> ind
+        [66039
+         11284,
+         26474,
+         11286,
+         27090,
+         26656,
+         11287,
+         ...]
+
+        These indices can then be used to remap ``field.data`` to
+        match the order of the elements.  That way the field data matches the
+        order of the elements in the ``meshed_region``
+
+        >>> mapped_data = field.data[ind]
+
+        """
+        if scope.location in ['Nodal', 'NodalElemental']:
+            raise ValueError('Input scope location must be "Elemental"')
+        return np.array(list(map(self.mapping_id_to_index.get, scope.ids)))

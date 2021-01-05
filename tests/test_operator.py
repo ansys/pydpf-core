@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-
+from ansys.dpf.core import errors
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT211 = os.environ.get('AWP_ROOT211', False) is not False
@@ -19,7 +19,7 @@ def test_create_operator():
 
 
 def test_invalid_operator_name():
-    with pytest.raises(ValueError):
+    with pytest.raises(errors.DPFServerException):
         dpf.core.Operator("not-an-operator")
 
 
