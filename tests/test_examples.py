@@ -19,10 +19,10 @@ def test_download_all_kinds_of_complexity():
                                      'static_rst',
                                      'complex_rst',
                                      'multishells_rst',
-                                     'static_rst',
                                      'electric_therm',
                                      'steady_therm',
-                                     'transient_therm'])
+                                     'transient_therm',
+                                     'msup_transient'])
 def test_examples(example):
     # get example by string so we can parameterize it without breaking
     # collection

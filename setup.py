@@ -25,7 +25,6 @@ readme_file = os.path.join(filepath, 'README.md')
 setup(
     name='ansys-dpf-core',
     packages=['ansys.dpf.core', 'ansys.dpf.core.examples'],
-    author='Camille Bellot, Ramdane Lagha',
     version=__version__,
 
     description='DPF Python gRPC client',
@@ -48,7 +47,8 @@ setup(
                                               'msup_transient_plate1.rst',
                                               'rth/rth_electric.rth',
                                               'rth/rth_steady.rth',
-                                              'rth/rth_transient.rth']},
+                                              'rth/rth_transient.rth',
+    ]},
     python_requires='>=3.5.*',
     install_requires=install_requires,
 )

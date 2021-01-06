@@ -91,7 +91,7 @@ def multishells():
 @pytest.fixture()
 def complex_model():
     """Resolve the path of the "complex/fileComplex.rst" result file."""
-    return resolve_test_file('fileComplex.rst', 'complex')
+    return examples.complex_rst
 
 
 @pytest.fixture()
@@ -101,7 +101,7 @@ def plate_msup():
     Originally:
     UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
     """
-    return resolve_test_file('plate1.rst', 'msup_transient')
+    return examples.msup_transient
 
 
 @pytest.fixture(scope="session", autouse=True)

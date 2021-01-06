@@ -175,7 +175,11 @@ class Plotter:
                 break
 
         # Merge field data into a single array
-        overall_data = np.full((len(mesh_location), component_count), np.nan)
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(mesh_location, np.nan)
+
         for field in fields_container:
             ind = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data
