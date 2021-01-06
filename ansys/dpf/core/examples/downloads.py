@@ -72,7 +72,7 @@ def download_transient_result():
     >>> from ansys.dpf.core import examples
     >>> path = examples.transient_result
     >>> path
-    'C:/Users/user/AppData/local/temp/modal_allKindOfComplexity.rst'
+    'C:/Users/user/AppData/local/temp/transient.rst'
 
     """
     return _download_file('transient', 'transient.rst')
@@ -96,7 +96,7 @@ def download_all_kinds_of_complexity():
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_all_kinds_of_complexity
     >>> path
-    'C:/Users/user/AppData/local/temp/modal_allKindOfComplexity.rst'
+    'C:/Users/user/AppData/local/temp/allKindOfComplexity.rst'
 
     """
     return _download_file('testing', 'allKindOfComplexity.rst')
