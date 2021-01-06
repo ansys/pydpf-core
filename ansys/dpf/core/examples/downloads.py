@@ -54,7 +54,7 @@ def _download_file(directory, filename):
 ###############################################################################
 # front-facing downloads
 
-def download_transient_result():
+def download_transient_result() -> str:
     """Download an example transient result file and return the download path.
 
     Examples files are downloaded to a persistent cache to avoid
@@ -78,7 +78,7 @@ def download_transient_result():
     return _download_file('transient', 'transient.rst')
 
 
-def download_all_kinds_of_complexity():
+def download_all_kinds_of_complexity() -> str:
     """Download an example static result and return the download path.
 
     Examples files are downloaded to a persistent cache to avoid
