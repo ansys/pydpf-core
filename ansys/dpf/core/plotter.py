@@ -19,7 +19,7 @@ class Plotter:
     def __init__(self, mesh):
         self._mesh = mesh
 
-    def plot_mesh(self, notebook=None):
+    def plot_mesh(self, **kwargs):
         """Plot the mesh using pyvista.
 
         Parameters
@@ -30,18 +30,25 @@ class Plotter:
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
 
+        **kwargs : optional
+            Additional keyword arguments for the plotter.  See
+            ``help(pyvista.plot)`` for additional keyword arguments.
         """
-        return self._mesh.grid.plot(notebook=notebook)
-        
+        kwargs.setdefault('color', 'w')
+        kwargs.setdefault('show_edges', True)
+        return self._mesh.grid.plot(**kwargs)
+
     def plot_chart(self, fields_container):
-        """Plot the minimum/maximum result values over time 
-        if the time_freq_support contains several time_steps 
-        (for example: transient analysis)
+        """Plot the minimum/maximum result values over time.
+
+        This is a valid method if the time_freq_support contains
+        several time_steps (for example, a transient analysis)
 
         Parameters
         ----------
-        field_container
-            dpf.core.FieldsContainer that must contains a result for each time step of the time_freq_support.
+        field_container : dpf.core.FieldsContainer
+            A fields container that must contains a result for each
+            time step of the time_freq_support.
             
         Examples
         --------
@@ -49,7 +56,7 @@ class Plotter:
         >>> model = core.Model('file.rst')
         >>> stress = model.results.stress()
         >>> scoping = core.Scoping()
-        >>> scoping.ids = list(range(1, len(model.metadata.time_freq_support.frequencies) + 1))
+        >>> scoping.ids = range(1, len(model.metadata.time_freq_support.frequencies) + 1)
         >>> stress.inputs.time_scoping.connect(scoping)
         >>> fc = stress.outputs.fields_container()
         >>> plotter = core.plotter.Plotter(model.metadata.meshed_region)
@@ -65,8 +72,8 @@ class Plotter:
         minmaxOp.inputs.connect(normOp.outputs)
         fieldMin = minmaxOp.outputs.field_min()
         fieldMax = minmaxOp.outputs.field_max()
-        pyplot.plot(time_field.data,fieldMax.data,'r',label='Maximum')
-        pyplot.plot(time_field.data,fieldMin.data,'b',label='Minimum')
+        pyplot.plot(time_field.data, fieldMax.data, 'r', label='Maximum')
+        pyplot.plot(time_field.data, fieldMin.data, 'b', label='Minimum')
         unit = tfq.frequencies.unit
         if unit == "Hz":
             pyplot.xlabel("frequencies (Hz)")
@@ -76,7 +83,7 @@ class Plotter:
             pyplot.xlabel(unit)
         substr = fields_container[0].name.split("_")
         pyplot.ylabel(substr[0] + fieldMin.unit)
-        pyplot.title( substr[0] + ": min/max values over time")
+        pyplot.title(substr[0] + ": min/max values over time")
         return pyplot.legend()
 
     def plot_contour(self, field_or_fields_container, notebook=None,
@@ -181,8 +188,8 @@ class Plotter:
             overall_data = np.full(len(mesh_location), np.nan)
 
         for field in fields_container:
-            ind = mesh_location.map_scoping(field.scoping)
-            overall_data[ind] = field.data
+            ind, mask = mesh_location.map_scoping(field.scoping)
+            overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
         plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
@@ -233,4 +240,3 @@ class Plotter:
         plotter.add_mesh(grid, scalars=val, stitle=field_name, show_edges=True)
         plotter.add_axes()
         plotter.show()
-

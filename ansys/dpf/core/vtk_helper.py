@@ -180,6 +180,15 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
             cells[cell_pos + 7] = cells[cell_pos + 3]
             cells[cell_pos + 8] = cells[cell_pos + 4]
 
+        anstri6_mask = etypes == 4  # kAnsTri6 = 4
+        if np.any(anstri6_mask):
+            if offset is None:
+                offset = compute_offset()
+            cell_pos = offset[anstri6_mask]
+            cells[cell_pos + 4] = cells[cell_pos + 1]
+            cells[cell_pos + 5] = cells[cell_pos + 2]
+            cells[cell_pos + 6] = cells[cell_pos + 3]
+
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
 

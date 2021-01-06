@@ -290,7 +290,8 @@ class MeshedRegion:
                                    off_screen, show_axes, **kwargs)
 
         # otherwise, simply plot self
-        return pl.plot_mesh(notebook)
+        kwargs['notebook'] = notebook
+        return pl.plot_mesh(**kwargs)
 
 
 class Node:
@@ -642,13 +643,13 @@ class Nodes():
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
 
-    def map_scoping(self, scope):
+    def map_scoping(self, external_scope):
         """Return the indices to map the scoping of these elements to
         the scoping of a field.
 
         Parameters
         ----------
-        scope : scoping.Scoping
+        external_scope : scoping.Scoping
             Scoping to map to.
 
         Returns
@@ -656,6 +657,9 @@ class Nodes():
         indices : numpy.ndarray
             List of indices to map from the external scope to the
             scoping of these nodes.
+
+        mask : numpy.ndarray
+            Members of the external scope that are in the node scoping.
 
         Examples
         --------
@@ -667,9 +671,10 @@ class Nodes():
         >>> nodes = model.metadata.meshed_region.nodes
         >>> disp = model.results.displacements()
         >>> field = disp.outputs.field_containers()[0]
-        >>> ind = nodes.map_scoping(field.scoping)
-        >>> ind
+        >>> ind, mask = nodes.map_scoping(field.scoping)
+        >>> ind, mask
         array([ 508,  509,  909, ..., 3472, 3471, 3469])
+        array([True, True, True, ..., True, True, True])
 
         These indices can then be used to remap ``nodes.coordinates`` to
         match the order of the field data.  That way the field data matches the
@@ -678,10 +683,12 @@ class Nodes():
         >>> mapped_nodes = nodes.coordinates[ind]
 
         """
-        if scope.location in ['Elemental', 'NodalElemental']:
+        if external_scope.location in ['Elemental', 'NodalElemental']:
             raise ValueError('Input scope location must be "Nodal"')
-        return np.array(list(map(self.mapping_id_to_index.get, scope.ids)))
-
+        arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
+        mask = arr != None
+        ind = arr[mask].astype(np.int)
+        return ind, mask
 
 class Elements():
     """Elements belonging to a ``meshed_region``.
@@ -899,13 +906,13 @@ class Elements():
             self._mapping_id_to_index = self._build_mapping_id_to_index()
         return self._mapping_id_to_index
 
-    def map_scoping(self, scope):
+    def map_scoping(self, external_scope):
         """Return the indices to map the scoping of these elements to
         the scoping of a field.
 
         Parameters
         ----------
-        scope : scoping.Scoping
+        external_scope : scoping.Scoping
             Scoping to map to.
 
         Returns
@@ -913,6 +920,9 @@ class Elements():
         indices : numpy.ndarray
             List of indices to map from the external scope to the
             scoping of these elements.
+
+        mask : numpy.ndarray
+            Members of the external scope that are in the element scoping.
 
         Examples
         --------
@@ -924,7 +934,7 @@ class Elements():
         >>> elements = model.metadata.meshed_region.elements
         >>> vol = model.results.volume()
         >>> field = vol.outputs.field_containers()[0]
-        >>> ind = elements.map_scoping(field.scoping)
+        >>> ind, mask = elements.map_scoping(field.scoping)
         >>> ind
         [66039
          11284,
@@ -942,6 +952,9 @@ class Elements():
         >>> mapped_data = field.data[ind]
 
         """
-        if scope.location in ['Nodal', 'NodalElemental']:
-            raise ValueError('Input scope location must be "Elemental"')
-        return np.array(list(map(self.mapping_id_to_index.get, scope.ids)))
+        if external_scope.location in ['Nodal', 'NodalElemental']:
+            raise ValueError('Input scope location must be "Nodal"')
+        arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
+        mask = arr != None
+        ind = arr[mask].astype(np.int)
+        return ind, mask
