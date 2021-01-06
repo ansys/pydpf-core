@@ -85,7 +85,7 @@ def simple_rst():
 @pytest.fixture()
 def multishells():
     """Resolve the path of the "rst_operators/multishells.rst" result file."""
-    return resolve_test_file('multishells.rst', 'rst_operators')
+    return examples.multishells_rst
 
 
 @pytest.fixture()

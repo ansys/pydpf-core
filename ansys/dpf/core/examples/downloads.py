@@ -44,8 +44,11 @@ def _download_file(directory, filename):
     if os.environ.get('DPF_DOCKER', False):  # pragma: no cover
         # override path if running on docker as path must be relative
         # to docker mount
-        local_path = os.path.join('/dpf/ansys/dpf/core/examples/_cache/', directory,
-                                  filename)
+        #
+        # Assumes the following mapping in docker
+        # DWN_CSH=/tmp/dpf_cache
+        # -v $DWN_CSH:/dpf/_cache
+        local_path = os.path.join('/dpf/_cache', directory, filename)
     return local_path
 
 ###############################################################################

@@ -40,11 +40,10 @@ EXAMPLES_PATH = None
 if os.environ.get('DPF_DOCKER', False):  # pragma: no cover
     # Running DPF within docker (likely for CI)
     # path must be relative to DPF directory
-    _module_path = os.path.dirname(inspect.getfile(inspect.currentframe()))
-    EXAMPLES_PATH = os.path.join(_module_path, 'examples', '_cache')
-    if not os.path.isdir(EXAMPLES_PATH):
-        os.makedirs(EXAMPLES_PATH)
-
+    #
+    # assumes the following docker mount:
+    # -v /tmp:/dpf/_cache
+    EXAMPLES_PATH = '/tmp'
 else:
     try:
         import appdirs
