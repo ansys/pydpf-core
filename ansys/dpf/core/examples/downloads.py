@@ -23,7 +23,7 @@ def _retrieve_file(url, filename, directory):
     local_path = os.path.join(EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace('.zip', '')
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        return local_path_no_zip, None
+        return local_path_no_zip
 
     # grab the correct url retriever
     urlretrieve = urllib.request.urlretrieve

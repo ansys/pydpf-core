@@ -220,8 +220,10 @@ class Plotter:
         vtk_export.inputs.file_path.connect(path)
         vtk_export.run()
         grid = pv.read(path)
+
         if os.path.exists(path):
             os.remove(path)
+
         names = grid.array_names
         field_name = fields_container[0].name
         for n in names:  # get new name (for example if time_steps)
@@ -232,5 +234,3 @@ class Plotter:
         plotter.add_axes()
         plotter.show()
 
-        # cleanup temporary file
-        os.remove(path)
