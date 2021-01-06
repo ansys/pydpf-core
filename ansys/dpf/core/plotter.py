@@ -178,7 +178,7 @@ class Plotter:
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
         else:
-            overall_data = np.full(mesh_location, np.nan)
+            overall_data = np.full(len(mesh_location), np.nan)
 
         for field in fields_container:
             ind = mesh_location.map_scoping(field.scoping)
