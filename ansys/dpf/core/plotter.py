@@ -1,6 +1,7 @@
 """Dpf plotter class is contained in this module.
 Allows to plot a mesh and a fields container
 using pyvista."""
+import tempfile
 
 import pyvista as pv
 import matplotlib.pyplot as pyplot
@@ -174,7 +175,11 @@ class Plotter:
                 break
 
         # Merge field data into a single array
-        overall_data = np.full((len(mesh_location), component_count), np.nan)
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
+
         for field in fields_container:
             ind = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data
@@ -194,31 +199,38 @@ class Plotter:
         return plotter.show()
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
-        """Plot the contour result on its mesh support. The obtained figure depends on the 
-        support (can be a meshed_region or a time_freq_support).
-        If transient analysis, plot the last result.
-        
-        This method is private, publishes a vtk file and print (using pyvista) from this file."""
+        """Plot the contour result on its mesh support. The obtained
+        figure depends on the support (can be a meshed_region or a
+        time_freq_support).  If transient analysis, plot the last
+        result.
+
+        This method is private.  DPF publishes a vtk file and displays
+        this file using pyvista.
+        """
         plotter = pv.Plotter(notebook=notebook)
         # mesh_provider = Operator("MeshProvider")
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
+
+        # create a temporary file at the default temp directory
+        path = os.path.join(tempfile.gettempdir(), 'dpf_temp_hokflb2j9s.vtk')
+
         vtk_export = dpf.core.Operator("vtk_export")
-        path = os.getcwd()
-        file_name = "dpf_temporary_hokflb2j9sjd0a3.vtk"
-        path += "/" + file_name
         vtk_export.inputs.mesh.connect(self._mesh)
         vtk_export.inputs.fields1.connect(fields_container)
         vtk_export.inputs.file_path.connect(path)
         vtk_export.run()
         grid = pv.read(path)
+
         if os.path.exists(path):
             os.remove(path)
+
         names = grid.array_names
         field_name = fields_container[0].name
-        for n in names: #get new name (for example if time_steps)
+        for n in names:  # get new name (for example if time_steps)
             if field_name in n:
-                field_name = n #default: will plot the last time_step 
+                field_name = n  # default: will plot the last time_step
         val = grid.get_array(field_name)
-        plotter.add_mesh(grid, scalars=val, stitle = field_name, show_edges=True)
+        plotter.add_mesh(grid, scalars=val, stitle=field_name, show_edges=True)
         plotter.add_axes()
         plotter.show()
+

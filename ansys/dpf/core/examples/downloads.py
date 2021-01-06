@@ -23,7 +23,7 @@ def _retrieve_file(url, filename, directory):
     local_path = os.path.join(EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace('.zip', '')
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        return local_path_no_zip, None
+        return local_path_no_zip
 
     # grab the correct url retriever
     urlretrieve = urllib.request.urlretrieve
@@ -44,13 +44,84 @@ def _download_file(directory, filename):
     if os.environ.get('DPF_DOCKER', False):  # pragma: no cover
         # override path if running on docker as path must be relative
         # to docker mount
-        local_path = os.path.join('/dpf/ansys/dpf/core/examples/_cache/', directory,
-                                  filename)
+        #
+        # Assumes the following mapping in docker
+        # DWN_CSH=/tmp/dpf_cache
+        # -v $DWN_CSH:/dpf/_cache
+        local_path = os.path.join('/dpf/_cache', directory, filename)
     return local_path
 
 ###############################################################################
 # front-facing downloads
 
-def download_transient_result():
-    """Download an example transient result and return the download path"""
+def download_transient_result() -> str:
+    """Download an example transient result file and return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.transient_result
+    >>> path
+    'C:/Users/user/AppData/local/temp/transient.rst'
+
+    """
     return _download_file('transient', 'transient.rst')
+
+
+def download_all_kinds_of_complexity() -> str:
+    """Download an example static result and return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_all_kinds_of_complexity
+    >>> path
+    'C:/Users/user/AppData/local/temp/allKindOfComplexity.rst'
+
+    """
+    return _download_file('testing', 'allKindOfComplexity.rst')
+
+
+def download_all_kinds_of_complexity_modal() -> str:
+    """Download an example result file from a static modal analsys and
+    return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_all_kinds_of_complexity_modal
+    >>> path
+    'C:/Users/user/AppData/local/temp/modal_allKindOfComplexity.rst'
+
+    """
+    return _download_file('testing', 'modal_allKindOfComplexity.rst')
