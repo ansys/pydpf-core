@@ -183,15 +183,19 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._channel, skin, self._model, name)
 
-    def _as_vtk(self, as_linear=True):
+    def _as_vtk(self, as_linear=True, include_ids=False):
         """Convert DPF mesh to a pyvista unstructured grid"""
         from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         nodes = self.nodes.coordinates_field.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
         grid = dpf_mesh_to_vtk(nodes, etypes, conn, as_linear)
-        grid['node_ids'] = self.nodes.scoping.ids
-        grid['element_ids'] = self.elements.scoping.ids
+
+        # consider adding this when scoping request is faster
+        if include_ids:
+            grid['node_ids'] = self.nodes.scoping.ids
+            grid['element_ids'] = self.elements.scoping.ids
+
         return grid
 
     @property
