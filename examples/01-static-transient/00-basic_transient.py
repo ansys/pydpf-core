@@ -154,7 +154,7 @@ for node_id in node_ids[:10]:
 # to match the order of nodes in the mesh.
 
 nodes = meshed_region.nodes
-ind = nodes.map_scoping(field.scoping)
+ind, mask = nodes.map_scoping(field.scoping)
 
 # show that the order of the remapped node scoping matches the field scoping
 print('Scoping matches:', np.allclose(np.array(nodes.scoping.ids)[ind],

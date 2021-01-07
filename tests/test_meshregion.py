@@ -29,7 +29,7 @@ def test_get_mesh_from_model(simple_bar_model):
 
 def test_vtk_grid_from_model(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    grid = mesh.grid
+    grid = mesh._as_vtk(include_ids=True)
     assert np.allclose(grid['element_ids'], mesh.elements.scoping.ids)
     assert np.allclose(grid['node_ids'], mesh.nodes.scoping.ids)
     assert all(grid.celltypes == vtk.VTK_HEXAHEDRON)
