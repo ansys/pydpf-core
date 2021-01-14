@@ -1,6 +1,7 @@
 """Dpf plotter class is contained in this module.
-Allows to plot a mesh and a fields container
-using pyvista."""
+
+Allows to plot a mesh and a fields container using pyvista.
+"""
 import tempfile
 
 import pyvista as pv
@@ -16,6 +17,8 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 class Plotter:
+    """Internal class used by DPF-Core to plot fields and meshed regions"""
+
     def __init__(self, mesh):
         self._mesh = mesh
 

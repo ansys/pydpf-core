@@ -82,3 +82,4 @@ framework.
    api/index
    examples/index
    contributing
+   woa

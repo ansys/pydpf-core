@@ -3,8 +3,8 @@ name: Documentation Build
 
 on: [push, pull_request, workflow_dispatch]
 
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-20.04
 
@@ -50,13 +50,13 @@ jobs:
         env:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           PAT: ${{ secrets.REPO_DOWNLOAD_PAT }}
-          
-  
+
       - name: Build Documentation
         run: |
           sudo apt install pandoc -qy
           pip install -r requirements_docs.txt
           make -C docs html
+          touch docs/build/html/.nojekyll
   
       - name: Upload Documentation
         uses: actions/upload-artifact@v2.2.1
@@ -64,3 +64,12 @@ jobs:
           name: Documentation
           path: docs/build/html
           retention-days: 7
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/build/html
+          CLEAN: true

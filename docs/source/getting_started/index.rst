@@ -5,7 +5,6 @@ To use the native DPF server, you need to have a local installation of
 Ansys 2021R1.  Visit https://www.ansys.com/ for more information on
 getting a licensed copy of Ansys.
 
-
 .. toctree::
    :hidden:
    :maxdepth: 2
