@@ -1,6 +1,5 @@
 .. _user_guide_model:
 
-
 *************
 The DPF Model
 *************

@@ -56,6 +56,7 @@ jobs:
           sudo apt install pandoc -qy
           pip install -r requirements_docs.txt
           make -C docs html
+          touch docs/build/html/.nojekyll
   
       - name: Upload Documentation
         uses: actions/upload-artifact@v2.2.1
