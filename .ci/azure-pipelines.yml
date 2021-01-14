@@ -20,7 +20,6 @@ pr:
     exclude:
     - '*'
 
-
 jobs:
 - job: Windows
   variables:
@@ -130,7 +129,7 @@ jobs:
         docker pull $(DPF_IMAGE)
         docker run --restart always --name dpf -v `pwd`:/dpf -v /tmp:/dpf/_cache -p $(DPF_PORT):50054 $(DPF_IMAGE) > log.txt &
         grep -q 'server started on ip' <(timeout 60 tail -f log.txt)
-        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+        python -c "from ansys.dpf import core as dpf; dpf.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
       displayName: Pull, launch, and validate DPF service
 
     - script: |
@@ -140,44 +139,13 @@ jobs:
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --cov-report=html
       displayName: Test Core API
 
-
-#     - script: |
-#         .ci/setup_headless_display.sh
-#         pip install -r .ci/requirements_test_xvfb.txt
-#         python .ci/display_test.py
-#       displayName: Install and start a virtual framebuffer
-
-
-#     - script: |
-#         set -ex
-#         echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
-#         docker pull $(MAPDL_IMAGE)
-#         docker run -e ANSYSLMD_LICENSE_FILE=1055@$(LICENSE_SERVER) --restart always --name mapdl -p $(PYMAPDL_PORT):50052 $(MAPDL_IMAGE) -smp &
-#         python -c "from ansys.mapdl import launch_mapdl; print(launch_mapdl())"
-#       displayName: Pull, launch, and validate MAPDL service
-
-#     - script: |
-#         pip install -r requirements_test.txt
-#         pip install pytest-azurepipelines
-#         pytest -v --junitxml=junit/test-results.xml --cov --cov-report=xml --cov-report=html
-#       displayName:  'Test Core API'
-
-    # - template: build_documentation.yml  # path is relative
-
-    # - script: |
-    #     bash <(curl -s https://codecov.io/bash)
-    #   displayName: 'Upload coverage to codecov.io'
-    #   condition: eq(variables['python.version'], '3.7')
-
-    # - script: |
-    #     pip install twine
-    #     python setup.py sdist
-    #     twine upload --skip-existing dist/pyvista*
-    #   displayName: 'Upload to PyPi'
-    #   condition: and(eq(variables['python.version'], '3.7'), contains(variables['Build.SourceBranch'], 'refs/tags/'))
-    #   env:
-    #     TWINE_USERNAME: $(twine.username)
-    #     TWINE_PASSWORD: $(twine.password)
-    #     TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-
-
+    - script: |
+        pip install twine
+        python setup.py sdist
+        twine upload --skip-existing dist/*
+      displayName: 'Upload to PyPi'
+      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: $(PYPI_TOKEN)
+        TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
