@@ -69,7 +69,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: $GITHUB_WORKSPACE/docs/build/html
+          FOLDER: docs/build/html
           CLEAN: true
 
       # - name: Deploy Documentation
