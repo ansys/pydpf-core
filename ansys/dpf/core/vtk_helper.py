@@ -159,9 +159,36 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     # partition cells in vtk format
     cells = np.insert(connectivity, insert_ind, elem_size)
 
+    def compute_offset():
+        """Return the starting point of a cell in the cells array"""
+        return insert_ind + np.arange(insert_ind.size)
+
     # convert kAns to VTK cell type
+    offset = None
     if as_linear:
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
+
+        # visualization bug within VTK with quadratic surf cells
+        ansquad8_mask = etypes == 6
+        if np.any(ansquad8_mask):  # kAnsQuad8
+
+            # simply copy the edge node indices to the midside points
+            offset = compute_offset()
+            cell_pos = offset[ansquad8_mask]
+            cells[cell_pos + 5] = cells[cell_pos + 1]
+            cells[cell_pos + 6] = cells[cell_pos + 2]
+            cells[cell_pos + 7] = cells[cell_pos + 3]
+            cells[cell_pos + 8] = cells[cell_pos + 4]
+
+        anstri6_mask = etypes == 4  # kAnsTri6 = 4
+        if np.any(anstri6_mask):
+            if offset is None:
+                offset = compute_offset()
+            cell_pos = offset[anstri6_mask]
+            cells[cell_pos + 4] = cells[cell_pos + 1]
+            cells[cell_pos + 5] = cells[cell_pos + 2]
+            cells[cell_pos + 6] = cells[cell_pos + 3]
+
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
 
@@ -170,7 +197,8 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
         # compute offset array when < VTK v9
         return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
 
-    split_ind = elem_size + 1
-    split_ind[0] = 0
-    offset = np.cumsum(split_ind)
+    # might be computed when checking for VTK quadratic bug
+    if offset is None:
+        offset = compute_offset()
+
     return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)

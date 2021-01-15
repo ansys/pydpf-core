@@ -3,8 +3,8 @@ name: Documentation Build
 
 on: [push, pull_request, workflow_dispatch]
 
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-20.04
 
@@ -35,8 +35,7 @@ jobs:
         run: |
           pip install ansys.grpc.dpf --extra-index-url https://$DEVOPS_PAT@pkgs.dev.azure.com/pyansys/_packaging/pyansys/pypi/simple/
           pip install -r requirements_build.txt
-          python setup.py bdist_wheel
-          pip install dist/*.whl
+          pip install -e .
           cd tests
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
         env:
@@ -45,19 +44,19 @@ jobs:
       - name: Pull, launch, and validate DPF service
         run: |
           echo $PAT | docker login -u $GH_USERNAME --password-stdin docker.pkg.github.com
-          docker run --restart always --name dpf -v `pwd`:/dpf -p $DPF_PORT:50054 $DPF_IMAGE > log.txt &
+          docker run --restart always --name dpf -v `pwd`:/dpf -v /tmp:/dpf/_cache -p $DPF_PORT:50054 $DPF_IMAGE > log.txt &
           grep -q 'server started on ip' <(timeout 60 tail -f log.txt)
           python -c "import os; from ansys.dpf import core; core.connect_to_server(port=os.environ['DPF_PORT']); print('Python Connected')"
         env:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           PAT: ${{ secrets.REPO_DOWNLOAD_PAT }}
-          
-  
+
       - name: Build Documentation
         run: |
           sudo apt install pandoc -qy
           pip install -r requirements_docs.txt
           make -C docs html
+          touch docs/build/html/.nojekyll
   
       - name: Upload Documentation
         uses: actions/upload-artifact@v2.2.1
@@ -65,3 +64,12 @@ jobs:
           name: Documentation
           path: docs/build/html
           retention-days: 7
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/build/html
+          CLEAN: true

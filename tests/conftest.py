@@ -43,7 +43,7 @@ def resolve_test_file(basename, additional_path=''):
 @pytest.fixture()
 def allkindofcomplexity():
     """Resolve the path of the "allKindOfComplexity.rst" result file."""
-    return resolve_test_file('allKindOfComplexity.rst')
+    return examples.download_all_kinds_of_complexity()
 
 
 @pytest.fixture()
@@ -85,13 +85,13 @@ def simple_rst():
 @pytest.fixture()
 def multishells():
     """Resolve the path of the "rst_operators/multishells.rst" result file."""
-    return resolve_test_file('multishells.rst', 'rst_operators')
+    return examples.multishells_rst
 
 
 @pytest.fixture()
 def complex_model():
     """Resolve the path of the "complex/fileComplex.rst" result file."""
-    return resolve_test_file('fileComplex.rst', 'complex')
+    return examples.complex_rst
 
 
 @pytest.fixture()
@@ -101,7 +101,7 @@ def plate_msup():
     Originally:
     UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
     """
-    return resolve_test_file('plate1.rst', 'msup_transient')
+    return examples.msup_transient
 
 
 @pytest.fixture(scope="session", autouse=True)

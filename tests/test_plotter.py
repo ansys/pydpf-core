@@ -1,4 +1,4 @@
-import unittest
+import os
 
 from pyvista.plotting.renderer import CameraPosition
 import pytest
@@ -8,6 +8,9 @@ from ansys.dpf.core import Model, Operator
 from ansys.dpf.core.plotter import Plotter as DpfPlotter
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
+
+# currently running dpf on docker.  Used for testing on CI
+RUNNING_DOCKER = os.environ.get('DPF_DOCKER', False)
 
 
 def test_chart_plotter(plate_msup):
@@ -209,3 +212,12 @@ def test_throw_complex_file(complex_model):
     mesh = model.metadata.meshed_region
     with pytest.raises(dpf_errors.ComplexPlottingError):
         mesh.plot(fc)
+
+
+@pytest.mark.skipif(RUNNING_DOCKER, reason='Path hidden within docker container')
+def test_plot_contour_using_vtk_file(complex_model):
+    model = core.Model(complex_model)
+    stress = model.results.displacement()
+    fc = stress.outputs.fields_container()
+    pl = DpfPlotter(model.metadata.meshed_region)
+    pl._plot_contour_using_vtk_file(fc)

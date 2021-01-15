@@ -1,6 +1,8 @@
 """Dpf plotter class is contained in this module.
-Allows to plot a mesh and a fields container
-using pyvista."""
+
+Allows to plot a mesh and a fields container using pyvista.
+"""
+import tempfile
 
 import pyvista as pv
 import matplotlib.pyplot as pyplot
@@ -15,10 +17,12 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 class Plotter:
+    """Internal class used by DPF-Core to plot fields and meshed regions"""
+
     def __init__(self, mesh):
         self._mesh = mesh
 
-    def plot_mesh(self, notebook=None):
+    def plot_mesh(self, **kwargs):
         """Plot the mesh using pyvista.
 
         Parameters
@@ -29,18 +33,25 @@ class Plotter:
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
 
+        **kwargs : optional
+            Additional keyword arguments for the plotter.  See
+            ``help(pyvista.plot)`` for additional keyword arguments.
         """
-        return self._mesh.grid.plot(notebook=notebook)
-        
+        kwargs.setdefault('color', 'w')
+        kwargs.setdefault('show_edges', True)
+        return self._mesh.grid.plot(**kwargs)
+
     def plot_chart(self, fields_container):
-        """Plot the minimum/maximum result values over time 
-        if the time_freq_support contains several time_steps 
-        (for example: transient analysis)
+        """Plot the minimum/maximum result values over time.
+
+        This is a valid method if the time_freq_support contains
+        several time_steps (for example, a transient analysis)
 
         Parameters
         ----------
-        field_container
-            dpf.core.FieldsContainer that must contains a result for each time step of the time_freq_support.
+        field_container : dpf.core.FieldsContainer
+            A fields container that must contains a result for each
+            time step of the time_freq_support.
             
         Examples
         --------
@@ -48,7 +59,7 @@ class Plotter:
         >>> model = core.Model('file.rst')
         >>> stress = model.results.stress()
         >>> scoping = core.Scoping()
-        >>> scoping.ids = list(range(1, len(model.metadata.time_freq_support.frequencies) + 1))
+        >>> scoping.ids = range(1, len(model.metadata.time_freq_support.frequencies) + 1)
         >>> stress.inputs.time_scoping.connect(scoping)
         >>> fc = stress.outputs.fields_container()
         >>> plotter = core.plotter.Plotter(model.metadata.meshed_region)
@@ -64,8 +75,8 @@ class Plotter:
         minmaxOp.inputs.connect(normOp.outputs)
         fieldMin = minmaxOp.outputs.field_min()
         fieldMax = minmaxOp.outputs.field_max()
-        pyplot.plot(time_field.data,fieldMax.data,'r',label='Maximum')
-        pyplot.plot(time_field.data,fieldMin.data,'b',label='Minimum')
+        pyplot.plot(time_field.data, fieldMax.data, 'r', label='Maximum')
+        pyplot.plot(time_field.data, fieldMin.data, 'b', label='Minimum')
         unit = tfq.frequencies.unit
         if unit == "Hz":
             pyplot.xlabel("frequencies (Hz)")
@@ -75,7 +86,7 @@ class Plotter:
             pyplot.xlabel(unit)
         substr = fields_container[0].name.split("_")
         pyplot.ylabel(substr[0] + fieldMin.unit)
-        pyplot.title( substr[0] + ": min/max values over time")
+        pyplot.title(substr[0] + ": min/max values over time")
         return pyplot.legend()
 
     def plot_contour(self, field_or_fields_container, notebook=None,
@@ -174,10 +185,14 @@ class Plotter:
                 break
 
         # Merge field data into a single array
-        overall_data = np.full((len(mesh_location), component_count), np.nan)
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
+
         for field in fields_container:
-            ind = mesh_location.map_scoping(field.scoping)
-            overall_data[ind] = field.data
+            ind, mask = mesh_location.map_scoping(field.scoping)
+            overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
         plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
@@ -194,31 +209,37 @@ class Plotter:
         return plotter.show()
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
-        """Plot the contour result on its mesh support. The obtained figure depends on the 
-        support (can be a meshed_region or a time_freq_support).
-        If transient analysis, plot the last result.
-        
-        This method is private, publishes a vtk file and print (using pyvista) from this file."""
+        """Plot the contour result on its mesh support. The obtained
+        figure depends on the support (can be a meshed_region or a
+        time_freq_support).  If transient analysis, plot the last
+        result.
+
+        This method is private.  DPF publishes a vtk file and displays
+        this file using pyvista.
+        """
         plotter = pv.Plotter(notebook=notebook)
         # mesh_provider = Operator("MeshProvider")
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
+
+        # create a temporary file at the default temp directory
+        path = os.path.join(tempfile.gettempdir(), 'dpf_temp_hokflb2j9s.vtk')
+
         vtk_export = dpf.core.Operator("vtk_export")
-        path = os.getcwd()
-        file_name = "dpf_temporary_hokflb2j9sjd0a3.vtk"
-        path += "/" + file_name
         vtk_export.inputs.mesh.connect(self._mesh)
         vtk_export.inputs.fields1.connect(fields_container)
         vtk_export.inputs.file_path.connect(path)
         vtk_export.run()
         grid = pv.read(path)
+
         if os.path.exists(path):
             os.remove(path)
+
         names = grid.array_names
         field_name = fields_container[0].name
-        for n in names: #get new name (for example if time_steps)
+        for n in names:  # get new name (for example if time_steps)
             if field_name in n:
-                field_name = n #default: will plot the last time_step 
+                field_name = n  # default: will plot the last time_step
         val = grid.get_array(field_name)
-        plotter.add_mesh(grid, scalars=val, stitle = field_name, show_edges=True)
+        plotter.add_mesh(grid, scalars=val, stitle=field_name, show_edges=True)
         plotter.add_axes()
         plotter.show()

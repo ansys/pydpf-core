@@ -9,8 +9,8 @@ class DataSources:
     """Represent the file sources of a model.
 
     Initialize the data_sources with either optional data_sources
-    message, or by connecting to a stub A Result path can be
-    directly set
+    message, or by connecting to a stub.  Result path can also be
+    directly set.
 
     Parameters
     ----------
