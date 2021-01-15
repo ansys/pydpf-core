@@ -82,7 +82,7 @@ class TimeFreqSupport:
                     line = [cum_index, frequency, loadstep+1, substep]
                     txt += '{:^12} {:^16.3} {:^12} {:^12}'.format(*line)
                     if rpms is not None:
-                        txt += '{:^12.3}'.format(rpm[loadstep-1])
+                        txt += '{:^12.3}'.format(rpm[0])
                     if harmonic_indices is not None:
                         txt += '{:^18}'.format(int(abs(hi[substep-1])))
                     txt += '\n'
