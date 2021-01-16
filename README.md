@@ -1,5 +1,9 @@
 # DPF - Ansys Data Processing Framework
 
+[![PyPI version](https://badge.fury.io/py/ansys-dpf-core.svg)](https://badge.fury.io/py/ansys-dpf-core)
+
+[![Build Status](https://dev.azure.com/pyansys/pyansys/_apis/build/status/pyansys.DPF-Core?branchName=docs%2Foperators)](https://dev.azure.com/pyansys/pyansys/_build/latest?definitionId=2&branchName=docs%2Foperators)
+
 The Data Processing Framework (DPF) is designed to provide numerical
 simulation users/engineers with a toolbox for accessing and
 transforming simulation data. DPF can access data from solver result

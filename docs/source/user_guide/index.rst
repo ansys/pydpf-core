@@ -12,4 +12,3 @@ This guide provides a general overview of the basics and usage of DPF.
    fields_containers
    fields
    meshed_region
-   testing

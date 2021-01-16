@@ -2,10 +2,6 @@
 PyANSYS DPF-Core
 ================
 
-`local mirror`_
-
-.. _local mirror: _static/dpf.html
-
 The Data Processing Framework (DPF) is designed to provide numerical
 simulation users/engineers with a toolbox for accessing and
 transforming simulation data. DPF can access data from solver result
@@ -84,6 +80,6 @@ framework.
    getting_started/index
    user_guide/index
    api/index
+   operator_reference
    examples/index
    contributing
-   woa

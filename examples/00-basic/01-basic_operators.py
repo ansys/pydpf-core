@@ -13,6 +13,9 @@ convenience classes.
 This example demonstrates how to work directly with operators and
 compares it to wrapped approach.
 
+For a full listing of all available operators, please see
+:ref:`ref_dpf_operators_reference`.
+
 """
 
 from ansys.dpf import core as dpf
