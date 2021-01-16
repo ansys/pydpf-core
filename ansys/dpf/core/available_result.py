@@ -16,7 +16,6 @@ class AvailableResult:
         self._message = availableresult
 
     def __str__(self):
-        
         txt = self.name+'\n' +\
               'Operator name: "%s"\n' % self.operator_name +\
               'Number of components: %d\n' % self.n_components +\

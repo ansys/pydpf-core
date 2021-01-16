@@ -78,7 +78,7 @@ class Input:
         self.__class__ = child_class
 
     def __str__(self):
-        docstr = '\033[1m' + self._spec.name + '\033[0m : '
+        docstr = self._spec.name + ' : '
         type_info = self._python_expected_types.copy()
         if self._spec.optional:
             type_info += ['optional']

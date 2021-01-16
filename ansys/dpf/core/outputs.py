@@ -14,22 +14,22 @@ class Output:
         """Returns this output of this operator"""
         type_output = self._spec.type_names[0]
         if type_output == 'abstract_meshed_region':
-            type_output= 'meshed_region'
-            
+            type_output = 'meshed_region'
+
         elif type_output == "fields_container":
-            type_output = ['collection','field']
+            type_output = ['collection', 'field']
 
         return self._operator.get_output(self._pin, type_output)
 
     def __call__(self):
         return self.get_data()
 
-    def __str__(self): 
-        docstr = '\033[1m' + self._spec.name+'\033[0m'
+    def __str__(self):
+        docstr = self._spec.name
         if self._spec.optional:
             docstr += " (optional)"
         docstr += ", expects types:"+'\n'
-        for types in  self._python_expected_types:
+        for types in self._python_expected_types:
             docstr += "   -" + types + '\n'
         if self._spec.document:
             docstr += "help: " + self._spec.document + '\n'
