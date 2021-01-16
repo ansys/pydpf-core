@@ -26,8 +26,12 @@ setup(
     name='ansys-dpf-core',
     packages=['ansys.dpf.core', 'ansys.dpf.core.examples'],
     version=__version__,
-
+    maintainer='ANSYS',
+    maintainer_email='alexander.kaszynski@ansys.com',
+    url='https://github.com/pyansys/DPF-Core',
     description='DPF Python gRPC client',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     license='MIT',
     classifiers=[
         'Development Status :: 4 - Beta',

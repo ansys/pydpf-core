@@ -14,11 +14,12 @@ server.
 
 .. code:: python
 
-    from ansys.dpf import core as dpf
+    >>> from ansys.dpf import core as dpf
+    >>> model = dpf.Model('C:/Users/user/file.rst')
 
-    model = dpf.Model('C:/Users/user/file.rst')
-    # or on linux
-    model = dpf.Model('/home/user/file.rst')
+    Linux path
+
+    >>> model = dpf.Model('/home/user/file.rst')
 
 
 For a full example using the model, see :ref:`ref_basic_example`.
@@ -30,7 +31,7 @@ The model contains the ``results`` attribute, which you can use to
 create operators to access certain results.  To view the available
 results, print them with ``print(model.results)``.
 
-.. automethod:: ansys.dpf.core.model.Model.results
+.. autoattribute:: ansys.dpf.core.model.Model.results
 
 
 Model Metadata
@@ -56,4 +57,5 @@ Or, you can get the field containing the nodal coordinates with:
         Num. id(s): 3820
         Shape:      (3820, 3)
 
-.. automethod:: ansys.dpf.core.model.Model.metadata
+.. autoattribute:: ansys.dpf.core.model.Model.metadata
+

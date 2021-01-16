@@ -1,3 +1,5 @@
+.. _ref_user_guide:
+
 ==========
 User Guide
 ==========
@@ -8,7 +10,3 @@ This guide provides a general overview of the basics and usage of DPF.
 
    model
    operators
-   results
-   fields_containers
-   fields
-   meshed_region

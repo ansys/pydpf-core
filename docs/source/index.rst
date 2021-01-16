@@ -80,6 +80,6 @@ framework.
    getting_started/index
    user_guide/index
    api/index
+   operator_reference
    examples/index
    contributing
-   woa
