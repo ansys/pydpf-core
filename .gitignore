@@ -1,6 +1,7 @@
-/__pycache__
-/.pytest_cache
-/.spyproject
+# cache and pyc
+__pycache__
+.pytest_cache
+.spyproject
 
 #tests
 __pycache__

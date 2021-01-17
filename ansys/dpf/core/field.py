@@ -8,6 +8,7 @@ from ansys.grpc.dpf import (field_pb2, field_pb2_grpc, base_pb2,
 from ansys.dpf.core.common import natures, types, locations, ShellLayers
 from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
 from ansys.dpf.core.plotter import Plotter
+from ansys.dpf.core import errors
 
 
 class Field:
@@ -92,9 +93,6 @@ class Field:
 
         self._field_definition = self._load_field_definition()
 
-        # add dynamic methods
-        self._update_dynamic_methods()
-
     @property
     def size(self):
         """Number of elements times the number of components"""
@@ -122,12 +120,6 @@ class Field:
             return (1, self.component_count)
         else:
             return self.component_count
-
-    def _update_dynamic_methods(self):
-        """Add or remove dynamic methods to this instance based on the
-        field type"""
-        if self.location in [locations.elemental_nodal, locations.elemental]:
-            self.to_nodal = self.__to_nodal
 
     @property
     def location(self):
@@ -161,8 +153,20 @@ class Field:
         if self._field_definition:
             return self._field_definition.shell_layers
 
-    def __to_nodal(self):
-        """create a to_nodal operator and evaluates it"""
+    def to_nodal(self):
+        """Convert this field to one with a Nodal location.
+
+        Only valid when this field's location is ElementalNodal or
+        Elemental.
+
+        Returns
+        -------
+        Field
+            Field with ``location=='Nodal'``.
+        """
+        if self.location == 'Nodal':
+            raise errors.LocationError('Location is already "Nodal"')
+
         op = dpf.core.Operator("to_nodal")
         op.inputs.connect(self)
         return op.outputs.field()

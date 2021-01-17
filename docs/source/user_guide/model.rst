@@ -32,6 +32,7 @@ create operators to access certain results.  To view the available
 results, print them with ``print(model.results)``.
 
 .. autoattribute:: ansys.dpf.core.model.Model.results
+  :noindex:
 
 
 Model Metadata
@@ -58,4 +59,4 @@ Or, you can get the field containing the nodal coordinates with:
         Shape:      (3820, 3)
 
 .. autoattribute:: ansys.dpf.core.model.Model.metadata
-
+  :noindex:

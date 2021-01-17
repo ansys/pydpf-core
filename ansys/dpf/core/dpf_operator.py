@@ -103,7 +103,23 @@ class Operator:
 
         pin_out : int, optional
             In case of the input is an Operator, this is the output
-            pin of the input Operator.  Defaults to 0
+            pin of the input Operator.  Defaults to 0.
+
+        Examples
+        --------
+        Compute the minimum of displacement by chaining the ``'U'``
+        and ``'min_max_fc'`` operators.
+
+        >>> from ansys.dpf.core import examples
+        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> print(data_src)
+        >>> disp_op = dpf.Operator('U')
+        >>> disp_op.inputs.data_sources(data_src)
+        >>> max_fc_op = dpf.Operator('min_max_fc')
+        >>> max_fc_op.inputs.connect(disp_op.outputs)
+        >>> max_field = max_fc_op.outputs.field_max()
+        >>> max_field.data
+        array([[0.59428386, 0.00201751, 0.0006032 ]])
         """
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(self._message)

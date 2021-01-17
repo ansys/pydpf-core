@@ -33,7 +33,6 @@ jobs:
 
       - name: Install ansys.dpf.core
         run: |
-          pip install ansys.grpc.dpf --extra-index-url https://$DEVOPS_PAT@pkgs.dev.azure.com/pyansys/_packaging/pyansys/pypi/simple/
           pip install -r requirements_build.txt
           pip install -e .
           cd tests
@@ -53,7 +52,7 @@ jobs:
 
       - name: Build Documentation
         run: |
-          sudo apt install pandoc -qy
+          sudo apt-get install pandoc -qy
           pip install -r requirements_docs.txt
           make -C docs html
           touch docs/build/html/.nojekyll

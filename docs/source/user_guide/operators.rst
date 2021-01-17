@@ -1,10 +1,10 @@
-.. _user_guide_operators:
+.. _ref_user_guide_operators:
+
+*********
+Operators
+*********
 
 ..    include:: <isonum.txt>
-
-*************
-DPF Operators
-*************
 
 The Operator is the only object used to create and transform the data
 and is the fundamental method by which DPF loads, operates on, and
@@ -150,43 +150,63 @@ the field and compute its maximum.  Repeating the previous example:
 
 .. code:: python
 
-   Extract the displacement fields container from the multishell
-   example.
+    Extract the displacement fields container from the multishell
+    example.
 
-   >>> from ansys.dpf.core import examples
-   >>> data_src = dpf.DataSources(examples.multishells_rst)
-   >>> print(data_src)
-   >>> oper = dpf.Operator('U')
-   >>> oper.inputs.data_sources(data_src)
-   >>> fc = oper.outputs.fields_container()
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.multishells_rst)
+    >>> print(data_src)
+    >>> disp_op = dpf.Operator('U')
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> fc = disp_op.outputs.fields_container()
 
-   Compute the maximum displacement of the first field using numpy.
-   Note that the data returned is a numpy array.
+    Compute the maximum displacement of the first field using numpy.
+    Note that the data returned is a numpy array.
 
-   >>> disp = fc[0].data
-   >>> disp.max(axis=0)
-   [0.59428386 0.00201751 0.0006032 ]
-
+    >>> disp = fc[0].data
+    >>> disp.max(axis=0)
+    [0.59428386 0.00201751 0.0006032 ]
 
 For small data sets, it is perfectly acceptable to compute the maximum
 of the array in numpy.  Indeed, there are times where it may be
 necessary to have the entire data array for a given result type, but
 many times it is not strictly necessary.  In those cases, it is faster
 to not transfer the array to Python, but rather compute the maximum of
-the fields container within DPF and then return the result to Python:
+the fields container within DPF and then return the result to Python.
+Note that here we are using the :py:meth:`connect()
+<ansys.dpf.core.dpf_operator.Operator.connect>` method to connect the outputs of
+one operator to the inputs of another operator.
 
 .. code:: python
 
     Compute the component-wise minimum and maximum over a fields container.
 
     >>> max_fc_op = dpf.Operator('min_max_fc')
-    >>> max_fc_op.inputs.fields_container(fc)
+    >>> max_fc_op.inputs.connect(disp_op.outputs)
     >>> max_field = max_fc_op.outputs.field_max()
     >>> max_field.data
     array([[0.59428386, 0.00201751, 0.0006032 ]])
 
 Here, the only the maximum displacements in the X, Y, and Z components
 were transferred and returned as a numpy array.
+
+Take note that the :py:meth:`connect()
+<ansys.dpf.core.dpf_operator.Operator.connect>` method defaults to the
+first pin of the operator it's being connected with.  For a more
+verbose option, directly connect a specific input with a specific
+output of an operator:
+
+.. code:: python
+
+    >>> max_fc_op = dpf.Operator('min_max_fc')
+    >>> max_fc_op.inputs.fields_container(disp_op.outputs.fields_container)
+    >>> max_field = max_fc_op.outputs.field_max()
+    >>> max_field.data
+    array([[0.59428386, 0.00201751, 0.0006032 ]])
+
+While this approach is more verbose, it is no longer necessary to
+refer to a specific pin when connecting operators with several
+outputs.
 
 
 API Reference
