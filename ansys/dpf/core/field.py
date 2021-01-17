@@ -153,24 +153,6 @@ class Field:
         if self._field_definition:
             return self._field_definition.shell_layers
 
-    def to_nodal(self):
-        """Convert this field to one with a Nodal location.
-
-        Only valid when this field's location is ElementalNodal or
-        Elemental.
-
-        Returns
-        -------
-        Field
-            Field with ``location=='Nodal'``.
-        """
-        if self.location == 'Nodal':
-            raise errors.LocationError('Location is already "Nodal"')
-
-        op = dpf.core.Operator("to_nodal")
-        op.inputs.connect(self)
-        return op.outputs.field()
-
     def to_elemental(self):
         """Convert this field to one with an Elemental location.
 
@@ -190,6 +172,24 @@ class Field:
             op.inputs.connect(self.to_nodal())
         else:
             op.inputs.connect(self)
+        return op.outputs.field()
+
+    def to_nodal(self):
+        """Convert this field to one with a Nodal location.
+
+        Only valid when this field's location is ElementalNodal or
+        Elemental.
+
+        Returns
+        -------
+        Field
+            Field with ``location=='Nodal'``.
+        """
+        if self.location == 'Nodal':
+            raise errors.LocationError('Location is already "Nodal"')
+
+        op = dpf.core.Operator("to_nodal")
+        op.inputs.connect(self)
         return op.outputs.field()
 
     def plot(self, notebook=None, shell_layers=None):
