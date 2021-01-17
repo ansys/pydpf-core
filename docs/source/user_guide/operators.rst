@@ -1,10 +1,10 @@
-.. _user_guide_operators:
+.. _ref_user_guide_operators:
+
+*********
+Operators
+*********
 
 ..    include:: <isonum.txt>
-
-*************
-DPF Operators
-*************
 
 The Operator is the only object used to create and transform the data
 and is the fundamental method by which DPF loads, operates on, and

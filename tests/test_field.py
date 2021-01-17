@@ -233,6 +233,18 @@ def test_str_field(stress_field):
     assert 'Shape:      (40016, 6)' in str(stress_field)
 
 
+def test_to_nodal(stress_field):
+    assert stress_field.location == 'ElementalNodal'
+    field_out = stress_field.to_nodal()
+    assert field_out.location == 'Nodal'
+
+
+def test_to_elemental(stress_field):
+    assert stress_field.location == 'ElementalNodal'
+    field_out = stress_field.to_elemental()
+    assert field_out.location == 'Elemental'
+
+
 def test_mesh_support_field(stress_field):
     mesh = stress_field.meshed_region
     assert len(mesh.nodes.scoping) == 15129

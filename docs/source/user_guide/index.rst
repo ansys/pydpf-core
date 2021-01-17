@@ -10,3 +10,5 @@ This guide provides a general overview of the basics and usage of DPF.
 
    model
    operators
+   fields_container
+   plotting

@@ -195,6 +195,7 @@ class Plotter:
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
+        background = kwargs.pop('background', None)
         plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
 
         # add meshes
@@ -202,6 +203,9 @@ class Plotter:
         kwargs.setdefault('nan_color', 'grey')
         kwargs.setdefault('stitle', name)
         plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
+
+        if background is not None:
+            plotter.set_background(background)
 
         # show result
         if show_axes:

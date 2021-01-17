@@ -1,3 +1,5 @@
+.. _ref_api_field:
+
 ***********
 Field Class
 ***********

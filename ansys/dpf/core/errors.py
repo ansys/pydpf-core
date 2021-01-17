@@ -12,6 +12,13 @@ result can be plotted at a time.  Extract a field with
 """
 
 
+class LocationError(ValueError):
+    """Raised when using an invalid location"""
+
+    def __init__(self, msg='Invalid location'):
+        ValueError.__init__(self, msg)
+
+
 class ComplexPlottingError(ValueError):
     """Raised when attempting to plot a field with complex data"""
 
