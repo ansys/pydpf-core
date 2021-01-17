@@ -75,7 +75,6 @@ extract the nodal strain in the X direction.
 
    At the moment, only fields with Elemental and Nodal locations are
    supported.  Use the :py:meth:`to_nodal
-   <ansys.dpf.core.field.Field.to_nodal>` or the
-   :py:meth:`to_elemental <ansys.dpf.core.field.Field.to_elemental>`
-   methods to convert to the correct location.
-   
+   <ansys.dpf.core.field.Field.to_nodal>` to convert to nodal or the
+   ``'nodal_to_elemental'`` operator to convert to elemental.
+
