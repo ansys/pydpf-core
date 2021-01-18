@@ -2,7 +2,7 @@
 .. _ref_basic_cyclic:
 
 Modal Cyclic symmetry Example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to to expand cyclic mesh and results
 
 """
@@ -27,10 +27,8 @@ print(model)
 # Create displacement cyclic operator   
 UCyc = model.operator("mapdl::rst::U_cyclic")
 
-#expand the displacements and get a total deformation
-nrm = dpf.Operator("norm_fc")
-nrm.inputs.connect(UCyc.outputs)
-fields = nrm.outputs.fields_container()
+#expand the displacements 
+fields = UCyc.outputs.fields_container()
 
 # get the expanded mesh
 mesh = UCyc.outputs.expanded_meshed_region.get_data()
@@ -41,7 +39,7 @@ mesh.plot(fields[0])
 ###############################################################################
 #
 # Expand stresses at a given time step
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #define stress expansion operator and request stresses at time set = 8
 SCyc = model.operator("mapdl::rst::S_cyclic")
@@ -69,7 +67,7 @@ mesh.plot(fields[0])
 ###############################################################################
 #
 # Expand stresses at given sectors
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #define stress expansion operator and request stresses at time set = 8
 SCyc = model.operator("mapdl::rst::S_cyclic")
@@ -95,3 +93,35 @@ fields = comp_sel.outputs.fields_container()
 
 #plot the expanded result on the expanded mesh
 mesh.plot(fields[0])
+
+
+###############################################################################
+#
+# Expand stresses and average to elemental location
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#define stress expansion operator and request stresses at time set = 8
+SCyc = model.operator("mapdl::rst::S_cyclic")
+SCyc.inputs.time_scoping.connect([8])
+
+#request the results in the solver 
+SCyc.inputs.bool_rotate_to_global.connect(False)
+
+#connect the base mesh and the expanded mesh, to avoid rexpanding the mesh
+SCyc.inputs.sector_mesh.connect(model.metadata.meshed_region)
+SCyc.inputs.expanded_meshed_region.connect(mesh)
+
+#request to elemental averaging operator
+toElemental = dpf.Operator("to_elemental_fc")
+toElemental.inputs.fields_container.connect(SCyc.outputs.fields_container)
+
+#extract Sy (use component selector and select the component 1)
+comp_sel = dpf.Operator("component_selector_fc")
+comp_sel.inputs.fields_container.connect(toElemental.outputs.fields_container)
+comp_sel.inputs.component_number.connect(1)
+
+#expand the displacements and get the resuls
+fields = comp_sel.outputs.fields_container()
+mesh = SCyc.outputs.expanded_meshed_region.get_data()
+#plot the expanded result on the expanded mesh
+mesh.plot(fields)
