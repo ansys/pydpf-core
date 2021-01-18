@@ -150,3 +150,25 @@ def download_pontoon() -> str:
 
     """
     return _download_file('docs', 'pontoon.rst')
+def download_multi_harmonic_result() -> str:
+    """Download an example harmonic result file and return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.transient_result
+    >>> path
+    'C:/Users/user/AppData/local/temp/multi_harmonic.rst'
+
+    """
+    return _download_file('harmonic', 'file_harmonic_5rpms.rst')
