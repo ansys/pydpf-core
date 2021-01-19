@@ -46,10 +46,12 @@ class BaseService():
         self._channel = channel
         self._stub = self._connect(timeout)
 
+        # these operators are included by default in v211
         if load_operators:
             self._load_native_operators()
             self._load_mapdl_operators()
             self._load_mesh_operators()
+            self._load_math_operators()
 
     def _connect(self, timeout=5):
         """Connect to dpf service within a given timeout"""
@@ -151,3 +153,16 @@ class BaseService():
             self.load_library('Ans.Dpf.Hdf5.dll', operator_name)
         else:
             self.load_library('Ans.Dpf.Hdf5D.dll', operator_name)
+
+    def _load_math_operators(self):
+        """Load math operators"""
+        operator_name = 'math'
+        try:
+            self.load_library('libAns.Dpf.Math.so', operator_name)
+        except:
+            pass
+
+        if CONFIGURATION == "release":
+            self.load_library('Ans.Dpf.Math.dll', operator_name)
+        else:
+            self.load_library('Ans.Dpf.MathD.dll', operator_name)

@@ -18,4 +18,3 @@
 
 source IMAGE_NAME
 docker run -it --rm -v `pwd`/../:/dpf -v /tmp:/dpf/_cache -p 50054:50054 --name dpf $IMAGE
-
