@@ -1,6 +1,5 @@
 import sys
 import inspect
-import re
 
 ## to do : change that one the module is done
 from ansys.dpf.core.meshed_region import *
@@ -18,7 +17,7 @@ from ansys.dpf.core.common import (smart_dict_camel,
 
 map_types_to_cpp = smart_dict_camel()
 for classes in inspect.getmembers(sys.modules[__name__], inspect.isclass):
-    map_types_to_cpp[classes[0]]=camel_to_snake_case(classes[0])
+    map_types_to_cpp[classes[0]] = camel_to_snake_case(classes[0])
 map_types_to_cpp['str'] = 'string'
 map_types_to_cpp['MeshedRegion'] = 'abstract_meshed_region'
 map_types_to_cpp['list'] = 'vector<int32>'
@@ -27,12 +26,13 @@ map_types_to_cpp['int'] = 'int32'
 map_types_to_cpp['double'] = 'double'
 map_types_to_cpp['float'] = 'double'
 
+
 class smart_dict_snake(dict):
     def __missing__(self, key):
         return snake_to_camel_case(key)
-map_types_to_python= smart_dict_snake()
+map_types_to_python = smart_dict_snake()
 for k, v in map_types_to_cpp.items():
-    map_types_to_python[v]=k
+    map_types_to_python[v] = k
 
 
 map_unit_system = smart_dict_unit_system()

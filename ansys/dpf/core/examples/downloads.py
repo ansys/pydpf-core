@@ -119,7 +119,7 @@ def download_all_kinds_of_complexity_modal() -> str:
     Download an example result file and return the path of the file
 
     >>> from ansys.dpf.core import examples
-    >>> path = examples.download_all_kinds_of_complexity_modal
+    >>> path = examples.download_all_kinds_of_complexity_modal()
     >>> path
     'C:/Users/user/AppData/local/temp/modal_allKindOfComplexity.rst'
 
@@ -144,9 +144,58 @@ def download_pontoon() -> str:
     Download an example result file and return the path of the file
 
     >>> from ansys.dpf.core import examples
-    >>> path = examples.download_all_kinds_of_complexity_modal
+    >>> path = examples.download_pontoon()
     >>> path
-    'C:/Users/user/AppData/local/temp/modal_allKindOfComplexity.rst'
+    'C:/Users/user/AppData/local/temp/pontoon.rst'
 
     """
     return _download_file('docs', 'pontoon.rst')
+
+
+def download_multi_harmonic_result() -> str:
+    """Download an example multi-harmonic result file and return the
+    download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_multi_harmonic_result()
+    >>> path
+    'C:/Users/user/AppData/local/temp/file_harmonic_5rpms.rst'
+    """
+    return _download_file('harmonic', 'file_harmonic_5rpms.rst')
+
+
+def download_multi_stage_cyclic_result() -> str:
+    """Download an example multi stage result file and return the
+    download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_multi_stage_cyclic_result()
+    >>> path
+    'C:/Users/user/AppData/local/temp/multistage.rst'
+
+    """
+    return _download_file('multistage', 'multistage.rst')

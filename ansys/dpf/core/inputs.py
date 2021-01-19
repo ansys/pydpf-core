@@ -43,7 +43,7 @@ class Input:
 
         corresponding_pins = []
 
-        self._operator._find_outputs_corresponding_pins(self._python_expected_types,inpt, self._pin, corresponding_pins)
+        self._operator._find_outputs_corresponding_pins(self._python_expected_types, inpt, self._pin, corresponding_pins)
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the pin with:\n"
             for pin in corresponding_pins:

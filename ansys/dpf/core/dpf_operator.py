@@ -255,6 +255,12 @@ class Operator:
                                          corresponding_pins):
         input_type_name = type(inpt).__name__
         for python_name in type_names:
+            # appears to be an issue on Linux.  This check is here
+            # because cpp mappings are a single type mapping and
+            # sometimes the spec contains 'B' instead of 'bool'
+            if python_name == 'B':
+                python_name = 'bool'
+
             if python_name == input_type_name:
                 corresponding_pins.append(pin)
             elif input_type_name == "Outputs":
