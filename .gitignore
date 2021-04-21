@@ -1,0 +1,52 @@
+
+
+#########################
+## DPF
+#########################
+
+# cache and pyc
+__pycache__
+.pytest_cache
+.spyproject
+
+#tests
+__pycache__
+/tests/.pytest_cache
+
+#ansys/dpf
+/ansys/dpf/__pycache__
+
+#ansys/dpf/core
+/ansys/dpf/core/__pycache__
+
+#operators
+/ansys/dpf/core/operators/__pycache__
+
+#other
+/perso
+.ipynb_checkpoints/
+
+# compiled documentation
+docs/build
+docs/source/examples
+
+# pip files
+*.egg-info
+build/
+dist/
+
+# emacs
+flycheck*
+*~
+\#*\#
+.\#*
+
+# docker bin
+docker/v211
+
+# pytest -coverage
+.coverage
+test-output.xml
+
+# downloaded files
+ansys/dpf/core/examples/_cache/
