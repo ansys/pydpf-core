@@ -1,4 +1,8 @@
-"""Contains classes associated to the DPF FieldsContainer"""
+"""
+FieldsContainer
+===============
+Contains classes associated to the DPF FieldsContainer
+"""
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
@@ -17,22 +21,30 @@ class FieldsContainer(Collection):
     server : DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
-        
+    
     Examples
     --------
-    Create a fields container based on time labels from scratch
+    Extract a displacement fields container from a transient result file.
+
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = dpf.Model(transient)
+    >>> disp = model.results.displacement()
+    >>> disp.inputs.time_scoping.connect([1,5])
+    >>> fields_container = disp.outputs.fields_container()
+    >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
     
-    >>> from ansys.dpf import core
-    >>> field1 = core.Field()
-    >>> field2 = core.Field()
-    >>> # 1. using the classic API
-    >>> my_fc = core.FieldsContainer()
-    >>> my_fc.labels = ["time"]
-    >>> my_fc.add_field({"time" : 1}, field1)
-    >>> my_fc.add_field({"time" : 2}, field2)
-    >>> # 2. using the fields_container_factory
-    >>> from ansys.dpf.core import fields_container_factory
-    >>> fields_container_factory.over_time_freq_fields_container([ field1, field2 ])
+    Create a fields container from scratch
+    >>> from ansys.dpf import core as dpf
+    >>> fc= dpf.FieldsContainer()
+    >>> fc.labels =['time','complex']
+    >>> for i in range(0,20): #real fields 
+    >>>     mscop = {"time":i+1,"complex":0}
+    >>>     fc.add_field(mscop,dpf.Field(nentities=i+10))
+    >>> for i in range(0,20): #imaginary fields
+    >>>     mscop = {"time":i+1,"complex":1}
+    >>>     fc.add_field(mscop,dpf.Field(nentities=i+10))
     """
 
     def __init__(self, fields_container=None, server=None):
@@ -67,6 +79,32 @@ class FieldsContainer(Collection):
         -------
         fields : list of fields
             fields corresponding to the request
+            
+        Examples
+        --------
+        Extract a the 5th time set of a transient analysis.
+    
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> print(model.metadata.time_freq_support)
+        DPF  Time/Freq Support: 
+              Number of sets: 35 
+            Cumulative     Time (s)       LoadStep       Substep         
+            1              0.000000       1              1               
+            2              0.019975       1              2               
+            3              0.039975       1              3               
+            4              0.059975       1              4               
+            5              0.079975       1              5               
+            6              0.099975       1              6               
+            7              0.119975       1              7               
+            8              0.139975       1              8  
+        ...
+        >>> disp = model.results.displacement()
+        >>> disp.inputs.time_scoping.connect([1,5])
+        >>> fields_container = disp.outputs.fields_container()
+        >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
         """
         label_space ={}
         if timeid is not None:
@@ -90,7 +128,24 @@ class FieldsContainer(Collection):
         -------
         fields : list of fields or field (if only one)
             fields corresponding to the request
+          
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> fc= dpf.FieldsContainer()
+        >>> fc.labels =['time','complex']
+        >>> for i in range(0,20): #real fields 
+                mscop = {"time":i+1,"complex":0}
+                fc.add_field(mscop,dpf.Field(nentities=i+10))
+        >>> for i in range(0,20): #imaginary fields
+                mscop = {"time":i+1,"complex":1}
+                fc.add_field(mscop,dpf.Field(nentities=i+10))
+                
+        >>> fields = fc.get_fields({"time":2})
+        >>> len(fields) #imaginary and real fields of time 2
+        2 
         """
+        
         return super()._get_entries(label_space_or_index)
     
     def get_field_by_time_id(self, timeid=None):
@@ -165,6 +220,18 @@ class FieldsContainer(Collection):
 
         field : dpf.core.Field
             DPF field to add.
+            
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> fc= dpf.FieldsContainer()
+        >>> fc.labels =['time','complex']
+        >>> for i in range(0,20): #real fields 
+                mscop = {"time":i+1,"complex":0}
+                fc.add_field(mscop,dpf.Field(nentities=i+10))
+        >>> for i in range(0,20): #imaginary fields
+                mscop = {"time":i+1,"complex":1}
+                fc.add_field(mscop,dpf.Field(nentities=i+10))
         """
         super()._add_entry(label_space, field)
 
@@ -232,9 +299,21 @@ class FieldsContainer(Collection):
         Examples
         --------
         Select using a component index
-
-        >>> disp_x_fields = disp_fields.select_component(0)
-
+    
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> disp = model.results.displacement()
+        >>> disp.inputs.time_scoping.connect([1,5])
+        >>> fields_container = disp.outputs.fields_container()
+        >>> disp_x_fields = fields_container.select_component(0)
+        >>> print(disp_x_fields[0])
+        DPF displacement_0.s0 Field
+          Location: Nodal
+          Unit: m
+          3820 entities 
+          Data:1 components and 3820 elementary data 
         """
         comp_select = dpf.core.Operator("component_selector_fc")
         comp_select.connect(0,self)

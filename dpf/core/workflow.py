@@ -1,4 +1,8 @@
-"""Interface to underlying gRPC Workflow"""
+"""
+Workflow
+========
+Interface to underlying gRPC Workflow
+"""
 from textwrap import wrap
 import logging
 import functools
@@ -398,20 +402,24 @@ class Workflow:
         
         Examples
         --------
-        INPUT:
+        ::
             
-        input_output_names = ("output","field")
-	
-	                          ____                                  ______________________
-	      "data_sources"  -> |this| ->  "stuff"        "field" -> |workflow_to_chain_with| -> "contour"
-	    "time_scoping"    -> |    |   	        "mesh_scoping" -> |                      |   
-	                         |____| ->  "output"   		          |______________________| 
-	
-	    OUTPUT
-	                        ____             
-	    "data_sources"  -> |this| ->  "stuff"                  
-	     "time_scoping" -> |    | ->  "contour"	  		 			
-	     "mesh_scoping" -> |____| -> "output"
+            +-------------------------------------------------------------------------------------------------+
+            |  INPUT:                                                                                         |
+            |                                                                                                 |
+            |input_output_names = ("output","field" )                                                          |
+            |                      ____                                  ______________________                |
+    	    |  "data_sources"  -> |this| ->  "stuff"        "field" -> |workflow_to_chain_with| -> "contour"  |
+    	    |"time_scoping"    -> |    |             "mesh_scoping" -> |                      |               |
+    	    |                     |____| ->  "output"                  |______________________|               |
+            |  OUTPUT                                                                                         |
+    	    |                    ____                                                                         |
+    	    |"data_sources"  -> |this| ->  "stuff"                                                            |
+    	    |"time_scoping" ->  |    | ->  "contour"                                                           |
+    	    |"mesh_scoping" ->  |____| -> "output"                                                             |
+            +-------------------------------------------------------------------------------------------------+
+           
+        
         """
         request = workflow_pb2.ChainRequest()
         request.wf.CopyFrom(self._message)

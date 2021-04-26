@@ -93,7 +93,7 @@ def is_ubuntu():
 def find_ansys():
     """Searches for ansys path within the standard install location
     and returns the path of the latest version.
-
+    
     Returns
     -------
     ansys_path : str
@@ -106,7 +106,7 @@ def find_ansys():
     >>> from ansys.dpf.core.misc import find_ansys
     >>> find_ansys()
     C:\Program Files\ANSYS Inc\v211
-
+    
     Within Linux
 
     >>> find_ansys()

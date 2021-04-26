@@ -1,3 +1,7 @@
+"""
+Field
+=====
+"""
 from functools import wraps
 
 import numpy as np
@@ -10,7 +14,6 @@ from ansys.dpf.core.common import natures, types, locations, shell_layers
 from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
 from ansys.dpf.core.plotter import Plotter
 from ansys.dpf.core import errors
-
 
 class Field:
     """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
@@ -57,10 +60,17 @@ class Field:
     >>> field = fields_container[0]
     >>> print(field)
     DPF displacement_0.676628s Field
-        Location:   Nodal
-        Unit:       m
-        Num. id(s): 3820
-        Shape:      (3820, 3)    
+        Location: Nodal
+        Unit: m
+        3820 entities 
+        Data:3 components and 3820 elementary data 
+        
+    Create a displacement field
+    >>> from ansys.dpf import core as dpf
+    >>> import numpy as np
+    >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+    >>> my_field.data = np.zeros(30)
+    >>> my_field.scoping.ids = range(1,11)
     """
 
     def __init__(self, nentities=0, nature=natures.vector,
@@ -113,7 +123,12 @@ class Field:
         Examples
         --------
         Shape of a stress field
-
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_transient_result())
+        >>> s_op =model.results.stress()
+        >>> s_fc = s_op.outputs.fields_container()
+        >>> field = s_fc[0]
         >>> field.shape
         (5720, 6)
         """
@@ -143,8 +158,14 @@ class Field:
         --------
         Location for a stress field evaluated at nodes
 
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_transient_result())
+        >>> s_op =model.results.stress()
+        >>> s_fc = s_op.outputs.fields_container()
+        >>> field = s_fc[0]
         >>> field.location
-        'Nodal'
+        'ElementalNodal'
         """
         if self.field_definition:
             return self.field_definition.location
@@ -161,11 +182,18 @@ class Field:
 
         Examples
         --------
-        Location for a stress field evaluated at nodes
+        Location for a field evaluated at nodes
 
-        >>> field.location = dpf.core.locations.nodal
-        >>> field.location
+        >>> from ansys.dpf import core as dpf
+        >>> import numpy as np
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.data = np.zeros(30)
+        >>> my_field.scoping.ids = range(1,11)
+        >>> my_field.location
         'Nodal'
+        >>> my_field.location = dpf.locations.elemental_nodal
+        >>> my_field.location
+        'ElementalNodal'
         """
         fielddef = self.field_definition
         fielddef.location = value
@@ -278,17 +306,20 @@ class Field:
         
         Examples
         --------
-        Units of a stress field
+        Units of a displacement field
 
-        >>> field.unit
-        'Pa'
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.unit = "m"
+        >>> my_field.unit
+        'm'
         """
         if self.field_definition:
             return self.field_definition.unit
         
     @unit.setter
     def unit(self, value):
-        """Chnage the unit of the field
+        """Change the unit of the field
         
         Parameters
         ----------
@@ -296,9 +327,13 @@ class Field:
 
         Examples
         --------
-        Units of a stress field
+        Units of a displacement field
 
-        >>> field.unit ="mm"
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.unit = "m"
+        >>> my_field.unit
+        'm'
         """
         fielddef = self.field_definition
         fielddef.unit = value
@@ -424,12 +459,21 @@ class Field:
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> disp = model.results.displacement()
+        >>> fields_container = disp.outputs.fields_container()
+        >>> field = fields_container[0]
         >>> field.data
-        array([0.00000000e+00, 6.21536180e+02, 1.01791331e+03,
-               8.09503532e+02, 9.04515762e+01, 9.59176333e+02,
-               ...
-               1.00709302e+03, 1.03186142e+03, 1.76060480e+03,
-               1.51723816e+06, 1.28246347e+06, 1.39214534e+06])
+        array([[ 6.25586668e-03, -1.39243136e-02,  2.42697211e-05],
+           [ 1.79675948e-02, -2.74812825e-02,  1.83822050e-05],
+           [-6.72664571e-03, -3.21373459e-02,  1.67159110e-04],
+           ...,
+           [-6.07730368e-03,  3.22569017e-02,  3.10184480e-04],
+           [-3.51074714e-06,  2.16872928e-08,  6.40738989e-05],
+           [ 1.03542516e-02, -3.53018374e-03, -3.98914380e-05]])
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
@@ -612,9 +656,12 @@ class Field:
     def __len__(self):
         return self.size
 
-    @wraps(operators_helper.min_max)
+
     def _min_max(self):
-        return operators_helper.min_max(self)
+        from ansys.dpf.core import dpf_operator
+        op = dpf_operator.Operator("min_max")
+        op.connect(0, self)
+        return op
 
     def min(self):
         """Component-wise minimum over this field

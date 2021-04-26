@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-
-"""Contains classes associated to the DPF MeshesContainer"""
+"""
+MeshesContainer
+===============
+Contains classes associated to the DPF MeshesContainer
+"""
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types

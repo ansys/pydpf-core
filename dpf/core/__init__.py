@@ -33,6 +33,7 @@ from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
+from ansys.dpf.core import fields_container_factory,fields_factory
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

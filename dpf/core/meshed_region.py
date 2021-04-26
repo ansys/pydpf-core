@@ -1,3 +1,7 @@
+"""
+MeshedRegion
+============
+"""
 import numpy as np
 
 from ansys import dpf
@@ -7,14 +11,20 @@ from ansys.dpf.core.common import locations
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.core import BaseService
+from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
 
-
-
+   
 class MeshedRegion:
     """A class used to represent a Mesh from DPF.
 
     Parameters
     ----------
+    num_nodes : int
+        number of nodes to reserve for mesh creation
+    
+    num_elements : int
+        number of elements to reserve for mesh creation
+        
     mesh : ansys.grpc.dpf.meshed_region_pb2.MeshedRegion
     
     server : DPFServer, optional
@@ -36,25 +46,45 @@ class MeshedRegion:
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
     >>> model = dpf.Model(examples.static_rst)
-    >>> meshed_region = model.meshed_region
+    >>> meshed_region = model.metadata.meshed_region
+    
+    Create a meshed region from scratch (line with 3 beam elements)
+    
+    >>> import ansys.dpf.core as dpf
+    >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=3)
+    >>> i=0
+    >>> for node in meshed_region.nodes.add_nodes(4):
+            node.id = i+1
+            node.coordinates = [float(i), float(i), 0.0]
+            i=i+1
+    >>> i=0
+    >>> for element in meshed_region.elements.add_elements(3):
+            element.id=i+1
+            element.connectivity = [i, i+1]
+            element.is_beam=True #or is_solid, is_beam, is_point
+            i=i+1
+    >>> meshed_region.elements.add_beam_element(id=4,connectivity=[3,0])
     """
 
-    def __init__(self, mesh, server=None):
+    def __init__(self, num_nodes=None, num_elements=None, mesh=None, server=None):
 
         if server is None:
             server = dpf.core._global_server()
 
         self._server = server
+        self._stub = self._connect()
 
         if isinstance(mesh, MeshedRegion):
             self._message = mesh._mesh
         elif isinstance(mesh, meshed_region_pb2.MeshedRegion):
             self._message = mesh
-        else:
+        elif mesh==None:
+            self.__send_init_request(num_nodes,num_elements)       
+        else: #support_pb2.Support
             self._message = meshed_region_pb2.MeshedRegion()
             self._message.id = mesh.id
+        
 
-        self._stub = self._connect()
         self._full_grid = None
         self._elements = None
         self._nodes = None
@@ -88,9 +118,13 @@ class MeshedRegion:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
         >>> elements = meshed_region.elements
         >>> print(elements)
-        DPF Elements object with 24982 elements
+        DPF Elements object with 8 elements
         """
         if self._elements is None:
             self._elements = Elements(self)
@@ -108,13 +142,18 @@ class MeshedRegion:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
         >>> nodes = meshed_region.nodes
-        DPF Nodes object with 71987 nodes
+        >>>print(nodes)
+        DPF Node collection with 81 nodes
         """
         if self._nodes is None:
             self._nodes = Nodes(self)
         return self._nodes
-
+    
     @property
     def unit(self):
         """Unit type"""
@@ -222,7 +261,6 @@ class MeshedRegion:
 
     def _as_vtk(self, as_linear=True, include_ids=False):
         """Convert DPF mesh to a pyvista unstructured grid"""
-        from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         nodes = self.nodes.coordinates_field.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
@@ -333,6 +371,15 @@ class MeshedRegion:
         # otherwise, simply plot self
         kwargs['notebook'] = notebook
         return pl.plot_mesh(**kwargs)
+    
+    @protect_grpc
+    def __send_init_request(self, num_nodes=0, num_elements=0):
+        request = meshed_region_pb2.CreateRequest()
+        if num_nodes:
+            request.num_nodes_reserved = num_nodes
+        if num_elements:
+            request.num_elements_reserved = num_elements
+        self._message = self._stub.Create(request)
 
 
 class Node:
@@ -537,6 +584,20 @@ class Element:
         request.property = meshed_region_pb2.ELEMENT_SHAPE
         prop = self._mesh._stub.GetElementalProperty(request).prop
         return meshed_region_pb2.ElementShape.Name(prop).lower()
+    
+    @property
+    def connectivity(self):
+        """Return the ordered list of node indexes of the element
+        
+        Returns
+        --------
+        connectivity : list of int
+        """
+        list=[]
+        for node in self._nodes:
+            list.append(node.index)
+        return list
+        
 
 
 class Nodes():
@@ -652,6 +713,7 @@ class Nodes():
                 Shape: (71987, 3)
 
         Extract the array of coordinates the coordinates field
+        
         >>> nodes.coordinates_field.data
         array([[ 3.40556124, -0.24838723,  0.69582925],
                [ 3.49706859, -0.151947  ,  0.6686485 ],
@@ -729,6 +791,55 @@ class Nodes():
         mask = arr != None
         ind = arr[mask].astype(np.int)
         return ind, mask
+    
+    def add_node(self, id, coordinates):
+        """Appends a new node in the mesh
+        
+        Parameters
+        ----------
+        id : int
+            new node's id
+        
+        coordinates : list of doubles
+            x, y, z coordinates of the node
+        """
+        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
+        node_request = meshed_region_pb2.NodeRequest(id=id)
+        node_request.coordinates.extend(coordinates)
+        request.nodes.append(node_request)
+        self._mesh._stub.Add(request)
+        
+    def add_nodes(self, num):   
+        """Add num new nodes in the mesh. 
+        add_nodes yields num nodes that the user can fill
+        
+        Parameters
+        ----------
+        num : int
+            number of nodes to add
+        
+        Returns
+        -------
+        yield node : _NodeAdder
+            node to add
+        
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=3)
+        >>> for i, node in enumerate(meshed_region.nodes.add_nodes(4)):
+        ...     node.id = i+1
+        ...     node.coordinates = [float(i), float(i), 0.0]
+        """
+        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
+        for i in range(0, num):
+            add = _NodeAdder()
+            yield add
+            node_request = meshed_region_pb2.NodeRequest(id=add.id)
+            node_request.coordinates.extend(add.coordinates)
+            request.nodes.append(node_request)
+        self._mesh._stub.Add(request)
+        
 
 class Elements():
     """Elements belonging to a ``meshed_region``.
@@ -799,8 +910,124 @@ class Elements():
         This is equivalent to ``elements[0]``
 
         """
-        return self.__get_element(elementindex=index)
+        return self.__get_element(elementindex=index)  
+        
+    def add_elements(self, num):     
+        """Add num new elements in the mesh. 
+        add_elements yields num element that the user can fill
+        
+        Parameters
+        ----------
+        num : int
+            number of elements to add
+        
+        Returns
+        -------
+        yield element : _ElementAdder
+            element to add
+        
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=3)
+        >>> i=0
+        >>> for node in meshed_region.nodes.add_nodes(4):
+                node.id = i+1
+                node.coordinates = [float(i), float(i), 0.0]
+                i=i+1
+        >>> i=0
+        >>> for element in meshed_region.elements.add_elements(3):
+                element.id=i+1
+                element.connectivity = [i, i+1]
+                element.is_beam=True #or is_solid, is_beam, is_point
+                i=i+1
+        """
+        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
+        for i in range(0, num):
+            add = _ElementAdder()
+            yield add
+            element_request = meshed_region_pb2.ElementRequest(id=add.id)
+            element_request.connectivity.extend(add.connectivity)          
+            element_request.shape =meshed_region_pb2.ElementShape.Value(add.shape.upper())
+            request.elements.append(element_request)  
+        self._mesh._stub.Add(request)
+    
+    def add_solid_element(self, id, connectivity):
+        """Appends a new solid 3D element in the mesh
+        
+        Parameters
+        ----------
+        id : int
+            new element's id
+        
+        connectivity : list of int
+            list of node indexes connected to the the element
+        """
+        self.add_element(id,"solid",connectivity)
 
+    def add_shell_element(self, id, connectivity):
+        """Appends a new shell 2D element in the mesh
+        
+        Parameters
+        ----------
+        id : int
+            new element's id
+        
+        connectivity : list of int
+            list of node indexes connected to the the element
+        """
+        self.add_element(id, "shell",connectivity)   
+        
+    def add_beam_element(self, id, connectivity):
+        """Appends a new beam 1D element in the mesh
+        
+        Parameters
+        ----------
+        id : int
+            new element's id
+        
+        connectivity : list of int
+            list of node indexes connected to the the element
+        """
+        self.add_element(id, "beam",connectivity)   
+        
+    def add_point_element(self, id, connectivity):
+        """Appends a new point element (1 node connectivity) in the mesh
+        
+        Parameters
+        ----------
+        id : int
+            new element's id
+        
+        connectivity : list of int
+            list of node indexes connected to the the element
+        """
+        if not isinstance(connectivity, list):
+            connectivity = [connectivity]
+        self.add_element(id, "unknown_shape",connectivity)
+    
+    def add_element(self, id, shape, connectivity):
+        """Appends a new element in the mesh
+        
+        Parameters
+        ----------
+        id : int
+            new element's id
+            
+        shape : str
+            shape of the element, expected are "solid", "shell", "beam" or "unknown_shape"
+        
+        connectivity : list of int
+            list of node indexes connected to the the element
+        """
+        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
+        element_request = meshed_region_pb2.ElementRequest(id=id)
+        element_request.connectivity.extend(connectivity)
+        element_request.shape = meshed_region_pb2.ElementShape.Value(shape.upper())
+        request.elements.extend([element_request])
+        self._mesh._stub.Add(request)
+    
+    @protect_grpc
     def __get_element(self, elementindex=None, elementid=None):
         """Returns the element by its id or its index
 
@@ -847,7 +1074,7 @@ class Elements():
 
         Returns
         -------
-        element_types_field : Field
+        element_types_field : core.Field
             Field of all the element types.
 
         Examples
@@ -870,7 +1097,7 @@ class Elements():
 
         Returns
         -------
-        Field
+        materials_field : core.Field
             Field of all the materials ids.
 
         Examples
@@ -893,7 +1120,7 @@ class Elements():
 
         Returns
         -------
-        connectivities_field : Field
+        connectivities_field : core.Field
             Field of the node indices associated to each element.
 
         Examples
@@ -997,3 +1224,164 @@ class Elements():
         mask = arr != None
         ind = arr[mask].astype(np.int)
         return ind, mask
+    
+    @property
+    def has_shell_elements(self) -> bool:
+        """Returns true if at list one element is a 2D element (shell)"""
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_shell_elements
+   
+    @property
+    def has_solid_elements(self) -> bool:
+        """Returns true if at list one element is a 3D element (solid)"""
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_solid_elements
+    
+    @property
+    def has_beam_elements(self) -> bool:
+        """Returns true if at list one element is a 1D beam element"""
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_beam_elements
+    
+    @property
+    def has_point_elements(self) -> bool:
+        """Returns true if at list one element is a point element"""
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_point_elements
+    
+    
+
+class _NodeAdder:
+    """A class used to add new nodes into a meshed region
+    
+    Attributes
+    ----------
+    id : int
+    
+    coordinates : list of doubles
+        x, y, z coordinates
+    
+    Examples
+    --------
+    Create a meshed region from scratch
+    
+    >>> import ansys.dpf.core as dpf
+    >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=1)
+    >>> i=0
+    >>> for node in meshed_region.nodes.add_nodes(4):
+            node.id = i+1
+            node.coordinates = [float(i), float(i), 0.0]       
+            i=i+1 
+    """
+    def __init__(self):
+        self.id=0
+        self.coordinates=[0.0,0.0,0.0]
+        
+class _ElementAdder:
+    """A class used to add new elements into a meshed region
+    
+    Attributes
+    ----------
+    id : int
+    
+    connectivity : list of int
+        ordered list of node indexes of the element
+        
+    shape : str
+        "solid", "shell", "beam" or "unknown_shape"
+    
+    Examples
+    --------
+    Create a meshed region from scratch
+    
+    >>> import ansys.dpf.core as dpf
+    >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=1)
+    >>> i=0
+    >>> for node in meshed_region.nodes.add_nodes(4):
+            node.id = i+1
+            node.coordinates = [float(i), float(i), 0.0]
+            i=i+1
+    >>> for element in meshed_region.elements.add_elements(1):
+            element.id=1
+            element.connectivity = range(0,4)
+            element.is_shell=True #or is_solid, is_beam, is_point
+    """
+    def __init__(self):
+        self.id=0
+        self.connectivity=[0]
+        self._shape_info={"solid":True, "shell":False, "beam":False,"point":False}
+    
+    @property
+    def is_solid(self) ->bool :
+        return self._shape_info["solid"]
+    
+    @is_solid.setter
+    def is_solid(self, value):
+        for key in self._shape_info:
+            self._shape_info[key]=False
+        self._shape_info["solid"]=True
+    
+    @property
+    def is_shell(self) ->bool :
+        return self._shape_info["shell"]
+    
+    @is_shell.setter
+    def is_shell(self, value):
+        for key in self._shape_info:
+            self._shape_info[key]=False
+        self._shape_info["shell"]=True
+    
+    @property
+    def is_beam(self) ->bool :
+        return self._shape_info["beam"]
+    
+    @is_beam.setter
+    def is_beam(self, value):
+        for key in self._shape_info:
+            self._shape_info[key]=False
+        self._shape_info["beam"]=True
+    
+    @property
+    def is_point(self) ->bool :
+        return self._shape_info["point"]
+    
+    @is_point.setter
+    def is_point(self, value):
+        for key in self._shape_info:
+            self._shape_info[key]=False
+        self._shape_info["point"]=True
+     
+    @property
+    def shape(self) ->str:
+        """Gives the element shape
+        
+        Returns
+        --------
+        shape : str
+            "solid", "shell", "beam" or "unknown_shape"
+        """
+        if self.is_solid:
+            return "solid"
+        elif self.is_shell:            
+            return "shell"
+        elif self.is_beam:    
+            return "beam"        
+        else:   
+            return "unknown_shape"  
+    
+    @shape.setter
+    def shape(self, value):
+        """Set the element shape
+        
+        Parameters
+        --------
+        shape : str
+            "solid", "shell", "beam" or "unknown_shape"
+        """
+        if value == "solid":
+            self.is_solid=True 
+        elif value =="shell":            
+            self.is_shell =True
+        elif value =="beam":    
+            self.is_beam=True     
+        else:   
+            self.is_point=True
+        
+    
+     

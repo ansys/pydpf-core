@@ -1,82 +1,13 @@
-from ansys.dpf.core.dpf_operator import Operator
-from ansys.dpf.core.inputs import Input, _Inputs
-from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
-from ansys.dpf.core.operators.specification import PinSpecification, Specification
-
-"""Operators from /shared/home1/cbellot/ansys_inc/v212/aisol/dll/linx64/libAns.Dpf.FEMutils.so plugin, from "metadata" category
 """
-
-#internal name: cyclic_expansion_mesh
-#scripting name: cyclic_mesh_expansion
-class _InputsCyclicMeshExpansion(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(cyclic_mesh_expansion._spec().inputs, op)
-        self.sector_meshed_region = Input(cyclic_mesh_expansion._spec().input_pin(7), 7, op, -1) 
-        self._inputs.append(self.sector_meshed_region)
-        self.cyclic_support = Input(cyclic_mesh_expansion._spec().input_pin(16), 16, op, -1) 
-        self._inputs.append(self.cyclic_support)
-        self.sectors_to_expand = Input(cyclic_mesh_expansion._spec().input_pin(18), 18, op, -1) 
-        self._inputs.append(self.sectors_to_expand)
-
-class _OutputsCyclicMeshExpansion(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(cyclic_mesh_expansion._spec().outputs, op)
-        self.meshed_region = Output(cyclic_mesh_expansion._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.meshed_region)
-        self.cyclic_support = Output(cyclic_mesh_expansion._spec().output_pin(1), 1, op) 
-        self._outputs.append(self.cyclic_support)
-
-class cyclic_mesh_expansion(Operator):
-    """Expand the mesh.
-
-      available inputs:
-         sector_meshed_region (MeshedRegion, MeshesContainer) (optional)
-         cyclic_support (CyclicSupport)
-         sectors_to_expand (list, Scoping, ScopingsContainer) (optional)
-
-      available outputs:
-         meshed_region (MeshedRegion)
-         cyclic_support (CyclicSupport)
-
-      Examples
-      --------
-      op = operators.metadata.cyclic_mesh_expansion()
-
-    """
-    def __init__(self, sector_meshed_region=None, cyclic_support=None, sectors_to_expand=None, config=None, server=None):
-        super().__init__(name="cyclic_expansion_mesh", config = config, server = server)
-        self.inputs = _InputsCyclicMeshExpansion(self)
-        self.outputs = _OutputsCyclicMeshExpansion(self)
-        if sector_meshed_region !=None:
-            self.inputs.sector_meshed_region.connect(sector_meshed_region)
-        if cyclic_support !=None:
-            self.inputs.cyclic_support.connect(cyclic_support)
-        if sectors_to_expand !=None:
-            self.inputs.sectors_to_expand.connect(sectors_to_expand)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Expand the mesh.""",
-                             map_input_pin_spec={
-                                 7 : PinSpecification(name = "sector_meshed_region", type_names=["abstract_meshed_region","meshes_container"], optional=True, document=""""""), 
-                                 16 : PinSpecification(name = "cyclic_support", type_names=["cyclic_support"], optional=False, document=""""""), 
-                                 18 : PinSpecification(name = "sectors_to_expand", type_names=["vector<int32>","scoping","scopings_container"], optional=True, document="""sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "meshed_region", type_names=["abstract_meshed_region"], optional=False, document="""expanded meshed region."""), 
-                                 1 : PinSpecification(name = "cyclic_support", type_names=["cyclic_support"], optional=False, document="""input cyclic support modified in place containing the new expanded meshed regions.""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "cyclic_expansion_mesh")
-
+Metadata Operators
+==================
+"""
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from /shared/home1/cbellot/ansys_inc/v212/aisol/dll/linx64/libAns.Dpf.Native.so plugin, from "metadata" category
+"""Operators from Ans.Dpf.Native.dll plugin, from "metadata" category
 """
 
 #internal name: mesh_support_provider
@@ -107,7 +38,7 @@ class mesh_support_provider(Operator):
 
       Examples
       --------
-      op = operators.metadata.mesh_support_provider()
+      >>> op = operators.metadata.mesh_support_provider()
 
     """
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
@@ -133,171 +64,6 @@ class mesh_support_provider(Operator):
     @staticmethod
     def default_config():
         return Operator.default_config(name = "mesh_support_provider")
-
-#internal name: mat_support_provider
-#scripting name: material_support_provider
-class _InputsMaterialSupportProvider(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(material_support_provider._spec().inputs, op)
-        self.streams_container = Input(material_support_provider._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.streams_container)
-        self.data_sources = Input(material_support_provider._spec().input_pin(4), 4, op, -1) 
-        self._inputs.append(self.data_sources)
-
-class _OutputsMaterialSupportProvider(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(material_support_provider._spec().outputs, op)
-        self.abstract_field_support = Output(material_support_provider._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.abstract_field_support)
-
-class material_support_provider(Operator):
-    """Read the material support.
-
-      available inputs:
-         streams_container (StreamsContainer) (optional)
-         data_sources (DataSources)
-
-      available outputs:
-         abstract_field_support (AbstractFieldSupport)
-
-      Examples
-      --------
-      op = operators.metadata.material_support_provider()
-
-    """
-    def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
-        super().__init__(name="mat_support_provider", config = config, server = server)
-        self.inputs = _InputsMaterialSupportProvider(self)
-        self.outputs = _OutputsMaterialSupportProvider(self)
-        if streams_container !=None:
-            self.inputs.streams_container.connect(streams_container)
-        if data_sources !=None:
-            self.inputs.data_sources.connect(data_sources)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Read the material support.""",
-                             map_input_pin_spec={
-                                 3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container) (optional)"""), 
-                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "abstract_field_support", type_names=["abstract_field_support"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "mat_support_provider")
-
-#internal name: MeshSelectionManagerProvider
-#scripting name: mesh_selection_manager_provider
-class _InputsMeshSelectionManagerProvider(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(mesh_selection_manager_provider._spec().inputs, op)
-        self.streams_container = Input(mesh_selection_manager_provider._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.streams_container)
-        self.data_sources = Input(mesh_selection_manager_provider._spec().input_pin(4), 4, op, -1) 
-        self._inputs.append(self.data_sources)
-
-class _OutputsMeshSelectionManagerProvider(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(mesh_selection_manager_provider._spec().outputs, op)
-        self.mesh_selection_manager = Output(mesh_selection_manager_provider._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.mesh_selection_manager)
-
-class mesh_selection_manager_provider(Operator):
-    """Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.
-
-      available inputs:
-         streams_container (StreamsContainer) (optional)
-         data_sources (DataSources)
-
-      available outputs:
-         mesh_selection_manager (N14dataProcessing21CMeshSelectionManagerE)
-
-      Examples
-      --------
-      op = operators.metadata.mesh_selection_manager_provider()
-
-    """
-    def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
-        super().__init__(name="MeshSelectionManagerProvider", config = config, server = server)
-        self.inputs = _InputsMeshSelectionManagerProvider(self)
-        self.outputs = _OutputsMeshSelectionManagerProvider(self)
-        if streams_container !=None:
-            self.inputs.streams_container.connect(streams_container)
-        if data_sources !=None:
-            self.inputs.data_sources.connect(data_sources)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.""",
-                             map_input_pin_spec={
-                                 3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container) (optional)"""), 
-                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "mesh_selection_manager", type_names=["N14dataProcessing21CMeshSelectionManagerE"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "MeshSelectionManagerProvider")
-
-#internal name: MaterialsProvider
-#scripting name: material_provider
-class _InputsMaterialProvider(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(material_provider._spec().inputs, op)
-        self.streams_container = Input(material_provider._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.streams_container)
-        self.data_sources = Input(material_provider._spec().input_pin(4), 4, op, -1) 
-        self._inputs.append(self.data_sources)
-
-class _OutputsMaterialProvider(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(material_provider._spec().outputs, op)
-        self.materials = Output(material_provider._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.materials)
-
-class material_provider(Operator):
-    """Read available materials and properties from the results files contained in the streams or data sources.
-
-      available inputs:
-         streams_container (StreamsContainer) (optional)
-         data_sources (DataSources)
-
-      available outputs:
-         materials (Materials)
-
-      Examples
-      --------
-      op = operators.metadata.material_provider()
-
-    """
-    def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
-        super().__init__(name="MaterialsProvider", config = config, server = server)
-        self.inputs = _InputsMaterialProvider(self)
-        self.outputs = _OutputsMaterialProvider(self)
-        if streams_container !=None:
-            self.inputs.streams_container.connect(streams_container)
-        if data_sources !=None:
-            self.inputs.data_sources.connect(data_sources)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Read available materials and properties from the results files contained in the streams or data sources.""",
-                             map_input_pin_spec={
-                                 3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container)"""), 
-                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "materials", type_names=["materials"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "MaterialsProvider")
 
 #internal name: ResultInfoProvider
 #scripting name: result_info_provider
@@ -327,7 +93,7 @@ class result_info_provider(Operator):
 
       Examples
       --------
-      op = operators.metadata.result_info_provider()
+      >>> op = operators.metadata.result_info_provider()
 
     """
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
@@ -382,7 +148,7 @@ class time_freq_provider(Operator):
 
       Examples
       --------
-      op = operators.metadata.time_freq_provider()
+      >>> op = operators.metadata.time_freq_provider()
 
     """
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
@@ -408,6 +174,164 @@ class time_freq_provider(Operator):
     @staticmethod
     def default_config():
         return Operator.default_config(name = "TimeFreqSupportProvider")
+
+#internal name: MaterialsProvider
+#scripting name: material_provider
+class _InputsMaterialProvider(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(material_provider._spec().inputs, op)
+        self.streams_container = Input(material_provider._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.streams_container)
+        self.data_sources = Input(material_provider._spec().input_pin(4), 4, op, -1) 
+        self._inputs.append(self.data_sources)
+
+class _OutputsMaterialProvider(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(material_provider._spec().outputs, op)
+        self.materials = Output(material_provider._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.materials)
+
+class material_provider(Operator):
+    """Read available materials and properties from the results files contained in the streams or data sources.
+
+      available inputs:
+         streams_container (StreamsContainer) (optional)
+         data_sources (DataSources)
+
+      available outputs:
+         materials (Materials)
+
+      Examples
+      --------
+      >>> op = operators.metadata.material_provider()
+
+    """
+    def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
+        super().__init__(name="MaterialsProvider", config = config, server = server)
+        self.inputs = _InputsMaterialProvider(self)
+        self.outputs = _OutputsMaterialProvider(self)
+        if streams_container !=None:
+            self.inputs.streams_container.connect(streams_container)
+        if data_sources !=None:
+            self.inputs.data_sources.connect(data_sources)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Read available materials and properties from the results files contained in the streams or data sources.""",
+                             map_input_pin_spec={
+                                 3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container)"""), 
+                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "materials", type_names=["materials"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "MaterialsProvider")
+
+#internal name: stream_provider
+#scripting name: streams_provider
+class _InputsStreamsProvider(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(streams_provider._spec().inputs, op)
+        self.data_sources = Input(streams_provider._spec().input_pin(4), 4, op, -1) 
+        self._inputs.append(self.data_sources)
+
+class _OutputsStreamsProvider(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(streams_provider._spec().outputs, op)
+        self.streams_container = Output(streams_provider._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.streams_container)
+
+class streams_provider(Operator):
+    """Creates streams (files with cache) from the data sources.
+
+      available inputs:
+         data_sources (DataSources)
+
+      available outputs:
+         streams_container (StreamsContainer)
+
+      Examples
+      --------
+      >>> op = operators.metadata.streams_provider()
+
+    """
+    def __init__(self, data_sources=None, config=None, server=None):
+        super().__init__(name="stream_provider", config = config, server = server)
+        self.inputs = _InputsStreamsProvider(self)
+        self.outputs = _OutputsStreamsProvider(self)
+        if data_sources !=None:
+            self.inputs.data_sources.connect(data_sources)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Creates streams (files with cache) from the data sources.""",
+                             map_input_pin_spec={
+                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "stream_provider")
+
+#internal name: MeshSelectionManagerProvider
+#scripting name: mesh_selection_manager_provider
+class _InputsMeshSelectionManagerProvider(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(mesh_selection_manager_provider._spec().inputs, op)
+        self.streams_container = Input(mesh_selection_manager_provider._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.streams_container)
+        self.data_sources = Input(mesh_selection_manager_provider._spec().input_pin(4), 4, op, -1) 
+        self._inputs.append(self.data_sources)
+
+class _OutputsMeshSelectionManagerProvider(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(mesh_selection_manager_provider._spec().outputs, op)
+        pass 
+
+class mesh_selection_manager_provider(Operator):
+    """Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.
+
+      available inputs:
+         streams_container (StreamsContainer) (optional)
+         data_sources (DataSources)
+
+      available outputs:
+         mesh_selection_manager ()
+
+      Examples
+      --------
+      >>> op = operators.metadata.mesh_selection_manager_provider()
+
+    """
+    def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
+        super().__init__(name="MeshSelectionManagerProvider", config = config, server = server)
+        self.inputs = _InputsMeshSelectionManagerProvider(self)
+        self.outputs = _OutputsMeshSelectionManagerProvider(self)
+        if streams_container !=None:
+            self.inputs.streams_container.connect(streams_container)
+        if data_sources !=None:
+            self.inputs.data_sources.connect(data_sources)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.""",
+                             map_input_pin_spec={
+                                 3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container) (optional)"""), 
+                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "mesh_selection_manager", type_names=[], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "MeshSelectionManagerProvider")
 
 #internal name: boundary_conditions
 #scripting name: boundary_condition_provider
@@ -439,7 +363,7 @@ class boundary_condition_provider(Operator):
 
       Examples
       --------
-      op = operators.metadata.boundary_condition_provider()
+      >>> op = operators.metadata.boundary_condition_provider()
 
     """
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
@@ -494,7 +418,7 @@ class is_cyclic(Operator):
 
       Examples
       --------
-      op = operators.metadata.is_cyclic()
+      >>> op = operators.metadata.is_cyclic()
 
     """
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
@@ -521,61 +445,148 @@ class is_cyclic(Operator):
     def default_config():
         return Operator.default_config(name = "is_cyclic")
 
-#internal name: stream_provider
-#scripting name: streams_provider
-class _InputsStreamsProvider(_Inputs):
+#internal name: mat_support_provider
+#scripting name: material_support_provider
+class _InputsMaterialSupportProvider(_Inputs):
     def __init__(self, op: Operator):
-        super().__init__(streams_provider._spec().inputs, op)
-        self.data_sources = Input(streams_provider._spec().input_pin(4), 4, op, -1) 
+        super().__init__(material_support_provider._spec().inputs, op)
+        self.streams_container = Input(material_support_provider._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.streams_container)
+        self.data_sources = Input(material_support_provider._spec().input_pin(4), 4, op, -1) 
         self._inputs.append(self.data_sources)
 
-class _OutputsStreamsProvider(_Outputs):
+class _OutputsMaterialSupportProvider(_Outputs):
     def __init__(self, op: Operator):
-        super().__init__(streams_provider._spec().outputs, op)
-        self.streams_container = Output(streams_provider._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.streams_container)
+        super().__init__(material_support_provider._spec().outputs, op)
+        self.abstract_field_support = Output(material_support_provider._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.abstract_field_support)
 
-class streams_provider(Operator):
-    """Creates streams (files with cache) from the data sources.
+class material_support_provider(Operator):
+    """Read the material support.
 
       available inputs:
+         streams_container (StreamsContainer) (optional)
          data_sources (DataSources)
 
       available outputs:
-         streams_container (StreamsContainer)
+         abstract_field_support (AbstractFieldSupport)
 
       Examples
       --------
-      op = operators.metadata.streams_provider()
+      >>> op = operators.metadata.material_support_provider()
 
     """
-    def __init__(self, data_sources=None, config=None, server=None):
-        super().__init__(name="stream_provider", config = config, server = server)
-        self.inputs = _InputsStreamsProvider(self)
-        self.outputs = _OutputsStreamsProvider(self)
+    def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
+        super().__init__(name="mat_support_provider", config = config, server = server)
+        self.inputs = _InputsMaterialSupportProvider(self)
+        self.outputs = _OutputsMaterialSupportProvider(self)
+        if streams_container !=None:
+            self.inputs.streams_container.connect(streams_container)
         if data_sources !=None:
             self.inputs.data_sources.connect(data_sources)
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Creates streams (files with cache) from the data sources.""",
+        spec = Specification(description="""Read the material support.""",
                              map_input_pin_spec={
-                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""""")},
+                                 3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container) (optional)"""), 
+                                 4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "abstract_field_support", type_names=["abstract_field_support"], optional=False, document="""""")})
         return spec
 
 
     @staticmethod
     def default_config():
-        return Operator.default_config(name = "stream_provider")
+        return Operator.default_config(name = "mat_support_provider")
 
+"""
+Metadata Operators
+==================
+"""
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from /shared/home1/cbellot/ansys_inc/v212/aisol/dll/linx64/libmapdlOperatorsCore.so plugin, from "metadata" category
+"""Operators from Ans.Dpf.FEMutils.dll plugin, from "metadata" category
+"""
+
+#internal name: cyclic_expansion_mesh
+#scripting name: cyclic_mesh_expansion
+class _InputsCyclicMeshExpansion(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(cyclic_mesh_expansion._spec().inputs, op)
+        self.sector_meshed_region = Input(cyclic_mesh_expansion._spec().input_pin(7), 7, op, -1) 
+        self._inputs.append(self.sector_meshed_region)
+        self.cyclic_support = Input(cyclic_mesh_expansion._spec().input_pin(16), 16, op, -1) 
+        self._inputs.append(self.cyclic_support)
+        self.sectors_to_expand = Input(cyclic_mesh_expansion._spec().input_pin(18), 18, op, -1) 
+        self._inputs.append(self.sectors_to_expand)
+
+class _OutputsCyclicMeshExpansion(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(cyclic_mesh_expansion._spec().outputs, op)
+        self.meshed_region = Output(cyclic_mesh_expansion._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.meshed_region)
+        self.cyclic_support = Output(cyclic_mesh_expansion._spec().output_pin(1), 1, op) 
+        self._outputs.append(self.cyclic_support)
+
+class cyclic_mesh_expansion(Operator):
+    """Expand the mesh.
+
+      available inputs:
+         sector_meshed_region (MeshedRegion, MeshesContainer) (optional)
+         cyclic_support (CyclicSupport)
+         sectors_to_expand (list, Scoping, ScopingsContainer) (optional)
+
+      available outputs:
+         meshed_region (MeshedRegion)
+         cyclic_support (CyclicSupport)
+
+      Examples
+      --------
+      >>> op = operators.metadata.cyclic_mesh_expansion()
+
+    """
+    def __init__(self, sector_meshed_region=None, cyclic_support=None, sectors_to_expand=None, config=None, server=None):
+        super().__init__(name="cyclic_expansion_mesh", config = config, server = server)
+        self.inputs = _InputsCyclicMeshExpansion(self)
+        self.outputs = _OutputsCyclicMeshExpansion(self)
+        if sector_meshed_region !=None:
+            self.inputs.sector_meshed_region.connect(sector_meshed_region)
+        if cyclic_support !=None:
+            self.inputs.cyclic_support.connect(cyclic_support)
+        if sectors_to_expand !=None:
+            self.inputs.sectors_to_expand.connect(sectors_to_expand)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Expand the mesh.""",
+                             map_input_pin_spec={
+                                 7 : PinSpecification(name = "sector_meshed_region", type_names=["abstract_meshed_region","meshes_container"], optional=True, document=""""""), 
+                                 16 : PinSpecification(name = "cyclic_support", type_names=["cyclic_support"], optional=False, document=""""""), 
+                                 18 : PinSpecification(name = "sectors_to_expand", type_names=["vector<int32>","scoping","scopings_container"], optional=True, document="""sectors to expand (start at 0), for multistage: use scopings container with 'stage' label.""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "meshed_region", type_names=["abstract_meshed_region"], optional=False, document="""expanded meshed region."""), 
+                                 1 : PinSpecification(name = "cyclic_support", type_names=["cyclic_support"], optional=False, document="""input cyclic support modified in place containing the new expanded meshed regions.""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "cyclic_expansion_mesh")
+
+"""
+Metadata Operators
+==================
+"""
+from ansys.dpf.core.dpf_operator import Operator
+from ansys.dpf.core.inputs import Input, _Inputs
+from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
+from ansys.dpf.core.operators.specification import PinSpecification, Specification
+
+"""Operators from mapdlOperatorsCore.dll plugin, from "metadata" category
 """
 
 #internal name: mapdl::rst::support_provider_cyclic
@@ -618,7 +629,7 @@ class cyclic_support_provider(Operator):
 
       Examples
       --------
-      op = operators.metadata.cyclic_support_provider()
+      >>> op = operators.metadata.cyclic_support_provider()
 
     """
     def __init__(self, streams_container=None, data_sources=None, sector_meshed_region=None, expanded_meshed_region=None, sectors_to_expand=None, config=None, server=None):
