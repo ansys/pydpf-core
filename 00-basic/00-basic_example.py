@@ -81,3 +81,6 @@ fields = displacements.outputs.fields_container()
 # finally, extract the data of the displacement field
 disp = fields[0].data
 disp
+
+###############################################################################
+model.metadata.meshed_region.plot(fields)

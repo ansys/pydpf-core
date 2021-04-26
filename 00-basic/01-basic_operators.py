@@ -79,14 +79,17 @@ print(model.results)
 # Create the displacement operator directly from the ``results`` property
 disp_op = model.results.displacement()
 
-# Out of convenience, ``operators_helper`` contains special functions
-# that return the same type as the input.  In this case, we can easily
-# chain several operators and have their inputs and outputs
-# automatically connected.
-from ansys.dpf.core.operators_helper import min_max, norm
-mm_op = min_max(norm(disp_op))
+# Out of convenience, the operators module contains availabale operators
+# Those operators can be created in chain to create a workflow in one line
+from ansys.dpf.core import operators
+mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))
 
 # Finally, get the value of the maximum displacement.
 field_max = mm_op.outputs.field_max()
 print(field_max)
 print(field_max.data)
+
+
+###############################################################################
+# Plot the displacement
+print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
