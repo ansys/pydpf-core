@@ -1,3 +1,8 @@
+"""
+AvailableResult
+===============
+"""
+
 from warnings import warn
 from ansys.grpc.dpf import available_result_pb2, base_pb2
 from ansys.dpf.core.common import remove_spaces
@@ -8,7 +13,27 @@ class AvailableResult:
 
     Parameters
     ----------
-    availableresult : AvailableResult message
+    availableresult : available_result_pb2.AvailableResult message
+    
+    Examples
+    --------
+    Explore an available result from the model
+    
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = dpf.Model(transient)
+    >>> result_info = model.metadata.result_info
+    >>> res = result_info.available_results[0]
+    >>> res.name
+    'displacement'
+    >>> res.homogeneity
+    'length'
+    >>> res.dimensionality
+    'vector'
+    
+    Create the operator of the given available result
+    >>> disp = model.results.displacement()
     """
 
     def __init__(self, availableresult):

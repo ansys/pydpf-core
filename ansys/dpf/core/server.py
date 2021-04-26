@@ -1,4 +1,8 @@
-"""Contains the directives necessary to start the dpf server."""
+"""
+Server
+======
+Contains the directives necessary to start the dpf server.
+"""
 from threading import Thread
 import io
 import platform
@@ -198,7 +202,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
 
 class DpfServer:
     """Instance of the DPF server
-
+    
     Parameters
     ----------
     server_bin : str
@@ -324,6 +328,7 @@ class DpfServer:
             self._base_service._prepare_shutdown()
             p = psutil.Process(self._base_service.server_info["server_process_id"])
             p.kill()
+            time.sleep(0.1)
             self.live = False
             if dpf.core.SERVER == self:
                 dpf.core.SERVER =None

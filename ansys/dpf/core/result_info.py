@@ -1,3 +1,7 @@
+"""
+ResultInfo
+==========
+"""
 from enum import Enum
 
 from ansys import dpf
@@ -24,7 +28,34 @@ class ResultInfo:
     server : DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
-
+        
+    Examples
+    --------
+    Explore the result info from the model
+    
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = dpf.Model(transient)
+    >>> result_info = model.metadata.result_info
+    >>> print(result_info)
+    DPF Result Info 
+      Analysis: static 
+      Physics Type: mecanic 
+      Unit system: MKS: m, kg, N, s, V, A, degC 
+      Available results: 
+        U Displacement :nodal displacements 
+        RF Force :nodal reaction forces 
+        ENF Element nodal Forces :element nodal forces 
+        S Stress :element nodal component stresses 
+        ENG_VOL Volume :element volume 
+        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
+        ENG_AHO Hourglass Energy :artificial hourglass energy 
+        ...
+    >>> result_info.available_results[0].name
+    'displacement'
+    >>> result_info.available_results[0].homogeneity
+    'length'
     """
 
     def __init__(self, result_info, server=None):
@@ -64,6 +95,16 @@ class ResultInfo:
         -------
         analysis_type : str
             type of analysis (ex : static, transient...)
+            
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> result_info = model.metadata.result_info
+        >>> result_info.analysis_type
+        'static'
         """
         intOut = self._stub.List(self._message).analysis_type
         return result_info_pb2.AnalysisType.Name(intOut).lower()
@@ -74,15 +115,20 @@ class ResultInfo:
 
         Examples
         --------
-        Mechical result
+        Mechanical result
 
-        >>> scoping.physics_type
-        mecanic
-
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> result_info = model.metadata.result_info
+        >>> result_info.physics_type
+        'mecanic'
+        
         Electrical result
-
-        >>> scoping.physics_type
-        electric
+        
+        >>> result_info.physics_type
+        'electric'
         """
         intOut = self._stub.List(self._message).physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
@@ -91,7 +137,7 @@ class ResultInfo:
         """
         Returns
         -------
-        analysis_type : str
+        physics_type : str
             type of physics (ex : mecanic, electric...)
         """
         intOut = self._stub.List(self._message).physics_type

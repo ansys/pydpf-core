@@ -179,7 +179,7 @@ class Model:
         txt += str(self.results)
         txt += '-'*30 + '\n'
         txt += str(self.metadata.meshed_region)
-        txt += '-'*30 + '\n'
+        txt += '\n' + '-'*30 + '\n'
         txt += str(self.metadata.time_freq_support)
         return txt
 

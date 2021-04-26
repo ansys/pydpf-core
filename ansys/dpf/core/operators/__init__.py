@@ -9,6 +9,7 @@ from . import mesh
 from . import filter 
 from . import serialization 
 from . import averaging 
+from . import result 
 from . import geo 
 from . import mesh 
 from . import invariant 
@@ -16,4 +17,10 @@ from . import mapping
 from . import utility 
 from . import scoping 
 from . import metadata 
-from . import other 
+from . import mesh 
+from . import serialization 
+from . import geo 
+from . import result 
+from . import metadata 
+from . import invariant 
+from . import math 

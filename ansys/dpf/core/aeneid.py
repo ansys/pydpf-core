@@ -1,9 +1,11 @@
 from ansys.dpf.core.server import DpfServer
+from ansys.dpf import core
+from ansys.dpf.core import LOCALHOST
 
 """Aeneid specific functions and classes"""
 
 def start_server_using_service_manager():  # pragma: no cover
-    if dpf.core.module_exists("grpc_interceptor_headers"):
+    if core.module_exists("grpc_interceptor_headers"):
         import grpc_interceptor_headers
         from  grpc_interceptor_headers.header_manipulator_client_interceptor import header_adder_interceptor    
     else:
@@ -23,12 +25,12 @@ def start_server_using_service_manager():  # pragma: no cover
     channel = grpc.insecure_channel(dpf_url)
     header_adder =  header_adder_interceptor('service-name', dpf_service_name)
     intercept_channel = grpc.intercept_channel(channel, header_adder)
-    dpf.core.SERVER = DpfJob(service_manager_url, dpf_service_name,intercept_channel)
+    core.SERVER = DpfJob(service_manager_url, dpf_service_name,intercept_channel)
 
-    dpf.core._server_instances.append(dpf.core.SERVER)
+    core._server_instances.append(core.SERVER)
 
 
-class DpfJob(DpfServer) # pragma: no cover
+class DpfJob(DpfServer):
     def __init__(self, service_manager_url, job_name, channel):
         self.sm_url = service_manager_url
         self.job_name = job_name

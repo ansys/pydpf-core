@@ -1,197 +1,67 @@
+"""
+MinMax Operators
+================
+"""
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from /shared/home1/cbellot/ansys_inc/v212/aisol/dll/linx64/libAns.Dpf.Native.so plugin, from "min_max" category
+"""Operators from Ans.Dpf.Native.dll plugin, from "min_max" category
 """
 
-#internal name: max_by_component
-#scripting name: max_by_component
-class _InputsMaxByComponent(_Inputs):
+#internal name: min_max_by_time
+#scripting name: min_max_by_time
+class _InputsMinMaxByTime(_Inputs):
     def __init__(self, op: Operator):
-        super().__init__(max_by_component._spec().inputs, op)
-        self.use_absolute_value = Input(max_by_component._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.use_absolute_value)
-        self.fieldA1 = Input(max_by_component._spec().input_pin(1), 1, op, 0) 
-        self._inputs.append(self.fieldA1)
-        self.fieldA2 = Input(max_by_component._spec().input_pin(2), 2, op, 1) 
-        self._inputs.append(self.fieldA2)
-        self.fieldB2 = Input(max_by_component._spec().input_pin(3), 3, op, 1) 
-        self._inputs.append(self.fieldB2)
-
-class _OutputsMaxByComponent(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(max_by_component._spec().outputs, op)
-        self.field = Output(max_by_component._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.field)
-
-class max_by_component(Operator):
-    """Give the maximum for each element rank by comparing several fields.
-
-      available inputs:
-         use_absolute_value (bool)
-         fieldA1 (Field, FieldsContainer)
-         fieldA2 (Field, FieldsContainer)
-         fieldB2 (Field, FieldsContainer)
-
-      available outputs:
-         field (Field)
-
-      Examples
-      --------
-      op = operators.min_max.max_by_component()
-
-    """
-    def __init__(self, use_absolute_value=None, fieldA1=None, fieldA2=None, fieldB2=None, config=None, server=None):
-        super().__init__(name="max_by_component", config = config, server = server)
-        self.inputs = _InputsMaxByComponent(self)
-        self.outputs = _OutputsMaxByComponent(self)
-        if use_absolute_value !=None:
-            self.inputs.use_absolute_value.connect(use_absolute_value)
-        if fieldA1 !=None:
-            self.inputs.fieldA1.connect(fieldA1)
-        if fieldA2 !=None:
-            self.inputs.fieldA2.connect(fieldA2)
-        if fieldB2 !=None:
-            self.inputs.fieldB2.connect(fieldB2)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Give the maximum for each element rank by comparing several fields.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "use_absolute_value", type_names=["bool"], optional=False, document="""use_absolute_value"""), 
-                                 1 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 2 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 3 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "max_by_component")
-
-#internal name: min_by_component
-#scripting name: min_by_component
-class _InputsMinByComponent(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_by_component._spec().inputs, op)
-        self.use_absolute_value = Input(min_by_component._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.use_absolute_value)
-        self.fieldA1 = Input(min_by_component._spec().input_pin(1), 1, op, 0) 
-        self._inputs.append(self.fieldA1)
-        self.fieldA2 = Input(min_by_component._spec().input_pin(2), 2, op, 1) 
-        self._inputs.append(self.fieldA2)
-        self.fieldB2 = Input(min_by_component._spec().input_pin(3), 3, op, 1) 
-        self._inputs.append(self.fieldB2)
-
-class _OutputsMinByComponent(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_by_component._spec().outputs, op)
-        self.field = Output(min_by_component._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.field)
-
-class min_by_component(Operator):
-    """Give the maximum for each element rank by comparing several fields.
-
-      available inputs:
-         use_absolute_value (bool)
-         fieldA1 (Field, FieldsContainer)
-         fieldA2 (Field, FieldsContainer)
-         fieldB2 (Field, FieldsContainer)
-
-      available outputs:
-         field (Field)
-
-      Examples
-      --------
-      op = operators.min_max.min_by_component()
-
-    """
-    def __init__(self, use_absolute_value=None, fieldA1=None, fieldA2=None, fieldB2=None, config=None, server=None):
-        super().__init__(name="min_by_component", config = config, server = server)
-        self.inputs = _InputsMinByComponent(self)
-        self.outputs = _OutputsMinByComponent(self)
-        if use_absolute_value !=None:
-            self.inputs.use_absolute_value.connect(use_absolute_value)
-        if fieldA1 !=None:
-            self.inputs.fieldA1.connect(fieldA1)
-        if fieldA2 !=None:
-            self.inputs.fieldA2.connect(fieldA2)
-        if fieldB2 !=None:
-            self.inputs.fieldB2.connect(fieldB2)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Give the maximum for each element rank by comparing several fields.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "use_absolute_value", type_names=["bool"], optional=False, document="""use_absolute_value"""), 
-                                 1 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 2 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 3 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "min_by_component")
-
-#internal name: min_max_fc
-#scripting name: min_max_fc
-class _InputsMinMaxFc(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max_fc._spec().inputs, op)
-        self.fields_container = Input(min_max_fc._spec().input_pin(0), 0, op, -1) 
+        super().__init__(min_max_by_time._spec().inputs, op)
+        self.fields_container = Input(min_max_by_time._spec().input_pin(0), 0, op, -1) 
         self._inputs.append(self.fields_container)
 
-class _OutputsMinMaxFc(_Outputs):
+class _OutputsMinMaxByTime(_Outputs):
     def __init__(self, op: Operator):
-        super().__init__(min_max_fc._spec().outputs, op)
-        self.field_min = Output(min_max_fc._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.field_min)
-        self.field_max = Output(min_max_fc._spec().output_pin(1), 1, op) 
-        self._outputs.append(self.field_max)
+        super().__init__(min_max_by_time._spec().outputs, op)
+        self.min = Output(min_max_by_time._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.min)
+        self.max = Output(min_max_by_time._spec().output_pin(1), 1, op) 
+        self._outputs.append(self.max)
 
-class min_max_fc(Operator):
-    """Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
+class min_max_by_time(Operator):
+    """Evaluates minimum, maximum by time or frequency over all the entities of each field
 
       available inputs:
          fields_container (FieldsContainer)
 
       available outputs:
-         field_min (Field)
-         field_max (Field)
+         min (FieldsContainer)
+         max (FieldsContainer)
 
       Examples
       --------
-      op = operators.min_max.min_max_fc()
+      >>> op = operators.min_max.min_max_by_time()
 
     """
     def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="min_max_fc", config = config, server = server)
-        self.inputs = _InputsMinMaxFc(self)
-        self.outputs = _OutputsMinMaxFc(self)
+        super().__init__(name="min_max_by_time", config = config, server = server)
+        self.inputs = _InputsMinMaxByTime(self)
+        self.outputs = _OutputsMinMaxByTime(self)
         if fields_container !=None:
             self.inputs.fields_container.connect(fields_container)
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.""",
+        spec = Specification(description="""Evaluates minimum, maximum by time or frequency over all the entities of each field""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "field_min", type_names=["field"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "field_max", type_names=["field"], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "min", type_names=["fields_container"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "max", type_names=["fields_container"], optional=False, document="""""")})
         return spec
 
 
     @staticmethod
     def default_config():
-        return Operator.default_config(name = "min_max_fc")
+        return Operator.default_config(name = "min_max_by_time")
 
 #internal name: phase_of_max
 #scripting name: phase_of_max
@@ -227,7 +97,7 @@ class phase_of_max(Operator):
 
       Examples
       --------
-      op = operators.min_max.phase_of_max()
+      >>> op = operators.min_max.phase_of_max()
 
     """
     def __init__(self, real_field=None, imaginary_field=None, abs_value=None, phase_increment=None, config=None, server=None):
@@ -260,73 +130,6 @@ class phase_of_max(Operator):
     def default_config():
         return Operator.default_config(name = "phase_of_max")
 
-#internal name: max_over_phase
-#scripting name: max_over_phase
-class _InputsMaxOverPhase(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(max_over_phase._spec().inputs, op)
-        self.real_field = Input(max_over_phase._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.real_field)
-        self.imaginary_field = Input(max_over_phase._spec().input_pin(1), 1, op, -1) 
-        self._inputs.append(self.imaginary_field)
-        self.abs_value = Input(max_over_phase._spec().input_pin(2), 2, op, -1) 
-        self._inputs.append(self.abs_value)
-        self.phase_increment = Input(max_over_phase._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.phase_increment)
-
-class _OutputsMaxOverPhase(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(max_over_phase._spec().outputs, op)
-        self.field = Output(max_over_phase._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.field)
-
-class max_over_phase(Operator):
-    """Returns, for each entity, the maximum value of (real value * cos(theta) - imaginary value * sin(theta)) for theta in [0, 360]degrees with the increment in input.
-
-      available inputs:
-         real_field (Field)
-         imaginary_field (Field)
-         abs_value (bool) (optional)
-         phase_increment (float) (optional)
-
-      available outputs:
-         field (Field)
-
-      Examples
-      --------
-      op = operators.min_max.max_over_phase()
-
-    """
-    def __init__(self, real_field=None, imaginary_field=None, abs_value=None, phase_increment=None, config=None, server=None):
-        super().__init__(name="max_over_phase", config = config, server = server)
-        self.inputs = _InputsMaxOverPhase(self)
-        self.outputs = _OutputsMaxOverPhase(self)
-        if real_field !=None:
-            self.inputs.real_field.connect(real_field)
-        if imaginary_field !=None:
-            self.inputs.imaginary_field.connect(imaginary_field)
-        if abs_value !=None:
-            self.inputs.abs_value.connect(abs_value)
-        if phase_increment !=None:
-            self.inputs.phase_increment.connect(phase_increment)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Returns, for each entity, the maximum value of (real value * cos(theta) - imaginary value * sin(theta)) for theta in [0, 360]degrees with the increment in input.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "real_field", type_names=["field"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "imaginary_field", type_names=["field"], optional=False, document=""""""), 
-                                 2 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
-                                 3 : PinSpecification(name = "phase_increment", type_names=["double"], optional=True, document="""Phase increment (default is 10.0 degrees).""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "max_over_phase")
-
 #internal name: time_of_max_by_entity
 #scripting name: time_of_max_by_entity
 class _InputsTimeOfMaxByEntity(_Inputs):
@@ -358,7 +161,7 @@ class time_of_max_by_entity(Operator):
 
       Examples
       --------
-      op = operators.min_max.time_of_max_by_entity()
+      >>> op = operators.min_max.time_of_max_by_entity()
 
     """
     def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
@@ -388,226 +191,6 @@ class time_of_max_by_entity(Operator):
     def default_config():
         return Operator.default_config(name = "time_of_max_by_entity")
 
-#internal name: max_over_time_by_entity
-#scripting name: max_over_time_by_entity
-class _InputsMaxOverTimeByEntity(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(max_over_time_by_entity._spec().inputs, op)
-        self.fields_container = Input(max_over_time_by_entity._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.fields_container)
-        self.abs_value = Input(max_over_time_by_entity._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.abs_value)
-        self.compute_amplitude = Input(max_over_time_by_entity._spec().input_pin(4), 4, op, -1) 
-        self._inputs.append(self.compute_amplitude)
-
-class _OutputsMaxOverTimeByEntity(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(max_over_time_by_entity._spec().outputs, op)
-        self.fields_container = Output(max_over_time_by_entity._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.fields_container)
-
-class max_over_time_by_entity(Operator):
-    """Evaluates maximum over time/frequency.
-
-      available inputs:
-         fields_container (FieldsContainer)
-         abs_value (bool) (optional)
-         compute_amplitude (bool) (optional)
-
-      available outputs:
-         fields_container (FieldsContainer)
-
-      Examples
-      --------
-      op = operators.min_max.max_over_time_by_entity()
-
-    """
-    def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
-        super().__init__(name="max_over_time_by_entity", config = config, server = server)
-        self.inputs = _InputsMaxOverTimeByEntity(self)
-        self.outputs = _OutputsMaxOverTimeByEntity(self)
-        if fields_container !=None:
-            self.inputs.fields_container.connect(fields_container)
-        if abs_value !=None:
-            self.inputs.abs_value.connect(abs_value)
-        if compute_amplitude !=None:
-            self.inputs.compute_amplitude.connect(compute_amplitude)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Evaluates maximum over time/frequency.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
-                                 3 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
-                                 4 : PinSpecification(name = "compute_amplitude", type_names=["bool"], optional=True, document="""Do calculate amplitude.""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "max_over_time_by_entity")
-
-#internal name: min_max_by_time
-#scripting name: min_max_by_time
-class _InputsMinMaxByTime(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max_by_time._spec().inputs, op)
-        self.fields_container = Input(min_max_by_time._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.fields_container)
-
-class _OutputsMinMaxByTime(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max_by_time._spec().outputs, op)
-        self.min = Output(min_max_by_time._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.min)
-        self.max = Output(min_max_by_time._spec().output_pin(1), 1, op) 
-        self._outputs.append(self.max)
-
-class min_max_by_time(Operator):
-    """Evaluates minimum, maximum by time or frequency over all the entities of each field
-
-      available inputs:
-         fields_container (FieldsContainer)
-
-      available outputs:
-         min (FieldsContainer)
-         max (FieldsContainer)
-
-      Examples
-      --------
-      op = operators.min_max.min_max_by_time()
-
-    """
-    def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="min_max_by_time", config = config, server = server)
-        self.inputs = _InputsMinMaxByTime(self)
-        self.outputs = _OutputsMinMaxByTime(self)
-        if fields_container !=None:
-            self.inputs.fields_container.connect(fields_container)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Evaluates minimum, maximum by time or frequency over all the entities of each field""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "min", type_names=["fields_container"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "max", type_names=["fields_container"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "min_max_by_time")
-
-#internal name: min_max_fc_inc
-#scripting name: min_max_fc_inc
-class _InputsMinMaxFcInc(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max_fc_inc._spec().inputs, op)
-        self.fields_container = Input(min_max_fc_inc._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.fields_container)
-
-class _OutputsMinMaxFcInc(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max_fc_inc._spec().outputs, op)
-        self.field_min = Output(min_max_fc_inc._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.field_min)
-        self.field_max = Output(min_max_fc_inc._spec().output_pin(1), 1, op) 
-        self._outputs.append(self.field_max)
-
-class min_max_fc_inc(Operator):
-    """Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
-
-      available inputs:
-         fields_container (FieldsContainer)
-
-      available outputs:
-         field_min (Field)
-         field_max (Field)
-
-      Examples
-      --------
-      op = operators.min_max.min_max_fc_inc()
-
-    """
-    def __init__(self, fields_container=None, config=None, server=None):
-        super().__init__(name="min_max_fc_inc", config = config, server = server)
-        self.inputs = _InputsMinMaxFcInc(self)
-        self.outputs = _OutputsMinMaxFcInc(self)
-        if fields_container !=None:
-            self.inputs.fields_container.connect(fields_container)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "field_min", type_names=["field"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "field_max", type_names=["field"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "min_max_fc_inc")
-
-#internal name: min_max
-#scripting name: min_max
-class _InputsMinMax(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max._spec().inputs, op)
-        self.field = Input(min_max._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.field)
-
-class _OutputsMinMax(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_max._spec().outputs, op)
-        self.field_min = Output(min_max._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.field_min)
-        self.field_max = Output(min_max._spec().output_pin(1), 1, op) 
-        self._outputs.append(self.field_max)
-
-class min_max(Operator):
-    """Compute the component-wise minimum (out 0) and maximum (out 1) over a field.
-
-      available inputs:
-         field (Field, FieldsContainer)
-
-      available outputs:
-         field_min (Field)
-         field_max (Field)
-
-      Examples
-      --------
-      op = operators.min_max.min_max()
-
-    """
-    def __init__(self, field=None, config=None, server=None):
-        super().__init__(name="min_max", config = config, server = server)
-        self.inputs = _InputsMinMax(self)
-        self.outputs = _OutputsMinMax(self)
-        if field !=None:
-            self.inputs.field.connect(field)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Compute the component-wise minimum (out 0) and maximum (out 1) over a field.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "field_min", type_names=["field"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "field_max", type_names=["field"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "min_max")
-
 #internal name: min_max_by_entity
 #scripting name: min_max_by_entity
 class _InputsMinMaxByEntity(_Inputs):
@@ -636,7 +219,7 @@ class min_max_by_entity(Operator):
 
       Examples
       --------
-      op = operators.min_max.min_max_by_entity()
+      >>> op = operators.min_max.min_max_by_entity()
 
     """
     def __init__(self, fields_container=None, config=None, server=None):
@@ -660,67 +243,6 @@ class min_max_by_entity(Operator):
     @staticmethod
     def default_config():
         return Operator.default_config(name = "min_max_by_entity")
-
-#internal name: min_over_time_by_entity
-#scripting name: min_over_time_by_entity
-class _InputsMinOverTimeByEntity(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_over_time_by_entity._spec().inputs, op)
-        self.fields_container = Input(min_over_time_by_entity._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.fields_container)
-        self.abs_value = Input(min_over_time_by_entity._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.abs_value)
-        self.compute_amplitude = Input(min_over_time_by_entity._spec().input_pin(4), 4, op, -1) 
-        self._inputs.append(self.compute_amplitude)
-
-class _OutputsMinOverTimeByEntity(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(min_over_time_by_entity._spec().outputs, op)
-        self.fields_container = Output(min_over_time_by_entity._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.fields_container)
-
-class min_over_time_by_entity(Operator):
-    """Evaluates minimum over time/frequency.
-
-      available inputs:
-         fields_container (FieldsContainer)
-         abs_value (bool) (optional)
-         compute_amplitude (bool) (optional)
-
-      available outputs:
-         fields_container (FieldsContainer)
-
-      Examples
-      --------
-      op = operators.min_max.min_over_time_by_entity()
-
-    """
-    def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
-        super().__init__(name="min_over_time_by_entity", config = config, server = server)
-        self.inputs = _InputsMinOverTimeByEntity(self)
-        self.outputs = _OutputsMinOverTimeByEntity(self)
-        if fields_container !=None:
-            self.inputs.fields_container.connect(fields_container)
-        if abs_value !=None:
-            self.inputs.abs_value.connect(abs_value)
-        if compute_amplitude !=None:
-            self.inputs.compute_amplitude.connect(compute_amplitude)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Evaluates minimum over time/frequency.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
-                                 3 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
-                                 4 : PinSpecification(name = "compute_amplitude", type_names=["bool"], optional=True, document="""Do calculate amplitude.""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "min_over_time_by_entity")
 
 #internal name: min_max_over_time_by_entity
 #scripting name: min_max_over_time_by_entity
@@ -759,7 +281,7 @@ class min_max_over_time_by_entity(Operator):
 
       Examples
       --------
-      op = operators.min_max.min_max_over_time_by_entity()
+      >>> op = operators.min_max.min_max_over_time_by_entity()
 
     """
     def __init__(self, fields_container=None, compute_amplitude=None, config=None, server=None):
@@ -788,6 +310,362 @@ class min_max_over_time_by_entity(Operator):
     @staticmethod
     def default_config():
         return Operator.default_config(name = "min_max_over_time_by_entity")
+
+#internal name: max_over_time_by_entity
+#scripting name: max_over_time_by_entity
+class _InputsMaxOverTimeByEntity(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(max_over_time_by_entity._spec().inputs, op)
+        self.fields_container = Input(max_over_time_by_entity._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.fields_container)
+        self.abs_value = Input(max_over_time_by_entity._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.abs_value)
+        self.compute_amplitude = Input(max_over_time_by_entity._spec().input_pin(4), 4, op, -1) 
+        self._inputs.append(self.compute_amplitude)
+
+class _OutputsMaxOverTimeByEntity(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(max_over_time_by_entity._spec().outputs, op)
+        self.fields_container = Output(max_over_time_by_entity._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.fields_container)
+
+class max_over_time_by_entity(Operator):
+    """Evaluates maximum over time/frequency.
+
+      available inputs:
+         fields_container (FieldsContainer)
+         abs_value (bool) (optional)
+         compute_amplitude (bool) (optional)
+
+      available outputs:
+         fields_container (FieldsContainer)
+
+      Examples
+      --------
+      >>> op = operators.min_max.max_over_time_by_entity()
+
+    """
+    def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
+        super().__init__(name="max_over_time_by_entity", config = config, server = server)
+        self.inputs = _InputsMaxOverTimeByEntity(self)
+        self.outputs = _OutputsMaxOverTimeByEntity(self)
+        if fields_container !=None:
+            self.inputs.fields_container.connect(fields_container)
+        if abs_value !=None:
+            self.inputs.abs_value.connect(abs_value)
+        if compute_amplitude !=None:
+            self.inputs.compute_amplitude.connect(compute_amplitude)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Evaluates maximum over time/frequency.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
+                                 3 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
+                                 4 : PinSpecification(name = "compute_amplitude", type_names=["bool"], optional=True, document="""Do calculate amplitude.""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "max_over_time_by_entity")
+
+#internal name: min_over_time_by_entity
+#scripting name: min_over_time_by_entity
+class _InputsMinOverTimeByEntity(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_over_time_by_entity._spec().inputs, op)
+        self.fields_container = Input(min_over_time_by_entity._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.fields_container)
+        self.abs_value = Input(min_over_time_by_entity._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.abs_value)
+        self.compute_amplitude = Input(min_over_time_by_entity._spec().input_pin(4), 4, op, -1) 
+        self._inputs.append(self.compute_amplitude)
+
+class _OutputsMinOverTimeByEntity(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_over_time_by_entity._spec().outputs, op)
+        self.fields_container = Output(min_over_time_by_entity._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.fields_container)
+
+class min_over_time_by_entity(Operator):
+    """Evaluates minimum over time/frequency.
+
+      available inputs:
+         fields_container (FieldsContainer)
+         abs_value (bool) (optional)
+         compute_amplitude (bool) (optional)
+
+      available outputs:
+         fields_container (FieldsContainer)
+
+      Examples
+      --------
+      >>> op = operators.min_max.min_over_time_by_entity()
+
+    """
+    def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
+        super().__init__(name="min_over_time_by_entity", config = config, server = server)
+        self.inputs = _InputsMinOverTimeByEntity(self)
+        self.outputs = _OutputsMinOverTimeByEntity(self)
+        if fields_container !=None:
+            self.inputs.fields_container.connect(fields_container)
+        if abs_value !=None:
+            self.inputs.abs_value.connect(abs_value)
+        if compute_amplitude !=None:
+            self.inputs.compute_amplitude.connect(compute_amplitude)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Evaluates minimum over time/frequency.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
+                                 3 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
+                                 4 : PinSpecification(name = "compute_amplitude", type_names=["bool"], optional=True, document="""Do calculate amplitude.""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "min_over_time_by_entity")
+
+#internal name: time_of_min_by_entity
+#scripting name: time_of_min_by_entity
+class _InputsTimeOfMinByEntity(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(time_of_min_by_entity._spec().inputs, op)
+        self.fields_container = Input(time_of_min_by_entity._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.fields_container)
+        self.abs_value = Input(time_of_min_by_entity._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.abs_value)
+        self.compute_amplitude = Input(time_of_min_by_entity._spec().input_pin(4), 4, op, -1) 
+        self._inputs.append(self.compute_amplitude)
+
+class _OutputsTimeOfMinByEntity(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(time_of_min_by_entity._spec().outputs, op)
+        self.fields_container = Output(time_of_min_by_entity._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.fields_container)
+
+class time_of_min_by_entity(Operator):
+    """Evaluates time/frequency of minimum.
+
+      available inputs:
+         fields_container (FieldsContainer)
+         abs_value (bool) (optional)
+         compute_amplitude (bool) (optional)
+
+      available outputs:
+         fields_container (FieldsContainer)
+
+      Examples
+      --------
+      >>> op = operators.min_max.time_of_min_by_entity()
+
+    """
+    def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
+        super().__init__(name="time_of_min_by_entity", config = config, server = server)
+        self.inputs = _InputsTimeOfMinByEntity(self)
+        self.outputs = _OutputsTimeOfMinByEntity(self)
+        if fields_container !=None:
+            self.inputs.fields_container.connect(fields_container)
+        if abs_value !=None:
+            self.inputs.abs_value.connect(abs_value)
+        if compute_amplitude !=None:
+            self.inputs.compute_amplitude.connect(compute_amplitude)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Evaluates time/frequency of minimum.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
+                                 3 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
+                                 4 : PinSpecification(name = "compute_amplitude", type_names=["bool"], optional=True, document="""Do calculate amplitude.""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "time_of_min_by_entity")
+
+#internal name: max_over_phase
+#scripting name: max_over_phase
+class _InputsMaxOverPhase(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(max_over_phase._spec().inputs, op)
+        self.real_field = Input(max_over_phase._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.real_field)
+        self.imaginary_field = Input(max_over_phase._spec().input_pin(1), 1, op, -1) 
+        self._inputs.append(self.imaginary_field)
+        self.abs_value = Input(max_over_phase._spec().input_pin(2), 2, op, -1) 
+        self._inputs.append(self.abs_value)
+        self.phase_increment = Input(max_over_phase._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.phase_increment)
+
+class _OutputsMaxOverPhase(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(max_over_phase._spec().outputs, op)
+        self.field = Output(max_over_phase._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.field)
+
+class max_over_phase(Operator):
+    """Returns, for each entity, the maximum value of (real value * cos(theta) - imaginary value * sin(theta)) for theta in [0, 360]degrees with the increment in input.
+
+      available inputs:
+         real_field (Field)
+         imaginary_field (Field)
+         abs_value (bool) (optional)
+         phase_increment (float) (optional)
+
+      available outputs:
+         field (Field)
+
+      Examples
+      --------
+      >>> op = operators.min_max.max_over_phase()
+
+    """
+    def __init__(self, real_field=None, imaginary_field=None, abs_value=None, phase_increment=None, config=None, server=None):
+        super().__init__(name="max_over_phase", config = config, server = server)
+        self.inputs = _InputsMaxOverPhase(self)
+        self.outputs = _OutputsMaxOverPhase(self)
+        if real_field !=None:
+            self.inputs.real_field.connect(real_field)
+        if imaginary_field !=None:
+            self.inputs.imaginary_field.connect(imaginary_field)
+        if abs_value !=None:
+            self.inputs.abs_value.connect(abs_value)
+        if phase_increment !=None:
+            self.inputs.phase_increment.connect(phase_increment)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Returns, for each entity, the maximum value of (real value * cos(theta) - imaginary value * sin(theta)) for theta in [0, 360]degrees with the increment in input.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "real_field", type_names=["field"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "imaginary_field", type_names=["field"], optional=False, document=""""""), 
+                                 2 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
+                                 3 : PinSpecification(name = "phase_increment", type_names=["double"], optional=True, document="""Phase increment (default is 10.0 degrees).""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "max_over_phase")
+
+#internal name: min_max
+#scripting name: min_max
+class _InputsMinMax(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_max._spec().inputs, op)
+        self.field = Input(min_max._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.field)
+
+class _OutputsMinMax(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_max._spec().outputs, op)
+        self.field_min = Output(min_max._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.field_min)
+        self.field_max = Output(min_max._spec().output_pin(1), 1, op) 
+        self._outputs.append(self.field_max)
+
+class min_max(Operator):
+    """Compute the component-wise minimum (out 0) and maximum (out 1) over a field.
+
+      available inputs:
+         field (Field, FieldsContainer)
+
+      available outputs:
+         field_min (Field)
+         field_max (Field)
+
+      Examples
+      --------
+      >>> op = operators.min_max.min_max()
+
+    """
+    def __init__(self, field=None, config=None, server=None):
+        super().__init__(name="min_max", config = config, server = server)
+        self.inputs = _InputsMinMax(self)
+        self.outputs = _OutputsMinMax(self)
+        if field !=None:
+            self.inputs.field.connect(field)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Compute the component-wise minimum (out 0) and maximum (out 1) over a field.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "field_min", type_names=["field"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "field_max", type_names=["field"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "min_max")
+
+#internal name: min_max_fc
+#scripting name: min_max_fc
+class _InputsMinMaxFc(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_max_fc._spec().inputs, op)
+        self.fields_container = Input(min_max_fc._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.fields_container)
+
+class _OutputsMinMaxFc(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_max_fc._spec().outputs, op)
+        self.field_min = Output(min_max_fc._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.field_min)
+        self.field_max = Output(min_max_fc._spec().output_pin(1), 1, op) 
+        self._outputs.append(self.field_max)
+
+class min_max_fc(Operator):
+    """Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
+
+      available inputs:
+         fields_container (FieldsContainer)
+
+      available outputs:
+         field_min (Field)
+         field_max (Field)
+
+      Examples
+      --------
+      >>> op = operators.min_max.min_max_fc()
+
+    """
+    def __init__(self, fields_container=None, config=None, server=None):
+        super().__init__(name="min_max_fc", config = config, server = server)
+        self.inputs = _InputsMinMaxFc(self)
+        self.outputs = _OutputsMinMaxFc(self)
+        if fields_container !=None:
+            self.inputs.fields_container.connect(fields_container)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "field_min", type_names=["field"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "field_max", type_names=["field"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "min_max_fc")
 
 #internal name: min_max_over_label_fc
 #scripting name: min_max_over_label_fc
@@ -832,7 +710,7 @@ class min_max_over_label_fc(Operator):
 
       Examples
       --------
-      op = operators.min_max.min_max_over_label_fc()
+      >>> op = operators.min_max.min_max_over_label_fc()
 
     """
     def __init__(self, fields_container=None, label=None, config=None, server=None):
@@ -863,6 +741,193 @@ class min_max_over_label_fc(Operator):
     @staticmethod
     def default_config():
         return Operator.default_config(name = "min_max_over_label_fc")
+
+#internal name: min_by_component
+#scripting name: min_by_component
+class _InputsMinByComponent(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_by_component._spec().inputs, op)
+        self.use_absolute_value = Input(min_by_component._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.use_absolute_value)
+        self.fieldA1 = Input(min_by_component._spec().input_pin(1), 1, op, 0) 
+        self._inputs.append(self.fieldA1)
+        self.fieldA2 = Input(min_by_component._spec().input_pin(2), 2, op, 1) 
+        self._inputs.append(self.fieldA2)
+        self.fieldB2 = Input(min_by_component._spec().input_pin(3), 3, op, 1) 
+        self._inputs.append(self.fieldB2)
+
+class _OutputsMinByComponent(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_by_component._spec().outputs, op)
+        self.field = Output(min_by_component._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.field)
+
+class min_by_component(Operator):
+    """Give the maximum for each element rank by comparing several fields.
+
+      available inputs:
+         use_absolute_value (bool)
+         fieldA1 (Field, FieldsContainer)
+         fieldA2 (Field, FieldsContainer)
+         fieldB2 (Field, FieldsContainer)
+
+      available outputs:
+         field (Field)
+
+      Examples
+      --------
+      >>> op = operators.min_max.min_by_component()
+
+    """
+    def __init__(self, use_absolute_value=None, fieldA1=None, fieldA2=None, fieldB2=None, config=None, server=None):
+        super().__init__(name="min_by_component", config = config, server = server)
+        self.inputs = _InputsMinByComponent(self)
+        self.outputs = _OutputsMinByComponent(self)
+        if use_absolute_value !=None:
+            self.inputs.use_absolute_value.connect(use_absolute_value)
+        if fieldA1 !=None:
+            self.inputs.fieldA1.connect(fieldA1)
+        if fieldA2 !=None:
+            self.inputs.fieldA2.connect(fieldA2)
+        if fieldB2 !=None:
+            self.inputs.fieldB2.connect(fieldB2)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Give the maximum for each element rank by comparing several fields.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "use_absolute_value", type_names=["bool"], optional=False, document="""use_absolute_value"""), 
+                                 1 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 2 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 3 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "min_by_component")
+
+#internal name: max_by_component
+#scripting name: max_by_component
+class _InputsMaxByComponent(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(max_by_component._spec().inputs, op)
+        self.use_absolute_value = Input(max_by_component._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.use_absolute_value)
+        self.fieldA1 = Input(max_by_component._spec().input_pin(1), 1, op, 0) 
+        self._inputs.append(self.fieldA1)
+        self.fieldA2 = Input(max_by_component._spec().input_pin(2), 2, op, 1) 
+        self._inputs.append(self.fieldA2)
+        self.fieldB2 = Input(max_by_component._spec().input_pin(3), 3, op, 1) 
+        self._inputs.append(self.fieldB2)
+
+class _OutputsMaxByComponent(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(max_by_component._spec().outputs, op)
+        self.field = Output(max_by_component._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.field)
+
+class max_by_component(Operator):
+    """Give the maximum for each element rank by comparing several fields.
+
+      available inputs:
+         use_absolute_value (bool)
+         fieldA1 (Field, FieldsContainer)
+         fieldA2 (Field, FieldsContainer)
+         fieldB2 (Field, FieldsContainer)
+
+      available outputs:
+         field (Field)
+
+      Examples
+      --------
+      >>> op = operators.min_max.max_by_component()
+
+    """
+    def __init__(self, use_absolute_value=None, fieldA1=None, fieldA2=None, fieldB2=None, config=None, server=None):
+        super().__init__(name="max_by_component", config = config, server = server)
+        self.inputs = _InputsMaxByComponent(self)
+        self.outputs = _OutputsMaxByComponent(self)
+        if use_absolute_value !=None:
+            self.inputs.use_absolute_value.connect(use_absolute_value)
+        if fieldA1 !=None:
+            self.inputs.fieldA1.connect(fieldA1)
+        if fieldA2 !=None:
+            self.inputs.fieldA2.connect(fieldA2)
+        if fieldB2 !=None:
+            self.inputs.fieldB2.connect(fieldB2)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Give the maximum for each element rank by comparing several fields.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "use_absolute_value", type_names=["bool"], optional=False, document="""use_absolute_value"""), 
+                                 1 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 2 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 3 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "max_by_component")
+
+#internal name: min_max_fc_inc
+#scripting name: min_max_fc_inc
+class _InputsMinMaxFcInc(_Inputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_max_fc_inc._spec().inputs, op)
+        self.fields_container = Input(min_max_fc_inc._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self.fields_container)
+
+class _OutputsMinMaxFcInc(_Outputs):
+    def __init__(self, op: Operator):
+        super().__init__(min_max_fc_inc._spec().outputs, op)
+        self.field_min = Output(min_max_fc_inc._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.field_min)
+        self.field_max = Output(min_max_fc_inc._spec().output_pin(1), 1, op) 
+        self._outputs.append(self.field_max)
+
+class min_max_fc_inc(Operator):
+    """Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.
+
+      available inputs:
+         fields_container (FieldsContainer)
+
+      available outputs:
+         field_min (Field)
+         field_max (Field)
+
+      Examples
+      --------
+      >>> op = operators.min_max.min_max_fc_inc()
+
+    """
+    def __init__(self, fields_container=None, config=None, server=None):
+        super().__init__(name="min_max_fc_inc", config = config, server = server)
+        self.inputs = _InputsMinMaxFcInc(self)
+        self.outputs = _OutputsMinMaxFcInc(self)
+        if fields_container !=None:
+            self.inputs.fields_container.connect(fields_container)
+
+    @staticmethod
+    def _spec():
+        spec = Specification(description="""Compute the component-wise minimum (out 0) and maximum (out 1) over a fields container.""",
+                             map_input_pin_spec={
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")},
+                             map_output_pin_spec={
+                                 0 : PinSpecification(name = "field_min", type_names=["field"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "field_max", type_names=["field"], optional=False, document="""""")})
+        return spec
+
+
+    @staticmethod
+    def default_config():
+        return Operator.default_config(name = "min_max_fc_inc")
 
 #internal name: min_max_inc
 #scripting name: min_max_inc
@@ -901,7 +966,7 @@ class min_max_inc(Operator):
 
       Examples
       --------
-      op = operators.min_max.min_max_inc()
+      >>> op = operators.min_max.min_max_inc()
 
     """
     def __init__(self, field=None, domain_id=None, config=None, server=None):
@@ -930,65 +995,4 @@ class min_max_inc(Operator):
     @staticmethod
     def default_config():
         return Operator.default_config(name = "min_max_inc")
-
-#internal name: time_of_min_by_entity
-#scripting name: time_of_min_by_entity
-class _InputsTimeOfMinByEntity(_Inputs):
-    def __init__(self, op: Operator):
-        super().__init__(time_of_min_by_entity._spec().inputs, op)
-        self.fields_container = Input(time_of_min_by_entity._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self.fields_container)
-        self.abs_value = Input(time_of_min_by_entity._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.abs_value)
-        self.compute_amplitude = Input(time_of_min_by_entity._spec().input_pin(4), 4, op, -1) 
-        self._inputs.append(self.compute_amplitude)
-
-class _OutputsTimeOfMinByEntity(_Outputs):
-    def __init__(self, op: Operator):
-        super().__init__(time_of_min_by_entity._spec().outputs, op)
-        self.fields_container = Output(time_of_min_by_entity._spec().output_pin(0), 0, op) 
-        self._outputs.append(self.fields_container)
-
-class time_of_min_by_entity(Operator):
-    """Evaluates time/frequency of minimum.
-
-      available inputs:
-         fields_container (FieldsContainer)
-         abs_value (bool) (optional)
-         compute_amplitude (bool) (optional)
-
-      available outputs:
-         fields_container (FieldsContainer)
-
-      Examples
-      --------
-      op = operators.min_max.time_of_min_by_entity()
-
-    """
-    def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
-        super().__init__(name="time_of_min_by_entity", config = config, server = server)
-        self.inputs = _InputsTimeOfMinByEntity(self)
-        self.outputs = _OutputsTimeOfMinByEntity(self)
-        if fields_container !=None:
-            self.inputs.fields_container.connect(fields_container)
-        if abs_value !=None:
-            self.inputs.abs_value.connect(abs_value)
-        if compute_amplitude !=None:
-            self.inputs.compute_amplitude.connect(compute_amplitude)
-
-    @staticmethod
-    def _spec():
-        spec = Specification(description="""Evaluates time/frequency of minimum.""",
-                             map_input_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
-                                 3 : PinSpecification(name = "abs_value", type_names=["bool"], optional=True, document="""Should use absolute value."""), 
-                                 4 : PinSpecification(name = "compute_amplitude", type_names=["bool"], optional=True, document="""Do calculate amplitude.""")},
-                             map_output_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
-        return spec
-
-
-    @staticmethod
-    def default_config():
-        return Operator.default_config(name = "time_of_min_by_entity")
 

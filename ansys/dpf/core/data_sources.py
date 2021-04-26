@@ -1,3 +1,7 @@
+"""
+DataSources
+===========
+"""
 import os
 
 from ansys import dpf
@@ -28,8 +32,8 @@ class DataSources:
     Examples
     --------
     Initialize a model from a result path
-    >>> import dpf
-    >>> dpf.core.DataSources('file.rst')
+    >>> from ansys.dpf import core as dpf
+    >>> dpf.DataSources('file.rst')
     """
 
     def __init__(self, result_path=None, data_sources=None, server=None):
@@ -69,8 +73,8 @@ class DataSources:
         --------
         Create a data source and set the result file path
 
-        >>> import dpf
-        >>> data_sources = dpf.core.DataSources()
+        >>> from ansys.dpf import core
+        >>> data_sources = core.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
         """
         request = data_sources_pb2.UpdateRequest()

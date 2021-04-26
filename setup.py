@@ -6,7 +6,8 @@ from io import open as io_open
 from setuptools import setup
 
 install_requires = ['pyvista>=0.24.0',
-                    'matplotlib',
+                    'scooby',
+                    'matplotlib==3.2',
                     'psutil',
                     'pillow>=7.0.0',
                     'pexpect',

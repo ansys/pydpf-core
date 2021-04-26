@@ -1,3 +1,7 @@
+"""
+Core
+====
+"""
 import os
 import logging
 import time
@@ -6,6 +10,7 @@ import grpc
 
 from ansys import dpf
 from ansys.grpc.dpf import base_pb2, base_pb2_grpc
+from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
@@ -72,7 +77,8 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
     Examples
     --------
     >>> from ansys.dpf import core
-    >>> file_path = core.upload_file_in_tmp_folder(r'c:/temp/file.rst')
+    >>> from ansys.dpf.core import examples
+    >>> file_path = core.upload_file_in_tmp_folder(examples.static_rst)
     """
     base = BaseService(server, load_operators=False)    
     return base.upload_file_in_tmp_folder(file_path, new_file_name)
@@ -95,7 +101,10 @@ def download_file(server_file_path, to_client_file_path, server=None):
     Examples
     --------
     >>> from ansys.dpf import core
-    >>> core.download_file(r'c:/results/file.rst',r'c:/temp/file.rst' )
+    >>> from ansys.dpf.core import examples
+    >>> import os
+    >>> file_path = core.upload_file_in_tmp_folder(examples.static_rst)
+    >>> core.download_file(file_path,examples.static_rst)
     """
     base = BaseService(server, load_operators=False)    
     return base.download_file(server_file_path, to_client_file_path)
@@ -146,7 +155,9 @@ class BaseService():
     --------
     Connect to an existing DPF server
     >>> from ansys.dpf import core
-    >>> core.BaseService(grpc.insecure_channel('127.0.0.1:50054'))
+    >>> import grpc
+    >>> server = core.connect_to_server(ip='127.0.0.1', port = 50054)
+    >>> core.BaseService(server=server)
     """
 
     def __init__(self, server=None, load_operators=True, timeout=5):
@@ -178,6 +189,7 @@ class BaseService():
 
         return stub
 
+    @protect_grpc
     def load_library(self, filename, name='', symbol="LoadOperators"):
         """Dynamically load an operators library for dpf.core.
 
@@ -193,8 +205,8 @@ class BaseService():
         --------
         Load the mapdl operators for Linux
 
-        >>> from ansys import dpf
-        >>> base = dpf.core.BaseService()
+        >>> from ansys.dpf import core
+        >>> base = core.BaseService()
         >>> base.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
 
         Load a new operators library
@@ -279,6 +291,7 @@ class BaseService():
         return self._stub.Describe(request).description
     
     
+    @protect_grpc
     def download_file(self, server_file_path, to_client_file_path):
         """Download a file from the server to the target client file path
         
@@ -296,7 +309,8 @@ class BaseService():
         with open(to_client_file_path, 'wb') as f:
             for chunk in chunks:
                 f.write(chunk.data.data)
-        
+    
+    @protect_grpc
     def upload_file(self, file_path, to_server_file_path):
         """Upload a file from the client to the target server file path
         
@@ -313,9 +327,11 @@ class BaseService():
            server_file_path : str
                path generated server side
         """
+        if os.stat(file_path).st_size==0:
+            raise ValueError(file_path+" is empty")
         return self._stub.UploadFile(self.__file_chunk_yielder(file_path, to_server_file_path)).server_file_path
         
-    
+    @protect_grpc
     def upload_file_in_tmp_folder(self, file_path, new_file_name=None):
         """Upload a file from the client to the server in a temporary folder 
         deleted when the server is shutdown
@@ -338,7 +354,9 @@ class BaseService():
             file_name = new_file_name
         else:
             file_name = os.path.basename(file_path)
-        return self._stub.UploadFile(self.__file_chunk_yielder(file_path, file_name, True)).server_file_path
+        if os.stat(file_path).st_size==0:
+            raise ValueError(file_path+" is empty")
+        return self._stub.UploadFile(self.__file_chunk_yielder(file_path=file_path, to_server_file_path=file_name, use_tmp_dir=True)).server_file_path
     
     def _prepare_shutdown(self):
         self._stub.PrepareShutdown(base_pb2.Empty())
@@ -349,6 +367,7 @@ class BaseService():
         request = base_pb2.UploadFileRequest()
         request.server_file_path = to_server_file_path
         request.use_temp_dir=use_tmp_dir
+        
         with open(file_path, 'rb') as f:
             while True:
                 piece = f.read(DEFAULT_FILE_CHUNK_SIZE)

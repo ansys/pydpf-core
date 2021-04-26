@@ -50,3 +50,6 @@ test-output.xml
 
 # downloaded files
 ansys/dpf/core/examples/_cache/
+
+*.orig
+venv/*

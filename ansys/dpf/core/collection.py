@@ -11,7 +11,10 @@
 # Author(s): C.Bellot/R.Lagha                                            #
 # contact(s): ramdane.lagha@ansys.com                                    #
 ##########################################################################
-"""Contains classes associated to the DPF Collection
+"""
+Collection
+===========
+Contains classes associated to the DPF Collection
 
 """
 

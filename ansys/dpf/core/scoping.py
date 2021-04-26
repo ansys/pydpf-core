@@ -1,3 +1,7 @@
+"""
+Scoping
+=======
+"""
 from ansys import dpf
 from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
 from ansys.dpf.core.common import locations

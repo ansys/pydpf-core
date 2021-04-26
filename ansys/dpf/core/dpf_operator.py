@@ -1,4 +1,8 @@
-"""Interface to underlying gRPC Operator"""
+"""
+Operator
+===============
+Interface to underlying gRPC Operator
+"""
 from textwrap import wrap
 import logging
 import grpc
@@ -45,8 +49,9 @@ class Operator:
 
     Create an operator from a model
 
-    >>> from ansys.dpf import core
-    >>> model = core.Model('file.rst')
+    >>> from ansys.dpf import core    
+    >>> from ansys.dpf.core import examples
+    >>> model = core.Model(examples.static_rst)
     >>> disp_oper = model.operator('U')
     """
 
@@ -116,6 +121,7 @@ class Operator:
         Compute the minimum of displacement by chaining the ``'U'``
         and ``'min_max_fc'`` operators.
 
+        >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> print(data_src)
@@ -242,7 +248,11 @@ class Operator:
             if  type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
             elif isinstance(inpt, _Outputs) or isinstance(inpt,Operator):
-                output_pin_available = inpt._get_given_output([python_name])
+                if isinstance(inpt,Operator):
+                    output_pin_available = inpt.outputs._get_given_output([python_name])
+                else:
+                    
+                    output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
                     corresponding_pins.append((pin, outputpin))
             elif isinstance(inpt, Output):
@@ -553,7 +563,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return scoping.Scoping(scoping=toconvert,server=server)
     elif out.HasField("mesh"):
         toconvert = out.mesh
-        return meshed_region.MeshedRegion(toconvert, server=server)
+        return meshed_region.MeshedRegion(mesh=toconvert, server=server)
     elif out.HasField("result_info"):
         toconvert = out.result_info
         return result_info.ResultInfo(result_info=toconvert, server=server)
