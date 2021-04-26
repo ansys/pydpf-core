@@ -149,7 +149,7 @@ def test_delete_auto_meshedregion(simple_bar):
     mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
     mesh.connect(4, dataSource)
     meshOut = mesh.get_output(0, dpf.core.types.meshed_region)
-    meshOut2 = dpf.core.meshed_region.MeshedRegion(meshOut._message)
+    meshOut2 = dpf.core.meshed_region.MeshedRegion(mesh=meshOut._message)
     del meshOut
     with pytest.raises(Exception):
         meshOut2.get_element_type(1)
@@ -207,3 +207,178 @@ def test_named_selection_mesh(allkindofcomplexity):
     scop = mesh.named_selection("_CM86UX_XP")
     assert len(scop)==15129
     assert scop.location == dpf.core.locations().nodal
+    
+def test_create_meshed_region():
+    mesh = dpf.core.MeshedRegion(num_nodes=4, num_elements=1)
+    mesh.nodes.add_node(1, [0.0,0.0,0.0])
+    assert mesh.nodes.n_nodes ==1
+    assert mesh.elements.n_elements==0
+    mesh.nodes.add_node(2, [1.0,0.0,0.0])
+    mesh.nodes.add_node(3, [1.0,1.0,0.0])
+    mesh.nodes.add_node(4,[0.0,1.0,0.0])
+    mesh.elements.add_shell_element(1, [0,1,2,3])
+    
+    assert mesh.nodes.n_nodes ==4
+    assert mesh.elements.n_elements==1
+    el =mesh.elements.element_by_id(1)
+    assert el.shape =="shell"
+    assert el.type ==16
+    
+def test_create_all_shaped_meshed_region():
+    mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4)
+    assert mesh.nodes.n_nodes ==0
+    assert mesh.elements.n_elements==0
+    
+    mesh.nodes.add_node(1, [0.0,0.0,0.0])
+    mesh.nodes.add_node(2, [1.0,0.0,0.0])
+    mesh.nodes.add_node(3, [1.0,1.0,0.0])
+    mesh.nodes.add_node(4,[0.0,1.0,0.0])
+    mesh.elements.add_shell_element(1, [0,1,2,3])    
+    
+    mesh.nodes.add_node(5, [0.0,0.0,0.0])
+    mesh.elements.add_point_element(2, [4])
+    
+    mesh.nodes.add_node(6, [0.0,0.0,0.0])
+    mesh.nodes.add_node(7, [1.0,0.0,0.0])
+    mesh.elements.add_beam_element(3, [5,6])
+    
+    mesh.nodes.add_node(8, [0.0,0.0,0.0])
+    mesh.nodes.add_node(9, [1.0,0.0,0.0])
+    mesh.nodes.add_node(10, [1.0,1.0,0.0])
+    mesh.nodes.add_node(11, [0.0,1.0,1.0])
+    mesh.elements.add_solid_element(4, [7,8,9,10])
+    
+    assert mesh.nodes.n_nodes ==11
+    assert mesh.elements.n_elements==4
+    el =mesh.elements.element_by_id(1)
+    assert el.shape =="shell"
+    assert el.type ==16    
+    
+    el =mesh.elements.element_by_id(2)
+    assert el.shape =="unknown_shape"
+    assert el.type ==9
+    assert el.nodes[0].index ==4
+    
+    el =mesh.elements.element_by_id(3)
+    assert el.type ==18
+    assert el.shape =="beam"
+    assert len(el.nodes)==2
+    
+    el =mesh.elements.element_by_id(4)
+    assert el.type ==10
+    assert el.shape =="solid"
+    assert len(el.nodes)==4
+    return mesh
+
+def test_create_with_yield_meshed_region():
+    ref_mesh = test_create_all_shaped_meshed_region()    
+    mesh = dpf.core.MeshedRegion(num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements)
+    index=0
+    for node in mesh.nodes.add_nodes(ref_mesh.nodes.n_nodes):
+        ref_node =ref_mesh.nodes.node_by_index(index)
+        node.id = ref_node.id
+        node.coordinates = ref_node.coordinates
+        index=index+1
+    index=0
+    for elem in mesh.elements.add_elements(ref_mesh.elements.n_elements):
+        ref_elem = ref_mesh.elements.element_by_index(index)
+        elem.id = ref_elem.id
+        elem.connectivity = ref_elem.connectivity
+        elem.shape = ref_elem.shape
+        index=index+1
+    assert mesh.nodes.n_nodes ==11
+    assert mesh.elements.n_elements==4
+    el =mesh.elements.element_by_id(1)
+    assert el.shape =="shell"
+    assert el.type ==16    
+    
+    el =mesh.elements.element_by_id(2)
+    assert el.shape =="unknown_shape"
+    assert el.type ==9
+    assert el.nodes[0].index ==4
+    
+    el =mesh.elements.element_by_id(3)
+    assert el.type ==18
+    assert el.shape =="beam"
+    assert len(el.nodes)==2
+    
+    el =mesh.elements.element_by_id(4)
+    assert el.type ==10
+    assert el.shape =="solid"
+    assert len(el.nodes)==4
+    
+def test_create_by_copy_meshed_region():
+    ref_mesh = test_create_all_shaped_meshed_region()    
+    mesh = dpf.core.MeshedRegion(num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements)
+    index=0
+    for node in ref_mesh.nodes:
+        ref_node =ref_mesh.nodes.node_by_index(index)
+        mesh.nodes.add_node(ref_node.id, ref_node.coordinates)
+        index=index+1
+    index=0
+    for elem in ref_mesh.elements:
+        ref_elem = ref_mesh.elements.element_by_index(index)
+        mesh.elements.add_element(ref_elem.id, ref_elem.shape, ref_elem.connectivity)
+        index=index+1
+    assert mesh.nodes.n_nodes ==11
+    assert mesh.elements.n_elements==4
+    el =mesh.elements.element_by_id(1)
+    assert el.shape =="shell"
+    assert el.type ==16    
+    
+    el =mesh.elements.element_by_id(2)
+    assert el.shape =="unknown_shape"
+    assert el.type ==9
+    assert el.nodes[0].index ==4
+    
+    el =mesh.elements.element_by_id(3)
+    assert el.type ==18
+    assert el.shape =="beam"
+    assert len(el.nodes)==2
+    
+    el =mesh.elements.element_by_id(4)
+    assert el.type ==10
+    assert el.shape =="solid"
+    assert len(el.nodes)==4
+        
+def test_has_element_shape_meshed_region():
+    mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4)
+    assert mesh.elements.has_beam_elements ==False
+    assert mesh.elements.has_solid_elements ==False
+    assert mesh.elements.has_shell_elements ==False
+    assert mesh.elements.has_point_elements ==False
+    
+    mesh.nodes.add_node(1, [0.0,0.0,0.0])
+    mesh.nodes.add_node(2, [1.0,0.0,0.0])
+    mesh.nodes.add_node(3, [1.0,1.0,0.0])
+    mesh.nodes.add_node(4,[0.0,1.0,0.0])
+    mesh.elements.add_shell_element(1, [0,1,2,3])  
+    assert mesh.elements.has_beam_elements ==False
+    assert mesh.elements.has_solid_elements ==False
+    assert mesh.elements.has_shell_elements ==True
+    assert mesh.elements.has_point_elements ==False  
+    
+    mesh.nodes.add_node(5, [0.0,0.0,0.0])
+    mesh.elements.add_point_element(2, [4])
+    assert mesh.elements.has_beam_elements ==False
+    assert mesh.elements.has_solid_elements ==False
+    assert mesh.elements.has_shell_elements ==True
+    assert mesh.elements.has_point_elements ==True  
+    
+    mesh.nodes.add_node(6, [0.0,0.0,0.0])
+    mesh.nodes.add_node(7, [1.0,0.0,0.0])
+    mesh.elements.add_beam_element(3, [5,6])
+    assert mesh.elements.has_beam_elements ==True
+    assert mesh.elements.has_solid_elements ==False
+    assert mesh.elements.has_shell_elements ==True
+    assert mesh.elements.has_point_elements ==True 
+    
+    mesh.nodes.add_node(8, [0.0,0.0,0.0])
+    mesh.nodes.add_node(9, [1.0,0.0,0.0])
+    mesh.nodes.add_node(10, [1.0,1.0,0.0])
+    mesh.nodes.add_node(11, [0.0,1.0,1.0])
+    mesh.elements.add_solid_element(4, [7,8,9,10])
+    assert mesh.elements.has_beam_elements ==True
+    assert mesh.elements.has_solid_elements ==True
+    assert mesh.elements.has_shell_elements ==True
+    assert mesh.elements.has_point_elements ==True 
