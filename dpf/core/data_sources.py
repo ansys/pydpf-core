@@ -73,8 +73,8 @@ class DataSources:
         --------
         Create a data source and set the result file path
 
-        >>> from ansys.dpf import core
-        >>> data_sources = core.DataSources()
+        >>> from ansys.dpf import core as dpf
+        >>> data_sources = dpf.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
         """
         request = data_sources_pb2.UpdateRequest()

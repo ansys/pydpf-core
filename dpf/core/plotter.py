@@ -56,14 +56,14 @@ class Plotter:
             
         Examples
         --------
-        >>> from ansys.dpf import core
-        >>> model = core.Model('file.rst')
+        >>> from ansys.dpf import core as dpf
+        >>> model = dpf.Model('file.rst')
         >>> stress = model.results.stress()
-        >>> scoping = core.Scoping()
+        >>> scoping = dpf.Scoping()
         >>> scoping.ids = range(1, len(model.metadata.time_freq_support.time_frequencies) + 1)
         >>> stress.inputs.time_scoping.connect(scoping)
         >>> fc = stress.outputs.fields_container()
-        >>> plotter = core.plotter.Plotter(model.metadata.meshed_region)
+        >>> plotter = dpf.plotter.Plotter(model.metadata.meshed_region)
         >>> plotter.plot_chart(fc)
         """
         tfq = fields_container.time_freq_support

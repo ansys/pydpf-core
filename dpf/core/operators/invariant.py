@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "invariant" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "invariant" category
 """
 
 #internal name: eig_values
@@ -35,9 +35,17 @@ class eigen_values(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.eigen_values()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.eigen_values()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="eig_values", config = config, server = server)
         self.inputs = _InputsEigenValues(self)
@@ -90,9 +98,19 @@ class principal_invariants(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.principal_invariants()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.principal_invariants()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field_eig_1 = op.outputs.field_eig_1()
+      >>> result_field_eig_2 = op.outputs.field_eig_2()
+      >>> result_field_eig_3 = op.outputs.field_eig_3()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="invariants", config = config, server = server)
         self.inputs = _InputsPrincipalInvariants(self)
@@ -141,9 +159,17 @@ class von_mises_eqv(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.von_mises_eqv()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.von_mises_eqv()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="eqv", config = config, server = server)
         self.inputs = _InputsVonMisesEqv(self)
@@ -190,9 +216,17 @@ class von_mises_eqv_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.von_mises_eqv_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.von_mises_eqv_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="eqv_fc", config = config, server = server)
         self.inputs = _InputsVonMisesEqvFc(self)
@@ -245,9 +279,19 @@ class invariants(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.invariants()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.invariants()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field_int = op.outputs.field_int()
+      >>> result_field_eqv = op.outputs.field_eqv()
+      >>> result_field_max_shear = op.outputs.field_max_shear()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="invariants_deriv", config = config, server = server)
         self.inputs = _InputsInvariants(self)
@@ -296,9 +340,17 @@ class eigen_values_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.eigen_values_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.eigen_values_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="eig_values_fc", config = config, server = server)
         self.inputs = _InputsEigenValuesFc(self)
@@ -351,9 +403,19 @@ class invariants_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.invariants_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.invariants_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_int = op.outputs.fields_int()
+      >>> result_fields_eqv = op.outputs.fields_eqv()
+      >>> result_fields_max_shear = op.outputs.fields_max_shear()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="invariants_deriv_fc", config = config, server = server)
         self.inputs = _InputsInvariantsFc(self)
@@ -408,9 +470,19 @@ class principal_invariants_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.principal_invariants_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.principal_invariants_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_eig_1 = op.outputs.fields_eig_1()
+      >>> result_fields_eig_2 = op.outputs.fields_eig_2()
+      >>> result_fields_eig_3 = op.outputs.fields_eig_3()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="invariants_fc", config = config, server = server)
         self.inputs = _InputsPrincipalInvariantsFc(self)
@@ -443,7 +515,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from mapdlOperatorsCore.dll plugin, from "invariant" category
+"""Operators from mapdlOperatorsCore plugin, from "invariant" category
 """
 
 #internal name: eig_vectors_fc
@@ -471,9 +543,17 @@ class eigen_vectors_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.eigen_vectors_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.eigen_vectors_fc()
+
+      >>> # Make input connections
+      >>> my_field = dpf.FieldsContainer()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="eig_vectors_fc", config = config, server = server)
         self.inputs = _InputsEigenVectorsFc(self)
@@ -520,9 +600,17 @@ class eigen_vectors(Operator):
 
       Examples
       --------
-      >>> op = operators.invariant.eigen_vectors()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.invariant.eigen_vectors()
+
+      >>> # Make input connections
+      >>> my_fields = dpf.FieldsContainer()
+      >>> op.inputs.fields.connect(my_fields)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields=None, config=None, server=None):
         super().__init__(name="eig_vectors", config = config, server = server)
         self.inputs = _InputsEigenVectors(self)

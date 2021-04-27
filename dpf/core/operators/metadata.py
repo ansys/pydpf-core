@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "metadata" category
+"""Operators from Ans.Dpf.Native plugin, from "metadata" category
 """
 
 #internal name: mesh_support_provider
@@ -38,9 +38,19 @@ class mesh_support_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.mesh_support_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.mesh_support_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_abstract_field_support = op.outputs.abstract_field_support()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="mesh_support_provider", config = config, server = server)
         self.inputs = _InputsMeshSupportProvider(self)
@@ -93,9 +103,19 @@ class result_info_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.result_info_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.result_info_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_result_info = op.outputs.result_info()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="ResultInfoProvider", config = config, server = server)
         self.inputs = _InputsResultInfoProvider(self)
@@ -148,9 +168,19 @@ class time_freq_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.time_freq_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.time_freq_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_time_freq_support = op.outputs.time_freq_support()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="TimeFreqSupportProvider", config = config, server = server)
         self.inputs = _InputsTimeFreqProvider(self)
@@ -203,9 +233,19 @@ class material_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.material_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.material_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_materials = op.outputs.materials()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="MaterialsProvider", config = config, server = server)
         self.inputs = _InputsMaterialProvider(self)
@@ -255,9 +295,17 @@ class streams_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.streams_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.streams_provider()
+
+      >>> # Make input connections
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_streams_container = op.outputs.streams_container()"""
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="stream_provider", config = config, server = server)
         self.inputs = _InputsStreamsProvider(self)
@@ -292,7 +340,8 @@ class _InputsMeshSelectionManagerProvider(_Inputs):
 class _OutputsMeshSelectionManagerProvider(_Outputs):
     def __init__(self, op: Operator):
         super().__init__(mesh_selection_manager_provider._spec().outputs, op)
-        pass 
+        self.mesh_selection_manager = Output(mesh_selection_manager_provider._spec().output_pin(0), 0, op) 
+        self._outputs.append(self.mesh_selection_manager)
 
 class mesh_selection_manager_provider(Operator):
     """Read mesh properties from the results files contained in the streams or data sources and make those properties available through a mesh selection manager in output.
@@ -302,13 +351,23 @@ class mesh_selection_manager_provider(Operator):
          data_sources (DataSources)
 
       available outputs:
-         mesh_selection_manager ()
+         mesh_selection_manager (MeshSelectionManager)
 
       Examples
       --------
-      >>> op = operators.metadata.mesh_selection_manager_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.mesh_selection_manager_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_mesh_selection_manager = op.outputs.mesh_selection_manager()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="MeshSelectionManagerProvider", config = config, server = server)
         self.inputs = _InputsMeshSelectionManagerProvider(self)
@@ -325,7 +384,7 @@ class mesh_selection_manager_provider(Operator):
                                  3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""streams (result file container) (optional)"""), 
                                  4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""if the stream is null then we need to get the file path from the data sources""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "mesh_selection_manager", type_names=[], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "mesh_selection_manager", type_names=["mesh_selection_manager"], optional=False, document="""""")})
         return spec
 
 
@@ -363,9 +422,19 @@ class boundary_condition_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.boundary_condition_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.boundary_condition_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_results_info = op.outputs.results_info()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="boundary_conditions", config = config, server = server)
         self.inputs = _InputsBoundaryConditionProvider(self)
@@ -418,9 +487,19 @@ class is_cyclic(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.is_cyclic()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.is_cyclic()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_file_path = op.outputs.file_path()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="is_cyclic", config = config, server = server)
         self.inputs = _InputsIsCyclic(self)
@@ -473,9 +552,19 @@ class material_support_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.material_support_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.material_support_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_abstract_field_support = op.outputs.abstract_field_support()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="mat_support_provider", config = config, server = server)
         self.inputs = _InputsMaterialSupportProvider(self)
@@ -509,7 +598,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "metadata" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "metadata" category
 """
 
 #internal name: cyclic_expansion_mesh
@@ -546,9 +635,22 @@ class cyclic_mesh_expansion(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.cyclic_mesh_expansion()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.cyclic_mesh_expansion()
+
+      >>> # Make input connections
+      >>> my_sector_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.sector_meshed_region.connect(my_sector_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+
+      >>> # Get output data
+      >>> result_meshed_region = op.outputs.meshed_region()
+      >>> result_cyclic_support = op.outputs.cyclic_support()"""
     def __init__(self, sector_meshed_region=None, cyclic_support=None, sectors_to_expand=None, config=None, server=None):
         super().__init__(name="cyclic_expansion_mesh", config = config, server = server)
         self.inputs = _InputsCyclicMeshExpansion(self)
@@ -586,7 +688,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from mapdlOperatorsCore.dll plugin, from "metadata" category
+"""Operators from mapdlOperatorsCore plugin, from "metadata" category
 """
 
 #internal name: mapdl::rst::support_provider_cyclic
@@ -629,9 +731,26 @@ class cyclic_support_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.metadata.cyclic_support_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.metadata.cyclic_support_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_sector_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.sector_meshed_region.connect(my_sector_meshed_region)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_sectors_to_expand = dpf.Scoping()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+
+      >>> # Get output data
+      >>> result_cyclic_support = op.outputs.cyclic_support()
+      >>> result_sector_meshes = op.outputs.sector_meshes()"""
     def __init__(self, streams_container=None, data_sources=None, sector_meshed_region=None, expanded_meshed_region=None, sectors_to_expand=None, config=None, server=None):
         super().__init__(name="mapdl::rst::support_provider_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicSupportProvider(self)

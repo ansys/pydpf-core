@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "result" category
+"""Operators from Ans.Dpf.Native plugin, from "result" category
 """
 
 #internal name: EPPL1
@@ -59,9 +59,33 @@ class plastic_strain_principal_1(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_principal_1()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_principal_1()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="EPPL1", config = config, server = server)
         self.inputs = _InputsPlasticStrainPrincipal1(self)
@@ -144,9 +168,33 @@ class plastic_strain_principal_3(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_principal_3()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_principal_3()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="EPPL3", config = config, server = server)
         self.inputs = _InputsPlasticStrainPrincipal3(self)
@@ -208,9 +256,19 @@ class rigid_transformation(Operator):
 
       Examples
       --------
-      >>> op = operators.result.rigid_transformation()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.rigid_transformation()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="RigidTransformationProvider", config = config, server = server)
         self.inputs = _InputsRigidTransformation(self)
@@ -284,9 +342,33 @@ class elastic_strain_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPELY", config = config, server = server)
         self.inputs = _InputsElasticStrainY(self)
@@ -368,9 +450,31 @@ class nodal_moment(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_moment()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_moment()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="M", config = config, server = server)
         self.inputs = _InputsNodalMoment(self)
@@ -449,9 +553,31 @@ class elemental_mass(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elemental_mass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elemental_mass()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ElementalMass", config = config, server = server)
         self.inputs = _InputsElementalMass(self)
@@ -533,9 +659,33 @@ class heat_flux(Operator):
 
       Examples
       --------
-      >>> op = operators.result.heat_flux()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.heat_flux()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="TF", config = config, server = server)
         self.inputs = _InputsHeatFlux(self)
@@ -617,9 +767,31 @@ class co_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.co_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.co_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_CO", config = config, server = server)
         self.inputs = _InputsCoEnergy(self)
@@ -701,9 +873,33 @@ class plastic_strain_principal_2(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_principal_2()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_principal_2()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="EPPL2", config = config, server = server)
         self.inputs = _InputsPlasticStrainPrincipal2(self)
@@ -786,9 +982,33 @@ class elastic_strain_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPELZ", config = config, server = server)
         self.inputs = _InputsElasticStrainZ(self)
@@ -873,9 +1093,33 @@ class stress(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="S", config = config, server = server)
         self.inputs = _InputsStress(self)
@@ -960,9 +1204,33 @@ class stress_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="SX", config = config, server = server)
         self.inputs = _InputsStressX(self)
@@ -1047,9 +1315,33 @@ class stress_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="SY", config = config, server = server)
         self.inputs = _InputsStressY(self)
@@ -1134,9 +1426,33 @@ class stress_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="SZ", config = config, server = server)
         self.inputs = _InputsStressZ(self)
@@ -1221,9 +1537,33 @@ class stress_XY(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_XY()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_XY()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="SXY", config = config, server = server)
         self.inputs = _InputsStressXY(self)
@@ -1308,9 +1648,33 @@ class stress_YZ(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_YZ()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_YZ()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="SYZ", config = config, server = server)
         self.inputs = _InputsStressYZ(self)
@@ -1392,9 +1756,31 @@ class modal_basis(Operator):
 
       Examples
       --------
-      >>> op = operators.result.modal_basis()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.modal_basis()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ModalBasis", config = config, server = server)
         self.inputs = _InputsModalBasis(self)
@@ -1476,9 +1862,33 @@ class stress_XZ(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_XZ()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_XZ()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="SXZ", config = config, server = server)
         self.inputs = _InputsStressXZ(self)
@@ -1563,9 +1973,33 @@ class stress_principal_1(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_principal_1()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_principal_1()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="S1", config = config, server = server)
         self.inputs = _InputsStressPrincipal1(self)
@@ -1648,9 +2082,33 @@ class stress_principal_2(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_principal_2()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_principal_2()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="S2", config = config, server = server)
         self.inputs = _InputsStressPrincipal2(self)
@@ -1733,9 +2191,33 @@ class stress_principal_3(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_principal_3()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_principal_3()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="S3", config = config, server = server)
         self.inputs = _InputsStressPrincipal3(self)
@@ -1818,9 +2300,33 @@ class elastic_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPEL", config = config, server = server)
         self.inputs = _InputsElasticStrain(self)
@@ -1905,9 +2411,33 @@ class elastic_strain_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPELX", config = config, server = server)
         self.inputs = _InputsElasticStrainX(self)
@@ -1992,9 +2522,33 @@ class elastic_strain_XY(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_XY()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_XY()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPELXY", config = config, server = server)
         self.inputs = _InputsElasticStrainXY(self)
@@ -2079,9 +2633,33 @@ class elastic_strain_YZ(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_YZ()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_YZ()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPELYZ", config = config, server = server)
         self.inputs = _InputsElasticStrainYZ(self)
@@ -2166,9 +2744,33 @@ class elastic_strain_XZ(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_XZ()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_XZ()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPELXZ", config = config, server = server)
         self.inputs = _InputsElasticStrainXZ(self)
@@ -2253,9 +2855,33 @@ class elastic_strain_principal_1(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_principal_1()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_principal_1()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="EPEL1", config = config, server = server)
         self.inputs = _InputsElasticStrainPrincipal1(self)
@@ -2338,9 +2964,33 @@ class elastic_strain_principal_2(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_principal_2()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_principal_2()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="EPEL2", config = config, server = server)
         self.inputs = _InputsElasticStrainPrincipal2(self)
@@ -2423,9 +3073,33 @@ class elastic_strain_principal_3(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_principal_3()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_principal_3()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="EPEL3", config = config, server = server)
         self.inputs = _InputsElasticStrainPrincipal3(self)
@@ -2508,9 +3182,33 @@ class plastic_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPL", config = config, server = server)
         self.inputs = _InputsPlasticStrain(self)
@@ -2595,9 +3293,33 @@ class plastic_strain_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPLX", config = config, server = server)
         self.inputs = _InputsPlasticStrainX(self)
@@ -2682,9 +3404,33 @@ class plastic_strain_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPLY", config = config, server = server)
         self.inputs = _InputsPlasticStrainY(self)
@@ -2769,9 +3515,33 @@ class plastic_strain_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPLZ", config = config, server = server)
         self.inputs = _InputsPlasticStrainZ(self)
@@ -2856,9 +3626,33 @@ class hydrostatic_pressure(Operator):
 
       Examples
       --------
-      >>> op = operators.result.hydrostatic_pressure()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.hydrostatic_pressure()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_HPRES", config = config, server = server)
         self.inputs = _InputsHydrostaticPressure(self)
@@ -2943,9 +3737,33 @@ class plastic_strain_XY(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_XY()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_XY()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPLXY", config = config, server = server)
         self.inputs = _InputsPlasticStrainXY(self)
@@ -3030,9 +3848,33 @@ class plastic_strain_YZ(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_YZ()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_YZ()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPLYZ", config = config, server = server)
         self.inputs = _InputsPlasticStrainYZ(self)
@@ -3117,9 +3959,33 @@ class plastic_strain_XZ(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_XZ()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_XZ()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EPPLXZ", config = config, server = server)
         self.inputs = _InputsPlasticStrainXZ(self)
@@ -3201,9 +4067,31 @@ class acceleration(Operator):
 
       Examples
       --------
-      >>> op = operators.result.acceleration()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.acceleration()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="A", config = config, server = server)
         self.inputs = _InputsAcceleration(self)
@@ -3282,9 +4170,31 @@ class acceleration_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.acceleration_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.acceleration_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="AX", config = config, server = server)
         self.inputs = _InputsAccelerationX(self)
@@ -3363,9 +4273,31 @@ class acceleration_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.acceleration_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.acceleration_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="AY", config = config, server = server)
         self.inputs = _InputsAccelerationY(self)
@@ -3444,9 +4376,31 @@ class element_centroids(Operator):
 
       Examples
       --------
-      >>> op = operators.result.element_centroids()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.element_centroids()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="centroids", config = config, server = server)
         self.inputs = _InputsElementCentroids(self)
@@ -3525,9 +4479,31 @@ class acceleration_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.acceleration_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.acceleration_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="AZ", config = config, server = server)
         self.inputs = _InputsAccelerationZ(self)
@@ -3606,9 +4582,31 @@ class reaction_force(Operator):
 
       Examples
       --------
-      >>> op = operators.result.reaction_force()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.reaction_force()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="RF", config = config, server = server)
         self.inputs = _InputsReactionForce(self)
@@ -3687,9 +4685,31 @@ class velocity(Operator):
 
       Examples
       --------
-      >>> op = operators.result.velocity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.velocity()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="V", config = config, server = server)
         self.inputs = _InputsVelocity(self)
@@ -3768,9 +4788,31 @@ class velocity_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.velocity_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.velocity_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="VX", config = config, server = server)
         self.inputs = _InputsVelocityX(self)
@@ -3849,9 +4891,31 @@ class velocity_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.velocity_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.velocity_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="VY", config = config, server = server)
         self.inputs = _InputsVelocityY(self)
@@ -3930,9 +4994,31 @@ class velocity_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.velocity_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.velocity_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="VZ", config = config, server = server)
         self.inputs = _InputsVelocityZ(self)
@@ -4011,9 +5097,31 @@ class displacement(Operator):
 
       Examples
       --------
-      >>> op = operators.result.displacement()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.displacement()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="U", config = config, server = server)
         self.inputs = _InputsDisplacement(self)
@@ -4092,9 +5200,31 @@ class displacement_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.displacement_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.displacement_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="UX", config = config, server = server)
         self.inputs = _InputsDisplacementX(self)
@@ -4173,9 +5303,31 @@ class displacement_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.displacement_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.displacement_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="UY", config = config, server = server)
         self.inputs = _InputsDisplacementY(self)
@@ -4254,9 +5406,31 @@ class displacement_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.displacement_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.displacement_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="UZ", config = config, server = server)
         self.inputs = _InputsDisplacementZ(self)
@@ -4338,9 +5512,33 @@ class heat_flux_X(Operator):
 
       Examples
       --------
-      >>> op = operators.result.heat_flux_X()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.heat_flux_X()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="TFX", config = config, server = server)
         self.inputs = _InputsHeatFluxX(self)
@@ -4425,9 +5623,33 @@ class electric_field(Operator):
 
       Examples
       --------
-      >>> op = operators.result.electric_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.electric_field()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="EF", config = config, server = server)
         self.inputs = _InputsElectricField(self)
@@ -4512,9 +5734,33 @@ class heat_flux_Y(Operator):
 
       Examples
       --------
-      >>> op = operators.result.heat_flux_Y()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.heat_flux_Y()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="TFY", config = config, server = server)
         self.inputs = _InputsHeatFluxY(self)
@@ -4599,9 +5845,33 @@ class heat_flux_Z(Operator):
 
       Examples
       --------
-      >>> op = operators.result.heat_flux_Z()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.heat_flux_Z()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="TFZ", config = config, server = server)
         self.inputs = _InputsHeatFluxZ(self)
@@ -4686,9 +5956,33 @@ class element_nodal_forces(Operator):
 
       Examples
       --------
-      >>> op = operators.result.element_nodal_forces()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.element_nodal_forces()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENF", config = config, server = server)
         self.inputs = _InputsElementNodalForces(self)
@@ -4773,9 +6067,33 @@ class structural_temperature(Operator):
 
       Examples
       --------
-      >>> op = operators.result.structural_temperature()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.structural_temperature()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="BFE", config = config, server = server)
         self.inputs = _InputsStructuralTemperature(self)
@@ -4857,9 +6175,31 @@ class incremental_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.incremental_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.incremental_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_INC", config = config, server = server)
         self.inputs = _InputsIncrementalEnergy(self)
@@ -4938,9 +6278,31 @@ class stiffness_matrix_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stiffness_matrix_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stiffness_matrix_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_SE", config = config, server = server)
         self.inputs = _InputsStiffnessMatrixEnergy(self)
@@ -5022,9 +6384,33 @@ class thermal_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.thermal_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.thermal_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ETH", config = config, server = server)
         self.inputs = _InputsThermalStrain(self)
@@ -5109,9 +6495,33 @@ class eqv_stress_parameter(Operator):
 
       Examples
       --------
-      >>> op = operators.result.eqv_stress_parameter()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.eqv_stress_parameter()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_SEPL", config = config, server = server)
         self.inputs = _InputsEqvStressParameter(self)
@@ -5196,9 +6606,33 @@ class stress_ratio(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_ratio()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_ratio()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_SRAT", config = config, server = server)
         self.inputs = _InputsStressRatio(self)
@@ -5283,9 +6717,33 @@ class accu_eqv_plastic_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.accu_eqv_plastic_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.accu_eqv_plastic_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_EPEQ", config = config, server = server)
         self.inputs = _InputsAccuEqvPlasticStrain(self)
@@ -5370,9 +6828,33 @@ class plastic_state_variable(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_state_variable()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_state_variable()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_PSV", config = config, server = server)
         self.inputs = _InputsPlasticStateVariable(self)
@@ -5457,9 +6939,33 @@ class accu_eqv_creep_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.accu_eqv_creep_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.accu_eqv_creep_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_CREQ", config = config, server = server)
         self.inputs = _InputsAccuEqvCreepStrain(self)
@@ -5544,9 +7050,33 @@ class plastic_strain_energy_density(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_energy_density()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_energy_density()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_PLWK", config = config, server = server)
         self.inputs = _InputsPlasticStrainEnergyDensity(self)
@@ -5610,9 +7140,19 @@ class material_property_of_element(Operator):
 
       Examples
       --------
-      >>> op = operators.result.material_property_of_element()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.material_property_of_element()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_material_properties = op.outputs.material_properties()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="MaterialPropertyOfElement", config = config, server = server)
         self.inputs = _InputsMaterialPropertyOfElement(self)
@@ -5686,9 +7226,33 @@ class creep_strain_energy_density(Operator):
 
       Examples
       --------
-      >>> op = operators.result.creep_strain_energy_density()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.creep_strain_energy_density()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_CRWK", config = config, server = server)
         self.inputs = _InputsCreepStrainEnergyDensity(self)
@@ -5773,9 +7337,33 @@ class elastic_strain_energy_density(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_energy_density()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_energy_density()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ENL_ELENG", config = config, server = server)
         self.inputs = _InputsElasticStrainEnergyDensity(self)
@@ -5860,9 +7448,33 @@ class contact_status(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_status()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_status()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_STAT", config = config, server = server)
         self.inputs = _InputsContactStatus(self)
@@ -5947,9 +7559,33 @@ class contact_penetration(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_penetration()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_penetration()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_PENE", config = config, server = server)
         self.inputs = _InputsContactPenetration(self)
@@ -6034,9 +7670,33 @@ class contact_pressure(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_pressure()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_pressure()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_PRES", config = config, server = server)
         self.inputs = _InputsContactPressure(self)
@@ -6121,9 +7781,33 @@ class contact_friction_stress(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_friction_stress()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_friction_stress()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_SFRIC", config = config, server = server)
         self.inputs = _InputsContactFrictionStress(self)
@@ -6208,9 +7892,33 @@ class contact_total_stress(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_total_stress()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_total_stress()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_STOT", config = config, server = server)
         self.inputs = _InputsContactTotalStress(self)
@@ -6295,9 +8003,33 @@ class contact_sliding_distance(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_sliding_distance()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_sliding_distance()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_SLIDE", config = config, server = server)
         self.inputs = _InputsContactSlidingDistance(self)
@@ -6382,9 +8114,33 @@ class contact_gap_distance(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_gap_distance()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_gap_distance()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_GAP", config = config, server = server)
         self.inputs = _InputsContactGapDistance(self)
@@ -6469,9 +8225,33 @@ class contact_surface_heat_flux(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_surface_heat_flux()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_surface_heat_flux()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_FLUX", config = config, server = server)
         self.inputs = _InputsContactSurfaceHeatFlux(self)
@@ -6556,9 +8336,33 @@ class num_surface_status_changes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.num_surface_status_changes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.num_surface_status_changes()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_CNOS", config = config, server = server)
         self.inputs = _InputsNumSurfaceStatusChanges(self)
@@ -6643,9 +8447,33 @@ class contact_fluid_penetration_pressure(Operator):
 
       Examples
       --------
-      >>> op = operators.result.contact_fluid_penetration_pressure()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.contact_fluid_penetration_pressure()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="ECT_FRES", config = config, server = server)
         self.inputs = _InputsContactFluidPenetrationPressure(self)
@@ -6727,9 +8555,31 @@ class elemental_volume(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elemental_volume()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elemental_volume()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_VOL", config = config, server = server)
         self.inputs = _InputsElementalVolume(self)
@@ -6808,9 +8658,31 @@ class artificial_hourglass_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.artificial_hourglass_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.artificial_hourglass_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_AHO", config = config, server = server)
         self.inputs = _InputsArtificialHourglassEnergy(self)
@@ -6889,9 +8761,31 @@ class kinetic_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.kinetic_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.kinetic_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_KE", config = config, server = server)
         self.inputs = _InputsKineticEnergy(self)
@@ -6970,9 +8864,31 @@ class thermal_dissipation_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.thermal_dissipation_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.thermal_dissipation_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENG_TH", config = config, server = server)
         self.inputs = _InputsThermalDissipationEnergy(self)
@@ -7051,9 +8967,31 @@ class nodal_force(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_force()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_force()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="F", config = config, server = server)
         self.inputs = _InputsNodalForce(self)
@@ -7132,9 +9070,31 @@ class temperature(Operator):
 
       Examples
       --------
-      >>> op = operators.result.temperature()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.temperature()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="TEMP", config = config, server = server)
         self.inputs = _InputsTemperature(self)
@@ -7213,9 +9173,31 @@ class raw_displacement(Operator):
 
       Examples
       --------
-      >>> op = operators.result.raw_displacement()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.raw_displacement()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="UTOT", config = config, server = server)
         self.inputs = _InputsRawDisplacement(self)
@@ -7294,9 +9276,31 @@ class raw_reaction_force(Operator):
 
       Examples
       --------
-      >>> op = operators.result.raw_reaction_force()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.raw_reaction_force()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="RFTOT", config = config, server = server)
         self.inputs = _InputsRawReactionForce(self)
@@ -7375,9 +9379,31 @@ class electric_potential(Operator):
 
       Examples
       --------
-      >>> op = operators.result.electric_potential()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.electric_potential()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="VOLT", config = config, server = server)
         self.inputs = _InputsElectricPotential(self)
@@ -7456,9 +9482,31 @@ class thickness(Operator):
 
       Examples
       --------
-      >>> op = operators.result.thickness()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.thickness()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="thickness", config = config, server = server)
         self.inputs = _InputsThickness(self)
@@ -7537,9 +9585,31 @@ class custom(Operator):
 
       Examples
       --------
-      >>> op = operators.result.custom()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.custom()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="custom", config = config, server = server)
         self.inputs = _InputsCustom(self)
@@ -7621,9 +9691,33 @@ class stress_von_mises(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_von_mises()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_von_mises()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="S_eqv", config = config, server = server)
         self.inputs = _InputsStressVonMises(self)
@@ -7666,7 +9760,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "result" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "result" category
 """
 
 #internal name: cyclic_expansion
@@ -7703,9 +9797,23 @@ class cyclic_expansion(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expansion()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expansion()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, cyclic_support=None, config=None, server=None):
         super().__init__(name="cyclic_expansion", config = config, server = server)
         self.inputs = _InputsCyclicExpansion(self)
@@ -7767,9 +9875,21 @@ class equivalent_radiated_power(Operator):
 
       Examples
       --------
-      >>> op = operators.result.equivalent_radiated_power()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.equivalent_radiated_power()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.meshed_region.connect(my_meshed_region)
+      >>> my_time_scoping = int()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, meshed_region=None, time_scoping=None, config=None, server=None):
         super().__init__(name="ERP", config = config, server = server)
         self.inputs = _InputsEquivalentRadiatedPower(self)
@@ -7825,9 +9945,19 @@ class torque(Operator):
 
       Examples
       --------
-      >>> op = operators.result.torque()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.torque()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_vector_of_double = dpf.list()
+      >>> op.inputs.vector_of_double.connect(my_vector_of_double)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, vector_of_double=None, config=None, server=None):
         super().__init__(name="torque", config = config, server = server)
         self.inputs = _InputsTorque(self)
@@ -7886,9 +10016,23 @@ class cyclic_analytic_usum_max(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_analytic_usum_max()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_analytic_usum_max()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, cyclic_support=None, config=None, server=None):
         super().__init__(name="cyclic_analytic_usum_max", config = config, server = server)
         self.inputs = _InputsCyclicAnalyticUsumMax(self)
@@ -7953,9 +10097,23 @@ class cyclic_analytic_seqv_max(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_analytic_seqv_max()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_analytic_seqv_max()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, cyclic_support=None, config=None, server=None):
         super().__init__(name="cyclic_analytic_stress_eqv_max", config = config, server = server)
         self.inputs = _InputsCyclicAnalyticSeqvMax(self)
@@ -8011,9 +10169,17 @@ class recombine_harmonic_indeces_cyclic(Operator):
 
       Examples
       --------
-      >>> op = operators.result.recombine_harmonic_indeces_cyclic()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.recombine_harmonic_indeces_cyclic()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="recombine_harmonic_indeces_cyclic", config = config, server = server)
         self.inputs = _InputsRecombineHarmonicIndecesCyclic(self)
@@ -8075,9 +10241,27 @@ class poynting_vector(Operator):
 
       Examples
       --------
-      >>> op = operators.result.poynting_vector()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.poynting_vector()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+      >>> my_fields_containerC = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+      >>> my_fields_containerD = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerD.connect(my_fields_containerD)
+      >>> my_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.meshed_region.connect(my_meshed_region)
+      >>> my_int32 = int()
+      >>> op.inputs.int32.connect(my_int32)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, fields_containerC=None, fields_containerD=None, meshed_region=None, int32=None, config=None, server=None):
         super().__init__(name="PoyntingVector", config = config, server = server)
         self.inputs = _InputsPoyntingVector(self)
@@ -8154,9 +10338,27 @@ class poynting_vector_surface(Operator):
 
       Examples
       --------
-      >>> op = operators.result.poynting_vector_surface()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.poynting_vector_surface()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+      >>> my_fields_containerC = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+      >>> my_fields_containerD = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerD.connect(my_fields_containerD)
+      >>> my_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.meshed_region.connect(my_meshed_region)
+      >>> my_int32 = int()
+      >>> op.inputs.int32.connect(my_int32)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, fields_containerC=None, fields_containerD=None, meshed_region=None, int32=None, config=None, server=None):
         super().__init__(name="PoyntingVectorSurface", config = config, server = server)
         self.inputs = _InputsPoyntingVectorSurface(self)
@@ -8202,7 +10404,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from mapdlOperatorsCore.dll plugin, from "result" category
+"""Operators from mapdlOperatorsCore plugin, from "result" category
 """
 
 #internal name: mapdl::rst::NPEL
@@ -8245,9 +10447,27 @@ class nodal_averaged_elastic_strains(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_elastic_strains()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_elastic_strains()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NPEL", config = config, server = server)
         self.inputs = _InputsNodalAveragedElasticStrains(self)
@@ -8321,9 +10541,25 @@ class add_rigid_body_motion(Operator):
 
       Examples
       --------
-      >>> op = operators.result.add_rigid_body_motion()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.add_rigid_body_motion()
+
+      >>> # Make input connections
+      >>> my_displacement_field = dpf.Field()
+      >>> op.inputs.displacement_field.connect(my_displacement_field)
+      >>> my_translation_field = dpf.Field()
+      >>> op.inputs.translation_field.connect(my_translation_field)
+      >>> my_rotation_field = dpf.Field()
+      >>> op.inputs.rotation_field.connect(my_rotation_field)
+      >>> my_center_field = dpf.Field()
+      >>> op.inputs.center_field.connect(my_center_field)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, displacement_field=None, translation_field=None, rotation_field=None, center_field=None, mesh=None, config=None, server=None):
         super().__init__(name="RigidBodyAddition", config = config, server = server)
         self.inputs = _InputsAddRigidBodyMotion(self)
@@ -8397,9 +10633,27 @@ class nodal_averaged_equivalent_elastic_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_equivalent_elastic_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_equivalent_elastic_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NPEL_EQV", config = config, server = server)
         self.inputs = _InputsNodalAveragedEquivalentElasticStrain(self)
@@ -8470,9 +10724,23 @@ class run(Operator):
 
       Examples
       --------
-      >>> op = operators.result.run()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.run()
+
+      >>> # Make input connections
+      >>> my_mapdl_exe_path = str()
+      >>> op.inputs.mapdl_exe_path.connect(my_mapdl_exe_path)
+      >>> my_working_dir = str()
+      >>> op.inputs.working_dir.connect(my_working_dir)
+      >>> my_number_of_processes = int()
+      >>> op.inputs.number_of_processes.connect(my_number_of_processes)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_data_sources = op.outputs.data_sources()"""
     def __init__(self, mapdl_exe_path=None, working_dir=None, number_of_processes=None, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::run", config = config, server = server)
         self.inputs = _InputsRun(self)
@@ -8567,9 +10835,42 @@ class cyclic_expanded_velocity(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expanded_velocity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expanded_velocity()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+      >>> my_phi = float()
+      >>> op.inputs.phi.connect(my_phi)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None):
         super().__init__(name="mapdl::rst::V_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicExpandedVelocity(self)
@@ -8692,9 +10993,42 @@ class cyclic_expanded_el_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expanded_el_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expanded_el_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+      >>> my_phi = float()
+      >>> op.inputs.phi.connect(my_phi)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None):
         super().__init__(name="mapdl::rst::EPEL_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicExpandedElStrain(self)
@@ -8793,9 +11127,27 @@ class nodal_averaged_thermal_swelling_strains(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_thermal_swelling_strains()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_thermal_swelling_strains()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NTH_SWL", config = config, server = server)
         self.inputs = _InputsNodalAveragedThermalSwellingStrains(self)
@@ -8872,9 +11224,27 @@ class nodal_averaged_stresses(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_stresses()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_stresses()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NS", config = config, server = server)
         self.inputs = _InputsNodalAveragedStresses(self)
@@ -8951,9 +11321,27 @@ class nodal_averaged_thermal_strains(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_thermal_strains()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_thermal_strains()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NTH", config = config, server = server)
         self.inputs = _InputsNodalAveragedThermalStrains(self)
@@ -9030,9 +11418,27 @@ class nodal_averaged_plastic_strains(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_plastic_strains()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_plastic_strains()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NPPL", config = config, server = server)
         self.inputs = _InputsNodalAveragedPlasticStrains(self)
@@ -9109,9 +11515,27 @@ class nodal_averaged_creep_strains(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_creep_strains()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_creep_strains()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NCR", config = config, server = server)
         self.inputs = _InputsNodalAveragedCreepStrains(self)
@@ -9188,9 +11612,27 @@ class nodal_averaged_equivalent_thermal_strains(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_equivalent_thermal_strains()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_equivalent_thermal_strains()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NTH_EQV", config = config, server = server)
         self.inputs = _InputsNodalAveragedEquivalentThermalStrains(self)
@@ -9267,9 +11709,27 @@ class nodal_averaged_equivalent_plastic_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_equivalent_plastic_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_equivalent_plastic_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NPPL_EQV", config = config, server = server)
         self.inputs = _InputsNodalAveragedEquivalentPlasticStrain(self)
@@ -9346,9 +11806,27 @@ class nodal_averaged_equivalent_creep_strain(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_averaged_equivalent_creep_strain()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_averaged_equivalent_creep_strain()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::NCR_EQV", config = config, server = server)
         self.inputs = _InputsNodalAveragedEquivalentCreepStrain(self)
@@ -9419,9 +11897,23 @@ class euler_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.euler_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.euler_nodes()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_coord_and_euler = bool()
+      >>> op.inputs.coord_and_euler.connect(my_coord_and_euler)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, streams_container=None, data_sources=None, coord_and_euler=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::rst::coords_and_euler_nodes", config = config, server = server)
         self.inputs = _InputsEulerNodes(self)
@@ -9492,9 +11984,27 @@ class nmisc(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nmisc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nmisc()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::nmisc", config = config, server = server)
         self.inputs = _InputsNmisc(self)
@@ -9562,9 +12072,21 @@ class enf_rotation_by_euler_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.enf_rotation_by_euler_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.enf_rotation_by_euler_nodes()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="ENF_rotation_by_euler_nodes", config = config, server = server)
         self.inputs = _InputsEnfRotationByEulerNodes(self)
@@ -9617,9 +12139,17 @@ class cms_matrices_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cms_matrices_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cms_matrices_provider()
+
+      >>> # Make input connections
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, data_sources=None, config=None, server=None):
         super().__init__(name="cms_matrices_provider", config = config, server = server)
         self.inputs = _InputsCmsMatricesProvider(self)
@@ -9681,9 +12211,27 @@ class smisc(Operator):
 
       Examples
       --------
-      >>> op = operators.result.smisc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.smisc()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
         super().__init__(name="mapdl::smisc", config = config, server = server)
         self.inputs = _InputsSmisc(self)
@@ -9751,9 +12299,21 @@ class nodal_rotation_by_euler_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.nodal_rotation_by_euler_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.nodal_rotation_by_euler_nodes()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::rst::RotateNodalFCByEulerNodes", config = config, server = server)
         self.inputs = _InputsNodalRotationByEulerNodes(self)
@@ -9812,9 +12372,21 @@ class stress_rotation_by_euler_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.stress_rotation_by_euler_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.stress_rotation_by_euler_nodes()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::rst::S_rotation_by_euler_nodes", config = config, server = server)
         self.inputs = _InputsStressRotationByEulerNodes(self)
@@ -9873,9 +12445,21 @@ class elastic_strain_rotation_by_euler_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.elastic_strain_rotation_by_euler_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.elastic_strain_rotation_by_euler_nodes()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::rst::EPEL_rotation_by_euler_nodes", config = config, server = server)
         self.inputs = _InputsElasticStrainRotationByEulerNodes(self)
@@ -9934,9 +12518,21 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.result.plastic_strain_rotation_by_euler_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.plastic_strain_rotation_by_euler_nodes()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="mapdl::rst::EPPL_rotation_by_euler_nodes", config = config, server = server)
         self.inputs = _InputsPlasticStrainRotationByEulerNodes(self)
@@ -9989,9 +12585,17 @@ class pres_to_field(Operator):
 
       Examples
       --------
-      >>> op = operators.result.pres_to_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.pres_to_field()
+
+      >>> # Make input connections
+      >>> my_filepath = str()
+      >>> op.inputs.filepath.connect(my_filepath)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, filepath=None, config=None, server=None):
         super().__init__(name="PRES_Reader", config = config, server = server)
         self.inputs = _InputsPresToField(self)
@@ -10038,9 +12642,17 @@ class prns_to_field(Operator):
 
       Examples
       --------
-      >>> op = operators.result.prns_to_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.prns_to_field()
+
+      >>> # Make input connections
+      >>> my_filepath = str()
+      >>> op.inputs.filepath.connect(my_filepath)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, filepath=None, config=None, server=None):
         super().__init__(name="PRNS_Reader", config = config, server = server)
         self.inputs = _InputsPrnsToField(self)
@@ -10093,9 +12705,21 @@ class remove_rigid_body_motion(Operator):
 
       Examples
       --------
-      >>> op = operators.result.remove_rigid_body_motion()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.remove_rigid_body_motion()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_reference_node_id = int()
+      >>> op.inputs.reference_node_id.connect(my_reference_node_id)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, reference_node_id=None, mesh=None, config=None, server=None):
         super().__init__(name="ExtractRigidBodyMotion", config = config, server = server)
         self.inputs = _InputsRemoveRigidBodyMotion(self)
@@ -10154,9 +12778,21 @@ class remove_rigid_body_motion_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.result.remove_rigid_body_motion_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.remove_rigid_body_motion_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_reference_node_id = int()
+      >>> op.inputs.reference_node_id.connect(my_reference_node_id)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, reference_node_id=None, mesh=None, config=None, server=None):
         super().__init__(name="ExtractRigidBodyMotion_fc", config = config, server = server)
         self.inputs = _InputsRemoveRigidBodyMotionFc(self)
@@ -10221,9 +12857,25 @@ class add_rigid_body_motion_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.result.add_rigid_body_motion_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.add_rigid_body_motion_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_translation_field = dpf.Field()
+      >>> op.inputs.translation_field.connect(my_translation_field)
+      >>> my_rotation_field = dpf.Field()
+      >>> op.inputs.rotation_field.connect(my_rotation_field)
+      >>> my_center_field = dpf.Field()
+      >>> op.inputs.center_field.connect(my_center_field)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, translation_field=None, rotation_field=None, center_field=None, mesh=None, config=None, server=None):
         super().__init__(name="RigidBodyAddition_fc", config = config, server = server)
         self.inputs = _InputsAddRigidBodyMotionFc(self)
@@ -10321,9 +12973,42 @@ class cyclic_expanded_displacement(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expanded_displacement()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expanded_displacement()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+      >>> my_phi = float()
+      >>> op.inputs.phi.connect(my_phi)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None):
         super().__init__(name="mapdl::rst::U_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicExpandedDisplacement(self)
@@ -10446,9 +13131,42 @@ class cyclic_expanded_acceleration(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expanded_acceleration()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expanded_acceleration()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+      >>> my_phi = float()
+      >>> op.inputs.phi.connect(my_phi)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None):
         super().__init__(name="mapdl::rst::A_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicExpandedAcceleration(self)
@@ -10571,9 +13289,42 @@ class cyclic_expanded_stress(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expanded_stress()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expanded_stress()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+      >>> my_phi = float()
+      >>> op.inputs.phi.connect(my_phi)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None):
         super().__init__(name="mapdl::rst::S_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicExpandedStress(self)
@@ -10696,9 +13447,42 @@ class cyclic_expanded_enf(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_expanded_enf()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_expanded_enf()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+      >>> my_sectors_to_expand = dpf.list()
+      >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+      >>> my_phi = float()
+      >>> op.inputs.phi.connect(my_phi)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, requested_location=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, sectors_to_expand=None, phi=None, config=None, server=None):
         super().__init__(name="mapdl::rst::ENF_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicExpandedEnf(self)
@@ -10812,9 +13596,36 @@ class cyclic_volume(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_volume()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_volume()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, config=None, server=None):
         super().__init__(name="mapdl::rst::ENG_VOL_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicVolume(self)
@@ -10919,9 +13730,36 @@ class cyclic_strain_energy(Operator):
 
       Examples
       --------
-      >>> op = operators.result.cyclic_strain_energy()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.result.cyclic_strain_energy()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.ScopingsContainer()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_bool_rotate_to_global = bool()
+      >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+      >>> my_sector_mesh = dpf.MeshedRegion()
+      >>> op.inputs.sector_mesh.connect(my_sector_mesh)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_expanded_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.expanded_meshed_region.connect(my_expanded_meshed_region)
+      >>> my_cyclic_support = dpf.CyclicSupport()
+      >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_expanded_meshes = op.outputs.expanded_meshes()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, bool_rotate_to_global=None, sector_mesh=None, read_cyclic=None, expanded_meshed_region=None, cyclic_support=None, config=None, server=None):
         super().__init__(name="mapdl::rst::ENG_SE_cyclic", config = config, server = server)
         self.inputs = _InputsCyclicStrainEnergy(self)

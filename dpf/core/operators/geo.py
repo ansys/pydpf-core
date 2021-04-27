@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "geo" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "geo" category
 """
 
 #internal name: normals_provider_nl
@@ -38,9 +38,19 @@ class normals_provider_nl(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.normals_provider_nl()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.normals_provider_nl()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="normals_provider_nl", config = config, server = server)
         self.inputs = _InputsNormalsProviderNl(self)
@@ -93,9 +103,19 @@ class rotate_in_cylindrical_cs_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.rotate_in_cylindrical_cs_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.rotate_in_cylindrical_cs_fc()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_coordinate_system = dpf.Field()
+      >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="transform_cylindrical_cs_fc", config = config, server = server)
         self.inputs = _InputsRotateInCylindricalCsFc(self)
@@ -148,9 +168,19 @@ class rotate_in_cylindrical_cs(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.rotate_in_cylindrical_cs()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.rotate_in_cylindrical_cs()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_coordinate_system = dpf.Field()
+      >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="transform_cylindricalCS", config = config, server = server)
         self.inputs = _InputsRotateInCylindricalCs(self)
@@ -203,9 +233,19 @@ class rotate(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.rotate()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.rotate()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_field_rotation_matrix = dpf.Field()
+      >>> op.inputs.field_rotation_matrix.connect(my_field_rotation_matrix)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, field_rotation_matrix=None, config=None, server=None):
         super().__init__(name="rotate", config = config, server = server)
         self.inputs = _InputsRotate(self)
@@ -258,9 +298,19 @@ class rotate_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.rotate_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.rotate_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_coordinate_system = dpf.Field()
+      >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="rotate_fc", config = config, server = server)
         self.inputs = _InputsRotateFc(self)
@@ -313,9 +363,19 @@ class to_polar_coordinates(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.to_polar_coordinates()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.to_polar_coordinates()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_coordinate_system = dpf.Field()
+      >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="polar_coordinates", config = config, server = server)
         self.inputs = _InputsToPolarCoordinates(self)
@@ -371,9 +431,21 @@ class elements_volumes_over_time(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.elements_volumes_over_time()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.elements_volumes_over_time()
+
+      >>> # Make input connections
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_displacement = dpf.FieldsContainer()
+      >>> op.inputs.displacement.connect(my_displacement)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, scoping=None, displacement=None, mesh=None, config=None, server=None):
         super().__init__(name="volumes_provider", config = config, server = server)
         self.inputs = _InputsElementsVolumesOverTime(self)
@@ -435,9 +507,22 @@ class elements_facets_surfaces_over_time(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.elements_facets_surfaces_over_time()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.elements_facets_surfaces_over_time()
+
+      >>> # Make input connections
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_displacement = dpf.FieldsContainer()
+      >>> op.inputs.displacement.connect(my_displacement)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_mesh = op.outputs.mesh()"""
     def __init__(self, scoping=None, displacement=None, mesh=None, config=None, server=None):
         super().__init__(name="surfaces_provider", config = config, server = server)
         self.inputs = _InputsElementsFacetsSurfacesOverTime(self)
@@ -491,9 +576,17 @@ class elements_volume(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.elements_volume()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.elements_volume()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="element::volume", config = config, server = server)
         self.inputs = _InputsElementsVolume(self)
@@ -546,9 +639,21 @@ class element_nodal_contribution(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.element_nodal_contribution()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.element_nodal_contribution()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_volume_fraction = bool()
+      >>> op.inputs.volume_fraction.connect(my_volume_fraction)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, scoping=None, volume_fraction=None, config=None, server=None):
         super().__init__(name="element::nodal_contribution", config = config, server = server)
         self.inputs = _InputsElementNodalContribution(self)
@@ -610,9 +715,22 @@ class center_of_gravity(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.center_of_gravity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.center_of_gravity()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()
+      >>> result_mesh = op.outputs.mesh()"""
     def __init__(self, mesh=None, mesh_scoping=None, field=None, config=None, server=None):
         super().__init__(name="topology::center_of_gravity", config = config, server = server)
         self.inputs = _InputsCenterOfGravity(self)
@@ -672,9 +790,21 @@ class integrate_over_elements(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.integrate_over_elements()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.integrate_over_elements()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="element::integrate", config = config, server = server)
         self.inputs = _InputsIntegrateOverElements(self)
@@ -733,9 +863,21 @@ class mass(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.mass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.mass()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, mesh_scoping=None, field=None, config=None, server=None):
         super().__init__(name="topology::mass", config = config, server = server)
         self.inputs = _InputsMass(self)
@@ -797,9 +939,23 @@ class moment_of_inertia(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.moment_of_inertia()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.moment_of_inertia()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_boolean = bool()
+      >>> op.inputs.boolean.connect(my_boolean)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, mesh_scoping=None, field=None, boolean=None, config=None, server=None):
         super().__init__(name="topology::moment_of_inertia", config = config, server = server)
         self.inputs = _InputsMomentOfInertia(self)
@@ -839,7 +995,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from meshOperatorsCore.dll plugin, from "geo" category
+"""Operators from meshOperatorsCore plugin, from "geo" category
 """
 
 #internal name: normals_provider
@@ -873,9 +1029,21 @@ class normals(Operator):
 
       Examples
       --------
-      >>> op = operators.geo.normals()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.geo.normals()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, mesh_scoping=None, field=None, config=None, server=None):
         super().__init__(name="normals_provider", config = config, server = server)
         self.inputs = _InputsNormals(self)

@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "averaging" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "averaging" category
 """
 
 #internal name: nodal_fraction_fc
@@ -44,9 +44,23 @@ class nodal_fraction_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.nodal_fraction_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.nodal_fraction_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_denominator = dpf.FieldsContainer()
+      >>> op.inputs.denominator.connect(my_denominator)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, scoping=None, denominator=None, config=None, server=None):
         super().__init__(name="nodal_fraction_fc", config = config, server = server)
         self.inputs = _InputsNodalFractionFc(self)
@@ -105,9 +119,19 @@ class elemental_nodal_to_nodal_elemental_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="ElementalNodal_To_NodalElemental_fc", config = config, server = server)
         self.inputs = _InputsElementalNodalToNodalElementalFc(self)
@@ -166,9 +190,23 @@ class elemental_difference(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_difference()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_difference()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_through_layers = bool()
+      >>> op.inputs.through_layers.connect(my_through_layers)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, mesh_scoping=None, mesh=None, through_layers=None, config=None, server=None):
         super().__init__(name="elemental_difference", config = config, server = server)
         self.inputs = _InputsElementalDifference(self)
@@ -233,9 +271,23 @@ class elemental_nodal_to_nodal(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_nodal_to_nodal()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_should_average = bool()
+      >>> op.inputs.should_average.connect(my_should_average)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, mesh_scoping=None, should_average=None, mesh=None, config=None, server=None):
         super().__init__(name="elemental_nodal_To_nodal", config = config, server = server)
         self.inputs = _InputsElementalNodalToNodal(self)
@@ -300,9 +352,23 @@ class elemental_difference_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_difference_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_difference_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, scoping=None, collapse_shell_layers=None, config=None, server=None):
         super().__init__(name="elemental_difference_fc", config = config, server = server)
         self.inputs = _InputsElementalDifferenceFc(self)
@@ -367,9 +433,23 @@ class elemental_nodal_to_nodal_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_nodal_to_nodal_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_should_average = bool()
+      >>> op.inputs.should_average.connect(my_should_average)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, should_average=None, scoping=None, config=None, server=None):
         super().__init__(name="elemental_nodal_To_nodal_fc", config = config, server = server)
         self.inputs = _InputsElementalNodalToNodalFc(self)
@@ -431,9 +511,21 @@ class elemental_to_nodal(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_to_nodal()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_to_nodal()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_force_averaging = int()
+      >>> op.inputs.force_averaging.connect(my_force_averaging)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh_scoping=None, force_averaging=None, config=None, server=None):
         super().__init__(name="elemental_to_nodal", config = config, server = server)
         self.inputs = _InputsElementalToNodal(self)
@@ -495,9 +587,23 @@ class elemental_to_nodal_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_to_nodal_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_to_nodal_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_force_averaging = int()
+      >>> op.inputs.force_averaging.connect(my_force_averaging)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, force_averaging=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="elemental_to_nodal_fc", config = config, server = server)
         self.inputs = _InputsElementalToNodalFc(self)
@@ -559,9 +665,21 @@ class nodal_difference(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.nodal_difference()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.nodal_difference()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, mesh_scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="nodal_difference", config = config, server = server)
         self.inputs = _InputsNodalDifference(self)
@@ -620,9 +738,21 @@ class nodal_difference_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.nodal_difference_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.nodal_difference_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, scoping=None, config=None, server=None):
         super().__init__(name="nodal_difference_fc", config = config, server = server)
         self.inputs = _InputsNodalDifferenceFc(self)
@@ -687,9 +817,25 @@ class elemental_fraction_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_fraction_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_fraction_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_denominator = dpf.FieldsContainer()
+      >>> op.inputs.denominator.connect(my_denominator)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, scoping=None, denominator=None, collapse_shell_layers=None, config=None, server=None):
         super().__init__(name="elemental_fraction_fc", config = config, server = server)
         self.inputs = _InputsElementalFractionFc(self)
@@ -751,9 +897,19 @@ class to_nodal(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.to_nodal()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.to_nodal()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="to_nodal", config = config, server = server)
         self.inputs = _InputsToNodal(self)
@@ -809,9 +965,21 @@ class to_nodal_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.to_nodal_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.to_nodal_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="to_nodal_fc", config = config, server = server)
         self.inputs = _InputsToNodalFc(self)
@@ -867,9 +1035,19 @@ class elemental_nodal_to_nodal_elemental(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_nodal_to_nodal_elemental()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_elemental()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="ElementalNodal_To_NodalElemental", config = config, server = server)
         self.inputs = _InputsElementalNodalToNodalElemental(self)
@@ -922,9 +1100,19 @@ class extend_to_mid_nodes(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.extend_to_mid_nodes()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.extend_to_mid_nodes()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh=None, config=None, server=None):
         super().__init__(name="extend_to_mid_nodes", config = config, server = server)
         self.inputs = _InputsExtendToMidNodes(self)
@@ -977,9 +1165,19 @@ class extend_to_mid_nodes_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.extend_to_mid_nodes_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.extend_to_mid_nodes_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, config=None, server=None):
         super().__init__(name="extend_to_mid_nodes_fc", config = config, server = server)
         self.inputs = _InputsExtendToMidNodesFc(self)
@@ -1038,9 +1236,23 @@ class elemental_mean(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_mean()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_mean()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+      >>> my_force_averaging = bool()
+      >>> op.inputs.force_averaging.connect(my_force_averaging)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, collapse_shell_layers=None, force_averaging=None, scoping=None, config=None, server=None):
         super().__init__(name="entity_average", config = config, server = server)
         self.inputs = _InputsElementalMean(self)
@@ -1108,9 +1320,25 @@ class elemental_mean_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.elemental_mean_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.elemental_mean_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+      >>> my_force_averaging = bool()
+      >>> op.inputs.force_averaging.connect(my_force_averaging)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.meshed_region.connect(my_meshed_region)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, collapse_shell_layers=None, force_averaging=None, scoping=None, meshed_region=None, config=None, server=None):
         super().__init__(name="entity_average_fc", config = config, server = server)
         self.inputs = _InputsElementalMeanFc(self)
@@ -1181,9 +1409,25 @@ class to_elemental_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.to_elemental_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.to_elemental_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_smoothen_values = bool()
+      >>> op.inputs.smoothen_values.connect(my_smoothen_values)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, mesh_scoping=None, smoothen_values=None, collapse_shell_layers=None, config=None, server=None):
         super().__init__(name="to_elemental_fc", config = config, server = server)
         self.inputs = _InputsToElementalFc(self)
@@ -1248,9 +1492,21 @@ class nodal_to_elemental(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.nodal_to_elemental()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.nodal_to_elemental()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh_scoping=None, collapse_shell_layers=None, config=None, server=None):
         super().__init__(name="nodal_to_elemental", config = config, server = server)
         self.inputs = _InputsNodalToElemental(self)
@@ -1312,9 +1568,23 @@ class nodal_to_elemental_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.averaging.nodal_to_elemental_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.averaging.nodal_to_elemental_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_collapse_shell_layers = bool()
+      >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh=None, scoping=None, collapse_shell_layers=None, config=None, server=None):
         super().__init__(name="nodal_to_elemental_fc", config = config, server = server)
         self.inputs = _InputsNodalToElementalFc(self)

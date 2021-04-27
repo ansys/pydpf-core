@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "filter" category
+"""Operators from Ans.Dpf.Native plugin, from "filter" category
 """
 
 #internal name: core::field::band_pass_fc
@@ -41,9 +41,21 @@ class field_band_pass_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.field_band_pass_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.field_band_pass_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_min_threshold = float()
+      >>> op.inputs.min_threshold.connect(my_min_threshold)
+      >>> my_max_threshold = float()
+      >>> op.inputs.max_threshold.connect(my_max_threshold)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, min_threshold=None, max_threshold=None, config=None, server=None):
         super().__init__(name="core::field::band_pass_fc", config = config, server = server)
         self.inputs = _InputsFieldBandPassFc(self)
@@ -99,9 +111,19 @@ class scoping_low_pass(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.scoping_low_pass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.scoping_low_pass()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_threshold = float()
+      >>> op.inputs.threshold.connect(my_threshold)
+
+      >>> # Get output data
+      >>> result_scoping = op.outputs.scoping()"""
     def __init__(self, field=None, threshold=None, config=None, server=None):
         super().__init__(name="core::scoping::low_pass", config = config, server = server)
         self.inputs = _InputsScopingLowPass(self)
@@ -154,9 +176,19 @@ class field_high_pass(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.field_high_pass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.field_high_pass()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_threshold = float()
+      >>> op.inputs.threshold.connect(my_threshold)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, threshold=None, config=None, server=None):
         super().__init__(name="core::field::high_pass", config = config, server = server)
         self.inputs = _InputsFieldHighPass(self)
@@ -209,9 +241,19 @@ class scoping_high_pass(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.scoping_high_pass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.scoping_high_pass()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_threshold = float()
+      >>> op.inputs.threshold.connect(my_threshold)
+
+      >>> # Get output data
+      >>> result_scoping = op.outputs.scoping()"""
     def __init__(self, field=None, threshold=None, config=None, server=None):
         super().__init__(name="core::scoping::high_pass", config = config, server = server)
         self.inputs = _InputsScopingHighPass(self)
@@ -264,9 +306,19 @@ class field_high_pass_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.field_high_pass_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.field_high_pass_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_threshold = float()
+      >>> op.inputs.threshold.connect(my_threshold)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, threshold=None, config=None, server=None):
         super().__init__(name="core::field::high_pass_fc", config = config, server = server)
         self.inputs = _InputsFieldHighPassFc(self)
@@ -319,9 +371,19 @@ class field_low_pass(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.field_low_pass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.field_low_pass()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_threshold = float()
+      >>> op.inputs.threshold.connect(my_threshold)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, threshold=None, config=None, server=None):
         super().__init__(name="core::field::low_pass", config = config, server = server)
         self.inputs = _InputsFieldLowPass(self)
@@ -374,9 +436,19 @@ class field_low_pass_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.field_low_pass_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.field_low_pass_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_threshold = float()
+      >>> op.inputs.threshold.connect(my_threshold)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, threshold=None, config=None, server=None):
         super().__init__(name="core::field::low_pass_fc", config = config, server = server)
         self.inputs = _InputsFieldLowPassFc(self)
@@ -432,9 +504,21 @@ class field_band_pass(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.field_band_pass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.field_band_pass()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_min_threshold = float()
+      >>> op.inputs.min_threshold.connect(my_min_threshold)
+      >>> my_max_threshold = float()
+      >>> op.inputs.max_threshold.connect(my_max_threshold)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, min_threshold=None, max_threshold=None, config=None, server=None):
         super().__init__(name="core::field::band_pass", config = config, server = server)
         self.inputs = _InputsFieldBandPass(self)
@@ -493,9 +577,21 @@ class scoping_band_pass(Operator):
 
       Examples
       --------
-      >>> op = operators.filter.scoping_band_pass()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.filter.scoping_band_pass()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_min_threshold = float()
+      >>> op.inputs.min_threshold.connect(my_min_threshold)
+      >>> my_max_threshold = float()
+      >>> op.inputs.max_threshold.connect(my_max_threshold)
+
+      >>> # Get output data
+      >>> result_scoping = op.outputs.scoping()"""
     def __init__(self, field=None, min_threshold=None, max_threshold=None, config=None, server=None):
         super().__init__(name="core::scoping::band_pass", config = config, server = server)
         self.inputs = _InputsScopingBandPass(self)

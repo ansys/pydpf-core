@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "math" category
+"""Operators from Ans.Dpf.Native plugin, from "math" category
 """
 
 #internal name: minus
@@ -38,9 +38,19 @@ class minus(Operator):
 
       Examples
       --------
-      >>> op = operators.math.minus()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.minus()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="minus", config = config, server = server)
         self.inputs = _InputsMinus(self)
@@ -93,9 +103,19 @@ class cplx_multiply(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cplx_multiply()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cplx_multiply()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, config=None, server=None):
         super().__init__(name="cplx_multiply", config = config, server = server)
         self.inputs = _InputsCplxMultiply(self)
@@ -154,9 +174,19 @@ class unit_convert(Operator):
 
       Examples
       --------
-      >>> op = operators.math.unit_convert()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.unit_convert()
+
+      >>> # Make input connections
+      >>> my_entity_to_convert = dpf.Field()
+      >>> op.inputs.entity_to_convert.connect(my_entity_to_convert)
+      >>> my_unit_name = str()
+      >>> op.inputs.unit_name.connect(my_unit_name)
+
+      >>> # Get output data
+      >>> result_converted_entity = op.outputs.converted_entity()"""
     def __init__(self, entity_to_convert=None, unit_name=None, config=None, server=None):
         super().__init__(name="unit_convert", config = config, server = server)
         self.inputs = _InputsUnitConvert(self)
@@ -209,9 +239,19 @@ class minus_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.minus_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.minus_fc()
+
+      >>> # Make input connections
+      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
+      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field_or_fields_container_A=None, field_or_fields_container_B=None, config=None, server=None):
         super().__init__(name="minus_fc", config = config, server = server)
         self.inputs = _InputsMinusFc(self)
@@ -261,9 +301,17 @@ class accumulate(Operator):
 
       Examples
       --------
-      >>> op = operators.math.accumulate()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.accumulate()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, config=None, server=None):
         super().__init__(name="accumulate", config = config, server = server)
         self.inputs = _InputsAccumulate(self)
@@ -313,9 +361,19 @@ class unit_convert_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.unit_convert_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.unit_convert_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_unit_name = str()
+      >>> op.inputs.unit_name.connect(my_unit_name)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, unit_name=None, config=None, server=None):
         super().__init__(name="unit_convert_fc", config = config, server = server)
         self.inputs = _InputsUnitConvertFc(self)
@@ -365,9 +423,17 @@ class accumulate_min_over_label_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.accumulate_min_over_label_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.accumulate_min_over_label_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="accumulate_min_over_label_fc", config = config, server = server)
         self.inputs = _InputsAccumulateMinOverLabelFc(self)
@@ -417,9 +483,19 @@ class add(Operator):
 
       Examples
       --------
-      >>> op = operators.math.add()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.add()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="add", config = config, server = server)
         self.inputs = _InputsAdd(self)
@@ -472,9 +548,19 @@ class add_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.add_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.add_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container1 = dpf.FieldsContainer()
+      >>> op.inputs.fields_container1.connect(my_fields_container1)
+      >>> my_fields_container2 = dpf.FieldsContainer()
+      >>> op.inputs.fields_container2.connect(my_fields_container2)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container1=None, fields_container2=None, config=None, server=None):
         super().__init__(name="add_fc", config = config, server = server)
         self.inputs = _InputsAddFc(self)
@@ -524,9 +610,17 @@ class sin_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sin_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sin_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sin_fc", config = config, server = server)
         self.inputs = _InputsSinFc(self)
@@ -576,9 +670,19 @@ class add_constant(Operator):
 
       Examples
       --------
-      >>> op = operators.math.add_constant()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.add_constant()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_ponderation = float()
+      >>> op.inputs.ponderation.connect(my_ponderation)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, ponderation=None, config=None, server=None):
         super().__init__(name="add_constant", config = config, server = server)
         self.inputs = _InputsAddConstant(self)
@@ -628,9 +732,17 @@ class invert_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.invert_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.invert_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="invert_fc", config = config, server = server)
         self.inputs = _InputsInvertFc(self)
@@ -680,9 +792,19 @@ class pow(Operator):
 
       Examples
       --------
-      >>> op = operators.math.pow()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.pow()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_factor = float()
+      >>> op.inputs.factor.connect(my_factor)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, factor=None, config=None, server=None):
         super().__init__(name="Pow", config = config, server = server)
         self.inputs = _InputsPow(self)
@@ -735,9 +857,19 @@ class add_constant_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.add_constant_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.add_constant_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_ponderation = float()
+      >>> op.inputs.ponderation.connect(my_ponderation)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, ponderation=None, config=None, server=None):
         super().__init__(name="add_constant_fc", config = config, server = server)
         self.inputs = _InputsAddConstantFc(self)
@@ -793,9 +925,21 @@ class scale(Operator):
 
       Examples
       --------
-      >>> op = operators.math.scale()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.scale()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_ponderation = float()
+      >>> op.inputs.ponderation.connect(my_ponderation)
+      >>> my_boolean = bool()
+      >>> op.inputs.boolean.connect(my_boolean)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, ponderation=None, boolean=None, config=None, server=None):
         super().__init__(name="scale", config = config, server = server)
         self.inputs = _InputsScale(self)
@@ -851,9 +995,19 @@ class pow_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.pow_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.pow_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_factor = float()
+      >>> op.inputs.factor.connect(my_factor)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, factor=None, config=None, server=None):
         super().__init__(name="Pow_fc", config = config, server = server)
         self.inputs = _InputsPowFc(self)
@@ -909,9 +1063,21 @@ class scale_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.scale_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.scale_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_ponderation = float()
+      >>> op.inputs.ponderation.connect(my_ponderation)
+      >>> my_boolean = bool()
+      >>> op.inputs.boolean.connect(my_boolean)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, ponderation=None, boolean=None, config=None, server=None):
         super().__init__(name="scale_fc", config = config, server = server)
         self.inputs = _InputsScaleFc(self)
@@ -970,9 +1136,21 @@ class centroid(Operator):
 
       Examples
       --------
-      >>> op = operators.math.centroid()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.centroid()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+      >>> my_factor = float()
+      >>> op.inputs.factor.connect(my_factor)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, factor=None, config=None, server=None):
         super().__init__(name="centroid", config = config, server = server)
         self.inputs = _InputsCentroid(self)
@@ -1040,9 +1218,27 @@ class sweeping_phase(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sweeping_phase()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sweeping_phase()
+
+      >>> # Make input connections
+      >>> my_real_field = dpf.Field()
+      >>> op.inputs.real_field.connect(my_real_field)
+      >>> my_imaginary_field = dpf.Field()
+      >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+      >>> my_angle = float()
+      >>> op.inputs.angle.connect(my_angle)
+      >>> my_unit_name = str()
+      >>> op.inputs.unit_name.connect(my_unit_name)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_imaginary_part_null = bool()
+      >>> op.inputs.imaginary_part_null.connect(my_imaginary_part_null)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, real_field=None, imaginary_field=None, angle=None, unit_name=None, abs_value=None, imaginary_part_null=None, config=None, server=None):
         super().__init__(name="sweeping_phase", config = config, server = server)
         self.inputs = _InputsSweepingPhase(self)
@@ -1110,9 +1306,21 @@ class centroid_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.centroid_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.centroid_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_time_freq = float()
+      >>> op.inputs.time_freq.connect(my_time_freq)
+      >>> my_step = int()
+      >>> op.inputs.step.connect(my_step)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, time_freq=None, step=None, config=None, server=None):
         super().__init__(name="centroid_fc", config = config, server = server)
         self.inputs = _InputsCentroidFc(self)
@@ -1174,9 +1382,23 @@ class sweeping_phase_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sweeping_phase_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sweeping_phase_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_angle = float()
+      >>> op.inputs.angle.connect(my_angle)
+      >>> my_unit_name = str()
+      >>> op.inputs.unit_name.connect(my_unit_name)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, angle=None, unit_name=None, abs_value=None, config=None, server=None):
         super().__init__(name="sweeping_phase_fc", config = config, server = server)
         self.inputs = _InputsSweepingPhaseFc(self)
@@ -1232,9 +1454,17 @@ class sqr(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sqr()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sqr()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="sqr", config = config, server = server)
         self.inputs = _InputsSqr(self)
@@ -1281,9 +1511,17 @@ class sin(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sin()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sin()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="sin", config = config, server = server)
         self.inputs = _InputsSin(self)
@@ -1330,9 +1568,17 @@ class cos(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cos()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cos()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="cos", config = config, server = server)
         self.inputs = _InputsCos(self)
@@ -1379,9 +1625,17 @@ class cos_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cos_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cos_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="cos_fc", config = config, server = server)
         self.inputs = _InputsCosFc(self)
@@ -1440,9 +1694,25 @@ class linear_combination(Operator):
 
       Examples
       --------
-      >>> op = operators.math.linear_combination()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.linear_combination()
+
+      >>> # Make input connections
+      >>> my_a = float()
+      >>> op.inputs.a.connect(my_a)
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+      >>> my_b = float()
+      >>> op.inputs.b.connect(my_b)
+      >>> my_fields_containerC = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerC.connect(my_fields_containerC)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, a=None, fields_containerA=None, fields_containerB=None, b=None, fields_containerC=None, config=None, server=None):
         super().__init__(name="CplxOp", config = config, server = server)
         self.inputs = _InputsLinearCombination(self)
@@ -1501,9 +1771,17 @@ class sqr_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sqr_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sqr_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sqr_fc", config = config, server = server)
         self.inputs = _InputsSqrFc(self)
@@ -1550,9 +1828,17 @@ class sqrt(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sqrt()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sqrt()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="sqrt", config = config, server = server)
         self.inputs = _InputsSqrt(self)
@@ -1599,9 +1885,17 @@ class norm(Operator):
 
       Examples
       --------
-      >>> op = operators.math.norm()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.norm()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="norm", config = config, server = server)
         self.inputs = _InputsNorm(self)
@@ -1648,9 +1942,17 @@ class sqrt_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.sqrt_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.sqrt_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="sqrt_fc", config = config, server = server)
         self.inputs = _InputsSqrtFc(self)
@@ -1697,9 +1999,17 @@ class norm_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.norm_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.norm_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="norm_fc", config = config, server = server)
         self.inputs = _InputsNormFc(self)
@@ -1749,9 +2059,19 @@ class component_wise_divide(Operator):
 
       Examples
       --------
-      >>> op = operators.math.component_wise_divide()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.component_wise_divide()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="component_wise_divide", config = config, server = server)
         self.inputs = _InputsComponentWiseDivide(self)
@@ -1804,9 +2124,19 @@ class component_wise_divide_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.component_wise_divide_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.component_wise_divide_fc()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, config=None, server=None):
         super().__init__(name="component_wise_divide_fc", config = config, server = server)
         self.inputs = _InputsComponentWiseDivideFc(self)
@@ -1859,9 +2189,19 @@ class kronecker_prod(Operator):
 
       Examples
       --------
-      >>> op = operators.math.kronecker_prod()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.kronecker_prod()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="kronecker_prod", config = config, server = server)
         self.inputs = _InputsKroneckerProd(self)
@@ -1911,9 +2251,17 @@ class real_part(Operator):
 
       Examples
       --------
-      >>> op = operators.math.real_part()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.real_part()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="realP_part", config = config, server = server)
         self.inputs = _InputsRealPart(self)
@@ -1960,9 +2308,17 @@ class conjugate(Operator):
 
       Examples
       --------
-      >>> op = operators.math.conjugate()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.conjugate()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="conjugate", config = config, server = server)
         self.inputs = _InputsConjugate(self)
@@ -2009,9 +2365,17 @@ class img_part(Operator):
 
       Examples
       --------
-      >>> op = operators.math.img_part()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.img_part()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="img_part", config = config, server = server)
         self.inputs = _InputsImgPart(self)
@@ -2061,9 +2425,19 @@ class amplitude(Operator):
 
       Examples
       --------
-      >>> op = operators.math.amplitude()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.amplitude()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="amplitude", config = config, server = server)
         self.inputs = _InputsAmplitude(self)
@@ -2116,9 +2490,19 @@ class cplx_add(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cplx_add()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cplx_add()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, config=None, server=None):
         super().__init__(name="cplx_add", config = config, server = server)
         self.inputs = _InputsCplxAdd(self)
@@ -2171,9 +2555,19 @@ class cplx_dot(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cplx_dot()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cplx_dot()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, config=None, server=None):
         super().__init__(name="cplx_dot", config = config, server = server)
         self.inputs = _InputsCplxDot(self)
@@ -2226,9 +2620,19 @@ class cplx_divide(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cplx_divide()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cplx_divide()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, config=None, server=None):
         super().__init__(name="cplx_divide", config = config, server = server)
         self.inputs = _InputsCplxDivide(self)
@@ -2281,9 +2685,19 @@ class dot(Operator):
 
       Examples
       --------
-      >>> op = operators.math.dot()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.dot()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="dot", config = config, server = server)
         self.inputs = _InputsDot(self)
@@ -2333,9 +2747,17 @@ class cplx_derive(Operator):
 
       Examples
       --------
-      >>> op = operators.math.cplx_derive()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.cplx_derive()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="cplx_derive", config = config, server = server)
         self.inputs = _InputsCplxDerive(self)
@@ -2382,9 +2804,17 @@ class polar_to_cplx(Operator):
 
       Examples
       --------
-      >>> op = operators.math.polar_to_cplx()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.polar_to_cplx()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="polar_to_cplx", config = config, server = server)
         self.inputs = _InputsPolarToCplx(self)
@@ -2431,9 +2861,17 @@ class amplitude_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.amplitude_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.amplitude_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="amplitude_fc", config = config, server = server)
         self.inputs = _InputsAmplitudeFc(self)
@@ -2483,9 +2921,19 @@ class scale_by_field(Operator):
 
       Examples
       --------
-      >>> op = operators.math.scale_by_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.scale_by_field()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="scale_by_field", config = config, server = server)
         self.inputs = _InputsScaleByField(self)
@@ -2538,9 +2986,19 @@ class generalized_inner_product_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.generalized_inner_product_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.generalized_inner_product_fc()
+
+      >>> # Make input connections
+      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
+      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field_or_fields_container_A=None, field_or_fields_container_B=None, config=None, server=None):
         super().__init__(name="generalized_inner_product_fc", config = config, server = server)
         self.inputs = _InputsGeneralizedInnerProductFc(self)
@@ -2593,9 +3051,19 @@ class phase(Operator):
 
       Examples
       --------
-      >>> op = operators.math.phase()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.phase()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="phase", config = config, server = server)
         self.inputs = _InputsPhase(self)
@@ -2648,9 +3116,19 @@ class scale_by_field_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.scale_by_field_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.scale_by_field_fc()
+
+      >>> # Make input connections
+      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
+      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field_or_fields_container_A=None, field_or_fields_container_B=None, config=None, server=None):
         super().__init__(name="scale_by_field_fc", config = config, server = server)
         self.inputs = _InputsScaleByFieldFc(self)
@@ -2700,9 +3178,17 @@ class phase_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.phase_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.phase_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="phase_fc", config = config, server = server)
         self.inputs = _InputsPhaseFc(self)
@@ -2749,9 +3235,17 @@ class modulus(Operator):
 
       Examples
       --------
-      >>> op = operators.math.modulus()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.modulus()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="modulus", config = config, server = server)
         self.inputs = _InputsModulus(self)
@@ -2798,9 +3292,17 @@ class accumulate_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.accumulate_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.accumulate_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="accumulate_fc", config = config, server = server)
         self.inputs = _InputsAccumulateFc(self)
@@ -2850,9 +3352,19 @@ class generalized_inner_product(Operator):
 
       Examples
       --------
-      >>> op = operators.math.generalized_inner_product()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.generalized_inner_product()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="generalized_inner_product", config = config, server = server)
         self.inputs = _InputsGeneralizedInnerProduct(self)
@@ -2905,9 +3417,19 @@ class overall_dot(Operator):
 
       Examples
       --------
-      >>> op = operators.math.overall_dot()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.overall_dot()
+
+      >>> # Make input connections
+      >>> my_FieldA = dpf.Field()
+      >>> op.inputs.FieldA.connect(my_FieldA)
+      >>> my_FieldB = dpf.Field()
+      >>> op.inputs.FieldB.connect(my_FieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, FieldA=None, FieldB=None, config=None, server=None):
         super().__init__(name="native::overall_dot", config = config, server = server)
         self.inputs = _InputsOverallDot(self)
@@ -2957,9 +3479,17 @@ class invert(Operator):
 
       Examples
       --------
-      >>> op = operators.math.invert()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.invert()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="invert", config = config, server = server)
         self.inputs = _InputsInvert(self)
@@ -3009,9 +3539,19 @@ class dot_tensor(Operator):
 
       Examples
       --------
-      >>> op = operators.math.dot_tensor()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.dot_tensor()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="dot_tensor", config = config, server = server)
         self.inputs = _InputsDotTensor(self)
@@ -3061,9 +3601,17 @@ class average_over_label_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.average_over_label_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.average_over_label_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="average_over_label_fc", config = config, server = server)
         self.inputs = _InputsAverageOverLabelFc(self)
@@ -3110,9 +3658,17 @@ class accumulate_over_label_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.accumulate_over_label_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.accumulate_over_label_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="accumulate_over_label_fc", config = config, server = server)
         self.inputs = _InputsAccumulateOverLabelFc(self)
@@ -3159,9 +3715,17 @@ class accumulate_level_over_label_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.math.accumulate_level_over_label_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.accumulate_level_over_label_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="accumulate_level_over_label_fc", config = config, server = server)
         self.inputs = _InputsAccumulateLevelOverLabelFc(self)
@@ -3192,7 +3756,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from mapdlOperatorsCore.dll plugin, from "math" category
+"""Operators from mapdlOperatorsCore plugin, from "math" category
 """
 
 #internal name: expansion::modal_superposition
@@ -3229,9 +3793,23 @@ class modal_superposition(Operator):
 
       Examples
       --------
-      >>> op = operators.math.modal_superposition()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.math.modal_superposition()
+
+      >>> # Make input connections
+      >>> my_modal_basis = dpf.FieldsContainer()
+      >>> op.inputs.modal_basis.connect(my_modal_basis)
+      >>> my_solution_in_modal_space = dpf.FieldsContainer()
+      >>> op.inputs.solution_in_modal_space.connect(my_solution_in_modal_space)
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, modal_basis=None, solution_in_modal_space=None, time_scoping=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="expansion::modal_superposition", config = config, server = server)
         self.inputs = _InputsModalSuperposition(self)

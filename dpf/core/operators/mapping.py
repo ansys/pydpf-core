@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "mapping" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "mapping" category
 """
 
 #internal name: solid_to_skin
@@ -38,9 +38,19 @@ class solid_to_skin(Operator):
 
       Examples
       --------
-      >>> op = operators.mapping.solid_to_skin()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mapping.solid_to_skin()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_mesh_scoping = dpf.MeshedRegion()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="solid_to_skin", config = config, server = server)
         self.inputs = _InputsSolidToSkin(self)
@@ -102,9 +112,25 @@ class on_coordinates(Operator):
 
       Examples
       --------
-      >>> op = operators.mapping.on_coordinates()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mapping.on_coordinates()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_coordinates = dpf.Field()
+      >>> op.inputs.coordinates.connect(my_coordinates)
+      >>> my_create_support = bool()
+      >>> op.inputs.create_support.connect(my_create_support)
+      >>> my_mapping_on_scoping = bool()
+      >>> op.inputs.mapping_on_scoping.connect(my_mapping_on_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, coordinates=None, create_support=None, mapping_on_scoping=None, mesh=None, config=None, server=None):
         super().__init__(name="mapping", config = config, server = server)
         self.inputs = _InputsOnCoordinates(self)
@@ -166,9 +192,19 @@ class scoping_on_coordinates(Operator):
 
       Examples
       --------
-      >>> op = operators.mapping.scoping_on_coordinates()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mapping.scoping_on_coordinates()
+
+      >>> # Make input connections
+      >>> my_coordinates = dpf.Field()
+      >>> op.inputs.coordinates.connect(my_coordinates)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_scoping = op.outputs.scoping()"""
     def __init__(self, coordinates=None, mesh=None, config=None, server=None):
         super().__init__(name="scoping::on_coordinates", config = config, server = server)
         self.inputs = _InputsScopingOnCoordinates(self)

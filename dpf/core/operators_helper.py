@@ -43,16 +43,16 @@ def sum(var_inp):
     --------
     Sum element volume using a model
 
-    >>> from ansys.dpf import core
-    >>> model = core.Model(filename)
-    >>> e_vol model.element_volume()
+    >>> from ansys.dpf import core as dpf
+    >>> model = dpf.Model(filename)
+    >>> e_vol = model.results.element_volume()
     >>> total_volume = e_vol.sum()
 
     Sum element volume using dpf.core.sum
 
-    >>> model = core.Model(filename)
-    >>> e_vol model.element_volume()
-    >>> total_volume = dpf.core.sum(e_vol)
+    >>> model = dpf.Model(filename)
+    >>> e_vol = model.results.element_volume()
+    >>> total_volume = dpf.sum(e_vol)
     """
     typ_err = TypeError('Input must be a Field or FieldsContainer containing '
                         'only one field, or an operator that returns one Field')
@@ -347,11 +347,11 @@ def element_dot(a, b):
     --------
     Compute the element-wise dot product
 
-    >>> from ansys.dpf import core
+    >>> from ansys.dpf import core as dpf
     >>> data = np.random.random((10, 3))
-    >>> field_a = core.field_from_array(data)
-    >>> field_b = core.field_from_array(data)
-    >>> fout = core.element_dot(field_a, field_b)
+    >>> field_a = dpf.field_from_array(data)
+    >>> field_b = dpf.field_from_array(data)
+    >>> fout = dpf.element_dot(field_a, field_b)
     >>> fout.shape
     (10, 1)
 
@@ -390,15 +390,17 @@ def sqr(field):
     --------
     Using built-in operator
 
-    >>> field = dpf.core.field_from_array([1, 8])
+    >>> from ansys.dpf import core as dpf
+    >>> field = dpf.field_from_array([1, 8])
     >>> field_sqr = field**2
     >>> print(field_sqr.data)
     [1, 64]
 
     Using operator method
 
-    >>> field = dpf.core.field_from_array([1, 8])
-    >>> field_sqr = dpf.core.operators.sqr(field)
+    >>> from ansys.dpf import core as dpf
+    >>> field = dpf.field_from_array([1, 8])
+    >>> field_sqr = dpf.operators_helper.sqr(field)
     >>> print(field_sqr.data)
     [1, 64]
 
@@ -428,14 +430,14 @@ def dot_tensor(a, b):
 
     Examples
     --------
-    >>> from ansys import dpf
+    >>> from ansys.dpf import core as dpf
     >>> arr_a = np.ones((5, 3))
     >>> arr_a[:, 2] = 0
     >>> arr_b = np.ones((5, 3))
     >>> arr_b[:, 1] = 0
-    >>> field_a = dpf.core.field_from_array(arr_a)
-    >>> field_b = dpf.core.field_from_array(arr_b)
-    >>> field_out = dpf.core.operators.dot_tensor(field_a, field_b)
+    >>> field_a = dpf.field_from_array(arr_a)
+    >>> field_b = dpf.field_from_array(arr_b)
+    >>> field_out = dpf.operators_helper.dot_tensor(field_a, field_b)
     >>> print(field_out.asarray)
     array([[1., 1., 0., 0., 0., 0., 1., 1., 0.],
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],

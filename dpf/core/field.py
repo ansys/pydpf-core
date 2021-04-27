@@ -45,8 +45,8 @@ class Field:
     >>> # 1. Create a field from scratch
     >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf.core import locations
-    >>> from ansys.dpf import core
-    >>> field_with_classic_api = core.Field()
+    >>> from ansys.dpf import core as dpf
+    >>> field_with_classic_api = dpf.Field()
     >>> field_with_classic_api.location = locations.scalar
     >>> field_with_factory = fields_factory.create_scalar_field(10)
     
