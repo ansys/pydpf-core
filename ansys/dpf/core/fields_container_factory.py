@@ -39,9 +39,9 @@ def over_time_freq_fields_container(fields, time_freq_unit = None, server = None
     --------
     Create a fields container based on time labels from scratch
     
-    >>> from ansys.dpf import core
-    >>> field1 = core.Field()
-    >>> field2 = core.Field()
+    >>> from ansys.dpf import core as dpf
+    >>> field1 = dpf.Field()
+    >>> field2 = dpf.Field()
     >>> from ansys.dpf.core import fields_container_factory
     >>> fields_container_factory.over_time_freq_fields_container([ field1, field2 ])    
     """

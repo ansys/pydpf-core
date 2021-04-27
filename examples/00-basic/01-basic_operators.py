@@ -89,7 +89,35 @@ field_max = mm_op.outputs.field_max()
 print(field_max)
 print(field_max.data)
 
-
 ###############################################################################
 # Plot the displacement
 print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
+
+###############################################################################
+# Scripting operators syntax
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+# DPF is also providing a scripting syntax where knowing 
+# the operator "string name" is not mandatory. 
+# Here is a similar script as above using this syntax. 
+
+###############################################################################
+# Instead of using a model class instance, let's directly use a 
+# datasources object. The DataSources constructor input is a path. 
+ds = dpf.DataSources(examples.static_rst)
+print(examples.static_rst)
+
+###############################################################################
+# Let's instantiate the operators and connect them together. 
+
+disp_op = dpf.operators.result.displacement()
+disp_op.inputs.data_sources.connect(ds)
+norm_op = dpf.operators.math.norm_fc()
+norm_op.inputs.connect(disp_op.outputs)
+mm_op = dpf.operators.min_max.min_max_fc()
+mm_op.inputs.connect(norm_op.outputs)
+
+###############################################################################
+# Let's get the output and print the result data. 
+
+field_max = mm_op.outputs.field_max()
+print(field_max.data)

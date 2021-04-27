@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "scoping" category
+"""Operators from Ans.Dpf.Native plugin, from "scoping" category
 """
 
 #internal name: GetElementScopingFromMesh
@@ -35,9 +35,17 @@ class elemental_from_mesh(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.elemental_from_mesh()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.elemental_from_mesh()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="GetElementScopingFromMesh", config = config, server = server)
         self.inputs = _InputsElementalFromMesh(self)
@@ -90,9 +98,20 @@ class intersect(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.intersect()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.intersect()
+
+      >>> # Make input connections
+      >>> my_scopingA = dpf.Scoping()
+      >>> op.inputs.scopingA.connect(my_scopingA)
+      >>> my_scopingB = dpf.Scoping()
+      >>> op.inputs.scopingB.connect(my_scopingB)
+
+      >>> # Get output data
+      >>> result_intersection = op.outputs.intersection()
+      >>> result_scopingA_min_intersection = op.outputs.scopingA_min_intersection()"""
     def __init__(self, scopingA=None, scopingB=None, config=None, server=None):
         super().__init__(name="scoping::intersect", config = config, server = server)
         self.inputs = _InputsIntersect(self)
@@ -152,9 +171,22 @@ class connectivity_ids(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.connectivity_ids()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.connectivity_ids()
+
+      >>> # Make input connections
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_take_mid_nodes = bool()
+      >>> op.inputs.take_mid_nodes.connect(my_take_mid_nodes)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()
+      >>> result_elemental_scoping = op.outputs.elemental_scoping()"""
     def __init__(self, mesh_scoping=None, mesh=None, take_mid_nodes=None, config=None, server=None):
         super().__init__(name="scoping::connectivity_ids", config = config, server = server)
         self.inputs = _InputsConnectivityIds(self)
@@ -223,9 +255,27 @@ class on_property(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.on_property()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.on_property()
+
+      >>> # Make input connections
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_property_name = str()
+      >>> op.inputs.property_name.connect(my_property_name)
+      >>> my_property_id = int()
+      >>> op.inputs.property_id.connect(my_property_id)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_inclusive = int()
+      >>> op.inputs.inclusive.connect(my_inclusive)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, requested_location=None, property_name=None, property_id=None, streams_container=None, data_sources=None, inclusive=None, config=None, server=None):
         super().__init__(name="scoping_provider_by_prop", config = config, server = server)
         self.inputs = _InputsOnProperty(self)
@@ -295,9 +345,21 @@ class transpose(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.transpose()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.transpose()
+
+      >>> # Make input connections
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_meshed_region = dpf.MeshedRegion()
+      >>> op.inputs.meshed_region.connect(my_meshed_region)
+      >>> my_inclusive = int()
+      >>> op.inputs.inclusive.connect(my_inclusive)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, mesh_scoping=None, meshed_region=None, inclusive=None, config=None, server=None):
         super().__init__(name="transpose_scoping", config = config, server = server)
         self.inputs = _InputsTranspose(self)
@@ -356,9 +418,21 @@ class rescope_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.rescope_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.rescope_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_default_value = float()
+      >>> op.inputs.default_value.connect(my_default_value)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, mesh_scoping=None, default_value=None, config=None, server=None):
         super().__init__(name="Rescope_fc", config = config, server = server)
         self.inputs = _InputsRescopeFc(self)
@@ -423,9 +497,25 @@ class splitted_on_property_type(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.splitted_on_property_type()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.splitted_on_property_type()
+
+      >>> # Make input connections
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_label1 = str()
+      >>> op.inputs.label1.connect(my_label1)
+      >>> my_label2 = str()
+      >>> op.inputs.label2.connect(my_label2)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, mesh_scoping=None, mesh=None, requested_location=None, label1=None, label2=None, config=None, server=None):
         super().__init__(name="scoping::by_property", config = config, server = server)
         self.inputs = _InputsSplittedOnPropertyType(self)
@@ -492,9 +582,21 @@ class rescope(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.rescope()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.rescope()
+
+      >>> # Make input connections
+      >>> my_fields = dpf.FieldsContainer()
+      >>> op.inputs.fields.connect(my_fields)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_default_value = float()
+      >>> op.inputs.default_value.connect(my_default_value)
+
+      >>> # Get output data
+      >>> result_fields = op.outputs.fields()"""
     def __init__(self, fields=None, mesh_scoping=None, default_value=None, config=None, server=None):
         super().__init__(name="Rescope", config = config, server = server)
         self.inputs = _InputsRescope(self)
@@ -559,9 +661,25 @@ class on_named_selection(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.on_named_selection()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.on_named_selection()
+
+      >>> # Make input connections
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+      >>> my_named_selection_name = str()
+      >>> op.inputs.named_selection_name.connect(my_named_selection_name)
+      >>> my_int_inclusive = int()
+      >>> op.inputs.int_inclusive.connect(my_int_inclusive)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, requested_location=None, named_selection_name=None, int_inclusive=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="scoping_provider_by_ns", config = config, server = server)
         self.inputs = _InputsOnNamedSelection(self)
@@ -620,9 +738,17 @@ class nodal_from_mesh(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.nodal_from_mesh()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.nodal_from_mesh()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="GetNodeScopingFromMesh", config = config, server = server)
         self.inputs = _InputsNodalFromMesh(self)
@@ -672,9 +798,19 @@ class change_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.change_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.change_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_scopings_container = dpf.ScopingsContainer()
+      >>> op.inputs.scopings_container.connect(my_scopings_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, scopings_container=None, config=None, server=None):
         super().__init__(name="rescope_fc", config = config, server = server)
         self.inputs = _InputsChangeFc(self)
@@ -708,7 +844,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "scoping" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "scoping" category
 """
 
 #internal name: MeshScopingProvider
@@ -739,9 +875,19 @@ class from_mesh(Operator):
 
       Examples
       --------
-      >>> op = operators.scoping.from_mesh()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.scoping.from_mesh()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+
+      >>> # Get output data
+      >>> result_scoping = op.outputs.scoping()"""
     def __init__(self, mesh=None, requested_location=None, config=None, server=None):
         super().__init__(name="MeshScopingProvider", config = config, server = server)
         self.inputs = _InputsFromMesh(self)

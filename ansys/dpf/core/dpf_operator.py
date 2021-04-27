@@ -44,15 +44,15 @@ class Operator:
     --------
     Create an operator from a string
 
-    >>> from ansys.dpf import core
-    >>> disp_oper = core.Operator('U')
+    >>> from ansys.dpf import core as dpf
+    >>> disp_oper = dpf.operators.result.displacement()
 
     Create an operator from a model
 
-    >>> from ansys.dpf import core    
+    >>> from ansys.dpf.core import Model 
     >>> from ansys.dpf.core import examples
-    >>> model = core.Model(examples.static_rst)
-    >>> disp_oper = model.operator('U')
+    >>> model = Model(examples.static_rst)
+    >>> disp_oper = model.results.displacement()
     """
 
     def __init__(self, name, config = None, server=None):
@@ -90,8 +90,10 @@ class Operator:
 
         Examples
         --------
-        disp_oper = model.displacement()
-        generates: model.displacement().X() model.displacement().Y() model.displacement().Z()
+        >>> disp_oper = model.results.displacement()
+        >>> disp_x = model.results.displacement().X()
+        >>> disp_y = model.results.displacement().Y()
+        >>> disp_z = model.results.displacement().Z()
         """
         for result_type in sub_results:
             bound_method = self._sub_result_op.__get__(self, self.__class__)
@@ -125,9 +127,9 @@ class Operator:
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> print(data_src)
-        >>> disp_op = dpf.Operator('U')
+        >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
-        >>> max_fc_op = dpf.Operator('min_max_fc')
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc()
         >>> max_fc_op.inputs.connect(disp_op.outputs)
         >>> max_field = max_fc_op.outputs.field_max()
         >>> max_field.data

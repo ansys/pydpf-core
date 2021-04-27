@@ -33,7 +33,11 @@ class TimeFreqSupport:
     Examples
     --------
     Create a TimeFreqSupport from a model.
-
+    
+    >>> from ansys.dpf.core import Model
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = Model(transient)
     >>> time_freq_support = model.metadata.time_freq_support
     >>> print(time_freq_support)
     Time/Frequency Info:
@@ -422,24 +426,25 @@ class TimeFreqSupport:
         
         Example
         -------
-        >>> from ansys.dpf import core
+        >>> from ansys.dpf.core import TimeFreqSupport
         
-        >>> tfq = core.TimeFreqSupport()
+        >>> tfq = TimeFreqSupport()
         >>> tfq.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0)
         >>> tfq.append_step(2, [1.1, 2.0], rpm_value = 2.3)
         
-        >>> tfq2 = core.TimeFreqSupport()
+        >>> tfq2 = TimeFreqSupport()
         >>> tfq2.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = [1.0, 2.0, 3.0])
         >>> tfq2.append_step(2, [1.1, 2.0], rpm_value = 2.3, step_harmonic_indices = [1.0, 2.0])
         >>> tfq2.append_step(3, [0.23, 0.25], rpm_value = 3.0, step_harmonic_indices = [1.0, 2.0])
         
-        >>> tfq3 = core.TimeFreqSupport()
+        >>> tfq3 = TimeFreqSupport()
         >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = { 1 : [1.0, 2.0, 3.0], 2 : [1.0, 2.0, 2.5])
         """ 
         
         time_frequencies = self.time_frequencies
         if time_frequencies is None:
             time_frequencies = core.Field(server=self._server, nature=core.natures.scalar, location=core.locations.time_freq)
+            time_frequencies.scoping.location = core.locations.time_freq_step
         time_frequencies.append(step_time_frequencies, step_id)
         self.time_frequencies = time_frequencies
         
@@ -447,6 +452,7 @@ class TimeFreqSupport:
             complex_frequencies = self.complex_frequencies
             if complex_frequencies is None:
                 complex_frequencies = core.Field(server=self._server, nature=core.natures.scalar, location=core.locations.time_freq)
+                complex_frequencies.scoping.location = core.locations.time_freq_step
             complex_frequencies.append(step_complex_frequencies, step_id)
             self.complex_frequencies = complex_frequencies
             
@@ -480,6 +486,7 @@ class TimeFreqSupport:
         harmonic_indices = self.get_harmonic_indices(stage_num)
         if harmonic_indices is None:
             harmonic_indices = core.Field(server=self._server, nature=core.natures.scalar, location=core.locations.time_freq)
+            harmonic_indices.scoping.location = core.locations.time_freq_step
         harmonic_indices.append(step_harmonic_indices, step_id)
         self.set_harmonic_indices(harmonic_indices, stage_num)
 

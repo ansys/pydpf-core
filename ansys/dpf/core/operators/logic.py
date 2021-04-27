@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "logic" category
+"""Operators from Ans.Dpf.Native plugin, from "logic" category
 """
 
 #internal name: compare::mesh
@@ -21,8 +21,8 @@ class _InputsIdenticalMeshes(_Inputs):
         self._inputs.append(self.meshB)
         self.small_value = Input(identical_meshes._spec().input_pin(2), 2, op, -1) 
         self._inputs.append(self.small_value)
-        self.tolerence = Input(identical_meshes._spec().input_pin(3), 3, op, -1) 
-        self._inputs.append(self.tolerence)
+        self.tolerance = Input(identical_meshes._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self.tolerance)
 
 class _OutputsIdenticalMeshes(_Outputs):
     def __init__(self, op: Operator):
@@ -37,17 +37,31 @@ class identical_meshes(Operator):
          meshA (MeshedRegion)
          meshB (MeshedRegion)
          small_value (float)
-         tolerence (float)
+         tolerance (float)
 
       available outputs:
          are_identical (bool)
 
       Examples
       --------
-      >>> op = operators.logic.identical_meshes()
+      >>> from ansys.dpf import core as dpf
 
-    """
-    def __init__(self, meshA=None, meshB=None, small_value=None, tolerence=None, config=None, server=None):
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.identical_meshes()
+
+      >>> # Make input connections
+      >>> my_meshA = dpf.MeshedRegion()
+      >>> op.inputs.meshA.connect(my_meshA)
+      >>> my_meshB = dpf.MeshedRegion()
+      >>> op.inputs.meshB.connect(my_meshB)
+      >>> my_small_value = float()
+      >>> op.inputs.small_value.connect(my_small_value)
+      >>> my_tolerance = float()
+      >>> op.inputs.tolerance.connect(my_tolerance)
+
+      >>> # Get output data
+      >>> result_are_identical = op.outputs.are_identical()"""
+    def __init__(self, meshA=None, meshB=None, small_value=None, tolerance=None, config=None, server=None):
         super().__init__(name="compare::mesh", config = config, server = server)
         self.inputs = _InputsIdenticalMeshes(self)
         self.outputs = _OutputsIdenticalMeshes(self)
@@ -57,8 +71,8 @@ class identical_meshes(Operator):
             self.inputs.meshB.connect(meshB)
         if small_value !=None:
             self.inputs.small_value.connect(small_value)
-        if tolerence !=None:
-            self.inputs.tolerence.connect(tolerence)
+        if tolerance !=None:
+            self.inputs.tolerance.connect(tolerance)
 
     @staticmethod
     def _spec():
@@ -67,7 +81,7 @@ class identical_meshes(Operator):
                                  0 : PinSpecification(name = "meshA", type_names=["abstract_meshed_region"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "meshB", type_names=["abstract_meshed_region"], optional=False, document=""""""), 
                                  2 : PinSpecification(name = "small_value", type_names=["double"], optional=False, document="""define what is a small value for numeric comparison."""), 
-                                 3 : PinSpecification(name = "tolerence", type_names=["double"], optional=False, document="""define the relative tolerence ceil for numeric comparison.""")},
+                                 3 : PinSpecification(name = "tolerance", type_names=["double"], optional=False, document="""define the relative tolerance ceil for numeric comparison.""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "are_identical", type_names=["bool"], optional=False, document="""""")})
         return spec
@@ -105,9 +119,19 @@ class component_selector_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.component_selector_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.component_selector_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_component_number = int()
+      >>> op.inputs.component_number.connect(my_component_number)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, component_number=None, config=None, server=None):
         super().__init__(name="component_selector_fc", config = config, server = server)
         self.inputs = _InputsComponentSelectorFc(self)
@@ -163,9 +187,21 @@ class component_selector(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.component_selector()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.component_selector()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_component_number = int()
+      >>> op.inputs.component_number.connect(my_component_number)
+      >>> my_default_value = float()
+      >>> op.inputs.default_value.connect(my_default_value)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, component_number=None, default_value=None, config=None, server=None):
         super().__init__(name="component_selector", config = config, server = server)
         self.inputs = _InputsComponentSelector(self)
@@ -224,9 +260,20 @@ class identical_property_fields(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.identical_property_fields()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.identical_property_fields()
+
+      >>> # Make input connections
+      >>> my_property_fieldA = dpf.MeshedRegion()
+      >>> op.inputs.property_fieldA.connect(my_property_fieldA)
+      >>> my_property_fieldB = dpf.MeshedRegion()
+      >>> op.inputs.property_fieldB.connect(my_property_fieldB)
+
+      >>> # Get output data
+      >>> result_are_identical = op.outputs.are_identical()
+      >>> result_informations = op.outputs.informations()"""
     def __init__(self, property_fieldA=None, property_fieldB=None, config=None, server=None):
         super().__init__(name="compare::property_field", config = config, server = server)
         self.inputs = _InputsIdenticalPropertyFields(self)
@@ -289,9 +336,24 @@ class merge_fields_by_label(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.merge_fields_by_label()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.merge_fields_by_label()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_label = str()
+      >>> op.inputs.label.connect(my_label)
+      >>> my_merged_field_support = dpf.AbstractFieldSupport()
+      >>> op.inputs.merged_field_support.connect(my_merged_field_support)
+      >>> my_sumMerge = bool()
+      >>> op.inputs.sumMerge.connect(my_sumMerge)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_merged_field_support = op.outputs.merged_field_support()"""
     def __init__(self, fields_container=None, label=None, merged_field_support=None, sumMerge=None, config=None, server=None):
         super().__init__(name="merge::fields_container_label", config = config, server = server)
         self.inputs = _InputsMergeFieldsByLabel(self)
@@ -348,9 +410,17 @@ class solid_shell_fields(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.solid_shell_fields()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.solid_shell_fields()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="merge::solid_shell_fields", config = config, server = server)
         self.inputs = _InputsSolidShellFields(self)
@@ -409,9 +479,24 @@ class identical_fields(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.identical_fields()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.identical_fields()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+      >>> my_double_value = float()
+      >>> op.inputs.double_value.connect(my_double_value)
+      >>> my_double_tolerance = float()
+      >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+
+      >>> # Get output data
+      >>> result_boolean = op.outputs.boolean()
+      >>> result_message = op.outputs.message()"""
     def __init__(self, fieldA=None, fieldB=None, double_value=None, double_tolerance=None, config=None, server=None):
         super().__init__(name="AreFieldsIdentical", config = config, server = server)
         self.inputs = _InputsIdenticalFields(self)
@@ -480,9 +565,24 @@ class included_fields(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.included_fields()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.included_fields()
+
+      >>> # Make input connections
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
+      >>> my_double_value = float()
+      >>> op.inputs.double_value.connect(my_double_value)
+      >>> my_double_tolerance = float()
+      >>> op.inputs.double_tolerance.connect(my_double_tolerance)
+
+      >>> # Get output data
+      >>> result_included = op.outputs.included()
+      >>> result_message = op.outputs.message()"""
     def __init__(self, fieldA=None, fieldB=None, double_value=None, double_tolerance=None, config=None, server=None):
         super().__init__(name="Are_fields_included", config = config, server = server)
         self.inputs = _InputsIncludedFields(self)
@@ -551,9 +651,24 @@ class identical_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.identical_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.identical_fc()
+
+      >>> # Make input connections
+      >>> my_fields_containerA = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerA.connect(my_fields_containerA)
+      >>> my_fields_containerB = dpf.FieldsContainer()
+      >>> op.inputs.fields_containerB.connect(my_fields_containerB)
+      >>> my_tolerance = float()
+      >>> op.inputs.tolerance.connect(my_tolerance)
+      >>> my_small_value = float()
+      >>> op.inputs.small_value.connect(my_small_value)
+
+      >>> # Get output data
+      >>> result_boolean = op.outputs.boolean()
+      >>> result_message = op.outputs.message()"""
     def __init__(self, fields_containerA=None, fields_containerB=None, tolerance=None, small_value=None, config=None, server=None):
         super().__init__(name="AreFieldsIdentical_fc", config = config, server = server)
         self.inputs = _InputsIdenticalFc(self)
@@ -612,9 +727,17 @@ class enrich_materials(Operator):
 
       Examples
       --------
-      >>> op = operators.logic.enrich_materials()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.logic.enrich_materials()
+
+      >>> # Make input connections
+      >>> my_streams = dpf.StreamsContainer()
+      >>> op.inputs.streams.connect(my_streams)
+
+      >>> # Get output data
+      >>> result_MaterialContainer = op.outputs.MaterialContainer()"""
     def __init__(self, streams=None, config=None, server=None):
         super().__init__(name="enrich_materials", config = config, server = server)
         self.inputs = _InputsEnrichMaterials(self)

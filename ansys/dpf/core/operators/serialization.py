@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "serialization" category
+"""Operators from Ans.Dpf.Native plugin, from "serialization" category
 """
 
 #internal name: serializer
@@ -41,9 +41,21 @@ class serializer(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.serializer()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.serializer()
+
+      >>> # Make input connections
+      >>> my_file_path = str()
+      >>> op.inputs.file_path.connect(my_file_path)
+      >>> my_any_input1 = dpf.Any()
+      >>> op.inputs.any_input1.connect(my_any_input1)
+      >>> my_any_input2 = dpf.Any()
+      >>> op.inputs.any_input2.connect(my_any_input2)
+
+      >>> # Get output data
+      >>> result_file_path = op.outputs.file_path()"""
     def __init__(self, file_path=None, any_input1=None, any_input2=None, config=None, server=None):
         super().__init__(name="serializer", config = config, server = server)
         self.inputs = _InputsSerializer(self)
@@ -103,9 +115,21 @@ class mechanical_csv_to_field(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.mechanical_csv_to_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.mechanical_csv_to_field()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_requested_location = str()
+      >>> op.inputs.requested_location.connect(my_requested_location)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, mesh=None, data_sources=None, requested_location=None, config=None, server=None):
         super().__init__(name="mechanical_csv_to_field", config = config, server = server)
         self.inputs = _InputsMechanicalCsvToField(self)
@@ -164,9 +188,20 @@ class field_to_csv(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.field_to_csv()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.field_to_csv()
+
+      >>> # Make input connections
+      >>> my_field_or_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+      >>> my_file_path = str()
+      >>> op.inputs.file_path.connect(my_file_path)
+      >>> my_storage_type = int()
+      >>> op.inputs.storage_type.connect(my_storage_type)
+
+      >>> # Get output data"""
     def __init__(self, field_or_fields_container=None, file_path=None, storage_type=None, config=None, server=None):
         super().__init__(name="field_to_csv", config = config, server = server)
         self.inputs = _InputsFieldToCsv(self)
@@ -219,9 +254,18 @@ class deserializer(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.deserializer()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.deserializer()
+
+      >>> # Make input connections
+      >>> my_file_path = str()
+      >>> op.inputs.file_path.connect(my_file_path)
+
+      >>> # Get output data
+      >>> result_any_output1 = op.outputs.any_output1()
+      >>> result_any_output2 = op.outputs.any_output2()"""
     def __init__(self, file_path=None, config=None, server=None):
         super().__init__(name="deserializer", config = config, server = server)
         self.inputs = _InputsDeserializer(self)
@@ -272,9 +316,19 @@ class csv_to_field(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.csv_to_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.csv_to_field()
+
+      >>> # Make input connections
+      >>> my_time_scoping = dpf.Scoping()
+      >>> op.inputs.time_scoping.connect(my_time_scoping)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, data_sources=None, config=None, server=None):
         super().__init__(name="csv_to_field", config = config, server = server)
         self.inputs = _InputsCsvToField(self)
@@ -308,7 +362,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from meshOperatorsCore.dll plugin, from "serialization" category
+"""Operators from meshOperatorsCore plugin, from "serialization" category
 """
 
 #internal name: vtk_export
@@ -344,9 +398,22 @@ class vtk_export(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.vtk_export()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.vtk_export()
+
+      >>> # Make input connections
+      >>> my_file_path = str()
+      >>> op.inputs.file_path.connect(my_file_path)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_fields1 = dpf.FieldsContainer()
+      >>> op.inputs.fields1.connect(my_fields1)
+      >>> my_fields2 = dpf.FieldsContainer()
+      >>> op.inputs.fields2.connect(my_fields2)
+
+      >>> # Get output data"""
     def __init__(self, file_path=None, mesh=None, fields1=None, fields2=None, config=None, server=None):
         super().__init__(name="vtk_export", config = config, server = server)
         self.inputs = _InputsVtkExport(self)
@@ -408,9 +475,21 @@ class vtk_to_fields(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.vtk_to_fields()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.vtk_to_fields()
+
+      >>> # Make input connections
+      >>> my_field_name = str()
+      >>> op.inputs.field_name.connect(my_field_name)
+      >>> my_streams = dpf.StreamsContainer()
+      >>> op.inputs.streams.connect(my_streams)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field_name=None, streams=None, data_sources=None, config=None, server=None):
         super().__init__(name="vtk::vtk::FieldProvider", config = config, server = server)
         self.inputs = _InputsVtkToFields(self)
@@ -469,9 +548,21 @@ class migrate_file_to_vtk(Operator):
 
       Examples
       --------
-      >>> op = operators.serialization.migrate_file_to_vtk()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.serialization.migrate_file_to_vtk()
+
+      >>> # Make input connections
+      >>> my_output_filename = str()
+      >>> op.inputs.output_filename.connect(my_output_filename)
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+
+      >>> # Get output data
+      >>> result_data_sources = op.outputs.data_sources()"""
     def __init__(self, output_filename=None, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="vtk::migrate_file", config = config, server = server)
         self.inputs = _InputsMigrateFileToVtk(self)

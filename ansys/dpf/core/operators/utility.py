@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "utility" category
+"""Operators from Ans.Dpf.Native plugin, from "utility" category
 """
 
 #internal name: InjectToFieldContainer
@@ -35,9 +35,17 @@ class field_to_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.field_to_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.field_to_fc()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="InjectToFieldContainer", config = config, server = server)
         self.inputs = _InputsFieldToFc(self)
@@ -83,9 +91,16 @@ class html_doc(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.html_doc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.html_doc()
+
+      >>> # Make input connections
+      >>> my_output_path = str()
+      >>> op.inputs.output_path.connect(my_output_path)
+
+      >>> # Get output data"""
     def __init__(self, output_path=None, config=None, server=None):
         super().__init__(name="html_doc", config = config, server = server)
         self.inputs = _InputsHtmlDoc(self)
@@ -132,9 +147,17 @@ class unitary_field(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.unitary_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.unitary_field()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="make_unit", config = config, server = server)
         self.inputs = _InputsUnitaryField(self)
@@ -184,9 +207,19 @@ class extract_field(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.extract_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.extract_field()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.Field()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_indeces = dpf.list()
+      >>> op.inputs.indeces.connect(my_indeces)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, fields_container=None, indeces=None, config=None, server=None):
         super().__init__(name="ExtractFromFC", config = config, server = server)
         self.inputs = _InputsExtractField(self)
@@ -239,9 +272,19 @@ class bind_support(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.bind_support()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.bind_support()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_support = dpf.MeshedRegion()
+      >>> op.inputs.support.connect(my_support)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, support=None, config=None, server=None):
         super().__init__(name="BindSupport", config = config, server = server)
         self.inputs = _InputsBindSupport(self)
@@ -291,9 +334,17 @@ class scalars_to_field(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.scalars_to_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.scalars_to_field()
+
+      >>> # Make input connections
+      >>> my_double_or_vector_double = float()
+      >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, double_or_vector_double=None, config=None, server=None):
         super().__init__(name="fieldify", config = config, server = server)
         self.inputs = _InputsScalarsToField(self)
@@ -343,9 +394,19 @@ class change_location(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.change_location()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.change_location()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_new_location = str()
+      >>> op.inputs.new_location.connect(my_new_location)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, new_location=None, config=None, server=None):
         super().__init__(name="change_location", config = config, server = server)
         self.inputs = _InputsChangeLocation(self)
@@ -395,9 +456,17 @@ class strain_from_voigt(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.strain_from_voigt()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.strain_from_voigt()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="strain_from_voigt", config = config, server = server)
         self.inputs = _InputsStrainFromVoigt(self)
@@ -452,9 +521,21 @@ class set_property(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.set_property()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.set_property()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_property_name = str()
+      >>> op.inputs.property_name.connect(my_property_name)
+      >>> my_property_value = str()
+      >>> op.inputs.property_value.connect(my_property_value)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, property_name=None, property_value=None, config=None, server=None):
         super().__init__(name="field::set_property", config = config, server = server)
         self.inputs = _InputsSetProperty(self)
@@ -507,9 +588,17 @@ class forward_field(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.forward_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.forward_field()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="forward_field", config = config, server = server)
         self.inputs = _InputsForwardField(self)
@@ -556,9 +645,17 @@ class forward_fields_container(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.forward_fields_container()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.forward_fields_container()
+
+      >>> # Make input connections
+      >>> my_fields = dpf.FieldsContainer()
+      >>> op.inputs.fields.connect(my_fields)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields=None, config=None, server=None):
         super().__init__(name="forward_fc", config = config, server = server)
         self.inputs = _InputsForwardFieldsContainer(self)
@@ -608,9 +705,19 @@ class forward_meshes_container(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.forward_meshes_container()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.forward_meshes_container()
+
+      >>> # Make input connections
+      >>> my_meshes = dpf.MeshesContainer()
+      >>> op.inputs.meshes.connect(my_meshes)
+      >>> my_default_label = str()
+      >>> op.inputs.default_label.connect(my_default_label)
+
+      >>> # Get output data
+      >>> result_meshes_container = op.outputs.meshes_container()"""
     def __init__(self, meshes=None, default_label=None, config=None, server=None):
         super().__init__(name="forward_meshes_container", config = config, server = server)
         self.inputs = _InputsForwardMeshesContainer(self)
@@ -659,9 +766,17 @@ class forward(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.forward()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.forward()
+
+      >>> # Make input connections
+      >>> my_any = dpf.Any()
+      >>> op.inputs.any.connect(my_any)
+
+      >>> # Get output data
+      >>> result_any = op.outputs.any()"""
     def __init__(self, any=None, config=None, server=None):
         super().__init__(name="forward", config = config, server = server)
         self.inputs = _InputsForward(self)
@@ -708,9 +823,18 @@ class txt_file_to_dpf(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.txt_file_to_dpf()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.txt_file_to_dpf()
+
+      >>> # Make input connections
+      >>> my_input_string = str()
+      >>> op.inputs.input_string.connect(my_input_string)
+
+      >>> # Get output data
+      >>> result_any_output1 = op.outputs.any_output1()
+      >>> result_any_output2 = op.outputs.any_output2()"""
     def __init__(self, input_string=None, config=None, server=None):
         super().__init__(name="text_parser", config = config, server = server)
         self.inputs = _InputsTxtFileToDpf(self)
@@ -761,9 +885,19 @@ class bind_support_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.bind_support_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.bind_support_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_support = dpf.MeshedRegion()
+      >>> op.inputs.support.connect(my_support)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, support=None, config=None, server=None):
         super().__init__(name="BindSupportFC", config = config, server = server)
         self.inputs = _InputsBindSupportFc(self)
@@ -818,9 +952,20 @@ class python_generator(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.python_generator()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.python_generator()
+
+      >>> # Make input connections
+      >>> my_dll_source_path = str()
+      >>> op.inputs.dll_source_path.connect(my_dll_source_path)
+      >>> my_output_path = str()
+      >>> op.inputs.output_path.connect(my_output_path)
+      >>> my_overwrite_existing_files = bool()
+      >>> op.inputs.overwrite_existing_files.connect(my_overwrite_existing_files)
+
+      >>> # Get output data"""
     def __init__(self, dll_source_path=None, output_path=None, overwrite_existing_files=None, config=None, server=None):
         super().__init__(name="python_generator", config = config, server = server)
         self.inputs = _InputsPythonGenerator(self)
@@ -857,7 +1002,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "utility" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "utility" category
 """
 
 #internal name: change_shellLayers
@@ -888,9 +1033,19 @@ class change_shell_layers(Operator):
 
       Examples
       --------
-      >>> op = operators.utility.change_shell_layers()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.utility.change_shell_layers()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_e_shell_layer = int()
+      >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, e_shell_layer=None, config=None, server=None):
         super().__init__(name="change_shellLayers", config = config, server = server)
         self.inputs = _InputsChangeShellLayers(self)

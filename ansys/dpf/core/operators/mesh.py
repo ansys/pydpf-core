@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "mesh" category
+"""Operators from Ans.Dpf.Native plugin, from "mesh" category
 """
 
 #internal name: mesh::node_coordinates
@@ -37,9 +37,17 @@ class node_coordinates(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.node_coordinates()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.node_coordinates()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_coordinates = op.outputs.coordinates()"""
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="mesh::node_coordinates", config = config, server = server)
         self.inputs = _InputsNodeCoordinates(self)
@@ -86,9 +94,17 @@ class from_field(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.from_field()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.from_field()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="GetSupportFromField", config = config, server = server)
         self.inputs = _InputsFromField(self)
@@ -141,9 +157,21 @@ class mesh_provider(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.mesh_provider()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.mesh_provider()
+
+      >>> # Make input connections
+      >>> my_streams_container = dpf.StreamsContainer()
+      >>> op.inputs.streams_container.connect(my_streams_container)
+      >>> my_data_sources = dpf.DataSources()
+      >>> op.inputs.data_sources.connect(my_data_sources)
+      >>> my_read_cyclic = int()
+      >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()"""
     def __init__(self, streams_container=None, data_sources=None, config=None, server=None):
         super().__init__(name="MeshProvider", config = config, server = server)
         self.inputs = _InputsMeshProvider(self)
@@ -178,7 +206,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils.dll plugin, from "mesh" category
+"""Operators from Ans.Dpf.FEMutils plugin, from "mesh" category
 """
 
 #internal name: mesh::points_from_coordinates
@@ -209,9 +237,19 @@ class points_from_coordinates(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.points_from_coordinates()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.points_from_coordinates()
+
+      >>> # Make input connections
+      >>> my_nodes_to_keep = dpf.Scoping()
+      >>> op.inputs.nodes_to_keep.connect(my_nodes_to_keep)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_meshed_region = op.outputs.meshed_region()"""
     def __init__(self, nodes_to_keep=None, mesh=None, config=None, server=None):
         super().__init__(name="mesh::points_from_coordinates", config = config, server = server)
         self.inputs = _InputsPointsFromCoordinates(self)
@@ -267,9 +305,21 @@ class split_mesh(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.split_mesh()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.split_mesh()
+
+      >>> # Make input connections
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_property = str()
+      >>> op.inputs.property.connect(my_property)
+
+      >>> # Get output data
+      >>> result_mesh_controller = op.outputs.mesh_controller()"""
     def __init__(self, mesh_scoping=None, mesh=None, property=None, config=None, server=None):
         super().__init__(name="split_mesh", config = config, server = server)
         self.inputs = _InputsSplitMesh(self)
@@ -328,9 +378,21 @@ class from_scoping(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.from_scoping()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.from_scoping()
+
+      >>> # Make input connections
+      >>> my_scoping = dpf.Scoping()
+      >>> op.inputs.scoping.connect(my_scoping)
+      >>> my_inclusive = int()
+      >>> op.inputs.inclusive.connect(my_inclusive)
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()"""
     def __init__(self, scoping=None, inclusive=None, mesh=None, config=None, server=None):
         super().__init__(name="mesh::by_scoping", config = config, server = server)
         self.inputs = _InputsFromScoping(self)
@@ -386,9 +448,19 @@ class split_fields(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.split_fields()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.split_fields()
+
+      >>> # Make input connections
+      >>> my_field_or_fields_container = dpf.Field()
+      >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
+      >>> my_mesh_controller = dpf.MeshesContainer()
+      >>> op.inputs.mesh_controller.connect(my_mesh_controller)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, field_or_fields_container=None, mesh_controller=None, config=None, server=None):
         super().__init__(name="split_fields", config = config, server = server)
         self.inputs = _InputsSplitFields(self)
@@ -422,7 +494,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from meshOperatorsCore.dll plugin, from "mesh" category
+"""Operators from meshOperatorsCore plugin, from "mesh" category
 """
 
 #internal name: meshed_skin_sector_triangle
@@ -453,9 +525,18 @@ class tri_mesh_skin(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.tri_mesh_skin()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.tri_mesh_skin()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()
+      >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()"""
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="meshed_skin_sector_triangle", config = config, server = server)
         self.inputs = _InputsTriMeshSkin(self)
@@ -512,9 +593,23 @@ class mesh_cut(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.mesh_cut()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.mesh_cut()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_iso_value = float()
+      >>> op.inputs.iso_value.connect(my_iso_value)
+      >>> my_closed_surface = float()
+      >>> op.inputs.closed_surface.connect(my_closed_surface)
+      >>> my_slice_surfaces = bool()
+      >>> op.inputs.slice_surfaces.connect(my_slice_surfaces)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()"""
     def __init__(self, field=None, iso_value=None, closed_surface=None, slice_surfaces=None, config=None, server=None):
         super().__init__(name="mesh_cut", config = config, server = server)
         self.inputs = _InputsMeshCut(self)
@@ -576,9 +671,19 @@ class external_layer(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.external_layer()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.external_layer()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()
+      >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+      >>> result_elements_mesh_scoping = op.outputs.elements_mesh_scoping()"""
     def __init__(self, mesh=None, config=None, server=None):
         super().__init__(name="meshed_external_layer_sector", config = config, server = server)
         self.inputs = _InputsExternalLayer(self)
@@ -636,9 +741,22 @@ class skin(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.skin()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.skin()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_mesh_scoping = dpf.Scoping()
+      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+
+      >>> # Get output data
+      >>> result_mesh = op.outputs.mesh()
+      >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
+      >>> result_map_new_elements_to_old = op.outputs.map_new_elements_to_old()
+      >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()"""
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="meshed_skin_sector", config = config, server = server)
         self.inputs = _InputsSkin(self)
@@ -694,9 +812,19 @@ class stl_export(Operator):
 
       Examples
       --------
-      >>> op = operators.mesh.stl_export()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.mesh.stl_export()
+
+      >>> # Make input connections
+      >>> my_mesh = dpf.MeshedRegion()
+      >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_file_path = str()
+      >>> op.inputs.file_path.connect(my_file_path)
+
+      >>> # Get output data
+      >>> result_data_sources = op.outputs.data_sources()"""
     def __init__(self, mesh=None, file_path=None, config=None, server=None):
         super().__init__(name="stl_export", config = config, server = server)
         self.inputs = _InputsStlExport(self)

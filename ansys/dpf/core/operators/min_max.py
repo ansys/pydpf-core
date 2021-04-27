@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native.dll plugin, from "min_max" category
+"""Operators from Ans.Dpf.Native plugin, from "min_max" category
 """
 
 #internal name: min_max_by_time
@@ -38,9 +38,18 @@ class min_max_by_time(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_by_time()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_by_time()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_min = op.outputs.min()
+      >>> result_max = op.outputs.max()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="min_max_by_time", config = config, server = server)
         self.inputs = _InputsMinMaxByTime(self)
@@ -97,9 +106,23 @@ class phase_of_max(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.phase_of_max()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.phase_of_max()
+
+      >>> # Make input connections
+      >>> my_real_field = dpf.Field()
+      >>> op.inputs.real_field.connect(my_real_field)
+      >>> my_imaginary_field = dpf.Field()
+      >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_phase_increment = float()
+      >>> op.inputs.phase_increment.connect(my_phase_increment)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, real_field=None, imaginary_field=None, abs_value=None, phase_increment=None, config=None, server=None):
         super().__init__(name="phase_of_max", config = config, server = server)
         self.inputs = _InputsPhaseOfMax(self)
@@ -161,9 +184,21 @@ class time_of_max_by_entity(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.time_of_max_by_entity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.time_of_max_by_entity()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_compute_amplitude = bool()
+      >>> op.inputs.compute_amplitude.connect(my_compute_amplitude)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
         super().__init__(name="time_of_max_by_entity", config = config, server = server)
         self.inputs = _InputsTimeOfMaxByEntity(self)
@@ -219,9 +254,18 @@ class min_max_by_entity(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_by_entity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_by_entity()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field_min = op.outputs.field_min()
+      >>> result_field_max = op.outputs.field_max()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="min_max_by_entity", config = config, server = server)
         self.inputs = _InputsMinMaxByEntity(self)
@@ -281,9 +325,22 @@ class min_max_over_time_by_entity(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_over_time_by_entity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_over_time_by_entity()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_compute_amplitude = bool()
+      >>> op.inputs.compute_amplitude.connect(my_compute_amplitude)
+
+      >>> # Get output data
+      >>> result_min = op.outputs.min()
+      >>> result_max = op.outputs.max()
+      >>> result_time_freq_of_min = op.outputs.time_freq_of_min()
+      >>> result_time_freq_of_max = op.outputs.time_freq_of_max()"""
     def __init__(self, fields_container=None, compute_amplitude=None, config=None, server=None):
         super().__init__(name="min_max_over_time_by_entity", config = config, server = server)
         self.inputs = _InputsMinMaxOverTimeByEntity(self)
@@ -342,9 +399,21 @@ class max_over_time_by_entity(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.max_over_time_by_entity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.max_over_time_by_entity()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_compute_amplitude = bool()
+      >>> op.inputs.compute_amplitude.connect(my_compute_amplitude)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
         super().__init__(name="max_over_time_by_entity", config = config, server = server)
         self.inputs = _InputsMaxOverTimeByEntity(self)
@@ -403,9 +472,21 @@ class min_over_time_by_entity(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_over_time_by_entity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_over_time_by_entity()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_compute_amplitude = bool()
+      >>> op.inputs.compute_amplitude.connect(my_compute_amplitude)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
         super().__init__(name="min_over_time_by_entity", config = config, server = server)
         self.inputs = _InputsMinOverTimeByEntity(self)
@@ -464,9 +545,21 @@ class time_of_min_by_entity(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.time_of_min_by_entity()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.time_of_min_by_entity()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_compute_amplitude = bool()
+      >>> op.inputs.compute_amplitude.connect(my_compute_amplitude)
+
+      >>> # Get output data
+      >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, fields_container=None, abs_value=None, compute_amplitude=None, config=None, server=None):
         super().__init__(name="time_of_min_by_entity", config = config, server = server)
         self.inputs = _InputsTimeOfMinByEntity(self)
@@ -528,9 +621,23 @@ class max_over_phase(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.max_over_phase()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.max_over_phase()
+
+      >>> # Make input connections
+      >>> my_real_field = dpf.Field()
+      >>> op.inputs.real_field.connect(my_real_field)
+      >>> my_imaginary_field = dpf.Field()
+      >>> op.inputs.imaginary_field.connect(my_imaginary_field)
+      >>> my_abs_value = bool()
+      >>> op.inputs.abs_value.connect(my_abs_value)
+      >>> my_phase_increment = float()
+      >>> op.inputs.phase_increment.connect(my_phase_increment)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, real_field=None, imaginary_field=None, abs_value=None, phase_increment=None, config=None, server=None):
         super().__init__(name="max_over_phase", config = config, server = server)
         self.inputs = _InputsMaxOverPhase(self)
@@ -589,9 +696,18 @@ class min_max(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+
+      >>> # Get output data
+      >>> result_field_min = op.outputs.field_min()
+      >>> result_field_max = op.outputs.field_max()"""
     def __init__(self, field=None, config=None, server=None):
         super().__init__(name="min_max", config = config, server = server)
         self.inputs = _InputsMinMax(self)
@@ -642,9 +758,18 @@ class min_max_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field_min = op.outputs.field_min()
+      >>> result_field_max = op.outputs.field_max()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="min_max_fc", config = config, server = server)
         self.inputs = _InputsMinMaxFc(self)
@@ -710,9 +835,24 @@ class min_max_over_label_fc(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_over_label_fc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_over_label_fc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+      >>> my_label = str()
+      >>> op.inputs.label.connect(my_label)
+
+      >>> # Get output data
+      >>> result_field_min = op.outputs.field_min()
+      >>> result_field_max = op.outputs.field_max()
+      >>> result_domain_ids_min = op.outputs.domain_ids_min()
+      >>> result_domain_ids_max = op.outputs.domain_ids_max()
+      >>> result_scoping_ids_min = op.outputs.scoping_ids_min()
+      >>> result_scoping_ids_max = op.outputs.scoping_ids_max()"""
     def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(name="min_max_over_label_fc", config = config, server = server)
         self.inputs = _InputsMinMaxOverLabelFc(self)
@@ -776,9 +916,23 @@ class min_by_component(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_by_component()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_by_component()
+
+      >>> # Make input connections
+      >>> my_use_absolute_value = bool()
+      >>> op.inputs.use_absolute_value.connect(my_use_absolute_value)
+      >>> my_fieldA1 = dpf.Field()
+      >>> op.inputs.fieldA1.connect(my_fieldA1)
+      >>> my_fieldA2 = dpf.Field()
+      >>> op.inputs.fieldA2.connect(my_fieldA2)
+      >>> my_fieldB2 = dpf.Field()
+      >>> op.inputs.fieldB2.connect(my_fieldB2)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, use_absolute_value=None, fieldA1=None, fieldA2=None, fieldB2=None, config=None, server=None):
         super().__init__(name="min_by_component", config = config, server = server)
         self.inputs = _InputsMinByComponent(self)
@@ -843,9 +997,23 @@ class max_by_component(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.max_by_component()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.max_by_component()
+
+      >>> # Make input connections
+      >>> my_use_absolute_value = bool()
+      >>> op.inputs.use_absolute_value.connect(my_use_absolute_value)
+      >>> my_fieldA1 = dpf.Field()
+      >>> op.inputs.fieldA1.connect(my_fieldA1)
+      >>> my_fieldA2 = dpf.Field()
+      >>> op.inputs.fieldA2.connect(my_fieldA2)
+      >>> my_fieldB2 = dpf.Field()
+      >>> op.inputs.fieldB2.connect(my_fieldB2)
+
+      >>> # Get output data
+      >>> result_field = op.outputs.field()"""
     def __init__(self, use_absolute_value=None, fieldA1=None, fieldA2=None, fieldB2=None, config=None, server=None):
         super().__init__(name="max_by_component", config = config, server = server)
         self.inputs = _InputsMaxByComponent(self)
@@ -904,9 +1072,18 @@ class min_max_fc_inc(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_fc_inc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_fc_inc()
+
+      >>> # Make input connections
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
+
+      >>> # Get output data
+      >>> result_field_min = op.outputs.field_min()
+      >>> result_field_max = op.outputs.field_max()"""
     def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="min_max_fc_inc", config = config, server = server)
         self.inputs = _InputsMinMaxFcInc(self)
@@ -966,9 +1143,22 @@ class min_max_inc(Operator):
 
       Examples
       --------
-      >>> op = operators.min_max.min_max_inc()
+      >>> from ansys.dpf import core as dpf
 
-    """
+      >>> # Instantiate operator
+      >>> op = dpf.operators.min_max.min_max_inc()
+
+      >>> # Make input connections
+      >>> my_field = dpf.Field()
+      >>> op.inputs.field.connect(my_field)
+      >>> my_domain_id = int()
+      >>> op.inputs.domain_id.connect(my_domain_id)
+
+      >>> # Get output data
+      >>> result_field_min = op.outputs.field_min()
+      >>> result_field_max = op.outputs.field_max()
+      >>> result_domain_ids_min = op.outputs.domain_ids_min()
+      >>> result_domain_ids_max = op.outputs.domain_ids_max()"""
     def __init__(self, field=None, domain_id=None, config=None, server=None):
         super().__init__(name="min_max_inc", config = config, server = server)
         self.inputs = _InputsMinMaxInc(self)

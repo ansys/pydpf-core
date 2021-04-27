@@ -8,6 +8,7 @@
 __pycache__
 .pytest_cache
 .spyproject
+.vs
 
 #tests
 __pycache__
@@ -18,6 +19,7 @@ __pycache__
 
 #ansys/dpf/core
 /ansys/dpf/core/__pycache__
+/ansys/dpf/core/__pycache__/.vs
 
 #operators
 /ansys/dpf/core/operators/__pycache__

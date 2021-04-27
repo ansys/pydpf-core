@@ -29,16 +29,16 @@ class Model:
 
     Examples
     --------
-    >>> from ansys.dpf import core
+    >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
-    >>> model = core.Model(transient)
+    >>> model = dpf.Model(transient)
 
     Start a local DPF server and load a result file
 
-    >>> from ansys.dpf import core
-    >>> core.start_local_server()
-    >>> model = core.Model('file.rst')
+    >>> from ansys.dpf import core as dpf
+    >>> dpf.start_local_server()
+    >>> model = dpf.Model('file.rst')
     """
 
     def __init__(self, data_sources=None, server=None):
@@ -66,9 +66,14 @@ class Model:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        
         Get the meshed region of the model and extract the element
         numbers.
-
+        
         >>> meshed_region = model.metadata.meshed_region
         >>> meshed_region.elements.scoping.ids
         [760,
@@ -108,8 +113,13 @@ class Model:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        
         Print available results
-
+        
         >>> model.results
         Static analysis
         Unit system: Metric (m, kg, N, s, V, A)
@@ -134,7 +144,7 @@ class Model:
 
         Access an individual result operator.
 
-        >>> temp = model.results.temperature
+        >>> temp = model.results.temperature()
         >>> temp
         DPF "BFE" Operator
             Description:
@@ -158,12 +168,16 @@ class Model:
         Examples
         --------
         Create a displacement operator
-
-        >>> disp = model.operator('U')
-
+        
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        >>> disp = model.Operator('U')
+        
         Create a sum operator
 
-        >>> disp = model.operator('accumulate')
+        >>> disp = model.Operator('accumulate')
         """
         op = Operator(name= name, server = self._server)
         if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
@@ -189,7 +203,11 @@ class Model:
         Examples
         --------
         Plot the model with the default options.
-
+        
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
         >>> model.plot()
         """
         self.metadata.meshed_region.grid.plot(color=color,
@@ -228,6 +246,10 @@ class Results:
 
     Access the displacement operator
 
+    >>> from ansys.dpf.core import Model
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = Model(transient)
     >>> displacements = model.results.displacement()
 
     """
@@ -253,8 +275,14 @@ class Results:
 
         Examples
         --------
-        disp_oper = model.displacement()
-        generates: model.displacement().X() model.displacement().Y() model.displacement().Z()
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        >>> disp_oper = model.results.displacement()
+        >>> disp_x = model.results.displacement().X() 
+        >>> disp_y = model.results.displacement().Y() 
+        >>> disp_z = model.results.displacement().Z()
         """
         op = self._model.operator(name)
         op._add_sub_res_operators(sub_results)
@@ -272,7 +300,15 @@ class Results:
 
         Examples
         --------
-        generated: model.displacement(), model.stress()...
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        >>> disp_operator = model.results.displacement()
+        >>> stress_operator = model.results.stress()
+        >>> disp_x = model.results.displacement().X() 
+        >>> disp_y = model.results.displacement().Y() 
+        >>> disp_z = model.results.displacement().Z()
         """
         if self._result_info is None:
             return
@@ -284,6 +320,10 @@ class Results:
             method2 = functools.partial(bound_method,
                                         name=result_type.operator_name,
                                         sub_results=result_type.sub_results)
+            try: 
+                method2.__doc__ = Operator(result_type.operator_name).__str__()
+            except: 
+                print("Impossible to find this operator in the database: " + result_type.operator_name)
             setattr(self, result_type.name, method2)
             self._op_map_rev[result_type.name] = result_type.name
 
@@ -324,6 +364,11 @@ class Metadata:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        
         Get the number of sets from the result file.
 
         >>> tf = model.metadata.time_freq_support
@@ -360,12 +405,16 @@ class Metadata:
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        
         Connect the model data sources to the 'U' operator.
-
-        >>> ds = model.data_sources
-        >>> op = dpf.Operator('U')
+        
+        >>> ds = model.metadata.data_sources
+        >>> op = dpf.operators.result.displacement()
         >>> op.inputs.data_sources.connect(ds)
-
         """
         return self._data_sources
 

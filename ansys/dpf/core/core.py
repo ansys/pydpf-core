@@ -10,6 +10,7 @@ import grpc
 
 from ansys import dpf
 from ansys.grpc.dpf import base_pb2, base_pb2_grpc
+from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
@@ -40,12 +41,12 @@ def load_library(filename, name='', symbol="LoadOperators", server=None):
     --------
     Load the mapdl operators for Linux
 
-    >>> from ansys.dpf import core
-    >>> core.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
+    >>> from ansys.dpf import core as dpf
+    >>> dpf.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
 
     Load a new operators library
 
-    >>> core.load_library('someNewOperators.so', 'new_operators')
+    >>> dpf.load_library('someNewOperators.so', 'new_operators')
 
     """
     base = BaseService(server, load_operators=False)    
@@ -76,9 +77,9 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
           
     Examples
     --------
-    >>> from ansys.dpf import core
+    >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> file_path = core.upload_file_in_tmp_folder(examples.static_rst)
+    >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
     """
     base = BaseService(server, load_operators=False)    
     return base.upload_file_in_tmp_folder(file_path, new_file_name)
@@ -100,11 +101,11 @@ def download_file(server_file_path, to_client_file_path, server=None):
     
     Examples
     --------
-    >>> from ansys.dpf import core
+    >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> import os
-    >>> file_path = core.upload_file_in_tmp_folder(examples.static_rst)
-    >>> core.download_file(file_path,examples.static_rst)
+    >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
+    >>> core.download_file(file_path, examples.static_rst)
     """
     base = BaseService(server, load_operators=False)    
     return base.download_file(server_file_path, to_client_file_path)
@@ -154,9 +155,9 @@ class BaseService():
     Examples
     --------
     Connect to an existing DPF server
-    >>> from ansys.dpf import core
+    >>> from ansys.dpf import core as dpf
     >>> import grpc
-    >>> server = core.connect_to_server(ip='127.0.0.1', port = 50054)
+    >>> server = dpf.connect_to_server(ip='127.0.0.1', port = 50054)
     >>> core.BaseService(server=server)
     """
 
@@ -172,6 +173,7 @@ class BaseService():
         # these operators are included by default in v211
         if load_operators:
             self._load_math_operators()
+            self._load_hdf5_operators()
 
     def _connect(self, timeout=5):
         """Connect to dpf service within a given timeout"""
@@ -205,8 +207,8 @@ class BaseService():
         --------
         Load the mapdl operators for Linux
 
-        >>> from ansys.dpf import core
-        >>> base = core.BaseService()
+        >>> from ansys.dpf import core as dpf
+        >>> base = dpf.BaseService()
         >>> base.load_library('libmapdlOperatorsCore.so', 'mapdl_operators')
 
         Load a new operators library
@@ -225,7 +227,7 @@ class BaseService():
                           f' is missing dependencies:\n{str(e)}')
 
 
-    def _load_hdf5(self):
+    def _load_hdf5_operators(self):
         """Load HDF5 operators"""
         operator_name = 'hdf5'
         try:

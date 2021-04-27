@@ -188,12 +188,12 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     --------
     Connect to a remote server at a non-default port
 
-    >>> from ansys import dpf
-    >>> dpf.core.connect_to_server('10.0.0.1', 50055)
+    >>> from ansys.dpf import core as dpf
+    >>> dpf.connect_to_server('10.0.0.1', 50055)
 
     Connect to the localhost at the default port
 
-    >>> dpf.core.connect_to_server()
+    >>> dpf.connect_to_server()
     """
     server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False)
     dpf.core._server_instances.append(server)
