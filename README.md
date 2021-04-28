@@ -6,12 +6,26 @@ ANSYS Data Processing Framework.
 This API is currently a work in progress - things will break and change!
 
 
-## Get Started
+## Get Started as a public API consummer
 
-Clone or copy this directory and then install using:
+It is possible either to use:
 
 ```
-pip install . --user
+pip install ansys-dpf-core 
+```
+
+or clone or copy this directory at https://github.com/pyansys/DPF-Core and then install using:
+
+```
+pip install . --user 
 ```
 
 See the example scripts in the examples folder for some basic example.  More will be added later.
+
+## Get started as developer
+
+Clone the internal repository at https://tfs.ansys.com:8443/tfs/ANSYS_Development/DPF/_git/dpf-python-core and run:
+
+```
+pip install . --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
+```
