@@ -11,7 +11,7 @@ install_requires = ['pyvista>=0.24.0',
                     'psutil',
                     'pillow>=7.0.0',
                     'pexpect',
-                    'ansys.grpc.dpf>=0.2.3']
+                    'ansys.grpc.dpf']
 
 
 # Get version from version info
