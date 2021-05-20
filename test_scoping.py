@@ -72,6 +72,12 @@ def test_print_scoping():
     scop.ids= ids 
     print(scop)
 
+def test_iter_scoping():
+    scop = Scoping()
+    ids=[1,2,3,5,8,9,10]
+    scop.ids =ids
+    for i,id in enumerate(scop):
+        assert id == ids[i]
 
 def test_delete_scoping():
     scop = Scoping()

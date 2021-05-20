@@ -37,12 +37,16 @@ def test_vtk_grid_from_model(simple_bar_model):
 
 def test_get_element_type_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    assert mesh.elements.element_by_index(1).type == 11
+    assert mesh.elements.element_by_index(1).type.value == 11
+    assert mesh.elements.element_by_index(1).type == dpf.core.element_types.Hex8
     assert mesh.elements.element_by_index(1).shape == 'solid'
 
 
-def test_get_unit_meshedregion(simple_bar_model):
-    assert simple_bar_model.metadata.meshed_region.unit == 'm'
+def test_get_set_unit_meshedregion(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    assert mesh.unit == 'm'
+    mesh.unit = 'km'
+    assert mesh.unit == 'km'
 
 
 def test_get_node_meshedregion(simple_bar_model):
@@ -222,7 +226,20 @@ def test_create_meshed_region():
     assert mesh.elements.n_elements==1
     el =mesh.elements.element_by_id(1)
     assert el.shape =="shell"
-    assert el.type ==16
+    assert el.type.value ==16
+
+
+def test_connectivity_meshed_region():
+    mesh = test_create_all_shaped_meshed_region()    
+    connectivity = mesh.elements.connectivities_field
+    assert np.allclose(connectivity.get_entity_data_by_id(1),[0,1,2,3])
+    assert np.allclose(connectivity.get_entity_data(0),[0,1,2,3])
+    assert np.allclose(mesh.elements.element_by_id(1).connectivity,[0,1,2,3])
+    
+    nodal_conne = mesh.nodes.nodal_connectivity_field
+    assert np.allclose(nodal_conne.get_entity_data_by_id(1),[0])
+    assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity,[0])
+    
     
 def test_create_all_shaped_meshed_region():
     mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4)
@@ -252,20 +269,20 @@ def test_create_all_shaped_meshed_region():
     assert mesh.elements.n_elements==4
     el =mesh.elements.element_by_id(1)
     assert el.shape =="shell"
-    assert el.type ==16    
+    assert el.type.value ==16    
     
     el =mesh.elements.element_by_id(2)
     assert el.shape =="unknown_shape"
-    assert el.type ==9
+    assert el.type.value ==9
     assert el.nodes[0].index ==4
     
     el =mesh.elements.element_by_id(3)
-    assert el.type ==18
+    assert el.type.value ==18
     assert el.shape =="beam"
     assert len(el.nodes)==2
     
     el =mesh.elements.element_by_id(4)
-    assert el.type ==10
+    assert el.type.value ==10
     assert el.shape =="solid"
     assert len(el.nodes)==4
     return mesh
@@ -290,20 +307,20 @@ def test_create_with_yield_meshed_region():
     assert mesh.elements.n_elements==4
     el =mesh.elements.element_by_id(1)
     assert el.shape =="shell"
-    assert el.type ==16    
+    assert el.type.value ==16    
     
     el =mesh.elements.element_by_id(2)
     assert el.shape =="unknown_shape"
-    assert el.type ==9
+    assert el.type.value ==9
     assert el.nodes[0].index ==4
     
     el =mesh.elements.element_by_id(3)
-    assert el.type ==18
+    assert el.type.value ==18
     assert el.shape =="beam"
     assert len(el.nodes)==2
     
     el =mesh.elements.element_by_id(4)
-    assert el.type ==10
+    assert el.type.value ==10
     assert el.shape =="solid"
     assert len(el.nodes)==4
     
@@ -324,20 +341,20 @@ def test_create_by_copy_meshed_region():
     assert mesh.elements.n_elements==4
     el =mesh.elements.element_by_id(1)
     assert el.shape =="shell"
-    assert el.type ==16    
+    assert el.type.value ==16    
     
     el =mesh.elements.element_by_id(2)
     assert el.shape =="unknown_shape"
-    assert el.type ==9
+    assert el.type.value ==9
     assert el.nodes[0].index ==4
     
     el =mesh.elements.element_by_id(3)
-    assert el.type ==18
+    assert el.type.value ==18
     assert el.shape =="beam"
     assert len(el.nodes)==2
     
     el =mesh.elements.element_by_id(4)
-    assert el.type ==10
+    assert el.type.value ==10
     assert el.shape =="solid"
     assert len(el.nodes)==4
         

@@ -21,10 +21,9 @@ if ansys_path is None or invalid_version or is_ubuntu():
 def test_start_local():
     starting_server = id(core.SERVER)
     n_init = len(core._server_instances)
-    core.start_local_server(as_global=False, ansys_path =core.SERVER.ansys_path)
+    server = core.start_local_server(as_global=False, ansys_path =core.SERVER.ansys_path)
     assert len(core._server_instances) == n_init + 1
-    core._server_instances[-1].shutdown()
-    core._server_instances.pop(-1)
+    core._server_instances[-1]().shutdown()
 
     # ensure global channel didn't change
     assert starting_server == id(core.SERVER)
