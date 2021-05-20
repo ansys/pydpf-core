@@ -30,10 +30,12 @@ u_cyc = model.operator("mapdl::rst::U_cyclic")
 fields = u_cyc.outputs.fields_container()
 
 # # get the expanded mesh
-# mesh = u_cyc.outputs.expanded_meshes.get_data()
+mesh_provider = model.metadata.mesh_provider
+mesh_provider.inputs.read_cyclic(2)
+mesh = mesh_provider.outputs.mesh()
 
 # plot the expanded result on the expanded mesh
-# mesh.plot(fields[0])
+mesh.plot(fields[0])
 
 ###############################################################################
 # Expand stresses at a given time step
@@ -120,7 +122,6 @@ comp_sel.inputs.component_number.connect(1)
 
 # expand the displacements and get the resuls
 fields = comp_sel.outputs.fields_container()
-# mesh = scyc_op.outputs.expanded_meshed_region.get_data()
 
 # # plot the expanded result on the expanded mesh
-# mesh.plot(fields)
+mesh.plot(fields)

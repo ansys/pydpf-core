@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core.operators_helper import norm, min_max
+from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Begin by downloading the example transient result.  This result is
@@ -44,7 +44,7 @@ timeids = range(1, tf.n_sets + 1)  # must use 1-based indexing
 disp.inputs.time_scoping(timeids)
 
 # Then chain the displacement operator with norm and min_max operators
-min_max_op = min_max(norm(disp))
+min_max_op =ops.min_max.min_max_fc(ops.math.norm_fc(disp))
 
 min_disp = min_max_op.outputs.field_min()
 max_disp = min_max_op.outputs.field_max()
@@ -65,7 +65,7 @@ plt.show()
 # Plot the minimum and maximum displacements over time for the X
 # component.
 disp_z = disp.Z()
-min_max_op = min_max(norm(disp_z))
+min_max_op = ops.min_max.min_max_fc(ops.math.norm_fc(disp_z))
 
 min_disp_z = min_max_op.outputs.field_min()
 max_disp_z = min_max_op.outputs.field_max()
@@ -94,7 +94,7 @@ eqv.inputs.time_scoping(timeids)
 
 # connect to the min_max operator and return the minimum and maximum
 # fields
-min_max_eqv = min_max(eqv)
+min_max_eqv = ops.min_max.min_max_fc(eqv)
 eqv_min = min_max_eqv.outputs.field_min()
 eqv_max = min_max_eqv.outputs.field_max()
 

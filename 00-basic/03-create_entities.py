@@ -6,7 +6,7 @@ Create your own entities to use dpf's operators
 Create your own entities: field/fields container/meshed region 
 to use dpf'operators with your own data
 The ability to create any of dpf's entity in scripting allows to not depend on result files
-and to connect dpf's environement with any python tools
+and to connect dpf's environement with any python tools.
 """
 import numpy as np
 
@@ -49,8 +49,8 @@ coordinates = mesh.nodes.coordinates_field
 
 
 ###############################################################################
-# Set the coordinates unit
-coordinates.unit = "mm"
+# Set the mesh unit
+mesh.unit = "mm"
 
 coordinates_data = coordinates.data
 flat_coordinates_data = coordinates_data.reshape(coordinates_data.size)
@@ -102,9 +102,9 @@ time1_field.data = time1_array
 time2_field.data = time2_array
 time3_field.data = time3_array
 
-time1_field.unit = coordinates.unit
-time2_field.unit = coordinates.unit
-time3_field.unit = coordinates.unit
+time1_field.unit = mesh.unit
+time2_field.unit = mesh.unit
+time3_field.unit = mesh.unit
 
 
 ###############################################################################

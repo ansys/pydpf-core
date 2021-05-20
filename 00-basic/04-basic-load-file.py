@@ -65,7 +65,7 @@ os.remove(file_path)
 
 ###############################################################################
 # Download .csv result file
-# ~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~
 # Let's now download the simple_bar_fc.csv file.
 
 downloaded_client_file_path = os.getcwd() + '\\simple_bar_fc_downloaded.csv'
