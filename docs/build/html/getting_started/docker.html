@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Using DPF Through Docker &#8212; PyANSYS DPF 0.2.2 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.ee6fb81b276d6fba8a971ad8e9b95dd9.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ansys.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.c86189f1ce1b71a67eb6.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guide" href="../user_guide/index.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="install.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Using DPF Through Docker
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installing-the-dpf-image">
+   Installing the DPF Image
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-the-dpf-container-from-python">
+     Using the DPF Container from Python
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="using-dpf-through-docker">
+<span id="docker"></span><h1>Using DPF Through Docker<a class="headerlink" href="#using-dpf-through-docker" title="Permalink to this headline">¶</a></h1>
+<p>You can run DPF within a container on any OS using <cite>docker</cite>.</p>
+<p>There are several situations in which it is advantageous to run DPF
+in a containerized environment (e.g. Docker or singularity):</p>
+<ul class="simple">
+<li><p>Run in a consistent environment regardless of the host OS.</p></li>
+<li><p>Portability and ease of install.</p></li>
+<li><p>Large scale cluster deployment using Kubernetes</p></li>
+<li><p>Genuine application isolation through containerization.</p></li>
+</ul>
+<div class="section" id="installing-the-dpf-image">
+<h2>Installing the DPF Image<a class="headerlink" href="#installing-the-dpf-image" title="Permalink to this headline">¶</a></h2>
+<p>There is a docker image hosted on the <a class="reference external" href="https://https://github.com/pyansys/DPF-Core">DPF-Core GitHub</a> repository that you
+can download using your GitHub credentials.</p>
+<p>Assuming you have docker installed, you can get started by
+authorizing docker to access this repository using a personal access
+token.  Create a GH personal access token with <code class="docutils literal notranslate"><span class="pre">packages</span> <span class="pre">read</span></code> permissions
+according to <a class="reference external" href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">Creating a personal access token</a></p>
+<p>Save that token to a file with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span> <span class="o">&gt;</span> <span class="n">GH_TOKEN</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>This lets you send the token to docker without leaving the token value
+in your history.  Next, authorize docker to access this repository
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>GH_USERNAME=&lt;my-github-username&gt;
+cat GH_TOKEN.txt | docker login docker.pkg.github.com -u $GH_USERNAME --password-stdin
+</pre></div>
+</div>
+<p>You can now launch DPF directly from docker with a short script or
+directly from the command line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -it --rm -v `pwd`:/dpf -p 50054:50054 docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+</pre></div>
+</div>
+<p>Note that this command shares the current directory to the <code class="docutils literal notranslate"><span class="pre">/dpf</span></code>
+directory contained within the image.  This is necessary as the DPF
+binary within the image needs to access the files within the image
+itself.  Any files you wish to have DPF read will have to be placed in
+the <code class="docutils literal notranslate"><span class="pre">pwd</span></code>.  You can map other directories as needed, but these
+directories must be mapped to the <code class="docutils literal notranslate"><span class="pre">/dpf</span></code> directory for the server to
+see the files you wish it to read.</p>
+<div class="section" id="using-the-dpf-container-from-python">
+<h3>Using the DPF Container from Python<a class="headerlink" href="#using-the-dpf-container-from-python" title="Permalink to this headline">¶</a></h3>
+<p>Normally <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> attempts to start the DPF server at the first usage of a DPF class.  If you do not have ANSYS installed and simply wish to use the docker image, you can override this behavior by connecting to the DPF server on the port you mapped with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf_core</span>
+
+<span class="c1"># uses 127.0.0.1 and port 50054 by default</span>
+<span class="n">dpf_core</span><span class="o">.</span><span class="n">connect_to_server</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you wish to avoid having to run <code class="docutils literal notranslate"><span class="pre">connect_to_server</span></code> at the start of
+every script, you can tell <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> to always attempt to
+connect to DPF running within the docker image by setting the
+following environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">DPF_START_SERVER</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">export</span> <span class="n">DPF_PORT</span><span class="o">=</span><span class="mi">50054</span>
+</pre></div>
+</div>
+<p>Or on windows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">DPF_START_SERVER</span><span class="o">=</span><span class="kc">False</span>
+<span class="nb">set</span> <span class="n">DPF_PORT</span> <span class="mi">50054</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">DPF_PORT</span></code> environment variable is the port exposed from the
+DPF container and should match the first value within the <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">50054:50054</span></code> pair.</p>
+<p>And <code class="docutils literal notranslate"><span class="pre">DPF_START_SERVER</span></code> tells <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> not to start an
+instance and rather look for the service running at <code class="docutils literal notranslate"><span class="pre">DPF_IP</span></code> and
+<code class="docutils literal notranslate"><span class="pre">DPF_PORT</span></code>.  If those environment variables are undefined, they
+default to 127.0.0.1 and 50054 for <code class="docutils literal notranslate"><span class="pre">DPF_IP</span></code> and <code class="docutils literal notranslate"><span class="pre">DPF_PORT</span></code>
+respectively.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="install.html" title="previous page">Installation</a>
+    <a class='right-next' id="next-link" href="../user_guide/index.html" title="next page">User Guide</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+    
+  <script src="../_static/js/index.c86189f1ce1b71a67eb6.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, ANSYS.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

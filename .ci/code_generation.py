@@ -2,6 +2,8 @@ from ansys.dpf import core
 import os
 import glob
 from pathlib import Path
+import time
+import shutil
 
 if (os.environ.get('AWP_ROOTDV_DEV', False) is False):
     raise ValueError("AWP_ROOTDV_DEV environment variable is expected")
@@ -10,12 +12,16 @@ if os.name == 'posix':
     LIB_TO_GENERATE =["libAns.Dpf.Native.so",
                       "libAns.Dpf.FEMutils.so",
                       "libmapdlOperatorsCore.so",
-                      "libmeshOperatorsCore.so"]
+                      "libmeshOperatorsCore.so",
+                      "libAns.Dpf.Math.so",
+                      "libAns.Dpf.Hdf5.so"]
 else:
     LIB_TO_GENERATE =["Ans.Dpf.Native.dll",
                       "Ans.Dpf.FEMutils.dll",
                       "meshOperatorsCore.dll",
-                      "mapdlOperatorsCore.dll"]
+                      "mapdlOperatorsCore.dll",
+                      "Ans.Dpf.Math.dll",
+                      "Ans.Dpf.Hdf5.dll"]
 
 local_dir =os.path.dirname(os.path.abspath(__file__))
 TARGET_PATH = os.path.join(local_dir,os.pardir,"ansys", "dpf","core", "operators")
@@ -24,7 +30,10 @@ for f in files:
     if Path(f).stem=="specification":
         continue
     try:
-        os.remove(f)
+        if os.path.isdir(f):
+            shutil.rmtree(f)
+        else:            
+            os.remove(f)
     except:
         pass
 core.start_local_server(ansys_path= os.environ["AWP_ROOTDV_DEV"])
@@ -37,5 +46,6 @@ for lib in LIB_TO_GENERATE:
     else:        
         code_gen.connect(2,True)
     code_gen.run()
+    time.sleep(0.1)
 
 core.SERVER.shutdown()

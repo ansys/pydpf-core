@@ -1,0 +1,18 @@
+ansys.dpf.core.operators.mapping package
+========================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.mapping.on_coordinates
+   ansys.dpf.core.operators.mapping.scoping_on_coordinates
+   ansys.dpf.core.operators.mapping.solid_to_skin
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.mapping
+   :inherited-members:

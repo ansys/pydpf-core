@@ -3,6 +3,7 @@ import numpy as np
 import os
 
 from ansys import dpf
+from ansys.dpf import core
 from ansys.dpf.core.common import shell_layers, locations
 from ansys.dpf.core import FieldDefinition
 
@@ -129,11 +130,11 @@ def test_set_get_entity_data_array_field():
 #    assert scopingOut.ids == [1,2,3]
 #    dataptr = field.data_ptr
 #    assert dataptr == [0,3,9]
-
-
+        
+        
 def test_set_get_data_property_field():
-    field= dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
-    scoping = dpf.core.Scoping()
+    field= core.Field(nentities=20, nature=dpf.core.natures.scalar)
+    scoping = core.Scoping()
     ids = []
     data= []
     for i in range(0, 20):
@@ -308,6 +309,50 @@ def test_create_overall_field():
     data_added = field_added.data
     for i in range(0,5):
         assert np.allclose(data_added[i],[i*3.0+1.0,i*3.0+3.0,i*3.0+5.0])
+        
+
+def test_data_pointer_field(allkindofcomplexity):
+    dataSource = dpf.core.DataSources()
+    dataSource.set_result_file_path(allkindofcomplexity)
+    op = dpf.core.Operator("S")
+    op.connect(4, dataSource)
+
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    
+    data_pointer = fcOut[0]._data_pointer
+    assert len(data_pointer)==len(fcOut[0].scoping)
+    assert data_pointer[0] == 0
+    assert data_pointer[1] == 72  
+    
+    f = fcOut[0]
+    data_pointer[1] = 40
+    f._data_pointer = data_pointer
+    data_pointer = fcOut[0]._data_pointer
+    
+    assert len(data_pointer)==len(fcOut[0].scoping)
+    assert data_pointer[0] == 0
+    assert data_pointer[1] == 40      
+    
+
+def test_data_pointer_prop_field():
+    pfield = dpf.core.PropertyField()
+    pfield.append([1,2,3],1)
+    pfield.append([1,2,3,4],2)
+    pfield.append([1,2,3],3)
+    data_pointer = pfield._data_pointer
+    assert len(data_pointer)==3
+    assert data_pointer[0] == 0
+    assert data_pointer[1] == 3
+    assert data_pointer[2] == 7
+    
+    data_pointer[1]=4
+    pfield._data_pointer = data_pointer
+    data_pointer = pfield._data_pointer
+    assert len(data_pointer)==3
+    assert data_pointer[0] == 0
+    assert data_pointer[1] == 4
+    assert data_pointer[2] == 7
+    
 
 
 def test_append_data_elemental_nodal_field(allkindofcomplexity):
@@ -378,6 +423,7 @@ def test_delete_auto_field():
     with pytest.raises(Exception):
         field2.get_ids()
         
+        
 def test_create_and_update_field_definition():
     fieldDef = FieldDefinition()
     assert fieldDef is not None
@@ -385,4 +431,249 @@ def test_create_and_update_field_definition():
         assert fieldDef.location is None
     fieldDef.location = locations.nodal
     assert fieldDef.location == locations.nodal
+    
 
+def test_set_support_timefreq(simple_bar):
+    tfq = dpf.core.TimeFreqSupport()
+    time_frequencies = dpf.core.Field(nature=dpf.core.natures.scalar, location=dpf.core.locations.time_freq)
+    time_frequencies.scoping.location = dpf.core.locations.time_freq_step
+    time_frequencies.append([0.1, 0.32, 0.4], 1)
+    tfq.time_frequencies = time_frequencies
+    
+    model = dpf.core.Model(simple_bar)
+    disp = model.results.displacement()
+    fc = disp.outputs.fields_container()
+    field = fc[0]
+    
+    # initial_support = field.time_freq_support
+    # assert initial_support is None
+    field.time_freq_support = tfq
+    tfq_to_check = field.time_freq_support
+    assert np.allclose(tfq.time_frequencies.data, tfq_to_check.time_frequencies.data)
+    
+
+def test_set_support_mesh(simple_bar):
+    mesh = dpf.core.MeshedRegion()
+    mesh.nodes.add_node(1, [0.0,0.0,0.0])
+    
+    model = dpf.core.Model(simple_bar)
+    disp = model.results.displacement()
+    fc = disp.outputs.fields_container()
+    field = fc[0]
+    
+    field.meshed_region = mesh
+    mesh_to_check = field.meshed_region
+    assert mesh_to_check.nodes.n_nodes == 1
+    assert mesh_to_check.elements.n_elements == 0
+    
+    mesh.nodes.add_node(2, [1.0,0.0,0.0])
+    mesh.nodes.add_node(3, [1.0,1.0,0.0])
+    mesh.nodes.add_node(4,[0.0,1.0,0.0])
+    field.meshed_region = mesh
+    mesh_to_check_2 = field.meshed_region
+    assert mesh_to_check_2.nodes.n_nodes == 4
+    assert mesh_to_check_2.elements.n_elements == 0
+    
+    
+def test_local_field_append():        
+    num_entities = 400    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append([0.1*i,0.2*i, 0.3*i],i)    
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    for i in range(1,num_entities+1):
+        field.append([0.1*i,0.2*i, 0.3*i],i)
+        
+    assert np.allclose(field.data, field_to_local.data)
+    assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
+    assert len(field_to_local._data_pointer)==0
+
+    
+def test_local_elemental_nodal_field_append():        
+    num_entities = 100    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)    
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    for i in range(1,num_entities+1):
+        field.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
+        
+    assert np.allclose(field.data, field_to_local.data)
+    assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
+    assert len(field_to_local._data_pointer)==num_entities
+    
+    #flat data
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append([0.1*i,0.2*i, 0.3*i,0.1*i,0.2*i, 0.3*i],i)    
+
+    assert np.allclose(field.data, field_to_local.data)
+    assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
+    assert len(field_to_local._data_pointer)==num_entities
+    
+    
+def test_local_array_field_append():        
+    num_entities = 400    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append(np.array([0.1*i,0.2*i, 0.3*i]),i)    
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    for i in range(1,num_entities+1):
+        field.append(np.array([0.1*i,0.2*i, 0.3*i]),i)
+        
+    assert np.allclose(field.data, field_to_local.data)
+    assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
+    assert len(field_to_local._data_pointer)==0
+
+    
+def test_local_elemental_nodal_array_field_append():        
+    num_entities = 100    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)    
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    for i in range(1,num_entities+1):
+        field.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)
+        
+    assert np.allclose(field.data, field_to_local.data)
+    assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
+    assert len(field_to_local._data_pointer)==num_entities
+    
+    #flat data
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append(np.array([0.1*i,0.2*i, 0.3*i,0.1*i,0.2*i, 0.3*i]),i)    
+
+    assert np.allclose(field.data, field_to_local.data)
+    assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
+    assert len(field_to_local._data_pointer)==num_entities
+    
+
+def test_local_get_entity_data():
+    num_entities = 100    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append(np.array([[0.1*i,0.2*i, 0.3*i]]),i)
+            assert np.allclose(f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i]])
+            assert np.allclose(f.get_entity_data_by_id(i),[[0.1*i,0.2*i, 0.3*i]])
+    
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            assert np.allclose(f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i]])
+            assert np.allclose(f.get_entity_data_by_id(i),[[0.1*i,0.2*i, 0.3*i]])
+
+    
+def test_local_elemental_nodal_get_entity_data():
+    num_entities = 100    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            f.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)
+            assert np.allclose(f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]])
+            assert np.allclose(f.get_entity_data_by_id(i),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]])
+    
+    with field_to_local.as_local_field() as f:    
+        for i in range(1,num_entities+1):
+            assert np.allclose(f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]])
+            assert np.allclose(f.get_entity_data_by_id(i),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]])
+
+    
+def test_auto_delete_field_local():
+    num_entities = 1    
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, location=dpf.core.locations.elemental_nodal)
+    field_to_local.append([3.0,4.0,5.],1)
+    fc = dpf.core.fields_container_factory.over_time_freq_fields_container([field_to_local])
+    field_to_local = None
+    with fc[0].as_local_field() as f:
+        assert np.allclose(f.get_entity_data(0),[3.0,4.0,5.])
+
+def test_get_set_data_local_field():
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(2, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        f.data = [[0.1,0.2, 0.3],[0.1,0.2, 0.3]]
+        assert np.allclose(f.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+        
+    assert np.allclose(field_to_local.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    
+    with field_to_local.as_local_field() as f:    
+        f.data = [0.1,0.2, 0.3,0.1,0.2, 0.3]
+        assert np.allclose(f.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    assert np.allclose(field_to_local.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    
+    with field_to_local.as_local_field() as f:    
+        f.data = np.array([[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+        assert np.allclose(f.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    assert np.allclose(field_to_local.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+
+    
+def test_get_set_data_elemental_nodal_local_field():
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(2, location=dpf.core.locations.elemental_nodal)
+    with field_to_local.as_local_field() as f:    
+        f.data = [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]]
+        f._data_pointer = [0,6]
+        f.scoping_ids =[1,2]
+        assert np.allclose(f.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+        assert np.allclose(f._data_pointer, [0,6])
+        assert np.allclose(f.get_entity_data(0), [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+        assert np.allclose(f.get_entity_data(1), [[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+                           
+    assert np.allclose(field_to_local.data,  [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+    assert np.allclose(field_to_local._data_pointer, [0,6])
+    assert np.allclose(field_to_local.get_entity_data(0), [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    assert np.allclose(field_to_local.get_entity_data(1), [[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+                       
+    with field_to_local.as_local_field() as f:    
+        f.data = [0.1,0.2, 0.3,0.1,0.2, 0.3,0.1,0.2, 0.3,0.1,0.2, 0.4]
+        f._data_pointer = [0,6]
+        f.scoping_ids =[1,2]
+        assert np.allclose(f.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+        assert np.allclose(f._data_pointer, [0,6])
+        assert np.allclose(f.get_entity_data(0), [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+        assert np.allclose(f.get_entity_data(1), [[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+                           
+    assert np.allclose(field_to_local.data,  [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+    assert np.allclose(field_to_local._data_pointer, [0,6])
+    assert np.allclose(field_to_local.get_entity_data(0), [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    assert np.allclose(field_to_local.get_entity_data(1), [[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+    
+    with field_to_local.as_local_field() as f:    
+        f.data = np.array([[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+        f._data_pointer = [0,6]
+        f.scoping_ids =[1,2]
+        assert np.allclose(f.data, [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+        assert np.allclose(f._data_pointer, [0,6])
+        assert np.allclose(f.get_entity_data(0), [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+        assert np.allclose(f.get_entity_data(1), [[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+                           
+    assert np.allclose(field_to_local.data,  [[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+    assert np.allclose(field_to_local._data_pointer, [0,6])
+    assert np.allclose(field_to_local.get_entity_data(0), [[0.1,0.2, 0.3],[0.1,0.2, 0.3]])
+    assert np.allclose(field_to_local.get_entity_data(1), [[0.1,0.2, 0.3],[0.1,0.2, 0.4]])
+
+    
+        
+def test_empty_data_field():
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(100)
+    data=[1.,2.,3.]
+    field_to_local.data = data
+    assert np.allclose(field_to_local.data, data)
+    field_to_local.data=[]
+    assert len(field_to_local.data)==0
+    
+
+def test_set_data_numpy_array_field():
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(100)
+    arr = np.arange(300).reshape(100,3)
+    field_to_local.data = arr
+    assert np.allclose(field_to_local.data,arr)
+    
+    
+if __name__ == "__main__":
+    test_get_set_data_local_field()

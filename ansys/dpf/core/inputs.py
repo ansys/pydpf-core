@@ -133,8 +133,7 @@ class _Inputs:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
-        MeshedRegion, Output, Outputs, Operator
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, ScopingsContainer, CyclicSupport, ..., Output, Outputs, Operator
             input of the operator
         """
         corresponding_pins = []

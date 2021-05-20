@@ -141,8 +141,21 @@ def test_over_time_freq_complex_fields_container_3():
         fields_container_factory.over_time_freq_complex_fields_container({ 0.42 : f1, 1.10 : f2 }, 
                                                                   [ f1_im, f2_im ], "Hz")
     with pytest.raises(dpf_errors.DpfValueError):
-        fields_container_factory.over_time_freq_complex_fields_container([ f1, f2 ], 
+        fields_container_factory.over_time_freq_complex_fields_container([ f1, f2 ],
                                                                           { 0.42 : f1_im, 1.10 : f2_im }, "Hz")
+
+
+def test_over_time_freq_complex_int_fields_container():
+    freq = [25, 50,100, 200, 400]
+    reals={}
+    ims ={}
+    for k,f in enumerate(freq):
+        reals[f]=fields_factory.create_scalar_field(1)
+        ims[f]=fields_factory.create_scalar_field(1)
+    cplx_fc = fields_container_factory.over_time_freq_complex_fields_container(reals, ims,time_freq_unit="Hz")   
+    assert np.allclose(cplx_fc.time_freq_support.time_frequencies.data, freq)
+
+    
     
 def test_complex_fields_container():
     freal = fields_factory.create_scalar_field(25)

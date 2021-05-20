@@ -1,4 +1,5 @@
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
+from functools import wraps
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields can not be plotted. Use operators to get the amplitude
@@ -19,7 +20,7 @@ class DpfValueError(ValueError):
         
         
 class InvalidTypeError(ValueError):
-    """Raised when a dictionary must be used"""
+    """Raised when a parameter has the wrong type"""
     
     def __init__(self, data_type, parameter_name):
         msg = 'A ' + data_type + ' must be used for the following parameter: ' + parameter_name + '.'
@@ -78,10 +79,9 @@ class InvalidPortError(OSError):
 
 def protect_grpc(func):
     """Capture gRPC exceptions and return a more succinct error message"""
-
+    @wraps(func)
     def wrapper(*args, **kwargs):
         """Capture gRPC exceptions"""
-
         # Capture gRPC exceptions
         try:
             out = func(*args, **kwargs)

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.data_sources
+   :inherited-members:

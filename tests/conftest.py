@@ -11,6 +11,10 @@ import pyvista as pv
 from ansys.dpf import core
 from ansys.dpf.core import examples
 
+# enable matplotlib off_screen plotting to avoid test interruption
+import matplotlib as mpl
+mpl.use('Agg')
+
 # enable off_screen plotting to avoid test interruption
 pv.OFF_SCREEN = True
 

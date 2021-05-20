@@ -5,7 +5,7 @@ AvailableResult
 
 from warnings import warn
 from ansys.grpc.dpf import available_result_pb2, base_pb2
-from ansys.dpf.core.common import remove_spaces
+from ansys.dpf.core.common import _remove_spaces
 
 class AvailableResult:
     """A class used to represent an Available result which can be
@@ -32,8 +32,9 @@ class AvailableResult:
     >>> res.dimensionality
     'vector'
     
-    Create the operator of the given available result
+    Create the operator of the given available result    
     >>> disp = model.results.displacement()
+
     """
 
     def __init__(self, availableresult):
@@ -53,7 +54,7 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator"""
-        return remove_spaces(self._message.physicsname)
+        return _remove_spaces(self._message.physicsname)
 
     @property
     def n_components(self):

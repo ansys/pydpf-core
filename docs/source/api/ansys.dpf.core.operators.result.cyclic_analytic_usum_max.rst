@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.cyclic_analytic_usum_max
+   :inherited-members:

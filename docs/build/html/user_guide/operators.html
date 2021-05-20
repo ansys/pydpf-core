@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operators &#8212; PyANSYS DPF 0.2.2 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.ee6fb81b276d6fba8a971ad8e9b95dd9.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ansys.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.c86189f1ce1b71a67eb6.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fields Container and Fields" href="fields_container.html" />
+    <link rel="prev" title="The DPF Model" href="model.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="model.html">
+   The DPF Model
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fields_container.html">
+   Fields Container and Fields
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plotting.html">
+   Plotting
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-operators">
+   Creating Operators
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connecting-operators">
+   Connecting Operators
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluating-operators">
+   Evaluating Operators
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chaining-operators">
+   Chaining Operators
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#api-reference">
+   API Reference
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="operators">
+<span id="ref-user-guide-operators"></span><h1>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h1>
+<p>The Operator is the only object used to create and transform the data
+and is the fundamental method by which DPF loads, operates on, and
+outputs data.  Each operator contain the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code>
+attribute, which allows you to connect various inputs and outputs to
+each operator.  Operators can be chained together conduct simple or
+complex data processing by attaching one operator’s outputs to
+another’s inputs.  Through lazy evaluation, DPF approaches data
+processing in an efficient manner by only evaluating each operator
+when the final operator is evaluated and the data is requested.</p>
+<p>For example, if you desire the maximum normalized displacement of a
+result, you will construct operators in the following order:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Model</span></code> → <code class="docutils literal notranslate"><span class="pre">Disp</span> <span class="pre">Op.</span></code> → <code class="docutils literal notranslate"><span class="pre">Norm</span> <span class="pre">Op.</span></code> → <code class="docutils literal notranslate"><span class="pre">Max</span> <span class="pre">Op.</span></code> → Maximum Displacement</p>
+<p>With this approach, you can efficiently compute the maximum
+displacement of a result entirely within the DPF service without
+transferring any data from DPF to Python until DPF arrives at the
+solution data you desire.</p>
+<div class="section" id="creating-operators">
+<h2>Creating Operators<a class="headerlink" href="#creating-operators" title="Permalink to this headline">¶</a></h2>
+<p>Each operator is created within Python from <code class="docutils literal notranslate"><span class="pre">dpf.Operator</span></code> with a
+string indicating the operator type.  For a full listing of all
+available operators, see the <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
+<p>For example, to create the displacement operator, use the <code class="docutils literal notranslate"><span class="pre">'U'</span></code>
+string to instantiate one with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oper</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The description, available inputs, and available outputs of this
+particular operator can be viewed by printing the operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">oper</span><span class="p">)</span>
+<span class="go">DPF &quot;U&quot; Operator</span>
+
+<span class="go">Description:</span>
+<span class="go">Load the appropriate operator based on the data sources and</span>
+<span class="go">read/compute nodal displacements. Regarding the requested location</span>
+<span class="go">and the input mesh scoping, the result location can be</span>
+<span class="go">Nodal/ElementalNodal/Elemental.</span>
+
+<span class="go">Available inputs:</span>
+<span class="go"> -   mesh_scoping : ScopingsContainer, Scoping, optional</span>
+<span class="go">     Mesh entities scoping, unordered_map&lt;int, int&gt; id to index (optional)</span>
+<span class="go">     (index is optional, to be set if a user wants the results at a given</span>
+<span class="go">     order)</span>
+
+<span class="go"> -   data_sources : DataSources</span>
+<span class="go">     If the stream is null then we need to get the file path from the data</span>
+<span class="go">     sources</span>
+
+<span class="go"> -   streams_container : StreamsContainer, optional</span>
+<span class="go">     Streams (result file container) (optional)</span>
+
+<span class="go"> -   domain_id : int, optional</span>
+
+<span class="go"> -   time_scoping : Scoping, list, optional</span>
+
+<span class="go"> -   bool_rotate_to_global : B, optional</span>
+<span class="go">     If true the field is rotated to global coordinate system (default true)</span>
+
+<span class="go"> -   requested_location : str, optional</span>
+
+<span class="go"> -   fields_container : FieldsContainer, optional</span>
+<span class="go">     Fields container already allocated modified inplace</span>
+
+<span class="go"> -   mesh : MeshedRegion, optional</span>
+
+<span class="go">Available outputs:</span>
+<span class="go"> -   fields_container</span>
+</pre></div>
+</div>
+<p>Alternatively, you can output just the available inputs or outputs
+with <code class="docutils literal notranslate"><span class="pre">print(oper.inputs)</span></code> or <code class="docutils literal notranslate"><span class="pre">print(oper.outputs)</span></code> respectively.</p>
+</div>
+<div class="section" id="connecting-operators">
+<h2>Connecting Operators<a class="headerlink" href="#connecting-operators" title="Permalink to this headline">¶</a></h2>
+<p>The displacement operator requires the <code class="docutils literal notranslate"><span class="pre">data_sources</span></code> input to
+output the <code class="docutils literal notranslate"><span class="pre">fields_container</span></code> containing the displacement results.
+There are two ways of creating the data source, use the <code class="docutils literal notranslate"><span class="pre">dpf.Model</span></code>
+class, or use the <code class="docutils literal notranslate"><span class="pre">dpf.DataSources</span></code> class.  This example will
+explain the data sources approach as the model approach is used in several other examples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">multishells_rst</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="go">DPF data_sources with result key: rst</span>
+<span class="go">paths: {&#39;rst&#39;: [&#39;/dpf/ansys/dpf/core/examples/model_with_ns.rst&#39;]}</span>
+</pre></div>
+</div>
+<p>Connect this data source to the displacement operator with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oper</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="evaluating-operators">
+<h2>Evaluating Operators<a class="headerlink" href="#evaluating-operators" title="Permalink to this headline">¶</a></h2>
+<p>With all the required inputs assigned, the fields_container can now be
+output from the operator with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fc</span> <span class="o">=</span> <span class="n">oper</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
+<span class="go">DPF Field Container with</span>
+<span class="go">    1 field(s)</span>
+<span class="go">    defined on labels [&#39;time&#39;]</span>
+</pre></div>
+</div>
+<p>Please note that the operator checks at run-time if all the required
+inputs have been assigned.  Evaluating an operator with missing inputs
+will raise a <code class="docutils literal notranslate"><span class="pre">DPFServerException</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Purposely</span> <span class="ow">not</span> <span class="n">assigning</span> <span class="n">inputs</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">example</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">new_oper</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fc</span> <span class="o">=</span> <span class="n">new_oper</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="ne">Exception</span><span class="p">:</span> <span class="n">U</span><span class="o">&lt;-</span><span class="n">Data</span> <span class="n">sources</span> <span class="ow">not</span> <span class="n">defined</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields Container and Fields</span></a> for the user guide
+details regarding the use of the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code>.</p>
+</div>
+<div class="section" id="chaining-operators">
+<h2>Chaining Operators<a class="headerlink" href="#chaining-operators" title="Permalink to this headline">¶</a></h2>
+<p>Quite often it is necessary to reduce the results of a given solution
+down to a single parameter like maximum stress or displacement.  For
+small models, it is acceptable to return the entire data array from
+the field and compute its maximum.  Repeating the previous example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Extract</span> <span class="n">the</span> <span class="n">displacement</span> <span class="n">fields</span> <span class="n">container</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">multishell</span>
+<span class="n">example</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">multishells_rst</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fc</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="n">Compute</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">displacement</span> <span class="n">of</span> <span class="n">the</span> <span class="n">first</span> <span class="n">field</span> <span class="n">using</span> <span class="n">numpy</span><span class="o">.</span>
+<span class="n">Note</span> <span class="n">that</span> <span class="n">the</span> <span class="n">data</span> <span class="n">returned</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">numpy</span> <span class="n">array</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">disp</span> <span class="o">=</span> <span class="n">fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">disp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">[</span><span class="mf">0.59428386</span> <span class="mf">0.00201751</span> <span class="mf">0.0006032</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>For small data sets, it is perfectly acceptable to compute the maximum
+of the array in numpy.  Indeed, there are times where it may be
+necessary to have the entire data array for a given result type, but
+many times it is not strictly necessary.  In those cases, it is faster
+to not transfer the array to Python, but rather compute the maximum of
+the fields container within DPF and then return the result to Python.
+Note that here we are using the <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator.connect" title="ansys.dpf.core.dpf_operator.Operator.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a> method to connect the outputs of
+one operator to the inputs of another operator.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">the</span> <span class="n">component</span><span class="o">-</span><span class="n">wise</span> <span class="n">minimum</span> <span class="ow">and</span> <span class="n">maximum</span> <span class="n">over</span> <span class="n">a</span> <span class="n">fields</span> <span class="n">container</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_fc_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;min_max_fc&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span> <span class="o">=</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">0.59428386</span><span class="p">,</span> <span class="mf">0.00201751</span><span class="p">,</span> <span class="mf">0.0006032</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>Here, the only the maximum displacements in the X, Y, and Z components
+were transferred and returned as a numpy array.</p>
+<p>Take note that the <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator.connect" title="ansys.dpf.core.dpf_operator.Operator.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a> method defaults to the
+first pin of the operator it’s being connected with.  For a more
+verbose option, directly connect a specific input with a specific
+output of an operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;min_max_fc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span> <span class="o">=</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+<span class="go">array([[0.59428386, 0.00201751, 0.0006032 ]])</span>
+</pre></div>
+</div>
+<p>While this approach is more verbose, it is no longer necessary to
+refer to a specific pin when connecting operators with several
+outputs.</p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields Container and Fields</span></a> for a full list of all
+available operators within DPF.  For additional details regarding the
+operator class itself, see <span class="xref std std-ref">ref_api_operators</span>.</p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="model.html" title="previous page">The DPF Model</a>
+    <a class='right-next' id="next-link" href="fields_container.html" title="next page">Fields Container and Fields</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+    
+  <script src="../_static/js/index.c86189f1ce1b71a67eb6.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, ANSYS.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

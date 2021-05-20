@@ -1,0 +1,25 @@
+ansys.dpf.core.operators.logic package
+======================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.logic.component_selector
+   ansys.dpf.core.operators.logic.component_selector_fc
+   ansys.dpf.core.operators.logic.enrich_materials
+   ansys.dpf.core.operators.logic.identical_fc
+   ansys.dpf.core.operators.logic.identical_fields
+   ansys.dpf.core.operators.logic.identical_meshes
+   ansys.dpf.core.operators.logic.identical_property_fields
+   ansys.dpf.core.operators.logic.included_fields
+   ansys.dpf.core.operators.logic.merge_fields_by_label
+   ansys.dpf.core.operators.logic.solid_shell_fields
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.logic
+   :inherited-members:

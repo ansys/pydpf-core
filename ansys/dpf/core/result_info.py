@@ -8,14 +8,17 @@ from ansys import dpf
 from ansys.grpc.dpf import result_info_pb2, result_info_pb2_grpc
 from ansys.dpf.core import available_result
 from ansys.dpf.core.mapping_types import map_unit_system
-from ansys.dpf.core.core import BaseService
+from ansys.dpf.core.cyclic_support import CyclicSupport
+from ansys.dpf.core.common import __write_enum_doc__
 
 
 names = [m for m in result_info_pb2.PhysicsType.keys()]
 physics_types = Enum('physics_types', names)
+physics_types.__doc__=__write_enum_doc__(physics_types,"``'Physics_types'`` enumerates the different types of physics that an analysis can have.")
 
 names = [m for m in result_info_pb2.AnalysisType.keys()]
 analysis_types = Enum('analysis_types', names)
+analysis_types.__doc__=__write_enum_doc__(physics_types,"``'Analysis_types'`` enumerates the different types of analysis.")
 
 
 class ResultInfo:
@@ -25,7 +28,7 @@ class ResultInfo:
     ----------
     result_info : ansys.grpc.dpf.result_info_pb2.ResultInfo message
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
         
@@ -37,25 +40,13 @@ class ResultInfo:
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
-    >>> result_info = model.metadata.result_info
-    >>> print(result_info)
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        RF Force :nodal reaction forces 
-        ENF Element nodal Forces :element nodal forces 
-        S Stress :element nodal component stresses 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ...
+    >>> result_info = model.metadata.result_info # printable result_info
+    
     >>> result_info.available_results[0].name
     'displacement'
     >>> result_info.available_results[0].homogeneity
     'length'
+    
     """
 
     def __init__(self, result_info, server=None):
@@ -105,6 +96,7 @@ class ResultInfo:
         >>> result_info = model.metadata.result_info
         >>> result_info.analysis_type
         'static'
+        
         """
         intOut = self._stub.List(self._message).analysis_type
         return result_info_pb2.AnalysisType.Name(intOut).lower()
@@ -125,10 +117,6 @@ class ResultInfo:
         >>> result_info.physics_type
         'mecanic'
         
-        Electrical result
-        
-        >>> result_info.physics_type
-        'electric'
         """
         intOut = self._stub.List(self._message).physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
@@ -153,6 +141,88 @@ class ResultInfo:
         """Unit system"""
         val = self._stub.List(self._message).unit_system
         return map_unit_system[val]
+    
+    @property
+    def cyclic_symmetry_type(self):
+        """Cyclic Symmetry Type
+        
+        Return
+        ------
+        cyclic_symmetry_type : str
+            "single_stage", "multi_stage" or "not_cyclic"
+        """
+        return self._stub.List(self._message).cyc_info.cyclic_type
+
+    @property
+    def has_cyclic(self): 
+        """Has cyclic symmetry
+        
+        Return
+        ------
+        has_cyclic : bool
+            returns true if the result file has cyclic symmetry (or multistage)
+        """
+        return self._stub.List(self._message).cyc_info.has_cyclic
+    
+    @property
+    def cyclic_support(self): 
+        """returns the cyclic support if the result file has cyclic symmetry (or multistage).
+        The CyclicSupport contains informations relevant for cyclic expansion
+        
+        Return
+        ------
+        cyclic_support : core.CyclicSupport
+        
+        Examples
+        --------
+        Get a CyclicSupport from a model.
+        
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> multi_stage = examples.download_multi_stage_cyclic_result()
+        >>> model = Model(multi_stage)
+        >>> result_info = model.metadata.result_info
+        >>> cyc_support = result_info.cyclic_support
+        
+        """
+        tmp = self._stub.List(self._message).cyc_info.cyc_support
+        return CyclicSupport(cyclic_support=tmp,server=self._server)
+        
+    
+    @property
+    def unit_system_name(self):
+        return self._stub.List(self._message).unit_system_name
+    
+    @property
+    def solver_version(self):
+        major = self._stub.List(self._message).solver_major_version
+        minor = self._stub.List(self._message).solver_minor_version
+        version = str(major) + '.' + str(minor)
+        return version
+    
+    @property
+    def solver_date(self):
+        return self._stub.List(self._message).solver_date
+    
+    @property
+    def solver_time(self):
+        return self._stub.List(self._message).solver_time
+
+    @property
+    def user_name(self):
+        return self._stub.List(self._message).user_name 
+    
+    @property
+    def job_name(self):
+        return self._stub.List(self._message).job_name 
+    
+    @property
+    def product_name(self):
+        return self._stub.List(self._message).product_name 
+    
+    @property
+    def main_title(self):
+        return self._stub.List(self._message).main_title 
 
     @property
     def available_results(self):
@@ -215,7 +285,8 @@ class ResultInfo:
         -------
         description : str
         """
-        return BaseService(self._server)._description(self._message)
+        from ansys.dpf.core.core import _description
+        return _description(self._message, self._server)
 
     def __del__(self):
         try:

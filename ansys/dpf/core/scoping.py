@@ -2,11 +2,12 @@
 Scoping
 =======
 """
-from ansys import dpf
+
 from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
 from ansys.dpf.core.common import locations
-from ansys.dpf.core.core import BaseService, DEFAULT_FILE_CHUNK_SIZE
+from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
 import numpy as np
+
 import sys
 
 class Scoping:
@@ -31,6 +32,7 @@ class Scoping:
     Examples
     --------    
     Create a mesh scoping
+    >>> from ansys.dpf import core as dpf
     >>> # 1. using the mesh_scoping_factory
     >>> from ansys.dpf.core import mesh_scoping_factory
     >>> # a. scoping with elemental location that targets the elements with id 2, 7 and 11
@@ -41,6 +43,7 @@ class Scoping:
     >>> my_scoping = dpf.Scoping()
     >>> my_scoping.location = "Nodal" #optional
     >>> my_scoping.ids = list(range(1,11))
+    
     """
 
     def __init__(self, scoping=None, server=None, ids = None, location= None):
@@ -48,7 +51,8 @@ class Scoping:
         by connecting to a stub.
         """
         if server is None:
-            server = dpf.core._global_server()
+            import ansys.dpf.core.server as serverlib
+            server = serverlib._global_server()
 
         self._server = server
         self._stub = self._connect()
@@ -147,7 +151,8 @@ class Scoping:
         Parameters
         ----------
         index : int
-        id : int
+        
+        scopingid : int
         """
         request = scoping_pb2.UpdateRequest()
         request.index_id.id = scopingid
@@ -188,14 +193,34 @@ class Scoping:
         request.scoping.CopyFrom(self._message)
         return self._stub.Get(request).index
 
-    def id(self, index):
+    def id(self, index:int):
+        """Get the id at a given index
+        
+        Returns
+        -------
+        size : int
+    
+        """
         return self._get_id(index)
 
-    def index(self, id):
+    def index(self, id:int):
+        """Get the index of a given id
+        
+        Returns
+        -------
+        size : int
+    
+        """
         return self._get_index(id)
 
     @property
     def ids(self):
+        """Get the list of ids in the scoping
+ 
+        Returns
+        -------
+        ids : list of int
+        """
         return self._get_ids()
 
     @ids.setter
@@ -205,7 +230,13 @@ class Scoping:
     @property
     def location(self):
         """The location of the ids as a string (e.g. nodal, elemental,
-        time_freq, etc...)"""
+        time_freq, etc...)
+
+        Returns
+        -------
+        location : str
+    
+        """
         return self._get_location()
 
     @location.setter
@@ -224,13 +255,23 @@ class Scoping:
             self._stub.Delete(self._message)
         except:
             pass
-
+        
+    def __iter__(self):
+        return self.ids.__iter__()
+    
     def __getitem__(self, key):
         """Returns the id at a requested index"""
         return self.id(key)
 
     @property
     def size(self):
+        """lenght of the ids list
+
+        Returns
+        -------
+        size : int
+    
+        """
         return self._count()
 
     def __str__(self):
@@ -240,12 +281,16 @@ class Scoping:
         -------
         description : str
         """
-        return BaseService(self._server)._description(self._message)
+        from ansys.dpf.core.core import _description
+        return _description(self._message, self._server)
 
 
 def _data_chunk_yielder(request, data):
-    length = len(data)
+    length = data.size
     sent_length =0
+    if length == 0:
+        yield request
+        return
     unitary_size =DEFAULT_FILE_CHUNK_SIZE//sys.getsizeof(data[0])
     if length-sent_length<unitary_size:
         unitary_size= length-sent_length
@@ -256,4 +301,4 @@ def _data_chunk_yielder(request, data):
         if length-sent_length<unitary_size:
             unitary_size= length-sent_length
         yield request
-                
+    

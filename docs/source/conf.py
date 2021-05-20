@@ -3,6 +3,7 @@ import os
 
 import pyvista
 import numpy as np
+import sys 
 
 from ansys.dpf.core import __version__
 
@@ -49,6 +50,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.todo',
               'sphinx.ext.napoleon',
               'pydata_sphinx_theme',
+              'nbsphinx',
 ]
 
 autosummary_generate = True
@@ -99,16 +101,27 @@ sphinx_gallery_conf = {
     # Sort gallery example by file name instead of number of lines (default)
     "within_subsection_order": FileNameSortKey,
     # directory where function granular galleries are stored
-    "backreferences_dir": None,
-    # Modules for which function level galleries are created.  In
-    "doc_module": "ansys-mapdl",
+    "backreferences_dir": None,    
     "image_scrapers": ('pyvista', 'matplotlib'),
+    "autodoc_member_order":'bysource',
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
 }
 
+autodoc_member_order = 'bysource'
+# process_examples = True
 
+# autoclass_content = 'both'
+# autodata_content = 'call'
+
+# import subprocess as spr
+# spr.call([sys.executable] +
+         # ('-m ipykernel install --user --name python3 '
+          # '--display-name python3').split())
+# spr.call([sys.executable, '-m', 'bash_kernel.install'])
+
+# example_gallery_config = dict()
 
 
 # -- Options for HTML output -------------------------------------------------

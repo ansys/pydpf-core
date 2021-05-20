@@ -26,16 +26,17 @@ def test_loadmeshoperators(allkindofcomplexity):
     
     
 def test_loadplugin():
-    server = dpf.core.start_local_server(as_global=False, ansys_path =dpf.core.SERVER.ansys_path, load_operators=False)
+    ansys_path = dpf.core.misc.find_ansys()
+    server = dpf.core.start_local_server(as_global=False, ansys_path = ansys_path, load_operators=False)
     base = dpf.core.BaseService(server=server,load_operators= False)
     loaded = False
     try:
-        base.load_library('libAns.Dpf.Math.so', "mesh")
+        base.load_library('libAns.Dpf.Math.so', "math")
         loaded=True
     except:
         pass
     try:
-        base.load_library('Ans.Dpf.Math.dll', "mesh")
+        base.load_library('Ans.Dpf.Math.dll', "math")
         loaded=True
     except:
         pass
@@ -61,6 +62,18 @@ def test_upload_download(allkindofcomplexity, tmpdir):
     
     dpf.core.download_file(vtk_path, os.path.join(tmpdir,"file.vtk"))
     assert os.path.exists(os.path.join(tmpdir,"file.vtk"))
+    
+def test_download_folder(allkindofcomplexity, plate_msup,multishells,tmpdir):
+    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
+    file = dpf.core.upload_file_in_tmp_folder(plate_msup)
+    file = dpf.core.upload_file_in_tmp_folder(multishells)
+    parent_path = os.path.dirname(file)
+    dpf.core.download_files_in_folder(parent_path, tmpdir)
+    import ntpath
+    assert os.path.exists(os.path.join(tmpdir,ntpath.basename(allkindofcomplexity)))
+    assert os.path.exists(os.path.join(tmpdir,ntpath.basename(plate_msup)))
+    assert os.path.exists(os.path.join(tmpdir,ntpath.basename(multishells)))
+    
     
     
     

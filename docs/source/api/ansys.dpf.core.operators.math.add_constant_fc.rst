@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.add_constant_fc
+   :inherited-members:

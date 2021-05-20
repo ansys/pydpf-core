@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fields Container and Fields &#8212; PyANSYS DPF 0.2.2 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.ee6fb81b276d6fba8a971ad8e9b95dd9.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ansys.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.c86189f1ce1b71a67eb6.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plotting" href="plotting.html" />
+    <link rel="prev" title="Operators" href="operators.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="model.html">
+   The DPF Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="operators.html">
+   Operators
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Fields Container and Fields
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plotting.html">
+   Plotting
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obtaining-fields-and-fieldscontainer">
+   Obtaining Fields and FieldsContainer
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#accessing-fields-within-a-fields-container">
+     Accessing Fields within a Fields Container
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#field">
+   Field
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#field-metadata">
+     Field Metadata
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#field-data">
+   Field Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#accessing-field-data">
+     Accessing Field Data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#operating-on-field-data">
+     Operating on Field Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#further-reference">
+   Further Reference
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="fields-container-and-fields">
+<span id="ref-user-guide-fields-container"></span><h1>Fields Container and Fields<a class="headerlink" href="#fields-container-and-fields" title="Permalink to this headline">¶</a></h1>
+<p>Where DPF uses <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> to load operate and operate
+on the data, DPF uses <code class="docutils literal notranslate"><span class="pre">Field</span></code> and <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> to store
+the data and return it to the user.  In other words, if <code class="docutils literal notranslate"><span class="pre">Operators</span></code>
+was a verb, the DPF <code class="docutils literal notranslate"><span class="pre">Field</span></code> would be the noun.  <code class="docutils literal notranslate"><span class="pre">Operators</span></code> acts
+on the data, and <code class="docutils literal notranslate"><span class="pre">Field</span></code> and <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> hold the data.</p>
+<div class="section" id="obtaining-fields-and-fieldscontainer">
+<h2>Obtaining Fields and FieldsContainer<a class="headerlink" href="#obtaining-fields-and-fieldscontainer" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">outputs</span></code> from <code class="docutils literal notranslate"><span class="pre">Operators</span></code> can be either a
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> or
+<a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a>.  A Fields
+Container is the DPF equivalent of a <code class="docutils literal notranslate"><span class="pre">list</span></code> of <code class="docutils literal notranslate"><span class="pre">Field</span></code>, and is
+used to hold a vector of fields within DPF.  In the following the
+example, the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> is returned from the volume operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vol_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields</span> <span class="o">=</span> <span class="n">vol_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+<span class="go">DPF Field Container with</span>
+<span class="go">    1 field(s)</span>
+<span class="go">    defined on labels [&#39;time&#39;]</span>
+</pre></div>
+</div>
+<div class="section" id="accessing-fields-within-a-fields-container">
+<h3>Accessing Fields within a Fields Container<a class="headerlink" href="#accessing-fields-within-a-fields-container" title="Permalink to this headline">¶</a></h3>
+<p>Since this result contains a single static result, the
+<code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> only contains a single Field.  Access the fields
+from the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> using the following methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+<span class="go">1</span>
+
+<span class="go">Return a field based on its index</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="go">Return a field based on its time</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="go">Alternatively, use ``get_fields`` with the scoping of the</span>
+<span class="go">requested fields or the index of the field.</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_fields</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;complex&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+
+<span class="go">Reference the available time frequency support to determine which</span>
+<span class="go">``time_complex_ids`` are available to in the ``FieldsContainer``</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">)</span>
+<span class="go">Time/Frequency Info:</span>
+<span class="go">    Number of sets: 1</span>
+
+<span class="go">With complex values</span>
+
+<span class="go"> Cumulative      Time (s)       Loadstep     Substep</span>
+<span class="go">     1             1.0             1            1</span>
+
+<span class="go">Use ``get_ids`` to get the available IDs of a ``FieldsContainer``.</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields</span><span class="o">.</span><span class="n">get_ids</span><span class="p">()</span>
+<span class="go">[1]</span>
+</pre></div>
+</div>
+<p>Note that these results come from MAPDL and are FORTRAN indexed
+(i.e. 1 based).  When indexing from pythonic indexing via
+<code class="docutils literal notranslate"><span class="pre">fields[0]</span></code>, you can use zero based indexing.  When requesting the
+results via <code class="docutils literal notranslate"><span class="pre">get_fields</span></code>, the request is based on the time scoping
+IDs from MAPDL.</p>
+</div>
+</div>
+<div class="section" id="field">
+<h2>Field<a class="headerlink" href="#field" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> is the fundamental unit of data within DPF and contains the scoping, units associated with the result, and other metadata associated with the data.  Continuing the previous example, the Field returned from the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<span class="go">DPF elemental_volume_1.s Field</span>
+<span class="go">    Location:   Elemental</span>
+<span class="go">    Unit:       m^3</span>
+<span class="go">    Num. id(s): 3000</span>
+<span class="go">    Shape:      3000</span>
+</pre></div>
+</div>
+<p>Note that by printing the field you can get an overview of the field’s
+metadata.  The next section provides an overview of the metadata associated with the field itself.</p>
+<div class="section" id="field-metadata">
+<h3>Field Metadata<a class="headerlink" href="#field-metadata" title="Permalink to this headline">¶</a></h3>
+<p>The field contains the metadata associated with the result it is
+associated with, including the location (either <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>) and IDs associated with that location.  To access the
+scoping of the field, use the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> attribute:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
+<span class="go">DPF Scoping Object</span>
+<span class="go">Size: 3000</span>
+<span class="go">Location: Elemental</span>
+
+<span class="go">Element numbers associated with the field.</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+<span class="go">[141,</span>
+<span class="go"> 441,</span>
+<span class="go"> 741,</span>
+<span class="go"> 1041,</span>
+<span class="go"> ...]</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> denotes one value (multiplied by the number of
+components) of data per element, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> is per node, and
+<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> is one value per node per element.  For example,
+strain is a <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> value as the strain is evaluated at
+each node for each element.</p>
+<p>The field also contains additional metadata such as the <code class="docutils literal notranslate"><span class="pre">shape</span></code> of
+the data stored, the location of the field, number of components, and
+the units of the data,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Units</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span> <span class="n">describing</span> <span class="n">volume</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">unit</span>
+<span class="s1">&#39;m^3&#39;</span>
+
+<span class="n">Elemental</span><span class="p">,</span> <span class="n">nodal</span><span class="p">,</span> <span class="ow">or</span> <span class="n">nodal</span> <span class="n">element</span> <span class="s2">&quot;location&quot;</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">location</span>
+<span class="s1">&#39;Elemental&#39;</span>
+
+<span class="n">Number</span> <span class="n">of</span> <span class="n">components</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">the</span> <span class="n">field</span><span class="o">.</span>  <span class="n">It</span><span class="s1">&#39;s expected to</span>
+<span class="n">be</span> <span class="n">have</span> <span class="n">a</span> <span class="n">single</span> <span class="n">dimension</span> <span class="n">since</span> <span class="n">there</span> <span class="n">can</span> <span class="n">only</span> <span class="n">be</span> <span class="n">one</span> <span class="n">volume</span> <span class="n">per</span>
+<span class="n">element</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">component_count</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="field-data">
+<h2>Field Data<a class="headerlink" href="#field-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="accessing-field-data">
+<h3>Accessing Field Data<a class="headerlink" href="#accessing-field-data" title="Permalink to this headline">¶</a></h3>
+<p>When DPF-Core returns a <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a>, what
+Python actually has is a client side representation of the Field, but
+not the entirety of the field itself.  This means that all the data of
+the field is stored within the DPF service.  This is important because
+when building your post-processing workflows, keep in mind that the
+most efficient way of interacting with the result data is to minimize
+the exchange of data between Python and DPF, either by using operators
+or by accessing only the data that is needed.</p>
+<p>Should you need to access the entire array of data, you can request
+the data be returned as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span>
+<span class="go">array([0.001, 0.001, 0.001, ..., 0.001, 0.001, 0.001])</span>
+
+<span class="go">Note that this array is a genuine, local, numpy array</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="go">numpy.ndarray</span>
+</pre></div>
+</div>
+<p>Should you need to request data individual node or element, you can
+request it using either <code class="docutils literal notranslate"><span class="pre">get_entity_data</span></code> or
+<code class="docutils literal notranslate"><span class="pre">get_entity_data_by_id</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Get</span> <span class="n">the</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">first</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">field</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">Get</span> <span class="n">the</span> <span class="n">data</span> <span class="k">for</span> <span class="n">the</span> <span class="n">element</span> <span class="k">with</span> <span class="n">the</span> <span class="n">ID</span> <span class="mi">10</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">])</span>
+
+<span class="n">Note</span> <span class="n">that</span> <span class="n">this</span> <span class="n">would</span> <span class="n">correspond</span> <span class="n">to</span> <span class="n">an</span> <span class="n">index</span> <span class="n">of</span> <span class="mi">1490</span> <span class="n">within</span> <span class="n">the</span>
+<span class="n">field</span><span class="o">.</span>  <span class="n">Be</span> <span class="n">aware</span> <span class="n">that</span> <span class="n">scoping</span> <span class="n">IDs</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">sequential</span><span class="o">.</span>  <span class="n">The</span> <span class="n">index</span>
+<span class="n">of</span> <span class="n">Element</span> <span class="mi">1490</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">field</span> <span class="n">can</span> <span class="n">be</span> <span class="n">obtained</span> <span class="n">by</span><span class="p">:</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="mi">1490</span>
+</pre></div>
+</div>
+<p>These methods are acceptable when requesting data for a few elements
+or nodes, but should not be used when looping over the entire array.
+It is more efficient to use numpy vectorized operations.  For example,
+the sorted element IDs and field data can be obtained with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Sort</span> <span class="n">the</span> <span class="n">scoping</span> <span class="n">indices</span> <span class="ow">and</span> <span class="n">get</span> <span class="n">the</span> <span class="n">sorting</span> <span class="n">indices</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">element_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">element_ids</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">element_ids</span> <span class="o">=</span> <span class="n">element_ids</span><span class="p">[</span><span class="n">sidx</span><span class="p">]</span>
+<span class="n">array</span><span class="p">([</span>   <span class="mi">1</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span>    <span class="mi">3</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">2998</span><span class="p">,</span> <span class="mi">2999</span><span class="p">,</span> <span class="mi">3000</span><span class="p">])</span>
+
+<span class="n">Now</span> <span class="n">sort</span> <span class="n">the</span> <span class="n">element</span> <span class="n">data</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sidx</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sorted_data</span>
+<span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="operating-on-field-data">
+<h3>Operating on Field Data<a class="headerlink" href="#operating-on-field-data" title="Permalink to this headline">¶</a></h3>
+<p>Often times, it’s not necessary to directly act upon the data of an
+array within Python.  For example, if you want to know the maximum of
+the data, you could potentially compute the maximum of the array from
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> with <code class="docutils literal notranslate"><span class="pre">array.max()</span></code>, but that requires sending the entire
+array to Python and then computing the maximum there.  Rather than
+copying the array over and then computing the maximum in Python, you
+can instead compute the maximum directly from the field itself.  The
+<code class="docutils literal notranslate"><span class="pre">min</span></code> and <code class="docutils literal notranslate"><span class="pre">max</span></code> methods of <code class="docutils literal notranslate"><span class="pre">Field</span></code> use the <code class="docutils literal notranslate"><span class="pre">'min_max'</span></code>
+Operator was used to compute the maximum of the field while returning
+the field.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span> <span class="n">within</span> <span class="n">DPF</span> <span class="ow">and</span> <span class="k">return</span> <span class="n">the</span> <span class="n">result</span>
+<span class="n">a</span> <span class="n">numpy</span> <span class="n">array</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+<span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">])</span>
+
+<span class="n">Get</span> <span class="n">the</span> <span class="n">element</span> <span class="ow">or</span> <span class="n">node</span> <span class="n">ID</span> <span class="n">of</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">value</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+<span class="p">[</span><span class="mi">2168</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that is a convenience method.  For more advanced operator
+chaining, please see the <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> section in
+the user guide.  Here is a quick example of connecting the
+<code class="docutils literal notranslate"><span class="pre">'entity_average'</span></code> operator to the field data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">the</span> <span class="n">average</span> <span class="n">of</span> <span class="n">a</span> <span class="n">field</span> <span class="n">using</span> <span class="n">the</span> <span class="s1">&#39;entity_average&#39;</span> <span class="n">operator</span><span class="o">.</span>
+
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;entity_average&#39;</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">max_field</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_field</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_field</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+ <span class="mf">0.001</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="further-reference">
+<h2>Further Reference<a class="headerlink" href="#further-reference" title="Permalink to this headline">¶</a></h2>
+<p>See the API reference at <span class="xref std std-ref">ref_api_fields_container</span> and
+<span class="xref std std-ref">ref_api_field</span>.</p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="operators.html" title="previous page">Operators</a>
+    <a class='right-next' id="next-link" href="plotting.html" title="next page">Plotting</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+    
+  <script src="../_static/js/index.c86189f1ce1b71a67eb6.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, ANSYS.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

@@ -5,6 +5,8 @@ import os
 from pkgutil import iter_modules
 
 
+DEFAULT_FILE_CHUNK_SIZE =65536
+
 # ANSYS CPython workbench environment may not have scooby installed
 try:
     from scooby import Report as ScoobyReport
@@ -104,13 +106,12 @@ def find_ansys():
     Within Windows
 
     >>> from ansys.dpf.core.misc import find_ansys
-    >>> find_ansys()
-    C:\Program Files\ANSYS Inc\v211
+    >>> path = find_ansys()
     
     Within Linux
 
-    >>> find_ansys()
-    /ansys_inc/v211
+    >>> path = find_ansys()
+    
     """
     base_path = None
     if os.name == 'nt':

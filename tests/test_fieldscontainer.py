@@ -52,7 +52,18 @@ def test_set_get_field_fields_container():
         assert fc.get_fields(i)._message.id !=0
         assert fc.get_fields_by_time_complex_ids(timeid=i+1,complexid=0)._message.id !=0
         assert fc[i]._message.id != 0
-
+        
+        
+def test_get_label_scoping(): 
+    fc= FieldsContainer()
+    fc.labels =['time','complex']
+    for i in range(0,20):
+        mscop = {"time":i+1,"complex":0}
+        fc.add_field(mscop,Field(nentities=i+10))
+    scop = fc.get_label_scoping()
+    assert scop._message.id != 0
+    assert scop.ids == list(range(1,21))
+        
 
 def test_set_get_field_fields_container_new_label(): 
     fc= FieldsContainer()
@@ -165,6 +176,7 @@ def test_add_field_by_time_id():
     fc.labels = ['time','complex']
     f1 = Field(3)
     f1.append([10.2, 3.0, -11.8], 1)
+    f1.data
     f1.append([10.2, 2.0, 11.8], 2)
     f1.append([10.2, 1.0, -11.8], 3)
     mscop1 = {"time": 1,"complex": 0}
@@ -286,5 +298,6 @@ def test_collection_update_support():
     tfq_check = fc.time_freq_support
     assert np.allclose(tfq.time_frequencies.data, tfq_check.time_frequencies.data) 
     
-    
-    
+  
+if __name__ == "__main__":   
+    test_add_field_by_time_id()

@@ -19,7 +19,7 @@ def scoping_by_load_step(load_step, server = None):
     load_step : int
         Load step id of the specific time_freq scoping
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -40,7 +40,7 @@ def scoping_by_load_steps(load_steps, server = None):
     load_steps : List of int
         Load steps ids of the specific time_freq scoping
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -63,7 +63,7 @@ def scoping_by_set(cumulative_set, server = None):
     cumulative_set : int
         Cumulative index of the set
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -84,7 +84,7 @@ def scoping_by_sets(cumulative_sets, server = None):
     cumulative_sets : List of int
         Cumulative indices of the sets 
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -110,7 +110,7 @@ def scoping_by_step_and_substep(load_step_id, subset_id, time_freq_support, serv
     
     time_freq_support : ansys.dpf.core.TimeFreqSupport()
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -135,7 +135,7 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     
     time_freq_support : ansys.dpf.core.TimeFreqSupport()
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.matrix_inverse
+   :inherited-members:

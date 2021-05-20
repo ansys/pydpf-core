@@ -20,13 +20,15 @@ Contains classes associated to the DPF Collection
 
 from ansys import dpf
 from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
-from ansys.dpf.core.core import base_pb2, BaseService
+from ansys.dpf.core.core import base_pb2
 from ansys.dpf.core.common import types
 from ansys.dpf.core.scoping import Scoping, scoping_pb2
 from ansys.dpf.core.field import Field, field_pb2
 from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core import server
+from ansys.dpf.core.scoping import Scoping
 
 
 class Collection:
@@ -38,13 +40,18 @@ class Collection:
     collection : ansys.grpc.dpf.collection_pb2.Collection, optional
         Create a collection from a Collection message.
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
+        
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> coll = dpf.Collection(dpf.types.field)
 
     """
 
-    def __init__(self, dpf_type, collection=None, server=None):
+    def __init__(self, dpf_type, collection=None, server: server.DpfServer=None ):
         if server is None:
             server = dpf.core._global_server()
 
@@ -71,7 +78,7 @@ class Collection:
 
         Parameters
         ----------
-        labels (optional) : list(string)
+        labels : list[string], optional
             labels on which the entries will be scoped, for example:
                 ['time','complex']
 
@@ -92,12 +99,15 @@ class Collection:
         label : str
             Labels on which the entries will be scoped, for example ``'time'``.
             
-        default_value (optional): int
+        default_value : int , optional
             default value set for existing fields in the collection
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> coll = dpf.Collection(dpf.types.field)
         >>> coll.add_label('time')
+        
         """
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
@@ -112,7 +122,7 @@ class Collection:
 
         Returns
         -------
-        labels: list(string)
+        labels: list[string]
             labels on which the entries are scoped, for example:
                 ``['time', 'complex']``
         """
@@ -134,7 +144,14 @@ class Collection:
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> coll = dpf.Collection(dpf.types.field)
+        >>> coll.add_label('time')
         >>> coll.has_label('time')
+        True
+        >>> coll.has_label('complex')
+        False
+        
         """
         result = False
         labels = self.labels
@@ -150,7 +167,7 @@ class Collection:
 
         Parameters
         ----------
-        label_space (optional) : dict(string:int)
+        label_space : dict[string,int]
             Label space of the requested entry, for example:
             ``{"time": 1, "complex": 0}``
 
@@ -210,7 +227,7 @@ class Collection:
 
         Returns
         -------
-        label_space (optional) : dict(string:int)
+        label_space : dict(string:int)
             Scoping of the requested entry, for example:
             ``{"time": 1, "complex": 0}``
         """
@@ -236,7 +253,7 @@ class Collection:
 
         Returns
         -------
-        ids : list of int
+        ids : list[int]
             ids corresponding to the input label
         """
         ids = []
@@ -245,6 +262,32 @@ class Collection:
             if label in current_scop and current_scop[label] not in ids:
                 ids.append(current_scop[label])
         return ids
+    
+    def get_label_scoping(self, label = "time"):
+        """Get the scoping corresponding to the input label. This method
+        allows to get the list of available ids for a given label in the 
+        Collection. 
+        For example, if the label "el_type" is available in the collection,
+        the get_lable_scoping method, will return the list element type ids 
+        available in it. Those ids can then be used to request a given entity 
+        inside the collection.
+        
+        Parameters
+        ----------
+        label: str
+            name of the requested ids
+        
+        Returns
+        -------
+        scoping: Scoping
+            scoping containing the ids of the input label
+        """
+        request = collection_pb2.LabelScopingRequest()
+        request.collection.CopyFrom(self._message)
+        request.label = label
+        scoping_message = self._stub.GetLabelScoping(request)
+        scoping = Scoping(scoping_message.label_scoping)
+        return scoping
 
     def __getitem__(self, index):
         """Returns the entry at a requested index
@@ -256,7 +299,7 @@ class Collection:
 
         Returns
         -------
-        entry : Field or Scoping
+        entry : Field , Scoping
             Entry at the index corresponding to the request.
         """
         self_len = len(self)
@@ -276,7 +319,7 @@ class Collection:
 
         parameters
         ----------
-        label_space : dict(string:int)
+        label_space : list[string,int]
             label space of the requested fields, ex : {"time":1, "complex":0}
 
         entry : Field or Scoping

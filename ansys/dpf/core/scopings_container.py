@@ -18,7 +18,7 @@ class ScopingsContainer(Collection):
     scopings_container : ansys.grpc.dpf.collection_pb2.Collection or ansys.dpf.core.ScopingsContainer, optional
         Create a scopings container from a Collection message or create a copy from an existing scopings container
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
     """
@@ -41,14 +41,14 @@ class ScopingsContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index (optional) : dict(string:int) or int
+        label_space_or_index : dict[string,int] , int
             Scopings correponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
             or Index of the scoping.
 
         Returns
         -------
-        scopings : list of scopings or scoping (if only one)
+        scopings : list[Scoping] , Scoping (if only one)
             scopings corresponding to the request
         """
         return super()._get_entries(label_space_or_index)
@@ -73,7 +73,7 @@ class ScopingsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict(string:int)
+        label_space : dict[string,int]
             label_space of the requested scopings, ex : {"elshape":1, "body":12}
 
         scoping : Scoping
