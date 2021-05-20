@@ -18,7 +18,7 @@ class MeshesContainer(Collection):
     meshes_container : ansys.grpc.dpf.collection_pb2.Collection or ansys.dpf.core.MeshesContainer, optional
         Create a meshes container from a Collection message or create a copy from an existing meshes container
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
     """
@@ -41,14 +41,14 @@ class MeshesContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index (optional) : dict(string:int) or int
+        label_space_or_index : dict[string,int] , int
             Meshes correponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
             or Index of the mesh.
 
         Returns
         -------
-        meshes : list of MeshedRegion or MeshedRegion (if only one)
+        meshes : list[MeshedRegion] , MeshedRegion (if only one)
             meshes corresponding to the request
         """
         return super()._get_entries(label_space_or_index)
@@ -73,7 +73,7 @@ class MeshesContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict(string:int)
+        label_space : dict[string,int]
             label_space of the requested meshes, ex : {"elshape":1, "body":12}
 
         mesh : MeshedRegion

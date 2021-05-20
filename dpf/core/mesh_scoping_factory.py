@@ -18,7 +18,7 @@ def nodal_scoping(node_ids, server = None):
     ----------
     node_ids : List of int
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -39,7 +39,7 @@ def elemental_scoping(element_ids, server = None):
     ----------
     element_ids : List of int
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
@@ -60,7 +60,7 @@ def named_selection_scoping(named_selection_name, model, server = None):
     ----------
     named_selection_name : string
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         

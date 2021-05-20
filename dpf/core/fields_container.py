@@ -11,14 +11,22 @@ from ansys.dpf.core import errors as dpf_errors
 
 class FieldsContainer(Collection):
     """A class used to represent a FieldsContainer which contains
-    fields belonging to an analysis.
+    fields belonging to a common results.
+    The fields container is designed as a set of fields ordered by labels 
+    and ids. Each field of the Fields Container has an id for each label 
+    defining the given Fields Container. This allows to split the fields 
+    on any criteria.
+    The most common fields container have the label "time" with ids 
+    corresponding to each time sets, the label "complex" will allow 
+    to separate real parts (id=0) from imaginary parts (id=1) 
+    in a harmonic analysis for example. 
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or ansys.dpf.core.FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
         Create a fields container from a Collection message or create a copy from an existing fields container
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
     
@@ -34,17 +42,21 @@ class FieldsContainer(Collection):
     >>> disp.inputs.time_scoping.connect([1,5])
     >>> fields_container = disp.outputs.fields_container()
     >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
+    >>> #print(fields_container)
+
     
     Create a fields container from scratch
+    
     >>> from ansys.dpf import core as dpf
     >>> fc= dpf.FieldsContainer()
     >>> fc.labels =['time','complex']
     >>> for i in range(0,20): #real fields 
-    >>>     mscop = {"time":i+1,"complex":0}
-    >>>     fc.add_field(mscop,dpf.Field(nentities=i+10))
+    ...     mscop = {"time":i+1,"complex":0}
+    ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
     >>> for i in range(0,20): #imaginary fields
-    >>>     mscop = {"time":i+1,"complex":1}
-    >>>     fc.add_field(mscop,dpf.Field(nentities=i+10))
+    ...     mscop = {"time":i+1,"complex":1}
+    ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+    
     """
 
     def __init__(self, fields_container=None, server=None):
@@ -72,12 +84,12 @@ class FieldsContainer(Collection):
         timeid : int, optional
             The time id. One based index of the result set.
 
-        complexid (optional) : int, optional
+        complexid : int, optional
             The complex id.
 
         Returns
         -------
-        fields : list of fields
+        fields : list[Field]
             fields corresponding to the request
             
         Examples
@@ -88,23 +100,13 @@ class FieldsContainer(Collection):
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = dpf.Model(transient)
-        >>> print(model.metadata.time_freq_support)
-        DPF  Time/Freq Support: 
-              Number of sets: 35 
-            Cumulative     Time (s)       LoadStep       Substep         
-            1              0.000000       1              1               
-            2              0.019975       1              2               
-            3              0.039975       1              3               
-            4              0.059975       1              4               
-            5              0.079975       1              5               
-            6              0.099975       1              6               
-            7              0.119975       1              7               
-            8              0.139975       1              8  
-        ...
+        >>> len(model.metadata.time_freq_support.time_frequencies)
+        35
         >>> disp = model.results.displacement()
         >>> disp.inputs.time_scoping.connect([1,5])
         >>> fields_container = disp.outputs.fields_container()
         >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
+        
         """
         label_space ={}
         if timeid is not None:
@@ -119,14 +121,14 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index (optional) : dict(string:int) or int
+        label_space_or_index : dict[string,int] , int 
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
             or Index of the field.
 
         Returns
         -------
-        fields : list of fields or field (if only one)
+        fields : list[Field] , Field (if only one)
             fields corresponding to the request
           
         Examples
@@ -134,16 +136,20 @@ class FieldsContainer(Collection):
         >>> from ansys.dpf import core as dpf
         >>> fc= dpf.FieldsContainer()
         >>> fc.labels =['time','complex']
-        >>> for i in range(0,20): #real fields 
-                mscop = {"time":i+1,"complex":0}
-                fc.add_field(mscop,dpf.Field(nentities=i+10))
-        >>> for i in range(0,20): #imaginary fields
-                mscop = {"time":i+1,"complex":1}
-                fc.add_field(mscop,dpf.Field(nentities=i+10))
+        >>> #real fields 
+        >>> for i in range(0,20): 
+        ...     mscop = {"time":i+1,"complex":0}
+        ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+        >>> #imaginary fields
+        >>> for i in range(0,20):
+        ...     mscop = {"time":i+1,"complex":1}
+        ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
                 
         >>> fields = fc.get_fields({"time":2})
-        >>> len(fields) #imaginary and real fields of time 2
-        2 
+        >>> # imaginary and real fields of time 2
+        >>> len(fields)
+        2
+        
         """
         
         return super()._get_entries(label_space_or_index)
@@ -158,7 +164,7 @@ class FieldsContainer(Collection):
 
         Returns
         -------
-        fields : list of fields or field (if only one)
+        fields : list[Field] , Field (if only one)
             fields corresponding to the request
         """
         if (not self.has_label('time')):
@@ -182,7 +188,7 @@ class FieldsContainer(Collection):
 
         Returns
         -------
-        fields : list of fields or field (if only one)
+        fields : list[Field] , Field (if only one)
             fields corresponding to the request
         """
         if (not self.has_label('complex') or not self.has_label('time')):
@@ -215,10 +221,10 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict(string:int)
+        label_space : dict[string,int]
             label_space of the requested fields, ex : {"time":1, "complex":0}
 
-        field : dpf.core.Field
+        field : Field
             DPF field to add.
             
         Examples
@@ -227,11 +233,12 @@ class FieldsContainer(Collection):
         >>> fc= dpf.FieldsContainer()
         >>> fc.labels =['time','complex']
         >>> for i in range(0,20): #real fields 
-                mscop = {"time":i+1,"complex":0}
-                fc.add_field(mscop,dpf.Field(nentities=i+10))
+        ...     mscop = {"time":i+1,"complex":0}
+        ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
         >>> for i in range(0,20): #imaginary fields
-                mscop = {"time":i+1,"complex":1}
-                fc.add_field(mscop,dpf.Field(nentities=i+10))
+        ...     mscop = {"time":i+1,"complex":1}
+        ...     fc.add_field(mscop,dpf.Field(nentities=i+10))
+                
         """
         super()._add_entry(label_space, field)
 
@@ -240,7 +247,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------        
-        field : dpf.core.Field
+        field : Field
             DPF field to add.
             
         timeid: int, optional
@@ -263,7 +270,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------        
-        field : dpf.core.Field
+        field : Field
             DPF field to add.
             
         timeid: int, optional
@@ -293,7 +300,7 @@ class FieldsContainer(Collection):
 
         Returns
         -------
-        fields : ansys.dpf.core.FieldsContainer
+        fields : FieldsContainer
             Fields container with one component selected in each field.
 
         Examples
@@ -308,12 +315,8 @@ class FieldsContainer(Collection):
         >>> disp.inputs.time_scoping.connect([1,5])
         >>> fields_container = disp.outputs.fields_container()
         >>> disp_x_fields = fields_container.select_component(0)
-        >>> print(disp_x_fields[0])
-        DPF displacement_0.s0 Field
-          Location: Nodal
-          Unit: m
-          3820 entities 
-          Data:1 components and 3820 elementary data 
+        >>> my_field = disp_x_fields[0]
+          
         """
         comp_select = dpf.core.Operator("component_selector_fc")
         comp_select.connect(0,self)

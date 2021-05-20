@@ -8,21 +8,16 @@ import logging
 import grpc
 import functools
 
-from ansys import dpf
-from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2, operator_config_pb2, operator_config_pb2_grpc
-from ansys.dpf.core import (fields_container, field, scopings_container, scoping,
-                            meshes_container, meshed_region, result_info, time_freq_support,
-                            operators_helper, collection, data_sources)
-from ansys.dpf.core.common import types, camel_to_snake_case
+from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2
 from ansys.dpf.core.inputs import Inputs, _Inputs, Input
 from ansys.dpf.core.outputs import Outputs, _Outputs, Output
-from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.core import BaseService
+from ansys.dpf.core.config import Config
+from ansys.dpf.core.mapping_types import types
+from ansys.dpf.core import server as serverlib
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
-
 
 class Operator:
     """A class used to represent an Operator which is an elementary
@@ -36,13 +31,13 @@ class Operator:
     name : str
         Name of the operator.  For example 'U'.
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
     Examples
     --------
-    Create an operator from a string
+    Create an operator from the library of operators
 
     >>> from ansys.dpf import core as dpf
     >>> disp_oper = dpf.operators.result.displacement()
@@ -53,6 +48,7 @@ class Operator:
     >>> from ansys.dpf.core import examples
     >>> model = Model(examples.static_rst)
     >>> disp_oper = model.results.displacement()
+    
     """
 
     def __init__(self, name, config = None, server=None):
@@ -60,7 +56,7 @@ class Operator:
         stub.
         """
         if server is None:
-            server = dpf.core._global_server()
+            server = serverlib._global_server()
 
         self._server = server
 
@@ -69,16 +65,17 @@ class Operator:
 
         self._message = None
         self._description = None
-        self.inputs = None
-        self.outputs = None
+        self._inputs = None
+        self._outputs = None
 
         self.__send_init_request(config)
-
+        
         # add dynamic inputs
-        if len(self._message.spec.map_input_pin_spec) > 0:
-            self.inputs = Inputs(self._message.spec.map_input_pin_spec, self)
-        if len(self._message.spec.map_output_pin_spec) != 0:
-            self.outputs = Outputs(self._message.spec.map_output_pin_spec, self)
+        if len(self._message.spec.map_input_pin_spec) > 0 and self._inputs==None:
+            self._inputs = Inputs(self._message.spec.map_input_pin_spec, self)
+        if len(self._message.spec.map_output_pin_spec) != 0 and self._outputs==None:
+            self._outputs = Outputs(self._message.spec.map_output_pin_spec, self)
+        
         self._description = self._message.spec.description
 
     def _add_sub_res_operators(self, sub_results):
@@ -94,8 +91,9 @@ class Operator:
         >>> disp_x = model.results.displacement().X()
         >>> disp_y = model.results.displacement().Y()
         >>> disp_z = model.results.displacement().Z()
+        
         """
-        for result_type in sub_results:
+        for result_type in sub_results:             
             bound_method = self._sub_result_op.__get__(self, self.__class__)
             method2 = functools.partial(bound_method, name=result_type["operator name"])
             setattr(self, result_type["name"], method2)
@@ -110,8 +108,7 @@ class Operator:
         pin : int
             Number of the input pin.
 
-        inpt :  str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, 
-        MeshedRegion, MeshesContainer, DataSources, Operator
+        inpt :  str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, Operator
             Object you wish to connect.
 
         pin_out : int, optional
@@ -126,7 +123,6 @@ class Operator:
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
-        >>> print(data_src)
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> max_fc_op = dpf.operators.min_max.min_max_fc()
@@ -134,6 +130,7 @@ class Operator:
         >>> max_field = max_fc_op.outputs.field_max()
         >>> max_field.data
         array([[0.59428386, 0.00201751, 0.0006032 ]])
+        
         """
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(self._message)        
@@ -171,12 +168,13 @@ class Operator:
     
     @property
     def config(self):
-        """Returns a copy of the current config of the operator
+        """Returns a copy of the current config of the operator.
         To use the config that you modify, please use operator.config = new_config
+        or create an operator with the new config as a parameter.
         
         Returns
         ----------
-        config : core.Config        
+        config : Config        
         """
         out = self._stub.List(self._message)
         config = out.config
@@ -190,12 +188,55 @@ class Operator:
          
         Parameters
         ----------
-        value : dpf.core.Config
+        value : Config
         """
         request = operator_pb2.UpdateConfigRequest()
         request.op.CopyFrom(self._message)
         request.config.CopyFrom(value._message)
         self._stub.UpdateConfig(request)
+        
+    @property
+    def inputs(self):
+        """Enables to connect inputs to the operator 
+        
+        Returns
+        --------
+        inputs : Inputs
+        
+        Examples
+        --------
+        Use the displacement operator
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> disp_op.inputs.data_sources(data_src)
+        
+        """
+        return self._inputs
+    
+    @property
+    def outputs(self):
+        """Enables to get outputs of the operator by evaluationg it
+        
+        Returns
+        --------
+        outputs : Output
+        
+        Examples
+        --------
+        CUse the displacement operator
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> disp_op.inputs.data_sources(data_src)
+        >>> disp_fc = disp_op.outputs.fields_container()
+        
+        """
+        return self._outputs
         
       
     @staticmethod
@@ -209,7 +250,7 @@ class Operator:
         name : str
             Name of the operator.  For example 'U'.
     
-        server : DPFServer, optional
+        server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the the global server.
         """
@@ -232,7 +273,8 @@ class Operator:
         -------
         description : str
         """
-        return BaseService(self._server)._description(self._message)
+        from ansys.dpf.core.core import _description
+        return _description(self._message, self._server)
 
     def run(self):
         """Evaluate this operator"""
@@ -309,211 +351,7 @@ class Operator:
             op.connect(1, 1.0/inpt)
         return op
     
-class Config:
-    """A class used to represent an operator's configuration.
-        With configurations the user can optionnaly choose how the operator will run.
-        This is an advanced feature used for deep customization. 
-        The different options can change the way loops are done, 
-        it can change whether the operator needs to make check on the input or not.
-    """
-    def __init__(self,operator_name=None, config=None, server=None):
-        if server is None:
-          server = dpf.core._global_server()
 
-        self._server = server
-
-        self._stub = self._connect()
-        
-        if config:
-            self._message = config
-        else:
-            self.__send_init_request(operator_name)
-        
-        if hasattr(self._message, "spec"):
-            self._config_help=self._message.spec
-        
-        opt = self.options
-        for name in opt : 
-            bound_method = self.config_option_value.__get__(self, self.__class__)
-            method2 = functools.partial(bound_method,
-                                        config_name=name)
-            setattr(self, "get_"+name+"_option", method2)
-            
-            bound_method = self.__set_config_option__.__get__(self, self.__class__)
-            method2 = functools.partial(bound_method,
-                                        config_name=name)
-            setattr(self, "set_"+name+"_option", method2)
-        
-    def _connect(self):
-        """Connect to the grpc service"""
-        return operator_config_pb2_grpc.OperatorConfigServiceStub(self._server.channel)
-
-
-    @protect_grpc
-    def __send_init_request(self, operator_name=None):
-        request = operator_config_pb2.CreateRequest()
-        if operator_name:
-            request.operator_name.operator_name = operator_name
-        self._message = self._stub.Create(request)
-    
-    @property
-    def options(self):
-        """Returns a list of the different config options and their values"""
-        tmp= self._stub.List(self._message)
-        out ={}
-        for opt in tmp.options:
-            out[opt.option_name]=opt.value_str
-        return out
-    
-    
-    
-    def __set_config_option__(self,config_value, config_name):
-        """Change the value of a config option
-
-        Parameters
-        ----------
-        config_name : str
-            Name of the config option to change
-
-        config_value : bool, int, float
-            The value to give to this config option
-        """
-        request = operator_config_pb2.UpdateRequest()
-        request.config.CopyFrom(self._message)
-        option_request = operator_config_pb2.ConfigOption()
-        option_request.option_name = config_name
-        if isinstance(config_value, bool):
-            option_request.bool = config_value
-        elif isinstance(config_value, int):
-            option_request.int = config_value
-        elif isinstance(config_value, float):
-            option_request.double = config_value
-        else:
-            raise TypeError("str, int, float are the accepted type for config options")            
-        
-        request.options.extend([option_request])
-        self._stub.Update(request)
-        
-        
-    def set_config_option(self, config_name, config_value):
-        """Change the value of a config option
-
-        Parameters
-        ----------
-        config_name : str
-            Name of the config option to change
-
-        config_value : bool, int, float
-            The value to give to this config option
-        """
-        return self.__set_config_option__(config_value, config_name)
-        
-        
-    def config_option_value(self, config_name):
-        """Description of the given config_name and how it impacts the operator
-        
-        Parameters
-        ----------
-        config_name : str
-            Name of the config option to change
-            
-        Returns
-        ----------
-        value : str
-        """
-        opt = self.options
-        if config_name in opt:
-            return opt[config_name]
-        else:
-            raise KeyError(f"{config_name} option doesn't exist")
-            
-        
-    def __try_get_option__(self,config_name):
-        if self._config_help:
-            for option in self._config_help.config_options_spec:
-                if option.name==config_name:
-                    return option
-        return None
-    
-    
-    def config_option_documentation(self, config_name):
-        """Description of the given config_name and how it impacts the operator
-        
-        Parameters
-        ----------
-        config_name : str
-            Name of the config option to change
-            
-        Returns
-        ----------
-        documentation : str
-        """
-        option =self.__try_get_option__(config_name)
-        if option:
-            return option.document
-        return ""
-    
-    
-    def config_option_accepted_types(self, config_name):
-        """Description of the given config_name and how it impacts the operator
-        
-        Parameters
-        ----------
-        config_name : str
-            Name of the config option to change
-            
-        Returns
-        ----------
-        types : list str
-        """
-        if self._config_help:
-            for option in self._config_help.config_options_spec:
-                if option.name==config_name:
-                    return option.type_names
-        return ""
-    
-    def config_option_default_value(self, config_name):
-        """Description of the given config_name and how it impacts the operator
-        
-        Parameters
-        ----------
-        config_name : str
-            Name of the config option to change
-            
-        Returns
-        ----------
-        default value : str
-        """
-        if self._config_help:
-            for option in self._config_help.config_options_spec:
-                if option.name==config_name:
-                    return option.default_value_str
-        return ""
-    
-    
-    @property
-    def available_config_options(self):
-        """Returns the list of available config options for this operator
-        
-        Returns
-        ----------
-        types : list str
-        """
-        tmp= self._stub.List(self._message)
-        out =[]
-        for opt in tmp.options:
-            out.append(opt.option_name)
-        return out
-
-    def __str__(self):
-        """describe the entity
-        
-        Returns
-        -------
-        description : str
-        """
-        return BaseService(self._server)._description(self._message)
-        
 
 def _write_output_type_to_proto_style(output_type, request):
     subtype=''
@@ -541,6 +379,9 @@ def _write_output_type_to_proto_style(output_type, request):
             
 
 def _convertOutputMessageToPythonInstance(out, output_type, server):
+    from ansys.dpf.core import (fields_container, field, property_field, field_base, scopings_container, scoping,
+                            meshes_container, meshed_region, result_info, time_freq_support, collection, data_sources,
+                            collection, data_sources, cyclic_support)
     if out.HasField("str"):
         return out.str
     elif out.HasField("int"):
@@ -551,7 +392,10 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return out.bool
     elif out.HasField("field"):
         toconvert = out.field
-        return field.Field(server=server,field=toconvert)
+        if toconvert.datatype == u"int":
+            return property_field.PropertyField(server=server,property_field=toconvert)
+        else:   
+            return field.Field(server=server,field=toconvert)
     elif out.HasField("collection"):
         toconvert = out.collection
         if output_type == types.fields_container:
@@ -574,41 +418,50 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return time_freq_support.TimeFreqSupport(server=server, time_freq_support=toconvert)
     elif out.HasField("data_sources"):
         toconvert = out.data_sources
-        return data_sources.DataSources(server=server,data_sources=toconvert)
+        return data_sources.DataSources(server=server,data_sources=toconvert)  
+    elif out.HasField("cyc_support"):
+        toconvert = out.cyc_support
+        return cyclic_support.CyclicSupport(server=server,cyclic_support=toconvert)
     
 def _fillConnectionRequestMessage(request, inpt, pin_out=0):
-        if isinstance(inpt, str):
-            request.str = inpt
-        elif isinstance(inpt, bool):
-            request.bool = inpt
-        elif isinstance(inpt, int):
-            request.int = inpt
-        elif isinstance(inpt, float):
-            request.double = inpt
-        elif isinstance(inpt, list):
-            if all(isinstance(x, int) for x in inpt):
-                request.vint.rep_int.extend(inpt)
-            elif all(isinstance(x, float) for x in inpt):
-                request.vdouble.rep_double.extend(inpt)
-        elif isinstance(inpt, field.Field):
-            request.field.CopyFrom(inpt._message)
-        elif isinstance(inpt, collection.Collection):
-            request.collection.CopyFrom(inpt._message)
-        elif isinstance(inpt, scoping.Scoping):
-            request.scoping.CopyFrom(inpt._message)
-        elif isinstance(inpt, data_sources.DataSources):
-            request.data_sources.CopyFrom(inpt._message)        
-        elif isinstance(inpt, dpf.core.Model):
-            request.data_sources.CopyFrom(inpt.metadata.data_sources._message)
-        elif isinstance(inpt, meshed_region.MeshedRegion):
-            request.mesh.CopyFrom(inpt._message)
-        elif isinstance(inpt, Operator):
-            request.inputop.inputop.CopyFrom(inpt._message)
-            request.inputop.pinOut = pin_out
-        elif isinstance(inpt, Output):
-            request.inputop.inputop.CopyFrom(inpt._operator._message)
-            request.inputop.pinOut = inpt._pin
-        else:
-            errormsg = f"input type {inpt.__class__} cannot be connected"
-            raise TypeError(errormsg)
+    from ansys.dpf.core import (fields_container, field, property_field, field_base, scopings_container, scoping,
+                            meshes_container, meshed_region, result_info, time_freq_support, collection, data_sources,
+                            collection, data_sources, cyclic_support, model)
+    if isinstance(inpt, str):
+        request.str = inpt
+    elif isinstance(inpt, bool):
+        request.bool = inpt
+    elif isinstance(inpt, int):
+        request.int = inpt
+    elif isinstance(inpt, float):
+        request.double = inpt
+    elif isinstance(inpt, list):
+        if all(isinstance(x, int) for x in inpt):
+            request.vint.rep_int.extend(inpt)
+        elif all(isinstance(x, float) for x in inpt):
+            request.vdouble.rep_double.extend(inpt)
+    elif isinstance(inpt, field_base._FieldBase):
+        request.field.CopyFrom(inpt._message)
+    elif isinstance(inpt, collection.Collection):
+        request.collection.CopyFrom(inpt._message)
+    elif isinstance(inpt, scoping.Scoping):
+        request.scoping.CopyFrom(inpt._message)
+    elif isinstance(inpt, data_sources.DataSources):
+        request.data_sources.CopyFrom(inpt._message)      
+    elif isinstance(inpt, model.Model):
+        request.data_sources.CopyFrom(inpt.metadata.data_sources._message)
+    elif isinstance(inpt, meshed_region.MeshedRegion):
+        request.mesh.CopyFrom(inpt._message)
+    elif isinstance(inpt, cyclic_support.CyclicSupport):
+        request.cyc_support.CopyFrom(inpt._message)
+    elif isinstance(inpt, Operator):
+        request.inputop.inputop.CopyFrom(inpt._message)
+        request.inputop.pinOut = pin_out
+    elif isinstance(inpt, Output):
+        request.inputop.inputop.CopyFrom(inpt._operator._message)
+        request.inputop.pinOut = inpt._pin
+    else:
+        errormsg = f"input type {inpt.__class__} cannot be connected"
+        raise TypeError(errormsg)
         
+    

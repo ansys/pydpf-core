@@ -7,16 +7,14 @@ import os
 from ansys import dpf
 from ansys.grpc.dpf import data_sources_pb2, data_sources_pb2_grpc, base_pb2
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.core import BaseService
 
 
 class DataSources:
-    """Represent the file sources of a model.
-
-    Initialize the data_sources with either optional data_sources
-    message, or by connecting to a stub.  Result path can also be
-    directly set.
-
+    """The data sources is a container of files on which the analysis results can be found.
+     An extension key ('rst' for example) is used to choose which files represent results files,
+     the other one being accessory files.
+     A result file path can be set in the DataSOurces initializer.
+   
     Parameters
     ----------
     result_path : str, optional
@@ -33,7 +31,10 @@ class DataSources:
     --------
     Initialize a model from a result path
     >>> from ansys.dpf import core as dpf
-    >>> dpf.DataSources('file.rst')
+    >>> my_data_sources = dpf.DataSources('file.rst')
+    >>> my_data_sources.result_files
+    ['file.rst']
+    
     """
 
     def __init__(self, result_path=None, data_sources=None, server=None):
@@ -59,7 +60,9 @@ class DataSources:
         return data_sources_pb2_grpc.DataSourcesServiceStub(self._server.channel)
 
     def set_result_file_path(self, filepath, key=""):
-        """Set the result file path
+        """Add a result file path to the datasources. 
+        The result file path key is used to choose the right plugin 
+        when a result is asked with an Operator. 
 
         Parameters
         ----------
@@ -76,6 +79,9 @@ class DataSources:
         >>> from ansys.dpf import core as dpf
         >>> data_sources = dpf.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
+        >>> data_sources.result_files
+        ['/tmp/file.rst']
+        
         """
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
@@ -83,22 +89,61 @@ class DataSources:
         request.path = filepath
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
+        
+    def set_domain_result_file_path(self, path, domain_id):
+        """Add a result file path by domain. This method can be called to 
+        to handle files created by a distributed solve.
+        
+        Parameters
+        ----------
+        path: str
+            Path to the file.
+                
+        domain_id: int, optional, default is 0
+            Domain id for distributed files.
+            
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> data_sources = dpf.DataSources()
+        >>> data_sources.set_domain_result_file_path('/tmp/file0.sub', 0)
+        >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
+        
+        """
+        request = data_sources_pb2.UpdateRequest()
+        request.result_path = True
+        request.domain.domain_path = True
+        request.domain.domain_id = domain_id
+        request.path = path
+        request.data_sources.CopyFrom(self._message)
+        self._stub.Update(request)  
 
-    def add_file_path(self, filepath, key=""):
-        """Add a file path.
-
-        This is used for files other than the result file.
+    def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id = 0):
+        """Add a file path to the data sources. The files not added as
+        result files are accessory files used to access accessory information
+        not present in the result files.
 
         Parameters
         ----------
         filepath : str
             Path of the file.
+            
+        key : str, optional
+            Extension of the file, found directly if it is not set.
+            
+        is_domain: bool
+            file_path is domain_path
+
+        domain_id: int, optional, default is 0
+            Domain id for distributed files.
+            Must be set with domain_path = True to be taken into account. 
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> data_sources = dpf.DataSources()
         >>> data_sources.add_file_path('/tmp/ds.dat')
+        
         """
         # The filename needs to be a fully qualified file name
         if not os.path.dirname(filepath):
@@ -108,18 +153,52 @@ class DataSources:
         request = data_sources_pb2.UpdateRequest()
         request.key = key
         request.path = filepath
+        if is_domain:
+            request.domain.domain_path = True
+            request.domain.domain_id = domain_id
+        request.data_sources.CopyFrom(self._message)
+        self._stub.Update(request)
+        
+    def add_file_path_for_specified_result(self, filepath, key="", result_key = ""):
+        """Add a file path to the data sources. The files not added as
+        result files are accessory files used to access accessory information
+        not present in the result files. Using the ``'specified_result'`` option
+        is used when several results files with different results keys are used 
+        in the data sources. For example, if a solve used 2 different solvers
+        which generated 2 different sets of files, this method can be used.
+
+        Parameters
+        ----------
+        filepath : str
+            Path of the file.
+            
+        key : str, optional
+            Extension of the file, found directly if it is not set.
+            
+        result_key: str, optional
+            Extension of the result file with which this file path belongs.
+        """
+        # The filename needs to be a fully qualified file name
+        if not os.path.dirname(filepath):
+            # append local path
+            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+
+        request = data_sources_pb2.UpdateRequest()
+        request.key = key
+        request.result_key = result_key
+        request.path = filepath
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
     def add_upstream(self, upstream_data_sources):
         """Add an upstream datasources.
 
-        This is used to add a set of path creating an upstram for
+        This is used to add a set of path creating an upstream for
         recursive workflows.
 
         Parameters
         ----------
-        datasources : DataSources
+        upstream_data_sources : DataSources
 
         """
         request = data_sources_pb2.UpdateUpstreamRequest()
@@ -129,11 +208,28 @@ class DataSources:
 
     @property
     def result_key(self):
+        """Returns the result key used by the data sources
+        
+        Returns
+        ----------
+        result_key : str
+        """
         return self._info["result_key"]
 
     @property
     def result_files(self):
-        return self._info["paths"][self.result_key]
+        """Returns the list of result files contained
+        by the data sources
+        
+        Returns
+        ----------
+        result_files : list of str
+        """
+        key = self.result_key
+        if (key == ''): 
+            return None
+        else: 
+            return self._info["paths"][key]
 
     @property
     def _info(self):
@@ -148,13 +244,14 @@ class DataSources:
         return out
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity
         
         Returns
         -------
         description : str
         """
-        return BaseService(self._server)._description(self._message)
+        from ansys.dpf.core.core import _description
+        return _description(self._message, self._server)
 
     def __del__(self):
         try:  # should silently fail

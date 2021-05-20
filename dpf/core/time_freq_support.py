@@ -1,6 +1,6 @@
 """
 TimeFreqSupport
-========
+===============
 """
 import grpc
 
@@ -8,7 +8,6 @@ from ansys import dpf
 from ansys.grpc.dpf import time_freq_support_pb2, time_freq_support_pb2_grpc
 from ansys.grpc.dpf import base_pb2, support_pb2
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.core import BaseService
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
 
@@ -26,7 +25,7 @@ class TimeFreqSupport:
     ----------
     time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport message
 
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
@@ -38,16 +37,8 @@ class TimeFreqSupport:
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = Model(transient)
-    >>> time_freq_support = model.metadata.time_freq_support
-    >>> print(time_freq_support)
-    Time/Frequency Info:
-            Number of sets: 35
-    With complex values
-     Cumulative      Time (s)       Loadstep     Substep
-         1             0.0             1            1
-         2             0.02            1            2
-         3             0.04            1            3
-         4             0.06            1            4
+    >>> time_freq_support = model.metadata.time_freq_support # printable
+         
     """
 
     def __init__(self, time_freq_support=None, server=None):
@@ -73,7 +64,8 @@ class TimeFreqSupport:
         -------
         description : str
         """
-        return BaseService(self._server)._description(self._message)
+        from ansys.dpf.core.core import _description
+        return _description(self._message, self._server)
 
     @property
     def time_frequencies(self):
@@ -84,7 +76,14 @@ class TimeFreqSupport:
         --------
         >>> freq = time_freq_support.time_frequencies
         >>> freq.data
-        array([0.        , 0.019975  , 0.039975  , 0.059975  ])
+        array([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
+               0.099975  , 0.119975  , 0.139975  , 0.159975  , 0.179975  ,
+               0.199975  , 0.218975  , 0.238975  , 0.258975  , 0.278975  ,
+               0.298975  , 0.318975  , 0.338975  , 0.358975  , 0.378975  ,
+               0.398975  , 0.417975  , 0.437975  , 0.457975  , 0.477975  ,
+               0.497975  , 0.517975  , 0.53754972, 0.55725277, 0.57711786,
+               0.59702054, 0.61694639, 0.63683347, 0.65673452, 0.67662783])
+        
         """
         return self._get_frequencies()
     
@@ -94,7 +93,7 @@ class TimeFreqSupport:
         
         Parameters
         ----------
-        frequencies: ansys.dpf.core.Field
+        frequencies: Field
             Field of time frequencies that must be set. 
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
@@ -109,7 +108,7 @@ class TimeFreqSupport:
 
         Parameters
         ----------
-        value : ansys.dpf.core.Field
+        value : Field
             Field of time frequencies that must be set.
         """
         return self._set_time_frequencies(value)
@@ -121,9 +120,8 @@ class TimeFreqSupport:
 
         Examples
         --------
-        >>> freq = time_freq_support.time_frequencies
-        >>> freq.data
-        array([0.        , 0.019975  , 0.039975  , 0.059975  ])
+        >>> freq = time_freq_support.complex_frequencies
+        
         """
         return self._get_frequencies(cplx = True)
     
@@ -133,7 +131,7 @@ class TimeFreqSupport:
         
         Parameters
         ----------
-        complex_frequencies: ansys.dpf.core.Field
+        complex_frequencies : Field
             Field of frequencies that must be set. 
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
@@ -148,7 +146,7 @@ class TimeFreqSupport:
 
         Parameters
         ----------
-        value : ansys.dpf.core.Field
+        value : Field
             Field of complex frequencies that must be set.
         """
         return self._set_complex_frequencies(value)
@@ -168,7 +166,7 @@ class TimeFreqSupport:
         
         Parameters
         ----------
-        rpms: ansys.dpf.core.Field
+        rpms : Field
             Field of rpms that must be set. 
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
@@ -183,7 +181,7 @@ class TimeFreqSupport:
 
         Parameters
         ----------
-        value : ansys.dpf.core.Field
+        value : Field
             Field of rpms that must be set.
         """
         return self._set_rpms(value)
@@ -209,7 +207,7 @@ class TimeFreqSupport:
         
         Parameters
         ----------
-        harmonic_indices: ansys.dpf.core.Field
+        harmonic_indices : Field
             Field of harmonic_indices that must be set. 
         
         stage_num: int, default: 0, optional
@@ -231,6 +229,7 @@ class TimeFreqSupport:
         --------
         >>> time_freq_support.n_sets
         35
+        
         """
         return self._sets_count()
 
@@ -438,7 +437,8 @@ class TimeFreqSupport:
         >>> tfq2.append_step(3, [0.23, 0.25], rpm_value = 3.0, step_harmonic_indices = [1.0, 2.0])
         
         >>> tfq3 = TimeFreqSupport()
-        >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = { 1 : [1.0, 2.0, 3.0], 2 : [1.0, 2.0, 2.5])
+        >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = { 1 : [1.0, 2.0, 3.0], 2 : [1.0, 2.0, 2.5] } )
+        
         """ 
         
         time_frequencies = self.time_frequencies

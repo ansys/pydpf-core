@@ -23,7 +23,7 @@ class Model:
         Accepts either a dpf.core.DataSources instance or a filename of the
         result file to open.
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
@@ -33,12 +33,7 @@ class Model:
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
-
-    Start a local DPF server and load a result file
-
-    >>> from ansys.dpf import core as dpf
-    >>> dpf.start_local_server()
-    >>> model = dpf.Model('file.rst')
+    
     """
 
     def __init__(self, data_sources=None, server=None):
@@ -48,8 +43,6 @@ class Model:
            server = dpf.core._global_server()
 
         self._server = server
-        # base service required to load operators
-        self._base = BaseService(self._server)
         self._metadata = Metadata(data_sources, self._server)
         self._results = Results(self)
 
@@ -63,6 +56,7 @@ class Model:
         - ``meshed_region``
         - ``time_freq_support``
         - ``result_info``
+        - ``mesh_provider``
 
         Examples
         --------
@@ -75,13 +69,8 @@ class Model:
         numbers.
         
         >>> meshed_region = model.metadata.meshed_region
-        >>> meshed_region.elements.scoping.ids
-        [760,
-         761,
-         759,
-         763,
-        ...
-        ]
+        >>> meshed_region.elements.scoping.ids[2]
+        759
 
         Get the data_sources of the model.
 
@@ -118,40 +107,13 @@ class Model:
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         
-        Print available results
+        Get printable available results
         
-        >>> model.results
-        Static analysis
-        Unit system: Metric (m, kg, N, s, V, A)
-        Physics Type: Mecanic
-        Available results:
-             -  displacement
-             -  force
-             -  element_nodal_forces
-             -  stress
-             -  volume
-             -  energy_stiffness_matrix
-             -  hourglass_energy
-             -  thermal_dissipation_energy
-             -  kinetic_energy
-             -  co_energy
-             -  incremental_energy
-             -  strain
-             -  thermal_strains
-             -  thermal_strains_eqv
-             -  swelling_strains
-             -  temperature
+        >>> results = model.results
 
         Access an individual result operator.
 
         >>> temp = model.results.temperature()
-        >>> temp
-        DPF "BFE" Operator
-            Description:
-            Load the appropriate operator based on the data sources and
-            read/compute element structural nodal temperatures. Regarding the
-            requested location and the input mesh scoping, the result location
-            can be Nodal/ElementalNodal/Elemental.
 
         """
         return self._results
@@ -173,11 +135,12 @@ class Model:
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
-        >>> disp = model.Operator('U')
+        >>> disp = model.operator('U')
         
         Create a sum operator
 
-        >>> disp = model.Operator('accumulate')
+        >>> sum = model.operator('accumulate')
+        
         """
         op = Operator(name= name, server = self._server)
         if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
@@ -209,6 +172,7 @@ class Model:
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         >>> model.plot()
+        
         """
         self.metadata.meshed_region.grid.plot(color=color,
                                               show_edges=show_edges, **kwargs)
@@ -224,25 +188,7 @@ class Results:
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> model = dpf.Model(examples.simple_bar)
-    >>> results = model.results
-
-    Print the available results
-
-    >>> print(results)
-    Static analysis
-    Unit system: Metric (m, kg, N, s, V, A)
-    Physics Type: Mecanic
-    Available results:
-         -  displacement
-         -  element_nodal_forces
-         -  volume
-         -  energy_stiffness_matrix
-         -  hourglass_energy
-         -  thermal_dissipation_energy
-         -  kinetic_energy
-         -  co_energy
-         -  incremental_energy
-         -  temperature
+    >>> results = model.results # printable object
 
     Access the displacement operator
 
@@ -283,6 +229,7 @@ class Results:
         >>> disp_x = model.results.displacement().X() 
         >>> disp_y = model.results.displacement().Y() 
         >>> disp_z = model.results.displacement().Z()
+        
         """
         op = self._model.operator(name)
         op._add_sub_res_operators(sub_results)
@@ -309,6 +256,7 @@ class Results:
         >>> disp_x = model.results.displacement().X() 
         >>> disp_y = model.results.displacement().Y() 
         >>> disp_z = model.results.displacement().Z()
+        
         """
         if self._result_info is None:
             return
@@ -323,7 +271,8 @@ class Results:
             try: 
                 method2.__doc__ = Operator(result_type.operator_name).__str__()
             except: 
-                print("Impossible to find this operator in the database: " + result_type.operator_name)
+                pass
+                # print("Impossible to find this operator in the database: " + result_type.operator_name)
             setattr(self, result_type.name, method2)
             self._op_map_rev[result_type.name] = result_type.name
 
@@ -350,8 +299,12 @@ class Metadata:
 
     def _cache_streams_provider(self):
         """Create a stream provider and cache it"""
-        self._stream_provider = Operator("stream_provider")
-        self._stream_provider.inputs.connect(self._data_sources)
+        from ansys.dpf.core import operators
+        if hasattr(operators, "metadata") and hasattr(operators.metadata,"stream_provider"):
+            self._stream_provider = operators.metadata.streams_provider(data_sources=self._data_sources)
+        else:
+            self._stream_provider = Operator("stream_provider")
+            self._stream_provider.inputs.connect(self._data_sources)
 
     @property
     def time_freq_support(self):
@@ -401,7 +354,7 @@ class Metadata:
 
         Returns
         -------
-        ansys.dpf.core.DataSources
+        data_sources : DataSources
 
         Examples
         --------
@@ -415,8 +368,36 @@ class Metadata:
         >>> ds = model.metadata.data_sources
         >>> op = dpf.operators.result.displacement()
         >>> op.inputs.data_sources.connect(ds)
+        
         """
         return self._data_sources
+    
+    @property
+    def streams_provider(self):
+        """stream_provider operator connected to the data sources
+
+        This streams_provider can be connected to other operators.
+
+        Returns
+        -------
+        streams_provider : operators.metadata.stream_provider
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        
+        Connect the model data sources to the 'U' operator.
+        
+        >>> streams = model.metadata.streams_provider
+        >>> op = dpf.operators.result.displacement()
+        >>> op.inputs.streams_container.connect(streams)
+        
+        """
+        return self._stream_provider
+
 
     def _set_data_sources(self, var_inp):
         if isinstance(var_inp, dpf.core.DataSources):
@@ -453,13 +434,13 @@ class Metadata:
         # NOTE: this uses the cached mesh and we might consider
         # changing this
         if self._meshed_region is None:
-            self._meshed_region = self.__mesh_provider.get_output(0, types.meshed_region)
+            self._meshed_region = self.mesh_provider.get_output(0, types.meshed_region)
             # default (pin 10) for element is to check and cure degenerated elements
 
         return self._meshed_region
 
     @property
-    def __mesh_provider(self):
+    def mesh_provider(self):
         """Mesh provider operator
 
         This operator reads a mesh from the result file.

@@ -9,12 +9,9 @@ import functools
 
 from ansys import dpf
 from ansys.grpc.dpf import workflow_pb2, workflow_pb2_grpc, base_pb2
-from ansys.dpf.core import (fields_container, field, scopings_container, scoping,
-                            meshes_container, meshed_region, result_info, time_freq_support,
-                            operators_helper, collection, data_sources, dpf_operator, inputs, outputs)
+from ansys.dpf.core import (dpf_operator, inputs, outputs)
 from ansys.dpf.core.common import types
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.core import BaseService
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
@@ -27,7 +24,7 @@ class Workflow:
 
     Parameters
     ----------
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
         
@@ -44,8 +41,8 @@ class Workflow:
     >>> workfow = dpf.Workflow()
     >>> workfow.add_operators([disp_op,max_fc_op])
     >>> workfow.set_input_name("data_sources", disp_op.inputs.data_sources)
-    >>> workfow.set_output_name("min" outputs.field_min)
-    >>> workfow.set_output_name("max", outputs.field_max)
+    >>> workfow.set_output_name("min", max_fc_op.outputs.field_min)
+    >>> workfow.set_output_name("max", max_fc_op.outputs.field_max)
     
     
     >>> from ansys.dpf.core import examples
@@ -53,6 +50,7 @@ class Workflow:
     >>> workfow.connect("data_sources", data_src)
     >>> min = workfow.get_output("min", dpf.types.field)
     >>> max = workfow.get_output("max", dpf.types.field)
+    
     """
 
     def __init__(self, workflow = None, server=None):
@@ -99,8 +97,8 @@ class Workflow:
         >>> workfow = dpf.Workflow()
         >>> workfow.add_operators([disp_op,max_fc_op])
         >>> workfow.set_input_name("data_sources", disp_op.inputs.data_sources)
-        >>> workfow.set_output_name("min" outputs.field_min)
-        >>> workfow.set_output_name("max", outputs.field_max)
+        >>> workfow.set_output_name("min", max_fc_op.outputs.field_min)
+        >>> workfow.set_output_name("max", max_fc_op.outputs.field_max)
         
         
         >>> from ansys.dpf.core import examples
@@ -108,6 +106,7 @@ class Workflow:
         >>> workfow.connect("data_sources", data_src)
         >>> min = workfow.get_output("min", dpf.types.field)
         >>> max = workfow.get_output("max", dpf.types.field)
+        
         """
         request = workflow_pb2.UpdateConnectionRequest()
         request.wf.CopyFrom(self._message)
@@ -117,7 +116,7 @@ class Workflow:
     
             
     @protect_grpc
-    def get_output(self, pin_name, output_type=None):
+    def get_output(self, pin_name, output_type):
         """Returns the output of the operator on the pin number.
 
         Parameters
@@ -126,29 +125,11 @@ class Workflow:
             Name of the pin to get. This name should be 
             exposed before with wf.set_output_name
 
-        output_type : core.type enum, optional
+        output_type : core.type enum
             The requested type of the output.
         """
-        if hasattr(output_type, 'name'):
-            if output_type == types.fields_container:
-                stype='collection'
-                subtype = 'field'
-            elif output_type== types.scopings_container:
-                stype='collection'
-                subtype = 'scoping'
-            elif output_type== types.meshes_container:
-                stype='collection'
-                subtype = 'meshed_region'
-            else :
-                stype = output_type.name
-        elif isinstance(output_type,list):
-            stype=output_type[0]
-            subtype = output_type[1]
-        else:
-            stype = output_type
         
         request = workflow_pb2.WorkflowEvaluationRequest()
-        request.type = base_pb2.Type.Value(stype.upper())
         request.wf.CopyFrom(self._message)
         request.pin_name = pin_name
         
@@ -183,6 +164,7 @@ class Workflow:
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> workfow.connect("data_sources", data_src)
+        
         """
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(self._message)
@@ -221,7 +203,8 @@ class Workflow:
         >>> workfow.add_operators([disp_op,max_fc_op])
         >>> workfow.set_output_name("contour", disp_op.outputs.fields_container)      
         
-        >>> workfow.get_output("contour", dpf.types.fields_container)
+        >>> fc = workfow.get_output("contour", dpf.types.fields_container)
+        
         """
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(self._message)
@@ -256,6 +239,7 @@ class Workflow:
         >>> disp_op = dpf.Operator("U")
         >>> max_op = dpf.Operator("min_max")
         >>> workfow.add_operator([disp_op,max_op])
+        
         """
         request = workflow_pb2.AddOperatorsRequest()
         request.wf.CopyFrom(self._message)
@@ -283,6 +267,7 @@ class Workflow:
         >>> workfow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> workfow.add_operator(disp_op)
+        
         """
         self.add_operators(operator)
         
@@ -293,7 +278,7 @@ class Workflow:
         
         Parameters
         ----------
-        identifier : str (optional)
+        identifier : str, optional
             name given to the workflow
             
         transfer_ownership : bool
@@ -307,9 +292,10 @@ class Workflow:
         >>> workfow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> workfow.add_operator(disp_op)
-        >>> ...
+        >>> # ...
         >>> id = workfow.record()
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
+        
         """
         request = workflow_pb2.RecordInInternalRegistryRequest()
         request.wf.CopyFrom(self._message)
@@ -340,9 +326,10 @@ class Workflow:
         >>> workfow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> workfow.add_operator(disp_op)
-        >>> ...
+        >>> # ...
         >>> id = workfow.record()
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
+        
         """
         request = workflow_pb2.WorkflowFromInternalRegistryRequest()
         request.registry_id = id
@@ -410,7 +397,7 @@ class Workflow:
         workflow : core.Workflow
             This second workflow's inputs will be chained with this workflow's outputs
             
-        input_output_names : str tuple (optional)
+        input_output_names : str tuple, optional
             the input name of this workflow will be chained with the output name of the second workflow
             If nothing is specified, this workflow's outputs with the same names as the second workflow's inputs will be chained
         
@@ -462,7 +449,8 @@ class Workflow:
         -------
         description : str
         """
-        return BaseService(self._server)._description(self._message)
+        from ansys.dpf.core.core import _description
+        return _description(self._message, self._server)
     
     @protect_grpc
     def __send_init_request(self):

@@ -1,3 +1,8 @@
+"""
+core
+===============
+"""
+
 import os
 import socket
 
@@ -16,24 +21,28 @@ from ansys.dpf.core.misc import module_exists, Report
 from ansys.dpf.core.dpf_operator import Operator, Config
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field, FieldDefinition, Dimensionnality
+from ansys.dpf.core.property_field import PropertyField
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.meshes_container import MeshesContainer
 from ansys.dpf.core.scopings_container import ScopingsContainer
 from ansys.dpf.core.server import (start_local_server, _global_server,
-                                   connect_to_server)
+                                   connect_to_server, has_local_server)
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.common import types, natures, locations, shell_layers
-from ansys.dpf.core.core import BaseService, load_library, download_file, upload_file, upload_file_in_tmp_folder
+from ansys.dpf.core import help
+from ansys.dpf.core.core import BaseService, load_library, download_file, upload_file, upload_file_in_tmp_folder,download_files_in_folder
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
-from ansys.dpf.core.operators_helper import sum, to_nodal, norm, eqv, element_dot, sqr
 from ansys.dpf.core.meshed_region import MeshedRegion
+from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.result_info import ResultInfo
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.workflow import Workflow
+from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core import fields_container_factory,fields_factory
+from ansys.dpf.core import server
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
@@ -73,10 +82,5 @@ if module_exists("pyvista"):
 
 
 SERVER = None
-
-def has_local_server():
-    """Returns True when a local DPF gRPC server has been created"""
-    return SERVER is not None
-
 
 _server_instances = []

@@ -1,6 +1,7 @@
 from ansys.dpf.core.server import DpfServer
 from ansys.dpf import core
 from ansys.dpf.core import LOCALHOST
+import weakref
 
 """Aeneid specific functions and classes"""
 
@@ -27,7 +28,7 @@ def start_server_using_service_manager():  # pragma: no cover
     intercept_channel = grpc.intercept_channel(channel, header_adder)
     core.SERVER = DpfJob(service_manager_url, dpf_service_name,intercept_channel)
 
-    core._server_instances.append(core.SERVER)
+    core._server_instances.append(weakref.ref(core.SERVER))
 
 
 class DpfJob(DpfServer):

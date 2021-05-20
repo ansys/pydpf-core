@@ -57,14 +57,16 @@ class Plotter:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> model = dpf.Model('file.rst')
-        >>> stress = model.results.stress()
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.simple_bar)
+        >>> disp = model.results.displacement()
         >>> scoping = dpf.Scoping()
         >>> scoping.ids = range(1, len(model.metadata.time_freq_support.time_frequencies) + 1)
-        >>> stress.inputs.time_scoping.connect(scoping)
-        >>> fc = stress.outputs.fields_container()
+        >>> disp.inputs.time_scoping.connect(scoping)
+        >>> fc = disp.outputs.fields_container()
         >>> plotter = dpf.plotter.Plotter(model.metadata.meshed_region)
-        >>> plotter.plot_chart(fc)
+        >>> pl = plotter.plot_chart(fc)
+        
         """
         tfq = fields_container.time_freq_support
         if len(fields_container) != len(tfq.time_frequencies):

@@ -24,7 +24,7 @@ def field_from_array(arr):
 
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Field constructed from numpy array.
     """
     from ansys.dpf.core import Field, natures
@@ -80,13 +80,13 @@ def create_matrix_field(num_entities, num_lines, num_col, location = locations.n
         - ``"Elemental"``
         - ansys.dpf.core.natures.elemental_nodal
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Dpf field at the requested format.
 
     Examples
@@ -95,7 +95,9 @@ def create_matrix_field(num_entities, num_lines, num_col, location = locations.n
     nodal location (default). 
 
     >>> from ansys.dpf.core import fields_factory
-    >>> field = fields_factory.create_matrix_field(3, 5, 2)"""
+    >>> field = fields_factory.create_matrix_field(3, 5, 2)
+    
+    """
     return _create_field(server, natures.matrix, num_entities, location, num_col, num_lines)
 
 def create_3d_vector_field(num_entities, location = locations.nodal, server=None):
@@ -116,13 +118,13 @@ def create_3d_vector_field(num_entities, location = locations.nodal, server=None
         - ``"Elemental"``
         - ansys.dpf.core.natures.elemental_nodal
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Dpf field at the requested format.
 
     Examples
@@ -130,7 +132,9 @@ def create_3d_vector_field(num_entities, location = locations.nodal, server=None
     Create field containing 4 3d vector entities with nodal location (default). 
 
     >>> from ansys.dpf.core import fields_factory
-    >>> field = fields_factory.create_3d_vector_field(4)"""
+    >>> field = fields_factory.create_3d_vector_field(4)
+    
+    """
     return _create_field(server, natures.vector, num_entities, location)
 
 def create_tensor_field(num_entities, location = locations.nodal, server=None):
@@ -151,13 +155,13 @@ def create_tensor_field(num_entities, location = locations.nodal, server=None):
         - ``"Elemental"``
         - ansys.dpf.core.natures.elemental_nodal
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Dpf field at the requested format.
 
     Examples
@@ -165,7 +169,9 @@ def create_tensor_field(num_entities, location = locations.nodal, server=None):
     Create field containing 4 tensor entities with nodal location (default). 
 
     >>> from ansys.dpf.core import fields_factory
-    >>> field = fields_factory.create_tensor_field(4)"""
+    >>> field = fields_factory.create_tensor_field(4)
+    
+    """
     return _create_field(server, natures.symmatrix, num_entities, location)
 
 def create_scalar_field(num_entities, location = locations.nodal, server=None):
@@ -186,13 +192,13 @@ def create_scalar_field(num_entities, location = locations.nodal, server=None):
         - ``"Elemental"``
         - ansys.dpf.core.natures.elemental_nodal
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Dpf field at the requested format.
 
     Examples
@@ -200,7 +206,9 @@ def create_scalar_field(num_entities, location = locations.nodal, server=None):
     Create field containing 4 scalars with nodal location (default). 
 
     >>> from ansys.dpf.core import fields_factory
-    >>> field = fields_factory.create_scalar_field(4)"""
+    >>> field = fields_factory.create_scalar_field(4)
+    
+    """
     return _create_field(server, natures.scalar, num_entities, location)
 
 def create_vector_field(num_entities, num_comp, location = locations.nodal, server=None):
@@ -224,13 +232,13 @@ def create_vector_field(num_entities, num_comp, location = locations.nodal, serv
         - ``"Elemental"``
         - ansys.dpf.core.natures.elemental_nodal
     
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.   
         
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Dpf field at the requested format.
 
     Examples
@@ -239,7 +247,9 @@ def create_vector_field(num_entities, num_comp, location = locations.nodal, serv
     nodal location (default). 
 
     >>> from ansys.dpf.core import fields_factory
-    >>> field = fields_factory.create_vector_field(3, 5)"""
+    >>> field = fields_factory.create_vector_field(3, 5)
+    
+    """
     return _create_field(server, natures.vector, num_entities, location, ncomp_n = num_comp)
 
 def _connect(server):
@@ -257,7 +267,7 @@ def _create_field(server, nature, nentities, location = locations.nodal,
 
     Parameters
     ----------
-    server : DPFServer, optional
+    server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server. 
     
@@ -286,7 +296,7 @@ def _create_field(server, nature, nentities, location = locations.nodal,
         
     Returns
     -------
-    field : ansys.dpf.core.Field
+    field : Field
         Dpf field at the requested format."""
     # ncomp_n is number of column components
     # ncomp_m is number of line components
