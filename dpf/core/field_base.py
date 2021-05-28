@@ -379,9 +379,9 @@ class _FieldBase:
            
     def _set_data_pointer(self,data):
         if isinstance(data,  (np.ndarray, np.generic)):
-            data = np.array(data.reshape(data.size), dtype=int)
+            data = np.array(data.reshape(data.size), dtype=np.int32)
         else:
-            data = np.array(data, dtype=int)
+            data = np.array(data, dtype=np.int32)
         if data.size ==0:
             return
         metadata=[(u"size_int", f"{len(data)}")]
@@ -655,6 +655,8 @@ class _LocalFieldBase(_FieldBase):
                     
         """
         if self._is_property_field:
+            if isinstance(data[0], np.int64):
+                data = np.array(data, dtype=np.int32)
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
         if (len(data)>0 and isinstance(data, list)) or isinstance(data,  (np.ndarray, np.generic)):
