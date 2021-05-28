@@ -112,9 +112,11 @@ class Scoping:
         """
         # must convert to a list for gRPC
         if isinstance(ids, range):
-            ids = np.array(list(ids), dtype=int)
+            ids = np.array(list(ids), dtype=np.int32)
         elif not isinstance(ids,(np.ndarray, np.generic)):
-            ids= np.array(ids, dtype=int)
+            ids= np.array(ids, dtype=np.int32)
+        else:
+            ids = np.array(list(ids), dtype=np.int32)
 
         metadata=[(u"size_int", f"{len(ids)}")]
         request = scoping_pb2.UpdateIdsRequest()
