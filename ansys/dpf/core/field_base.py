@@ -483,7 +483,7 @@ class _FieldBase:
         if self._message.datatype == u"int":
             if not isinstance(data[0], int)and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
-            data = np.array(data, dtype=int)
+            data = np.array(data, dtype=np.int32)
             metadata=[(u"size_int", f"{len(data)}")]
         else:
             if isinstance(data,  (np.ndarray, np.generic)):

@@ -25,7 +25,7 @@ can download using your GitHub credentials.
 Assuming you have docker installed, you can get started by
 authorizing docker to access this repository using a personal access
 token.  Create a GH personal access token with ``packages read`` permissions
-according to `Creating a personal access token <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
+according to `Creating a personal access token <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
 
 Save that token to a file with:
 

@@ -24,6 +24,8 @@ server.
 
 For a full example using the model, see :ref:`ref_basic_example`.
 
+For a full description of the Model object, see the APIs section.
+
 
 Model Results
 -------------

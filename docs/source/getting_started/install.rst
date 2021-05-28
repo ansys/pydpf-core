@@ -3,7 +3,7 @@
 ************
 Installation
 ************
-Once you've installed Ansys 2021R1 or newer, you can install DPF with:
+Once you've installed Ansys 2021R2 or newer, you can install DPF with:
 
 .. code::
 
@@ -37,6 +37,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 
 To install all dpf python modules and requirements from the Ansys internal pypi, run: 
 
-```
-pip install ansys-dpf-core --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
-```
+.. code::
+
+	pip install ansys-dpf-core --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com

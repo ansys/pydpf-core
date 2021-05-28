@@ -5,7 +5,7 @@ Contributing
 ============
 We absolutely welcome any code contributions and we hope that this
 guide will facilitate an understanding of the DPF-Core code
-repository. It is important to note that while the PyMAPDL software
+repository. It is important to note that while the DPF-Core software
 package is maintained by Ansys and any submissions will be reviewed
 thoroughly before merging, we still seek to foster a community that
 can support user questions and develop new features to make this
@@ -43,7 +43,7 @@ will remain available on the issues page for other users.
 
 Reporting Bugs
 --------------
-If you encounter any bugs or crashes while using PyMAPDL, please
+If you encounter any bugs or crashes while using DPF-Core, please
 report it at `DPF-Core Issues <https://github.com/pyansys/DPF-Core/issues>`_
 with an appropriate label so we can promptly address it.  When
 reporting an issue, please be overly descriptive so that we may
@@ -210,7 +210,7 @@ Or on windows:
 .. code::
 
    set DPF_START_SERVER=False
-   set DPF_PORT 50054
+   set DPF_PORT=50054
    set DPF_IP=<XXX.XXX.XXX.XXX>
 
 This will tell `ansys.dpf.core` to attempt to connect to the existing
