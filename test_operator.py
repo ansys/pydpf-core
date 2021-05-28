@@ -10,7 +10,7 @@ from ansys import dpf
 from ansys.dpf.core import errors
 
 # Check for ANSYS installation env var
-HAS_AWP_ROOT211 = os.environ.get('AWP_ROOT211', False) is not False
+HAS_AWP_ROOT212 = os.environ.get('AWP_ROOT212', False) is not False
 
 
 def test_create_operator():
@@ -287,7 +287,7 @@ def test_outputs_bool_operator():
     assert out == True
 
 
-@pytest.mark.skipif(not HAS_AWP_ROOT211, reason='Requires AWP_ROOT211')
+@pytest.mark.skipif(not HAS_AWP_ROOT212, reason='Requires AWP_ROOT212')
 def test_inputs_outputs_datasources_operator(cyclic_ds):
     data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(cyclic_ds)

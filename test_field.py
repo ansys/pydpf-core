@@ -675,5 +675,6 @@ def test_set_data_numpy_array_field():
     assert np.allclose(field_to_local.data,arr)
     
     
+    
 if __name__ == "__main__":
     test_get_set_data_local_field()

@@ -8,7 +8,6 @@ import doctest
 import os
 import pathlib
 
-
 def test_doctest_allfiles():
     directory = r'../ansys/dpf/core'
     actual_path = pathlib.Path(__file__).parent.absolute()
@@ -21,7 +20,6 @@ def test_doctest_allfiles():
             doctest.testfile(path, verbose = True, raise_on_error = True)
         else:
             continue
-    
 
 def test_doctest_allexamples():
     directory = r'../examples'
@@ -45,4 +43,4 @@ def test_doctest_allexamples():
 
     
 if __name__ == "__main__":
-    test_doctest_allfiles()
+    test_doctest_allexamples()

@@ -13,9 +13,9 @@ if ansys_path is not None:
         invalid_version = True
 
 
-# skip unless ansys v211 is installed
+# skip unless ansys v212 is installed
 if ansys_path is None or invalid_version or is_ubuntu():
-    pytestmark = pytest.mark.skip("Requires local install of ANSYS 2020R1")
+    pytestmark = pytest.mark.skip("Requires local install of ANSYS 2021R2")
 
 
 def test_start_local():
