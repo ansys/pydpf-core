@@ -6,6 +6,8 @@ Scoping
 from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.check_version import version_requires
 import numpy as np
 
 import sys
@@ -102,7 +104,8 @@ class Scoping:
         request.location.location = loc
         request.scoping.CopyFrom(self._message)
         self._stub.Update(request)
-
+        
+    @version_requires("2.1")
     def _set_ids(self, ids):
         """
         Parameters

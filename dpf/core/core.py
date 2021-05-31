@@ -180,6 +180,7 @@ def _description(dpf_entity_message, server=None):
     """
     return BaseService(server, load_operators=False)._description(dpf_entity_message)    
 
+
 class BaseService():
     """The Base Service class alows to make generic requests to dpf's server.
     For example, informations about the server can be requested, 
