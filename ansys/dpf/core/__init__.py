@@ -43,6 +43,7 @@ from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core import fields_container_factory,fields_factory
 from ansys.dpf.core import server
+from ansys.dpf.core import check_version
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

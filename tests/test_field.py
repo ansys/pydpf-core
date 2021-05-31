@@ -675,6 +675,43 @@ def test_set_data_numpy_array_field():
     assert np.allclose(field_to_local.data,arr)
     
     
+def test_field_huge_amount_of_data(allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity)
+    field = model.results.displacement().outputs.fields_container()[0]
+    data = field.data
+    assert len(data) == 15113
+    field.data = data
+    new_data = field.data
+    assert np.allclose(data, new_data)
+    modif_data = data
+    modif_data[245] = 45
+    modif_data[1129] = 69
+    modif_data[7209] = 2086
+    modif_data[9046] = 12
+    modif_data[12897] = 7894
+    modif_data[15112] = 2789
+    field.data = modif_data
+    new_modif_data = field.data
+    assert np.allclose(new_modif_data, modif_data)
+    
+    # set data with a field created from scratch
+    field = dpf.core.Field(nature=dpf.core.natures.scalar)
+    data = range(1,1000000)
+    field.data = data
+    data_check = field.data
+    assert np.allclose(data_check, data)
+    modif_data = data_check
+    modif_data[245] = 45
+    modif_data[10046] = 69
+    modif_data[1999] = 2086
+    modif_data[50067] = 12
+    modif_data[999345] = 7894
+    modif_data[506734] = 2789
+    modif_data = modif_data.tolist()
+    field.data = modif_data
+    new_modif_data = field.data
+    assert np.allclose(new_modif_data, modif_data)
     
 if __name__ == "__main__":
     test_get_set_data_local_field()

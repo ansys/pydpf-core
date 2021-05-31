@@ -375,6 +375,31 @@ class DpfServer:
             self.shutdown()
         except:
             pass
+        
+    def check_version(self, required_version, msg = None):
+        """
+        Check if the server version matches with a required version.
+        
+        Parameters
+        ----------
+        required_version : str
+            Required version that will be compared with the server version.
+        msg : str, optional
+            Message to be contained in the raised Exception if versions are
+            not meeting.
+    
+        Raises
+        ------
+        dpf_errors : errors
+            errors.DpfVersionNotSupported is raised if failure.
+    
+        Returns
+        -------
+        bool : 
+            True if the server version meets the requirement.
+        """
+        from ansys.dpf.core.check_version import server_meet_version
+        return server_meet_version(required_version, self, msg)
 
 
 
@@ -460,3 +485,5 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         if 'Only one usage of each socket address' in errstr:
             raise errors.InvalidPortError(f'Port {port} in use')
         raise RuntimeError(errstr)
+        
+    

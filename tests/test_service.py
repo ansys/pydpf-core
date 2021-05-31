@@ -63,6 +63,7 @@ def test_upload_download(allkindofcomplexity, tmpdir):
     dpf.core.download_file(vtk_path, os.path.join(tmpdir,"file.vtk"))
     assert os.path.exists(os.path.join(tmpdir,"file.vtk"))
     
+    
 def test_download_folder(allkindofcomplexity, plate_msup,multishells,tmpdir):
     file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
     file = dpf.core.upload_file_in_tmp_folder(plate_msup)
@@ -73,7 +74,7 @@ def test_download_folder(allkindofcomplexity, plate_msup,multishells,tmpdir):
     assert os.path.exists(os.path.join(tmpdir,ntpath.basename(allkindofcomplexity)))
     assert os.path.exists(os.path.join(tmpdir,ntpath.basename(plate_msup)))
     assert os.path.exists(os.path.join(tmpdir,ntpath.basename(multishells)))
-    
+
     
     
     

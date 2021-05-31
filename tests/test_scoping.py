@@ -1,8 +1,14 @@
 import pytest
+import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core import Scoping
+from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
+serv = dpf.core.start_local_server('127.0.0.1', 50075)
+SERVER_VERSION_HIGHER_THAN_2_0 = meets_version(get_server_version(serv), "2.1")
+# serv.shutdown()
 
 def test_create_scoping():
     scop = Scoping()
@@ -92,3 +98,66 @@ def test_delete_auto_scoping():
     scop.__del__()
     with pytest.raises(Exception):
         scop2.ids
+
+@pytest.mark.skipif(SERVER_VERSION_HIGHER_THAN_2_0, reason='Requires server version below (or equal) than 2.0')
+def test_throw_if_unsufficient_version():
+    scop = Scoping()
+    ids = range(1, 10000)
+    with pytest.raises(dpf_errors.DpfVersionNotSupported):
+        scop.ids = ids
+    ids = range(1, 4682)
+    with pytest.raises(dpf_errors.DpfVersionNotSupported):
+        scop.ids = ids
+    ids = range(1, 2000)
+    scop.ids = ids
+    ids_check = scop.ids
+    assert np.allclose(ids, ids_check)
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_2_0, reason='Requires server version higher than 2.0')
+def test_field_with_scoping_many_ids(allkindofcomplexity):
+    # set scoping ids with a scoping created from a model
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    nnodes = mesh.nodes.n_nodes
+    assert nnodes == 15129
+    nod_ids = mesh.nodes.scoping.ids
+    mesh.nodes.scoping.ids = nod_ids
+    new_nod_ids = mesh.nodes.scoping.ids
+    assert np.allclose(nod_ids, new_nod_ids)
+    modif_nod_ids = nod_ids
+    modif_nod_ids[245] = 45
+    modif_nod_ids[1129] = 69
+    modif_nod_ids[1999] = 2086
+    modif_nod_ids[9046] = 12
+    modif_nod_ids[12907] = 7894
+    modif_nod_ids[15128] = 2789
+    mesh.nodes.scoping.ids = modif_nod_ids
+    new_modif_nod_ids = mesh.nodes.scoping.ids
+    assert np.allclose(new_modif_nod_ids, modif_nod_ids)
+    
+    # set scoping ids with a scoping created from scratch
+    scop = dpf.core.Scoping()
+    ids=range(1,1000000)
+    scop.ids = ids
+    ids_check = scop.ids
+    assert np.allclose(ids_check, ids)
+    modif_ids = ids_check
+    modif_ids[245] = 45
+    modif_ids[10046] = 69
+    modif_ids[1999] = 2086
+    modif_ids[50067] = 12
+    modif_ids[999345] = 7894
+    modif_ids[506734] = 2789
+    # np.ndarray
+    scop.ids = modif_ids
+    new_modif_ids = scop.ids
+    assert np.allclose(new_modif_ids, modif_ids)
+    # list
+    modif_ids = modif_ids.tolist()
+    scop.ids = modif_ids
+    new_modif_ids = scop.ids
+    assert np.allclose(new_modif_ids, modif_ids)
+    
+    
+    
+    

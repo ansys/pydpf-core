@@ -12,6 +12,17 @@ result can be plotted at a time.  Extract a field with
 ``fields_container[index]``.
 """
 
+class DpfVersionNotSupported(RuntimeError):
+    """Raised when the dpf-core/grpc-dpf python features are not 
+    supported by DPF gRPC server version. """
+    
+    def __init__(self, version, msg = None):
+        if msg is None: 
+            msg = 'Feature not supported. Please upgrade the server to '
+            msg += str(version)
+            msg += ' version (or above).'
+        RuntimeError.__init__(self, msg)
+
 class DpfValueError(ValueError):
     """Raised when specific dpf error value must be defined"""
     
