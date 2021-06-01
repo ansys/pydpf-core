@@ -43,4 +43,4 @@ def test_doctest_allexamples():
 
     
 if __name__ == "__main__":
-    test_doctest_allexamples()
+    test_doctest_allfiles()

@@ -46,16 +46,16 @@ def test_check_server_version_checkversion(multishells):
     split = v.split(".")
     l = 2
     assert len(split) == l
-    check_version.server_meet_version(v, server)
+    check_version.server_meet_version_and_raise(v, server)
     v_with_patch = v + ".0"
-    check_version.server_meet_version(v_with_patch, server)
+    check_version.server_meet_version_and_raise(v_with_patch, server)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         n = len(split[l-1])
         v_up = v[0:n] + "1"
-        check_version.server_meet_version(v_up, server)
+        check_version.server_meet_version_and_raise(v_up, server)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         v_up_patch = v + ".1"
-        check_version.server_meet_version(v_up_patch, server)
+        check_version.server_meet_version_and_raise(v_up_patch, server)
         
 def test_version_tuple():
     t1 = "2.0.0"

@@ -102,10 +102,10 @@ def test_delete_auto_scoping():
 @pytest.mark.skipif(SERVER_VERSION_HIGHER_THAN_2_0, reason='Requires server version below (or equal) than 2.0')
 def test_throw_if_unsufficient_version():
     scop = Scoping()
-    ids = range(1, 10000)
+    ids = range(1, int(2e6))
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         scop.ids = ids
-    ids = range(1, 4682)
+    ids = range(1,  int(3e6))
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         scop.ids = ids
     ids = range(1, 2000)
@@ -149,15 +149,24 @@ def test_field_with_scoping_many_ids(allkindofcomplexity):
     modif_ids[999345] = 7894
     modif_ids[506734] = 2789
     # np.ndarray
-    scop.ids = modif_ids
+    scop.ids = np.array(modif_ids)
     new_modif_ids = scop.ids
     assert np.allclose(new_modif_ids, modif_ids)
     # list
-    modif_ids = modif_ids.tolist()
+    modif_ids = modif_ids
     scop.ids = modif_ids
     new_modif_ids = scop.ids
     assert np.allclose(new_modif_ids, modif_ids)
     
     
+def test_largest_set_ids_one_shot():
+    scop = dpf.core.Scoping()
+    scop.ids = range(1, int(8e6/28))
+    assert np.allclose( scop.ids,range(1, int(8e6/28)))
+    try :
+        scop.ids = range(1, int(8.2e6/28))
+    except :
+        return #check that either more than 8MB works or it throws
     
+    assert np.allclose( scop.ids,range(1, int(8.2e6/28)))
     
