@@ -76,7 +76,7 @@ def test_named_selection_model(allkindofcomplexity):
     ns = model.metadata.available_named_selections
     assert ns ==  ['_CM82', '_CM86UX_XP', '_DISPNONZEROUX', '_DISPZEROUZ', '_ELMISC', '_FIXEDSU']
     scop = model.metadata.named_selection("_CM86UX_XP")
-    assert len(scop)==15129
+    assert len(scop)==481
     assert scop.location == dpf.core.locations().nodal
 
 

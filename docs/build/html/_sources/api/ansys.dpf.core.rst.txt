@@ -17,6 +17,7 @@ Submodules
    :maxdepth: 4
 
    ansys.dpf.core.available_result
+   ansys.dpf.core.check_version
    ansys.dpf.core.collection
    ansys.dpf.core.common
    ansys.dpf.core.config

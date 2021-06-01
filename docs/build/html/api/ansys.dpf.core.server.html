@@ -2488,6 +2488,30 @@ use this IP and port.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt id="ansys.dpf.core.server.DpfServer.check_version">
+<code class="sig-name descname"><span class="pre">check_version</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.check_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version that will be compared with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message to be contained in the raised Exception if versions are
+not meeting.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py function">

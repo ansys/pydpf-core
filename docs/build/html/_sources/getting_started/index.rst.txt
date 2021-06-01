@@ -2,7 +2,7 @@
 Getting Started
 ===============
 To use the native DPF server, you need to have a local installation of
-Ansys 2021R1.  Visit https://www.ansys.com/ for more information on
+Ansys 2021R2.  Visit https://www.ansys.com/ for more information on
 getting a licensed copy of Ansys.
 
 .. toctree::
@@ -15,7 +15,7 @@ getting a licensed copy of Ansys.
 
 Compatibility
 ~~~~~~~~~~~~~
-As of 20201R1, DPF supports Windows 10 and CentOS 7 and newer.  For
+As of 20201R2, DPF supports Windows 10 and CentOS 7 and newer.  For
 more details, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
 Other platforms may be supported by using DPF within a

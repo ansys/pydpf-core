@@ -5,12 +5,13 @@ MeshedRegion
 from ansys import dpf
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 from ansys.dpf.core import scoping
-from ansys.dpf.core.common import locations
+from ansys.dpf.core.common import locations, types
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.elements import Elements
+from ansys.dpf.core.check_version import server_meet_version
 
 
    
@@ -242,13 +243,23 @@ class MeshedRegion:
         -------
         named_selection : Scoping
         """
-        request = meshed_region_pb2.GetScopingRequest(mesh=self._message)
-        request.named_selection = named_selection
-        out = self._stub.GetScoping(request)
-        return scoping.Scoping(scoping=out, server=self._server)
-        
-        
-
+        if server_meet_version("2.1", self._server):
+            request = meshed_region_pb2.GetScopingRequest(mesh=self._message)
+            request.named_selection = named_selection
+            out = self._stub.GetScoping(request)
+            return scoping.Scoping(scoping=out, server=self._server)
+        else:
+            if hasattr(self, "_stream_provider"):
+                from ansys.dpf.core.dpf_operator import Operator
+                op = Operator("scoping_provider_by_ns")
+                op.connect(1,named_selection)
+                op.connect(3, self._stream_provider,0)                
+                return op.get_output(0, types.scoping)
+            else:
+                raise Exception("getting a named selection from a meshed region is only implemented for meshed region created from a model for server verson 2.0. Please update your server.")
+            
+    def _set_stream_provider(self, stream_provider):
+        self._stream_provider = stream_provider
     # NOTE: kept only for reference as the mesh operator is being moved out of dpf
     # def write_vtk(self, filename, skin_only=True):
     #     """Return a vtk mesh"""
@@ -290,7 +301,7 @@ class MeshedRegion:
     #         name = 'Skin of %s' % self._name
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
-
+    
     def _as_vtk(self, as_linear=True, include_ids=False):
         """Convert DPF mesh to a pyvista unstructured grid"""
         nodes = self.nodes.coordinates_field.data
