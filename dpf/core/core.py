@@ -180,7 +180,6 @@ def _description(dpf_entity_message, server=None):
     """
     return BaseService(server, load_operators=False)._description(dpf_entity_message)    
 
-
 class BaseService():
     """The Base Service class alows to make generic requests to dpf's server.
     For example, informations about the server can be requested, 
@@ -206,7 +205,7 @@ class BaseService():
     --------
     Connect to an existing DPF server
     >>> from ansys.dpf import core as dpf
-    >>> server = dpf.connect_to_server(ip='127.0.0.1', port = 50054)
+    >>> server = dpf.connect_to_server(ip='127.0.0.1', port = 50054, as_global=False)
     >>> base = dpf.BaseService(server=server)
     
     """

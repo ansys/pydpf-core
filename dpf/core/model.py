@@ -435,7 +435,7 @@ class Metadata:
         # changing this
         if self._meshed_region is None:
             self._meshed_region = self.mesh_provider.get_output(0, types.meshed_region)
-            # default (pin 10) for element is to check and cure degenerated elements
+            self._meshed_region._set_stream_provider(self._stream_provider)
 
         return self._meshed_region
 

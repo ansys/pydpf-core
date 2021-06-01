@@ -7,7 +7,7 @@ Used to verify if the server version is a minimum value.
 from ansys.dpf.core import errors as dpf_errors
 import sys
 
-def server_meet_version(required_version, server, msg = None):
+def server_meet_version(required_version, server):
     """
     Check if a given server version matches with a required version.
     
@@ -15,8 +15,33 @@ def server_meet_version(required_version, server, msg = None):
     ----------
     required_version : str
         Required version that will be compared with the server version.
+        
     server : Server
         Dpf server object.
+
+    Returns
+    -------
+    bool : 
+        True if the server version meets the requirement.
+    """
+    version = get_server_version(server)
+    meets = version_tuple(required_version)
+    return meets_version(version, meets)
+
+
+def server_meet_version_and_raise(required_version, server, msg = None):
+    """
+    Check if a given server version matches with a required version and throws 
+    if it doesn't.
+    
+    Parameters
+    ----------
+    required_version : str
+        Required version that will be compared with the server version.
+        
+    server : Server
+        Dpf server object.
+        
     msg : str, optional
         Message to be contained in the raised Exception if versions are
         not meeting.
@@ -31,9 +56,8 @@ def server_meet_version(required_version, server, msg = None):
     bool : 
         True if the server version meets the requirement.
     """
-    version = get_server_version(server)
-    meets = version_tuple(required_version)
-    if not meets_version(version, meets):
+    
+    if not server_meet_version(required_version,server):
         if msg is not None:
             raise dpf_errors.DpfVersionNotSupported(required_version, msg=msg)
         else: 
@@ -51,6 +75,7 @@ def meets_version(version, meets):
     version : str
         Version to check.
         For example ``'1.32.1'``.
+        
     meets : str
         Required version (version must be compared to it).
         For example ``'1.32.2'``.
@@ -140,12 +165,11 @@ def version_requires(min_version):
             # particular cases
             # scoping._set_ids case, must be checked in a particular way
             if func_name == "_set_ids" and class_name == "Scoping":
-                from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
                 ids = args[0]
                 size = len(ids)
                 if size != 0:
-                    max_size = DEFAULT_FILE_CHUNK_SIZE//sys.getsizeof(ids[0])
-                    if (size > max_size):
+                    max_size = 8.0E6//sys.getsizeof(ids[0])
+                    if size > max_size:
                         server.check_version(min_version)
             # default case, just check the compatibility
             else: 

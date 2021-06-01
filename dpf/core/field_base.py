@@ -6,7 +6,6 @@ from ansys.dpf.core import errors
 from ansys.dpf.core import server as serverlib
 
 import numpy as np
-import array
 
 class _FieldBase:
     """Base APIs for all implementations that follow Dpf's
@@ -349,7 +348,7 @@ class _FieldBase:
         request.field.CopyFrom(self._message)
         service = self._stub.ListDataPointer(request)
         dtype = np.int32
-        return self.__data_get_chunk__(dtype, service)
+        return scoping._data_get_chunk_(dtype, service)
     
     @property
     def _data_pointer_as_list(self):
@@ -364,7 +363,7 @@ class _FieldBase:
         request.field.CopyFrom(self._message)
         service = self._stub.ListDataPointer(request)
         dtype = np.int32
-        return self.__data_get_chunk__(dtype, service, False)
+        return scoping._data_get_chunk_(dtype, service, False)
     
     @_data_pointer.setter
     def _data_pointer(self, data):
@@ -434,7 +433,7 @@ class _FieldBase:
             data_type = u"double"
             dtype = np.float
         service = self._stub.List(request, metadata=[(u"float_or_double", data_type)])
-        array= self.__data_get_chunk__(dtype, service, np_array)
+        array= scoping._data_get_chunk_(dtype, service, np_array)
         
         ncomp = self.component_count
         if ncomp != 1 and np_array:
@@ -442,31 +441,6 @@ class _FieldBase:
         
         return array
     
-    def __data_get_chunk__(self,dtype, service, np_array=True):
-        tupleMetaData = service.initial_metadata()
-        for iMeta in range(len(tupleMetaData)):
-            if tupleMetaData[iMeta].key == u"size_tot":
-                size = int(tupleMetaData[iMeta].value)
-        
-        if np_array:
-            itemsize = np.dtype(dtype).itemsize
-            arr = np.empty(size//itemsize, dtype)
-            i = 0
-            for chunk in service:
-                curr_size = len(chunk.array)//itemsize
-                arr[i:i + curr_size] = np.frombuffer(chunk.array, dtype)
-                i += curr_size
-        
-        else:
-            arr=[]
-            if dtype==np.float:
-                dtype = 'd'
-            else:
-                dtype='i'
-            for chunk in service:
-                arr.extend(array.array(dtype,chunk.array))
-
-        return arr
         
         
     @data.setter

@@ -7,8 +7,10 @@ from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.check_version import version_requires, server_meet_version
 import numpy as np
+import array
+
 
 import sys
 
@@ -120,11 +122,14 @@ class Scoping:
             ids= np.array(ids, dtype=np.int32)
         else:
             ids = np.array(list(ids), dtype=np.int32)
-
+        
         metadata=[(u"size_int", f"{len(ids)}")]
         request = scoping_pb2.UpdateIdsRequest()
         request.scoping.CopyFrom(self._message)
-        self._stub.UpdateIds(_data_chunk_yielder(request, ids), metadata=metadata)
+        if server_meet_version("2.1", self._server):
+            self._stub.UpdateIds(_data_chunk_yielder(request, ids), metadata=metadata)
+        else:
+            self._stub.UpdateIds(_data_chunk_yielder(request, ids, 8.0e6), metadata=metadata)
         
 
     def _get_ids(self):
@@ -134,21 +139,17 @@ class Scoping:
         ids : list[int]
             List of ids.
         """
-        service = self._stub.List(self._message)
-
-        # Get total size, removed as it's unnecessary since Python has
-        # to create a list from the ids
-        #
-        # tupleMetaData = service.initial_metadata()
-        # for iMeta in range(len(tupleMetaData)):
-        #     if (tupleMetaData[iMeta].key == 'size_tot'):
-        #         totsize = int(tupleMetaData[iMeta].value)
-
-        out = []
-        for chunk in service:
-            out.extend(chunk.ids.rep_int)
-        return out
-
+        if server_meet_version("2.1", self._server):  
+            service = self._stub.List(self._message)
+            dtype = np.int32
+            return _data_get_chunk_(dtype, service,False)
+        else:
+            out = []
+                    
+            service = self._stub.List(self._message)
+            for chunk in service:
+                out.extend(chunk.ids.rep_int)
+            return out
 
     def set_id(self, index, scopingid):
         """Set the id of an index of the scoping
@@ -290,13 +291,13 @@ class Scoping:
         return _description(self._message, self._server)
 
 
-def _data_chunk_yielder(request, data):
+def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE): 
     length = data.size
     sent_length =0
     if length == 0:
         yield request
         return
-    unitary_size =DEFAULT_FILE_CHUNK_SIZE//sys.getsizeof(data[0])
+    unitary_size =int(chunk_size//sys.getsizeof(data[0]))
     if length-sent_length<unitary_size:
         unitary_size= length-sent_length
     while sent_length<length:
@@ -306,4 +307,30 @@ def _data_chunk_yielder(request, data):
         if length-sent_length<unitary_size:
             unitary_size= length-sent_length
         yield request
+
+def _data_get_chunk_(dtype, service, np_array=True):
+    tupleMetaData = service.initial_metadata()
+    size=0
+    for iMeta in range(len(tupleMetaData)):
+        if tupleMetaData[iMeta].key == u"size_tot":
+            size = int(tupleMetaData[iMeta].value)
     
+    if np_array:
+        itemsize = np.dtype(dtype).itemsize
+        arr = np.empty(size//itemsize, dtype)
+        i = 0
+        for chunk in service:
+            curr_size = len(chunk.array)//itemsize
+            arr[i:i + curr_size] = np.frombuffer(chunk.array, dtype)
+            i += curr_size
+    
+    else:
+        arr=[]
+        if dtype==np.float:
+            dtype = 'd'
+        else:
+            dtype='i'
+        for chunk in service:
+            arr.extend(array.array(dtype,chunk.array))
+            
+    return arr
