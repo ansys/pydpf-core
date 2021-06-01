@@ -1,7 +1,7 @@
 
 from ansys.grpc.dpf import field_pb2, base_pb2, field_pb2_grpc
 from ansys.dpf.core import scoping
-from ansys.dpf.core.common import natures, locations
+from ansys.dpf.core.common import natures, locations, _common_progress_bar
 from ansys.dpf.core import errors 
 from ansys.dpf.core import server as serverlib
 
@@ -342,7 +342,11 @@ class _FieldBase:
         Returns
         -------
         data : numpy.ndarray
-            Data of this field.
+            Data of this field.    
+        
+        Notes
+        -----
+        Print a progress bar
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
@@ -357,7 +361,11 @@ class _FieldBase:
         Returns
         -------
         data : list of int
-            Data of this field.
+            Data of this field.    
+        
+        Notes
+        -----
+        Print a progress bar
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
@@ -371,7 +379,11 @@ class _FieldBase:
 
         Parameters
         ----------
-        data : list of int or array
+        data : list of int or array    
+        
+        Notes
+        -----
+        Print a progress bar
         """
         self._set_data_pointer(data)
         
@@ -391,7 +403,11 @@ class _FieldBase:
         
     @property
     def data(self):
-        """Access the data of this field.
+        """Access the data of this field.    
+        
+        Notes
+        -----
+        Print a progress bar
         
         Returns
         -------
@@ -407,7 +423,11 @@ class _FieldBase:
         Returns
         -------
         data : list
-            Data of this field.
+            Data of this field.    
+        
+        Notes
+        -----
+        Print a progress bar
 
         Examples
         --------
@@ -442,10 +462,13 @@ class _FieldBase:
         return array
     
         
-        
     @data.setter
     def data(self, data):
-        """Set the data of the field.
+        """Set the data of the field.    
+        
+        Notes
+        -----
+        Print a progress bar
 
         Parameters
         ----------
@@ -461,7 +484,7 @@ class _FieldBase:
             metadata=[(u"size_int", f"{len(data)}")]
         else:
             if isinstance(data,  (np.ndarray, np.generic)):
-                if data.shape !=  self.shape and 0 != self.size:
+                if 0 != self.size and self.component_count >1 and data.size//self.component_count != data.size/self.component_count:
                     raise ValueError(f'An array of shape {self.shape} is expected and shape {data.shape} is in input')
                 else:
                     data = np.array(data.reshape(data.size), dtype=float)

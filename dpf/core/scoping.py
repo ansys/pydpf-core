@@ -4,7 +4,7 @@ Scoping
 """
 
 from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
-from ansys.dpf.core.common import locations
+from ansys.dpf.core.common import locations,_common_progress_bar
 from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import version_requires, server_meet_version
@@ -114,6 +114,10 @@ class Scoping:
         ----------
         ids : list of int
             The ids to set
+        
+        Notes
+        -----
+        Print a progress bar
         """
         # must convert to a list for gRPC
         if isinstance(ids, range):
@@ -132,24 +136,31 @@ class Scoping:
             self._stub.UpdateIds(_data_chunk_yielder(request, ids, 8.0e6), metadata=metadata)
         
 
-    def _get_ids(self):
+    def _get_ids(self, np_array=False):
         """
         Returns
         -------
-        ids : list[int]
-            List of ids.
+        ids : list[int], numpy.array (if np_array==True)
+            List of ids.    
+        
+        Notes
+        -----
+        Print a progress bar
         """
         if server_meet_version("2.1", self._server):  
             service = self._stub.List(self._message)
             dtype = np.int32
-            return _data_get_chunk_(dtype, service,False)
+            return _data_get_chunk_(dtype, service,np_array)
         else:
             out = []
                     
             service = self._stub.List(self._message)
             for chunk in service:
                 out.extend(chunk.ids.rep_int)
-            return out
+            if np_array:
+                return np.array(out, dtype = np.int32)
+            else:
+                return out
 
     def set_id(self, index, scopingid):
         """Set the id of an index of the scoping
@@ -225,7 +236,11 @@ class Scoping:
  
         Returns
         -------
-        ids : list of int
+        ids : list of int    
+        
+        Notes
+        -----
+        Print a progress bar
         """
         return self._get_ids()
 
@@ -293,6 +308,10 @@ class Scoping:
 
 def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE): 
     length = data.size
+    need_progress_bar = length>1e6
+    if need_progress_bar:
+        bar =_common_progress_bar("Sending data...", unit=data.dtype.name, tot_size =length)
+        bar.start()
     sent_length =0
     if length == 0:
         yield request
@@ -307,23 +326,46 @@ def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE):
         if length-sent_length<unitary_size:
             unitary_size= length-sent_length
         yield request
+        try:
+            if need_progress_bar:
+                bar.update(sent_length)
+        except:
+            pass
+    try:
+        if need_progress_bar:
+            bar.finish()
+    except:
+        pass
+    
+    
+
 
 def _data_get_chunk_(dtype, service, np_array=True):
     tupleMetaData = service.initial_metadata()
-    size=0
+    
+    need_progress_bar = False
     for iMeta in range(len(tupleMetaData)):
         if tupleMetaData[iMeta].key == u"size_tot":
             size = int(tupleMetaData[iMeta].value)
-    
+    need_progress_bar = size>1e6
+    itemsize = np.dtype(dtype).itemsize
+    if need_progress_bar:
+        bar =_common_progress_bar("Receiving data...", unit=dtype.__name__+"s", tot_size = size//itemsize)
+        bar.start()
+        
     if np_array:
-        itemsize = np.dtype(dtype).itemsize
         arr = np.empty(size//itemsize, dtype)
         i = 0
         for chunk in service:
             curr_size = len(chunk.array)//itemsize
             arr[i:i + curr_size] = np.frombuffer(chunk.array, dtype)
             i += curr_size
-    
+            try:
+                if need_progress_bar:
+                    bar.update(i)
+            except:
+                pass
+
     else:
         arr=[]
         if dtype==np.float:
@@ -332,5 +374,14 @@ def _data_get_chunk_(dtype, service, np_array=True):
             dtype='i'
         for chunk in service:
             arr.extend(array.array(dtype,chunk.array))
-            
+            try:
+                if need_progress_bar:
+                    bar.update(len(arr))
+            except:
+                pass
+    try:
+        if need_progress_bar:
+            bar.finish()
+    except:
+        pass
     return arr

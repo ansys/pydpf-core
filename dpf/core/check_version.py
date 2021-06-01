@@ -38,10 +38,8 @@ def server_meet_version_and_raise(required_version, server, msg = None):
     ----------
     required_version : str
         Required version that will be compared with the server version.
-        
     server : Server
         Dpf server object.
-        
     msg : str, optional
         Message to be contained in the raised Exception if versions are
         not meeting.

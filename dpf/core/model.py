@@ -264,12 +264,15 @@ class Results:
         # dynamically add function based on input type
         self._op_map_rev = {}
         for result_type in self._result_info:
-            bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
-            method2 = functools.partial(bound_method,
-                                        name=result_type.operator_name,
-                                        sub_results=result_type.sub_results)
-            try: 
-                method2.__doc__ = Operator(result_type.operator_name).__str__()
+            try:    
+                #create the operator to read its documentation
+                #if the operator doesn't exist, the method will not be added
+                doc =  Operator(result_type.operator_name).__str__()
+                bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
+                method2 = functools.partial(bound_method,
+                                            name=result_type.operator_name,
+                                            sub_results=result_type.sub_results)
+                method2.__doc__ =doc
             except: 
                 pass
                 # print("Impossible to find this operator in the database: " + result_type.operator_name)
