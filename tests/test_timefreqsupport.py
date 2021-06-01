@@ -5,7 +5,7 @@ from ansys import dpf
 from ansys.dpf.core import TimeFreqSupport, Model
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
-
+from ansys.dpf.core import examples
 
 @pytest.fixture()
 def vel_acc_model(velocity_acceleration):
@@ -205,4 +205,38 @@ def test_append_step_3():
     assert np.allclose([1.0, 2.0], tfq.get_harmonic_indices(1).data)
     assert np.allclose([ 3.0, 3.1], tfq.get_harmonic_indices(2).data)
     assert tfq.complex_frequencies is None
+
+def test_deep_copy_time_freq_support(velocity_acceleration):
+    model = Model(velocity_acceleration)
+    tf = model.metadata.time_freq_support
+    copy = tf.deep_copy()
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
     
+def test_deep_copy_time_freq_support_harmonic():    
+    model = Model(examples.download_multi_harmonic_result())
+    tf = model.metadata.time_freq_support
+    copy = tf.deep_copy()
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+    assert tf.time_frequencies.unit == copy.time_frequencies.unit
+    assert np.allclose(tf.complex_frequencies.data, copy.complex_frequencies.data)
+    assert tf.complex_frequencies.scoping.ids == copy.complex_frequencies.scoping.ids
+    assert np.allclose(tf.rpms.data, copy.rpms.data)
+    assert tf.rpms.scoping.ids == copy.rpms.scoping.ids
+    
+
+def test_deep_copy_time_freq_support_multi_stage():    
+    model = Model(examples.download_multi_stage_cyclic_result())
+    tf = model.metadata.time_freq_support
+    copy = tf.deep_copy()
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+    assert tf.time_frequencies.unit == copy.time_frequencies.unit
+    assert np.allclose(tf.get_harmonic_indices(0).data, copy.get_harmonic_indices(0).data)
+    assert tf.get_harmonic_indices(0).scoping.ids == copy.get_harmonic_indices(0).scoping.ids
+    assert np.allclose(tf.get_harmonic_indices(1).data, copy.get_harmonic_indices(1).data)
+    assert tf.get_harmonic_indices(1).scoping.ids == copy.get_harmonic_indices(1).scoping.ids
+    
+    assert len(tf.get_harmonic_indices(0).data) == 6
+    assert len(tf.get_harmonic_indices(1).data) == 6

@@ -236,6 +236,13 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+   Exchange Data Between Servers
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -368,6 +375,21 @@ displacement operator.</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Available inputs:
+     -   bool_rotate_to_global : bool, optional
+         If true the field is rotated to global coordinate system (default
+         true)
+
+     -   data_sources : DataSources
+         Result file path container, used if no streams are set
+
+     -   mesh : MeshedRegion, MeshesContainer, optional
+         Prevents from reading the mesh in the result files
+
+     -   mesh_scoping : ScopingsContainer, Scoping, optional
+         Nodes or elements scoping requiered in output. the scoping&#39;s location
+         indicates whether nodes or elements are asked. using scopings
+         container enables to split the result fields container in domains
+
      -   time_scoping : Scoping, int, list, float, Field, Vector&lt;Double&gt;, optional
          Time/freq (use doubles or field), time/freq set ids (use ints or
          scoping) or time/freq step ids (use scoping with timefreq_steps
@@ -376,28 +398,13 @@ displacement operator.</p>
      -   streams_container : StreamsContainer, optional
          Result file container allowed to be kept open to cache data
 
-     -   mesh_scoping : ScopingsContainer, Scoping, optional
-         Nodes or elements scoping requiered in output. the scoping&#39;s location
-         indicates whether nodes or elements are asked. using scopings
-         container enables to split the result fields container in domains
+     -   fields_container : FieldsContainer, optional
+         Fields container already allocated modified inplace
 
      -   read_cyclic : Enum Dataprocessing::Ecyclicreading, int, optional
          If 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2
          cyclic expansion is done, if 3 cyclic expansion is done and stages are
          merged (default is 1)
-
-     -   mesh : MeshedRegion, MeshesContainer, optional
-         Prevents from reading the mesh in the result files
-
-     -   fields_container : FieldsContainer, optional
-         Fields container already allocated modified inplace
-
-     -   bool_rotate_to_global : bool, optional
-         If true the field is rotated to global coordinate system (default
-         true)
-
-     -   data_sources : DataSources
-         Result file path container, used if no streams are set
 
 
 Available outputs:
@@ -517,7 +524,7 @@ datasources object. The DataSources constructor input is a path.</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\lparadis\AppData\Roaming\Python\Python37\site-packages\ansys\dpf\core\examples\static.rst
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>d:\ansysdev\dpf-python-core\ansys\dpf\core\examples\static.rst
 </pre></div>
 </div>
 <p>Let’s instantiate the operators and connect them together.</p>
@@ -538,7 +545,7 @@ datasources object. The DataSources constructor input is a path.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.48153706e-08]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.937 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.107 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-01-basic-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9aa372dff2fc2ef917214ce9663244c9/01-basic_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-basic_operators.py</span></code></a></p>

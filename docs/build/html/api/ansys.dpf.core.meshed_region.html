@@ -2091,6 +2091,36 @@
        </li>
       </ul>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
+       fft_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
+       fft_gradient_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
+       fft_multi_harmonic_minmax
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
+       matrix_inverse
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
+       qr_solve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
+       svd
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2498,6 +2528,38 @@ contains shell elements.</p></li>
 <span class="go">[(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),</span>
 <span class="go"> (0.015, 0.045, 0.015),</span>
 <span class="go"> (0.0, 0.0, 1.0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.meshed_region.MeshedRegion.deep_copy">
+<code class="sig-name descname"><span class="pre">deep_copy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.meshed_region.MeshedRegion.deep_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a deep copy of the meshed region’s data on a given server.
+This can be usefull to pass data from one server instance to another.
+Warning
+Only nodes scoping and coordinates and elements scoping, connectivity and types
+are copied. The eventual property field for elemental properties and named selection
+will not be copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the the global server.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mesh_copy</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">meshed_region</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">other_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deep_copy</span> <span class="o">=</span> <span class="n">meshed_region</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">other_server</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

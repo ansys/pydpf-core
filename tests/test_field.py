@@ -713,5 +713,52 @@ def test_field_huge_amount_of_data(allkindofcomplexity):
     new_modif_data = field.data
     assert np.allclose(new_modif_data, modif_data)
     
+    
+def test_deep_copy_field():
+    field = dpf.core.fields_factory.create_3d_vector_field(100)
+    arr = np.arange(300).reshape(100,3)
+    field.data = arr
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field,copy)
+    assert iden.outputs.boolean()
+    assert field.unit == copy.unit
+    
+
+def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    stress = model.results.stress()
+    field = stress.outputs.fields_container()[0]
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field,copy)
+    assert iden.outputs.boolean()
+    
+    mesh = field.meshed_region
+    copy = copy.meshed_region
+    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
+    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert copy.unit == mesh.unit
+    assert np.allclose(copy.nodes.coordinates_field.data,mesh.nodes.coordinates_field.data)
+    assert np.allclose(copy.elements.element_types_field.data,mesh.elements.element_types_field.data)
+    assert np.allclose(copy.elements.connectivities_field.data,mesh.elements.connectivities_field.data)
+    
+    assert np.allclose(copy.nodes.coordinates_field.scoping.ids,mesh.nodes.coordinates_field.scoping.ids)
+    assert np.allclose(copy.elements.element_types_field.scoping.ids,mesh.elements.element_types_field.scoping.ids)
+    assert np.allclose(copy.elements.connectivities_field.scoping.ids,mesh.elements.connectivities_field.scoping.ids)
+    
+
+def test_deep_copy_over_time_field(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    stress = model.results.stress(time_scoping=[1,2,3])
+    min_max = dpf.core.operators.min_max.min_max_fc(stress)
+    field = min_max.outputs.field_max()
+    copy = field.deep_copy()
+    iden = dpf.core.operators.logic.identical_fields(field,copy)
+    assert iden.outputs.boolean()
+    
+    tf = field.time_freq_support
+    copy = copy.time_freq_support
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+    
 if __name__ == "__main__":
     test_get_set_data_local_field()

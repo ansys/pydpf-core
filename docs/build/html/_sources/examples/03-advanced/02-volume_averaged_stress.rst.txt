@@ -257,7 +257,7 @@ Plot elemental seqv and volume averaged elemental seqv
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.474 seconds)
+   **Total running time of the script:** ( 0 minutes  14.787 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_02-volume_averaged_stress.py:

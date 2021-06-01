@@ -1,5 +1,5 @@
-ansys.dpf namespace
-===================
+ansys.dpf package
+=================
 
 Subpackages
 -----------
@@ -8,3 +8,9 @@ Subpackages
    :maxdepth: 4
 
    ansys.dpf.core
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf
+   :inherited-members:

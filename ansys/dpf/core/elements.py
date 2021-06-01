@@ -425,7 +425,7 @@ class Elements():
         # request.elemental_property = meshed_region_pb2.ElementalPropertyType.ELEMENT_TYPE
         request.elemental_property = meshed_region_pb2.ELEMENT_TYPE
         fieldOut = self._mesh._stub.ListProperty(request)
-        return field.Field(self._mesh._server.channel, field=fieldOut)
+        return field.Field(server=self._mesh._server, field=fieldOut)
 
     @property
     @protect_grpc
@@ -450,7 +450,7 @@ class Elements():
         # request.elemental_property = meshed_region_pb2.ElementalPropertyType.MATERIAL
         request.elemental_property = meshed_region_pb2.MATERIAL
         fieldOut = self._mesh._stub.ListProperty(request)
-        return field.Field(self._mesh._server.channel, field=fieldOut)
+        return field.Field(server=self._mesh._server, field=fieldOut)
 
     @property
     def connectivities_field(self):
@@ -480,7 +480,7 @@ class Elements():
         # request.elemental_property = meshed_region_pb2.ElementalPropertyType.CONNECTIVITY
         request.elemental_property = meshed_region_pb2.CONNECTIVITY
         fieldOut = self._mesh._stub.ListProperty(request)
-        return property_field.PropertyField(self._mesh._server.channel, property_field=fieldOut)
+        return property_field.PropertyField(server=self._mesh._server, property_field=fieldOut)
 
     @property
     def n_elements(self) -> int:
@@ -670,6 +670,7 @@ class ElementAdder:
         shape : str
             "solid", "shell", "beam" or "unknown_shape"
         """
+        self._shape_info={"solid":False, "shell":False, "beam":False,"point":False}
         if value == "solid":
             self.is_solid=True 
         elif value =="shell":            
@@ -717,5 +718,46 @@ class element_types(Enum):
     GeneralPlaceholder = 32
     Polygon = 33
     Polyhedron=34
+    
+    @staticmethod
+    def _shapes():
+        return { element_types.Tet10 : "solid",
+                element_types.Hex20 : "solid",
+                element_types.Wedge15 : "solid",
+                element_types.Pyramid13 : "solid",
+                element_types.Tri6 : "shell",
+                element_types.TriShell6 :  "shell",
+                element_types.Quad8 : "shell",
+                element_types.QuadShell8 : "shell",
+                element_types.Line3 : "beam",
+                element_types.Tet4 : "solid",
+                element_types.Hex8 : "solid",
+                element_types.Wedge6 : "solid",
+                element_types.Pyramid5 : "solid",
+                element_types.Tri3 : "shell",
+                element_types.TriShell3 : "shell",
+                element_types.Quad4 : "shell",
+                element_types.QuadShell4 : "shell",
+                element_types.Line2 : "beam",
+                element_types.EMagLine : "beam",
+                element_types.EMagArc: "beam",
+                element_types.EMagCircle : "shell",
+                element_types.Surface3 : "shell",
+                element_types.Surface4 : "shell",
+                element_types.Surface6 : "shell",
+                element_types.Surface8 : "shell",
+                element_types.Edge2 : "beam",
+                element_types.Edge3 : "beam",
+                element_types.Beam3 : "beam",
+                element_types.Beam4 : "beam",
+                element_types.Polygon : "shell",
+                element_types.Polyhedron : "solid"}
+    
+    @staticmethod
+    def shape(element_type):
+        if isinstance(element_type,(int, np.int32)):
+            element_type = element_types(element_type)
+        return element_types._shapes().get(element_type, "unknown_shape")
+        
 
 element_types.__doc__=__write_enum_doc__(element_types,"Types of elements available in a dpf's mesh.")

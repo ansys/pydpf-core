@@ -137,6 +137,21 @@ displacement operator.
  .. code-block:: none
 
     Available inputs:
+         -   bool_rotate_to_global : bool, optional
+             If true the field is rotated to global coordinate system (default
+             true)               
+                             
+         -   data_sources : DataSources
+             Result file path container, used if no streams are set
+                             
+         -   mesh : MeshedRegion, MeshesContainer, optional
+             Prevents from reading the mesh in the result files
+                             
+         -   mesh_scoping : ScopingsContainer, Scoping, optional
+             Nodes or elements scoping requiered in output. the scoping's location
+             indicates whether nodes or elements are asked. using scopings
+             container enables to split the result fields container in domains
+                             
          -   time_scoping : Scoping, int, list, float, Field, Vector<Double>, optional
              Time/freq (use doubles or field), time/freq set ids (use ints or
              scoping) or time/freq step ids (use scoping with timefreq_steps
@@ -145,28 +160,13 @@ displacement operator.
          -   streams_container : StreamsContainer, optional
              Result file container allowed to be kept open to cache data
                              
-         -   mesh_scoping : ScopingsContainer, Scoping, optional
-             Nodes or elements scoping requiered in output. the scoping's location
-             indicates whether nodes or elements are asked. using scopings
-             container enables to split the result fields container in domains
+         -   fields_container : FieldsContainer, optional
+             Fields container already allocated modified inplace
                              
          -   read_cyclic : Enum Dataprocessing::Ecyclicreading, int, optional
              If 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2
              cyclic expansion is done, if 3 cyclic expansion is done and stages are
              merged (default is 1)
-                             
-         -   mesh : MeshedRegion, MeshesContainer, optional
-             Prevents from reading the mesh in the result files
-                             
-         -   fields_container : FieldsContainer, optional
-             Fields container already allocated modified inplace
-                             
-         -   bool_rotate_to_global : bool, optional
-             If true the field is rotated to global coordinate system (default
-             true)               
-                             
-         -   data_sources : DataSources
-             Result file path container, used if no streams are set
                              
 
     Available outputs:
@@ -378,7 +378,7 @@ datasources object. The DataSources constructor input is a path.
 
  .. code-block:: none
 
-    C:\Users\lparadis\AppData\Roaming\Python\Python37\site-packages\ansys\dpf\core\examples\static.rst
+    d:\ansysdev\dpf-python-core\ansys\dpf\core\examples\static.rst
 
 
 
@@ -434,7 +434,7 @@ Let's get the output and print the result data.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.937 seconds)
+   **Total running time of the script:** ( 0 minutes  1.107 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_01-basic_operators.py:

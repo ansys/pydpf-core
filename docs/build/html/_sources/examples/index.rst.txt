@@ -348,6 +348,27 @@ These demos show advanced use cases demonstrating high level of workflow customi
    :hidden:
 
    /examples/03-advanced/02-volume_averaged_stress
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Exchange Data Between Servers">
+
+.. only:: html
+
+ .. figure:: /examples/03-advanced/images/thumb/sphx_glr_03-exchange_data_between_servers_thumb.png
+     :alt: Exchange Data Between Servers
+
+     :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/03-advanced/03-exchange_data_between_servers
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

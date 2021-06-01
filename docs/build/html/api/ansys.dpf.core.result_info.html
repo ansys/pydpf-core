@@ -2091,6 +2091,36 @@
        </li>
       </ul>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
+       fft_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
+       fft_gradient_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
+       fft_multi_harmonic_minmax
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
+       matrix_inverse
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
+       qr_solve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
+       svd
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2405,19 +2435,6 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="ansys.dpf.core.result_info.ResultInfo.get_physics_type">
-<code class="sig-name descname"><span class="pre">get_physics_type</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.result_info.ResultInfo.get_physics_type" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>physics_type</strong> – type of physics (ex : mecanic, electric…)</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="ansys.dpf.core.result_info.ResultInfo.unit_system">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">unit_system</span></code><a class="headerlink" href="#ansys.dpf.core.result_info.ResultInfo.unit_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unit system</p>
@@ -2461,7 +2478,7 @@ The CyclicSupport contains informations relevant for cyclic expansion</p>
 <dd class="field-odd"><p><strong>cyclic_support</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>core.CyclicSupport</p>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.cyclic_support.html#ansys.dpf.core.cyclic_support.CyclicSupport" title="ansys.dpf.core.cyclic_support.CyclicSupport">CyclicSupport</a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -2479,7 +2496,16 @@ The CyclicSupport contains informations relevant for cyclic expansion</p>
 <dl class="py method">
 <dt id="ansys.dpf.core.result_info.ResultInfo.available_results">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">available_results</span></code><a class="headerlink" href="#ansys.dpf.core.result_info.ResultInfo.available_results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Available results</p>
+<dd><p>Available results wraps all the informations about results
+present in the result files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>available_result</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list[<a class="reference internal" href="ansys.dpf.core.available_result.html#ansys.dpf.core.available_result.AvailableResult" title="ansys.dpf.core.available_result.AvailableResult">AvailableResult</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

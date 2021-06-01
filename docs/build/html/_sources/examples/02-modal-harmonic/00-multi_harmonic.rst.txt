@@ -25,7 +25,7 @@ Multi-Harmonic Response Example
 This example shows how to compute a multi-harmonic response
 using fft transforms.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-15
+.. GENERATED FROM PYTHON SOURCE LINES 10-16
 
 .. code-block:: default
 
@@ -33,6 +33,7 @@ using fft transforms.
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
+    from ansys.dpf.core import operators as ops
 
 
 
@@ -41,7 +42,7 @@ using fft transforms.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-23
+.. GENERATED FROM PYTHON SOURCE LINES 17-24
 
 Begin by downloading the example harmonic result.  This result is
 not included in the core module by default to speed up the install.
@@ -51,7 +52,7 @@ Next, create the model and display the state of the result.  Note
 that this harmonic result file contains several rpms,
 each rpm has several frequencies.
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-30
+.. GENERATED FROM PYTHON SOURCE LINES 24-31
 
 .. code-block:: default
 
@@ -1098,11 +1099,11 @@ each rpm has several frequencies.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 Read the analysis domain support
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-36
+.. GENERATED FROM PYTHON SOURCE LINES 33-37
 
 .. code-block:: default
 
@@ -1125,21 +1126,21 @@ Read the analysis domain support
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-41
+.. GENERATED FROM PYTHON SOURCE LINES 38-42
 
 Compute multi harmonic response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we compute the Rz multi harmonic responses based on
 a selected nodes and a set of EOs (multiple engine orders).
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-77
+.. GENERATED FROM PYTHON SOURCE LINES 42-78
 
 .. code-block:: default
 
 
     # Create a total displacement operator and set its time scoping to
     # the entire time freq support and its nodes scoping into a user defined nodes.
-    disp_op = model.operator("UTOT")
+    disp_op = ops.result.raw_displacement(data_sources=model)
     time_ids = list(range(1, model.metadata.time_freq_support.n_sets+1))
 
     # define nodal scoping
@@ -1160,7 +1161,7 @@ a selected nodes and a set of EOs (multiple engine orders).
     rpms = dpf.Scoping()
     rpms.ids = [1, 2, 3]
 
-    fft = dpf.Operator("fft_multi_harmonic_minmax")
+    fft = ops.math.fft_multi_harmonic_minmax()
 
     fft.inputs.connect(comp.outputs)
     fft.inputs.rpm_scoping.connect(rpms)
@@ -1179,11 +1180,11 @@ a selected nodes and a set of EOs (multiple engine orders).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 79-80
 
 Plot the minimum and maximum displacements over time
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-86
+.. GENERATED FROM PYTHON SOURCE LINES 80-87
 
 .. code-block:: default
 
@@ -1208,7 +1209,7 @@ Plot the minimum and maximum displacements over time
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  24.441 seconds)
+   **Total running time of the script:** ( 0 minutes  25.614 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_00-multi_harmonic.py:

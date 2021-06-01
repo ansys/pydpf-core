@@ -2091,6 +2091,36 @@
        </li>
       </ul>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
+       fft_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
+       fft_gradient_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
+       fft_multi_harmonic_minmax
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
+       matrix_inverse
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
+       qr_solve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
+       svd
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2470,6 +2500,29 @@ harmonic_indices are values related to the specified step.</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tfq3</span><span class="o">.</span><span class="n">append_step</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">rpm_value</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">step_harmonic_indices</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span> <span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="mi">2</span> <span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">]</span> <span class="p">}</span> <span class="p">)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.deep_copy">
+<code class="sig-name descname"><span class="pre">deep_copy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.deep_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a deep copy of the time_freq_support’s data on a given server.
+This can be usefull to pass data from one server instance to another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>server</strong> (<em>DPFServer</em><em>, </em><em>optional</em>) – </p></li>
+<li><p><strong>with channel connected to the remote</strong><strong> or </strong><strong>local instance. When</strong> (<em>Server</em>) – </p></li>
+<li><p><strong>None</strong> – </p></li>
+<li><p><strong>to use the the global server.</strong> (<em>attempts</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tf_copy</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="ansys.dpf.core.time_freq_support.TimeFreqSupport">TimeFreqSupport</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

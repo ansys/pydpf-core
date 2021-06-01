@@ -236,6 +236,13 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+   Exchange Data Between Servers
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -299,6 +306,7 @@ using fft transforms.</p>
 
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 </pre></div>
 </div>
 <p>Begin by downloading the example harmonic result.  This result is
@@ -1353,7 +1361,7 @@ Cumulative     Frequency (Hz) LoadStep       Substep        RPM
 a selected nodes and a set of EOs (multiple engine orders).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a total displacement operator and set its time scoping to</span>
 <span class="c1"># the entire time freq support and its nodes scoping into a user defined nodes.</span>
-<span class="n">disp_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s2">&quot;UTOT&quot;</span><span class="p">)</span>
+<span class="n">disp_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">raw_displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
 <span class="n">time_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">n_sets</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># define nodal scoping</span>
@@ -1374,7 +1382,7 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 <span class="n">rpms</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
 <span class="n">rpms</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 
-<span class="n">fft</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;fft_multi_harmonic_minmax&quot;</span><span class="p">)</span>
+<span class="n">fft</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">fft_multi_harmonic_minmax</span><span class="p">()</span>
 
 <span class="n">fft</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 <span class="n">fft</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">rpm_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">rpms</span><span class="p">)</span>
@@ -1397,7 +1405,7 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 </pre></div>
 </div>
 <img alt="00 multi harmonic" class="sphx-glr-single-img" src="../../_images/sphx_glr_00-multi_harmonic_001.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  24.441 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  25.614 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-00-multi-harmonic-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/706507128639cba5b2223bd939ceeeb2/00-multi_harmonic.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-multi_harmonic.py</span></code></a></p>

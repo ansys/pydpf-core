@@ -36,6 +36,7 @@ class Scoping:
     Examples
     --------    
     Create a mesh scoping
+
     >>> from ansys.dpf import core as dpf
     >>> # 1. using the mesh_scoping_factory
     >>> from ansys.dpf.core import mesh_scoping_factory
@@ -122,7 +123,7 @@ class Scoping:
         # must convert to a list for gRPC
         if isinstance(ids, range):
             ids = np.array(list(ids), dtype=np.int32)
-        elif not isinstance(ids,(np.ndarray, np.generic)):
+        elif not isinstance(ids,(np.ndarray, np.generic)):            
             ids= np.array(ids, dtype=np.int32)
         else:
             ids = np.array(list(ids), dtype=np.int32)
@@ -304,6 +305,25 @@ class Scoping:
         """
         from ansys.dpf.core.core import _description
         return _description(self._message, self._server)
+    
+    def deep_copy(self,server=None):
+        """Creates a deep copy of the scoping's data on a given server.
+        This can be usefull to pass data from one server instance to another.
+        
+        Parameters
+        ----------
+        server : DPFServer, optional
+            Server with channel connected to the remote or local instance. When
+            ``None``, attempts to use the the global server.
+        
+        Returns
+        -------
+        scoping_copy : Scoping
+        """
+        scop = Scoping(server=server)
+        scop.ids = self.ids
+        scop.location =self.location
+        return scop
 
 
 def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE): 
@@ -352,6 +372,7 @@ def _data_get_chunk_(dtype, service, np_array=True):
     if need_progress_bar:
         bar =_common_progress_bar("Receiving data...", unit=dtype.__name__+"s", tot_size = size//itemsize)
         bar.start()
+        
         
     if np_array:
         arr = np.empty(size//itemsize, dtype)

@@ -57,6 +57,10 @@ class Model:
         - ``time_freq_support``
         - ``result_info``
         - ``mesh_provider``
+        
+        Returns
+        -------
+        metadata : Metadata
 
         Examples
         --------
@@ -267,20 +271,33 @@ class Results:
             try:    
                 #create the operator to read its documentation
                 #if the operator doesn't exist, the method will not be added
-                doc =  Operator(result_type.operator_name).__str__()
+                doc =  Operator(result_type.operator_name, server=self._model._server).__str__()
                 bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
                 method2 = functools.partial(bound_method,
                                             name=result_type.operator_name,
                                             sub_results=result_type.sub_results)
                 method2.__doc__ =doc
-            except: 
+                setattr(self, result_type.name, method2)
+            except:
                 pass
                 # print("Impossible to find this operator in the database: " + result_type.operator_name)
-            setattr(self, result_type.name, method2)
             self._op_map_rev[result_type.name] = result_type.name
 
     def __str__(self):
         return str(self._result_info)
+    
+    def __iter__(self):
+        for key in self.__dict__:
+            if isinstance(self.__dict__[key], functools.partial):
+                yield self.__dict__[key]
+    def __getitem__(self, val):
+        n=0
+        for key in self.__dict__:
+            if isinstance(self.__dict__[key], functools.partial):
+                if n==val:
+                    return self.__dict__[key]
+                n+=1
+        
 
 
 class Metadata:
@@ -304,9 +321,9 @@ class Metadata:
         """Create a stream provider and cache it"""
         from ansys.dpf.core import operators
         if hasattr(operators, "metadata") and hasattr(operators.metadata,"stream_provider"):
-            self._stream_provider = operators.metadata.streams_provider(data_sources=self._data_sources)
+            self._stream_provider = operators.metadata.streams_provider(data_sources=self._data_sources, server=self._server)
         else:
-            self._stream_provider = Operator("stream_provider")
+            self._stream_provider = Operator("stream_provider", server=self._server)
             self._stream_provider.inputs.connect(self._data_sources)
 
     @property
@@ -344,7 +361,7 @@ class Metadata:
 
         """
         if self._time_freq_support is None:
-            timeProvider = Operator("TimeFreqSupportProvider")
+            timeProvider = Operator("TimeFreqSupportProvider", server=self._server)
             timeProvider.inputs.connect(self._stream_provider.outputs)
             self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
         return self._time_freq_support
@@ -413,7 +430,7 @@ class Metadata:
 
     def _load_result_info(self):
         """Returns a result info object"""
-        op = Operator("ResultInfoProvider")
+        op = Operator("ResultInfoProvider", server=self._server)
         op.inputs.connect(self._stream_provider.outputs)
         try:
             result_info = op.get_output(0, types.result_info)
@@ -458,10 +475,10 @@ class Metadata:
         Underlying operator symbol is
         MeshProvider operator
         """
-        tmp = Operator("MeshSelectionManagerProvider")
+        tmp = Operator("MeshSelectionManagerProvider", server=self._server)
         tmp.inputs.connect(self._stream_provider.outputs)
         tmp.run()
-        mesh_provider = Operator("MeshProvider")
+        mesh_provider = Operator("MeshProvider", server=self._server)
         mesh_provider.inputs.connect(self._stream_provider.outputs)
         return mesh_provider
 

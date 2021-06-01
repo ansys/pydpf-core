@@ -71,6 +71,8 @@ class AvailableResult:
         """Homogeneity of the result"""
         try:
             homogeneity = self._message.homogeneity
+            if (homogeneity==117):
+                return available_result_pb2.Homogeneity.Name(available_result_pb2.Homogeneity.DIMENSIONLESS).lower()
             return available_result_pb2.Homogeneity.Name(homogeneity).lower()
         except ValueError as exception:
             warn(str(exception))

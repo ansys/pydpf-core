@@ -366,10 +366,23 @@ class DpfServer:
             #     dpf.core.SERVER =None
                 
             #from ansys.dpf.core import _server_instances
-            for i, ser in enumerate(dpf.core._server_instances):
-                 if ser() == self:
-                     dpf.core._server_instances.remove(ser)
+            try:
+                for i, ser in enumerate(dpf.core._server_instances):
+                    if ser() == self:
+                        dpf.core._server_instances.remove(ser)
+            except:
+                pass
+                     
+    def __eq__(self,other_server):
+        """Return true, if the ip and the port are equals"""
+        return self.ip == other_server.ip and self.port == other_server.port
+    
+    def __ne__(self,other_server):
+        """Return true, if the ip or the port are different"""
+        return not self.__eq__(other_server)
+    
 
+    
     def __del__(self):
         try:
             self.shutdown()

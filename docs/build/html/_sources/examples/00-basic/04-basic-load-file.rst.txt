@@ -150,7 +150,7 @@ know "server file path".
 
  .. code-block:: none
 
-    C:\Users\lparadis\AppData\Local\Temp\dataProcessingTemp12124\simple_bar_fc.csv
+    C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp50808\simple_bar_fc.csv
 
 
 
@@ -241,7 +241,7 @@ in the basics examples.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.516 seconds)
+   **Total running time of the script:** ( 0 minutes  2.306 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_04-basic-load-file.py:

@@ -163,21 +163,18 @@ class Collection:
         return result
 
     def _get_entries(self, label_space_or_index):
-        """Returns the entry at a requested index or label space
+        """Returns the entries at a requested index or label space
 
         Parameters
         ----------
-        label_space : dict[string,int]
+        label_space_or_index : dict[string,int]
             Label space of the requested entry, for example:
-            ``{"time": 1, "complex": 0}``
-
-        index: int, optional
-            Index of the field.
+            ``{"time": 1, "complex": 0}`` or index of the field.
 
         Returns
         -------
-        entry : scoping or field
-            entry corresponding to the request
+        entries : list[Scoping], list[Field], list[MeshedRegion], Scoping, Field, MeshedRegion
+            entries corresponding to the request
         """
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(self._message)
@@ -215,7 +212,31 @@ class Collection:
                         list_out.append(MeshedRegion(mesh=unpacked_msg, server=self._server))
         if len(list_out)==0:
             list_out=None
-        return list_out
+        return list_out  
+    
+    
+    def _get_entry(self, label_space_or_index):
+        """Returns the entry at a requested index or label space
+
+        Parameters
+        ----------
+        label_space_or_index : dict[string,int]
+            Label space of the requested entry, for example:
+            ``{"time": 1, "complex": 0}`` or index of the field.
+
+        Returns
+        -------
+        entry : Scoping, Field, MeshedRegion
+            entry corresponding to the request
+        """
+        entries = self._get_entries(label_space_or_index)
+        if isinstance(entries, list):
+            if len(entries)==1:
+                return entries[0]
+            else :
+                raise KeyError(f"{label_space_or_index} has {len(entries)} entries")
+        else:
+            return entries
             
     def get_label_space(self, index):
         """Returns the label space of an entry at a requested index

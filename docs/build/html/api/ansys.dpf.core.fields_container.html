@@ -2091,6 +2091,36 @@
        </li>
       </ul>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
+       fft_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
+       fft_gradient_eval
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
+       fft_multi_harmonic_minmax
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
+       matrix_inverse
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
+       qr_solve
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
+       svd
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2396,6 +2426,32 @@ or Index of the field.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="ansys.dpf.core.fields_container.FieldsContainer.get_field">
+<code class="sig-name descname"><span class="pre">get_field</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_space_or_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the field at a requested index or label space.
+Throws if the request returns several fields</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label_space_or_index</strong> (<em>dict</em><em>[</em><em>string</em><em>,</em><em>int</em><em>] </em><em>, </em><em>int</em>) – Scoping of the requested fields, for example:
+<code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;complex&quot;:</span> <span class="pre">0}</span></code>
+or Index of the field.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fields</strong> – field corresponding to the request</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fc</span><span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">([</span><span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">nentities</span><span class="o">=</span><span class="mi">10</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt id="ansys.dpf.core.fields_container.FieldsContainer.get_field_by_time_id">
 <code class="sig-name descname"><span class="pre">get_field_by_time_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_field_by_time_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the complex field at a requested time</p>
@@ -2531,6 +2587,37 @@ contain different number of components.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.fields_container.FieldsContainer.deep_copy">
+<code class="sig-name descname"><span class="pre">deep_copy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.deep_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a deep copy of the fields container’s data (and its fields) on a given server.
+This can be usefull to pass data from one server instance to another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the the global server.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fields_container_copy</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer">FieldsContainer</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">other_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deep_copy</span> <span class="o">=</span> <span class="n">fields_container</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">other_server</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
