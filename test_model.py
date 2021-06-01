@@ -4,6 +4,7 @@ from pyvista.plotting import system_supports_plotting
 
 from ansys import dpf
 from ansys.dpf.core import examples
+import functools
 
 NO_PLOTTING = not system_supports_plotting()
 
@@ -79,6 +80,12 @@ def test_named_selection_model(allkindofcomplexity):
     assert len(scop)==481
     assert scop.location == dpf.core.locations().nodal
 
+def test_all_result_operators_exist(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    res = model.results
+    for key in res.__dict__:
+        if isinstance(res.__dict__[key], functools.partial):
+            res.__dict__[key]()
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):
