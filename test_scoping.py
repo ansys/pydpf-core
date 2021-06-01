@@ -3,6 +3,7 @@ import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core import Scoping
+import numpy as np
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
@@ -33,6 +34,13 @@ def test_set_get_ids_scoping():
     ids=[1,2,3,5,8,9,10]
     scop.ids = ids
     assert scop.ids == ids
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_2_0, reason='Requires server version higher than 2.0')
+def test_set_get_ids_long_scoping():
+    scop = Scoping()
+    ids=range(1,1000000)
+    scop.ids = ids
+    assert np.allclose(scop.ids,ids)
 
 
 def test_get_location_scoping():

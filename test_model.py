@@ -87,6 +87,12 @@ def test_all_result_operators_exist(allkindofcomplexity):
         if isinstance(res.__dict__[key], functools.partial):
             res.__dict__[key]()
 
+def test_iterate_results_model(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    res = model.results
+    for key in res:
+        key()
+
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):
 #     from pyvista import CameraPosition

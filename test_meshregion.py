@@ -399,3 +399,34 @@ def test_has_element_shape_meshed_region():
     assert mesh.elements.has_solid_elements ==True
     assert mesh.elements.has_shell_elements ==True
     assert mesh.elements.has_point_elements ==True 
+    
+def test_mesh_deep_copy(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh =  model.metadata.meshed_region
+    copy = mesh.deep_copy()
+    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
+    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert copy.unit == mesh.unit
+    assert np.allclose(copy.nodes.coordinates_field.data,mesh.nodes.coordinates_field.data)
+    assert np.allclose(copy.elements.element_types_field.data,mesh.elements.element_types_field.data)
+    assert np.allclose(copy.elements.connectivities_field.data,mesh.elements.connectivities_field.data)
+    
+    assert np.allclose(copy.nodes.coordinates_field.scoping.ids,mesh.nodes.coordinates_field.scoping.ids)
+    assert np.allclose(copy.elements.element_types_field.scoping.ids,mesh.elements.element_types_field.scoping.ids)
+    assert np.allclose(copy.elements.connectivities_field.scoping.ids,mesh.elements.connectivities_field.scoping.ids)
+    
+    
+def test_mesh_deep_copy2(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    copy = mesh.deep_copy()
+    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
+    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert copy.unit == mesh.unit
+    assert np.allclose(copy.nodes.coordinates_field.data,mesh.nodes.coordinates_field.data)
+    assert np.allclose(copy.elements.element_types_field.data,mesh.elements.element_types_field.data)
+    assert np.allclose(copy.elements.connectivities_field.data,mesh.elements.connectivities_field.data)
+    
+    assert np.allclose(copy.nodes.coordinates_field.scoping.ids,mesh.nodes.coordinates_field.scoping.ids)
+    assert np.allclose(copy.elements.element_types_field.scoping.ids,mesh.elements.element_types_field.scoping.ids)
+    assert np.allclose(copy.elements.connectivities_field.scoping.ids,mesh.elements.connectivities_field.scoping.ids)
+    

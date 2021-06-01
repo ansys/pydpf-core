@@ -298,6 +298,21 @@ def test_collection_update_support():
     tfq_check = fc.time_freq_support
     assert np.allclose(tfq.time_frequencies.data, tfq_check.time_frequencies.data) 
     
+
+def test_deep_copy_over_time_fields_container(velocity_acceleration):
+    model = dpf.core.Model(velocity_acceleration)
+    stress = model.results.stress(time_scoping=[1,2,3])
+    fc = stress.outputs.fields_container()
+    copy = fc.deep_copy()
+    
+    idenfc = dpf.core.operators.logic.identical_fc(fc,copy)
+    assert idenfc.outputs.boolean()
+    
+    tf = fc.time_freq_support
+    copy = copy.time_freq_support
+    assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
+    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+    
   
 if __name__ == "__main__":   
     test_add_field_by_time_id()
