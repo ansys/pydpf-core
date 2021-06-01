@@ -154,6 +154,31 @@ class FieldsContainer(Collection):
         
         return super()._get_entries(label_space_or_index)
     
+    def get_field(self, label_space_or_index):
+        """Returns the field at a requested index or label space.
+        Throws if the request returns several fields
+
+        Parameters
+        ----------
+        label_space_or_index : dict[string,int] , int 
+            Scoping of the requested fields, for example:
+            ``{"time": 1, "complex": 0}``
+            or Index of the field.
+
+        Returns
+        -------
+        fields : Field
+            field corresponding to the request
+          
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> fc= dpf.fields_container_factory.over_time_freq_fields_container([dpf.Field(nentities=10)])
+        >>> field = fc.get_field({"time":1})
+
+        """        
+        return super()._get_entry(label_space_or_index)
+    
     def get_field_by_time_id(self, timeid=None):
         """Returns the complex field at a requested time
 
@@ -330,4 +355,42 @@ class FieldsContainer(Collection):
     @time_freq_support.setter
     def time_freq_support(self, value):
         return super()._set_time_freq_support(value)
+    
+    
+    def deep_copy(self,server=None):
+        """Creates a deep copy of the fields container's data (and its fields) on a given server.
+        This can be usefull to pass data from one server instance to another.
+        
+        Parameters
+        ----------
+        server : DPFServer, optional
+            Server with channel connected to the remote or local instance. When
+            ``None``, attempts to use the the global server.
+        
+        Returns
+        -------
+        fields_container_copy : FieldsContainer
+        
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> disp = model.results.displacement()
+        >>> disp.inputs.time_scoping.connect([1,5])
+        >>> fields_container = disp.outputs.fields_container()
+        >>> other_server = dpf.start_local_server(as_global=False)
+        >>> deep_copy = fields_container.deep_copy(server=other_server)
+        
+        """
+        fc = FieldsContainer(server=server)
+        fc.labels= self.labels
+        for i,f in enumerate(self):
+            fc.add_field(self.get_label_space(i),f.deep_copy(server))        
+        try:
+            fc.time_freq_support = self.time_freq_support.deep_copy(server)
+        except:
+            pass
+        return fc
     

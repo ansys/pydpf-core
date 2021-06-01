@@ -1,7 +1,7 @@
 
 from ansys.grpc.dpf import field_pb2, base_pb2, field_pb2_grpc
 from ansys.dpf.core import scoping
-from ansys.dpf.core.common import natures, locations, _common_progress_bar
+from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import errors 
 from ansys.dpf.core import server as serverlib
 
@@ -167,7 +167,7 @@ class _FieldBase:
         request = field_pb2.GetRequest()
         request.field.CopyFrom(self._message)
         message = self._stub.GetScoping(request)
-        return scoping.Scoping(scoping=message.scoping)
+        return scoping.Scoping(scoping=message.scoping, server = self._server)
 
     @property
     def scoping(self):
@@ -461,7 +461,7 @@ class _FieldBase:
         
         return array
     
-        
+    
     @data.setter
     def data(self, data):
         """Set the data of the field.    
@@ -583,7 +583,11 @@ class _LocalFieldBase(_FieldBase):
         else:
             first_index = self._ncomp * index
             last_index = self._ncomp * (index+1)-1
-        array = np.array([self._data_copy[first_index:last_index+1]])
+        if self._is_property_field:
+            array = np.array(self._data_copy[first_index:last_index+1], dtype=np.int32)
+        else:
+            
+            array = np.array(self._data_copy[first_index:last_index+1])
         if self._ncomp>1:
             return array.reshape((array.size//self._ncomp,self._ncomp))
         else:

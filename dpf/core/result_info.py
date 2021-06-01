@@ -118,10 +118,9 @@ class ResultInfo:
         'mecanic'
         
         """
-        intOut = self._stub.List(self._message).physics_type
-        return result_info_pb2.PhysicsType.Name(intOut).lower()
+        return self._get_physics_type()
 
-    def get_physics_type(self):
+    def _get_physics_type(self):
         """
         Returns
         -------
@@ -171,7 +170,7 @@ class ResultInfo:
         
         Return
         ------
-        cyclic_support : core.CyclicSupport
+        cyclic_support : CyclicSupport
         
         Examples
         --------
@@ -226,7 +225,13 @@ class ResultInfo:
 
     @property
     def available_results(self):
-        """Available results"""
+        """Available results wraps all the informations about results 
+        present in the result files
+        
+        Returns
+        -------
+        available_result : list[AvailableResult]
+        """
         out = []
         for i in range(len(self)):
             out.append(self._get_result(i))

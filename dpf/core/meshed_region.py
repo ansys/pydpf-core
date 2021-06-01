@@ -10,8 +10,9 @@ from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
 from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.elements import Elements
+from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.check_version import server_meet_version
+
 
 
    
@@ -251,7 +252,7 @@ class MeshedRegion:
         else:
             if hasattr(self, "_stream_provider"):
                 from ansys.dpf.core.dpf_operator import Operator
-                op = Operator("scoping_provider_by_ns")
+                op = Operator("scoping_provider_by_ns", server = self._server)
                 op.connect(1,named_selection)
                 op.connect(3, self._stream_provider,0)                
                 return op.get_output(0, types.scoping)
@@ -399,7 +400,51 @@ class MeshedRegion:
         kwargs['notebook'] = notebook
         return pl.plot_mesh(**kwargs)
     
-    @protect_grpc
+    def deep_copy(self,server=None):
+        """Creates a deep copy of the meshed region's data on a given server.
+        This can be usefull to pass data from one server instance to another.
+        Warning
+        Only nodes scoping and coordinates and elements scoping, connectivity and types 
+        are copied. The eventual property field for elemental properties and named selection
+        will not be copied.
+        
+        Parameters
+        ----------     
+        server : DPFServer, optional
+            Server with channel connected to the remote or local instance. When
+            ``None``, attempts to use the the global server.
+
+        Returns
+        -------
+        mesh_copy : MeshedRegion
+        
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
+        >>> other_server = dpf.start_local_server(as_global=False)
+        >>> deep_copy = meshed_region.deep_copy(server=other_server)
+        
+        """
+        node_ids = self.nodes.scoping.ids
+        element_ids = self.elements.scoping.ids
+        mesh = MeshedRegion(num_nodes=len(node_ids), num_elements=len(element_ids),server=server)
+        with self.nodes.coordinates_field.as_local_field() as coord:
+            for i,node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
+                node.id = node_ids[i]
+                node.coordinates = coord.get_entity_data(i)
+        with self.elements.connectivities_field.as_local_field() as connect :
+            with self.elements.element_types_field.as_local_field() as types:
+                for i,elem in enumerate(mesh.elements.add_elements(len(element_ids))):
+                    elem.id = element_ids[i]
+                    elem.connectivity = connect.get_entity_data(i)
+                    elem.shape = element_types.shape(types.get_entity_data(i)[0])
+        mesh.unit = self.unit
+        return mesh
+    
+    
     def __send_init_request(self, num_nodes=0, num_elements=0):
         request = meshed_region_pb2.CreateRequest()
         if num_nodes:

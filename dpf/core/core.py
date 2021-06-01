@@ -182,7 +182,7 @@ def upload_file(file_path, to_server_file_path, server=None):
     return base.upload_file(file_path, to_server_file_path)
 
 def _description(dpf_entity_message, server=None):
-    """Ask the server to describe the entity in input
+    """Ask the server to describe the entity in input    
     
     Parameters
     ----------
@@ -404,12 +404,13 @@ class BaseService():
             folder path target where the files will be located client side  
             
         specific_extension (optional) : str
-            copies only the files with the given extension     
-        
+            copies only the files with the given extension
+                    
         Notes
         -----
         Print a progress bar
     
+            
         Returns
         -------
         paths : list of str
@@ -422,7 +423,7 @@ class BaseService():
         num_files = 1
         if chunks.initial_metadata()[0].key == u"num_files":
             num_files = int(chunks.initial_metadata()[0].value)
-
+            
         bar =_common_progress_bar("Downloading...", unit="files", tot_size = num_files)
         bar.start()
         
@@ -449,7 +450,8 @@ class BaseService():
         except:
             pass
         return client_paths
-    
+                
+
     @protect_grpc
     def upload_file(self, file_path, to_server_file_path):
         """Upload a file from the client to the target server file path

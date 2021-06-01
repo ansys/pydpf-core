@@ -290,7 +290,7 @@ class Field(_FieldBase):
             request=field_pb2.GetRequest()
             request.field.CopyFrom(self._message)
             out = self._stub.GetFieldDefinition(request)
-            return FieldDefinition(out.field_definition)
+            return FieldDefinition(out.field_definition, self._server)
         except:
             return
 
@@ -557,9 +557,51 @@ class Field(_FieldBase):
         """
         return self._min_max().get_output(1, types.field)
     
-    
-    
-
+    def deep_copy(self,server=None):
+        """Creates a deep copy of the field's data on a given server.
+        This can be usefull to pass data from one server instance to another.
+        
+        Parameters
+        ----------
+        server : DPFServer, optional
+        
+        Returns
+        -------
+        field_copy : Field
+        
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> disp = model.results.displacement()
+        >>> fields_container = disp.outputs.fields_container()
+        >>> field = fields_container[0]
+        >>> other_server = dpf.start_local_server(as_global=False)
+        >>> deep_copy = field.deep_copy(server=other_server)
+        
+        """
+        f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionnality.nature, server=server)
+        f.scoping = self.scoping.deep_copy(server)
+        f.data = self.data
+        f.unit = self.unit
+        f.location = self.location
+       
+        try:
+            f._data_pointer = self._data_pointer
+        except:
+            pass
+        try:
+            f.meshed_region = self.meshed_region.deep_copy(server=server)
+        except:
+            pass
+        try:
+            f.time_freq_support = self.time_freq_support.deep_copy(server=server)
+        except:
+            pass
+        return f
+        
 class _LocalField(_LocalFieldBase,Field):
     """Class only created by a field to cache the internal data of the field,
     modify it locallly, and send a single update request to the server 

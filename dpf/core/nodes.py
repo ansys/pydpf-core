@@ -354,6 +354,27 @@ class NodeAdder:
     
     """
     def __init__(self):
-        self.id=0
-        self.coordinates=[0.0,0.0,0.0]
+        self._id=0
+        self._coordinates=[0.0,0.0,0.0]
+        
+    @property
+    def id(self):
+        """Node id"""
+        return self._id
+    
+    @id.setter
+    def id(self,value):
+        self._id =value
+        
+    @property
+    def coordinates(self):
+        return self._coordinates
+    
+    @coordinates.setter
+    def coordinates(self, xyz):
+        if isinstance(xyz, (np.ndarray, np.generic)):
+            self._coordinates= xyz.flatten().tolist()
+        else:
+            self._coordinates= xyz
+            
 

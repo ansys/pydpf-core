@@ -472,6 +472,37 @@ class TimeFreqSupport:
             else: 
                 raise dpf_errors.InvalidTypeError("list/dict", "step_harmonic_indices")
                 
+                
+    def deep_copy(self,server=None):
+        """Creates a deep copy of the time_freq_support's data on a given server.
+        This can be usefull to pass data from one server instance to another.
+        
+        Parameters
+        ----------
+        server : DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global server.
+        
+        Returns
+        -------
+        tf_copy : TimeFreqSupport
+        """
+        tf = TimeFreqSupport(server=server)
+        tf.time_frequencies = self.time_frequencies.deep_copy(server=server)
+        if self.complex_frequencies:
+            tf.complex_frequencies = self.complex_frequencies.deep_copy(server=server)
+        if self.rpms:
+            tf.rpms = self.rpms.deep_copy(server=server)
+        i=0
+        while True:
+            try:
+                tf.set_harmonic_indices(self.get_harmonic_indices(i).deep_copy(server=server),i)
+                i+=1
+            except:
+                break
+        return tf  
+        
+                
     def _set_harmonic_indices_at_stage(self, stage_num, step_harmonic_indices, step_id):
         """Set the harmonic_indices values for a specific stage number.
         

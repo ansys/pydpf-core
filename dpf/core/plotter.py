@@ -131,7 +131,7 @@ class Plotter:
         if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
-                fields_container = dpf.core.FieldsContainer()
+                fields_container = dpf.core.FieldsContainer(server = field_or_fields_container._server)
                 fields_container.add_label(DefinitionLabels.time)
                 fields_container.add_field({DefinitionLabels.time: 1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
@@ -159,11 +159,11 @@ class Plotter:
 
         # pre-loop to get location and component count
         for field in fields_container:
-            if len(field.data) != 0:
-                location = field.location
-                component_count = field.component_count
-                name = field.name.split("_")[0]
-                break
+            #if len(field.data) != 0:
+            location = field.location
+            component_count = field.component_count
+            name = field.name.split("_")[0]
+            break
 
         if location == locations.nodal:
             mesh_location = mesh.nodes
