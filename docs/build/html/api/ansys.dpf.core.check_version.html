@@ -2091,36 +2091,6 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
-       fft_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
-       fft_gradient_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
-       fft_multi_harmonic_minmax
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
-       matrix_inverse
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
-       qr_solve
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
-       svd
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2310,8 +2280,29 @@
 <p>Used to verify if the server version is a minimum value.</p>
 <dl class="py function">
 <dt id="ansys.dpf.core.check_version.server_meet_version">
-<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.check_version.</span></code><code class="sig-name descname"><span class="pre">server_meet_version</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.check_version.server_meet_version" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.check_version.</span></code><code class="sig-name descname"><span class="pre">server_meet_version</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.check_version.server_meet_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a given server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version that will be compared with the server version.</p></li>
+<li><p><strong>server</strong> (<em>Server</em>) – Dpf server object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ansys.dpf.core.check_version.server_meet_version_and_raise">
+<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.check_version.</span></code><code class="sig-name descname"><span class="pre">server_meet_version_and_raise</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.check_version.server_meet_version_and_raise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a given server version matches with a required version and throws
+if it doesn’t.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

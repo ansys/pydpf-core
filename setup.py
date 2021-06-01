@@ -11,6 +11,7 @@ install_requires = ['pyvista>=0.24.0',
                     'psutil',
                     'pillow>=7.0.0',
                     'pexpect',
+                    'progressbar2',
                     'ansys.grpc.dpf>=0.2.3']
 
 

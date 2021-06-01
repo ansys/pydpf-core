@@ -10,7 +10,7 @@ import re
 
 from ansys.grpc.dpf import base_pb2
 from ansys.grpc.dpf import field_definition_pb2
-
+import progressbar
 
 def _camel_to_snake_case(name):
     return re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
@@ -112,4 +112,11 @@ class DefinitionLabels:
     time = "time"
     complex = "complex"
     
-
+def _common_progress_bar(text, unit, tot_size=None):
+    
+    if tot_size:
+        widgets = [progressbar.FormatLabel(f'{text}: %(value)d of %(max_value)d {unit} '),progressbar.Percentage(), progressbar.Bar()]
+        return progressbar.ProgressBar(widgets=widgets,max_value=tot_size )
+    else:
+        widgets = [progressbar.FormatLabel(f'{text}: %(value)d {unit}'), progressbar.RotatingMarker()]
+        return progressbar.ProgressBar(widgets=widgets,max_value=progressbar.UnknownLength )

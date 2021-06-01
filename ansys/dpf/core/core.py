@@ -11,10 +11,10 @@ import pathlib
 import grpc
 
 from ansys.grpc.dpf import base_pb2, base_pb2_grpc
-from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import server as serverlib
 from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+from ansys.dpf.core.common import _common_progress_bar
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
@@ -72,6 +72,10 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
         
+    Notes
+    -----
+    Print a progress bar
+        
     Returns
     -------
       server_file_path : str
@@ -101,6 +105,10 @@ def download_file(server_file_path, to_client_file_path, server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
+        
+    Notes
+    -----
+    Print a progress bar
     
     Examples
     --------
@@ -114,7 +122,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
     base = BaseService(server, load_operators=False)    
     return base.download_file(server_file_path, to_client_file_path)
 
-def download_files_in_folder(server_folder_path, to_client_folder_path, server=None):
+def download_files_in_folder(server_folder_path, to_client_folder_path, specific_extension=None, server=None):
     """Download all the files from a folder of the server 
     to the target client folder path
     
@@ -126,9 +134,16 @@ def download_files_in_folder(server_folder_path, to_client_folder_path, server=N
     to_client_folder_path: str
         folder path target where the files will be located client side      
         
+    specific_extension (optional) : str
+        copies only the files with the given extension
+        
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
+        
+    Notes
+    -----
+    Print a progress bar
         
     Returns
     -------
@@ -136,7 +151,7 @@ def download_files_in_folder(server_folder_path, to_client_folder_path, server=N
         new file paths client side
     """
     base = BaseService(server, load_operators=False)    
-    return base.download_files_in_folder(server_folder_path, to_client_folder_path)
+    return base.download_files_in_folder(server_folder_path, to_client_folder_path,specific_extension)
 
         
 def upload_file(file_path, to_server_file_path, server=None):
@@ -153,6 +168,10 @@ def upload_file(file_path, to_server_file_path, server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
+        
+    Notes
+    -----
+    Print a progress bar
         
     Returns
     -------
@@ -205,8 +224,8 @@ class BaseService():
     --------
     Connect to an existing DPF server
     >>> from ansys.dpf import core as dpf
-    >>> server = dpf.connect_to_server(ip='127.0.0.1', port = 50054, as_global=False)
-    >>> base = dpf.BaseService(server=server)
+    >>> #server = dpf.connect_to_server(ip='127.0.0.1', port = 50054, as_global=False)
+    >>> #base = dpf.BaseService(server=server)
     
     """
 
@@ -346,6 +365,10 @@ class BaseService():
     def download_file(self, server_file_path, to_client_file_path):
         """Download a file from the server to the target client file path
         
+        Notes
+        -----
+        Print a progress bar
+        
         Parameters
         ----------
         server_file_path : str
@@ -357,9 +380,15 @@ class BaseService():
         request = base_pb2.DownloadFileRequest()
         request.server_file_path = server_file_path
         chunks = self._stub.DownloadFile(request)
+        bar =_common_progress_bar("Downloading...", unit="KB")
+        bar.start()
+        i = 0
         with open(to_client_file_path, 'wb') as f:
             for chunk in chunks:
                 f.write(chunk.data.data)
+                i += len(chunk.data.data)*1E-3
+                bar.update(i)
+        bar.finish()
                 
     @protect_grpc
     def download_files_in_folder(self,server_folder_path, to_client_folder_path, specific_extension=None):
@@ -375,8 +404,12 @@ class BaseService():
             folder path target where the files will be located client side  
             
         specific_extension (optional) : str
-            copies only the files with the given extension
-            
+            copies only the files with the given extension     
+        
+        Notes
+        -----
+        Print a progress bar
+    
         Returns
         -------
         paths : list of str
@@ -385,6 +418,14 @@ class BaseService():
         request = base_pb2.DownloadFileRequest()
         request.server_file_path = server_folder_path
         chunks = self._stub.DownloadFile(request)
+        
+        num_files = 1
+        if chunks.initial_metadata()[0].key == u"num_files":
+            num_files = int(chunks.initial_metadata()[0].value)
+
+        bar =_common_progress_bar("Downloading...", unit="files", tot_size = num_files)
+        bar.start()
+        
         server_path =""
         
         import ntpath
@@ -396,9 +437,17 @@ class BaseService():
                     cient_path = os.path.join(to_client_folder_path, ntpath.basename(server_path))
                     client_paths.append(cient_path)
                     f = open(cient_path, 'wb')
+                    try:
+                        bar.update(len(client_paths))
+                    except:
+                        pass
                 else:
                     continue
             f.write(chunk.data.data)
+        try:
+            bar.finish()
+        except:
+            pass
         return client_paths
     
     @protect_grpc
@@ -411,7 +460,11 @@ class BaseService():
             file path on the client side to upload
             
         to_server_file_path: str
-            file path target where the file will be located server side
+            file path target where the file will be located server side    
+        
+        Notes
+        -----
+        Print a progress bar
             
         Returns
         -------
@@ -434,7 +487,11 @@ class BaseService():
             
         new_file_name : str, optional
             name to give to the file server side, 
-            if no name is specified, the same name as the input file is given
+            if no name is specified, the same name as the input file is given    
+        
+        Notes
+        -----
+        Print a progress bar
             
         Returns
         -------
@@ -452,20 +509,38 @@ class BaseService():
     def _prepare_shutdown(self):
         self._stub.PrepareShutdown(base_pb2.Empty())
         
-        
-        
+                
     def __file_chunk_yielder(self,file_path, to_server_file_path, use_tmp_dir=False):
         request = base_pb2.UploadFileRequest()
         request.server_file_path = to_server_file_path
         request.use_temp_dir=use_tmp_dir
         
+        tot_size = os.path.getsize(file_path)*1E-3
+        
+        need_progress_bar = tot_size>10000
+        if need_progress_bar:
+            bar =_common_progress_bar("Uploading...", "KB", tot_size)
+            bar.start()
+        i=0
         with open(file_path, 'rb') as f:
             while True:
                 piece = f.read(DEFAULT_FILE_CHUNK_SIZE)
                 if len(piece)==0:
-                    return
+                    break
                 request.data.data = piece
                 yield request
+                i+=len(piece)*1E-3
+                if need_progress_bar:
+                    try:
+                        bar.update(min(i,tot_size))
+                    except :
+                        pass
+        
+        if need_progress_bar:
+            try:
+                bar.finish()
+            except :
+                pass
                 
                 
 

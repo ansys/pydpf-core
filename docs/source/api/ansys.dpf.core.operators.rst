@@ -28,13 +28,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   ansys.dpf.core.operators.fft_eval
-   ansys.dpf.core.operators.fft_gradient_eval
-   ansys.dpf.core.operators.fft_multi_harmonic_minmax
-   ansys.dpf.core.operators.matrix_inverse
-   ansys.dpf.core.operators.qr_solve
    ansys.dpf.core.operators.specification
-   ansys.dpf.core.operators.svd
 
 Module contents
 ---------------

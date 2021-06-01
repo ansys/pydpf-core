@@ -2091,36 +2091,6 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
-       fft_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
-       fft_gradient_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
-       fft_multi_harmonic_minmax
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
-       matrix_inverse
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
-       qr_solve
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
-       svd
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2343,11 +2313,15 @@ if no name is specified, the same name as the input file is given</p></li>
 <code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the the global server.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>server_file_path</strong> – path generated server side</p>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>server_file_path</strong> – path generated server side</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -2372,6 +2346,8 @@ if no name is specified, the same name as the input file is given</p></li>
 </ul>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
@@ -2384,7 +2360,7 @@ if no name is specified, the same name as the input file is given</p></li>
 
 <dl class="py function">
 <dt id="ansys.dpf.core.core.download_files_in_folder">
-<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.core.</span></code><code class="sig-name descname"><span class="pre">download_files_in_folder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_client_folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.download_files_in_folder" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.core.</span></code><code class="sig-name descname"><span class="pre">download_files_in_folder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_client_folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.download_files_in_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download all the files from a folder of the server
 to the target client folder path</p>
 <dl class="field-list simple">
@@ -2392,15 +2368,20 @@ to the target client folder path</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>server_folder_path</strong> (<em>str</em>) – folder path to download on the server side</p></li>
 <li><p><strong>to_client_folder_path</strong> (<em>str</em>) – folder path target where the files will be located client side</p></li>
+<li><p><strong>(</strong><strong>optional</strong><strong>)</strong> (<em>specific_extension</em>) – copies only the files with the given extension</p></li>
 <li><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
 <code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the the global server.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>paths</strong> – new file paths client side</p>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>paths</strong> – new file paths client side</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of str</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2418,11 +2399,15 @@ to the target client folder path</p>
 <code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the the global server.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>server_file_path</strong> – path generated server side</p>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>server_file_path</strong> – path generated server side</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2450,8 +2435,8 @@ to initialize.</p></li>
 <p class="rubric">Examples</p>
 <p>Connect to an existing DPF server
 &gt;&gt;&gt; from ansys.dpf import core as dpf
-&gt;&gt;&gt; server = dpf.connect_to_server(ip=’127.0.0.1’, port = 50054, as_global=False)
-&gt;&gt;&gt; base = dpf.BaseService(server=server)</p>
+&gt;&gt;&gt; #server = dpf.connect_to_server(ip=’127.0.0.1’, port = 50054, as_global=False)
+&gt;&gt;&gt; #base = dpf.BaseService(server=server)</p>
 <dl class="py method">
 <dt id="ansys.dpf.core.core.BaseService.make_tmp_dir_server">
 <code class="sig-name descname"><span class="pre">make_tmp_dir_server</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.BaseService.make_tmp_dir_server" title="Permalink to this definition">¶</a></dt>
@@ -2511,6 +2496,8 @@ the info into a dictionnary</p>
 <dt id="ansys.dpf.core.core.BaseService.download_file">
 <code class="sig-name descname"><span class="pre">download_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_client_file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.BaseService.download_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a file from the server to the target client file path</p>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2534,11 +2521,15 @@ to the target client folder path</p>
 <li><p><strong>(</strong><strong>optional</strong><strong>)</strong> (<em>specific_extension</em>) – copies only the files with the given extension</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>paths</strong> – new file paths client side</p>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>paths</strong> – new file paths client side</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of str</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2554,11 +2545,15 @@ to the target client folder path</p>
 <li><p><strong>to_server_file_path</strong> (<em>str</em>) – file path target where the file will be located server side</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>server_file_path</strong> – path generated server side</p>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>server_file_path</strong> – path generated server side</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2576,11 +2571,15 @@ deleted when the server is shutdown</p>
 if no name is specified, the same name as the input file is given</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>server_file_path</strong> – path generated server side</p>
+</dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>server_file_path</strong> – path generated server side</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
