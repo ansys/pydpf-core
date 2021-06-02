@@ -370,7 +370,7 @@ def test_inputs_outputs_scopings_container(allkindofcomplexity):
     sc = op.outputs.mesh_scoping()
     assert len(sc) ==4
     assert sc.labels == ['elshape']
-    scop =sc.get_scopings({'elshape':1})
+    scop =sc.get_scoping({'elshape':1})
     assert len(scop.ids)==9052
     assert scop.location == dpf.core.locations.elemental
     
@@ -400,7 +400,7 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     mc = op.outputs.mesh_controller()
     assert len(mc) ==4
     assert mc.labels == ['body','elshape']
-    mesh =mc.get_meshes({'elshape':1})
+    mesh =mc.get_mesh({'elshape':1})
     assert len(mesh.nodes.scoping.ids)==14826
     
     opsc = dpf.core.Operator("scoping::by_property")

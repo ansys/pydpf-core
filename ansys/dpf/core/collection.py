@@ -70,6 +70,7 @@ class Collection:
             self._message = self._stub.Create(request)
         elif hasattr(collection, '_message'):
             self._message = collection._message
+            self._collection = collection #keep the base collection used for copy
         else:
             self._message = collection
 
@@ -173,7 +174,7 @@ class Collection:
 
         Returns
         -------
-        entries : list[Scoping], list[Field], list[MeshedRegion], Scoping, Field, MeshedRegion
+        entries : list[Scoping], list[Field], list[MeshedRegion]
             entries corresponding to the request
         """
         request = collection_pb2.EntryRequest()
@@ -184,7 +185,7 @@ class Collection:
                 request.label_space.label_space[key] = label_space_or_index[key]
         elif isinstance(label_space_or_index, int):
             request.index = label_space_or_index
-
+        
         out = self._stub.GetEntries(request)
         list_out =[]
         for obj in out.entries :
@@ -192,24 +193,15 @@ class Collection:
                 if self._type == types.scoping:
                     unpacked_msg = scoping_pb2.Scoping()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    if len(out.entries)==1:
-                        return Scoping(scoping=unpacked_msg, server=self._server)
-                    else:
-                        list_out.append(Scoping(scoping=unpacked_msg, server=self._server))
+                    list_out.append(Scoping(scoping=unpacked_msg, server=self._server))
                 elif self._type == types.field:
                     unpacked_msg = field_pb2.Field()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    if len(out.entries)==1:
-                        return Field(field=unpacked_msg, server=self._server)
-                    else:
-                        list_out.append(Field(field=unpacked_msg, server=self._server))
+                    list_out.append(Field(field=unpacked_msg, server=self._server))
                 elif self._type == types.meshed_region:
                     unpacked_msg = meshed_region_pb2.MeshedRegion()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    if len(out.entries)==1:
-                        return MeshedRegion(mesh=unpacked_msg, server=self._server)
-                    else:
-                        list_out.append(MeshedRegion(mesh=unpacked_msg, server=self._server))
+                    list_out.append(MeshedRegion(mesh=unpacked_msg, server=self._server))
         if len(list_out)==0:
             list_out=None
         return list_out  
@@ -237,7 +229,8 @@ class Collection:
                 raise KeyError(f"{label_space_or_index} has {len(entries)} entries")
         else:
             return entries
-            
+    
+    
     def get_label_space(self, index):
         """Returns the label space of an entry at a requested index
 
@@ -333,7 +326,7 @@ class Collection:
         if index >= self_len:
             raise IndexError(f'This collection contains only {self_len} entrie(s)')
 
-        return self._get_entries(index)
+        return self._get_entries(index)[0]
 
     def _add_entry(self, label_space, entry):
         """Update or add the entry at a requested label space

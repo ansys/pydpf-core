@@ -154,6 +154,27 @@ These examples explain the basic concepts of DPF.
    :hidden:
 
    /examples/00-basic/05-use_local_data
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to Load Custom Data">
+
+.. only:: html
+
+ .. figure:: /examples/00-basic/images/thumb/sphx_glr_06-use_result_helpers_thumb.png
+     :alt: Use Result Helpers to Load Custom Data
+
+     :ref:`sphx_glr_examples_00-basic_06-use_result_helpers.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/00-basic/06-use_result_helpers
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
@@ -191,6 +212,27 @@ stresses, and strains from a transient static analysis.
    :hidden:
 
    /examples/01-static-transient/00-basic_transient
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Go Easily over Times Tranient Analysis">
+
+.. only:: html
+
+ .. figure:: /examples/01-static-transient/images/thumb/sphx_glr_01-transient_easy_time_scoping_thumb.png
+     :alt: Go Easily over Times Tranient Analysis
+
+     :ref:`sphx_glr_examples_01-static-transient_01-transient_easy_time_scoping.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/01-static-transient/01-transient_easy_time_scoping
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
@@ -270,6 +312,27 @@ results from harmonic or modal analyses.
    :hidden:
 
    /examples/02-modal-harmonic/02-cyclic_multi_stage
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to compare mode shapes for solids and then shells">
+
+.. only:: html
+
+ .. figure:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-compare_modes_thumb.png
+     :alt: Use Result Helpers to compare mode shapes for solids and then shells
+
+     :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/02-modal-harmonic/03-compare_modes
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

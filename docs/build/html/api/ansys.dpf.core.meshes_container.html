@@ -2091,36 +2091,6 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
-       fft_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
-       fft_gradient_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
-       fft_multi_harmonic_minmax
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
-       matrix_inverse
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
-       qr_solve
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
-       svd
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2146,6 +2116,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.core.html">
      Core
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">
+     Custom FieldsContainers
     </a>
    </li>
    <li class="toctree-l2">
@@ -2231,6 +2206,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.result_info.html">
      ResultInfo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.results.html">
+     Results
     </a>
    </li>
    <li class="toctree-l2">
@@ -2320,19 +2300,38 @@ meshes splitted on a given space</p>
 </dl>
 <dl class="py method">
 <dt id="ansys.dpf.core.meshes_container.MeshesContainer.get_meshes">
-<code class="sig-name descname"><span class="pre">get_meshes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_space_or_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.meshes_container.MeshesContainer.get_meshes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the meshes at a requested index or label space</p>
+<code class="sig-name descname"><span class="pre">get_meshes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_space</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.meshes_container.MeshesContainer.get_meshes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the meshes at a label space</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label_space_or_index</strong> (<em>dict</em><em>[</em><em>string</em><em>,</em><em>int</em><em>] </em><em>, </em><em>int</em>) – Meshes correponding to the filter (label space) in input, for example:
-<code class="docutils literal notranslate"><span class="pre">{&quot;elshape&quot;:1,</span> <span class="pre">&quot;body&quot;:12}</span></code>
-or Index of the mesh.</p>
+<dd class="field-odd"><p><strong>label_space</strong> (<em>dict</em><em>[</em><em>string</em><em>,</em><em>int</em><em>]</em>) – Meshes correponding to the filter (label space) in input, for example:
+<code class="docutils literal notranslate"><span class="pre">{&quot;elshape&quot;:1,</span> <span class="pre">&quot;body&quot;:12}</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>meshes</strong> – meshes corresponding to the request</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a>] , <a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a> (if only one)</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.meshes_container.MeshesContainer.get_mesh">
+<code class="sig-name descname"><span class="pre">get_mesh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_space_or_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.meshes_container.MeshesContainer.get_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mesh at a requested index or label space.
+Throws if the request returns several meshes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label_space_or_index</strong> (<em>dict</em><em>[</em><em>string</em><em>,</em><em>int</em><em>] </em><em>, </em><em>int</em>) – Scoping of the requested mesh, for example:
+<code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;complex&quot;:</span> <span class="pre">0}</span></code>
+or Index of the mesh.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mesh</strong> – mesh corresponding to the request</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a></p>
 </dd>
 </dl>
 </dd></dl>

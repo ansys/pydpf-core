@@ -9,6 +9,7 @@ from ansys.dpf.core import Operator
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.core import BaseService
 from ansys.dpf.core.common import types
+from ansys.dpf.core.results import Results
 
 from grpc._channel import _InactiveRpcError
 
@@ -117,10 +118,17 @@ class Model:
 
         Access an individual result operator.
 
-        >>> temp = model.results.temperature()
+        >>> temp = model.results.structural_temperature()
 
         """
         return self._results
+    
+    def __connect_op__(self,op):
+        """Connect the data sources or the streams to the operator"""
+        if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
+            op.inputs.streams.connect(self.metadata._stream_provider.outputs)
+        elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
+            op.inputs.data_sources.connect(self.metadata._data_sources)
 
     def operator(self, name):
         """Returns an operator associated with the data sources of
@@ -147,11 +155,7 @@ class Model:
         
         """
         op = Operator(name= name, server = self._server)
-        if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
-            op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
-            op.inputs.data_sources.connect(self.metadata._data_sources)
-
+        self.__connect_op__(op)
         return op
 
     def __str__(self):
@@ -182,109 +186,7 @@ class Model:
                                               show_edges=show_edges, **kwargs)
 
 
-class Results:
-    """Organize the results from DPF into accessible methods.
 
-    Examples
-    --------
-    Extract the result object from a model.
-
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.simple_bar)
-    >>> results = model.results # printable object
-
-    Access the displacement operator
-
-    >>> from ansys.dpf.core import Model
-    >>> from ansys.dpf.core import examples
-    >>> transient = examples.download_transient_result()
-    >>> model = Model(transient)
-    >>> displacements = model.results.displacement()
-
-    """
-
-    def __init__(self, model):
-        self._result_info = model.metadata.result_info
-        self._model = model
-        self._connect_operators()
-
-    def __operator_with_sub_res(self, time_scoping=None, mesh_scoping=None, name=None, sub_results=None):
-        """Dynamically add operators for subresults.
-
-        The new operators sub-results are connected to the parent
-        operator's inputs when created, but are then completely
-        independent of the parent operator.
-
-        Parameters
-        ----------
-        name : str
-            Operator name.  Must be a valid operator name.
-
-        sub_results : list
-
-        Examples
-        --------
-        >>> from ansys.dpf.core import Model
-        >>> from ansys.dpf.core import examples
-        >>> transient = examples.download_transient_result()
-        >>> model = Model(transient)
-        >>> disp_oper = model.results.displacement()
-        >>> disp_x = model.results.displacement().X() 
-        >>> disp_y = model.results.displacement().Y() 
-        >>> disp_z = model.results.displacement().Z()
-        
-        """
-        op = self._model.operator(name)
-        op._add_sub_res_operators(sub_results)
-        if time_scoping !=None:
-            op.connect(0, time_scoping)
-        if mesh_scoping != None:
-            op.connect(1, mesh_scoping)
-        return op
-
-    def _connect_operators(self):
-        """Dynamically add operators for results.
-
-        The new operators subresults are connected to the model's
-        streams.
-
-        Examples
-        --------
-        >>> from ansys.dpf.core import Model
-        >>> from ansys.dpf.core import examples
-        >>> transient = examples.download_transient_result()
-        >>> model = Model(transient)
-        >>> disp_operator = model.results.displacement()
-        >>> stress_operator = model.results.stress()
-        >>> disp_x = model.results.displacement().X() 
-        >>> disp_y = model.results.displacement().Y() 
-        >>> disp_z = model.results.displacement().Z()
-        
-        """
-        if self._result_info is None:
-            return
-
-        # dynamically add function based on input type
-        self._op_map_rev = {}
-        for result_type in self._result_info:
-            try:    
-                #create the operator to read its documentation
-                #if the operator doesn't exist, the method will not be added
-                doc =  Operator(result_type.operator_name, server=self._model._server).__str__()
-                bound_method = self.__operator_with_sub_res.__get__(self, self.__class__)
-                method2 = functools.partial(bound_method,
-                                            name=result_type.operator_name,
-                                            sub_results=result_type.sub_results)
-                method2.__doc__ =doc
-                setattr(self, result_type.name, method2)
-            except:
-                pass
-                # print("Impossible to find this operator in the database: " + result_type.operator_name)
-            self._op_map_rev[result_type.name] = result_type.name
-
-    def __str__(self):
-        return str(self._result_info)
     
     def __iter__(self):
         for key in self.__dict__:

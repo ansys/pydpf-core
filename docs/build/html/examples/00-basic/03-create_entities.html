@@ -189,8 +189,22 @@
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="06-use_result_helpers.html">
+   Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/00-basic_transient.html">
    Transient Analysis Result Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
+   Go Easily over Times Tranient Analysis
   </a>
  </li>
 </ul>
@@ -212,6 +226,13 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
    Multi-stage Cyclic Symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+   Use Result Helpers to compare mode shapes for solids and then shells
   </a>
  </li>
 </ul>
@@ -412,9 +433,9 @@ Cumulative     Time (s)       LoadStep       Substep
 <p>Plot the norm over time of our fields container</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
 <span class="n">fc_norm</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_norm</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_norm</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_norm</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_norm</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_norm</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_norm</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
@@ -431,7 +452,7 @@ Cumulative     Time (s)       LoadStep       Substep
  (0.0, 0.0, 1.0)]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.000 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.354 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-03-create-entities-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/8e0366e1a90373804ae4d1e5538d3c15/03-create_entities.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-create_entities.py</span></code></a></p>

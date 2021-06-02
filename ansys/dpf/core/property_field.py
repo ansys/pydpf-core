@@ -72,7 +72,7 @@ class PropertyField(_FieldBase):
         """Change the property field location.
 
         Parameters
-        -------
+        ----------
         location : str or locations
             Location string.  Either ``'Nodal'``, ``'Elemental'``.
 

@@ -108,27 +108,67 @@ class FieldsContainer(Collection):
         >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
         
         """
+        label_space = self.__time_complex_label_space__(timeid,complexid)
+        return super()._get_entries(label_space)
+    
+    def get_field_by_time_complex_ids(self, timeid=None, complexid=None):
+        """Returns the field at a requested time/freq id and real or imaginary depending on 
+        complexid (complexid=1:imaginary, complexid=0:real).
+        It throws if the number of fields matching the request is 
+        higher than 1.
+
+        Parameters
+        ----------
+        timeid : int, optional
+            The time id. One based index of the result set.
+
+        complexid : int, optional
+            The complex id.
+
+        Returns
+        -------
+        fields : Field
+            field corresponding to the request
+            
+        Examples
+        --------
+        Extract a the 5th time set of a transient analysis.
+    
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> len(model.metadata.time_freq_support.time_frequencies)
+        35
+        >>> disp = model.results.displacement()
+        >>> disp.inputs.time_scoping.connect([1,5])
+        >>> fields_container = disp.outputs.fields_container()
+        >>> field_set_5 =fields_container.get_fields_by_time_complex_ids(5)
+        
+        """
+        label_space = self.__time_complex_label_space__(timeid,complexid)
+        return super()._get_entry(label_space)
+    
+    def __time_complex_label_space__(self, timeid=None, complexid=None):
         label_space ={}
         if timeid is not None:
             label_space["time"] = timeid
         if complexid is not None:
             label_space["complex"] = complexid
+        return label_space
 
-        return super()._get_entries(label_space)
-
-    def get_fields(self, label_space_or_index):
+    def get_fields(self, label_space):
         """Returns the fields at a requested index or label space
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int 
+        label_space : dict[string,int] 
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
-            or Index of the field.
 
         Returns
         -------
-        fields : list[Field] , Field (if only one)
+        fields : list[Field]
             fields corresponding to the request
           
         Examples
@@ -152,7 +192,7 @@ class FieldsContainer(Collection):
         
         """
         
-        return super()._get_entries(label_space_or_index)
+        return super()._get_entries(label_space)
     
     def get_field(self, label_space_or_index):
         """Returns the field at a requested index or label space.
@@ -167,7 +207,7 @@ class FieldsContainer(Collection):
 
         Returns
         -------
-        fields : Field
+        field : Field
             field corresponding to the request
           
         Examples
@@ -179,6 +219,7 @@ class FieldsContainer(Collection):
         """        
         return super()._get_entry(label_space_or_index)
     
+    
     def get_field_by_time_id(self, timeid=None):
         """Returns the complex field at a requested time
 
@@ -189,21 +230,40 @@ class FieldsContainer(Collection):
 
         Returns
         -------
-        fields : list[Field] , Field (if only one)
+        fields : Field 
             fields corresponding to the request
         """
         if (not self.has_label('time')):
             raise dpf_errors.DpfValueError("The fields container is not based on time scoping.")
         
-        label_space ={}
-        if (self.has_label('complex')):
-            label_space = { 'time' : timeid, 'complex' : 0 }
+        if self.has_label('complex'):
+             label_space = self.__time_complex_label_space__(timeid,0)
         else:
-            label_space = { 'time' : timeid }
+            label_space = self.__time_complex_label_space__(timeid)
+        
+        return super()._get_entry(label_space)
+    
+    def get_imaginary_fields(self, timeid=None):
+        """Returns the complex fields at a requested time
+
+        Parameters
+        ----------
+        timeid: int, optional
+            The time id. Index of the result set.
+
+        Returns
+        -------
+        fields : list[Field] 
+            fields corresponding to the request
+        """
+        if (not self.has_label('complex') or not self.has_label('time')):
+            raise dpf_errors.DpfValueError("The fields container is not based on time and complex scoping.")
+        
+        label_space = self.__time_complex_label_space__(timeid,1)
         
         return super()._get_entries(label_space)
     
-    def get_imaginary_fields(self, timeid=None):
+    def get_imaginary_field(self, timeid=None):
         """Returns the complex field at a requested time
 
         Parameters
@@ -213,18 +273,15 @@ class FieldsContainer(Collection):
 
         Returns
         -------
-        fields : list[Field] , Field (if only one)
-            fields corresponding to the request
+        fields : Field 
+            field corresponding to the request
         """
         if (not self.has_label('complex') or not self.has_label('time')):
             raise dpf_errors.DpfValueError("The fields container is not based on time and complex scoping.")
         
-        label_space ={}
-        if timeid is not None:
-            label_space["time"] = timeid
-        label_space["complex"] = 1
+        label_space = self.__time_complex_label_space__(timeid,1)
         
-        return super()._get_entries(label_space)
+        return super()._get_entry(label_space)
 
     def __getitem__(self, key):
         """Returns the field at a requested index
@@ -393,4 +450,14 @@ class FieldsContainer(Collection):
         except:
             pass
         return fc
+    
+    def get_time_scoping(self):
+        """Returns the time scoping containing the time sets
+        
+        Returns
+        -------
+        scoping: Scoping
+            scoping containing the time set ids available in the fields container
+        """
+        return self.get_label_scoping("time")
     

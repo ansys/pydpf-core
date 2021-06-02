@@ -54,10 +54,10 @@ def test_set_get_mesh_meshes_container(elshape_body_mc):
     mc =elshape_body_mc
     assert mc.get_available_ids_for_label("elshape") == list(range(1,21))
     for i in range(0,20):
-        meshid =mc.get_meshes({"elshape":i+1,"body":0})._message.id
+        meshid =mc.get_mesh({"elshape":i+1,"body":0})._message.id
         assert meshid !=0
-        assert mc.get_meshes(i)._message.id !=0
-        assert mc.get_meshes({"elshape":i+1,"body":0})._message.id !=0
+        assert mc.get_mesh(i)._message.id !=0
+        assert mc.get_mesh({"elshape":i+1,"body":0})._message.id !=0
         assert mc[i]._message.id != 0
 
 
@@ -65,10 +65,10 @@ def test_set_get_mesh_meshes_container_new_label(elshape_body_mc, dummy_mesh):
     mc =elshape_body_mc
     assert mc.get_available_ids_for_label("elshape") == list(range(1,21))
     for i in range(0,20):
-        meshid =mc.get_meshes({"elshape":i+1,"body":0})._message.id
+        meshid =mc.get_mesh({"elshape":i+1,"body":0})._message.id
         assert meshid !=0
-        assert mc.get_meshes(i)._message.id !=0
-        assert mc.get_meshes({"elshape":i+1,"body":0})._message.id !=0
+        assert mc.get_mesh(i)._message.id !=0
+        assert mc.get_mesh({"elshape":i+1,"body":0})._message.id !=0
         assert mc[i]._message.id != 0
         assert mc.get_label_space(i)=={"elshape":i+1,"body":0}
        
@@ -78,13 +78,13 @@ def test_set_get_mesh_meshes_container_new_label(elshape_body_mc, dummy_mesh):
         mc.add_mesh(mscop,dummy_mesh)
     assert len(mc.get_meshes({"elshape":i+1,"body":0}))==2
     for i in range(0,20):
-        meshid =mc.get_meshes({"elshape":i+1,"body":0, "time":1})._message.id
+        meshid =mc.get_mesh({"elshape":i+1,"body":0, "time":1})._message.id
         assert meshid !=0
-        assert mc.get_meshes(i+20)._message.id !=0
+        assert mc.get_mesh(i+20)._message.id !=0
         assert mc[i]._message.id != 0
         assert mc.get_label_space(i+20)=={"elshape":i+1,"body":0, "time":1}
-        assert mc.get_meshes({"elshape":i+1,"body":0, "time":1})._message.id !=0
-        assert mc.get_meshes({"elshape":i+1, "time":1})._message.id !=0
+        assert mc.get_mesh({"elshape":i+1,"body":0, "time":1})._message.id !=0
+        assert mc.get_mesh({"elshape":i+1, "time":1})._message.id !=0
 
 
 def test_get_item_mesh_meshes_container(elshape_body_mc): 
@@ -98,16 +98,6 @@ def test_delete_meshes_container():
     ref = weakref.ref(mc)
     del mc
     assert ref() is None
-
-
-# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
-def test_delete_auto_meshes_container():
-    mc = MeshesContainer()
-    sc2 = MeshesContainer(meshes_container=mc)
-    del mc
-    with pytest.raises(dpf_errors.DPFServerNullObject):
-        sc2._info
-
 
 def test_str_meshes_container(elshape_body_mc): 
     mc =elshape_body_mc

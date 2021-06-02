@@ -48,11 +48,11 @@ def test_set_get_scoping_scopings_container(elshape_body_sc):
     sc =elshape_body_sc
     assert sc.get_available_ids_for_label("elshape") == list(range(1,21))
     for i in range(0,20):
-        scopingid =sc.get_scopings({"elshape":i+1,"body":0})._message.id
+        scopingid =sc.get_scoping({"elshape":i+1,"body":0})._message.id
         assert scopingid !=0
-        assert sc.get_scopings(i)._message.id !=0
-        assert sc.get_scopings({"elshape":i+1,"body":0})._message.id !=0
-        assert sc.get_scopings({"elshape":i+1,"body":0}).ids == list(range(0,i+1))
+        assert sc.get_scoping(i)._message.id !=0
+        assert sc.get_scoping({"elshape":i+1,"body":0})._message.id !=0
+        assert sc.get_scoping({"elshape":i+1,"body":0}).ids == list(range(0,i+1))
         assert sc[i]._message.id != 0
 
 
@@ -60,13 +60,13 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
     sc =elshape_body_sc
     assert sc.get_available_ids_for_label("elshape") == list(range(1,21))
     for i in range(0,20):
-        scopingid =sc.get_scopings({"elshape":i+1,"body":0})._message.id
+        scopingid =sc.get_scoping({"elshape":i+1,"body":0})._message.id
         assert scopingid !=0
-        assert sc.get_scopings(i)._message.id !=0
-        assert sc.get_scopings({"elshape":i+1,"body":0})._message.id !=0
+        assert sc.get_scoping(i)._message.id !=0
+        assert sc.get_scoping({"elshape":i+1,"body":0})._message.id !=0
         assert sc[i]._message.id != 0
         assert sc.get_label_space(i)=={"elshape":i+1,"body":0}
-        assert sc.get_scopings({"elshape":i+1,"body":0}).ids == list(range(0,i+1))
+        assert sc.get_scoping({"elshape":i+1,"body":0}).ids == list(range(0,i+1))
     sc.add_label('time')
     for i in range(0,20):
         mscop ={"elshape":i+1,"body":0, "time":1}
@@ -75,13 +75,13 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
         sc.add_scoping(mscop,scop)
     assert len(sc.get_scopings({"elshape":i+1,"body":0}))==2
     for i in range(0,20):
-        scopingid =sc.get_scopings({"elshape":i+1,"body":0, "time":1})._message.id
+        scopingid =sc.get_scoping({"elshape":i+1,"body":0, "time":1})._message.id
         assert scopingid !=0
-        assert sc.get_scopings(i+20)._message.id !=0
+        assert sc.get_scoping(i+20)._message.id !=0
         assert sc[i]._message.id != 0
         assert sc.get_label_space(i+20)=={"elshape":i+1,"body":0, "time":1}
-        assert sc.get_scopings({"elshape":i+1,"body":0, "time":1}).ids == list(range(0,i+10))
-        assert sc.get_scopings({"elshape":i+1, "time":1}).ids == list(range(0,i+10))
+        assert sc.get_scoping({"elshape":i+1,"body":0, "time":1}).ids == list(range(0,i+10))
+        assert sc.get_scoping({"elshape":i+1, "time":1}).ids == list(range(0,i+10))
 
 
 def test_get_item_scoping_scopings_container(elshape_body_sc): 
@@ -97,14 +97,6 @@ def test_delete_scopings_container():
     del sc
     assert ref() is None
 
-
-# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
-def test_delete_auto_scopings_container():
-    sc = ScopingsContainer()
-    sc2 = ScopingsContainer(scopings_container=sc)
-    del sc
-    with pytest.raises(dpf_errors.DPFServerNullObject):
-        sc2._info
 
 
 def test_str_scopings_container(elshape_body_sc): 

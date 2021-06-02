@@ -5,18 +5,20 @@
 
 Computation times
 =================
-**00:17.254** total execution time for **examples_00-basic** files:
+**00:06.469** total execution time for **examples_00-basic** files:
 
 +---------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)               | 00:07.000 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_06-use_result_helpers.py` (``06-use_result_helpers.py``)         | 00:06.469 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)                 | 00:03.692 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)                   | 00:00.000 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)                   | 00:02.619 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)               | 00:00.000 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_04-basic-load-file.py` (``04-basic-load-file.py``)               | 00:02.306 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``) | 00:00.000 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)               | 00:01.107 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)               | 00:00.000 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``) | 00:00.531 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_04-basic-load-file.py` (``04-basic-load-file.py``)               | 00:00.000 | 0.0 MB |
++---------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)                 | 00:00.000 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------+-----------+--------+

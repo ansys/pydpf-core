@@ -2091,36 +2091,6 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
-       fft_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
-       fft_gradient_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
-       fft_multi_harmonic_minmax
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
-       matrix_inverse
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
-       qr_solve
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
-       svd
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2146,6 +2116,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.core.html">
      Core
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">
+     Custom FieldsContainers
     </a>
    </li>
    <li class="toctree-l2">
@@ -2231,6 +2206,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.result_info.html">
      ResultInfo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.results.html">
+     Results
     </a>
    </li>
    <li class="toctree-l2">
@@ -2713,7 +2693,7 @@ scoping of these elements.</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">elements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">elements</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vol</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vol</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">vol</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ind</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="n">map_scoping</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ind</span>

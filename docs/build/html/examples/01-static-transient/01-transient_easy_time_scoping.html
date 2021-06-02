@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go Easily over Times Tranient Analysis &#8212; PyANSYS DPF 0.2.2 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.ee6fb81b276d6fba8a971ad8e9b95dd9.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/ansys.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.c86189f1ce1b71a67eb6.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multi-Harmonic Response Example" href="../02-modal-harmonic/00-multi_harmonic.html" />
+    <link rel="prev" title="Transient Analysis Result Example" href="00-basic_transient.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/00-basic_example.html">
+   Basic DPF-Core Usage
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/01-basic_operators.html">
+   Operators Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/02-basic_field_containers.html">
+   Field and Field Containers Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/03-create_entities.html">
+   Create your own entities to use dpf’s operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/04-basic-load-file.html">
+   Write/load and upload/download a result file
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/05-use_local_data.html">
+   Bring Field’s data locally to improve performances
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/06-use_result_helpers.html">
+   Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-basic_transient.html">
+   Transient Analysis Result Example
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Go Easily over Times Tranient Analysis
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/00-multi_harmonic.html">
+   Multi-Harmonic Response Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/01-modal_cyclic.html">
+   Modal Cyclic symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
+   Multi-stage Cyclic Symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+   Use Result Helpers to compare mode shapes for solids and then shells
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/00-multistage_advanced_options.html">
+   Multi-stage Cyclic Symmetry Use Advanced Customization
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/01-solve_harmonic_problem.html">
+   Solve Harmonic Problem (with damping) Using Matrix Inverse
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/02-volume_averaged_stress.html">
+   Average Elemental Stress on a given volume
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+   Exchange Data Between Servers
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Go Easily over Times Tranient Analysis
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obtain-minimum-and-maximum-displacements-at-all-times">
+   Obtain Minimum and Maximum Displacements at all times
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-time-extrapolation">
+   Use time extrapolation
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-01-static-transient-01-transient-easy-time-scoping-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="go-easily-over-times-tranient-analysis">
+<span id="ref-transient-easy-time-scoping"></span><span id="sphx-glr-examples-01-static-transient-01-transient-easy-time-scoping-py"></span><h1>Go Easily over Times Tranient Analysis<a class="headerlink" href="#go-easily-over-times-tranient-analysis" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to use model’s results to easily
+choose time scoping</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+</pre></div>
+</div>
+<p>Create the model and display the state of the result.  Note
+that this transient result file contains several individual results,
+each at a different times.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">msup_transient</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+DPF Result Info
+  Analysis: unknown
+  Physics Type: mecanic
+  Unit system: MKS: m, kg, N, s, V, A, degC
+  Available results:
+    U Displacement :nodal displacements
+    V Velocity :nodal velocities
+    A Acceleration :nodal accelerations
+    RF Force :nodal reaction forces
+    S Stress :element nodal component stresses
+    ENG_VOL Volume :element volume
+    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
+    ENG_AHO Hourglass Energy :artificial hourglass energy
+    ENG_TH thermal dissipation energy :thermal dissipation energy
+    ENG_KE Kinetic Energy :kinetic energy
+    ENG_CO co-energy :co-energy (magnetics)
+    ENG_INC incremental energy :incremental energy (magnetics)
+    EPEL Strain :element nodal component elastic strains
+------------------------------
+DPF  Meshed Region:
+  393 nodes
+  40 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 20
+Cumulative     Time (s)       LoadStep       Substep
+1              0.010000       1              1
+2              0.020000       1              2
+3              0.030000       1              3
+4              0.040000       1              4
+5              0.050000       1              5
+6              0.060000       1              6
+7              0.070000       1              7
+8              0.080000       1              8
+9              0.090000       1              9
+10             0.100000       1              10
+11             0.110000       1              11
+12             0.120000       1              12
+13             0.130000       1              13
+14             0.140000       1              14
+15             0.150000       1              15
+16             0.160000       1              16
+17             0.170000       1              17
+18             0.180000       1              18
+19             0.190000       1              19
+20             0.200000       1              20
+</pre></div>
+</div>
+</div>
+<div class="section" id="obtain-minimum-and-maximum-displacements-at-all-times">
+<h1>Obtain Minimum and Maximum Displacements at all times<a class="headerlink" href="#obtain-minimum-and-maximum-displacements-at-all-times" title="Permalink to this headline">¶</a></h1>
+<p>Create a displacement operator and set its time scoping request to
+the entire time freq support.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span>
+<span class="n">disp_op</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="p">()</span>
+
+<span class="c1"># Then chain the displacement operator with norm and min_max operators</span>
+<span class="n">min_max_op</span> <span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
+
+<span class="n">min_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">()</span>
+<span class="n">max_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.00031517 0.00163154 0.00409388 0.00693318 0.00939617 0.01105343
+ 0.01135235 0.01016139 0.00796552 0.00521109 0.00250834 0.00070916
+ 0.00019964 0.00098568 0.0030466  0.00581779 0.00846792 0.01049698
+ 0.0113754  0.01074555]
+</pre></div>
+</div>
+<p>Plot the minimum and maximum displacements over time</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tdata</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tdata</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Max&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tdata</span><span class="p">,</span> <span class="n">min_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Min&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="01 transient easy time scoping" class="sphx-glr-single-img" src="../../_images/sphx_glr_01-transient_easy_time_scoping_001.png" />
+</div>
+<div class="section" id="use-time-extrapolation">
+<h1>Use time extrapolation<a class="headerlink" href="#use-time-extrapolation" title="Permalink to this headline">¶</a></h1>
+<p>A local maximum can be seen on the plot between 0.05 and 0.075 s
+Displacement will be evaluated every 0.0005s in this range
+to draw a nicer plot on this range</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">offset</span> <span class="o">=</span> <span class="mf">0.0005</span>
+<span class="n">time_scoping</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="o">+</span><span class="n">offset</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="mf">0.08</span><span class="o">-</span><span class="mf">0.05</span><span class="p">)</span><span class="o">/</span><span class="n">offset</span><span class="p">))]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.05, 0.0505, 0.051000000000000004, 0.051500000000000004, 0.052000000000000005, 0.052500000000000005, 0.053000000000000005, 0.053500000000000006, 0.054000000000000006, 0.05450000000000001, 0.055, 0.0555, 0.056, 0.0565, 0.057, 0.0575, 0.058, 0.0585, 0.059000000000000004, 0.059500000000000004, 0.060000000000000005, 0.060500000000000005, 0.061, 0.0615, 0.062, 0.0625, 0.063, 0.0635, 0.064, 0.0645, 0.065, 0.0655, 0.066, 0.0665, 0.067, 0.0675, 0.068, 0.0685, 0.069, 0.0695, 0.07, 0.07050000000000001, 0.07100000000000001, 0.07150000000000001, 0.07200000000000001, 0.07250000000000001, 0.07300000000000001, 0.07350000000000001, 0.07400000000000001, 0.07450000000000001, 0.07500000000000001, 0.07550000000000001, 0.07600000000000001, 0.0765, 0.077, 0.0775, 0.078, 0.0785, 0.079, 0.0795]
+</pre></div>
+</div>
+<p>Create a displacement operator and set its time scoping request</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span>
+<span class="n">disp_op</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">)()</span>
+
+<span class="c1"># Then chain the displacement operator with norm and min_max operators</span>
+<span class="n">min_max_op</span> <span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
+
+<span class="n">min_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">()</span>
+<span class="n">max_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.00939617 0.00947903 0.0095619  0.00964476 0.00972762 0.00981049
+ 0.00989335 0.00997621 0.01005908 0.01014194 0.0102248  0.01030766
+ 0.01039053 0.01047339 0.01055625 0.01063912 0.01072198 0.01080484
+ 0.01088771 0.01097057 0.01105343 0.01106838 0.01108332 0.01109827
+ 0.01111322 0.01112816 0.01114311 0.01115805 0.011173   0.01118794
+ 0.01120289 0.01121784 0.01123278 0.01124773 0.01126267 0.01127762
+ 0.01129256 0.01130751 0.01132245 0.0113374  0.01135235 0.0112928
+ 0.01123325 0.0111737  0.01111415 0.01105461 0.01099506 0.01093551
+ 0.01087596 0.01081642 0.01075687 0.01069732 0.01063777 0.01057822
+ 0.01051868 0.01045913 0.01039958 0.01034003 0.01028049 0.01022094]
+</pre></div>
+</div>
+<p>Plot the minimum and maximum displacements over time</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Max&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="01 transient easy time scoping" class="sphx-glr-single-img" src="../../_images/sphx_glr_01-transient_easy_time_scoping_002.png" />
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.688 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-01-static-transient-01-transient-easy-time-scoping-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a5308710e4448734a778a417b4f83983/01-transient_easy_time_scoping.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-transient_easy_time_scoping.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/990c7cd13ca57db50421567d96988205/01-transient_easy_time_scoping.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">01-transient_easy_time_scoping.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="00-basic_transient.html" title="previous page">Transient Analysis Result Example</a>
+    <a class='right-next' id="next-link" href="../02-modal-harmonic/00-multi_harmonic.html" title="next page">Multi-Harmonic Response Example</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+    
+  <script src="../../_static/js/index.c86189f1ce1b71a67eb6.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, ANSYS.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

@@ -36,8 +36,25 @@ class ScopingsContainer(Collection):
         Collection.__init__(self, types.scoping,  
                             collection=scopings_container, server=self._server)
 
-    def get_scopings(self, label_space_or_index):
-        """Returns the scopings at a requested index or label space
+    def get_scopings(self, label_space):
+        """Returns the scopings at a requested label space
+
+        Parameters
+        ----------
+        label_space_or_index : dict[string,int] , int
+            Scopings correponding to the filter (label space) in input, for example:
+            ``{"elshape":1, "body":12}``
+
+        Returns
+        -------
+        scopings : list[Scoping]
+            scopings corresponding to the request
+        """
+        return super()._get_entries(label_space)
+    
+    def get_scoping(self, label_space_or_index):
+        """Returns the scoping at a requested index or label space.
+        Throws if the request returns several scoping
 
         Parameters
         ----------
@@ -48,10 +65,10 @@ class ScopingsContainer(Collection):
 
         Returns
         -------
-        scopings : list[Scoping] , Scoping (if only one)
-            scopings corresponding to the request
+        scopings : Scoping
+            scoping corresponding to the request
         """
-        return super()._get_entries(label_space_or_index)
+        return super()._get_entry(label_space_or_index)
 
     def __getitem__(self, key):
         """Returns the scoping at a requested index

@@ -8,36 +8,30 @@ Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\02-basic_f
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\03-create_entities.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/00-basic/04-basic-load-file": ['examples\\00-basic\\04-basic-load-file.ipynb', 'examples\\00-basic\\04-basic-load-file.py', 'examples\\00-basic\\04-basic-load-file.py.md5', 'examples\\00-basic\\04-basic-load-file.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\04-basic-load-file.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/00-basic/05-hdf5_double_float_comparison": ['examples\\00-basic\\05-hdf5_double_float_comparison.ipynb', 'examples\\00-basic\\05-hdf5_double_float_comparison.py', 'examples\\00-basic\\05-hdf5_double_float_comparison.py.md5', 'examples\\00-basic\\05-hdf5_double_float_comparison.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\05-hdf5_double_float_comparison.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/00-basic/05-use_local_data": ['examples\\00-basic\\05-use_local_data.ipynb', 'examples\\00-basic\\05-use_local_data.py', 'examples\\00-basic\\05-use_local_data.py.md5', 'examples\\00-basic\\05-use_local_data.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\05-use_local_data.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/00-basic/06-reduced_matrices_export": ['examples\\00-basic\\06-reduced_matrices_export.ipynb', 'examples\\00-basic\\06-reduced_matrices_export.py', 'examples\\00-basic\\06-reduced_matrices_export.py.md5', 'examples\\00-basic\\06-reduced_matrices_export.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\06-reduced_matrices_export.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/00-basic/07-load_plugin": ['examples\\00-basic\\07-load_plugin.ipynb', 'examples\\00-basic\\07-load_plugin.py', 'examples\\00-basic\\07-load_plugin.py.md5', 'examples\\00-basic\\07-load_plugin.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\07-load_plugin.rst' for the build.[39;49;00m
+[91mWARNING: multiple files found for the document "examples/00-basic/06-use_result_helpers": ['examples\\00-basic\\06-use_result_helpers.ipynb', 'examples\\00-basic\\06-use_result_helpers.py', 'examples\\00-basic\\06-use_result_helpers.py.md5', 'examples\\00-basic\\06-use_result_helpers.rst']
+Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\00-basic\\06-use_result_helpers.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/01-static-transient/00-basic_transient": ['examples\\01-static-transient\\00-basic_transient.ipynb', 'examples\\01-static-transient\\00-basic_transient.py', 'examples\\01-static-transient\\00-basic_transient.py.md5', 'examples\\01-static-transient\\00-basic_transient.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\01-static-transient\\00-basic_transient.rst' for the build.[39;49;00m
+[91mWARNING: multiple files found for the document "examples/01-static-transient/01-transient_easy_time_scoping": ['examples\\01-static-transient\\01-transient_easy_time_scoping.ipynb', 'examples\\01-static-transient\\01-transient_easy_time_scoping.py', 'examples\\01-static-transient\\01-transient_easy_time_scoping.py.md5', 'examples\\01-static-transient\\01-transient_easy_time_scoping.rst']
+Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\01-static-transient\\01-transient_easy_time_scoping.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/02-modal-harmonic/00-multi_harmonic": ['examples\\02-modal-harmonic\\00-multi_harmonic.ipynb', 'examples\\02-modal-harmonic\\00-multi_harmonic.py', 'examples\\02-modal-harmonic\\00-multi_harmonic.py.md5', 'examples\\02-modal-harmonic\\00-multi_harmonic.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\02-modal-harmonic\\00-multi_harmonic.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/02-modal-harmonic/01-modal_cyclic": ['examples\\02-modal-harmonic\\01-modal_cyclic.ipynb', 'examples\\02-modal-harmonic\\01-modal_cyclic.py', 'examples\\02-modal-harmonic\\01-modal_cyclic.py.md5', 'examples\\02-modal-harmonic\\01-modal_cyclic.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\02-modal-harmonic\\01-modal_cyclic.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/02-modal-harmonic/02-cyclic_multi_stage": ['examples\\02-modal-harmonic\\02-cyclic_multi_stage.ipynb', 'examples\\02-modal-harmonic\\02-cyclic_multi_stage.py', 'examples\\02-modal-harmonic\\02-cyclic_multi_stage.py.md5', 'examples\\02-modal-harmonic\\02-cyclic_multi_stage.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\02-modal-harmonic\\02-cyclic_multi_stage.rst' for the build.[39;49;00m
+[91mWARNING: multiple files found for the document "examples/02-modal-harmonic/03-compare_modes": ['examples\\02-modal-harmonic\\03-compare_modes.ipynb', 'examples\\02-modal-harmonic\\03-compare_modes.py', 'examples\\02-modal-harmonic\\03-compare_modes.py.md5', 'examples\\02-modal-harmonic\\03-compare_modes.rst']
+Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\02-modal-harmonic\\03-compare_modes.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/03-advanced/00-multistage_advanced_options": ['examples\\03-advanced\\00-multistage_advanced_options.ipynb', 'examples\\03-advanced\\00-multistage_advanced_options.py', 'examples\\03-advanced\\00-multistage_advanced_options.py.md5', 'examples\\03-advanced\\00-multistage_advanced_options.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\03-advanced\\00-multistage_advanced_options.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/03-advanced/01-solve_harmonic_problem": ['examples\\03-advanced\\01-solve_harmonic_problem.ipynb', 'examples\\03-advanced\\01-solve_harmonic_problem.py', 'examples\\03-advanced\\01-solve_harmonic_problem.py.md5', 'examples\\03-advanced\\01-solve_harmonic_problem.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\03-advanced\\01-solve_harmonic_problem.rst' for the build.[39;49;00m
 [91mWARNING: multiple files found for the document "examples/03-advanced/02-volume_averaged_stress": ['examples\\03-advanced\\02-volume_averaged_stress.ipynb', 'examples\\03-advanced\\02-volume_averaged_stress.py', 'examples\\03-advanced\\02-volume_averaged_stress.py.md5', 'examples\\03-advanced\\02-volume_averaged_stress.rst']
 Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\03-advanced\\02-volume_averaged_stress.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/03-mapdl-run/00-mapdl_run_basic": ['examples\\03-mapdl-run\\00-mapdl_run_basic.ipynb', 'examples\\03-mapdl-run\\00-mapdl_run_basic.py', 'examples\\03-mapdl-run\\00-mapdl_run_basic.py.md5', 'examples\\03-mapdl-run\\00-mapdl_run_basic.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\03-mapdl-run\\00-mapdl_run_basic.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/03-mapdl-run/01-mapdl_run_cyclic": ['examples\\03-mapdl-run\\01-mapdl_run_cyclic.ipynb', 'examples\\03-mapdl-run\\01-mapdl_run_cyclic.py', 'examples\\03-mapdl-run\\01-mapdl_run_cyclic.py.md5', 'examples\\03-mapdl-run\\01-mapdl_run_cyclic.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\03-mapdl-run\\01-mapdl_run_cyclic.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/04-advanced/00-multistage_advanced_options": ['examples\\04-advanced\\00-multistage_advanced_options.ipynb', 'examples\\04-advanced\\00-multistage_advanced_options.py', 'examples\\04-advanced\\00-multistage_advanced_options.py.md5', 'examples\\04-advanced\\00-multistage_advanced_options.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\04-advanced\\00-multistage_advanced_options.rst' for the build.[39;49;00m
-[91mWARNING: multiple files found for the document "examples/04-advanced/01-solve_harmonic_problem": ['examples\\04-advanced\\01-solve_harmonic_problem.ipynb', 'examples\\04-advanced\\01-solve_harmonic_problem.py', 'examples\\04-advanced\\01-solve_harmonic_problem.py.md5', 'examples\\04-advanced\\01-solve_harmonic_problem.rst']
-Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\04-advanced\\01-solve_harmonic_problem.rst' for the build.[39;49;00m
+[91mWARNING: multiple files found for the document "examples/03-advanced/03-exchange_data_between_servers": ['examples\\03-advanced\\03-exchange_data_between_servers.ipynb', 'examples\\03-advanced\\03-exchange_data_between_servers.py', 'examples\\03-advanced\\03-exchange_data_between_servers.py.md5', 'examples\\03-advanced\\03-exchange_data_between_servers.rst']
+Use 'D:\\ANSYSDev\\dpf-python-core\\docs\\source\\examples\\03-advanced\\03-exchange_data_between_servers.rst' for the build.[39;49;00m
 d:\ansysdev\dpf-python-core\ansys\dpf\core\common.py:docstring of ansys.dpf.core.common.natures:5: WARNING: Unexpected section title.
 
 Attributes
@@ -45,14 +39,25 @@ Attributes
 [91md:\ansysdev\dpf-python-core\ansys\dpf\core\elements.py:docstring of ansys.dpf.core.elements.ElementAdder.shape:1: WARNING: duplicate object description of ansys.dpf.core.elements.ElementAdder.shape, other instance in api/ansys.dpf.core.elements, use :noindex: for one of them[39;49;00m
 [91md:\ansysdev\dpf-python-core\ansys\dpf\core\meshed_region.py:docstring of ansys.dpf.core.meshed_region.MeshedRegion.elements:1: WARNING: duplicate object description of ansys.dpf.core.meshed_region.MeshedRegion.elements, other instance in api/ansys.dpf.core.meshed_region, use :noindex: for one of them[39;49;00m
 [91md:\ansysdev\dpf-python-core\ansys\dpf\core\meshed_region.py:docstring of ansys.dpf.core.meshed_region.MeshedRegion.nodes:1: WARNING: duplicate object description of ansys.dpf.core.meshed_region.MeshedRegion.nodes, other instance in api/ansys.dpf.core.meshed_region, use :noindex: for one of them[39;49;00m
+[91md:\ansysdev\dpf-python-core\ansys\dpf\core\nodes.py:docstring of ansys.dpf.core.nodes.NodeAdder.id:1: WARNING: duplicate object description of ansys.dpf.core.nodes.NodeAdder.id, other instance in api/ansys.dpf.core.nodes, use :noindex: for one of them[39;49;00m
+[91mWARNING: autodoc: failed to import module 'fft_eval' from module 'ansys.dpf.core.operators'; the following exception was raised:
+No module named 'ansys.dpf.core.operators.fft_eval'[39;49;00m
+[91mWARNING: autodoc: failed to import module 'fft_gradient_eval' from module 'ansys.dpf.core.operators'; the following exception was raised:
+No module named 'ansys.dpf.core.operators.fft_gradient_eval'[39;49;00m
+[91mWARNING: autodoc: failed to import module 'fft_multi_harmonic_minmax' from module 'ansys.dpf.core.operators'; the following exception was raised:
+No module named 'ansys.dpf.core.operators.fft_multi_harmonic_minmax'[39;49;00m
+[91mWARNING: autodoc: failed to import module 'matrix_inverse' from module 'ansys.dpf.core.operators'; the following exception was raised:
+No module named 'ansys.dpf.core.operators.matrix_inverse'[39;49;00m
+[91mWARNING: autodoc: failed to import module 'qr_solve' from module 'ansys.dpf.core.operators'; the following exception was raised:
+No module named 'ansys.dpf.core.operators.qr_solve'[39;49;00m
+[91mWARNING: autodoc: failed to import module 'svd' from module 'ansys.dpf.core.operators'; the following exception was raised:
+No module named 'ansys.dpf.core.operators.svd'[39;49;00m
 [91md:\ansysdev\dpf-python-core\ansys\dpf\core\scoping.py:docstring of ansys.dpf.core.scoping.Scoping.ids:1: WARNING: duplicate object description of ansys.dpf.core.scoping.Scoping.ids, other instance in api/ansys.dpf.core.scoping, use :noindex: for one of them[39;49;00m
 [91md:\ansysdev\dpf-python-core\ansys\dpf\core\scoping.py:docstring of ansys.dpf.core.scoping.Scoping.location:1: WARNING: duplicate object description of ansys.dpf.core.scoping.Scoping.location, other instance in api/ansys.dpf.core.scoping, use :noindex: for one of them[39;49;00m
 d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py:docstring of ansys.dpf.core.server.DpfServer:4: WARNING: Unexpected section title.
 
 Parameters
 -----------
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\04-advanced\00-multistage_advanced_options.rst:24: WARNING: duplicate label ref_multi_stage_cyclic_advanced, other instance in D:\ANSYSDev\dpf-python-core\docs\source\examples\03-advanced\00-multistage_advanced_options.rst[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\04-advanced\01-solve_harmonic_problem.rst:24: WARNING: duplicate label ref_solve_modal_problem_advanced, other instance in D:\ANSYSDev\dpf-python-core\docs\source\examples\03-advanced\01-solve_harmonic_problem.rst[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\getting_started\install.rst:36: WARNING: Title underline too short.
 
 Get started as Ansys internal consumer (Internal Development Mode)
@@ -62,15 +67,13 @@ Get started as Ansys internal consumer (Internal Development Mode)
 Get started as Ansys internal consumer (Internal Development Mode)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\index.rst:75: WARNING: toctree contains reference to nonexisting document '*'[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.rst: WARNING: document isn't included in any toctree[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.fft_eval.rst: WARNING: document isn't included in any toctree[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.fft_gradient_eval.rst: WARNING: document isn't included in any toctree[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.fft_multi_harmonic_minmax.rst: WARNING: document isn't included in any toctree[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.matrix_inverse.rst: WARNING: document isn't included in any toctree[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.qr_solve.rst: WARNING: document isn't included in any toctree[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.svd.rst: WARNING: document isn't included in any toctree[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\modules.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\00-basic\05-hdf5_double_float_comparison.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\00-basic\06-reduced_matrices_export.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\00-basic\07-load_plugin.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\03-mapdl-run\00-mapdl_run_basic.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\03-mapdl-run\01-mapdl_run_cyclic.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\04-advanced\00-multistage_advanced_options.rst: WARNING: document isn't included in any toctree[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\examples\04-advanced\01-solve_harmonic_problem.rst: WARNING: document isn't included in any toctree[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
@@ -101,33 +104,9 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.help' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.inputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.ipconfig' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.log' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.mapping_types' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.misc' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.help' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.inputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.ipconfig' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.log' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.mapping_types' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.misc' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -143,18 +122,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.help' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.inputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.ipconfig' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.log' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.mapping_types' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.misc' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -452,10 +419,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -483,8 +446,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -512,8 +473,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -568,6 +527,10 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -595,6 +558,8 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -622,6 +587,8 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -1000,8 +967,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -1029,7 +994,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -1057,7 +1021,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -1085,7 +1048,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -1113,6 +1075,7 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
+[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
@@ -11305,7 +11268,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -11333,7 +11295,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
@@ -11619,18 +11580,6 @@ Get started as Ansys internal consumer (Internal Development Mode)
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.downloads' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.examples.rst:7: WARNING: toctree contains reference to document 'api/ansys.dpf.core.examples.examples' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.operators.rst:28: WARNING: toctree contains reference to document 'api/ansys.dpf.core.operators.specification' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.help' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.inputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.ipconfig' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.log' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.mapping_types' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.misc' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.outputs' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.plotter' that doesn't have a title: no link will be generated[39;49;00m
-[91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.vtk_helper' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.check_version' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.errors' that doesn't have a title: no link will be generated[39;49;00m
 [91mD:\ANSYSDev\dpf-python-core\docs\source\api\ansys.dpf.core.rst:16: WARNING: toctree contains reference to document 'api/ansys.dpf.core.field_base' that doesn't have a title: no link will be generated[39;49;00m

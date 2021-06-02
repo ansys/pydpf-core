@@ -22,6 +22,7 @@ Submodules
    ansys.dpf.core.common
    ansys.dpf.core.config
    ansys.dpf.core.core
+   ansys.dpf.core.custom_fields_container
    ansys.dpf.core.cyclic_support
    ansys.dpf.core.data_sources
    ansys.dpf.core.dimensionnality
@@ -49,6 +50,7 @@ Submodules
    ansys.dpf.core.plotter
    ansys.dpf.core.property_field
    ansys.dpf.core.result_info
+   ansys.dpf.core.results
    ansys.dpf.core.scoping
    ansys.dpf.core.scopings_container
    ansys.dpf.core.server

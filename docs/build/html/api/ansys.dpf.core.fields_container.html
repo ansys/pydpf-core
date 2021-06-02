@@ -2091,36 +2091,6 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
-       fft_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
-       fft_gradient_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
-       fft_multi_harmonic_minmax
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
-       matrix_inverse
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
-       qr_solve
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
-       svd
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2146,6 +2116,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.core.html">
      Core
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">
+     Custom FieldsContainers
     </a>
    </li>
    <li class="toctree-l2">
@@ -2231,6 +2206,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.result_info.html">
      ResultInfo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.results.html">
+     Results
     </a>
    </li>
    <li class="toctree-l2">
@@ -2387,20 +2367,56 @@ complexid (complexid=1:imaginary, complexid=0:real)</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="ansys.dpf.core.fields_container.FieldsContainer.get_field_by_time_complex_ids">
+<code class="sig-name descname"><span class="pre">get_field_by_time_complex_ids</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complexid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_field_by_time_complex_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the field at a requested time/freq id and real or imaginary depending on
+complexid (complexid=1:imaginary, complexid=0:real).
+It throws if the number of fields matching the request is
+higher than 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timeid</strong> (<em>int</em><em>, </em><em>optional</em>) – The time id. One based index of the result set.</p></li>
+<li><p><strong>complexid</strong> (<em>int</em><em>, </em><em>optional</em>) – The complex id.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fields</strong> – field corresponding to the request</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Extract a the 5th time set of a transient analysis.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="p">)</span>
+<span class="go">35</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field_set_5</span> <span class="o">=</span><span class="n">fields_container</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt id="ansys.dpf.core.fields_container.FieldsContainer.get_fields">
-<code class="sig-name descname"><span class="pre">get_fields</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_space_or_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_fields</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_space</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the fields at a requested index or label space</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label_space_or_index</strong> (<em>dict</em><em>[</em><em>string</em><em>,</em><em>int</em><em>] </em><em>, </em><em>int</em>) – Scoping of the requested fields, for example:
-<code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;complex&quot;:</span> <span class="pre">0}</span></code>
-or Index of the field.</p>
+<dd class="field-odd"><p><strong>label_space</strong> (<em>dict</em><em>[</em><em>string</em><em>,</em><em>int</em><em>]</em>) – Scoping of the requested fields, for example:
+<code class="docutils literal notranslate"><span class="pre">{&quot;time&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;complex&quot;:</span> <span class="pre">0}</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>fields</strong> – fields corresponding to the request</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>] , <a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a> (if only one)</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>]</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -2437,7 +2453,7 @@ Throws if the request returns several fields</p>
 or Index of the field.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>fields</strong> – field corresponding to the request</p>
+<dd class="field-even"><p><strong>field</strong> – field corresponding to the request</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
@@ -2463,7 +2479,7 @@ or Index of the field.</p>
 <dd class="field-even"><p><strong>fields</strong> – fields corresponding to the request</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>] , <a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a> (if only one)</p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2471,7 +2487,7 @@ or Index of the field.</p>
 <dl class="py method">
 <dt id="ansys.dpf.core.fields_container.FieldsContainer.get_imaginary_fields">
 <code class="sig-name descname"><span class="pre">get_imaginary_fields</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_imaginary_fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the complex field at a requested time</p>
+<dd><p>Returns the complex fields at a requested time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>timeid</strong> (<em>int</em><em>, </em><em>optional</em>) – The time id. Index of the result set.</p>
@@ -2480,7 +2496,24 @@ or Index of the field.</p>
 <dd class="field-even"><p><strong>fields</strong> – fields corresponding to the request</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>] , <a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a> (if only one)</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.fields_container.FieldsContainer.get_imaginary_field">
+<code class="sig-name descname"><span class="pre">get_imaginary_field</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_imaginary_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the complex field at a requested time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timeid</strong> (<em>int</em><em>, </em><em>optional</em>) – The time id. Index of the result set.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fields</strong> – field corresponding to the request</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2572,26 +2605,6 @@ contain different number of components.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ansys.dpf.core.fields_container.FieldsContainer.add_label">
-<code class="sig-name descname"><span class="pre">add_label</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.add_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add the requested label to scope the collection</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – Labels on which the entries will be scoped, for example <code class="docutils literal notranslate"><span class="pre">'time'</span></code>.</p></li>
-<li><p><strong>default_value</strong> (<em>int</em><em> , </em><em>optional</em>) – default value set for existing fields in the collection</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
 <dt id="ansys.dpf.core.fields_container.FieldsContainer.deep_copy">
 <code class="sig-name descname"><span class="pre">deep_copy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.deep_copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a deep copy of the fields container’s data (and its fields) on a given server.
@@ -2618,6 +2631,26 @@ This can be usefull to pass data from one server instance to another.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">other_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">deep_copy</span> <span class="o">=</span> <span class="n">fields_container</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">other_server</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.fields_container.FieldsContainer.add_label">
+<code class="sig-name descname"><span class="pre">add_label</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.add_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the requested label to scope the collection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>label</strong> (<em>str</em>) – Labels on which the entries will be scoped, for example <code class="docutils literal notranslate"><span class="pre">'time'</span></code>.</p></li>
+<li><p><strong>default_value</strong> (<em>int</em><em> , </em><em>optional</em>) – default value set for existing fields in the collection</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2676,6 +2709,20 @@ inside the collection.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict(string:int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ansys.dpf.core.fields_container.FieldsContainer.get_time_scoping">
+<code class="sig-name descname"><span class="pre">get_time_scoping</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.get_time_scoping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the time scoping containing the time sets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>scoping</strong> – scoping containing the time set ids available in the fields container</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a></p>
 </dd>
 </dl>
 </dd></dl>

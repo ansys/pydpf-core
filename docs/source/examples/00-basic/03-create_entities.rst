@@ -290,9 +290,9 @@ Plot the norm over time of our fields container
 
     norm = ops.math.norm_fc(fc)
     fc_norm = norm.outputs.fields_container()
-    mesh.plot(fc_norm.get_fields_by_time_complex_ids(1))
-    mesh.plot(fc_norm.get_fields_by_time_complex_ids(2))
-    mesh.plot(fc_norm.get_fields_by_time_complex_ids(3))
+    mesh.plot(fc_norm.get_field_by_time_complex_ids(1))
+    mesh.plot(fc_norm.get_field_by_time_complex_ids(2))
+    mesh.plot(fc_norm.get_field_by_time_complex_ids(3))
 
 
 
@@ -334,7 +334,7 @@ Plot the norm over time of our fields container
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.000 seconds)
+   **Total running time of the script:** ( 0 minutes  7.354 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_03-create_entities.py:

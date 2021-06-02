@@ -2091,36 +2091,6 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_eval.html">
-       fft_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_gradient_eval.html">
-       fft_gradient_eval
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.fft_multi_harmonic_minmax.html">
-       fft_multi_harmonic_minmax
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.matrix_inverse.html">
-       matrix_inverse
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.qr_solve.html">
-       qr_solve
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="ansys.dpf.core.operators.svd.html">
-       svd
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
@@ -2146,6 +2116,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.core.html">
      Core
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">
+     Custom FieldsContainers
     </a>
    </li>
    <li class="toctree-l2">
@@ -2231,6 +2206,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.result_info.html">
      ResultInfo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.results.html">
+     Results
     </a>
    </li>
    <li class="toctree-l2">
@@ -2387,7 +2367,7 @@ numbers.</p>
 <dd class="field-odd"><p>Available results of the model</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.model.Results" title="ansys.dpf.core.model.Results">Results</a></p>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.results.html#ansys.dpf.core.results.Results" title="ansys.dpf.core.results.Results">Results</a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -2402,7 +2382,7 @@ numbers.</p>
 </pre></div>
 </div>
 <p>Access an individual result operator.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">temp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">temperature</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">temp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">structural_temperature</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2447,28 +2427,6 @@ this model.</p>
 </div>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt id="ansys.dpf.core.model.Results">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.model.</span></code><code class="sig-name descname"><span class="pre">Results</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.model.Results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Organize the results from DPF into accessible methods.</p>
-<p class="rubric">Examples</p>
-<p>Extract the result object from a model.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span> <span class="c1"># printable object</span>
-</pre></div>
-</div>
-<p>Access the displacement operator</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">displacements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py class">
