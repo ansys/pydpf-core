@@ -198,18 +198,18 @@ def test_model_different_results_big_multi_server(all_kind_of_complexity_models)
     check_fc(fc,fc2)
     
     
-    op = results.strain()
+    op = results.elastic_strain()
     op.inputs.time_scoping(time_scoping)    
-    op2 = results2.strain()
+    op2 = results2.elastic_strain()
     op2.inputs.time_scoping(time_scoping)    
     fc = op.outputs.fields_container()
     fc2 = op2.outputs.fields_container()
     check_fc(fc,fc2)
        
     
-    op = results.volume()
+    op = results.elemental_volume()
     op.inputs.time_scoping(time_scoping)    
-    op2 = results2.volume()
+    op2 = results2.elemental_volume()
     op2.inputs.time_scoping(time_scoping)    
     fc = op.outputs.fields_container()
     fc2 = op2.outputs.fields_container()

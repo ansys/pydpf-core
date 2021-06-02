@@ -3,16 +3,18 @@ import weakref
 import pytest
 import numpy as np
 
-from ansys import dpf
 from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
+from ansys.dpf.core.custom_fields_container import ElShapeFieldsContainer, BodyFieldsContainer
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import fields_factory
+from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
 
 
 @pytest.fixture()
 def disp_fc(allkindofcomplexity):
     """Return a displacement fields container"""
-    model = dpf.core.Model(allkindofcomplexity)
+    model = dpf.Model(allkindofcomplexity)
     return model.results.displacement().outputs.fields_container()
 
 
@@ -47,10 +49,10 @@ def test_set_get_field_fields_container():
         fc.add_field(mscop,Field(nentities=i+10))
     assert fc.get_available_ids_for_label() == list(range(1,21))
     for i in range(0,20):
-        fieldid =fc.get_fields({"time":i+1,"complex":0})._message.id
+        fieldid =fc.get_field({"time":i+1,"complex":0})._message.id
         assert fieldid !=0
-        assert fc.get_fields(i)._message.id !=0
-        assert fc.get_fields_by_time_complex_ids(timeid=i+1,complexid=0)._message.id !=0
+        assert fc.get_field(i)._message.id !=0
+        assert fc.get_field_by_time_complex_ids(timeid=i+1,complexid=0)._message.id !=0
         assert fc[i]._message.id != 0
         
         
@@ -73,10 +75,10 @@ def test_set_get_field_fields_container_new_label():
         fc.add_field(mscop,Field(nentities=i+10))
     assert fc.get_available_ids_for_label() == list(range(1,21))
     for i in range(0,20):
-        fieldid =fc.get_fields({"time":i+1,"complex":0})._message.id
+        fieldid =fc.get_field({"time":i+1,"complex":0})._message.id
         assert fieldid !=0
-        assert fc.get_fields(i)._message.id !=0
-        assert fc.get_fields_by_time_complex_ids(timeid=i+1,complexid=0)._message.id !=0
+        assert fc.get_field(i)._message.id !=0
+        assert fc.get_field_by_time_complex_ids(timeid=i+1,complexid=0)._message.id !=0
         assert fc[i]._message.id != 0
         assert fc.get_label_space(i)=={"time":i+1,"complex":0}
     fc.add_label('shape')
@@ -87,9 +89,9 @@ def test_set_get_field_fields_container_new_label():
     assert len(fc.get_fields({"time":i+1,"complex":0}))==2
         
     for i in range(0,20):
-        fieldid =fc.get_fields({"time":i+1,"complex":0, 'shape':1})._message.id
+        fieldid =fc.get_field({"time":i+1,"complex":0, 'shape':1})._message.id
         assert fieldid !=0
-        assert fc.get_fields(i+20)._message.id !=0
+        assert fc.get_field(i+20)._message.id !=0
         assert fc[i]._message.id != 0
         assert fc.get_label_space(i+20)=={"time":i+1,"complex":0, 'shape':1}
     
@@ -107,15 +109,15 @@ def test_set_get_field_fields_container_new_label_default_value():
         mscop = {"time":i+1,"complex":0, 'shape':1}
         fc.add_field(mscop,Field(nentities=i+10))
     for i in range(0,20):
-        fieldid =fc.get_fields({"time":i+1,"complex":0, 'shape':1})._message.id
+        fieldid =fc.get_field({"time":i+1,"complex":0, 'shape':1})._message.id
         assert fieldid !=0
-        assert fc.get_fields(i+20)._message.id !=0
+        assert fc.get_field(i+20)._message.id !=0
         assert fc[i]._message.id != 0
         assert fc.get_label_space(i+20)=={"time":i+1,"complex":0, 'shape':1}
     for i in range(0,20):
-        fieldid =fc.get_fields({"time":i+1,"complex":0, 'shape':3})._message.id
+        fieldid =fc.get_field({"time":i+1,"complex":0, 'shape':3})._message.id
         assert fieldid !=0
-        assert fc.get_fields(i)._message.id !=0
+        assert fc.get_field(i)._message.id !=0
         assert fc[i]._message.id != 0
         assert fc.get_label_space(i)=={"time":i+1,"complex":0, 'shape':3}
 
@@ -137,15 +139,6 @@ def test_delete_fields_container():
     assert ref() is None
 
 
-# @pytest.mark.skipif(ON_WINDOWS_AZURE, reason='Causes segfault on Azure')
-def test_delete_auto_fields_container():
-    fc = FieldsContainer()
-    fc2 = FieldsContainer(fields_container=fc)
-    del fc
-    with pytest.raises(dpf_errors.DPFServerNullObject):
-        fc2._info
-
-
 def test_str_fields_container(disp_fc):
     assert 'time' in str(disp_fc)
     assert 'location' in str(disp_fc)
@@ -157,7 +150,7 @@ def test_support_fields_container(disp_fc):
 
 
 def test_getitem_fields_container(disp_fc):
-    assert isinstance(disp_fc[0], dpf.core.Field)
+    assert isinstance(disp_fc[0], dpf.Field)
     
     
 def test_has_label(disp_fc):
@@ -192,13 +185,13 @@ def test_add_field_by_time_id():
     fc.add_field_by_time_id(f3, 2)
     field_to_compare = Field(1)
     field_to_compare.append([0.0, 0.4, 0.6], 1)
-    field = fc.get_fields({'time': 2, 'complex': 0})
+    field = fc.get_field({'time': 2, 'complex': 0})
     assert len(fc) == 3
     assert np.allclose(field.data, field_to_compare.data)
     
     fc.add_field_by_time_id(f3, 1)
-    field_result_1 = fc.get_fields({'time': 1, 'complex': 0})
-    field_result_2 = fc.get_fields({'time': 2, 'complex': 0})
+    field_result_1 = fc.get_field({'time': 1, 'complex': 0})
+    field_result_2 = fc.get_field({'time': 2, 'complex': 0})
     assert np.allclose(field_result_1.data, field_result_2.data)
     
     fc.add_label('body')
@@ -226,13 +219,13 @@ def test_add_imaginary_field():
     fc.add_imaginary_field(f3, 2)
     field_to_compare = Field(1)
     field_to_compare.append([0.0, 0.4, 0.6], 1)
-    field = fc.get_fields({'time': 2, 'complex': 1})
+    field = fc.get_field({'time': 2, 'complex': 1})
     assert len(fc) == 3
     assert np.allclose(field.data, field_to_compare.data)
     
     fc.add_imaginary_field(f3, 1)
-    field_result_1 = fc.get_fields({'time': 1, 'complex': 1})
-    field_result_2 = fc.get_fields({'time': 2, 'complex': 1})
+    field_result_1 = fc.get_field({'time': 1, 'complex': 1})
+    field_result_2 = fc.get_field({'time': 2, 'complex': 1})
     assert np.allclose(field_result_1.data, field_result_2.data)
     
     fc.add_label('body')
@@ -252,12 +245,12 @@ def test_get_imaginary_field(disp_fc):
     field_real = Field(1)
     field_real.append([0.0, 3.0, 4.1], 20)
     fc.add_field({"time" : 1, "complex" : 0}, field_real)
-    field_to_check = fc.get_imaginary_fields(1)
+    field_to_check = fc.get_imaginary_field(1)
     assert field_to_check is None
     field_img = Field(1)
     field_img.append([1.0, 301.2, 4.2], 20)
     fc.add_field({"time" : 1, "complex" : 1}, field_img)
-    field_to_check_2 = fc.get_imaginary_fields(1)
+    field_to_check_2 = fc.get_imaginary_field(1)
     assert np.allclose(field_img.data, field_to_check_2.data)
     
 def test_get_field_by_time_id():
@@ -300,12 +293,12 @@ def test_collection_update_support():
     
 
 def test_deep_copy_over_time_fields_container(velocity_acceleration):
-    model = dpf.core.Model(velocity_acceleration)
+    model = dpf.Model(velocity_acceleration)
     stress = model.results.stress(time_scoping=[1,2,3])
     fc = stress.outputs.fields_container()
     copy = fc.deep_copy()
     
-    idenfc = dpf.core.operators.logic.identical_fc(fc,copy)
+    idenfc = dpf.operators.logic.identical_fc(fc,copy)
     assert idenfc.outputs.boolean()
     
     tf = fc.time_freq_support
@@ -313,6 +306,72 @@ def test_deep_copy_over_time_fields_container(velocity_acceleration):
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
     
-  
+    
+def test_light_copy():
+    fc = FieldsContainer()
+    fc.labels = ["time"]
+    field = Field(1)
+    field.append([0.0, 3.0, 4.1], 20)
+    fc.add_field({"time" : 1}, field)
+    assert fc[0]!=None
+    fc2 = FieldsContainer(fields_container=fc)
+    assert fc2[0]!=None
+    fc=2
+    assert fc2[0]!=None
+    
+def test_el_shape_fc(allkindofcomplexity):
+    model = dpf.Model(allkindofcomplexity)
+    fc = model.results.stress.splitted_by_shape.eval()
+    assert isinstance(fc, ElShapeFieldsContainer)
+    assert len(fc.beam_fields())==1
+    assert len(fc.shell_fields())==1
+    assert len(fc.solid_fields())==1
+    mesh =model.metadata.meshed_region
+    
+    f = fc.beam_field()
+    for id in f.scoping.ids :
+        assert mesh.elements.element_by_id(id).shape =="beam"
+        
+    f = fc.shell_field()
+    for id in f.scoping.ids :
+        assert mesh.elements.element_by_id(id).shape =="shell"  
+        
+    f = fc.solid_field()
+    for id in f.scoping.ids :
+        assert mesh.elements.element_by_id(id).shape =="solid"  
+        
+def test_el_shape_time_fc():
+    model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+    fc = model.results.stress.on_all_time_freqs.splitted_by_shape.eval()
+    assert isinstance(fc, ElShapeFieldsContainer)
+    assert len(fc.beam_fields())==45
+    assert len(fc.shell_fields())==45
+    assert len(fc.solid_fields())==45
+    assert len(fc.beam_fields(1))==1
+    assert len(fc.shell_fields(3))==1
+    assert len(fc.solid_fields(20))==1
+    mesh =model.metadata.meshed_region
+        
+    f = fc.beam_field(3)
+    for id in f.scoping.ids :
+        assert mesh.elements.element_by_id(id).shape =="beam"
+        
+    f = fc.shell_field(4)
+    for id in f.scoping.ids :
+        assert mesh.elements.element_by_id(id).shape =="shell"  
+        
+    f = fc.solid_field(5)
+    for id in f.scoping.ids :
+        assert mesh.elements.element_by_id(id).shape =="solid"  
+    
+
+def test_mat_time_fc():
+    model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+    fc = model.results.stress.on_all_time_freqs.splitted_by_body.eval()
+    assert isinstance(fc, BodyFieldsContainer)
+    assert len(fc.get_fields_by_mat_id(45))==45
+    assert np.allclose(fc.get_fields_by_mat_id(45)[0].data,fc.get_field_by_mat_id(45,1).data)
+    assert len(fc.get_mat_scoping().ids)==32    
+    
 if __name__ == "__main__":   
     test_add_field_by_time_id()
