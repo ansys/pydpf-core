@@ -533,7 +533,7 @@ class Elements():
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.static_rst)
         >>> elements = model.metadata.meshed_region.elements
-        >>> vol = model.results.volume()
+        >>> vol = model.results.elemental_volume()
         >>> field = vol.outputs.fields_container()[0]
         >>> ind, mask = elements.map_scoping(field.scoping)
         >>> ind

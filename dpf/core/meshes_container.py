@@ -36,22 +36,39 @@ class MeshesContainer(Collection):
         Collection.__init__(self, types.meshed_region,  
                             collection=meshes_container, server=self._server)
 
-    def get_meshes(self, label_space_or_index):
-        """Returns the meshes at a requested index or label space
+    def get_meshes(self, label_space):
+        """Returns the meshes at a label space
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int
+        label_space : dict[string,int] 
             Meshes correponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
+
+        Returns
+        -------
+        meshes : list[MeshedRegion]
+            meshes corresponding to the request
+        """
+        return super()._get_entries(label_space)
+    
+    def get_mesh(self, label_space_or_index):
+        """Returns the mesh at a requested index or label space.
+        Throws if the request returns several meshes
+
+        Parameters
+        ----------
+        label_space_or_index : dict[string,int] , int 
+            Scoping of the requested mesh, for example:
+            ``{"time": 1, "complex": 0}``
             or Index of the mesh.
 
         Returns
         -------
-        meshes : list[MeshedRegion] , MeshedRegion (if only one)
-            meshes corresponding to the request
+        mesh : MeshedRegion
+            mesh corresponding to the request
         """
-        return super()._get_entries(label_space_or_index)
+        return super()._get_entry(label_space_or_index)
 
     def __getitem__(self, key):
         """Returns the mesh at a requested index

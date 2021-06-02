@@ -54,7 +54,10 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator"""
-        return _remove_spaces(self._message.physicsname)
+        if self.operator_name in _result_properties:
+            return _result_properties[self.operator_name]["scripting_name"]
+        else:
+            return _remove_spaces(self._message.physicsname)
 
     @property
     def n_components(self):
@@ -103,3 +106,46 @@ class AvailableResult:
                 dict ={"name":sub_res.name, "operator name":sub_res.op_name, "description":sub_res.description }
             list.append(dict)
         return list
+    
+    
+    @property
+    def native_location(self):
+        if self.operator_name in _result_properties:
+            return _result_properties[self.operator_name]["location"]
+        
+    @property
+    def native_scoping_location(self):
+        loc = self.native_location
+        if loc == "ElementalNodal":
+            return "Elemental"
+        else:
+            return loc
+    
+_result_properties ={ "S":{"location":"ElementalNodal", "scripting_name":"stress"},
+            "ENF":{"location":"ElementalNodal", "scripting_name":"element_nodal_forces"},
+            "EPEL":{"location":"ElementalNodal", "scripting_name":"elastic_strain"},
+            "EPPL":{"location":"ElementalNodal", "scripting_name":"plastic_strain"},
+            "ECR":{"location":"ElementalNodal", "scripting_name":"creep_strain"},
+            "BFE":{"location":"ElementalNodal", "scripting_name":"structural_temperature"},
+            "ETH":{"location":"ElementalNodal", "scripting_name":"thermal_strain"},
+            "ETH_SWL":{"location":"ElementalNodal", "scripting_name":"swelling_strains"},
+            "ENG_VOL":{"location":"Elemental", "scripting_name":"elemental_volume"},
+            "ENG_SE":{"location":"Elemental", "scripting_name":"stiffness_matrix_energy"},
+            "ENG_AHO":{"location":"Elemental", "scripting_name":"artificial_hourglass_energy"},
+            "ENG_KE":{"location":"Elemental", "scripting_name":"kinetic_energy"},
+            "ENG_CO":{"location":"Elemental", "scripting_name":"co_energy"},
+            "ENG_INC":{"location":"Elemental", "scripting_name":"incremental_energy"},
+            "ENG_TH":{"location":"Elemental", "scripting_name":"thermal_dissipation_energy"},
+            "U":{"location":"Nodal", "scripting_name":"displacement"},
+            "V":{"location":"Nodal", "scripting_name":"velocity"},
+            "A":{"location":"Nodal", "scripting_name":"acceleration"},
+            "RF":{"location":"Nodal", "scripting_name":"reaction_force"},
+            "F":{"location":"Nodal", "scripting_name":"nodal_force"},
+            "M":{"location":"Nodal", "scripting_name":"nodal_moment"},
+            "TEMP":{"location":"Nodal", "scripting_name":"temperature"},
+            "EF":{"location":"ElementalNodal", "scripting_name":"electric_field"},
+            "VOLT":{"location":"Nodal", "scripting_name":"electric_potential"},
+            "TF":{"location":"ElementalNodal", "scripting_name":"heat_flux"},
+            "UTOT":{"location":"Nodal", "scripting_name":"raw_displacement"},
+            "RFTOT":{"location":"Nodal", "scripting_name":"raw_reaction_force"}
+            }

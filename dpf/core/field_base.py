@@ -586,8 +586,8 @@ class _LocalFieldBase(_FieldBase):
         if self._is_property_field:
             array = np.array(self._data_copy[first_index:last_index+1], dtype=np.int32)
         else:
-            
             array = np.array(self._data_copy[first_index:last_index+1])
+            
         if self._ncomp>1:
             return array.reshape((array.size//self._ncomp,self._ncomp))
         else:
