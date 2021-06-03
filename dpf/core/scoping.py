@@ -1,4 +1,6 @@
 """
+.. _ref_scoping:
+    
 Scoping
 =======
 """
@@ -367,8 +369,10 @@ def _data_get_chunk_(dtype, service, np_array=True):
     for iMeta in range(len(tupleMetaData)):
         if tupleMetaData[iMeta].key == u"size_tot":
             size = int(tupleMetaData[iMeta].value)
-    need_progress_bar = size>1e6
+            
+        
     itemsize = np.dtype(dtype).itemsize
+    need_progress_bar = size//itemsize>1e6
     if need_progress_bar:
         bar =_common_progress_bar("Receiving data...", unit=dtype.__name__+"s", tot_size = size//itemsize)
         bar.start()

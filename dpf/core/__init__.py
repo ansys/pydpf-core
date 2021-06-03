@@ -31,7 +31,7 @@ from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.common import types, natures, locations, shell_layers
 from ansys.dpf.core import help
-from ansys.dpf.core.core import BaseService, load_library, download_file, upload_file, upload_file_in_tmp_folder,download_files_in_folder
+from ansys.dpf.core.core import BaseService, load_library, download_file, upload_file,upload_file_in_tmp_folder,download_files_in_folder, make_tmp_dir_server
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.elements import element_types
@@ -41,7 +41,7 @@ from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
-from ansys.dpf.core import fields_container_factory,fields_factory
+from ansys.dpf.core import fields_container_factory,fields_factory, mesh_scoping_factory, time_freq_scoping_factory
 from ansys.dpf.core import server
 from ansys.dpf.core import check_version
 

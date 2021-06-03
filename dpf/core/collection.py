@@ -229,8 +229,8 @@ class Collection:
                 raise KeyError(f"{label_space_or_index} has {len(entries)} entries")
         else:
             return entries
-    
-    
+        
+            
     def get_label_space(self, index):
         """Returns the label space of an entry at a requested index
 

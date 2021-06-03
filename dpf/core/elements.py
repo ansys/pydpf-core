@@ -111,7 +111,7 @@ class Element:
         txt = 'DPF Element %d\n' % self.id
         txt += '\tIndex:      %7d\n' % self.index
         txt += '\tNodes:      %7d\n' % self.n_nodes
-        txt += '\tType:       %7d\n' % self.type
+        txt += f'\tType:       {self.type}\n'  
         txt += '\tShape:      %7s\n' % self.shape.capitalize()
         return txt
 

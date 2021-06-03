@@ -1,7 +1,12 @@
 """
+.. _ref_model:
+    
 Model
 =====
-Module contains the Model class to manage file result models."""
+Module contains the Model class to manage file result models.
+
+
+"""
 import functools
 
 from ansys import dpf
@@ -98,28 +103,50 @@ class Model:
 
     @property
     def results(self):
-        """Available results of the model
+        """Available results of the model.
+        Organize the results from DPF into accessible methods. All the available
+        results are dynamically created depending on the model's 'ResultInfo'
 
         Returns
         -------
         Results
-            Available results of the model
-
+            Available results of the model        
+    
+        Attributes
+        ----------
+        all types of results : Result
+            Result provider helper wrapping all types of provider available for a 
+            given result file
+            
+            Examples
+            --------
+            Create a stress result from the model
+            and choose its time and mesh scopings
+            
+            >>> from ansys.dpf import core as dpf
+            >>> from ansys.dpf.core import examples
+            >>> model = dpf.Model(examples.electric_therm)
+            >>> v = model.results.electric_potential
+            >>> rf = model.results.reaction_force
+            >>> dissip = model.results.thermal_dissipation_energy
+            
         Examples
         --------
+        Extract the result object from a model.
+    
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.simple_bar)
+        >>> results = model.results # printable object
+    
+        Access the displacement at all times
+    
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
-        
-        Get printable available results
-        
-        >>> results = model.results
-
-        Access an individual result operator.
-
-        >>> temp = model.results.structural_temperature()
-
+        >>> displacements = model.results.displacement.on_all_time_freqs.eval()
+    
         """
         return self._results
     
@@ -186,20 +213,6 @@ class Model:
                                               show_edges=show_edges, **kwargs)
 
 
-
-    
-    def __iter__(self):
-        for key in self.__dict__:
-            if isinstance(self.__dict__[key], functools.partial):
-                yield self.__dict__[key]
-    def __getitem__(self, val):
-        n=0
-        for key in self.__dict__:
-            if isinstance(self.__dict__[key], functools.partial):
-                if n==val:
-                    return self.__dict__[key]
-                n+=1
-        
 
 
 class Metadata:
