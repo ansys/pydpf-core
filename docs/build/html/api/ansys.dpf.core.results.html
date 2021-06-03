@@ -2165,17 +2165,17 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">
-     FieldsContainerFactory
+     fields_container_factory
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
-     FieldsFactory
+     fields_factory
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">
-     MeshScopingFactory
+     mesh_scoping_factory
     </a>
    </li>
    <li class="toctree-l2">
@@ -2230,7 +2230,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">
-     TimeFreqScopingFactory
+     time_freq_scoping_factory
     </a>
    </li>
    <li class="toctree-l2">
@@ -2282,7 +2282,7 @@
               <div>
                 
   <span class="target" id="module-ansys.dpf.core.results"></span><div class="section" id="results">
-<h1>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h1>
+<span id="ref-results"></span><h1>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h1>
 <p>Module contains the Results and Result class that are created by the Model
 to easily access results in result files.</p>
 <dl class="py class">
@@ -2367,12 +2367,12 @@ and choose its time and mesh scopings</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span> <span class="c1"># printable object</span>
 </pre></div>
 </div>
-<p>Access the displacement operator</p>
+<p>Access the displacement at all times</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">displacements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">displacements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>

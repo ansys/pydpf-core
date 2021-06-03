@@ -1,4 +1,6 @@
 """
+.. _ref_operator:
+    
 Operator
 ===============
 Interface to underlying gRPC Operator

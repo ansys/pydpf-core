@@ -1,6 +1,6 @@
 """
-FieldsContainerFactory
-======================
+fields_container_factory
+========================
 
 Contains functions to make easy fields container creation.
 """

@@ -1,3 +1,11 @@
+"""
+.. _ref_operators_package:
+
+ansys.dpf.core.operators
+========================
+"""
+  
+
 from . import result
 from . import math
 from . import min_max

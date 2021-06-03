@@ -1,4 +1,6 @@
 """
+.. _ref_results:
+    
 Results
 ========
 Module contains the Results and Result class that are created by the Model
@@ -74,13 +76,13 @@ class Results:
     >>> model = dpf.Model(examples.simple_bar)
     >>> results = model.results # printable object
 
-    Access the displacement operator
+    Access the displacement at all times
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = Model(transient)
-    >>> displacements = model.results.displacement()
+    >>> displacements = model.results.displacement.on_all_time_freqs.eval()
 
     """
     

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.scoping.change_fc
-   :inherited-members:

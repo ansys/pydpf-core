@@ -1,6 +1,6 @@
 """
-FieldsFactory
-=============
+fields_factory
+==============
 
 Contains functions to make easy fields creation.
 """

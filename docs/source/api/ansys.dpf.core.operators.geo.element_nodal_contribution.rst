@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.geo.element_nodal_contribution
-   :inherited-members:

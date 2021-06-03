@@ -39,7 +39,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Installation" href="install.html" />
+    <link rel="next" title="Using DPF Through Docker" href="docker.html" />
     <link rel="prev" title="PyANSYS DPF-Core" href="../index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -147,11 +147,6 @@
   <div class="bd-toc-item active">
     <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="install.html">
-   Installation
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="docker.html">
    Using DPF Through Docker
   </a>
@@ -176,6 +171,43 @@
 
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#architecture">
+   Architecture
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#installation-with-pip">
+     Installation with PIP
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#editable-install-development-mode">
+     Editable Install (Development Mode)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-started-as-ansys-internal-consumer-internal-development-mode">
+     Get started as Ansys internal consumer (Internal Development Mode)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#try-installation">
+   Try Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependencies">
+   Dependencies
+  </a>
+ </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#compatibility">
    Compatibility
@@ -204,10 +236,103 @@
                 
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>To use the native DPF server, you need to have a local installation of
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>DPF-Core is a python grpc client communicating with the Ans.Dpf.Grpc server.
+To use the native DPF server, you need to have a local installation of
 Ansys 2021R2.  Visit <a class="reference external" href="https://www.ansys.com/">https://www.ansys.com/</a> for more information on
 getting a licensed copy of Ansys.</p>
+</div>
+<div class="section" id="installation">
+<span id="basic-gallery"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation-with-pip">
+<span id="id1"></span><h3>Installation with PIP<a class="headerlink" href="#installation-with-pip" title="Permalink to this headline">¶</a></h3>
+<p>Once you’ve installed Ansys 2021R1 or newer, you can install DPF with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span>
+</pre></div>
+</div>
+<p>This will install the latest version of <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> and all the
+necessary dependencies.</p>
+<p>If you are unable to install the module on the host machine due to
+network isolation, download the latest release wheel at <a class="reference external" href="https://https://github.com/pyansys/DPF-Core">DPF-Core
+GitHub</a> or from PyPi at
+<a class="reference external" href="https://pypi.org/project/ansys-dpf-core/">DPF-Core PyPi</a></p>
+</div>
+<div class="section" id="editable-install-development-mode">
+<h3>Editable Install (Development Mode)<a class="headerlink" href="#editable-install-development-mode" title="Permalink to this headline">¶</a></h3>
+<p>If you wish to edit and potentially contribute to the DPF-Core python
+module, clone the repository and install it using pip with the <code class="docutils literal notranslate"><span class="pre">-e</span></code>
+development flag.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pyansys</span><span class="o">/</span><span class="n">DPF</span><span class="o">-</span><span class="n">Core</span>
+<span class="n">cd</span> <span class="n">DPF</span><span class="o">-</span><span class="n">Core</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-started-as-ansys-internal-consumer-internal-development-mode">
+<h3>Get started as Ansys internal consumer (Internal Development Mode)<a class="headerlink" href="#get-started-as-ansys-internal-consumer-internal-development-mode" title="Permalink to this headline">¶</a></h3>
+<p>To install all dpf python modules and requirements from the Ansys internal pypi, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">canartifactory</span><span class="o">.</span><span class="n">ansys</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">simple</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span> <span class="n">canartifactory</span><span class="o">.</span><span class="n">ansys</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+<div class="section" id="try-installation">
+<h2>Try Installation<a class="headerlink" href="#try-installation" title="Permalink to this headline">¶</a></h2>
+<p>A quick try out of the installation can be done with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+DPF Result Info
+  Analysis: static
+  Physics Type: mecanic
+  Unit system: MKS: m, kg, N, s, V, A, degC
+  Available results:
+    U Displacement :nodal displacements
+    ENF Element nodal Forces :element nodal forces
+    ENG_VOL Volume :element volume
+    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
+    ENG_AHO Hourglass Energy :artificial hourglass energy
+    ENG_TH thermal dissipation energy :thermal dissipation energy
+    ENG_KE Kinetic Energy :kinetic energy
+    ENG_CO co-energy :co-energy (magnetics)
+    ENG_INC incremental energy :incremental energy (magnetics)
+    BFE Temperature :element structural nodal temperatures
+------------------------------
+DPF  Meshed Region:
+  3751 nodes
+  3000 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 1
+Cumulative     Time (s)       LoadStep       Substep
+1              1.000000       1              1
+</pre></div>
+</div>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>DPF-Core dependencies are automatically checked installed when the packages is installed.
+Those dependencies are:</p>
+<ul class="simple">
+<li><p>ansys.grpc.dpf : package with grpc code generated from protobufs</p></li>
+<li><p>pyvista : for plotting</p></li>
+<li><p>matplotlib</p></li>
+<li><p>psutil</p></li>
+<li><p>pillow</p></li>
+<li><p>pexpect</p></li>
+<li><p>progressbar2</p></li>
+</ul>
 </div>
 <div class="section" id="compatibility">
 <h2>Compatibility<a class="headerlink" href="#compatibility" title="Permalink to this headline">¶</a></h2>
@@ -226,7 +351,7 @@ containerization ecosystem such as Docker or Kubernetes.  See
               <div class='prev-next-bottom'>
                 
     <a class='left-prev' id="prev-link" href="../index.html" title="previous page">PyANSYS DPF-Core</a>
-    <a class='right-next' id="next-link" href="install.html" title="next page">Installation</a>
+    <a class='right-next' id="next-link" href="docker.html" title="next page">Using DPF Through Docker</a>
 
               </div>
               

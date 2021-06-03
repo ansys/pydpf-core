@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.displacement_Z
-   :inherited-members:

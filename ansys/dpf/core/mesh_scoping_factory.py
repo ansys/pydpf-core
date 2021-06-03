@@ -1,6 +1,6 @@
 """
-MeshScopingFactory
-==================
+mesh_scoping_factory
+====================
 
 Contains functions to make easy mesh scopings creation.
 """

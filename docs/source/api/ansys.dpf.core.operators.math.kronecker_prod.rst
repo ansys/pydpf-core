@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.kronecker_prod
-   :inherited-members:

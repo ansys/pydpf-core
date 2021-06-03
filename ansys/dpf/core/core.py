@@ -181,6 +181,25 @@ def upload_file(file_path, to_server_file_path, server=None):
     base = BaseService(server, load_operators=False)    
     return base.upload_file(file_path, to_server_file_path)
 
+def make_tmp_dir_server(server=None):
+    """Create a temporary folder server side. Only one temporary folder can be created 
+    by server instance.
+    The folder will be deleted when the server is stopped.
+    
+    Parameters
+    ----------
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global server.
+        
+    Returns
+    -------
+    path : str
+        path to the temporary dir
+    """
+    base = BaseService(server, load_operators=False)    
+    return base.make_tmp_dir_server()
+
 def _description(dpf_entity_message, server=None):
     """Ask the server to describe the entity in input    
     
@@ -256,7 +275,8 @@ class BaseService():
     
     
     def make_tmp_dir_server(self):
-        """Create a temporary folder server side. 
+        """Create a temporary folder server side. Only one temporary folder can be created 
+        by server instance.
         The folder will be deleted when the server is stopped.
         
         Returns

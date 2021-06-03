@@ -1,6 +1,6 @@
 """
-TimeFreqScopingFactory
-======================
+time_freq_scoping_factory
+=========================
 
 Contains functions to make easy time frequency scopings creation.
 """

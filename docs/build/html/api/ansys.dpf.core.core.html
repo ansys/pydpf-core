@@ -2165,17 +2165,17 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">
-     FieldsContainerFactory
+     fields_container_factory
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
-     FieldsFactory
+     fields_factory
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">
-     MeshScopingFactory
+     mesh_scoping_factory
     </a>
    </li>
    <li class="toctree-l2">
@@ -2230,7 +2230,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">
-     TimeFreqScopingFactory
+     time_freq_scoping_factory
     </a>
    </li>
    <li class="toctree-l2">
@@ -2422,6 +2422,26 @@ to the target client folder path</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="ansys.dpf.core.core.make_tmp_dir_server">
+<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.core.</span></code><code class="sig-name descname"><span class="pre">make_tmp_dir_server</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.make_tmp_dir_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a temporary folder server side. Only one temporary folder can be created
+by server instance.
+The folder will be deleted when the server is stopped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the the global server.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>path</strong> – path to the temporary dir</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt id="ansys.dpf.core.core.BaseService">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.core.</span></code><code class="sig-name descname"><span class="pre">BaseService</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.BaseService" title="Permalink to this definition">¶</a></dt>
@@ -2450,7 +2470,8 @@ to initialize.</p></li>
 <dl class="py method">
 <dt id="ansys.dpf.core.core.BaseService.make_tmp_dir_server">
 <code class="sig-name descname"><span class="pre">make_tmp_dir_server</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.core.BaseService.make_tmp_dir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a temporary folder server side.
+<dd><p>Create a temporary folder server side. Only one temporary folder can be created
+by server instance.
 The folder will be deleted when the server is stopped.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>

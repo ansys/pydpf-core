@@ -214,27 +214,52 @@ of Ansys file formats and physics solutions without ever leaving a
 Python environment.</p>
 <div class="section" id="brief-demo">
 <h2>Brief Demo<a class="headerlink" href="#brief-demo" title="Permalink to this headline">¶</a></h2>
-<p>Opening a result file generated from Ansys workbench or MAPDL is as easy as:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="s1">&#39;file.rst&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="go">DPF Model</span>
-<span class="go">------------------------------</span>
-<span class="go">Static analysis</span>
-<span class="go">Unit system: Metric (m, kg, N, s, V, A)</span>
-<span class="go">Physics Type: Mecanic</span>
-<span class="go">Available results:</span>
-<span class="go">     -  displacement</span>
-<span class="go">     -  element_nodal_forces</span>
-<span class="go">     -  volume</span>
-<span class="go">     -  energy_stiffness_matrix</span>
-<span class="go">     -  hourglass_energy</span>
-<span class="go">     -  thermal_dissipation_energy</span>
-<span class="go">     -  kinetic_energy</span>
-<span class="go">     -  co_energy</span>
-<span class="go">     -  incremental_energy</span>
-<span class="go">     -  temperature</span>
+<p>Opening a result file generated from MAPDL (or other of ANSYS solvers) and
+extracting results from it is as easy as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+DPF Result Info
+  Analysis: static
+  Physics Type: mecanic
+  Unit system: MKS: m, kg, N, s, V, A, degC
+  Available results:
+    U Displacement :nodal displacements
+    ENF Element nodal Forces :element nodal forces
+    ENG_VOL Volume :element volume
+    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
+    ENG_AHO Hourglass Energy :artificial hourglass energy
+    ENG_TH thermal dissipation energy :thermal dissipation energy
+    ENG_KE Kinetic Energy :kinetic energy
+    ENG_CO co-energy :co-energy (magnetics)
+    ENG_INC incremental energy :incremental energy (magnetics)
+    BFE Temperature :element structural nodal temperatures
+------------------------------
+DPF  Meshed Region:
+  3751 nodes
+  3000 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 1
+Cumulative     Time (s)       LoadStep       Substep
+1              1.000000       1              1
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span><span class="o">.</span><span class="n">X</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">())</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out figure align-default">
+<img alt="_images/simple_example.png" src="_images/simple_example.png" />
 </div>
 <p>See the <a class="reference internal" href="examples/index.html#gallery"><span class="std std-ref">Examples Gallery</span></a> for detailed examples.</p>
 </div>

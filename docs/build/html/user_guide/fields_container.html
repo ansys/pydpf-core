@@ -225,12 +225,12 @@
      Operating on Field Data
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#api-reference">
+     API Reference
+    </a>
+   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#further-reference">
-   Further Reference
-  </a>
  </li>
 </ul>
 
@@ -267,74 +267,161 @@ on the data, and <code class="docutils literal notranslate"><span class="pre">Fi
 <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a>.  A Fields
 Container is the DPF equivalent of a <code class="docutils literal notranslate"><span class="pre">list</span></code> of <code class="docutils literal notranslate"><span class="pre">Field</span></code>, and is
 used to hold a vector of fields within DPF.  In the following the
-example, the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> is returned from the volume operator:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vol_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">volume</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fields</span> <span class="o">=</span> <span class="n">vol_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
-<span class="go">DPF Field Container with</span>
-<span class="go">    1 field(s)</span>
-<span class="go">    defined on labels [&#39;time&#39;]</span>
+example, the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> is returned from the elastic_strain operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">msup_transient</span><span class="p">)</span>
+<span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain(s)Fields Container
+  with 20 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  1} with ElementalNodal location, 6 components and 40 entities.
+  - field 1 {time:  2} with ElementalNodal location, 6 components and 40 entities.
+  - field 2 {time:  3} with ElementalNodal location, 6 components and 40 entities.
+  - field 3 {time:  4} with ElementalNodal location, 6 components and 40 entities.
+  - field 4 {time:  5} with ElementalNodal location, 6 components and 40 entities.
+  - field 5 {time:  6} with ElementalNodal location, 6 components and 40 entities.
+  - field 6 {time:  7} with ElementalNodal location, 6 components and 40 entities.
+  - field 7 {time:  8} with ElementalNodal location, 6 components and 40 entities.
+  - field 8 {time:  9} with ElementalNodal location, 6 components and 40 entities.
+  - field 9 {time:  10} with ElementalNodal location, 6 components and 40 entities.
+  - field 10 {time:  11} with ElementalNodal location, 6 components and 40 entities.
+  - field 11 {time:  12} with ElementalNodal location, 6 components and 40 entities.
+  - field 12 {time:  13} with ElementalNodal location, 6 components and 40 entities.
+  - field 13 {time:  14} with ElementalNodal location, 6 components and 40 entities.
+  - field 14 {time:  15} with ElementalNodal location, 6 components and 40 entities.
+  - field 15 {time:  16} with ElementalNodal location, 6 components and 40 entities.
+  - field 16 {time:  17} with ElementalNodal location, 6 components and 40 entities.
+  - field 17 {time:  18} with ElementalNodal location, 6 components and 40 entities.
+  - field 18 {time:  19} with ElementalNodal location, 6 components and 40 entities.
+  - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
 </pre></div>
 </div>
 <div class="section" id="accessing-fields-within-a-fields-container">
 <h3>Accessing Fields within a Fields Container<a class="headerlink" href="#accessing-fields-within-a-fields-container" title="Permalink to this headline">¶</a></h3>
-<p>Since this result contains a single static result, the
-<code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> only contains a single Field.  Access the fields
+<p>Since this result contains a transient result, the
+<code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> has one Field by time set.  Access the fields
 from the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> using the following methods:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
-<span class="go">1</span>
-
-<span class="go">Return a field based on its index</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="go">Return a field based on its time</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="go">Alternatively, use ``get_fields`` with the scoping of the</span>
-<span class="go">requested fields or the index of the field.</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_fields</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;complex&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
-
-<span class="go">Reference the available time frequency support to determine which</span>
-<span class="go">``time_complex_ids`` are available to in the ``FieldsContainer``</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">)</span>
-<span class="go">Time/Frequency Info:</span>
-<span class="go">    Number of sets: 1</span>
-
-<span class="go">With complex values</span>
-
-<span class="go"> Cumulative      Time (s)       Loadstep     Substep</span>
-<span class="go">     1             1.0             1            1</span>
-
-<span class="go">Use ``get_ids`` to get the available IDs of a ``FieldsContainer``.</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fields</span><span class="o">.</span><span class="n">get_ids</span><span class="p">()</span>
-<span class="go">[1]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that these results come from MAPDL and are FORTRAN indexed
-(i.e. 1 based).  When indexing from pythonic indexing via
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>20
+</pre></div>
+</div>
+<p>Return a field based on its index</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field_first_time</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">field_last_time</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Return a field based on its time set id:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field_by_time_id</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, use <code class="docutils literal notranslate"><span class="pre">get_field</span></code> with the identifier of
+the requested field. This API allows to access fields for more complex
+requests. To use <code class="docutils literal notranslate"><span class="pre">get_field</span></code> in the same context:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain_0.01s Field
+ Location: ElementalNodal
+ Unit:
+ 40 entities
+ Data:6 components and 320 elementary data
+</pre></div>
+</div>
+<p>Or in a more complex context, where the <code class="docutils literal notranslate"><span class="pre">get_field</span></code> method has a real use compared
+to the <code class="docutils literal notranslate"><span class="pre">get_field_by_time_id</span></code> method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_all_kinds_of_complexity</span><span class="p">())</span>
+<span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">splitted_by_shape</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;elshape&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+
+<span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;elshape&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain_1.s_elshape:0 Field
+ Location: ElementalNodal
+ Unit:
+ 203 entities
+ Data:6 components and 2436 elementary data
+
+DPF elastic_strain_1.s_elshape:1 Field
+ Location: ElementalNodal
+ Unit:
+ 9052 entities
+ Data:6 components and 37580 elementary data
+</pre></div>
+</div>
+<p>Reference the available time frequency support to determine which
+<code class="docutils literal notranslate"><span class="pre">time_complex_ids</span></code> are available to in the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">msup_transient</span><span class="p">)</span>
+<span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Time/Freq Support:
+  Number of sets: 20
+Cumulative     Time (s)       LoadStep       Substep
+1              0.010000       1              1
+2              0.020000       1              2
+3              0.030000       1              3
+4              0.040000       1              4
+5              0.050000       1              5
+6              0.060000       1              6
+7              0.070000       1              7
+8              0.080000       1              8
+9              0.090000       1              9
+10             0.100000       1              10
+11             0.110000       1              11
+12             0.120000       1              12
+13             0.130000       1              13
+14             0.140000       1              14
+15             0.150000       1              15
+16             0.160000       1              16
+17             0.170000       1              17
+18             0.180000       1              18
+19             0.190000       1              19
+20             0.200000       1              20
+</pre></div>
+</div>
+<p>Note that the time set ids used are 1 based.  When indexing from pythonic indexing via
 <code class="docutils literal notranslate"><span class="pre">fields[0]</span></code>, you can use zero based indexing.  When requesting the
-results via <code class="docutils literal notranslate"><span class="pre">get_fields</span></code>, the request is based on the time scoping
-IDs from MAPDL.</p>
+results via <code class="docutils literal notranslate"><span class="pre">get_fields</span></code>, the request is based on the time scoping set ids.</p>
 </div>
 </div>
 <div class="section" id="field">
 <h2>Field<a class="headerlink" href="#field" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> is the fundamental unit of data within DPF and contains the scoping, units associated with the result, and other metadata associated with the data.  Continuing the previous example, the Field returned from the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
-<span class="go">DPF elemental_volume_1.s Field</span>
-<span class="go">    Location:   Elemental</span>
-<span class="go">    Unit:       m^3</span>
-<span class="go">    Num. id(s): 3000</span>
-<span class="go">    Shape:      3000</span>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> is the fundamental unit of data within DPF.
+It contains the actual data and its metadata:
+results data are defined by values associated to entities (scoping), and these entities are a subset of a model (support).
+In DPF, field data is always associated to its scoping and support, making the field a self-describing piece of data.
+A field is also defined by its dimensionnality, unit, location…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain_0.01s Field
+   Location: ElementalNodal
+   Unit:
+   40 entities
+   Data:6 components and 320 elementary data
 </pre></div>
 </div>
 <p>Note that by printing the field you can get an overview of the field’s
@@ -342,22 +429,28 @@ metadata.  The next section provides an overview of the metadata associated with
 <div class="section" id="field-metadata">
 <h3>Field Metadata<a class="headerlink" href="#field-metadata" title="Permalink to this headline">¶</a></h3>
 <p>The field contains the metadata associated with the result it is
-associated with, including the location (either <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>, or
-<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>) and IDs associated with that location.  To access the
+associated with, including the location (either <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>, …) and IDs associated with that location.  To access the
 scoping of the field, use the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> attribute:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
-<span class="go">DPF Scoping Object</span>
-<span class="go">Size: 3000</span>
-<span class="go">Location: Elemental</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.scoping.ids:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.location:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span> DPF  Scoping:
+   with Elemental location and 40 entities
 
-<span class="go">Element numbers associated with the field.</span>
+field.scoping.ids: [21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  ...
+  ]
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
-<span class="go">[141,</span>
-<span class="go"> 441,</span>
-<span class="go"> 741,</span>
-<span class="go"> 1041,</span>
-<span class="go"> ...]</span>
+  field.location:&#39;ElementalNodal&#39;
 </pre></div>
 </div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> denotes one value (multiplied by the number of
@@ -368,22 +461,29 @@ each node for each element.</p>
 <p>The field also contains additional metadata such as the <code class="docutils literal notranslate"><span class="pre">shape</span></code> of
 the data stored, the location of the field, number of components, and
 the units of the data,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Units</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span> <span class="n">describing</span> <span class="n">volume</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">unit</span>
-<span class="s1">&#39;m^3&#39;</span>
+<span class="go">Units of the field describing volume</span>
 
-<span class="n">Elemental</span><span class="p">,</span> <span class="n">nodal</span><span class="p">,</span> <span class="ow">or</span> <span class="n">nodal</span> <span class="n">element</span> <span class="s2">&quot;location&quot;</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">unit</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">location</span>
-<span class="s1">&#39;Elemental&#39;</span>
 
-<span class="n">Number</span> <span class="n">of</span> <span class="n">components</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">the</span> <span class="n">field</span><span class="o">.</span>  <span class="n">It</span><span class="s1">&#39;s expected to</span>
-<span class="n">be</span> <span class="n">have</span> <span class="n">a</span> <span class="n">single</span> <span class="n">dimension</span> <span class="n">since</span> <span class="n">there</span> <span class="n">can</span> <span class="n">only</span> <span class="n">be</span> <span class="n">one</span> <span class="n">volume</span> <span class="n">per</span>
-<span class="n">element</span><span class="o">.</span>
+<span class="go">Elemental, elemental nodal, or nodal element &quot;location&quot; of the field</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">component_count</span>
-<span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">location</span>
+
+<span class="go">Number of components associated with the field.  It&#39;s expected to</span>
+<span class="go">be have a single dimension since there can only be one volume per</span>
+<span class="go">element.</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">component_count</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;Pa&#39;
+&#39;ElementalNodal&#39;
+6
 </pre></div>
 </div>
 </div>
@@ -404,8 +504,21 @@ or by accessing only the data that is needed.</p>
 the data be returned as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array with:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array</span>
-<span class="go">array([0.001, 0.001, 0.001, ..., 0.001, 0.001, 0.001])</span>
+<span class="go">array([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,</span>
+<span class="go">     7.48472351e+02, -2.60259531e+04, -2.62856938e+05],</span>
+<span class="go">   [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,</span>
+<span class="go">     2.61468994e+03, -1.31871719e+05, -2.59527125e+05],</span>
+<span class="go">   [ 9.02558960e+02,  5.63793152e+02, -1.17102740e+07,</span>
+<span class="go">    -8.99381836e+02, -1.21302727e+05, -2.45666328e+05],</span>
+<span class="go">   ...,</span>
+<span class="go">   [-3.99694531e+04,  1.44622528e+02,  9.62343100e+06,</span>
+<span class="go">    -7.09812073e+02, -2.26106621e+04, -2.23155891e+05],</span>
+<span class="go">   [-4.31104401e+02, -2.67612732e+02,  9.60954800e+06,</span>
+<span class="go">     1.93208755e+02, -1.11580734e+05, -2.24406062e+05],</span>
+<span class="go">   [ 5.56899536e+02,  3.88515320e+02,  1.17119880e+07,</span>
+<span class="go">    -1.68983887e+03, -1.21768023e+05, -2.41346125e+05]])</span>
 
+<span class="go">This array has 6 components by elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ)</span>
 <span class="go">Note that this array is a genuine, local, numpy array</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
@@ -415,40 +528,55 @@ the data be returned as a <code class="docutils literal notranslate"><span class
 <p>Should you need to request data individual node or element, you can
 request it using either <code class="docutils literal notranslate"><span class="pre">get_entity_data</span></code> or
 <code class="docutils literal notranslate"><span class="pre">get_entity_data_by_id</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Get</span> <span class="n">the</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">first</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">field</span><span class="o">.</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>Get the data from the first element in the field.
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+&gt;&gt;&gt; field.get_entity_data(0)
 
-<span class="n">Get</span> <span class="n">the</span> <span class="n">data</span> <span class="k">for</span> <span class="n">the</span> <span class="n">element</span> <span class="k">with</span> <span class="n">the</span> <span class="n">ID</span> <span class="mi">10</span>
+Get the data for the element with the ID 10
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">])</span>
+&gt;&gt;&gt; field.get_entity_data_by_id(10)
+array([[ 4.99232031e+04,  1.93570602e+02, -3.08514075e+06,
+    -5.48255615e+02, -1.37476562e+04,  1.34827719e+05],
+   [ 5.23090469e+04, -1.87847885e+02, -1.98004588e+06,
+    -1.12942969e+03, -1.11147285e+04,  1.09223398e+05],
+   [-4.90510511e+00, -1.16425255e+02, -1.96296662e+06,
+    -5.48878540e+02, -5.48524844e+04,  1.09255164e+05],
+   [ 2.63994884e+01,  1.50431015e+02, -3.06906050e+06,
+    -1.17046680e+03, -6.76924219e+04,  1.34773391e+05],
+   [-4.99232031e+04, -1.93571167e+02,  3.08514075e+06,
+    -5.48256836e+02, -1.37476562e+04, -1.34827719e+05],
+   [-5.23090469e+04,  1.87848083e+02,  1.98004588e+06,
+    -1.12943201e+03, -1.11147295e+04, -1.09223398e+05],
+   [ 4.90471840e+00,  1.16423714e+02,  1.96296662e+06,
+    -5.48877380e+02, -5.48524844e+04, -1.09255164e+05],
+   [-2.63994102e+01, -1.50429443e+02,  3.06906050e+06,
+    -1.17046619e+03, -6.76924219e+04, -1.34773391e+05]])
 
-<span class="n">Note</span> <span class="n">that</span> <span class="n">this</span> <span class="n">would</span> <span class="n">correspond</span> <span class="n">to</span> <span class="n">an</span> <span class="n">index</span> <span class="n">of</span> <span class="mi">1490</span> <span class="n">within</span> <span class="n">the</span>
-<span class="n">field</span><span class="o">.</span>  <span class="n">Be</span> <span class="n">aware</span> <span class="n">that</span> <span class="n">scoping</span> <span class="n">IDs</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">sequential</span><span class="o">.</span>  <span class="n">The</span> <span class="n">index</span>
-<span class="n">of</span> <span class="n">Element</span> <span class="mi">1490</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">field</span> <span class="n">can</span> <span class="n">be</span> <span class="n">obtained</span> <span class="n">by</span><span class="p">:</span>
+Note that this would correspond to an index of 29 within the
+field.  Be aware that scoping IDs are not sequential.  The index
+of Element 29 in the field can be obtained by:
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="mi">1490</span>
+&gt;&gt;&gt; field.scoping.ids.index(10)
+29
+
+Here the data of element of id 10 is made of 8 symmetrical tensor, indeed
+the elastic strain has one tensor value by node by element (``ElementalNodal`` location)
+
+For a displacement on node 3, we have :
+&gt;&gt;&gt; disp = model.results.displacement.eval()[0]
+&gt;&gt;&gt; disp.get_entity_data_by_id(3)
+array([[8.06571808e-14, 4.03580652e-04, 2.61804706e-05]])
+
+One 3D vector (X,Y,Z) displacement
 </pre></div>
 </div>
 <p>These methods are acceptable when requesting data for a few elements
 or nodes, but should not be used when looping over the entire array.
-It is more efficient to use numpy vectorized operations.  For example,
-the sorted element IDs and field data can be obtained with:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Sort</span> <span class="n">the</span> <span class="n">scoping</span> <span class="n">indices</span> <span class="ow">and</span> <span class="n">get</span> <span class="n">the</span> <span class="n">sorting</span> <span class="n">indices</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">element_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">sidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">element_ids</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">element_ids</span> <span class="o">=</span> <span class="n">element_ids</span><span class="p">[</span><span class="n">sidx</span><span class="p">]</span>
-<span class="n">array</span><span class="p">([</span>   <span class="mi">1</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span>    <span class="mi">3</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">2998</span><span class="p">,</span> <span class="mi">2999</span><span class="p">,</span> <span class="mi">3000</span><span class="p">])</span>
-
-<span class="n">Now</span> <span class="n">sort</span> <span class="n">the</span> <span class="n">element</span> <span class="n">data</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sidx</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">sorted_data</span>
-<span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">])</span>
+Field’s data can be recovered locally before sending a large number of requests
+for efficiency purpose:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -469,33 +597,39 @@ the field.</p>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
-<span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">])</span>
+<span class="n">array</span><span class="p">([</span><span class="mf">0.12492393</span><span class="p">,</span> <span class="mf">0.06738043</span><span class="p">,</span> <span class="mf">0.05854268</span><span class="p">,</span> <span class="mf">0.05807593</span><span class="p">,</span> <span class="mf">0.08250141</span><span class="p">,</span>
+   <span class="mf">0.2068032</span> <span class="p">])</span>
 
 <span class="n">Get</span> <span class="n">the</span> <span class="n">element</span> <span class="ow">or</span> <span class="n">node</span> <span class="n">ID</span> <span class="n">of</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">value</span><span class="o">.</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">max_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
-<span class="p">[</span><span class="mi">2168</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">369</span><span class="p">,</span> <span class="mi">1073</span><span class="p">,</span> <span class="mi">1031</span><span class="p">,</span> <span class="mi">1040</span><span class="p">,</span> <span class="mi">2909</span><span class="p">,</span> <span class="mi">2909</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Note that is a convenience method.  For more advanced operator
 chaining, please see the <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> section in
 the user guide.  Here is a quick example of connecting the
-<code class="docutils literal notranslate"><span class="pre">'entity_average'</span></code> operator to the field data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">the</span> <span class="n">average</span> <span class="n">of</span> <span class="n">a</span> <span class="n">field</span> <span class="n">using</span> <span class="n">the</span> <span class="s1">&#39;entity_average&#39;</span> <span class="n">operator</span><span class="o">.</span>
-
- <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;entity_average&#39;</span><span class="p">)</span>
- <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">max_field</span><span class="p">)</span>
- <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_field</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
- <span class="o">&gt;&gt;&gt;</span> <span class="n">avg_field</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
- <span class="mf">0.001</span>
+<code class="docutils literal notranslate"><span class="pre">'elemental_mean'</span></code> operator to the field data:</p>
+<p>Compute the average of a field using the ‘elemental_mean’ operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">avg_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">elemental_mean</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<span class="n">avg_field</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">avg_field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">avg_field</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[ 4.65393066e-04 -2.47955322e-05  0.00000000e+00  7.68026390e+02
+  -7.59655688e+04  0.00000000e+00]]
+Elemental
 </pre></div>
 </div>
 </div>
+<div class="section" id="api-reference">
+<h3>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h3>
+<p>See the API reference at <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ref-fields-container"><span class="std std-ref">FieldsContainer</span></a> and
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ref-field"><span class="std std-ref">Field</span></a>.</p>
 </div>
-<div class="section" id="further-reference">
-<h2>Further Reference<a class="headerlink" href="#further-reference" title="Permalink to this headline">¶</a></h2>
-<p>See the API reference at <span class="xref std std-ref">ref_api_fields_container</span> and
-<span class="xref std std-ref">ref_api_field</span>.</p>
 </div>
 </div>
 

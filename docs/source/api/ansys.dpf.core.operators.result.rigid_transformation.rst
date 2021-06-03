@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.rigid_transformation
-   :inherited-members:

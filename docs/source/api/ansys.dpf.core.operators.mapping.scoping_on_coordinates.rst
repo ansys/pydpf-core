@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.mapping.scoping_on_coordinates
-   :inherited-members:

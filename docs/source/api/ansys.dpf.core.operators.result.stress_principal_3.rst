@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.stress_principal_3
-   :inherited-members:

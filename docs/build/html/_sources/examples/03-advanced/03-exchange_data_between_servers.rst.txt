@@ -75,7 +75,7 @@ the network via: connect_to_server
 
  .. code-block:: none
 
-    50060 50061
+    50061 50063
 
 
 
@@ -181,15 +181,6 @@ Pass data from on server to another
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    -1
-    -1
-
 
 
 
@@ -245,7 +236,7 @@ Plot the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.142 seconds)
+   **Total running time of the script:** ( 0 minutes  4.687 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_03-exchange_data_between_servers.py:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.mesh.split_fields
-   :inherited-members:

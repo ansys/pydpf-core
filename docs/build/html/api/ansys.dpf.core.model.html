@@ -2165,17 +2165,17 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">
-     FieldsContainerFactory
+     fields_container_factory
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
-     FieldsFactory
+     fields_factory
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">
-     MeshScopingFactory
+     mesh_scoping_factory
     </a>
    </li>
    <li class="toctree-l2">
@@ -2230,7 +2230,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">
-     TimeFreqScopingFactory
+     time_freq_scoping_factory
     </a>
    </li>
    <li class="toctree-l2">
@@ -2282,7 +2282,7 @@
               <div>
                 
   <span class="target" id="module-ansys.dpf.core.model"></span><div class="section" id="model">
-<h1>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
+<span id="ref-model"></span><h1>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
 <p>Module contains the Model class to manage file result models.</p>
 <dl class="py class">
 <dt id="ansys.dpf.core.model.Model">
@@ -2361,7 +2361,9 @@ numbers.</p>
 <dl class="py method">
 <dt id="ansys.dpf.core.model.Model.results">
 <em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">results</span></code><a class="headerlink" href="#ansys.dpf.core.model.Model.results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Available results of the model</p>
+<dd><p>Available results of the model.
+Organize the results from DPF into accessible methods. All the available
+results are dynamically created depending on the model’s ‘ResultInfo’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Available results of the model</p>
@@ -2370,19 +2372,43 @@ numbers.</p>
 <dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.results.html#ansys.dpf.core.results.Results" title="ansys.dpf.core.results.Results">Results</a></p>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">all</span> <span class="pre">types</span> <span class="pre">of</span> <span class="pre">results</span></code></dt>
+<dd><p>Result provider helper wrapping all types of provider available for a
+given result file</p>
 <p class="rubric">Examples</p>
+<p>Create a stress result from the model
+and choose its time and mesh scopings</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">electric_therm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">electric_potential</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rf</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">reaction_force</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dissip</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">thermal_dissipation_energy</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.results.html#ansys.dpf.core.results.Result" title="ansys.dpf.core.results.Result">Result</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>Extract the result object from a model.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span> <span class="c1"># printable object</span>
+</pre></div>
+</div>
+<p>Access the displacement at all times</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Get printable available results</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span>
-</pre></div>
-</div>
-<p>Access an individual result operator.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">temp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">structural_temperature</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">displacements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>
