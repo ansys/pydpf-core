@@ -138,6 +138,16 @@ def test_str_meshedregion(simple_bar_model):
     meshed_region = simple_bar_model.metadata.meshed_region
     assert str(len(meshed_region.nodes)) in str(meshed_region)
     assert str(len(meshed_region.elements)) in str(meshed_region)
+    
+
+
+def test_str_nodes_elements_meshedregion(simple_bar_model):
+    meshed_region = simple_bar_model.metadata.meshed_region
+    assert '3000' in str(meshed_region.elements)
+    assert '3751' in str(meshed_region.nodes)
+    assert 'Hex' in str(meshed_region.elements.element_by_id(1))
+    assert '0' in str(meshed_region.nodes.node_by_id(1))
+    
 
 
 def test_delete_meshedregion(simple_bar_model):
