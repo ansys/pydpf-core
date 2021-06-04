@@ -47,7 +47,7 @@ def resolve_test_file(basename, additional_path='', is_in_examples=None):
                 raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
             return filename
     elif os.environ.get('AWP_UNIT_TEST_FILES', False):
-        test_files_path = os.path.join(os.environ['AWP_UNIT_TEST_FILES'], "DataProcessing", "python")
+        test_files_path = os.path.join(os.environ['AWP_UNIT_TEST_FILES'], "python")
         filename = os.path.join(test_files_path, os.path.join(additional_path, basename))
         if not os.path.isfile(filename):
             raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
@@ -123,6 +123,14 @@ def plate_msup():
 def model_with_ns():
     """Resolve the path of the "model_with_ns.rst" result file."""
     return resolve_test_file("model_with_ns.rst")
+
+
+@pytest.fixture()
+def sub_file():
+    """Resolve the path of the "expansion\msup_cms\2bodies\condensed_geo\cp56\cp56.sub" file.
+    Is in the package. 
+    """
+    return resolve_test_file("cp56.sub", 'expansion\\msup_cms\\2bodies\\condensed_geo\\cp56', 'sub_file')
 
 
 @pytest.fixture(scope="session", autouse=True)
