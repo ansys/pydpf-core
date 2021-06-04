@@ -15,6 +15,7 @@ import grpc
 import psutil
 import weakref
 import atexit
+import copy
 
 from ansys import dpf
 from ansys.dpf.core.misc import find_ansys, is_ubuntu
@@ -31,11 +32,14 @@ LOG.setLevel('DEBUG')
 DPF_DEFAULT_PORT = 50054
 LOCALHOST = '127.0.0.1'
 
-def closeServer():
-    if hasattr(dpf, "core.SERVER") and dpf.core.SERVER != None:
-        del dpf.core.SERVER
+def shutdown_global_server():
+    try :
+        if dpf.core.SERVER != None:
+            del dpf.core.SERVER
+    except:
+        pass
         
-atexit.register(closeServer)
+atexit.register(shutdown_global_server)
 
 def has_local_server():
     """Returns True when a local DPF gRPC server has been created"""
@@ -86,11 +90,16 @@ def check_valid_ip(ip):
         raise ValueError(f'Invalid IP address "{ip}"')
 
 
-def close_servers():
+def shutdown_all_session_servers():
     """Close all active servers created by this module"""
     from ansys.dpf.core import _server_instances
-    for instance in _server_instances:
-        instance().shutdown()
+    copy_instances = copy.deepcopy(_server_instances)
+    for instance in copy_instances:
+        try:
+            instance().shutdown()
+        except Exception as e:
+            print(e.args)
+            pass
 
 
 def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
@@ -139,12 +148,13 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     # parse the version to an int and check for supported
     try:
         ver = int(ansys_path[-3:])
+        if ver < 211:
+            raise errors.InvalidANSYSVersionError(f'Ansys v{ver} does not support DPF')
+        if ver == 211 and is_ubuntu():
+            raise OSError('DPF on v211 does not support Ubuntu')
     except ValueError:
-        raise ValueError(f'Unable to get version from the Ansys path "{ansys_path}"')
-    if ver < 211:
-        raise errors.InvalidANSYSVersionError(f'Ansys v{ver} does not support DPF')
-    if ver == 211 and is_ubuntu():
-        raise OSError('DPF on v211 does not support Ubuntu')
+        pass
+    
 
     # avoid using any ports in use from existing servers    
     used_ports=[]
@@ -362,10 +372,12 @@ class DpfServer:
             p.kill()
             time.sleep(0.1)
             self.live = False
-            # if dpf.core.SERVER == self:
-            #     dpf.core.SERVER =None
+            try:
+                if id(dpf.core.SERVER) == id(self):
+                    dpf.core.SERVER =None
+            except:
+                pass
                 
-            #from ansys.dpf.core import _server_instances
             try:
                 for i, ser in enumerate(dpf.core._server_instances):
                     if ser() == self:
@@ -375,7 +387,9 @@ class DpfServer:
                      
     def __eq__(self,other_server):
         """Return true, if the ip and the port are equals"""
-        return self.ip == other_server.ip and self.port == other_server.port
+        if isinstance(other_server, DpfServer):
+            return self.ip == other_server.ip and self.port == other_server.port
+        return False
     
     def __ne__(self,other_server):
         """Return true, if the ip or the port are different"""
