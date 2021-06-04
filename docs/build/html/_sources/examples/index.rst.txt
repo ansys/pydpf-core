@@ -157,6 +157,27 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Load plugin">
+
+.. only:: html
+
+ .. figure:: /examples/00-basic/images/thumb/sphx_glr_06-load_plugin_thumb.png
+     :alt: Load plugin
+
+     :ref:`sphx_glr_examples_00-basic_06-load_plugin.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/00-basic/06-load_plugin
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to Load Custom Data">
 
 .. only:: html
@@ -432,6 +453,63 @@ These demos show advanced use cases demonstrating high level of workflow customi
    :hidden:
 
    /examples/03-advanced/03-exchange_data_between_servers
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_examples_04-specific-requests:
+
+.. _specific_requests
+
+Examples that targets specific requests
+=======================================
+These demos show how to solve specific requests. 
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Hdf5 export and compare precision">
+
+.. only:: html
+
+ .. figure:: /examples/04-specific-requests/images/thumb/sphx_glr_00-hdf5_double_float_comparison_thumb.png
+     :alt: Hdf5 export and compare precision
+
+     :ref:`sphx_glr_examples_04-specific-requests_00-hdf5_double_float_comparison.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/04-specific-requests/00-hdf5_double_float_comparison
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Get reduced matrices and make export">
+
+.. only:: html
+
+ .. figure:: /examples/04-specific-requests/images/thumb/sphx_glr_01-reduced_matrices_export_thumb.png
+     :alt: Get reduced matrices and make export
+
+     :ref:`sphx_glr_examples_04-specific-requests_01-reduced_matrices_export.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/04-specific-requests/01-reduced_matrices_export
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

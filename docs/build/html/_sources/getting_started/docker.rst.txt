@@ -88,7 +88,7 @@ Or on windows:
 .. code::
 
    set DPF_START_SERVER=False
-   set DPF_PORT 50054
+   set DPF_PORT=50054
 
 
 Where ``DPF_PORT`` environment variable is the port exposed from the
