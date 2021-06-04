@@ -91,6 +91,34 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
     base = BaseService(server, load_operators=False)    
     return base.upload_file_in_tmp_folder(file_path, new_file_name)
 
+def upload_files_in_folder(to_server_folder_path, client_folder_path, specific_extension=None, server=None):
+    """Upload all the files from a folder of the client 
+    to the target server folder path.
+    
+    Parameters
+    ----------
+    to_server_folder_path : str
+        folder path target where will be uploaded files on the server side
+        
+    client_folder_path: str
+        folder path where the files that must be uploaded are located 
+        on client side
+        
+    specific_extension (optional) : str
+        copies only the files with the given extension
+        
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global server.
+        
+    Returns
+    -------
+    paths : list of str
+        new file paths server side
+    """    
+    base = BaseService(server, load_operators=False)    
+    return base.upload_files_in_folder(to_server_folder_path, client_folder_path, specific_extension)
+
 def download_file(server_file_path, to_client_file_path, server=None):
     """Download a file from the server to the target client file path
     
@@ -326,22 +354,18 @@ class BaseService():
         
         #send local generated code
         TARGET_PATH = self.make_tmp_dir_server()
-        for opfilename in os.listdir(LOCAL_PATH):
-            f = os.path.join(LOCAL_PATH, opfilename)
-            if os.path.isfile(f):
-                server_path =self.upload_file_in_tmp_folder(f)
-            
+        self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
             
         #generate code     
         from ansys.dpf.core.dpf_operator import Operator
         code_gen = Operator("python_generator")
         code_gen.connect(1,TARGET_PATH)
         code_gen.connect(0, filename)
-        code_gen.connect(2,False)
-        code_gen.run()        
+        code_gen.connect(2, False)
+        code_gen.run()    
         
         self.download_files_in_folder(TARGET_PATH, LOCAL_PATH,"py")
-
+            
     
     @property
     def server_info(self):
@@ -379,6 +403,18 @@ class BaseService():
         request = base_pb2.DescribeRequest()
         request.dpf_type_id = dpf_entity_message.id
         return self._stub.Describe(request).description
+    
+    
+    def _get_separator(self, path):
+        s1 = len(path.split('\\')) 
+        s2 = len(path.split('/')) 
+        if s2 > s1:
+            # Linux case
+            separator = '/'
+        elif s1 > s2:
+            # Windows case
+            separator = "\\"
+        return separator
     
     
     @protect_grpc
@@ -451,11 +487,27 @@ class BaseService():
         
         import ntpath
         client_paths=[]
+        f = None
         for chunk in chunks:
             if chunk.data.server_file_path != server_path :
                 server_path = chunk.data.server_file_path
                 if specific_extension == None or pathlib.Path(server_path).suffix == "."+specific_extension : 
-                    cient_path = os.path.join(to_client_folder_path, ntpath.basename(server_path))
+                    separator = self._get_separator(server_path)
+                    server_subpath = server_path.replace(server_folder_path + separator, '')
+                    subdir = ''
+                    splitted = server_subpath.split(separator)
+                    n = len(splitted)
+                    i = 0
+                    to_client_folder_path_copy = to_client_folder_path
+                    if n > 1:
+                        while i < (n - 1):
+                            subdir = splitted[i]
+                            subdir_path = os.path.join(to_client_folder_path_copy, subdir)
+                            if not os.path.exists(subdir_path):
+                                os.mkdir(subdir_path)
+                            to_client_folder_path_copy = subdir_path
+                            i += 1
+                    cient_path = os.path.join(to_client_folder_path_copy, ntpath.basename(server_path))
                     client_paths.append(cient_path)
                     f = open(cient_path, 'wb')
                     try:
@@ -463,13 +515,61 @@ class BaseService():
                     except:
                         pass
                 else:
-                    continue
-            f.write(chunk.data.data)
+                    f = None
+            if f is not None:
+                f.write(chunk.data.data)
         try:
             bar.finish()
         except:
             pass
         return client_paths
+    
+    @protect_grpc
+    def upload_files_in_folder(self, to_server_folder_path, client_folder_path, specific_extension=None):
+        """Upload all the files from a folder of the client 
+        to the target server folder path.
+        
+        Parameters
+        ----------
+        to_server_folder_path : str
+            folder path target where will be uploaded files on the server side
+            
+        client_folder_path: str
+            folder path where the files that must be uploaded are located 
+            on client side
+            
+        specific_extension (optional) : str
+            copies only the files with the given extension
+            
+        Returns
+        -------
+        paths : list of str
+            new file paths server side
+        """              
+        server_paths = []
+        for root, subdirectories, files in os.walk(client_folder_path):
+            for subdirectory in subdirectories:
+                subdir = os.path.join(root, subdirectory)
+                for filename in os.listdir(subdir):
+                    f = os.path.join(subdir, filename)
+                    server_paths = self._upload_and_get_server_path(specific_extension, f, filename, server_paths, to_server_folder_path, subdirectory)
+            for file in files:
+                f = os.path.join(root, file)
+                server_paths = self._upload_and_get_server_path(specific_extension, f, file, server_paths, to_server_folder_path)
+            break
+        return server_paths
+    
+    def _upload_and_get_server_path(self, specific_extension, f, filename, server_paths, to_server_folder_path, subdirectory = None):
+        separator = self._get_separator(to_server_folder_path)
+                
+        if subdirectory is not None:
+            to_server_file_path = to_server_folder_path + separator + subdirectory + separator + filename
+        else:
+            to_server_file_path = to_server_folder_path + separator + filename
+        if ((specific_extension is not None) and (f.endswith(specific_extension))) or (specific_extension is None):
+            server_path = self._stub.UploadFile(self.__file_chunk_yielder(file_path=f, to_server_file_path=to_server_file_path)).server_file_path
+            server_paths.append(server_path)
+        return server_paths
                 
 
     @protect_grpc
