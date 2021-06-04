@@ -6,17 +6,21 @@ pytest as a sesson fixture
 import os
 
 import pytest
-import pyvista as pv
-
 from ansys.dpf import core
 from ansys.dpf.core import examples
+from ansys.dpf.core.misc import module_exists
 
 # enable matplotlib off_screen plotting to avoid test interruption
-import matplotlib as mpl
-mpl.use('Agg')
+
+if module_exists("matplotlib"):
+    import matplotlib as mpl
+    mpl.use('Agg')
 
 # enable off_screen plotting to avoid test interruption
-pv.OFF_SCREEN = True
+
+if module_exists("pyvista"):
+    import pyvista as pv
+    pv.OFF_SCREEN = True
 
 
 # currently running dpf on docker.  Used for testing on CI
@@ -132,9 +136,9 @@ def sub_file():
     """
     return resolve_test_file("cp56.sub", 'expansion\\msup_cms\\2bodies\\condensed_geo\\cp56', 'sub_file')
 
-
 @pytest.fixture(scope="session", autouse=True)
-def load_operators(request):
-    """This loads all the operators on initialization"""
-    # could use baseservice instead...
-    core.Model(examples.static_rst)
+def cleanup(request):
+    """Cleanup a testing directory once we are finished."""
+    def close_servers():
+        core.server.shutdown_all_session_servers()
+    request.addfinalizer(close_servers)
