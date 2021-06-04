@@ -5,12 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ['pyvista>=0.24.0',
-                    'scooby',
-                    'matplotlib==3.2',
-                    'psutil',
-                    'pillow>=7.0.0',
-                    'pexpect',
+install_requires = ['psutil',
                     'progressbar2',
                     'ansys.grpc.dpf>=0.2.3']
 
@@ -62,4 +57,8 @@ setup(
 
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
     install_requires=install_requires,
+    extras_require={
+        "plotting":  ['pyvista>=0.24.0', 'matplotlib==3.2'],
+        "reporting":  ['scooby'],
+    }
 )

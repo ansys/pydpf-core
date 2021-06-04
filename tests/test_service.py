@@ -2,6 +2,8 @@ from ansys import dpf
 from ansys.dpf import core
 import ansys.grpc.dpf
 import os
+import time
+import pathlib
 
 
 def test_connect():
@@ -29,20 +31,30 @@ def test_loadmeshoperators(allkindofcomplexity):
 def test_loadplugin():
     ansys_path = dpf.core.misc.find_ansys()
     server = dpf.core.start_local_server(as_global=False, ansys_path = ansys_path, load_operators=False)
-    base = dpf.core.BaseService(server=server,load_operators= False)
+    time.sleep(0.01)
     loaded = False
     try:
-        base.load_library('libAns.Dpf.Math.so', "math")
+        dpf.core.load_library('libAns.Dpf.Math.so', "math", server=server)
         loaded=True
     except:
         pass
     try:
-        base.load_library('Ans.Dpf.Math.dll', "math")
+        dpf.core.load_library('Ans.Dpf.Math.dll', "math", server=server)
         loaded=True
-    except:
+    except Exception as e:
+        print(e.args)
         pass
-    server.shutdown()
     assert loaded
+    
+def test_launch_server_not_install():
+    ansys_path = dpf.core.misc.find_ansys()
+    if os.name == 'nt':
+        path = os.path.join(ansys_path,'aisol','bin','winx64')
+    else:
+        path = os.path.join(ansys_path,'aisol','bin','linx64')
+        
+    server = dpf.core.start_local_server(as_global=False, ansys_path = path)
+    assert 'server_port' in server.info 
     
 
 def test_upload_download(allkindofcomplexity, tmpdir):
@@ -179,7 +191,8 @@ def test_load_plugin_correctly():
     from ansys.dpf import core as dpf
     base = dpf.BaseService()
     base.load_library('Ans.Dpf.Math.dll', 'math_operators')
-    exists = os.path.exists(r"../ansys/dpf/core/operators/fft_eval.py")
-    assert not exists
-    num_lines = sum(1 for line in open(r"../ansys/dpf/core/operators/math/__init__.py"))
+    actual_path = pathlib.Path(__file__).parent.absolute()
+    exists = os.path.exists(os.path.join(actual_path, "..",r"ansys/dpf/core/operators/fft_eval.py"))
+    assert not exists 
+    num_lines = sum(1 for line in open(os.path.join(actual_path, "..",r"ansys/dpf/core/operators/math/__init__.py")))
     assert num_lines >= 11

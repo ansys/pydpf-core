@@ -8,14 +8,11 @@ from ansys.dpf.core import scoping
 from ansys.dpf.core.common import locations, types
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.check_version import server_meet_version
 
 
-
-   
 class MeshedRegion:
     """A class used to represent a Mesh from DPF.
 
@@ -308,6 +305,11 @@ class MeshedRegion:
         nodes = self.nodes.coordinates_field.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
+        try:
+            from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("to use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.24.0")
+       
         grid = dpf_mesh_to_vtk(nodes, etypes, conn, as_linear)
 
         # consider adding this when scoping request is faster

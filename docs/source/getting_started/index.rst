@@ -84,13 +84,17 @@ DPF-Core dependencies are automatically checked installed when the packages is i
 Those dependencies are:
 
 - ansys.grpc.dpf : package with grpc code generated from protobufs
-- pyvista : for plotting
-- matplotlib
 - psutil
-- pillow
-- pexpect
 - progressbar2
 
+Optional Dependencies
+~~~~~~~~~~~~~~~~~~~~~
+
+Optional dependencies can be installed for specific usage:
+
+- matplotlib : for chart plotting
+- pyvista : for 3D plotting
+- scooby : for dependency reports
 
 
 Compatibility

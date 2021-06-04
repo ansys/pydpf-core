@@ -1,12 +1,16 @@
 import numpy as np
 import pytest
-from pyvista.plotting import system_supports_plotting
 
 from ansys import dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core import misc
 import functools
 
-NO_PLOTTING = not system_supports_plotting()
+NO_PLOTTING=True
+
+if misc.module_exists("pyvista"):    
+    from pyvista.plotting import system_supports_plotting
+    NO_PLOTTING = not system_supports_plotting()
 
 
 @pytest.fixture()

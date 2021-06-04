@@ -1,18 +1,25 @@
 import os
 
-from pyvista.plotting.renderer import CameraPosition
 import pytest
 
 from ansys import dpf
 from ansys.dpf.core import Model, Operator
-from ansys.dpf.core.plotter import Plotter as DpfPlotter
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core import misc
 
+if misc.module_exists("pyvista"):    
+    HAS_PYVISTA=True        
+    from pyvista.plotting.renderer import CameraPosition    
+    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+else:
+    HAS_PYVISTA =False
+    
 # currently running dpf on docker.  Used for testing on CI
 RUNNING_DOCKER = os.environ.get('DPF_DOCKER', False)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_chart_plotter(plate_msup):
     model = Model(plate_msup)
     mesh = model.metadata.meshed_region
@@ -26,6 +33,7 @@ def test_chart_plotter(plate_msup):
     assert ret
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     pl = DpfPlotter(model.metadata.meshed_region)
@@ -33,6 +41,7 @@ def test_plotter_on_mesh(allkindofcomplexity):
     assert isinstance(cpos, CameraPosition)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plotter_on_field(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     stress = model.results.stress()
@@ -49,6 +58,7 @@ def test_plotter_on_field(allkindofcomplexity):
     assert isinstance(cpos, CameraPosition)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     stress = model.results.stress()
@@ -61,6 +71,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     assert isinstance(cpos, CameraPosition)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     stress = model.results.stress()
@@ -73,6 +84,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     assert isinstance(cpos, CameraPosition)
     
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
@@ -83,7 +95,8 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     fc = avg_op.outputs.fields_container()
     mesh.plot(fc)
     
-    
+  
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')  
 def test_field_elemental_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
@@ -96,6 +109,7 @@ def test_field_elemental_plot(allkindofcomplexity):
     f.plot()
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_field_nodal_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
@@ -108,6 +122,7 @@ def test_field_nodal_plot(allkindofcomplexity):
     f.plot()
     
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_field_solid_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
@@ -118,6 +133,7 @@ def test_field_solid_plot(allkindofcomplexity):
     f.plot()
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_field_shell_plot(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
@@ -128,6 +144,7 @@ def test_field_shell_plot(allkindofcomplexity):
     f.plot()
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_field_solid_plot_scoping_nodal(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
@@ -145,6 +162,7 @@ def test_field_solid_plot_scoping_nodal(multishells):
     f.plot()
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_field_shell_plot_scoping_elemental(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
@@ -161,6 +179,7 @@ def test_field_shell_plot_scoping_elemental(multishells):
     f.plot(shell_layers = core.shell_layers.top)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plot_fieldscontainer_on_mesh_scoping(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
@@ -177,6 +196,7 @@ def test_plot_fieldscontainer_on_mesh_scoping(multishells):
     mesh.plot(s, shell_layers = core.shell_layers.top)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_plot_fields_on_mesh_scoping(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
@@ -193,6 +213,7 @@ def test_plot_fields_on_mesh_scoping(multishells):
     mesh.plot(s[0])
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_throw_on_several_time_steps(plate_msup):
     model = core.Model(plate_msup)
     scoping = core.Scoping()
@@ -205,6 +226,7 @@ def test_throw_on_several_time_steps(plate_msup):
         mesh.plot(fc)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 def test_throw_complex_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
@@ -214,6 +236,7 @@ def test_throw_complex_file(complex_model):
         mesh.plot(fc)
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
 @pytest.mark.skipif(RUNNING_DOCKER, reason='Path hidden within docker container')
 def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
