@@ -79,14 +79,45 @@ print(model.results)
 # Create the displacement operator directly from the ``results`` property
 disp_op = model.results.displacement()
 
-# Out of convenience, ``operators_helper`` contains special functions
-# that return the same type as the input.  In this case, we can easily
-# chain several operators and have their inputs and outputs
-# automatically connected.
-from ansys.dpf.core.operators_helper import min_max, norm
-mm_op = min_max(norm(disp_op))
+# Out of convenience, the operators module contains availabale operators
+# Those operators can be created in chain to create a workflow in one line
+from ansys.dpf.core import operators
+mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))
 
 # Finally, get the value of the maximum displacement.
 field_max = mm_op.outputs.field_max()
 print(field_max)
+print(field_max.data)
+
+###############################################################################
+# Plot the displacement
+print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
+
+###############################################################################
+# Scripting operators syntax
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+# DPF is also providing a scripting syntax where knowing 
+# the operator "string name" is not mandatory. 
+# Here is a similar script as above using this syntax. 
+
+###############################################################################
+# Instead of using a model class instance, let's directly use a 
+# datasources object. The DataSources constructor input is a path. 
+ds = dpf.DataSources(examples.static_rst)
+print(examples.static_rst)
+
+###############################################################################
+# Let's instantiate the operators and connect them together. 
+
+disp_op = dpf.operators.result.displacement()
+disp_op.inputs.data_sources.connect(ds)
+norm_op = dpf.operators.math.norm_fc()
+norm_op.inputs.connect(disp_op.outputs)
+mm_op = dpf.operators.min_max.min_max_fc()
+mm_op.inputs.connect(norm_op.outputs)
+
+###############################################################################
+# Let's get the output and print the result data. 
+
+field_max = mm_op.outputs.field_max()
 print(field_max.data)

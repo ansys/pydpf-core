@@ -2,4 +2,4 @@
 
 Advanced and Miscellaneous Examples
 ===================================
-These demos show how to use some of the lesser used features of DPF.
+These demos show advanced use cases demonstrating high level of workflow customization

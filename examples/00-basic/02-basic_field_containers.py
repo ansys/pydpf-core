@@ -30,6 +30,7 @@ import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core import operators
 
 ###############################################################################
 # First, create a model object to establish a connection with an
@@ -69,7 +70,7 @@ print(field.data)
 # For example, if you want the maximum displacement for a given
 # result, use the min/max operator:
 #
-min_max_op = dpf.operators_helper.min_max(field)
+min_max_op = dpf.operators.min_max.min_max(field)
 print(min_max_op.outputs.field_max().data)
 
 # Out of conveience, you can simply take the max of the field with:

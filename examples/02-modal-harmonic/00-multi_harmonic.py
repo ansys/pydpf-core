@@ -11,6 +11,7 @@ import matplotlib.pyplot as pyplot
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Begin by downloading the example harmonic result.  This result is
@@ -41,7 +42,7 @@ print('Number of solution sets', tf.n_sets)
 
 # Create a total displacement operator and set its time scoping to
 # the entire time freq support and its nodes scoping into a user defined nodes.
-disp_op = model.operator("UTOT")
+disp_op = ops.result.raw_displacement(data_sources=model)
 time_ids = list(range(1, model.metadata.time_freq_support.n_sets+1))
 
 # define nodal scoping
@@ -62,7 +63,7 @@ comp.inputs.component_number.connect(5)
 rpms = dpf.Scoping()
 rpms.ids = [1, 2, 3]
 
-fft = dpf.Operator("fft_multi_harmonic_minmax")
+fft = ops.math.fft_multi_harmonic_minmax()
 
 fft.inputs.connect(comp.outputs)
 fft.inputs.rpm_scoping.connect(rpms)
