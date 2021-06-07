@@ -6,20 +6,29 @@ pytest as a sesson fixture
 import os
 
 import pytest
-import pyvista as pv
-
 from ansys.dpf import core
 from ansys.dpf.core import examples
+from ansys.dpf.core.misc import module_exists
+
+# enable matplotlib off_screen plotting to avoid test interruption
+
+if module_exists("matplotlib"):
+    import matplotlib as mpl
+    mpl.use('Agg')
 
 # enable off_screen plotting to avoid test interruption
-pv.OFF_SCREEN = True
+
+if module_exists("pyvista"):
+    import pyvista as pv
+    pv.OFF_SCREEN = True
 
 
 # currently running dpf on docker.  Used for testing on CI
 running_docker = os.environ.get('DPF_DOCKER', False)
 
+local_test_repo = True
 
-def resolve_test_file(basename, additional_path=''):
+def resolve_test_file(basename, additional_path='', is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
     environment.
 
@@ -30,14 +39,24 @@ def resolve_test_file(basename, additional_path=''):
         # assumes repository root is mounted at '/dpf'
         test_files_path = '/dpf/tests/testfiles'
         return os.path.join(test_files_path, additional_path, basename)
-    else:
-        # otherwise, assume file is local
-        test_path = os.path.dirname(os.path.abspath(__file__))
-        test_files_path = os.path.join(test_path, 'testfiles')
-        filename = os.path.join(test_files_path, additional_path, basename)
+    elif local_test_repo is False:
+        if is_in_examples :
+            return getattr(examples, is_in_examples)()
+        else :
+            # otherwise, assume file is local
+            test_path = os.path.dirname(os.path.abspath(__file__))
+            test_files_path = os.path.join(test_path, 'testfiles')
+            filename = os.path.join(test_files_path, additional_path, basename)
+            if not os.path.isfile(filename):
+                raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
+            return filename
+    elif os.environ.get('AWP_UNIT_TEST_FILES', False):
+        test_files_path = os.path.join(os.environ['AWP_UNIT_TEST_FILES'], "python")
+        filename = os.path.join(test_files_path, os.path.join(additional_path, basename))
         if not os.path.isfile(filename):
             raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
         return filename
+        
 
 
 @pytest.fixture()
@@ -49,7 +68,7 @@ def allkindofcomplexity():
 @pytest.fixture()
 def simple_bar():
     """Resolve the path of the "ASimpleBar.rst" result file."""
-    return examples.simple_bar
+    return resolve_test_file("ASimpleBar.rst","", "simple_bar")
 
 
 @pytest.fixture()
@@ -85,13 +104,13 @@ def simple_rst():
 @pytest.fixture()
 def multishells():
     """Resolve the path of the "rst_operators/multishells.rst" result file."""
-    return examples.multishells_rst
+    return resolve_test_file("model_with_ns.rst","", "multishells_rst")
 
 
 @pytest.fixture()
 def complex_model():
     """Resolve the path of the "complex/fileComplex.rst" result file."""
-    return examples.complex_rst
+    return resolve_test_file("complex.rst","", "complex_rst")
 
 
 @pytest.fixture()
@@ -101,11 +120,24 @@ def plate_msup():
     Originally:
     UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
     """
-    return examples.msup_transient
+    return resolve_test_file("msup_transient_plate1.rst","", "msup_transient")
 
+
+@pytest.fixture()
+def model_with_ns():
+    """Resolve the path of the "model_with_ns.rst" result file."""
+    return resolve_test_file("model_with_ns.rst")
+
+@pytest.fixture()
+def sub_file():
+    """Resolve the path of the "expansion\msup_cms\2bodies\condensed_geo\cp56\cp56.sub" file.
+    Is in the package. 
+    """
+    return resolve_test_file("cp56.sub", 'expansion\\msup_cms\\2bodies\\condensed_geo\\cp56', 'sub_file')
 
 @pytest.fixture(scope="session", autouse=True)
-def load_operators(request):
-    """This loads all the operators on initialization"""
-    # could use baseservice instead...
-    core.Model(examples.static_rst)
+def cleanup(request):
+    """Cleanup a testing directory once we are finished."""
+    def close_servers():
+        core.server.shutdown_all_session_servers()
+    request.addfinalizer(close_servers)
