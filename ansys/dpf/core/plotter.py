@@ -3,19 +3,42 @@
 Allows to plot a mesh and a fields container using pyvista.
 """
 import tempfile
-
-import pyvista as pv
-import matplotlib.pyplot as pyplot
 import os
 import sys
 import numpy as np
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import locations, ShellLayers, DefinitionLabels
+from ansys.dpf.core.common import locations, DefinitionLabels
+from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
 
+def plot_chart(fields_container):
+    """Plot the minimum/maximum result values over time.
 
+    This is a valid method if the time_freq_support contains
+    several time_steps (for example, a transient analysis)
+
+    Parameters
+    ----------
+    field_container : dpf.core.FieldsContainer
+        A fields container that must contains a result for each
+        time step of the time_freq_support.
+        
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.transient_therm)
+    >>> t = model.results.temperature.on_all_time_freqs()
+    >>> fc = t.outputs.fields_container()
+    >>> plotter = dpf.plotter.plot_chart(fc)
+    
+    """
+    p = Plotter(None)
+    return p.plot_chart(fields_container)
+    
+    
 class Plotter:
     """Internal class used by DPF-Core to plot fields and meshed regions"""
 
@@ -55,20 +78,26 @@ class Plotter:
             
         Examples
         --------
-        >>> from ansys.dpf import core
-        >>> model = core.Model('file.rst')
-        >>> stress = model.results.stress()
-        >>> scoping = core.Scoping()
-        >>> scoping.ids = range(1, len(model.metadata.time_freq_support.frequencies) + 1)
-        >>> stress.inputs.time_scoping.connect(scoping)
-        >>> fc = stress.outputs.fields_container()
-        >>> plotter = core.plotter.Plotter(model.metadata.meshed_region)
-        >>> plotter.plot_chart(fc)
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.simple_bar)
+        >>> disp = model.results.displacement()
+        >>> scoping = dpf.Scoping()
+        >>> scoping.ids = range(1, len(model.metadata.time_freq_support.time_frequencies) + 1)
+        >>> disp.inputs.time_scoping.connect(scoping)
+        >>> fc = disp.outputs.fields_container()
+        >>> plotter = dpf.plotter.Plotter(model.metadata.meshed_region)
+        >>> pl = plotter.plot_chart(fc)
+        
         """
+        try : 
+            import matplotlib.pyplot as pyplot
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("to use plot_chart capabilities, please install matplotlib with :\n pip install matplotlib>=3.2")
         tfq = fields_container.time_freq_support
-        if len(fields_container) != len(tfq.frequencies):
+        if len(fields_container) != len(tfq.time_frequencies):
             raise Exception("Fields container must contain real fields at all time steps of the time_freq_support.")
-        time_field = tfq.frequencies
+        time_field = tfq.time_frequencies
         normOp = dpf.core.Operator("norm_fc")
         minmaxOp = dpf.core.Operator("min_max_fc")
         normOp.inputs.fields_container.connect(fields_container)
@@ -77,7 +106,7 @@ class Plotter:
         fieldMax = minmaxOp.outputs.field_max()
         pyplot.plot(time_field.data, fieldMax.data, 'r', label='Maximum')
         pyplot.plot(time_field.data, fieldMin.data, 'b', label='Minimum')
-        unit = tfq.frequencies.unit
+        unit = tfq.time_frequencies.unit
         if unit == "Hz":
             pyplot.xlabel("frequencies (Hz)")
         elif unit == "s":
@@ -107,7 +136,7 @@ class Plotter:
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
 
-        shell_layers : core.ShellLayers, optional
+        shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
 
@@ -128,7 +157,7 @@ class Plotter:
         if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
-                fields_container = dpf.core.FieldsContainer()
+                fields_container = dpf.core.FieldsContainer(server = field_or_fields_container._server)
                 fields_container.add_label(DefinitionLabels.time)
                 fields_container.add_field({DefinitionLabels.time: 1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
@@ -156,11 +185,11 @@ class Plotter:
 
         # pre-loop to get location and component count
         for field in fields_container:
-            if len(field.data) != 0:
-                location = field.location
-                component_count = field.component_count
-                name = field.name.split("_")[0]
-                break
+            #if len(field.data) != 0:
+            location = field.location
+            component_count = field.component_count
+            name = field.name.split("_")[0]
+            break
 
         if location == locations.nodal:
             mesh_location = mesh.nodes
@@ -173,12 +202,12 @@ class Plotter:
         changeOp = core.Operator("change_shellLayers")
         for field in fields_container:
             shell_layer_check = field.shell_layers
-            if shell_layer_check in [ShellLayers.TOPBOTTOM, ShellLayers.TOPBOTTOMMID]:
+            if shell_layer_check in [eshell_layers.topbottom, eshell_layers.topbottommid]:
                 changeOp.inputs.fields_container.connect(fields_container)
-                sl = ShellLayers.TOP
+                sl = eshell_layers.top
                 if (shell_layers is not None):
-                    if not isinstance(shell_layers, ShellLayers):
-                        raise TypeError("shell_layer attribute must be a core.ShellLayers instance.")
+                    if not isinstance(shell_layers, eshell_layers):
+                        raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
                     sl = shell_layers
                 changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
                 fields_container = changeOp.outputs.fields_container()
@@ -196,6 +225,11 @@ class Plotter:
 
         # create the plotter and add the meshes
         background = kwargs.pop('background', None)
+        
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("to use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.24.0")
         plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
 
         # add meshes
@@ -221,6 +255,11 @@ class Plotter:
         This method is private.  DPF publishes a vtk file and displays
         this file using pyvista.
         """
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("to use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.24.0")
+        
         plotter = pv.Plotter(notebook=notebook)
         # mesh_provider = Operator("MeshProvider")
         # mesh_provider.inputs.data_sources.connect(self._evaluator._model.metadata.data_sources)
