@@ -26,7 +26,7 @@ if module_exists("pyvista"):
 # currently running dpf on docker.  Used for testing on CI
 running_docker = os.environ.get('DPF_DOCKER', False)
 
-local_test_repo = True
+local_test_repo = False
 
 def resolve_test_file(basename, additional_path='', is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
