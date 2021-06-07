@@ -11,7 +11,9 @@ class Input:
         self._count_ellipsis = count_ellipsis
         self._python_expected_types = []
         for cpp_type in self._spec.type_names:
-            self._python_expected_types.append(map_types_to_python[cpp_type])
+            python_type =map_types_to_python[cpp_type]
+            if python_type not in self._python_expected_types:
+                self._python_expected_types.append(map_types_to_python[cpp_type])
         if len(self._spec.type_names) == 0:
             self._python_expected_types.append("Any")
         docstr = self.__str__()
@@ -49,7 +51,6 @@ class Input:
             return
 
         corresponding_pins = []
-
         self._operator._find_outputs_corresponding_pins(self._python_expected_types, inpt, self._pin, corresponding_pins)
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the pin with:\n"

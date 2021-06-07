@@ -513,15 +513,19 @@ class Field(_FieldBase):
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "sqr") :
-            op= operators.math.sqr()
+            op= operators.math.sqr(self)
         else :
             op= dpf_operator.Operator("sqr")
-        op.connect(0,self)        
-        op.connect(1, value)
+            op.connect(0,self)        
         return op
     
     def __mul__(self, value):
-        """Multiplies two fields together"""
+        """Multiplies two fields together
+        
+        Returns
+        -------
+        mul : operators.math.generalized_inner_product
+        """
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "generalized_inner_product") :
@@ -531,8 +535,24 @@ class Field(_FieldBase):
         op.connect(0,self)        
         op.connect(1, value)
         return op
-
-
+    
+    def __sub__(self, fields_b):
+        """Substract two fields together
+                
+        Returns
+        -------
+        minus : operators.math.minus
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "minus") :
+            op= operators.math.minus()
+        else :
+            op= dpf_operator.Operator("minus")
+        op.connect(0,self)        
+        op.connect(1, fields_b)
+        return op
+    
     def _min_max(self):
         from ansys.dpf.core import dpf_operator
         op = dpf_operator.Operator("min_max")
