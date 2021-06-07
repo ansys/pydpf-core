@@ -354,6 +354,48 @@ results from harmonic or modal analyses.
    :hidden:
 
    /examples/02-modal-harmonic/03-compare_modes
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Expand Harmonic Modal Superposition with DPF">
+
+.. only:: html
+
+ .. figure:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-modal_superposition_thumb.png
+     :alt: Expand Harmonic Modal Superposition with DPF
+
+     :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/02-modal-harmonic/04-modal_superposition
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Read results from distributed files">
+
+.. only:: html
+
+ .. figure:: /examples/02-modal-harmonic/images/thumb/sphx_glr_05-read_distributed_files_thumb.png
+     :alt: Read results from distributed files
+
+     :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/02-modal-harmonic/05-read_distributed_files
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

@@ -8,9 +8,8 @@ Operators
 
 The Operator is the only object used to create and transform the data
 and is the fundamental method by which DPF loads, operates on, and
-outputs data. Each operator contain the ``input`` and ``output``
-attribute, which allows you to connect various inputs and outputs to
-each operator. When the operator is evaluated, it will process the input information to compute its output with respect to its description:
+outputs data. Each operator contains the ``input`` and ``output``
+attribute, which allows you to make various inputs/outputs connections. When the operator is evaluated, it will process the input information to compute its output with respect to its description:
 
 .. figure:: ../images/drawings/operator_drawing.svg
 
@@ -46,7 +45,7 @@ solution data you desire.
 
 DPF's library of operators is large and includes files reader, mathematical, 
 geometrical or logical transformations... This library can be found in :ref:`ref_dpf_operators_reference` 
-and is growing release after release.
+and is progressively enhanced.
 
 
 Creating Operators
@@ -111,7 +110,7 @@ Connecting Operators
 The only required input for the displacement operator is the ``data_sources`` (see above). 
 Providing the result files paths to the operator is necessary to compute in
 output the ``fields_container`` containing the displacement results.
-There are two ways of creating the data source, use the :ref:`ref_model`
+There are two ways of creating the data sources: either use the :ref:`ref_model`
 class, or use the :ref:`ref_data_sources` class. 
 This example will explain the data sources approach as the model approach 
 is used in several other examples.
@@ -415,7 +414,7 @@ lists the available import/export operators.
    vtk.run()
    
 Note that a file uploading/dowloading service has been implemented to use 
-those importing exporting data operators in the case where the python
+those importing/exporting data operators in the case where the python
 client is not on the same machine as the server. Here is the same example
 in the case of distant machines:
 

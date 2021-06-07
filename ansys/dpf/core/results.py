@@ -87,7 +87,7 @@ class Results:
     """
     
     def __init__(self, model):
-        self.__class__ = type(Results.__name__ + model.metadata.data_sources.result_files[0],(Results,),{})
+        self.__class__ = type(Results.__name__ + str(id(self)),(Results,),{})
         
         self._result_info = model.metadata.result_info
         self._model = model

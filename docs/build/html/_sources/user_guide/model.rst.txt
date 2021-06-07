@@ -177,7 +177,7 @@ results, print them with:
   :noindex:
     
 Choosing the time or frequencies or the spatial subset on which to get a given result
-is straightforward with this ``results`` attribute
+is straightforward with this ``results`` attribute:
 
 
 .. code-block:: default

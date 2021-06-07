@@ -245,6 +245,20 @@
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/04-modal_superposition.html">
+   Expand Harmonic Modal Superposition with DPF
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/05-read_distributed_files.html">
+   Read results from distributed files
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
   <a class="reference internal" href="00-multistage_advanced_options.html">
    Multi-stage Cyclic Symmetry Use Advanced Customization
   </a>
@@ -332,6 +346,11 @@
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#plot-elemental-seqv-and-volume-averaged-elemental-seqv">
    Plot elemental seqv and volume averaged elemental seqv
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-the-operator-instead">
+   Use the Operator instead
   </a>
  </li>
 </ul>
@@ -501,7 +520,33 @@ divide this sum by the total volume on those elements</p>
  (0.0, 0.0, 1.0)]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  14.595 seconds)</p>
+</div>
+<div class="section" id="use-the-operator-instead">
+<h1>Use the Operator instead<a class="headerlink" href="#use-the-operator-instead" title="Permalink to this headline">¶</a></h1>
+<p>An operator with the same algorithm has been implemented</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s_fc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="n">single_field_vol_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">([</span><span class="n">vol_field</span><span class="p">])</span>
+
+<span class="n">single_field_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">([</span><span class="n">values_to_sum_field</span><span class="p">])</span>
+
+<span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;volume_stress&quot;</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">stress_fields</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">single_field_fc</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">volume_fields</span><span class="p">(</span><span class="n">single_field_vol_fc</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">volume_check</span><span class="o">*</span><span class="mf">10.0</span><span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="02 volume averaged stress" class="sphx-glr-single-img" src="../../_images/sphx_glr_02-volume_averaged_stress_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.01577507996330582, 0.01577507996330582, 0.01587507996330582),
+ (0.0, 0.0, 0.0001),
+ (0.0, 0.0, 1.0)]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  17.735 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-02-volume-averaged-stress-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/388fe850b3668978aa3b5c880754eed3/02-volume_averaged_stress.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-volume_averaged_stress.py</span></code></a></p>

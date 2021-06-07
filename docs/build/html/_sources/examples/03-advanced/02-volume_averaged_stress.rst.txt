@@ -155,7 +155,7 @@ Find the minimum list of elements by node to get the volume check
 .. GENERATED FROM PYTHON SOURCE LINES 87-94
 
 Create workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 For each list of elements surrounding nodes:
 compute stress eqv averaged on elements
 apply dot product seqv.volume
@@ -209,7 +209,7 @@ divide this sum by the total volume on those elements
 Plot elemental seqv and volume averaged elemental seqv
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-137
+.. GENERATED FROM PYTHON SOURCE LINES 128-134
 
 .. code-block:: default
 
@@ -219,10 +219,7 @@ Plot elemental seqv and volume averaged elemental seqv
     
     
 
-    
-        
-        
-        
+
 
 
 .. rst-class:: sphx-glr-horizontal
@@ -254,10 +251,57 @@ Plot elemental seqv and volume averaged elemental seqv
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 135-138
+
+Use the Operator instead
+~~~~~~~~~~~~~~~~~~~~~~~~~
+An operator with the same algorithm has been implemented
+
+.. GENERATED FROM PYTHON SOURCE LINES 138-154
+
+.. code-block:: default
+
+    s_fc = s.outputs.fields_container()
+    single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container([vol_field])
+
+    single_field_fc = dpf.fields_container_factory.over_time_freq_fields_container([values_to_sum_field])
+
+    op = dpf.Operator("volume_stress")
+    op.inputs.scoping.connect(nodes)
+    op.inputs.stress_fields.connect(single_field_fc)
+    op.inputs.volume_fields(single_field_vol_fc)
+    op.inputs.volume(volume_check*10.0)
+
+    out = op.get_output(0,dpf.types.field)
+    mesh.plot(out)
+    
+        
+        
+        
+
+
+.. image:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_003.png
+    :alt: 02 volume averaged stress
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    [(0.01577507996330582, 0.01577507996330582, 0.01587507996330582),
+     (0.0, 0.0, 0.0001),
+     (0.0, 0.0, 1.0)]
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  14.595 seconds)
+   **Total running time of the script:** ( 0 minutes  17.735 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_02-volume_averaged_stress.py:

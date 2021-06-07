@@ -53,6 +53,11 @@ setup(
                                               'rth/rth_steady.rth',
                                               'rth/rth_transient.rth',
                                               'sub/cp56.sub', 
+                                              'msup/file.mode',
+                                              'msup/file.rst',
+                                              'msup/file.rfrq',
+                                              'distributed/file0.rst',
+                                              'distributed/file1.rst',
     ]},
 
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',

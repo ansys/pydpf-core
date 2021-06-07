@@ -2288,6 +2288,29 @@
                 
   <span class="target" id="module-ansys.dpf.core.plotter"></span><p>Dpf plotter class is contained in this module.</p>
 <p>Allows to plot a mesh and a fields container using pyvista.</p>
+<dl class="py function">
+<dt id="ansys.dpf.core.plotter.plot_chart">
+<code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.plotter.</span></code><code class="sig-name descname"><span class="pre">plot_chart</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields_container</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.plotter.plot_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the minimum/maximum result values over time.</p>
+<p>This is a valid method if the time_freq_support contains
+several time_steps (for example, a transient analysis)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>field_container</strong> (<em>dpf.core.FieldsContainer</em>) – A fields container that must contains a result for each
+time step of the time_freq_support.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">transient_therm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">temperature</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fc</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plotter</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">plot_chart</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py class">
 <dt id="ansys.dpf.core.plotter.Plotter">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.plotter.</span></code><code class="sig-name descname"><span class="pre">Plotter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.plotter.Plotter" title="Permalink to this definition">¶</a></dt>

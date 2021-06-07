@@ -258,9 +258,8 @@
 <span id="ref-user-guide-operators"></span><h1>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h1>
 <p>The Operator is the only object used to create and transform the data
 and is the fundamental method by which DPF loads, operates on, and
-outputs data. Each operator contain the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code>
-attribute, which allows you to connect various inputs and outputs to
-each operator. When the operator is evaluated, it will process the input information to compute its output with respect to its description:</p>
+outputs data. Each operator contains the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code>
+attribute, which allows you to make various inputs/outputs connections. When the operator is evaluated, it will process the input information to compute its output with respect to its description:</p>
 <div class="figure align-default">
 <img alt="../_images/operator_drawing.svg" src="../_images/operator_drawing.svg" /></div>
 <p>Operators can be chained together in workflows to conduct simple or
@@ -290,7 +289,7 @@ transferring any data from DPF to Python until DPF arrives at the
 solution data you desire.</p>
 <p>DPF’s library of operators is large and includes files reader, mathematical,
 geometrical or logical transformations… This library can be found in <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
-and is growing release after release.</p>
+and is progressively enhanced.</p>
 <div class="section" id="creating-operators">
 <h2>Creating Operators<a class="headerlink" href="#creating-operators" title="Permalink to this headline">¶</a></h2>
 <p>Each operator is of type <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>. An Operator’s instance
@@ -340,7 +339,7 @@ results for his/her result files:</p>
 <p>The only required input for the displacement operator is the <code class="docutils literal notranslate"><span class="pre">data_sources</span></code> (see above).
 Providing the result files paths to the operator is necessary to compute in
 output the <code class="docutils literal notranslate"><span class="pre">fields_container</span></code> containing the displacement results.
-There are two ways of creating the data source, use the <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>
+There are two ways of creating the data sources: either use the <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>
 class, or use the <a class="reference internal" href="../api/ansys.dpf.core.data_sources.html#ref-data-sources"><span class="std std-ref">DataSources</span></a> class.
 This example will explain the data sources approach as the model approach
 is used in several other examples.</p>
@@ -561,7 +560,7 @@ lists the available import/export operators.</p>
 </pre></div>
 </div>
 <p>Note that a file uploading/dowloading service has been implemented to use
-those importing exporting data operators in the case where the python
+those importing/exporting data operators in the case where the python
 client is not on the same machine as the server. Here is the same example
 in the case of distant machines:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>

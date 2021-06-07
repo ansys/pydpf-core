@@ -390,9 +390,12 @@ class Metadata:
         Underlying operator symbol is
         MeshProvider operator
         """
-        tmp = Operator("MeshSelectionManagerProvider", server=self._server)
-        tmp.inputs.connect(self._stream_provider.outputs)
-        tmp.run()
+        try :
+            tmp = Operator("MeshSelectionManagerProvider", server=self._server)
+            tmp.inputs.connect(self._stream_provider.outputs)
+            tmp.run()
+        except :
+            pass
         mesh_provider = Operator("MeshProvider", server=self._server)
         mesh_provider.inputs.connect(self._stream_provider.outputs)
         return mesh_provider
