@@ -13,7 +13,32 @@ from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
 
+def plot_chart(fields_container):
+    """Plot the minimum/maximum result values over time.
 
+    This is a valid method if the time_freq_support contains
+    several time_steps (for example, a transient analysis)
+
+    Parameters
+    ----------
+    field_container : dpf.core.FieldsContainer
+        A fields container that must contains a result for each
+        time step of the time_freq_support.
+        
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.transient_therm)
+    >>> t = model.results.temperature.on_all_time_freqs()
+    >>> fc = t.outputs.fields_container()
+    >>> plotter = dpf.plotter.plot_chart(fc)
+    
+    """
+    p = Plotter(None)
+    return p.plot_chart(fields_container)
+    
+    
 class Plotter:
     """Internal class used by DPF-Core to plot fields and meshed regions"""
 
