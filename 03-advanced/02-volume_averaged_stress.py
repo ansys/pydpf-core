@@ -85,7 +85,7 @@ with connectivity_field.as_local_field() as connectivity :
 
 ###############################################################################
 # Create workflow
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~
 # For each list of elements surrounding nodes:
 # compute stress eqv averaged on elements
 # apply dot product seqv.volume
@@ -131,6 +131,23 @@ mesh.plot(divide.outputs.field())
     
     
 
+###############################################################################
+# Use the Operator instead
+# ~~~~~~~~~~~~~~~~~~~~~~~~~
+# An operator with the same algorithm has been implemented
+s_fc = s.outputs.fields_container()
+single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container([vol_field])
+
+single_field_fc = dpf.fields_container_factory.over_time_freq_fields_container([values_to_sum_field])
+
+op = dpf.Operator("volume_stress")
+op.inputs.scoping.connect(nodes)
+op.inputs.stress_fields.connect(single_field_fc)
+op.inputs.volume_fields(single_field_vol_fc)
+op.inputs.volume(volume_check*10.0)
+
+out = op.get_output(0,dpf.types.field)
+mesh.plot(out)
     
         
         
