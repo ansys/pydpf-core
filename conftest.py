@@ -128,7 +128,6 @@ def model_with_ns():
     """Resolve the path of the "model_with_ns.rst" result file."""
     return resolve_test_file("model_with_ns.rst")
 
-
 @pytest.fixture()
 def sub_file():
     """Resolve the path of the "expansion\msup_cms\2bodies\condensed_geo\cp56\cp56.sub" file.

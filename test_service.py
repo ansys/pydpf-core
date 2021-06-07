@@ -55,7 +55,7 @@ def test_launch_server_not_install():
         
     server = dpf.core.start_local_server(as_global=False, ansys_path = path)
     assert 'server_port' in server.info 
-    
+
 
 def test_upload_download(allkindofcomplexity, tmpdir):
     file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
