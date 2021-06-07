@@ -24,29 +24,8 @@ Python environment.
 
 Brief Demo
 ~~~~~~~~~~
-Opening a result file generated from Ansys workbench or MAPDL is as easy as:
 
-.. code:: python
-
-    >>> from ansys.dpf.core import Model
-    >>> model = Model('file.rst')
-    >>> print(model)
-    DPF Model
-    ------------------------------
-    Static analysis
-    Unit system: Metric (m, kg, N, s, V, A)
-    Physics Type: Mecanic
-    Available results:
-         -  displacement
-         -  element_nodal_forces
-         -  volume
-         -  energy_stiffness_matrix
-         -  hourglass_energy
-         -  thermal_dissipation_energy
-         -  kinetic_energy
-         -  co_energy
-         -  incremental_energy
-         -  temperature
+.. include:: _static/simple_example.rst
 
 See the :ref:`gallery` for detailed examples.
 
@@ -83,3 +62,5 @@ framework.
    operator_reference
    examples/index
    contributing
+   
+   *.ipynb

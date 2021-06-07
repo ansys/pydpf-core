@@ -1,35 +1,5 @@
-===============
-Getting Started
-===============
-
-Architecture
-~~~~~~~~~~~~~
-
-DPF-Core is a python grpc client communicating with the Ans.Dpf.Grpc server.
-To use the native DPF server, you need to have a local installation of
-Ansys 2021R2.  Visit https://www.ansys.com/ for more information on
-getting a licensed copy of Ansys.
-
-
-.. _basic-gallery:
-
-Installation
-~~~~~~~~~~~~~
-
-.. include:: install.rst
-
-
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-
-   docker
-   
-   
-Try Installation
-~~~~~~~~~~~~~~~~
-
-A quick try out of the installation can be done with:
+Opening a result file generated from MAPDL (or other of ANSYS solvers) and 
+extracting results from it is as easy as:
 
 .. code-block:: default
 
@@ -76,34 +46,15 @@ A quick try out of the installation can be done with:
     1              1.000000       1              1               
     
 
+.. code-block:: default
 
-Dependencies
-~~~~~~~~~~~~~
-
-DPF-Core dependencies are automatically checked installed when the packages is installed.
-Those dependencies are:
-
-- ansys.grpc.dpf : package with grpc code generated from protobufs
-- psutil
-- progressbar2
-
-Optional Dependencies
-~~~~~~~~~~~~~~~~~~~~~
-
-Optional dependencies can be installed for specific usage:
-
-- matplotlib : for chart plotting
-- pyvista : for 3D plotting
-- scooby : for dependency reports
+    disp = model.results.displacement().X()
+    model.metadata.meshed_region.plot(disp.outputs.fields_container())
 
 
-Compatibility
-~~~~~~~~~~~~~
-As of 20201R2, DPF supports Windows 10 and CentOS 7 and newer.  For
-more details, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
-Other platforms may be supported by using DPF within a
-containerization ecosystem such as Docker or Kubernetes.  See
-:ref:`docker` for more details.
+.. rst-class:: sphx-glr-script-out
 
+ Out:
 
+ .. figure:: images/plotting/simple_example.png
