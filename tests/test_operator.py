@@ -8,6 +8,7 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import errors
+from ansys.dpf.core import operators as ops
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get('AWP_ROOT212', False) is not False
@@ -686,6 +687,239 @@ def test_operator_several_output_types2():
     uc.inputs.fields(fc)
     fc2 = uc.outputs.fields_as_fields_container()
     assert np.allclose(fc2[0].data.flatten('C'), [1,2,3,4,5,6])
+    
+    
+def test_add_operator_operator():
+    field = dpf.core.fields_factory.create_3d_vector_field(2)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    ####forward field
+    #operator with field out
+    forward = ops.utility.forward_field(field)    
+    add = forward+forward
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array(field.data)*2.0)
+    
+    #operator + field
+    add = forward+ field
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array(field.data)*2.0)
+    
+    
+    #operator + list
+    add = forward+ [0.,1.,2.]
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,field.data + np.array([[0.,1.,2.],[0.,1.,2.]]))
+    
+    
+    #operator + float    
+    add = forward+ 1.0
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[1., 2., 3.],[4., 5., 6.]]))
+    
+    
+    ####forward fields container
+    #operator with field out
+    forward = ops.utility.forward_fields_container(field)    
+    add = forward+forward
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array(field.data)*2.0)
+    
+    #operator + field
+    add = forward+ field
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array(field.data)*2.0)
+    
+    
+    #operator + list
+    add = forward+ [0.,1.,2.]
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,field.data + np.array([[0.,1.,2.],[0.,1.,2.]]))
+    
+    
+    #operator + float    
+    add = forward+ 1.0
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[1., 2., 3.],[4., 5., 6.]]))
+    
+
+def test_minus_operator_operator():
+    field = dpf.core.fields_factory.create_3d_vector_field(2)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    ####forward field
+    #operator with field out
+    forward = ops.utility.forward_field(field)    
+    add = forward-forward
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+    
+    #operator - field
+    add = forward- field
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+    
+    
+    #operator - list
+    add = forward- [0.,1.,2.]
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[0.,0.,0.],[3.,3.,3.]]))
+    
+    
+    #operator - float    
+    add = forward- 1.0
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[-1., 0., 1.],[2., 3., 4.]]))
+    
+    
+    ####forward fields container
+    #operator with field out
+    forward = ops.utility.forward_fields_container(field)    
+    add = forward-forward
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+    
+    #operator- field
+    add = forward- field
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+    
+    
+    #operator - list
+    add = forward- [0.,1.,2.]
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[0.,0.,0.],[3.,3.,3.]]))
+    
+    
+    #operator - float    
+    add = forward- 1.0
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[-1., 0., 1.],[2., 3., 4.]]))
+    
+    
+    
+def test_dot_operator_operator():
+    field = dpf.core.fields_factory.create_3d_vector_field(2)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    ####forward field
+    #operator with field out
+    forward = ops.utility.forward_field(field)    
+    add = forward*forward
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    #operator * field
+    add = forward* field
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    
+    #operator * list
+    add = forward* [0.,1.,2.]
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,14.]))
+    
+    
+    #operator * float    
+    add = forward* -1.0
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, -field.data)
+    
+    
+    ####forward fields container
+    #operator with field out
+    forward = ops.utility.forward_fields_container(field)    
+    add = forward*forward
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    #operator* field
+    add = forward* field
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    
+    #operator * list
+    add = forward* [0.,1.,2.]
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,14.]))
+    
+    
+    #operator * float    
+    add = forward* -1.0
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, -field.data)
+    
     
 def test_delete_operator():
     op = dpf.core.Operator("min_max")

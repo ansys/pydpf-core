@@ -9,6 +9,7 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
+from ansys.dpf.core import operators as ops
 
 
 @pytest.fixture()
@@ -372,6 +373,116 @@ def test_mat_time_fc():
     assert len(fc.get_fields_by_mat_id(45))==45
     assert np.allclose(fc.get_fields_by_mat_id(45)[0].data,fc.get_field_by_mat_id(45,1).data)
     assert len(fc.get_mat_scoping().ids)==32    
+    
+
+def test_add_operator_fields_container():
+    field = dpf.fields_factory.create_3d_vector_field(2)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field])
+    
+    #operator with field out
+    forward = ops.utility.forward_field(field)    
+    add = fc+forward
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array(field.data)*2.0)
+        
+    
+    #fc + list
+    add = fc+ [0.,1.,2.]
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,field.data + np.array([[0.,1.,2.],[0.,1.,2.]]))
+    
+    
+    #fc + float    
+    add = fc+ 1.0
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[1., 2., 3.],[4., 5., 6.]]))
+    
+
+def test_minus_operator_fields_container():
+    field = dpf.fields_factory.create_3d_vector_field(2)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field])
+    
+    #operator with field out
+    forward = ops.utility.forward_field(field)   
+    add = fc-forward
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+    
+    #fc - list
+    add = fc- [0.,1.,2.]
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[0.,0.,0.],[3.,3.,3.]]))
+    
+    
+    #fc - float    
+    add = fc- 1.0
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[-1., 0., 1.],[2., 3., 4.]]))
+    
+    
+def test_dot_operator_fields_container():
+    field = dpf.fields_factory.create_3d_vector_field(2)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field])
+    
+    # fc * op
+    forward = ops.utility.forward_field(field)    
+    add = fc*forward
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    #fc * field
+    add = fc* field
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    
+    #fc * list
+    add = fc* [0.,1.,2.]
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,14.]))
+    
+    
+    #fc * float    
+    add = fc* -1.0
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, -field.data)
+    
     
 if __name__ == "__main__":   
     test_add_field_by_time_id()

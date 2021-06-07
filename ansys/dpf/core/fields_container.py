@@ -463,3 +463,68 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
     
+    def __add__(self, fields_b):
+        """Adds two fields or fields containers together
+                
+        Returns
+        -------
+        add : operators.math.add_fc
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "add_fc") :
+            op= operators.math.add_fc(self, fields_b)
+        else :
+            op= dpf_operator.Operator("add_fc")
+            op.connect(0,self)        
+            op.connect(1, fields_b)
+        return op
+    
+    def __sub__(self, fields_b):
+        """Substract two fields or fields containers together
+                
+        Returns
+        -------
+        minus : operators.math.minus_fc
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "minus_fc") :
+            op= operators.math.minus_fc()
+        else :
+            op= dpf_operator.Operator("minus_fc")
+        op.connect(0,self)        
+        op.connect(1, fields_b)
+        return op
+
+    def __pow__(self, value):
+        if value != 2:
+            raise ValueError('DPF only the value is "2" suppported')
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "sqr_fc") :
+            op= operators.math.sqr_fc()
+        else :
+            op= dpf_operator.Operator("sqr_fc")
+        op.connect(0,self)        
+        op.connect(1, value)
+        return op
+    
+    def __mul__(self, value):
+        """Multiplies two fields or fields containers together
+        
+        Returns
+        -------
+        mul : operators.math.generalized_inner_product_fc
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "generalized_inner_product_fc") :
+            op= operators.math.generalized_inner_product_fc()
+        else :
+            op= dpf_operator.Operator("generalized_inner_product_fc")
+        op.connect(0,self)        
+        op.connect(1, value)
+        return op
+    
+    
