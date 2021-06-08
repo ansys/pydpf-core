@@ -63,16 +63,15 @@ jobs:
         downloadDirectory: '$(System.DefaultWorkingDirectory)'
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
-        vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803'
-        vstsPackageVersion: '21.1.4'
+        vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803' #TODO: update hash of packages
+        vstsPackageVersion: '21.2.0'
 
     - script: |
         @echo on
         dir $(System.DefaultWorkingDirectory)
         set THISDIR=$(System.DefaultWorkingDirectory)
-        set PATH=%THISDIR%\server\v211\tp\IntelMKL\2020.0.166\winx64\;%THISDIR%\server\v211\tp\hdf5\1.8.14\winx64\;%THISDIR%\server\v211\tp\CFFSDK\lib\winx64;%THISDIR%\res_files\;%PATH%
-        cd %THISDIR%\server\v211\aisol\bin\winx64
-        START /B Ans.Dpf.Grpc.exe --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
+        cd %THISDIR%\server\v212\aisol\bin\winx64
+        START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
       displayName: Start DPF Server
 
@@ -83,7 +82,7 @@ jobs:
       displayName: Test Core API
 
     - script: |
-        type $(System.DefaultWorkingDirectory)\server\v211\aisol\bin\winx64\log.txt
+        type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
       condition: always()
 
@@ -94,10 +93,16 @@ jobs:
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
     DPF_START_SERVER: False
-    DPF_IMAGE: docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+    DPF_IMAGE: docker.pkg.github.com/pyansys/dpf-core/dpf:
     DPF_DOCKER: True
   pool:
     vmImage: 'ubuntu-20.04'
+  strategy:
+    matrix:
+      DPF2021R1:
+        DPF.VERSION: 'v2021.1'
+      DPF2021R2:
+        DPF.VERSION: 'v2021.2'
   steps:
     - task: UsePythonVersion@0
       inputs:
