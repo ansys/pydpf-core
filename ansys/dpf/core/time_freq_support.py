@@ -196,8 +196,8 @@ class TimeFreqSupport:
             real).  ``None`` if result is not cyclic and contains no
             harmonic indices.
             
-        stage_num: int, defaut: 0, optional
-            Targetted stage number. 
+        stage_num: int, default: 0, optional
+            Targeted stage number. 
 
         """
         return self._get_harmonic_indices(stage_num)
@@ -381,7 +381,7 @@ class TimeFreqSupport:
             Field of all the harmonic indices in the model (complex or real)
             
         stage_num: int, optional, default = 0
-            Targetted stage number. 
+            Targeted stage number. 
         """
         request = time_freq_support_pb2.ListRequest()
         request.time_freq_support.CopyFrom(self._message)
@@ -475,7 +475,7 @@ class TimeFreqSupport:
                 
     def deep_copy(self,server=None):
         """Creates a deep copy of the time_freq_support's data on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         
         Parameters
         ----------

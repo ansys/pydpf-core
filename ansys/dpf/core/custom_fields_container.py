@@ -3,17 +3,17 @@ Custom FieldsContainers
 =======================
 Contains inherited class of the FieldsContainer.
 Those new classes offer helpers to access data for specific usage:
-results splitted by body, by material...
+results split by body, by material...
 """
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.grpc.dpf import meshed_region_pb2
 
 
 class ElShapeFieldsContainer(FieldsContainer):
-    """A class used to represent a FieldsContainer with fields splitted by
+    """A class used to represent a FieldsContainer with fields split by
     element shapes : solid, shell, beam...
     Instances of this class are created by a result of the model asked to be 
-    splitted by element shape
+    split by element shape
 
     Parameters
     ----------
@@ -29,7 +29,7 @@ class ElShapeFieldsContainer(FieldsContainer):
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
-    >>> fc = model.results.displacement.on_all_time_freqs.splitted_by_shape.eval()
+    >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
     >>> len(fc.solid_fields())
     45
     >>> solid_f_time_2 = fc.solid_field(2)
@@ -175,10 +175,10 @@ class ElShapeFieldsContainer(FieldsContainer):
     
 
 class BodyFieldsContainer(FieldsContainer):
-    """A class used to represent a FieldsContainer with fields splitted by
+    """A class used to represent a FieldsContainer with fields split by
     body (mapdl material property)
     Instances of this class are created by a result of the model asked to be 
-    splitted by body
+    split by body
 
     Parameters
     ----------
@@ -194,7 +194,7 @@ class BodyFieldsContainer(FieldsContainer):
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
-    >>> fc = model.results.displacement.on_all_time_freqs.splitted_by_body.eval()
+    >>> fc = model.results.displacement.on_all_time_freqs.split_by_body.eval()
     >>> fc.get_mat_scoping().ids[3]
     45
     >>> len(fc.get_fields_by_mat_id(45))

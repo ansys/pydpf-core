@@ -124,18 +124,18 @@ def test_inputs_inheritance(allkindofcomplexity):
     assert np.isclose(out[0].data[3], 9328792.294959497)
     
 def test_operator_any_input(allkindofcomplexity):
-    ser = core.operators.serialization.serializer()
+    serialization = core.operators.serialization.serializer()
     model =core.Model(allkindofcomplexity)
     u=model.results.displacement()
     
-    ser.inputs.any_input1.connect(u.outputs)
-    ser.inputs.any_input2.connect(u.outputs.fields_container)
-    ser.inputs.any_input3.connect(u.outputs)
+    serialization.inputs.any_input1.connect(u.outputs)
+    serialization.inputs.any_input2.connect(u.outputs.fields_container)
+    serialization.inputs.any_input3.connect(u.outputs)
         
     # create a temporary file at the default temp directory
     path = os.path.join(tempfile.gettempdir(), 'dpf_temp_ser.txt')
-    ser.inputs.file_path(path)
-    ser.run()
+    serialization.inputs.file_path(path)
+    serialization.run()
     
     deser = core.operators.serialization.deserializer()
     deser.inputs.connect(path)

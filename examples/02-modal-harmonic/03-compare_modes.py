@@ -6,7 +6,7 @@ Use Result Helpers to compare mode shapes for solids and then shells
 The `Result` class which instances are created by the `Model` gives access to 
 helpers to request results on specific mesh and time scopings.
 With those helpers, working on a custom spatial and temporal subset of the 
-model is straighforward.
+model is straightforward.
 """
 import numpy as np
 
@@ -33,7 +33,7 @@ modes = [1,5,10,15]
 # elements
 disp = model.results.displacement
 for mode in modes:
-    fc = disp.on_time_scoping(mode).splitted_by_shape.eval()
+    fc = disp.on_time_scoping(mode).split_by_shape.eval()
     model.metadata.meshed_region.plot(fc.shell_field())
     
 
@@ -42,5 +42,5 @@ for mode in modes:
 # elements
 disp = model.results.displacement
 for mode in modes:
-    fc = disp.on_time_scoping(mode).splitted_by_shape.eval()
+    fc = disp.on_time_scoping(mode).split_by_shape.eval()
     model.metadata.meshed_region.plot(fc.solid_field())

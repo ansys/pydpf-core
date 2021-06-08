@@ -1,47 +1,52 @@
-# DPF
-ANSYS Data Processing Framework.
+# DPF - Ansys Data Processing Framework
 
-## Disclaimer
+[![PyPI version](https://badge.fury.io/py/ansys-dpf-core.svg)](https://badge.fury.io/py/ansys-dpf-core)
 
-This API is currently a work in progress - things will break and change!
+[![Build Status](https://dev.azure.com/pyansys/pyansys/_apis/build/status/pyansys.DPF-Core?branchName=master)](https://dev.azure.com/pyansys/pyansys/_build/latest?definitionId=2&branchName=master)
 
 
-## Get Started as a public API consummer
+The Data Processing Framework (DPF) is designed to provide numerical
+simulation users/engineers with a toolbox for accessing and
+transforming simulation data. DPF can access data from solver result
+files as well as several neutral formats (csv, hdf5, vtk,
+etc.). Various operators are available allowing the manipulation and
+the transformation of this data.
 
-It is possible either to use:
+DPF is a workflow-based framework which allows simple and/or complex
+evaluations by chaining operators. The data in DPF is defined based on
+physics agnostic mathematical quantities described in a
+self-sufficient entity called field. This allows DPF to be a modular
+and easy to use tool with a large range of capabilities. It's a
+product designed to handle large amount of data.
+
+The Python ``ansys.dpf.core`` module provides a Python interface to
+the powerful DPF framework enabling rapid post-processing of a variety
+of Ansys file formats and physics solutions without ever leaving a
+Python environment.  
+
+## Installation
+
+Install this repository with:
 
 ```
 pip install ansys-dpf-core 
 ```
 
-or clone or copy this directory at https://github.com/pyansys/DPF-Core and then install using:
+You can also clone and install this repository with:
 
 ```
-pip install . --user 
-```
-
-See the example scripts in the examples folder for some basic example.  More will be added later.
-
-## Get started as python developer
-
-Clone the internal repository at https://tfs.ansys.com:8443/tfs/ANSYS_Development/DPF/_git/dpf-python-core and run:
-
-```
-pip install . --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
-```
-
-## Get started as Ansys internal consumer
-
-To install all dpf python modules and requirements from the internal pypi, run: 
-
-```
-pip install ansys-dpf-core --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
+git clone https://github.com/pyansys/DPF-Core
+cd DPF-Core
+pip install . --user
 ```
 
 
 ## Running DPF
 
+See the example scripts in the examples folder for some basic example.  More will be added later.
+
 ### Brief Demo
+
 Provided you have ANSYS 2021R1 or higher installed, a DPF server will start
 automatically once you start using DPF.
 

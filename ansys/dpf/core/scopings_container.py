@@ -11,7 +11,7 @@ from ansys.dpf.core.common import types
 
 class ScopingsContainer(Collection):
     """A class used to represent a ScopingsContainer which contains
-    scopings splitted on a given space
+    scopings split on a given space
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ class ScopingsContainer(Collection):
         Parameters
         ----------
         label_space_or_index : dict[string,int] , int
-            Scopings correponding to the filter (label space) in input, for example:
+            Scopings corresponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
 
         Returns
@@ -59,7 +59,7 @@ class ScopingsContainer(Collection):
         Parameters
         ----------
         label_space_or_index : dict[string,int] , int
-            Scopings correponding to the filter (label space) in input, for example:
+            Scopings corresponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
             or Index of the scoping.
 

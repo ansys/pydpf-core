@@ -1,8 +1,3 @@
-"""
-core
-===============
-"""
-
 import os
 import socket
 

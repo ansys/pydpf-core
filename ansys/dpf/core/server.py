@@ -316,12 +316,12 @@ class DpfServer:
     
     @property
     def info(self):
-        """Recover server informations
+        """Recover server information
            
            Returns
            -------
-           info : dictionnary
-               dictionnary with "server_ip", "server_port", "server_process_id"
+           info : dictionary
+               dictionary with "server_ip", "server_port", "server_process_id"
                "server_version" keys
         """
         return self._base_service.server_info
@@ -330,9 +330,9 @@ class DpfServer:
     def ip(self):
         """Get the ip of the server
         
-            Returns
-            -------
-            ip : string
+        Returns
+        -------
+        ip : string
         """
         try:
             return self._base_service.server_info["server_ip"]
@@ -343,9 +343,9 @@ class DpfServer:
     def port(self):
         """Get the port of the server
         
-            Returns
-            -------
-            port : int
+        Returns
+        -------
+        port : int
         """
         try:
             return self._base_service.server_info["server_port"]
@@ -356,9 +356,9 @@ class DpfServer:
     def version(self):
         """Get the version of the server
         
-            Returns
-            -------
-            version : string
+        Returns
+        -------
+        version : string
         """
         return self._base_service.server_info["server_version"]
 
@@ -379,9 +379,9 @@ class DpfServer:
                 pass
                 
             try:
-                for i, ser in enumerate(dpf.core._server_instances):
-                    if ser() == self:
-                        dpf.core._server_instances.remove(ser)
+                for i, server in enumerate(dpf.core._server_instances):
+                    if server() == self:
+                        dpf.core._server_instances.remove(server)
             except:
                 pass
                      

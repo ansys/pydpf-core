@@ -177,8 +177,8 @@ class Result:
     
     >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
     >>> stress = model.results.stress
-    >>> stress_splitted = stress.splitted_by_shape.eval()
-    >>> solid_stress = stress_splitted.solid_field()
+    >>> stress_split = stress.split_by_shape.eval()
+    >>> solid_stress = stress_split.solid_field()
     
     Create a strain result from the model on all time sets
     and recover the operator to connect it to other operators
@@ -239,8 +239,8 @@ class Result:
         Returns
         -------
         fields_container : FieldsContainer, ElShapeFieldsContainer, BodyFieldsContainer
-            if splitted_by_body is used, a BodyFieldsContainer is returned.
-            if splitted_by_shape is used, a ElShapeFieldsContainer is returned.
+            if split_by_body is used, a BodyFieldsContainer is returned.
+            if split_by_shape is used, a ElShapeFieldsContainer is returned.
         
         Examples
         --------
@@ -390,7 +390,7 @@ class Result:
     
     
     @property
-    def splitted_by_body(self):
+    def split_by_body(self):
         """Set the mesh scoping to a scopings container
         where each scoping is a body
         
@@ -404,7 +404,7 @@ class Result:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
         >>> disp = model.results.displacement
-        >>> fc_disp = disp.splitted_by_body.eval()
+        >>> fc_disp = disp.split_by_body.eval()
         >>> len(fc_disp)
         11
         >>> fc_disp.get_mat_scoping().ids  
@@ -413,14 +413,14 @@ class Result:
         
         """
         self._specific_fc_type = "body"
-        return self._add_splitted_on_property_type("mat")
+        return self._add_split_on_property_type("mat")
     
     
     @property
-    def splitted_by_shape(self):
+    def split_by_shape(self):
         """Set the mesh scoping to a scopings container
         where each scoping is a specific element shape.
-        The avaluated fields container will have on field on 'solid',
+        The evaluated fields container will have on field on 'solid',
         one on 'shell', one on 'beam' and one on 'unknown_shape'
         
         Returns
@@ -433,7 +433,7 @@ class Result:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
         >>> disp = model.results.displacement
-        >>> fc_disp = disp.splitted_by_shape.eval()
+        >>> fc_disp = disp.split_by_shape.eval()
         >>> len(fc_disp)
         4
         
@@ -442,13 +442,13 @@ class Result:
         
         """
         self._specific_fc_type = "shape"
-        return self._add_splitted_on_property_type("elshape")
+        return self._add_split_on_property_type("elshape")
     
-    def _add_splitted_on_property_type(self,prop):
+    def _add_split_on_property_type(self,prop):
         previous_mesh_scoping = self._mesh_scoping
         from ansys.dpf.core import operators
-        if hasattr(operators, "scoping") and  hasattr(operators.scoping, "splitted_on_property_type") :
-            self._mesh_scoping = operators.scoping.splitted_on_property_type()
+        if hasattr(operators, "scoping") and  hasattr(operators.scoping, "split_on_property_type") :
+            self._mesh_scoping = operators.scoping.split_on_property_type()
         else: 
             self._mesh_scoping = Operator("scoping::by_property")
             

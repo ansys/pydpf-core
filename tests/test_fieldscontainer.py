@@ -322,7 +322,7 @@ def test_light_copy():
     
 def test_el_shape_fc(allkindofcomplexity):
     model = dpf.Model(allkindofcomplexity)
-    fc = model.results.stress.splitted_by_shape.eval()
+    fc = model.results.stress.split_by_shape.eval()
     assert isinstance(fc, ElShapeFieldsContainer)
     assert len(fc.beam_fields())==1
     assert len(fc.shell_fields())==1
@@ -343,7 +343,7 @@ def test_el_shape_fc(allkindofcomplexity):
         
 def test_el_shape_time_fc():
     model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
-    fc = model.results.stress.on_all_time_freqs.splitted_by_shape.eval()
+    fc = model.results.stress.on_all_time_freqs.split_by_shape.eval()
     assert isinstance(fc, ElShapeFieldsContainer)
     assert len(fc.beam_fields())==45
     assert len(fc.shell_fields())==45
@@ -368,7 +368,7 @@ def test_el_shape_time_fc():
 
 def test_mat_time_fc():
     model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
-    fc = model.results.stress.on_all_time_freqs.splitted_by_body.eval()
+    fc = model.results.stress.on_all_time_freqs.split_by_body.eval()
     assert isinstance(fc, BodyFieldsContainer)
     assert len(fc.get_fields_by_mat_id(45))==45
     assert np.allclose(fc.get_fields_by_mat_id(45)[0].data,fc.get_field_by_mat_id(45,1).data)

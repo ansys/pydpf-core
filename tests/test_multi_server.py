@@ -7,10 +7,10 @@ from ansys.dpf.core import examples
 @pytest.fixture()
 def local_server():
     try :
-        for ser in dpf._server_instances : 
-            if ser() !=  dpf.SERVER:
-                ser().info #check that the server is responsive
-                return ser()      
+        for server in dpf._server_instances : 
+            if server() !=  dpf.SERVER:
+                server().info #check that the server is responsive
+                return server()      
         return dpf.start_local_server(as_global = False)
     except:
         return dpf.start_local_server(as_global = False)

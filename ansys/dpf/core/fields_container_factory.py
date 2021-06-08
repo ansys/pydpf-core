@@ -159,10 +159,10 @@ def complex_fields_container(real_field, imaginary_field, server = None):
     Parameters
     ----------
     real_fields : Field
-        Real ansys.dpf.core.Field entitie to add to the fields container
+        Real ansys.dpf.core.Field entity to add to the fields container
         
     imaginary_fields : Field
-        Imaginary ansys.dpf.core.Field entitie to add to the fields container
+        Imaginary ansys.dpf.core.Field entity to add to the fields container
     
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When

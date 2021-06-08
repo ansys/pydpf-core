@@ -166,7 +166,7 @@ class ResultInfo:
     @property
     def cyclic_support(self): 
         """returns the cyclic support if the result file has cyclic symmetry (or multistage).
-        The CyclicSupport contains informations relevant for cyclic expansion
+        The CyclicSupport contains information relevant for cyclic expansion
         
         Return
         ------
@@ -225,7 +225,7 @@ class ResultInfo:
 
     @property
     def available_results(self):
-        """Available results wraps all the informations about results 
+        """Available results wraps all the information about results 
         present in the result files
         
         Returns

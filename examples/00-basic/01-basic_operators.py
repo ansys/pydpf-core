@@ -79,7 +79,7 @@ print(model.results)
 # Create the displacement operator directly from the ``results`` property
 disp_op = model.results.displacement()
 
-# Out of convenience, the operators module contains availabale operators
+# Out of convenience, the operators module contains available operators
 # Those operators can be created in chain to create a workflow in one line
 from ansys.dpf.core import operators
 mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))

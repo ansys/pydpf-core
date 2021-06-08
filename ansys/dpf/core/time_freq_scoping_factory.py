@@ -26,7 +26,7 @@ def scoping_by_load_step(load_step, server = None):
     Returns
     -------
     scoping : ansys.dpf.core.Scoping
-        Scoping targetting one load_step."""
+        Scoping targeting one load_step."""
     scoping = Scoping(server = server, ids = [ load_step ], location = locations.time_freq_step)
     return scoping
 
@@ -47,7 +47,7 @@ def scoping_by_load_steps(load_steps, server = None):
     Returns
     -------
     scoping : ansys.dpf.core.Scoping
-        Scoping targetting several load_steps."""
+        Scoping targeting several load_steps."""
     if not isinstance(load_steps, list):
         raise dpf_errors.InvalidTypeError("list", "load_steps") 
     scoping = Scoping(server = server, ids = load_steps, location = locations.time_freq_step)
@@ -70,7 +70,7 @@ def scoping_by_set(cumulative_set, server = None):
     Returns
     -------
     scoping : ansys.dpf.core.Scoping
-        Scoping targetting one set (referenced by cumulative index)."""
+        Scoping targeting one set (referenced by cumulative index)."""
     scoping = Scoping(server = server, ids = [ cumulative_set ], location = locations.time_freq)
     return scoping
 
@@ -91,7 +91,7 @@ def scoping_by_sets(cumulative_sets, server = None):
     Returns
     -------
     scoping : ansys.dpf.core.Scoping
-        Scoping targetting severals sets (referenced by cumulative indices)."""
+        Scoping targeting severals sets (referenced by cumulative indices)."""
     if not isinstance(cumulative_sets, list):
         raise dpf_errors.InvalidTypeError("list", "cumulative_sets") 
     scoping = Scoping(server = server, ids = cumulative_sets, location = locations.time_freq)

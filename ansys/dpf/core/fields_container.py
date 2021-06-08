@@ -418,7 +418,7 @@ class FieldsContainer(Collection):
     
     def deep_copy(self,server=None):
         """Creates a deep copy of the fields container's data (and its fields) on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         
         Parameters
         ----------
@@ -481,7 +481,7 @@ class FieldsContainer(Collection):
         return op
     
     def __sub__(self, fields_b):
-        """Substract two fields or fields containers together
+        """Subtract two fields or fields containers together
                 
         Returns
         -------

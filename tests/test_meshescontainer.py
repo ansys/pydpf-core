@@ -17,7 +17,7 @@ def dummy_mesh(allkindofcomplexity):
 
 @pytest.fixture()
 def elshape_body_mc(dummy_mesh):
-    """Returns a meshes container with 20 mesh splitted on body and elshape"""
+    """Returns a meshes container with 20 mesh split on body and elshape"""
     mc= MeshesContainer()
     mc.labels =['elshape','body']
     for i in range(0,20):

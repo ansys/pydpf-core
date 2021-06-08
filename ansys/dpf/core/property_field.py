@@ -40,7 +40,7 @@ class PropertyField(_FieldBase):
     @property
     def location(self):
         """Return the property field location. Property field contains a scoping and this 
-        is the location that is read. To upadte location, directly update the scoping 
+        is the location that is read. To update location, directly update the scoping 
         location. 
 
         Returns
@@ -102,7 +102,7 @@ class PropertyField(_FieldBase):
         
         Warning
         -------
-        If this as_local_field metod is not used as a context manager in a 
+        If this as_local_field method is not used as a context manager in a 
         with statement or if the method release_data() is not called,
         the data will not be actually updated.
         

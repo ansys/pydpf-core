@@ -105,7 +105,7 @@ class Field(_FieldBase):
         
         Warning
         -------
-        If this as_local_field metod is not used as a context manager in a 
+        If this as_local_field method is not used as a context manager in a 
         with statement or if the method release_data() is not called,
         the data will not be actually updated.
         
@@ -537,7 +537,7 @@ class Field(_FieldBase):
         return op
     
     def __sub__(self, fields_b):
-        """Substract two fields together
+        """Subtract two fields together
                 
         Returns
         -------
@@ -581,7 +581,7 @@ class Field(_FieldBase):
     
     def deep_copy(self,server=None):
         """Creates a deep copy of the field's data on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         
         Parameters
         ----------

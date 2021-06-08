@@ -41,7 +41,7 @@ def resolve_test_file(basename, additional_path='', is_in_examples=None):
         return os.path.join(test_files_path, additional_path, basename)
     elif local_test_repo is False:
         if is_in_examples :
-            return getattr(examples, is_in_examples)()
+            return getattr(examples, is_in_examples)
         else :
             # otherwise, assume file is local
             test_path = os.path.dirname(os.path.abspath(__file__))
@@ -126,7 +126,7 @@ def plate_msup():
 @pytest.fixture()
 def model_with_ns():
     """Resolve the path of the "model_with_ns.rst" result file."""
-    return resolve_test_file("model_with_ns.rst")
+    return resolve_test_file("model_with_ns.rst","", "multishells_rst")
 
 @pytest.fixture()
 def sub_file():

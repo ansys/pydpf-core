@@ -11,7 +11,7 @@ from ansys.dpf.core import errors as dpf_errors
 
 @pytest.fixture()
 def elshape_body_sc():
-    """Returns a scopings continer with 20 scoping splitted on body and elshape"""
+    """Returns a scopings continer with 20 scoping split on body and elshape"""
     sc= ScopingsContainer()
     sc.labels =['elshape','body']
     for i in range(0,20):

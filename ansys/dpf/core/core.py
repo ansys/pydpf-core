@@ -125,7 +125,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
     Parameters
     ----------
     server_file_path : str
-        file path to dowload on the server side
+        file path to download on the server side
         
     to_client_file_path: str
         file path target where the file will be located client side
@@ -247,8 +247,8 @@ def _description(dpf_entity_message, server=None):
     return BaseService(server, load_operators=False)._description(dpf_entity_message)    
 
 class BaseService():
-    """The Base Service class alows to make generic requests to dpf's server.
-    For example, informations about the server can be requested, 
+    """The Base Service class allows to make generic requests to dpf's server.
+    For example, information about the server can be requested, 
     uploading/downloading file from and to the server can be done,
     new operators plugins can be loaded...
     Most of the request done by the BaseService class are wrapped by 
@@ -369,20 +369,20 @@ class BaseService():
     
     @property
     def server_info(self):
-        """Send the request for server informations and keep 
-           the info into a dictionnary
+        """Send the request for server information and keep 
+           the info into a dictionary
            
            Returns
            -------
-           info : dictionnary
-               dictionnary with "server_ip", "server_port", "server_process_id"
+           info : dictionary
+               dictionary with "server_ip", "server_port", "server_process_id"
                "server_version" keys
         """
         request = base_pb2.ServerInfoRequest()
         try:
             response = self._stub.GetServerInfo(request)
         except Exception as e:
-            raise IOError(f'Unable to recover informations from the server:\n{str(e)}')
+            raise IOError(f'Unable to recover information from the server:\n{str(e)}')
         out = {"server_ip":response.ip, "server_port":response.port, "server_process_id":response.processId,
                "server_version": str(response.majorVersion) +"."+str(response.minorVersion)}
         return out
@@ -454,7 +454,7 @@ class BaseService():
         Parameters
         ----------
         server_folder_path : str
-            folder path to dowload on the server side
+            folder path to download on the server side
             
         to_client_folder_path: str
             folder path target where the files will be located client side  
@@ -495,13 +495,13 @@ class BaseService():
                     separator = self._get_separator(server_path)
                     server_subpath = server_path.replace(server_folder_path + separator, '')
                     subdir = ''
-                    splitted = server_subpath.split(separator)
-                    n = len(splitted)
+                    split = server_subpath.split(separator)
+                    n = len(split)
                     i = 0
                     to_client_folder_path_copy = to_client_folder_path
                     if n > 1:
                         while i < (n - 1):
-                            subdir = splitted[i]
+                            subdir = split[i]
                             subdir_path = os.path.join(to_client_folder_path_copy, subdir)
                             if not os.path.exists(subdir_path):
                                 os.mkdir(subdir_path)

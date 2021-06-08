@@ -20,7 +20,7 @@ from ansys.dpf.core import operators as ops
 # but, if the user has another server, he can connect on any dpf's server on 
 # the network via: connect_to_server 
 
-# the as_global attributes allows to choose wether a server will be stored 
+# the as_global attributes allows to choose whether a server will be stored 
 # by the module and used by default
 # Here, we choose the 1st server to be the default
 server1 = dpf.start_local_server(as_global=True)
@@ -38,7 +38,7 @@ file = examples.complex_rst
 file_path_in_tmp = dpf.upload_file_in_tmp_folder(file)
 
 ###############################################################################
-# Create a worflow on the first server
+# Create a workflow on the first server
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create the model
 model = dpf.Model(file_path_in_tmp)
@@ -50,7 +50,7 @@ disp.inputs.time_scoping(len(model.metadata.time_freq_support.time_frequencies))
 
 
 ###############################################################################
-# Create a worflow on the second server
+# Create a workflow on the second server
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Change the cartesian coordinates to cylindrical coordinates cs

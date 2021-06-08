@@ -4,7 +4,7 @@
 Write/load and upload/download a result file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ansys.dpf.core module is able to upload files to 
-the server machine, and dowload files from there. 
+the server machine, and download files from there. 
 
 This example shows how to write and upload files 
 on the server machine, then how to download it back 
@@ -54,7 +54,7 @@ export_csv_operator.run()
 # on the server side. The upload_file_in_tmp_folder()
 # method will be used here, because we assume we don't
 # know the server machine architecture. However, the 
-# upload_file() method can be used the same way wil a 
+# upload_file() method can be used the same way will a 
 # know "server file path". 
 
 server_file_path = core.upload_file_in_tmp_folder(file_path)

@@ -245,7 +245,7 @@ class Operator:
     def default_config(name, server=None):
         """Returns the default config for a given operator.
         This config can then be changed to the user needs and be used to
-        instanciate the given operator
+        instantiate the given operator
         
         Parameters
         ----------
@@ -350,7 +350,7 @@ class Operator:
     
     
     def __sub__(self, fields_b):
-        """Substract two fields or fields containers together
+        """Subtract two fields or fields containers together
                 
         Returns
         -------

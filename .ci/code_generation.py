@@ -5,9 +5,6 @@ from pathlib import Path
 import time
 import shutil
 
-if (os.environ.get('AWP_ROOTDV_DEV', False) is False):
-    raise ValueError("AWP_ROOTDV_DEV environment variable is expected")
-
 if os.name == 'posix':
     LIB_TO_GENERATE =["libAns.Dpf.Native.so",
                       "libAns.Dpf.FEMutils.so",
@@ -36,7 +33,7 @@ for f in files:
             os.remove(f)
     except:
         pass
-core.start_local_server(ansys_path= os.environ["AWP_ROOTDV_DEV"])
+core.start_local_server()
 code_gen = core.Operator("python_generator")
 code_gen.connect(1,TARGET_PATH)
 for lib in LIB_TO_GENERATE:

@@ -254,7 +254,7 @@ class MeshedRegion:
                 op.connect(3, self._stream_provider,0)                
                 return op.get_output(0, types.scoping)
             else:
-                raise Exception("getting a named selection from a meshed region is only implemented for meshed region created from a model for server verson 2.0. Please update your server.")
+                raise Exception("getting a named selection from a meshed region is only implemented for meshed region created from a model for server version 2.0. Please update your server.")
             
     def _set_stream_provider(self, stream_provider):
         self._stream_provider = stream_provider
@@ -404,7 +404,7 @@ class MeshedRegion:
     
     def deep_copy(self,server=None):
         """Creates a deep copy of the meshed region's data on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         Warning
         Only nodes scoping and coordinates and elements scoping, connectivity and types 
         are copied. The eventual property field for elemental properties and named selection
