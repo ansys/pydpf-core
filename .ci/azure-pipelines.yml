@@ -115,7 +115,9 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install --find-links=dist ansys_dpf_core
+        wheel_name=`ls dist/*.whl`
+        echo wheel_name
+        pip install wheel_name
         cd tests
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
