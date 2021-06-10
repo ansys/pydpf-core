@@ -137,7 +137,11 @@ jobs:
         echo $0
         export THISDIR=${SYSTEM_DEFAULTWORKINGDIRECTORY}
         echo ${THISDIR}
+        export AWP_ROOT212=${THISDIR}/server/v212
         cd ${THISDIR}/server/v212/aisol/bin/linx64
+        pwd
+        chmod 777 Ans.Dpf.Grpc.sh
+        chmod 777 Ans.Dpf.Grpc.exe        
         ./Ans.Dpf.Grpc.sh --port 50054 > log.txt
         python -c "from ansys.dpf import core; core.connect_to_server(port=50054)); print('Python Connected')"
       displayName: Start DPF Server
