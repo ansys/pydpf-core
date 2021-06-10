@@ -154,6 +154,9 @@ jobs:
         pip install pytest-azurepipelines        
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         cd tests
+        export DPF_START_SERVER=False
+        export DPF_DOCKER=True
+        export DPF_PORT=50054
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --cov-report=html
       displayName: Test Core API
 
