@@ -144,7 +144,7 @@ jobs:
         chmod 777 Ans.Dpf.Grpc.exe        
         ./Ans.Dpf.Grpc.sh --port 50054 & > log.txt
         export IP=$(hostname -i)
-        python -c "from ansys.dpf import core; core.connect_to_server(ip= ${IP}, port=50054); print('Python Connected')"
+        python -c "from ansys.dpf import core; core.connect_to_server(ip= '${IP}', port=50054); print('Python Connected')"
       displayName: Start DPF Server
       
     - script: |
