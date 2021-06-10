@@ -134,7 +134,7 @@ jobs:
       displayName: Display env
       
     - script: |
-        export THISDIR=$(System_DefaultWorkingDirectory)
+        export THISDIR=$(SYSTEM_DEFAULTWORKINGDIRECTORY)
         echo $(THISDIR)
         cd $(THISDIR)/server/v212/aisol/bin/linx64
         ./Ans.Dpf.Grpc.sh --port 50054 > log.txt 2>&1
