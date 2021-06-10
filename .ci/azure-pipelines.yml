@@ -134,10 +134,11 @@ jobs:
       displayName: Display env
       
     - script: |
+        echo $0
         export THISDIR=${SYSTEM_DEFAULTWORKINGDIRECTORY}
-        echo ${THISDIR}
+         ${THISDIR}
         cd ${THISDIR}/server/v212/aisol/bin/linx64
-        ./Ans.Dpf.Grpc.sh --port 50054 > log.txt 2>&1
+        ./Ans.Dpf.Grpc.sh --port 50054 > log.txt
         python -c "from ansys.dpf import core; core.connect_to_server(port=50054)); print('Python Connected')"
       displayName: Start DPF Server
       
