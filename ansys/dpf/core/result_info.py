@@ -23,6 +23,7 @@ analysis_types.__doc__=__write_enum_doc__(physics_types,"``'Analysis_types'`` en
 
 class ResultInfo:
     """Class representation the result information.
+    Describes the metadata of the analysis and the available results
 
     Parameters
     ----------

@@ -63,7 +63,7 @@ jobs:
         downloadDirectory: '$(System.DefaultWorkingDirectory)'
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
-        vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803' #TODO: update hash of packages
+        vstsFeedPackage: 'dpf-windows' #TODO: update hash of packages
         vstsPackageVersion: '21.2.0'
 
     - script: |
@@ -93,16 +93,8 @@ jobs:
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
     DPF_START_SERVER: False
-    DPF_IMAGE: docker.pkg.github.com/pyansys/dpf-core/dpf:
-    DPF_DOCKER: True
   pool:
     vmImage: 'ubuntu-20.04'
-  strategy:
-    matrix:
-      DPF2021R1:
-        DPF.VERSION: 'v2021.1'
-      DPF2021R2:
-        DPF.VERSION: 'v2021.2'
   steps:
     - task: UsePythonVersion@0
       inputs:
@@ -128,15 +120,24 @@ jobs:
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
 
-    - script: |
-        set -ex
-        echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
-        docker pull $(DPF_IMAGE)
-        docker run --restart always --name dpf -v `pwd`:/dpf -v /tmp:/dpf/_cache -p $(DPF_PORT):50054 $(DPF_IMAGE) > log.txt &
-        grep -q 'server started on ip' <(timeout 60 tail -f log.txt)
-        python -c "from ansys.dpf import core as dpf; dpf.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
-      displayName: Pull, launch, and validate DPF service
+    - task: UniversalPackages@0
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(System.DefaultWorkingDirectory)'
+        feedsToUse: 'internal'
+        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
+        vstsFeedPackage: 'dpf-linux' #TODO: update hash of packages
+        vstsPackageVersion: '21.2.0'
 
+    - script: |
+        @echo on
+        dir $(System.DefaultWorkingDirectory)
+        export THISDIR=$(System.DefaultWorkingDirectory)
+        cd %THISDIR%\server\v212\aisol\bin\linx64
+        ./Ans.Dpf.Grpc.sh --port 50054 > log.txt 2>&1
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+      displayName: Start DPF Server
+      
     - script: |
         pip install -r requirements_test.txt
         pip install pytest-azurepipelines

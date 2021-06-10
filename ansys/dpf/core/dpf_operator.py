@@ -23,7 +23,10 @@ LOG.setLevel('DEBUG')
 
 class Operator:
     """A class used to represent an Operator which is an elementary
-    operation.
+    operation.The Operator is the only object used to create and 
+    transform the data. When the operator is evaluated, it will 
+    process the input information to compute its output with respect 
+    to its description.
 
     A list of existing operators can be asked through the "html_doc"
     operator.

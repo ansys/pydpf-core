@@ -17,7 +17,12 @@ from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.dimensionnality import Dimensionnality
 
 class Field(_FieldBase):
-    """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
+    """Class representing the main simulation data container.
+    It can be evaluated data from a ``ansys.dpf.core.Operator``
+    or created (by a factory and directly by an instance of this class).
+    Field's data is always associated to its scoping (entities associated to each value)
+    and support (subset of the model where is the data), 
+    making the field a self-describing piece of data.
 
     Parameters
     ----------
