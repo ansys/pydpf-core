@@ -28,6 +28,10 @@ running_docker = os.environ.get('DPF_DOCKER', False)
 
 local_test_repo = False
 
+if os.name == 'posix':
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+
 def resolve_test_file(basename, additional_path='', is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
     environment.
@@ -55,8 +59,7 @@ def resolve_test_file(basename, additional_path='', is_in_examples=None):
         filename = os.path.join(test_files_path, os.path.join(additional_path, basename))
         if not os.path.isfile(filename):
             raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
-        return filename
-        
+        return filen
 
 
 @pytest.fixture()
@@ -135,6 +138,33 @@ def sub_file():
     """
     return resolve_test_file("cp56.sub", 'expansion\\msup_cms\\2bodies\\condensed_geo\\cp56', 'sub_file')
 
+@pytest.fixture()
+def cff_data_sources():
+    """Create a data sources with a cas and a dat file of fluent"""
+    ds = core.DataSources()
+    cas = resolve_test_file("FFF.cas.h5","fluent")
+    dat = resolve_test_file("FFF.dat.h5","fluent")
+    print(cas,dat)
+    ds.set_result_file_path(cas,"cas")
+    ds.add_file_path(dat,"dat")
+    return ds
+
+
+@pytest.fixture()
+def d3plot():
+    """Resolve the path of the "d3plot/d3plot" result file."""
+    return resolve_test_file("d3plot","d3plot")
+
+
+@pytest.fixture()
+def engineering_data_sources():
+    """Resolve the path of the "model_with_ns.rst" result file."""
+    ds = core.DataSources(resolve_test_file("file.rst","engineeringData"))
+    ds.add_file_path(resolve_test_file("MatML.xml","engineeringData"),"EngineeringData")
+    ds.add_file_path(resolve_test_file("ds.dat","engineeringData"),"dat")
+    return ds
+
+    
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
     """Cleanup a testing directory once we are finished."""

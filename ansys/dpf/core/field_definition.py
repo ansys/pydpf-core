@@ -11,7 +11,9 @@ from ansys.dpf.core.dimensionnality import Dimensionnality
 
 
 class FieldDefinition:
-    """Represent a Field definition with its FieldDefinition message (if possible)"""
+    """Contains the physical and mathematical description of the Field:
+    unit, homogeneity, dimensionnnality...                        
+    """
 
     def __init__(self, field_definition=None, server=None):          
         if server is None:

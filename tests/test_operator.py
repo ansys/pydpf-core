@@ -287,8 +287,20 @@ def test_outputs_bool_operator():
     out = op.outputs.boolean()
     assert out == True
 
-
-@pytest.mark.skipif(not HAS_AWP_ROOT212, reason='Requires AWP_ROOT212')
+def find_mapdl():
+    try:
+        path = dpf.core.misc.find_ansys()
+        if os.name == 'nt':
+            exe = os.path.join(path,"ansys","bin","winx64","ANSYS.exe")
+            return os.path.isfile(exe)
+        else :
+            return False            
+        
+        return True
+    except:
+        return False
+    
+@pytest.mark.skipif(not find_mapdl(), reason="requires mapdl solver in install")
 def test_inputs_outputs_datasources_operator(cyclic_ds):
     data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(cyclic_ds)

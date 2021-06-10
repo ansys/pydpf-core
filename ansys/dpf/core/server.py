@@ -29,8 +29,8 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
 
 # default DPF server port
-DPF_DEFAULT_PORT = 50054
-LOCALHOST = '127.0.0.1'
+DPF_DEFAULT_PORT =  int(os.environ.get('DPF_PORT',50054))
+LOCALHOST = os.environ.get('DPF_IP','127.0.0.1')
 
 def shutdown_global_server():
     try :
@@ -217,16 +217,16 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
         
     Create a server
     
-    >>> server = dpf.start_local_server(ip = '127.0.0.1')
-    >>> port = server.port
+    >>> #server = dpf.start_local_server(ip = '127.0.0.1')
+    >>> #port = server.port
     
     Connect to a remote server at a non-default port
 
-    >>> specified_server = dpf.connect_to_server('127.0.0.1', port, as_global=False)
+    >>> #specified_server = dpf.connect_to_server('127.0.0.1', port, as_global=False)
 
     Connect to the localhost at the default port
 
-    >>> unspecified_server = dpf.connect_to_server(as_global=False)
+    >>> #unspecified_server = dpf.connect_to_server(as_global=False)
     
     """
     server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False)
@@ -366,7 +366,7 @@ class DpfServer:
         return f'DPF Server: {self.info}'
 
     def shutdown(self):
-        if self._own_process and self._base_service:
+        if self._own_process and self.live and self._base_service:
             self._base_service._prepare_shutdown()
             p = psutil.Process(self._base_service.server_info["server_process_id"])
             p.kill()

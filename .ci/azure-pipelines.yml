@@ -33,12 +33,19 @@ jobs:
 
   steps:
     - powershell: |
-        powershell .ci/install_opengl.ps1
+        Set-StrictMode -Version Latest
+        $ErrorActionPreference = "Stop"
+        $PSDefaultParameterValues['*:ErrorAction']='Stop'
+        git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+        powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      displayName: 'Install OpenGL'
+
+    - powershell: |
         .ci/setup_headless_display.sh
         pip install -r .ci/requirements_test_xvfb.txt
         python .ci/display_test.py
-      displayName: Install and start a virtual framebuffer
-
+      displayName: Install test offscreen rendering
+      
     - task: UsePythonVersion@0
       inputs:
         versionSpec: $(python.version)
@@ -52,7 +59,9 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install --find-links=dist ansys_dpf_core
+        FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELNAME=%%a
+        ECHO %WHEELNAME%
+        pip install %WHEELNAME%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
       displayName: Install ansys-dpf-core
@@ -63,46 +72,59 @@ jobs:
         downloadDirectory: '$(System.DefaultWorkingDirectory)'
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
-        vstsFeedPackage: 'f913c1d3-1fe4-404c-8c28-15a234e56803' #TODO: update hash of packages
-        vstsPackageVersion: '21.2.0'
+        vstsFeedPackage: 'dpf-windows' #TODO: update hash of packages
+        vstsPackageVersion: '21.2.3'
 
     - script: |
         @echo on
-        dir $(System.DefaultWorkingDirectory)
+        dir $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd %THISDIR%\server\v212\aisol\bin\winx64
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
-        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server
 
     - script: |
         pip install -r requirements_test.txt
-        cd tests
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        cd tests=$(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
+        
       displayName: Test Core API
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-results.xml' 
+        testRunTitle: 'windowsTests'
+        publishRunAttachments: true      
+      condition: always()
 
     - script: |
         type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
       condition: always()
+    
+    - script : |
+        tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+        ECHO %ERRORLEVEL%
+        if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+      displayName: 'Kill all servers'
+      condition: always()
+      continueOnError: true
+      
 
 - job: Linux
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
-    DPF_PORT: 32772
-    DPF_START_SERVER: False
-    DPF_IMAGE: docker.pkg.github.com/pyansys/dpf-core/dpf:
-    DPF_DOCKER: True
+    DPF_PORT: 50055
+    TEMP: $(System.DefaultWorkingDirectory)/temp
+    
   pool:
     vmImage: 'ubuntu-20.04'
-  strategy:
-    matrix:
-      DPF2021R1:
-        DPF.VERSION: 'v2021.1'
-      DPF2021R2:
-        DPF.VERSION: 'v2021.2'
   steps:
     - task: UsePythonVersion@0
       inputs:
@@ -123,26 +145,69 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install --find-links=dist ansys_dpf_core
+        export WHEELNAME=`ls dist/*.whl`
+        echo ${WHEELNAME}
+        pip install ${WHEELNAME}
         cd tests
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
 
+    - task: UniversalPackages@0
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(System.DefaultWorkingDirectory)'
+        feedsToUse: 'internal'
+        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
+        vstsFeedPackage: 'dpf-linux' #TODO: update hash of packages
+        vstsPackageVersion: '21.2.5'
+        
+    - script : |
+        echo $0
+        if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+        then
+            pkill -f Ans.Dpf.Grpc.exe
+        fi
+      displayName: 'Kill all servers'
+      condition: always()
+      continueOnError: true
+      
     - script: |
-        set -ex
-        echo $(PAT) | docker login -u $(GH_USERNAME) --password-stdin docker.pkg.github.com
-        docker pull $(DPF_IMAGE)
-        docker run --restart always --name dpf -v `pwd`:/dpf -v /tmp:/dpf/_cache -p $(DPF_PORT):50054 $(DPF_IMAGE) > log.txt &
-        grep -q 'server started on ip' <(timeout 60 tail -f log.txt)
-        python -c "from ansys.dpf import core as dpf; dpf.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
-      displayName: Pull, launch, and validate DPF service
-
+        env
+      displayName: Display env
+      
+    - script: |
+        echo $0
+        export THISDIR=${SYSTEM_DEFAULTWORKINGDIRECTORY}
+        echo ${THISDIR}
+        export AWP_ROOT212=${THISDIR}/server/v212
+        cd ${THISDIR}/server/v212/aisol/bin/linx64
+        pwd
+        chmod 755 Ans.Dpf.Grpc.sh
+        chmod 755 Ans.Dpf.Grpc.exe        
+        ./Ans.Dpf.Grpc.sh --port 50054 & > log.txt
+        export DPF_IP=$(hostname -i)
+        python -c "from ansys.dpf import core; core.connect_to_server(ip= '${DPF_IP}', port=50054); print('Python Connected')"
+      displayName: Start DPF Server
+      
     - script: |
         pip install -r requirements_test.txt
-        pip install pytest-azurepipelines
+        pip install pytest-azurepipelines        
+        export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         cd tests
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --cov-report=html
+        export DPF_IP=$(hostname -i)
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
+        export PATH=`pwd`
+        echo ${PATH} 
       displayName: Test Core API
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-results.xml' 
+        testRunTitle: 'linuxTests'
+        publishRunAttachments: true
+        searchFolder: 'tests/'
+      condition: always()
 
     - script: |
         pip install twine
@@ -154,3 +219,15 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: $(PYPI_TOKEN)
         TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+        
+    - script : |
+        echo $0
+        if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+        then
+            pkill -f Ans.Dpf.Grpc.exe
+        fi
+      displayName: 'Kill all servers'
+      condition: always()
+      continueOnError: true
+  
+      
