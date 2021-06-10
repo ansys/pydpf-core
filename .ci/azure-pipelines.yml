@@ -130,9 +130,9 @@ jobs:
         vstsPackageVersion: '21.2.0'
 
     - script: |
-        export THISDIR=${System.DefaultWorkingDirectory}
-        echo ${THISDIR}
-        cd ${THISDIR}/server/v212/aisol/bin/linx64
+        export THISDIR=$(System_DefaultWorkingDirectory)
+        echo $(THISDIR)
+        cd $(THISDIR)/server/v212/aisol/bin/linx64
         ./Ans.Dpf.Grpc.sh --port 50054 > log.txt 2>&1
         python -c "from ansys.dpf import core; core.connect_to_server(port=50054)); print('Python Connected')"
       displayName: Start DPF Server
