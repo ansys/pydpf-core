@@ -130,8 +130,6 @@ jobs:
         vstsPackageVersion: '21.2.0'
 
     - script: |
-        @echo on
-        dir $(System.DefaultWorkingDirectory)
         export THISDIR=$(System.DefaultWorkingDirectory)
         cd %THISDIR%\server\v212\aisol\bin\linx64
         ./Ans.Dpf.Grpc.sh --port 50054 > log.txt 2>&1
