@@ -59,7 +59,7 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        SET WHEELNAME=(dir /s/b dist\*.whl)
+        FOR /F "tokens=*" %a in ("dir /s/b dist\*.whl") do SET WHEELNAME=%a
         ECHO %WHEELNAME%
         pip install %WHEELNAME%
         cd tests
@@ -154,7 +154,7 @@ jobs:
         chmod 755 Ans.Dpf.Grpc.sh
         chmod 755 Ans.Dpf.Grpc.exe        
         ./Ans.Dpf.Grpc.sh --port 50054 & > log.txt
-        export IP=$(hostname -i)
+        export DPF_IP=$(hostname -i)
         python -c "from ansys.dpf import core; core.connect_to_server(ip= '${IP}', port=50054); print('Python Connected')"
       displayName: Start DPF Server
       
@@ -165,6 +165,7 @@ jobs:
         cd tests
         export DPF_START_SERVER=False
         export DPF_PORT=50054
+        export DPF_IP=$(hostname -i)
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --cov-report=html
       displayName: Test Core API
 
