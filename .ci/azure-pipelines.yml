@@ -90,11 +90,18 @@ jobs:
         cd tests=$(System.DefaultWorkingDirectory)
         set AWP_ROOT212=%THISDIR%\server\v212
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
+        
       displayName: Test Core API
 
     - script: |
         type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
+      condition: always()
+      
+    - script: |
+        pytest > $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\testlog.txt
+        type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\testlog.txt
+      displayName:  'Show DPF Tests Server Logs'
       condition: always()
 
 - job: Linux
@@ -167,7 +174,8 @@ jobs:
         cd tests
         export DPF_PORT=50055
         export DPF_IP=$(hostname -i)
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml -o junit_logging=all
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
+        pytest > myoutput.log
       displayName: Test Core API
 
     - script: |
@@ -180,3 +188,11 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: $(PYPI_TOKEN)
         TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+      
+    - script: |
+        cd tests
+        pytest > ${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212/aisol/bin/linx64/testlog.txt
+        less -FX ${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212/aisol/bin/linx64/testlog.txt
+      displayName:  'Show DPF Tests Server Logs'
+      condition: always()
+      
