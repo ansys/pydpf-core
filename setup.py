@@ -7,6 +7,7 @@ from setuptools import setup
 
 install_requires = ['psutil',
                     'progressbar2',
+                    'numpy',
                     'ansys.grpc.dpf>=0.2.3']
 
 

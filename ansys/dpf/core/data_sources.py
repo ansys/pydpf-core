@@ -91,6 +91,13 @@ class DataSources:
         request.path = filepath
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
+        try:
+            print("result file: ", filepath)
+            from os import walk
+            filenames = next(walk(os.path.join(filepath,os.pardir)), (None, None, []))[2]  # [] if no file
+            print(filenames)
+        except:
+            pass
         
     def set_domain_result_file_path(self, path, domain_id):
         """Add a result file path by domain. This method can be called to 
