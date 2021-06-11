@@ -29,7 +29,7 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
 
 # default DPF server port
-DPF_DEFAULT_PORT =  os.environ.get('DPF_PORT',50054)
+DPF_DEFAULT_PORT =  int(os.environ.get('DPF_PORT',50054))
 LOCALHOST = os.environ.get('DPF_IP','127.0.0.1')
 
 def shutdown_global_server():
