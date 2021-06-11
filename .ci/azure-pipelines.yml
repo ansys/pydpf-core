@@ -98,7 +98,8 @@ jobs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'junit/test-results.xml' 
         testRunTitle: 'windowsTests'
-        publishRunAttachments: true
+        publishRunAttachments: true      
+      condition: always()
 
     - script: |
         type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
@@ -185,6 +186,7 @@ jobs:
         testResultsFiles: 'junit/test-results.xml' 
         testRunTitle: 'linuxTests'
         publishRunAttachments: true
+      condition: always()
 
     - script: |
         pip install twine
