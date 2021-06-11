@@ -89,6 +89,7 @@ jobs:
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd tests=$(System.DefaultWorkingDirectory)
         set AWP_ROOT212=%THISDIR%\server\v212
+        set PATH=%AWP_ROOT212%\aisol\bin\winx64;%PATH%
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
         
       displayName: Test Core API
@@ -177,7 +178,9 @@ jobs:
         cd tests
         export DPF_PORT=50055
         export DPF_IP=$(hostname -i)
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml        
+        export PATH=`pwd`
+        echo ${PATH} 
       displayName: Test Core API
       
     - task: PublishTestResults@2
@@ -186,6 +189,7 @@ jobs:
         testResultsFiles: 'junit/test-results.xml' 
         testRunTitle: 'linuxTests'
         publishRunAttachments: true
+        searchFolder: 'tests/'
       condition: always()
 
     - script: |

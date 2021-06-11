@@ -28,6 +28,10 @@ running_docker = os.environ.get('DPF_DOCKER', False)
 
 local_test_repo = False
 
+if os.name == 'posix':
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+
 def resolve_test_file(basename, additional_path='', is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
     environment.

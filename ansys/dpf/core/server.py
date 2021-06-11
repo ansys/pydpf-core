@@ -218,7 +218,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     Create a server
     
     >>> #server = dpf.start_local_server(ip = '127.0.0.1')
-    >>> port = server.port
+    >>> #port = server.port
     
     Connect to a remote server at a non-default port
 

@@ -7,6 +7,7 @@ docstring."""
 import doctest
 import os
 import pathlib
+import pytest
 
 def test_doctest_allfiles():
     directory = r'../ansys/dpf/core'
@@ -20,7 +21,7 @@ def test_doctest_allfiles():
             doctest.testfile(path, verbose = True, raise_on_error = True)
         else:
             continue
-
+@pytest.mark.skipif(os.name == 'posix', "examples are created for windows")
 def test_doctest_allexamples():
     directory = r'../examples'
     actual_path = pathlib.Path(__file__).parent.absolute()
