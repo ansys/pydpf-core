@@ -130,7 +130,8 @@ jobs:
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
-    TEMP:$(System.DefaultWorkingDirectory)/temp
+    TEMP: $(System.DefaultWorkingDirectory)/temp
+    
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
