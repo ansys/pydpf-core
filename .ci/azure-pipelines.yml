@@ -47,7 +47,8 @@ jobs:
       displayName: Install test offscreen rendering
       
     - script : |
-        taskkill /f /im Ans.Dpf.Grpc.exe >NUL | findstr SUCCESS >NUL && if errorlevel 1 ( echo Ans.Dpf.Grpc was not killed ) else ( echo Ans.Dpf.Grpc was killed )
+        tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+        if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
       displayName: 'Kill all servers'
       condition: always()
       
@@ -113,8 +114,8 @@ jobs:
       condition: always()
     
     - script : |
-        taskkill /f /im Ans.Dpf.Grpc.exe >NUL | findstr SUCCESS >NUL && if errorlevel 1 ( echo Ans.Dpf.Grpc was not killed ) else ( echo Ans.Dpf.Grpc was killed )
-        if "%ERRORLEVEL%"=="0" echo Program is running
+        tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+        if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
       displayName: 'Kill all servers'
       condition: always()
       
@@ -162,7 +163,7 @@ jobs:
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'dpf-linux' #TODO: update hash of packages
-        vstsPackageVersion: '21.2.1'
+        vstsPackageVersion: '21.2.2'
         
     - script : |
         echo $0
