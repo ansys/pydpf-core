@@ -348,23 +348,26 @@ class BaseService():
         except Exception as e:
             raise IOError(f'Unable to load library "{filename}". File may not exist or'
                           f' is missing dependencies:\n{str(e)}')
-            
-        local_dir =os.path.dirname(os.path.abspath(__file__))
-        LOCAL_PATH = os.path.join(local_dir, "operators")
         
-        #send local generated code
-        TARGET_PATH = self.make_tmp_dir_server()
-        self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+        #TODO: fix code generation upload posix
+        import os
+        if os.name != 'posix':
+            local_dir =os.path.dirname(os.path.abspath(__file__))
+            LOCAL_PATH = os.path.join(local_dir, "operators")
             
-        #generate code     
-        from ansys.dpf.core.dpf_operator import Operator
-        code_gen = Operator("python_generator")
-        code_gen.connect(1,TARGET_PATH)
-        code_gen.connect(0, filename)
-        code_gen.connect(2, False)
-        code_gen.run()    
-        
-        self.download_files_in_folder(TARGET_PATH, LOCAL_PATH,"py")
+            #send local generated code
+            TARGET_PATH = self.make_tmp_dir_server()
+            self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                
+            #generate code     
+            from ansys.dpf.core.dpf_operator import Operator
+            code_gen = Operator("python_generator")
+            code_gen.connect(1,TARGET_PATH)
+            code_gen.connect(0, filename)
+            code_gen.connect(2, False)
+            code_gen.run()    
+            
+            self.download_files_in_folder(TARGET_PATH, LOCAL_PATH,"py")
             
     
     @property

@@ -47,10 +47,9 @@ jobs:
       displayName: Install test offscreen rendering
       
     - script : |
-        ECHO $(tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2)
         tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
         ECHO %ERRORLEVEL%
-        if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
+        if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
       displayName: 'Kill all servers'
       condition: always()
       continueOnError: true
@@ -73,6 +72,7 @@ jobs:
         pip install %WHEELNAME%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+        python -c "from ansys.dpf import core; core.load_library('Ans.Dpf.Math.dll', 'math_operators')"
       displayName: Install ansys-dpf-core
 
     - task: UniversalPackages@0
@@ -118,7 +118,8 @@ jobs:
     
     - script : |
         tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-        if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
+        ECHO %ERRORLEVEL%
+        if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
       displayName: 'Kill all servers'
       condition: always()
       continueOnError: true
