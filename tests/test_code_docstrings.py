@@ -21,7 +21,9 @@ def test_doctest_allfiles():
             doctest.testfile(path, verbose = True, raise_on_error = True)
         else:
             continue
-@pytest.mark.skipif(os.name == 'posix', "examples are created for windows")
+        
+
+@pytest.mark.skipif(os.name == 'posix', reason="examples are created for windows")
 def test_doctest_allexamples():
     directory = r'../examples'
     actual_path = pathlib.Path(__file__).parent.absolute()

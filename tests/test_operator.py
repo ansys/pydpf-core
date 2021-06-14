@@ -288,7 +288,7 @@ def test_outputs_bool_operator():
     assert out == True
 
 
-@pytest.mark.skipif(not HAS_AWP_ROOT212, reason='Requires AWP_ROOT212')
+pytest.mark.xfail(strict=False, reason="requires mapdl solver in install")
 def test_inputs_outputs_datasources_operator(cyclic_ds):
     data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(cyclic_ds)

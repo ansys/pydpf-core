@@ -366,7 +366,7 @@ class DpfServer:
         return f'DPF Server: {self.info}'
 
     def shutdown(self):
-        if self._own_process and self._base_service:
+        if self._own_process and self.live and self._base_service:
             self._base_service._prepare_shutdown()
             p = psutil.Process(self._base_service.server_info["server_process_id"])
             p.kill()

@@ -47,7 +47,7 @@ def test_loadplugin():
     assert loaded
     
 def test_launch_server_not_install():
-    ansys_path = dpf.core.misc.find_ansys()
+    ansys_path = os.environ.get('AWP_ROOT'+dpf.core._version.__ansys_version__, dpf.core.misc.find_ansys())
     if os.name == 'nt':
         path = os.path.join(ansys_path,'aisol','bin','winx64')
     else:

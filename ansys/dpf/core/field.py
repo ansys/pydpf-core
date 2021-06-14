@@ -418,7 +418,7 @@ class Field(_FieldBase):
         request.type = base_pb2.Type.Value("MESHED_REGION")
         try:
             message = self._stub.GetSupport(request)
-            return meshed_region.MeshedRegion(mesh=message)
+            return meshed_region.MeshedRegion(mesh=message, server = self._server)
         except:
             raise RuntimeError("The field's support is not a mesh.  Try a time_freq_support.")
 
@@ -433,7 +433,7 @@ class Field(_FieldBase):
         request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
         try:
             message = self._stub.GetSupport(request)
-            return time_freq_support.TimeFreqSupport(time_freq_support=message)
+            return time_freq_support.TimeFreqSupport(time_freq_support=message, server = self._server)
         except:
             raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
             
@@ -608,7 +608,7 @@ class Field(_FieldBase):
         >>> other_server = dpf.start_local_server(as_global=False)
         >>> deep_copy = field.deep_copy(server=other_server)
         
-        """
+        """            
         f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionnality.nature, server=server)
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
@@ -627,6 +627,7 @@ class Field(_FieldBase):
             f.time_freq_support = self.time_freq_support.deep_copy(server=server)
         except:
             pass
+        
         return f
         
 class _LocalField(_LocalFieldBase,Field):

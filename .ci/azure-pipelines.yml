@@ -45,7 +45,12 @@ jobs:
         pip install -r .ci/requirements_test_xvfb.txt
         python .ci/display_test.py
       displayName: Install test offscreen rendering
-
+      
+    - script : |
+        taskkill /IM "Ans.Dpf.Grpc.exe" /F
+      displayName: 'Kill all servers'
+      condition: always()
+      
     - task: UsePythonVersion@0
       inputs:
         versionSpec: $(python.version)
@@ -106,6 +111,11 @@ jobs:
         type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
       condition: always()
+    
+    - script : |
+        taskkill /IM "Ans.Dpf.Grpc.exe" /F
+      displayName: 'Kill all servers'
+      condition: always()
       
 
 - job: Linux
@@ -152,7 +162,12 @@ jobs:
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'dpf-linux' #TODO: update hash of packages
         vstsPackageVersion: '21.2.1'
-    
+        
+    - script : |
+        pkill -f Ans.Dpf.Grpc.exe
+      displayName: 'Kill all servers'
+      condition: always()
+      
     - script: |
         env
       displayName: Display env
@@ -202,5 +217,10 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: $(PYPI_TOKEN)
         TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+        
+    - script : |
+        pkill -f Ans.Dpf.Grpc.exe
+      displayName: 'Kill all servers'
+      condition: always()
   
       
