@@ -190,7 +190,10 @@ def test_uploadinfolder_emptyfolder(tmpdir):
 def test_load_plugin_correctly():
     from ansys.dpf import core as dpf
     base = dpf.BaseService()
-    base.load_library('Ans.Dpf.Math.dll', 'math_operators')
+    try:
+        base.load_library('Ans.Dpf.Math.dll', 'math_operators')
+    except:
+        base.load_library('libAns.Dpf.Math.so', 'math_operators')
     actual_path = pathlib.Path(__file__).parent.absolute()
     exists = os.path.exists(os.path.join(actual_path, "..",r"ansys/dpf/core/operators/fft_eval.py"))
     assert not exists 

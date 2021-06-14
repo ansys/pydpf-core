@@ -47,10 +47,13 @@ jobs:
       displayName: Install test offscreen rendering
       
     - script : |
+        ECHO $(tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2)
         tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+        ECHO %ERRORLEVEL%
         if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
       displayName: 'Kill all servers'
       condition: always()
+      continueOnError:true
       
     - task: UsePythonVersion@0
       inputs:
@@ -118,6 +121,7 @@ jobs:
         if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
       displayName: 'Kill all servers'
       condition: always()
+      continueOnError:true
       
 
 - job: Linux
@@ -125,8 +129,8 @@ jobs:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
-    DPF_PORT: 32772
-    DPF_START_SERVER: False
+    DPF_PORT: 50055
+    TEMP:$(System.DefaultWorkingDirectory)/temp
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
@@ -173,6 +177,7 @@ jobs:
         fi
       displayName: 'Kill all servers'
       condition: always()
+      continueOnError:true
       
     - script: |
         env
@@ -197,7 +202,6 @@ jobs:
         pip install pytest-azurepipelines        
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         cd tests
-        export DPF_PORT=50055
         export DPF_IP=$(hostname -i)
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml        
         export PATH=`pwd`
@@ -232,5 +236,6 @@ jobs:
         fi
       displayName: 'Kill all servers'
       condition: always()
+      continueOnError:true
   
       
