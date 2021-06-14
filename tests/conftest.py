@@ -59,8 +59,7 @@ def resolve_test_file(basename, additional_path='', is_in_examples=None):
         filename = os.path.join(test_files_path, os.path.join(additional_path, basename))
         if not os.path.isfile(filename):
             raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
-        return filename
-        
+        return filen
 
 
 @pytest.fixture()
@@ -143,8 +142,10 @@ def sub_file():
 def cff_data_sources():
     """Create a data sources with a cas and a dat file of fluent"""
     ds = core.DataSources()
-    ds.set_result_file_path(resolve_test_file("FFF.cas.h5","fluent"),"cas")
-    ds.add_file_path(resolve_test_file("FFF.dat.h5","fluent"),"dat")
+    cas = resolve_test_file("FFF.cas.h5","fluent")
+    dat = resolve_test_file("FFF.dat.h5","fluent")
+    ds.set_result_file_path(cas,"cas")
+    ds.add_file_path(dat,"dat")
     return ds
 
 
