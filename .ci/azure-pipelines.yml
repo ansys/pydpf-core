@@ -47,7 +47,8 @@ jobs:
       displayName: Install test offscreen rendering
       
     - script : |
-        taskkill /IM "Ans.Dpf.Grpc.exe" /F
+        taskkill /IM "Ans.Dpf.Grpc.exe" /F /fo csv 2>NUL | find /I "Ans.Dpf.Grpc.exe">NUL
+        if "%ERRORLEVEL%"=="0" echo Program is running
       displayName: 'Kill all servers'
       condition: always()
       
@@ -113,7 +114,8 @@ jobs:
       condition: always()
     
     - script : |
-        taskkill /IM "Ans.Dpf.Grpc.exe" /F
+        taskkill /IM "Ans.Dpf.Grpc.exe" /F /fo csv 2>NUL | find /I "Ans.Dpf.Grpc.exe">NUL
+        if "%ERRORLEVEL%"=="0" echo Program is running
       displayName: 'Kill all servers'
       condition: always()
       
@@ -164,7 +166,11 @@ jobs:
         vstsPackageVersion: '21.2.1'
         
     - script : |
-        pkill -f Ans.Dpf.Grpc.exe
+        echo $0
+        if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+        then
+            pkill -f Ans.Dpf.Grpc.exe
+        fi
       displayName: 'Kill all servers'
       condition: always()
       
@@ -219,7 +225,11 @@ jobs:
         TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
         
     - script : |
-        pkill -f Ans.Dpf.Grpc.exe
+        echo $0
+        if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+        then
+            pkill -f Ans.Dpf.Grpc.exe
+        fi
       displayName: 'Kill all servers'
       condition: always()
   
