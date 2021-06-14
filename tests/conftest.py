@@ -144,6 +144,7 @@ def cff_data_sources():
     ds = core.DataSources()
     cas = resolve_test_file("FFF.cas.h5","fluent")
     dat = resolve_test_file("FFF.dat.h5","fluent")
+    print(cas,dat)
     ds.set_result_file_path(cas,"cas")
     ds.add_file_path(dat,"dat")
     return ds
