@@ -53,7 +53,7 @@ jobs:
         if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
       displayName: 'Kill all servers'
       condition: always()
-      continueOnError:true
+      continueOnError: true
       
     - task: UsePythonVersion@0
       inputs:
@@ -121,7 +121,7 @@ jobs:
         if "%ERRORLEVEL%"=="0" taskkill /f /im Ans.Dpf.Grpc.exe
       displayName: 'Kill all servers'
       condition: always()
-      continueOnError:true
+      continueOnError: true
       
 
 - job: Linux
@@ -177,7 +177,7 @@ jobs:
         fi
       displayName: 'Kill all servers'
       condition: always()
-      continueOnError:true
+      continueOnError: true
       
     - script: |
         env
@@ -236,6 +236,6 @@ jobs:
         fi
       displayName: 'Kill all servers'
       condition: always()
-      continueOnError:true
+      continueOnError: true
   
       
