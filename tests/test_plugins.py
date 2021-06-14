@@ -8,12 +8,8 @@ def try_load_cff_operators():
         dpf.load_library("Ans.Dpf.CFF.dll","cff")
         return True
     except:
-        try:
-            dpf.load_library("libAns.Dpf.CFF.so","cff")
-            return True
-        except:
-            pass
         return False
+    #TODO: add loading for linux
         
 @pytest.mark.skipif(not try_load_cff_operators(), reason="Couldn't load cff operators")
 def test_cff(cff_data_sources):
