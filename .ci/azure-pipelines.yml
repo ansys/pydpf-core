@@ -81,7 +81,7 @@ jobs:
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'dpf-windows' #TODO: update hash of packages
-        vstsPackageVersion: '21.2.1'
+        vstsPackageVersion: '21.2.2'
 
     - script: |
         @echo on
@@ -167,7 +167,7 @@ jobs:
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'dpf-linux' #TODO: update hash of packages
-        vstsPackageVersion: '21.2.3'
+        vstsPackageVersion: '21.2.4'
         
     - script : |
         echo $0
