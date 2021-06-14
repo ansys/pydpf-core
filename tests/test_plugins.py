@@ -17,7 +17,6 @@ def try_load_cff_operators():
         
 @pytest.mark.skipif(not try_load_cff_operators(), reason="Couldn't load cff operators")
 def test_cff(cff_data_sources):
-    dpf.load_library("Ans.Dpf.CFF.dll","cff")
     m = dpf.Model(cff_data_sources)
     assert m.metadata.meshed_region.nodes.n_nodes ==1430
     op = dpf.Operator("cff::cas::SV_DENSITY")

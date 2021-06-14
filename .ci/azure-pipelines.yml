@@ -72,7 +72,6 @@ jobs:
         pip install %WHEELNAME%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-        python -c "from ansys.dpf import core; core.load_library('Ans.Dpf.Math.dll', 'math_operators')"
       displayName: Install ansys-dpf-core
 
     - task: UniversalPackages@0
@@ -90,7 +89,8 @@ jobs:
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd %THISDIR%\server\v212\aisol\bin\winx64
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
-        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT));; core.load_library('Ans.Dpf.Math.dll', 'math_operators')"
       displayName: Start DPF Server
 
     - script: |
