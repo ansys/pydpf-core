@@ -287,8 +287,14 @@ def test_outputs_bool_operator():
     out = op.outputs.boolean()
     assert out == True
 
-
-pytest.mark.xfail(strict=False, reason="requires mapdl solver in install")
+def find_mapdl():
+    try:
+        dpf.core.misc.find_ansys()
+        return True
+    except:
+        return False
+    
+@pytest.mark.skipif(not find_mapdl(), reason="requires mapdl solver in install")
 def test_inputs_outputs_datasources_operator(cyclic_ds):
     data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(cyclic_ds)
