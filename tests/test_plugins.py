@@ -1,10 +1,13 @@
 
 from ansys.dpf import core as dpf
 import pytest
+import os
 
 
 def try_load_cff_operators():
     try:
+        if os.name=="posix":
+            return False
         dpf.load_library("Ans.Dpf.CFF.dll","cff")
         return True
     except:
