@@ -47,8 +47,7 @@ jobs:
       displayName: Install test offscreen rendering
       
     - script : |
-        taskkill /IM "Ans.Dpf.Grpc.exe" /F /fo csv 2>NUL | find /I "Ans.Dpf.Grpc.exe">NUL
-        if "%ERRORLEVEL%"=="0" echo Program is running
+        taskkill /f /im Ans.Dpf.Grpc.exe >NUL | findstr SUCCESS >NUL && if errorlevel 1 ( echo Ans.Dpf.Grpc was not killed ) else ( echo Ans.Dpf.Grpc was killed )
       displayName: 'Kill all servers'
       condition: always()
       
@@ -114,7 +113,7 @@ jobs:
       condition: always()
     
     - script : |
-        taskkill /IM "Ans.Dpf.Grpc.exe" /F /fo csv 2>NUL | find /I "Ans.Dpf.Grpc.exe">NUL
+        taskkill /f /im Ans.Dpf.Grpc.exe >NUL | findstr SUCCESS >NUL && if errorlevel 1 ( echo Ans.Dpf.Grpc was not killed ) else ( echo Ans.Dpf.Grpc was killed )
         if "%ERRORLEVEL%"=="0" echo Program is running
       displayName: 'Kill all servers'
       condition: always()
