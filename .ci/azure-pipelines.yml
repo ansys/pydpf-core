@@ -96,6 +96,7 @@ jobs:
           pip install -r requirements_docs.txt
           cd .ci
           dir 
+          set AWP_ROOT212=$(System.DefaultWorkingDirectory)\server\v212
           build_doc.bat
       displayName: Build Documentation
         
