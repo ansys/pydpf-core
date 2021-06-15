@@ -56,13 +56,13 @@ jobs:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
         
-    - powershell: |
+    - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        FOR /F %%a in ('dir /s/b dist\*.whl') do $env:WHEELNAME=%%a
-        ECHO $env:WHEELNAME
-        write-host "##vso[task.setvariable variable=WHEELNAME;]$env:WHEELNAME"
-        pip install $env:WHEELNAME
+        FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELNAME=%%a
+        ECHO %WHEELNAME%
+        echo "##vso[task.setvariable variable=WHEELNAMEPATH]$(%WHEELNAME%)"
+        pip install %WHEELNAME%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"      
       
@@ -71,8 +71,8 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'WHEEL: publish artifacts'
       inputs:
-        PathtoPublish: $(WHEELNAME)
-        ArtifactName: $(WHEELNAME)
+        PathtoPublish: $(WHEELNAMEPATH)
+        ArtifactName: $(WHEELNAMEPATH)
       enabled: true
      
     - script: |
