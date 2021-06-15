@@ -103,7 +103,6 @@ sphinx_gallery_conf = {
     # directory where function granular galleries are stored
     "backreferences_dir": None,    
     "image_scrapers": ('pyvista', 'matplotlib'),
-    "autodoc_member_order":'bysource',
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
