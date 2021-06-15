@@ -61,7 +61,7 @@ jobs:
         python setup.py bdist_wheel
         FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELNAME=%%a
         ECHO %WHEELNAME%
-        "##vso[task.setvariable variable=WHEELNAME]$WHEELNAME"
+        echo "##vso[task.setvariable variable=WHEELNAME]$WHEELNAME"
         pip install %WHEELNAME%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"      
