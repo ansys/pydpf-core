@@ -77,7 +77,8 @@ jobs:
     - script: |
           pip install -r requirements_docs.txt
           cd .ci
-          START build_doc.bat
+          dir 
+          build_doc.bat
       displayName: Build Documentation
         
     - task: ArchiveFiles@2
