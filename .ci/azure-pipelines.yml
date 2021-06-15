@@ -175,7 +175,8 @@ jobs:
       condition: always()
       continueOnError: true
 
-- job: Documentation Windows
+
+- job: DocumentationWindows
   variables:
     python.version: '3.8'
     DISPLAY: ':99.0'
