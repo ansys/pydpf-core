@@ -27,7 +27,7 @@ pyvista.BUILDING_GALLERY = True
 
 project = 'PyANSYS DPF'
 copyright = f'{datetime.now().year}, ANSYS'
-author = 'ANSYS Developers'
+author = 'ANSYS Inc'
 
 # The short X.Y version
 version = __version__
@@ -91,7 +91,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     'pypandoc': True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples/","../../examples_notebooks/" ],
+    "examples_dirs": ["../../examples/"],
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
     # Patter to search for example files
@@ -103,48 +103,19 @@ sphinx_gallery_conf = {
     # directory where function granular galleries are stored
     "backreferences_dir": None,    
     "image_scrapers": ('pyvista', 'matplotlib'),
-    "autodoc_member_order":'bysource',
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
 }
 
 autodoc_member_order = 'bysource'
-# process_examples = True
-
-# autoclass_content = 'both'
-# autodata_content = 'call'
-
-# import subprocess as spr
-# spr.call([sys.executable] +
-         # ('-m ipykernel install --user --name python3 '
-          # '--display-name python3').split())
-# spr.call([sys.executable, '-m', 'bash_kernel.install'])
-
-# example_gallery_config = dict()
 
 
 # -- Options for HTML output -------------------------------------------------
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-# html_theme = 'sphinx_rtd_theme'
-html_theme = 'pydata_sphinx_theme'
-# html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-# zerovm-sphinx-theme
-
-html_logo = '_static/pyansys-logo-black-cropped.png'
-
-
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
+html_theme = 'pyansys_sphinx_theme'
+html_logo = 'https://docs.pyansys.com/_static/pyansys-logo-black-cropped.png'
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
-    # "show_toc_level": 1,
-    # "show_prev_next": False
 }
 
 
@@ -152,7 +123,6 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-html_css_files = ['css/ansys.css']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

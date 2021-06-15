@@ -27,87 +27,18 @@ jobs:
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
-    DPF_START_SERVER: False
   pool:
     vmImage: 'windows-2019'
 
-  steps:
-    - powershell: |
-        Set-StrictMode -Version Latest
-        $ErrorActionPreference = "Stop"
-        $PSDefaultParameterValues['*:ErrorAction']='Stop'
-        git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
-        powershell gl-ci-helpers/appveyor/install_opengl.ps1
-      displayName: 'Install OpenGL'
-
-    - powershell: |
-        .ci/setup_headless_display.sh
-        pip install -r .ci/requirements_test_xvfb.txt
-        python .ci/display_test.py
-      displayName: Install test offscreen rendering
-      
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: $(python.version)
-        addToPath: true
-
-    - task: PipAuthenticate@1
-      inputs:
-        artifactFeeds: 'pyansys'
-        onlyAddExtraIndex: true
-
-    - script: |
-        pip install -r requirements_build.txt
-        python setup.py bdist_wheel
-        FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELNAME=%%a
-        ECHO %WHEELNAME%
-        echo "##vso[task.setvariable variable=WHEELNAME]$(WHEELNAME)"
-        pip install %WHEELNAME%
-        cd tests
-        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-      displayName: Install ansys-dpf-core
-    
+  steps:  
+    - template: templates\prepare-environment-windows.yml   
+        
     - task: PublishBuildArtifacts@1
       displayName: 'WHEEL: publish artifacts'
       inputs:
-        PathtoPublish: $(WHEELNAME)
-        ArtifactName: $(WHEELNAME)
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
+        ArtifactName: 'ansys_dpf_core_wheel'
       enabled: true
-     
-    - script: |
-          pip install -r requirements_docs.txt
-          cd .ci
-          START build_doc.bat
-          
-        displayName: Build Documentation
-        
-    - script: '7z.exe a doc_ansys-dpf-core.zip .\docs\build'
-      displayName: 'DOCUMENTATION: zip artifacts'
-    
-    - task: PublishBuildArtifacts@1
-      displayName: 'DOCUMENTATION: publish artifacts'
-      inputs:
-        PathtoPublish: 'doc_ansys-dpf-core.zip'
-        ArtifactName: doc_ansys-dpf-core.zip
-      enabled: true
-      
-    - task: UniversalPackages@0
-      inputs:
-        command: 'download'
-        downloadDirectory: '$(System.DefaultWorkingDirectory)'
-        feedsToUse: 'internal'
-        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
-        vstsFeedPackage: 'dpf-windows' #TODO: update hash of packages
-        vstsPackageVersion: '21.2.3'
-
-    - script: |
-        @echo on
-        dir $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        cd %THISDIR%\server\v212\aisol\bin\winx64
-        START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
-        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
-      displayName: Start DPF Server
 
     - script: |
         pip install -r requirements_test.txt
@@ -125,20 +56,25 @@ jobs:
         testRunTitle: 'windowsTests'
         publishRunAttachments: true      
       condition: always()
+      
+    - script: |
+        pip install twine
+        python setup.py sdist
+        twine upload --skip-existing dist/*
+      displayName: 'Upload to PyPi'
+      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: $(PYPI_TOKEN)
+        TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"      
      
 
     - script: |
         type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
-      condition: always()
+      condition: always() 
     
-    - script : |
-        tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-        ECHO %ERRORLEVEL%
-        if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
-      displayName: 'Kill all servers'
-      condition: always()
-      continueOnError: true
+    - template: templates\kill-servers-windows.yml   
       
 
 - job: Linux
@@ -234,18 +170,8 @@ jobs:
         publishRunAttachments: true
         searchFolder: 'tests/'
       condition: always()
-
-    - script: |
-        pip install twine
-        python setup.py sdist
-        twine upload --skip-existing dist/*
-      displayName: 'Upload to PyPi'
-      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: $(PYPI_TOKEN)
-        TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-        
+      
+      
     - script : |
         echo $0
         if pgrep -x "Ans.Dpf.Grpc" > /dev/null
@@ -255,5 +181,65 @@ jobs:
       displayName: 'Kill all servers'
       condition: always()
       continueOnError: true
-  
+
+
+- job: DocumentationWindows
+  variables:
+    python.version: '3.8'
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+    GH_DOC_BRANCH: 'cbellot/doc_try'
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:  
+    - template: templates\prepare-environment-windows.yml    
+   
+    - script: |
+          pip install -r requirements_docs.txt
+          cd .ci
+          dir 
+          set THISDIR=$(System.DefaultWorkingDirectory)
+          set AWP_ROOT212=%THISDIR%\server\v212
+          ECHO %AWP_ROOT212%
+          build_doc.bat
+      displayName: Build Documentation
+        
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)\docs\build' 
+        includeRootFolder: false 
+        archiveType: 'zip'
+        archiveFile: '$(System.DefaultWorkingDirectory)\docs\archive\doc-ansys-dpf-core.zip'
+        replaceExistingArchive: true 
+      displayName: 'DOCUMENTATION: zip artifacts'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'DOCUMENTATION: publish artifacts'
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\docs\archive'
+        ArtifactName: doc-ansys-dpf-core
+      enabled: true      
+        
+    - powershell: |
+        git init
+        git checkout -b $(GH_DOC_BRANCH)
+        git config --local user.name "pyansys-ci-bot"
+        git config --local user.email "$(GH_EMAIL)"
+        git config --local http.https://github.com/.extraheader "AUTHORIZATION: Basic ${GH_PAT}"
+        New-Item -ItemType file .nojekyll
+        git add .
+        git commit -m "Documentation generated by $(Build.DefinitionName)"
+      displayName: "Init git and add docs"
+      workingDirectory: docs\build\html
+
+    - script: |
+        git remote add origin https://github.com/pyansys/DPF-Core-docs.git
+        git push -u origin $(GH_DOC_BRANCH) --force
+      displayName: "Publish GitHub Pages merge commit"
+      workingDirectory: docs\build\html
+          
+    - template: templates\kill-servers-windows.yml    
+    
       
