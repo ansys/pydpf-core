@@ -78,8 +78,7 @@ jobs:
           pip install -r requirements_docs.txt
           cd .ci
           START build_doc.bat
-          
-        displayName: Build Documentation
+      displayName: Build Documentation
         
     - script: '7z.exe a doc_ansys-dpf-core.zip .\docs\build'
       displayName: 'DOCUMENTATION: zip artifacts'
