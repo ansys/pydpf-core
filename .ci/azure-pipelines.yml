@@ -73,7 +73,25 @@ jobs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
         ArtifactName: 'ansys_dpf_core_wheel'
       enabled: true
-     
+      
+    - task: UniversalPackages@0
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(System.DefaultWorkingDirectory)'
+        feedsToUse: 'internal'
+        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
+        vstsFeedPackage: 'dpf-windows'
+        vstsPackageVersion: '21.2.3'
+
+    - script: |
+        @echo on
+        dir $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        cd %THISDIR%\server\v212\aisol\bin\winx64
+        START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
+        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
+      displayName: Start DPF Server
+      
     - script: |
           pip install -r requirements_docs.txt
           cd .ci
@@ -96,24 +114,6 @@ jobs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)\docs\archive'
         ArtifactName: doc-ansys-dpf-core
       enabled: true
-      
-    - task: UniversalPackages@0
-      inputs:
-        command: 'download'
-        downloadDirectory: '$(System.DefaultWorkingDirectory)'
-        feedsToUse: 'internal'
-        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
-        vstsFeedPackage: 'dpf-windows'
-        vstsPackageVersion: '21.2.3'
-
-    - script: |
-        @echo on
-        dir $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        cd %THISDIR%\server\v212\aisol\bin\winx64
-        START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
-        python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
-      displayName: Start DPF Server
 
     - script: |
         pip install -r requirements_test.txt
