@@ -55,17 +55,17 @@ jobs:
       inputs:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
-    - task:
-      script: |
+        
+    - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
         FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELNAME=%%a
         ECHO %WHEELNAME%
+        "##vso[task.setvariable variable=WHEELNAME]$WHEELNAME"
         pip install %WHEELNAME%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"      
-      env:
-        WHEELNAME: $(WHEELNAME)
+      
       displayName: Install ansys-dpf-core
     
     - task: PublishBuildArtifacts@1
