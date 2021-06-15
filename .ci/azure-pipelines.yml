@@ -62,9 +62,10 @@ jobs:
         FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELNAME=%%a
         ECHO %WHEELNAME%
         echo "##vso[task.setvariable variable=WHEELNAMEPATH]%WHEELNAME%"
+        echo %WHEELNAMEPATH%
         pip install %WHEELNAME%
         cd tests
-        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"      
+        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"           
       
       displayName: Install ansys-dpf-core
     
@@ -72,7 +73,7 @@ jobs:
       displayName: 'WHEEL: publish artifacts'
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
-        ArtifactName: $(WHEELNAMEPATH)
+        ArtifactName: 'my_artifacts'
       enabled: true
      
     - script: |
