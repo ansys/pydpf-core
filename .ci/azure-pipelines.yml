@@ -71,7 +71,7 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'WHEEL: publish artifacts'
       inputs:
-        PathtoPublish: $(WHEELNAMEPATH)
+        PathtoPublish: '$(System.DefaultWorkingDirectory)'
         ArtifactName: $(WHEELNAMEPATH)
       enabled: true
      
@@ -97,7 +97,7 @@ jobs:
         downloadDirectory: '$(System.DefaultWorkingDirectory)'
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
-        vstsFeedPackage: 'dpf-windows' #TODO: update hash of packages
+        vstsFeedPackage: 'dpf-windows'
         vstsPackageVersion: '21.2.3'
 
     - script: |
