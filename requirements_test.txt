@@ -1,4 +1,5 @@
 pytest
 pytest-cov
+pytest-rerunfailures
 matplotlib==3.2
 pyvista>=0.24.0
