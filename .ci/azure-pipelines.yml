@@ -97,7 +97,7 @@ jobs:
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd tests=$(System.DefaultWorkingDirectory)
         set AWP_ROOT212=%THISDIR%\server\v212
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
         
       displayName: Test Core API
       
@@ -203,7 +203,7 @@ jobs:
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         cd tests
         export DPF_IP=$(hostname -i)
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml        
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
         export PATH=`pwd`
         echo ${PATH} 
       displayName: Test Core API

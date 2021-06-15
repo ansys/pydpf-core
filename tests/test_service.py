@@ -2,7 +2,6 @@ from ansys import dpf
 from ansys.dpf import core
 import ansys.grpc.dpf
 import os
-import time
 import pathlib
 
 
@@ -29,17 +28,15 @@ def test_loadmeshoperators(allkindofcomplexity):
     
     
 def test_loadplugin():
-    ansys_path = dpf.core.misc.find_ansys()
-    server = dpf.core.start_local_server(as_global=False, ansys_path = ansys_path, load_operators=False)
-    time.sleep(0.01)
     loaded = False
     try:
-        dpf.core.load_library('libAns.Dpf.Math.so', "math", server=server)
+        dpf.core.load_library('libAns.Dpf.Math.so', "math")
         loaded=True
-    except:
+    except Exception as e:
+        print(e.args)
         pass
     try:
-        dpf.core.load_library('Ans.Dpf.Math.dll', "math", server=server)
+        dpf.core.load_library('Ans.Dpf.Math.dll', "math")
         loaded=True
     except Exception as e:
         print(e.args)
@@ -52,7 +49,9 @@ def test_launch_server_not_install():
         path = os.path.join(ansys_path,'aisol','bin','winx64')
     else:
         path = os.path.join(ansys_path,'aisol','bin','linx64')
-        
+    
+    print("trying to launch on ", path)
+    print(os.listdir(path))
     server = dpf.core.start_local_server(as_global=False, ansys_path = path)
     assert 'server_port' in server.info 
 
