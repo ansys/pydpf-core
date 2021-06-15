@@ -4,6 +4,7 @@ pyvista
 imageio>=2.5.0
 imageio-ffmpeg
 Sphinx
+nbsphinx
 sphinx-autobuild
 sphinxcontrib-napoleon
 sphinxcontrib-websupport
