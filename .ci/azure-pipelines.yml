@@ -46,14 +46,6 @@ jobs:
         python .ci/display_test.py
       displayName: Install test offscreen rendering
       
-    - script : |
-        tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-        ECHO %ERRORLEVEL%
-        if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
-      displayName: 'Kill all servers'
-      condition: always()
-      continueOnError: true
-      
     - task: UsePythonVersion@0
       inputs:
         versionSpec: $(python.version)
