@@ -71,7 +71,7 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: 'WHEEL: publish artifacts'
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
         ArtifactName: $(WHEELNAMEPATH)
       enabled: true
      
