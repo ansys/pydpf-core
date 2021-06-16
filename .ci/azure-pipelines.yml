@@ -229,7 +229,6 @@ jobs:
         git remote add origin https://github.com/pyansys/DPF-Core-docs.git
         git push -u origin cbellot/try --force
       displayName: "TESTING: Publish GitHub Pages merge commit"
-      condition: contains(variables['Build.SourceBranch'], 'refs/heads/main')
       workingDirectory: docs\build\html
           
     - template: templates\kill-servers-windows.yml    
