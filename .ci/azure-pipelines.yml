@@ -182,6 +182,7 @@ jobs:
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
+    GH_EMAIL: 'camille.bellot@ansys.com'
   pool:
     vmImage: 'windows-2019'
 
