@@ -6,12 +6,15 @@ import os
 
 def try_load_cff_operators():
     try:
-        dpf.load_library("Ans.Dpf.CFF.dll","cff")
+        dpf.load_library("libAns.Dpf.CFF.so", "cff")
+        print("cff loaded, Linux")
         return True
     except:
         try:
-            dpf.load_library("libAns.Dpf.CFF.so", "cff")
+            dpf.load_library("Ans.Dpf.CFF.dll","cff")
+            print("cff loaded, Windows")
         except: 
+            print("cff failed to load")
             return False
     #TODO: add loading for linux
         
