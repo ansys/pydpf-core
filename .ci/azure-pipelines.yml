@@ -135,6 +135,31 @@ jobs:
         export THISDIR=${SYSTEM_DEFAULTWORKINGDIRECTORY}
         echo ${THISDIR}
         export AWP_ROOT212=${THISDIR}/server/v212
+        
+        export MKL_PATH=${AWP_ROOT212}/tp/IntelMKL/2020.0.166/linx64/lib/intel64
+        export INTEL_COMPILER_PATH=${AWP_ROOT212}/tp/IntelCompiler/2019.3.199/linx64/lib/intel64
+        export LD_LIBRARY_PATH=${INTEL_COMPILER_PATH}:${MKL_PATH}:${AWP_ROOT212}/Framework/bin/Linux64:${AWP_ROOT212}/commonfiles/fluids/lib/linx64:${AWP_ROOT212}/aisol/dll/linx64:${AWP_ROOT212}/aisol/lib/linx64:${AWP_ROOT212}/tp/openssl/1.1.1j/linx64/lib:${AWP_ROOT212}/aisol/bin/linx64:${AWP_ROOT212}/tp/hdf5/1_8_14/linx64/lib:${LD_LIBRARY_PATH}
+        export LD_PRELOAD=${INTEL_COMPILER_PATH}/libiomp5.so:${MKL_PATH}/libmkl_core.so:${MKL_PATH}/libmkl_gnu_thread.so
+        
+        cd ${THISDIR}/server/v212/aisol/dll/linx64
+        echo -----------------------
+        echo "ldd on libAns.Dpf.CFF.so
+        ldd -r libAns.Dpf.CFF.so
+        echo
+        
+        cd ${THISDIR}/server/v212/commonfiles/fluids/lib/linx64
+        echo -----------------------
+        echo "ldd on fluids/lib folder"
+        ldd libansysfl*
+        echo
+        
+      displayName: Overview
+      
+    - script: |
+        echo $0
+        export THISDIR=${SYSTEM_DEFAULTWORKINGDIRECTORY}
+        echo ${THISDIR}
+        export AWP_ROOT212=${THISDIR}/server/v212
         cd ${THISDIR}/server/v212/aisol/bin/linx64
         pwd
         chmod 755 Ans.Dpf.Grpc.sh
