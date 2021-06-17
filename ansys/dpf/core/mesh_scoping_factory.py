@@ -58,7 +58,7 @@ def named_selection_scoping(named_selection_name, model, server = None):
 
     Parameters
     ----------
-    named_selection_name : string
+    named_selection_name : str
     
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When

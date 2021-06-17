@@ -332,7 +332,7 @@ class DpfServer:
         
         Returns
         -------
-        ip : string
+        ip : str
         """
         try:
             return self._base_service.server_info["server_ip"]
@@ -358,7 +358,7 @@ class DpfServer:
         
         Returns
         -------
-        version : string
+        version : str
         """
         return self._base_service.server_info["server_version"]
 

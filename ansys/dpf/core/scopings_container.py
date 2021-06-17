@@ -41,7 +41,7 @@ class ScopingsContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int
+        label_space_or_index : dict[str,int] , int
             Scopings corresponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
 
@@ -58,7 +58,7 @@ class ScopingsContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int
+        label_space_or_index : dict[str,int] , int
             Scopings corresponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
             or Index of the scoping.
@@ -90,7 +90,7 @@ class ScopingsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int]
+        label_space : dict[str,int]
             label_space of the requested scopings, ex : {"elshape":1, "body":12}
 
         scoping : Scoping
