@@ -227,7 +227,7 @@ jobs:
       workingDirectory: docs\build\html
 
     - powershell: |
-        git remote set-url --add origin https://github.com/pyansys/DPF-Core-docs.git
+        git remote add origin git://github.com/pyansys/DPF-Core-docs.git
         git push -u origin $(GH_DOC_BRANCH) --force
       displayName: "Publish GitHub Pages merge commit"
       workingDirectory: docs\build\html
