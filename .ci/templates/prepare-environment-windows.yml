@@ -33,14 +33,7 @@ steps:
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"           
       
       displayName: Install ansys-dpf-core
-    
-    - task: PublishBuildArtifacts@1
-      displayName: 'WHEEL: publish artifacts'
-      inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
-        ArtifactName: 'ansys_dpf_core_wheel'
-      enabled: true
-      
+
     - task: UniversalPackages@0
       inputs:
         command: 'download'
