@@ -188,6 +188,10 @@ jobs:
 
   steps:  
     - template: templates\prepare-environment-windows.yml    
+    - powershell: |
+        git --version 
+        displayName: "Diaplay git version"
+        
     - script: |
           pip install -r requirements_docs.txt
           cd .ci
