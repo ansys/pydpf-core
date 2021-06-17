@@ -22,7 +22,7 @@ def over_time_freq_fields_container(fields, time_freq_unit = None, server = None
     fields : Dictionary(time_int_key : Field) or list of Field
         Dictionary of Field entities to add to the fields container
     
-    time_freq_unit : string , optional
+    time_freq_unit : str , optional
         String that defines the unit symbol of the time_freq_support. Will be taken 
         into account if the fields attribute has a dictionary type.
     
@@ -86,7 +86,7 @@ def over_time_freq_complex_fields_container(real_fields, imaginary_fields, time_
     imaginary_fields : Dictionary(time_int_key : Field) or list of Field
         Dictionary or list of Field entities to add to the fields container
         
-    time_freq_unit : string , optional
+    time_freq_unit : str , optional
         String that defines the unit symbol of the time_freq_support. Will be taken 
         into account if the fields attribute has a dictionary type.
     

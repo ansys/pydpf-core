@@ -164,7 +164,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int] 
+        label_space : dict[str,int] 
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
 
@@ -202,7 +202,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int 
+        label_space_or_index : dict[str,int] , int 
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
             or Index of the field.
@@ -305,7 +305,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int]
+        label_space : dict[str,int]
             label_space of the requested fields, ex : {"time":1, "complex":0}
 
         field : Field
