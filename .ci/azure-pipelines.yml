@@ -143,7 +143,7 @@ jobs:
         
         cd ${THISDIR}/server/v212/aisol/dll/linx64
         echo -----------------------
-        echo "ldd on libAns.Dpf.CFF.so
+        echo "ldd on libAns.Dpf.CFF.so"
         ldd -r libAns.Dpf.CFF.so
         echo
         
