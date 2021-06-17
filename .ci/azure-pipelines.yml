@@ -225,8 +225,6 @@ jobs:
     - powershell: |
         git init
         git checkout -b $(GH_DOC_BRANCH)
-        git config --global credential.helper store
-        ps: Set-Content -Path "$HOME\.git-credentials" -Value "https://$GH_PAT:x-oauth-basic@github.com`n" -NoNewline
         git config --global user.name "pyansys-ci-bot"
         git config --global user.email "$(GH_EMAIL)"
         New-Item -ItemType file .nojekyll
@@ -236,7 +234,7 @@ jobs:
       workingDirectory: docs\build\html
 
     - script: |
-        git remote add origin https://github.com/pyansys/DPF-Core-docs.git
+        git remote add origin https://$(GH_PAT)@github.com/pyansys/DPF-Core-docs
         git push -u origin $(GH_DOC_BRANCH) --force
       displayName: "Publish GitHub Pages merge commit"
       workingDirectory: docs\build\html
