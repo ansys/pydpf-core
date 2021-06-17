@@ -22,6 +22,7 @@ pr:
 
 jobs:
 - job: Windows
+  condition: false
   variables:
     python.version: '3.8'
     DISPLAY: ':99.0'
@@ -96,6 +97,7 @@ jobs:
         pip install -r .ci/requirements_test_xvfb.txt
         python .ci/display_test.py
       displayName: Install and start a virtual framebuffer
+      enabled: false
 
     - script: |
         pip install -r requirements_build.txt
@@ -106,6 +108,7 @@ jobs:
         cd tests
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
+      enabled: false
 
     - task: UniversalPackages@0
       inputs:
@@ -146,6 +149,8 @@ jobs:
         echo ---
         
         cd ${THISDIR}/server/v212/aisol/dll/linx64
+        echo -----------------------
+        ls
         echo -----------------------
         echo "ldd on libAns.Dpf.CFF.so"
         ldd -r libAns.Dpf.CFF.so
@@ -206,6 +211,7 @@ jobs:
 
 
 - job: DocumentationWindows
+  condition: false
   variables:
     python.version: '3.8'
     DISPLAY: ':99.0'
