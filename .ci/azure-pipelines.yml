@@ -144,10 +144,6 @@ jobs:
         export LD_LIBRARY_PATH=${INTEL_COMPILER_PATH}:${MKL_PATH}:${AWP_ROOT212}/Framework/bin/Linux64:${AWP_ROOT212}/commonfiles/fluids/lib/linx64:${AWP_ROOT212}/aisol/dll/linx64:${AWP_ROOT212}/aisol/lib/linx64:${AWP_ROOT212}/tp/openssl/1.1.1j/linx64/lib:${AWP_ROOT212}/aisol/bin/linx64:${AWP_ROOT212}/tp/hdf5/1_8_14/linx64/lib:${LD_LIBRARY_PATH}
         export LD_PRELOAD=${INTEL_COMPILER_PATH}/libiomp5.so:${MKL_PATH}/libmkl_core.so:${MKL_PATH}/libmkl_gnu_thread.so
         
-        echo ---
-        ldd
-        echo ---
-        
         cd ${THISDIR}/server/v212/aisol/dll/linx64
         echo -----------------------
         ls
