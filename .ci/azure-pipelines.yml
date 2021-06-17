@@ -149,7 +149,7 @@ jobs:
         ls
         echo -----------------------
         echo "ldd on libAns.Dpf.CFF.so"
-        ldd -r libAns.Dpf.CFF.so
+        ldd ./libAns.Dpf.CFF.so
         echo
         
         cd ${THISDIR}/server/v212/commonfiles/fluids/lib/linx64
@@ -157,7 +157,7 @@ jobs:
         ls
         echo -----------------------
         echo "ldd on fluids/lib folder"
-        ldd libansysfl*
+        ldd ./libansysfl*
         echo
         
       displayName: Overview
