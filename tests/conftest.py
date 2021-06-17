@@ -131,22 +131,14 @@ def model_with_ns():
     """Resolve the path of the "model_with_ns.rst" result file."""
     return resolve_test_file("model_with_ns.rst","", "multishells_rst")
 
-@pytest.fixture()
-def sub_file():
-    """Resolve the path of the "expansion\msup_cms\2bodies\condensed_geo\cp56\cp56.sub" file.
-    Is in the package. 
-    """
-    return resolve_test_file("cp56.sub", 'expansion\\msup_cms\\2bodies\\condensed_geo\\cp56', 'sub_file')
 
 @pytest.fixture()
 def cff_data_sources():
     """Create a data sources with a cas and a dat file of fluent"""
     ds = core.DataSources()
-    cas = resolve_test_file("FFF.cas.h5","fluent")
-    dat = resolve_test_file("FFF.dat.h5","fluent")
-    print(cas,dat)
-    ds.set_result_file_path(cas,"cas")
-    ds.add_file_path(dat,"dat")
+    files = examples.download_fluent_files()
+    ds.set_result_file_path(files["cas"],"cas")
+    ds.add_file_path(files["dat"],"dat")
     return ds
 
 
