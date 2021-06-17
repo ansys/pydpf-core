@@ -145,12 +145,12 @@ jobs:
         export LD_PRELOAD=${INTEL_COMPILER_PATH}/libiomp5.so:${MKL_PATH}/libmkl_core.so:${MKL_PATH}/libmkl_gnu_thread.so
         
         cd ${THISDIR}/server/v212/aisol/dll/linx64
-        ldd ./libAns.Dpf.Native.so
+        ldd libAns.Dpf.Native.so
         
         echo -----------------------
         ls
         echo -----------------------
-        ldd ./libAns.Dpf.CFF.so
+        ldd libAns.Dpf.CFF.so
         
         echo
         
@@ -158,7 +158,7 @@ jobs:
         echo -----------------------
         ls
         echo -----------------------
-        ldd ./libansysfl*
+        ldd libansysfl*
         
       displayName: Overview
       
