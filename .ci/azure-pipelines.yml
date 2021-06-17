@@ -31,7 +31,14 @@ jobs:
     vmImage: 'windows-2019'
 
   steps:  
-    - template: templates\prepare-environment-windows.yml    
+    - template: templates\prepare-environment-windows.yml   
+        
+    - task: PublishBuildArtifacts@1
+      displayName: 'WHEEL: publish artifacts'
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
+        ArtifactName: 'ansys_dpf_core_wheel'
+      enabled: true
 
     - script: |
         pip install -r requirements_test.txt
@@ -188,10 +195,7 @@ jobs:
 
   steps:  
     - template: templates\prepare-environment-windows.yml    
-    - powershell: |
-        git --version 
-      displayName: "Diaplay git version"
-        
+   
     - script: |
           pip install -r requirements_docs.txt
           cd .ci
@@ -230,7 +234,7 @@ jobs:
       displayName: "Init git and add docs"
       workingDirectory: docs\build\html
 
-    - powershell: |
+    - script: |
         git remote add origin https://github.com/pyansys/DPF-Core-docs.git
         git push -u origin $(GH_DOC_BRANCH) --force
       displayName: "Publish GitHub Pages merge commit"
