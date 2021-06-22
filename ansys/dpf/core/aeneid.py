@@ -1,7 +1,12 @@
+from ansys.dpf.core.server import DpfServer
+from ansys.dpf import core
+from ansys.dpf.core import LOCALHOST
+import weakref
+
 """Aeneid specific functions and classes"""
 
 def start_server_using_service_manager():  # pragma: no cover
-    if dpf.core.module_exists("grpc_interceptor_headers"):
+    if core.module_exists("grpc_interceptor_headers"):
         import grpc_interceptor_headers
         from  grpc_interceptor_headers.header_manipulator_client_interceptor import header_adder_interceptor    
     else:
@@ -18,18 +23,19 @@ def start_server_using_service_manager():  # pragma: no cover
     dpf_service_name = dpf_service['name']
     dpf_url = f"{dpf_service['host']}:{dpf_service['port']}"
 
-    channel = channel = grpc.insecure_channel(dpf_url)
+    channel = grpc.insecure_channel(dpf_url)
     header_adder =  header_adder_interceptor('service-name', dpf_service_name)
     intercept_channel = grpc.intercept_channel(channel, header_adder)
-    dpf.core.CHANNEL = intercept_channel
+    core.SERVER = DpfJob(service_manager_url, dpf_service_name,intercept_channel)
 
-    dpf.core._server_instances.append(DpfJob(service_manager_url, dpf_service_name))
+    core._server_instances.append(weakref.ref(core.SERVER))
 
 
-class DpfJob:  # pragma: no cover
-    def __init__(self, service_manager_url, job_name):
+class DpfJob(DpfServer):
+    def __init__(self, service_manager_url, job_name, channel):
         self.sm_url = service_manager_url
         self.job_name = job_name
+        super().channel = channel
 
     def shutdown(self):
         requests.delete(url=f'{self.sm_url}/jobs/{self.job_name}')

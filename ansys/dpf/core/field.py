@@ -1,32 +1,38 @@
-from functools import wraps
-
+"""
+.. _ref_field:
+    
+Field
+=====
+"""
 import numpy as np
 
 from ansys import dpf
-from ansys.grpc.dpf import (field_pb2, field_pb2_grpc, base_pb2,
-                            field_definition_pb2, field_definition_pb2_grpc)
-from ansys.dpf.core.common import natures, types, locations, ShellLayers
-from ansys.dpf.core import operators_helper, scoping, meshed_region, time_freq_support
+from ansys.grpc.dpf import (field_pb2, field_pb2_grpc, base_pb2)
+from ansys.dpf.core.common import natures, types, locations
+from ansys.dpf.core import scoping, meshed_region, time_freq_support
 from ansys.dpf.core.plotter import Plotter
 from ansys.dpf.core import errors
+from ansys.dpf.core.field_definition import FieldDefinition
+from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
+from ansys.dpf.core.dimensionnality import Dimensionnality
 
-
-class Field:
-    """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
+class Field(_FieldBase):
+    """Class representing the main simulation data container.
+    It can be evaluated data from a ``ansys.dpf.core.Operator``
+    or created (by a factory and directly by an instance of this class).
+    Field's data is always associated to its scoping (entities associated to each value)
+    and support (subset of the model where is the data), 
+    making the field a self-describing piece of data.
 
     Parameters
     ----------
-    channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to
-        the global channel.
-
     nentities : int
-        Number of entities
+        Number of entities reserved
 
-    nature : ansys.dpf.core.natures, optional
+    nature : natures, optional
         Nature of the field.
 
-    location : str optional
+    location : str, optional
         Location of the field.  For example:
 
         - ``"Nodal"``
@@ -35,11 +41,22 @@ class Field:
 
     field : ansys.grpc.dpf.field_pb2.Field, optional
         Field message generated from a grpc stub.
+        
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global server.
 
     Examples
     --------
-    Extract a displacement field from a transient result file.
-
+    >>> # 1. Create a field from scratch
+    >>> from ansys.dpf.core import fields_factory
+    >>> from ansys.dpf.core import locations
+    >>> from ansys.dpf import core as dpf
+    >>> field_with_classic_api = dpf.Field()
+    >>> field_with_classic_api.location = locations.nodal
+    >>> field_with_factory = fields_factory.create_scalar_field(10)
+    
+    >>> # 2. Extract a displacement field from a transient result file.
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
@@ -47,80 +64,80 @@ class Field:
     >>> disp = model.results.displacement()
     >>> fields_container = disp.outputs.fields_container()
     >>> field = fields_container[0]
-    >>> print(field)
-    DPF displacement_0.676628s Field
-        Location:   Nodal
-        Unit:       m
-        Num. id(s): 3820
-        Shape:      (3820, 3)
+    >>> len(field)
+    11460
+    >>> field.component_count
+    3
+    >>> field.elementary_data_count
+    3820
+        
+    >>> # 3. Create a displacement field
+    >>> from ansys.dpf import core as dpf
+    >>> import numpy as np
+    >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+    >>> my_field.data = np.zeros(30)
+    >>> my_field.scoping.ids = range(1,11)
+    
+    >>> # 4. Set data
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = dpf.Model(transient)
+    >>> disp = model.results.displacement()
+    >>> fields_container = disp.outputs.fields_container()
+    >>> field = fields_container[0]
+    >>> field.data[2]
+    array([-0.00672665, -0.03213735,  0.00016716])
+    
     """
-
+    
     def __init__(self, nentities=0, nature=natures.vector,
-                 location=locations.nodal, field=None, channel=None):
+                 location=locations.nodal, field=None, server=None):
         """Initialize the field with either optional field message, or
         by connecting to a stub.
         """
-        if channel is None:
-            channel = dpf.core._global_channel()
-
-        self._channel = channel
-        self._stub = self._connect()
-
-        if field is None:
-            request = field_pb2.FieldRequest()
-            if hasattr(nature, 'name'):
-                snature = nature.name
-            else:
-                snature = nature
-            request.nature = base_pb2.Nature.Value(snature.upper())
-            request.location.location = location
-            request.size.scoping_size = nentities
-            if snature==natures.vector.name:
-                elem_data_size =3
-            elif snature==natures.symmatrix.name:
-                elem_data_size =6
-            else:
-                elem_data_size=1
-            request.size.data_size = nentities*elem_data_size
-            self._message = self._stub.Create(request)
-        else:
-            if isinstance(field, dpf.core.Field):
-                self._message = field._message
-            elif isinstance(field, field_pb2.Field):
-                self._message = field
-            else:
-                raise TypeError(f'Cannot create a field from a "{type(field)}" object')
-
-        self._field_definition = self._load_field_definition()
-
-    @property
-    def size(self):
-        """Number of elements times the number of components"""
-        return self.elementary_data_count*self.component_count
-
-    @property
-    def shape(self):
-        """Numpy-like shape of the field
+        super().__init__(nentities, nature, location, False, field, server)
+        self._field_definition = self._load_field_definition() 
+        
+        
+    def as_local_field(self):
+        """Creates a deep copy of the field locally so that the user can access 
+        and modify it locally without any request sent to the server.
+        This should be used in a with statement, so that the local field
+        is released and the data is sent to the server in one shot.
+        If it's not used in a with statement, the method release_data()
+        should be used to actually update the field.
+        
+        Warning
+        -------
+        If this as_local_field method is not used as a context manager in a 
+        with statement or if the method release_data() is not called,
+        the data will not be actually updated.
+        
+        Returns
+        -------
+        local_field : Field
 
         Examples
         --------
-        Shape of a stress field
-
-        >>> field.shape
-        (5720, 6)
+        >>> from ansys.dpf import core as dpf
+        >>> num_entities = 3
+        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
+        >>> with field_to_local.as_local_field() as f:    
+        ...     for i in range(1,num_entities+1):
+        ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
+        ...         f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]
+        (array([[0.1, 0.2, 0.3],
+               [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+        (array([[0.2, 0.4, 0.6],
+               [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
+        (array([[0.3, 0.6, 0.9],
+               [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
+            
         """
-        if self.component_count != 1:
-            return (self.elementary_data_count, self.component_count)
-        return self.elementary_data_count
-
-    @property
-    def elementary_data_shape(self):
-        """Numpy-like shape of the field"""
-        if self.component_count != 1:
-            return (1, self.component_count)
-        else:
-            return self.component_count
-
+        return _LocalField(self)  
+    
+   
     @property
     def location(self):
         """Return the field location.
@@ -135,23 +152,72 @@ class Field:
         --------
         Location for a stress field evaluated at nodes
 
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_transient_result())
+        >>> s_op = model.results.stress()
+        >>> s_fc = s_op.outputs.fields_container()
+        >>> field = s_fc[0]
         >>> field.location
-        'Nodal'
+        'ElementalNodal'
+        
         """
-        if self._field_definition:
-            return self._field_definition.location
+        if self.field_definition:
+            return self.field_definition.location
+        
+    @location.setter
+    def location(self, value):
+        """Change the field location.
+
+        Parameters
+        -------
+        location : str or locations
+            Location string.  Either ``'Nodal'``, ``'Elemental'``, 
+            ``'ElementalNodal'``...
+
+        Examples
+        --------
+        Location for a field evaluated at nodes
+
+        >>> from ansys.dpf import core as dpf
+        >>> import numpy as np
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.data = np.zeros(30)
+        >>> my_field.scoping.ids = range(1,11)
+        >>> my_field.location
+        'Nodal'
+        >>> my_field.location = dpf.locations.elemental_nodal
+        >>> my_field.location
+        'ElementalNodal'
+        
+        """
+        fielddef = self.field_definition
+        fielddef.location = value
+        self.field_definition = fielddef
 
     @property
     def shell_layers(self):
-        """Return the field shell layers.
+        """Return the field's shell layers order (or lack of shell layers) 
+        that defines how the field's data is ordered.
 
         Returns
         -------
-        Enum
-            dpf.core.common.ShellLayers enum value
+        Enum : shell_layers
         """
-        if self._field_definition:
-            return self._field_definition.shell_layers
+        if self.field_definition:
+            return self.field_definition.shell_layers
+        
+    @shell_layers.setter
+    def shell_layers(self, value):
+        """Change the field's shell layers.
+
+        Parameters
+        -------
+        Enum : shell_layer
+        """
+        fielddef = self.field_definition
+        fielddef.shell_layers = value
+        self.field_definition = fielddef
 
     def to_nodal(self):
         """Convert this field to one with a Nodal location.
@@ -161,8 +227,8 @@ class Field:
 
         Returns
         -------
-        Field
-            Field with ``location=='Nodal'``.
+        nodal_field : Field 
+            with ``location=='Nodal'``.
         """
         if self.location == 'Nodal':
             raise errors.LocationError('Location is already "Nodal"')
@@ -181,8 +247,18 @@ class Field:
         meshed region and plotting the field on top of that.  It is
         more efficient to plot with:
 
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
         >>> mesh = model.metadata.meshed_region
+        >>> disp = model.results.displacement()
+        >>> fields_container = disp.outputs.fields_container()
+        >>> field = fields_container[0]
         >>> mesh.plot(field)
+        [(1.675707321585373, 1.675707321585373, 2.425707321585373),
+         (0.0, 0.0, 0.75),
+         (0.0, 0.0, 1.0)]
 
         Parameters
         ----------
@@ -191,7 +267,7 @@ class Field:
             a static image or or as a dynamic plot outside of the
             notebook.
 
-        shell_layers : core.ShellLayers, optional
+        shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
         """
@@ -221,7 +297,7 @@ class Field:
             request=field_pb2.GetRequest()
             request.field.CopyFrom(self._message)
             out = self._stub.GetFieldDefinition(request)
-            return FieldDefinition(out.field_definition)
+            return FieldDefinition(out.field_definition, self._server)
         except:
             return
 
@@ -229,181 +305,108 @@ class Field:
     def unit(self):
         """Units of the field
 
+        Returns
+        ----------
+        unit : str
+        
         Examples
         --------
-        Units of a stress field
+        Units of a displacement field
 
-        >>> field.unit
-        'Pa'
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.unit = "m"
+        >>> my_field.unit
+        'm'
+        
         """
-        if self._field_definition:
-            return self._field_definition.unit
+        if self.field_definition:
+            return self.field_definition.unit
+        
+    @unit.setter
+    def unit(self, value):
+        """Change the unit of the field
+        
+        Parameters
+        ----------
+        unit : str
 
+        Examples
+        --------
+        Units of a displacement field
+
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.unit = "m"
+        >>> my_field.unit
+        'm'
+        
+        """
+        fielddef = self.field_definition
+        fielddef.unit = value
+        self.field_definition = fielddef
+        
+    @property
+    def dimensionnality(self):
+        """The Dimensionnality represents the shape of an elementary
+        data contains in the Field.
+        
+        Returns
+        -------
+        dimensionnality : Dimensionnality
+            nature and size of the elementary data
+        """
+        if self.field_definition:
+            return self.field_definition.dimensionnality
+        
+    @dimensionnality.setter
+    def dimensionnality(self, value):
+        """
+        Parameters
+        ----------
+        dimensionnality : dpf.core.Dimensionnality
+            nature and size of the elementary data
+        """
+        fielddef = self.field_definition
+        fielddef.dimensionnality = value
+        self.field_definition = fielddef
+        
     @property
     def name(self):
         request = field_pb2.GetRequest()
         request.field.CopyFrom(self._message)
         out = self._stub.GetFieldDefinition(request)
         return out.name
-
-    def get_entity_data(self, index):
-        """Returns the data of the scoping's index in parameter of the
-        field.
-
-        Returns
-        -------
-        data : numpy.array
-        """
-        request = field_pb2.GetElementaryDataRequest()
-        request.field.CopyFrom(self._message)
-        request.index = index
-        list_message = self._stub.GetElementaryData(request, metadata=[(b'float_or_double', b'double')])
-        data = []
-        if list_message.elemdata_containers.data.HasField("datadouble"):
-            data = list_message.elemdata_containers.data.datadouble.rep_double
-        elif list_message.elemdata_containers.data.HasField("dataint"):
-            data = list_message.elemdata_containers.data.dataint.rep_int
-
-        array = np.array(data)
-        if self.component_count !=1:
-            n_comp = self.component_count
-            array = array.reshape((len(data)//n_comp, n_comp))
-
-        return array
-
-    def get_entity_data_by_id(self, id):
-        """Return the data of the scoping's id in parameter of the field.
-
-        Returns
-        -------
-        data : numpy.array
-            Data based on the scoping id.
-        """
-        index = self.scoping.index(id)
-        if index < 0:
-            raise ValueError(f'The id {id} must be greater than 0')
-        return self.get_entity_data(index)
-
-    def set_entity_data(self, data, index, scopingid):
-        """Set entity data.
-
-        Parameters
-        ----------
-        data : list of double or array
-
-        index : int
-            index of the scoping
-
-        scopingid : int
-            id of the scoping
-        """
-        if isinstance(data, (np.ndarray, np.generic)):
-            data = data.reshape(data.size).tolist()
-        request = field_pb2.UpdateDataRequest()
-        request.elemdata_containers.data.datadouble.rep_double.extend(data)
-        request.elemdata_containers.scoping_index = index
-        if scopingid is None:
-            scopingid = self.scoping.id(index)
-
-        request.elemdata_containers.scoping_id = scopingid
-
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateData(request)
-
-    def _set_scoping(self, scoping):
+        
+            
+    def _set_field_definition(self, field_definition):
         """
         Parameters
         ----------
-        scoping : Scoping
+        field_definition : FieldDefinition
         """
-        request = field_pb2.UpdateScopingRequest()
-        request.scoping.CopyFrom(scoping._message)
+        request = field_pb2.UpdateFieldDefinitionRequest()
+        request.field_def.CopyFrom(field_definition._messageDefinition)
         request.field.CopyFrom(self._message)
-        self._stub.UpdateScoping(request)
-
+        self._stub.UpdateFieldDefinition(request)
+           
     @property
-    def data(self):
-        """The data of this field.
-
-        Returns
-        -------
-        data : numpy.ndarray
-            Data of this field.
-
-        Examples
-        --------
-        >>> field.data
-        array([0.00000000e+00, 6.21536180e+02, 1.01791331e+03,
-               8.09503532e+02, 9.04515762e+01, 9.59176333e+02,
-               ...
-               1.00709302e+03, 1.03186142e+03, 1.76060480e+03,
-               1.51723816e+06, 1.28246347e+06, 1.39214534e+06])
+    def field_definition(self):
+        """The field definition defines what is the field: its location, unit, dimensionnality, shell layers...
         """
-        request = field_pb2.ListRequest()
-        request.field.CopyFrom(self._message)
-        if self._message.datatype == u"int":
-            data_type = u"int"
-            dtype = np.int32
-        else:
-            data_type = u"double"
-            dtype = np.float
-        service = self._stub.List(request, metadata=[(u"float_or_double", data_type)])
-        tupleMetaData = service.initial_metadata()
-        for iMeta in range(len(tupleMetaData)):
-            if tupleMetaData[iMeta].key == u"size_tot":
-                size = int(tupleMetaData[iMeta].value)
-
-        ncomp = self.component_count
-        itemsize = np.dtype(dtype).itemsize
-        arr = np.empty(size//itemsize, dtype)
-        i = 0
-        for chunk in service:
-            curr_size = len(chunk.array)//itemsize
-            arr[i:i + curr_size] = np.frombuffer(chunk.array, dtype)
-            i += curr_size
-
-        if ncomp != 1:
-            arr = arr.reshape(self.shape)
-
-        return arr
-
-    @data.setter
-    def data(self, data):
-        """Set the data of the field.
+        return self._field_definition
+    
+    
+    @field_definition.setter
+    def field_definition(self, value):
+        """The field definition defines what is the field: its location, unit, dimensionnality, shell layers...
 
         Parameters
         ----------
-        data : list of double or array
+        field_definition : FieldDefinition
         """
-        if isinstance(data,  (np.ndarray, np.generic)):
-            if data.shape !=  self.shape and data.size != self.size:
-                raise ValueError(f'An array of shape {self.shape} is expected and shape {data.shape} is in input')
-            else:
-                data = data.reshape(data.size).tolist()
-        request = field_pb2.UpdateDataRequest()
-        request.data_containers.data.datadouble.rep_double.extend(data)
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateData(request)
-
-    @property
-    def elementary_data_count(self):
-        """Number of elementary data in the field"""
-        request = field_pb2.CountRequest()
-        request.entity = base_pb2.NUM_ELEMENTARY_DATA
-        request.field.CopyFrom(self._message)
-        return self._stub.Count(request).count
-
-    def _get_scoping(self):
-        """
-        Returns
-        -------
-        scoping : Scoping
-        """
-        request = field_pb2.GetRequest()
-        request.field.CopyFrom(self._message)
-        message = self._stub.GetScoping(request)
-        return scoping.Scoping(scoping=message.scoping)
-
+        return self._set_field_definition(value)
+    
     def _get_meshed_region(self):
         """
         Returns
@@ -415,7 +418,7 @@ class Field:
         request.type = base_pb2.Type.Value("MESHED_REGION")
         try:
             message = self._stub.GetSupport(request)
-            return meshed_region.MeshedRegion(mesh=message)
+            return meshed_region.MeshedRegion(mesh=message, server = self._server)
         except:
             raise RuntimeError("The field's support is not a mesh.  Try a time_freq_support.")
 
@@ -430,87 +433,143 @@ class Field:
         request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
         try:
             message = self._stub.GetSupport(request)
-            return time_freq_support.TimeFreqSupport(time_freq_support=message)
+            return time_freq_support.TimeFreqSupport(time_freq_support=message, server = self._server)
         except:
             raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
+            
+    def _set_support(self, support, support_type: str):
+        """
+        Set field support as time_freq_support or meshed_region.
+        """
+        request = field_pb2.SetSupportRequest()
+        request.field.CopyFrom(self._message)
+        request.support.type = base_pb2.Type.Value(support_type)
+        request.support.id = support._message.id
+        self._stub.SetSupport(request)
 
     @property
     def time_freq_support(self):
-        return self._get_time_freq_support()
-
-    @property
-    def meshed_region(self):
-        return self._get_meshed_region()
-
-    # TODO: Consider making this private or just using the ndim property
-    @property
-    def component_count(self):
         """
+        Time_freq_support of the associated field.
+        
         Returns
         -------
-        ncomp : int
-            Number of component of the each elementary data
+        time_freq_support : TimeFreqSupport
+            Describe the time frequency support of the field. 
         """
-        request = field_pb2.CountRequest()
-        request.entity = base_pb2.NUM_COMPONENT
-        request.field.CopyFrom(self._message)
-        return self._stub.Count(request).count
+        return self._get_time_freq_support()
+    
+    @time_freq_support.setter
+    def time_freq_support(self, value):
+        """
+        Set the time_freq_support of the associated field.
+        
+        Parameters
+        ----------
+        time_freq_support : TimeFreqSupport
+            Describe the time frequency support of the field. 
+        """
+        self._set_support(value, "TIME_FREQ_SUPPORT")
+        
+    @property
+    def meshed_region(self):
+        """
+        Meshed_region of the associated field.
+        
+        Return
+        ------
+        meshed_region : MeshedRegion
+            Describe the mesh support of the field. 
+        """
+        return self._get_meshed_region()
+    
+    @meshed_region.setter
+    def meshed_region(self, value):
+        """
+        Set the meshed_region of the associated field.
+        
+        Parameters
+        ----------
+        meshed_region : MeshedRegion
+            Describe the mesh support of the field. 
+        """
+        self._set_support(value, "MESHED_REGION")
 
     def __add__(self, field_b):
-        """Adds two fields together"""
-        return dpf.core.operators_helper.add(self, field_b)
+        """Adds two fields together
+                
+        Returns
+        -------
+        add : operators.math.add
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "add") :
+            op= operators.math.add()
+        else :
+            op= dpf_operator.Operator("add")
+        op.connect(0,self)        
+        op.connect(1, field_b)
+        return op
 
     def __pow__(self, value):
         if value != 2:
             raise ValueError('DPF only the value is "2" suppported')
-        return dpf.core.operators_helper.sqr(self)
-
-    def _del_scoping(self, scope):
-        scope.__del__()
-
-    def __del__(self):
-        try:
-            self._stub.Delete(self._message)
-        except:
-            pass
-
-    def _connect(self):
-        """Connect to the grpc service"""
-        return field_pb2_grpc.FieldServiceStub(self._channel)
-
-    # TODO: Consider writing out setters and getters
-    scoping = property(_get_scoping, _set_scoping, _del_scoping, "scoping")
-
-    @property
-    def ndim(self):
-        return self.component_count
-
-    def __str__(self):
-        txt = f'DPF {self.name} Field\n'
-        txt += f'    Location:   {self.location}\n'
-        txt += f'    Unit:       {self.unit}\n'
-        txt += f'    Num. id(s): {self.scoping.size}\n'
-        txt += f'    Shape:      {self.shape}\n'
-        try:
-            if self.size == 1:
-                txt += f'\tValue: {self.data[0]}\n'
-        except:
-            pass
-        return txt
-
-    def __len__(self):
-        return self.size
-
-    @wraps(operators_helper.min_max)
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "sqr") :
+            op= operators.math.sqr(self)
+        else :
+            op= dpf_operator.Operator("sqr")
+            op.connect(0,self)        
+        return op
+    
+    def __mul__(self, value):
+        """Multiplies two fields together
+        
+        Returns
+        -------
+        mul : operators.math.generalized_inner_product
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "generalized_inner_product") :
+            op= operators.math.generalized_inner_product()
+        else :
+            op= dpf_operator.Operator("generalized_inner_product")
+        op.connect(0,self)        
+        op.connect(1, value)
+        return op
+    
+    def __sub__(self, fields_b):
+        """Subtract two fields together
+                
+        Returns
+        -------
+        minus : operators.math.minus
+        """
+        from ansys.dpf.core import dpf_operator
+        from ansys.dpf.core import operators
+        if hasattr(operators, "math") and  hasattr(operators.math, "minus") :
+            op= operators.math.minus()
+        else :
+            op= dpf_operator.Operator("minus")
+        op.connect(0,self)        
+        op.connect(1, fields_b)
+        return op
+    
     def _min_max(self):
-        return operators_helper.min_max(self)
+        from ansys.dpf.core import dpf_operator
+        op = dpf_operator.Operator("min_max")
+        op.connect(0, self)
+        return op
 
     def min(self):
         """Component-wise minimum over this field
 
         Returns
         -------
-        min : ansys.dpf.core.Field
+        min : Field
             Component-wise minimum field.
         """
         return self._min_max().get_output(0, types.field)
@@ -520,42 +579,86 @@ class Field:
 
         Returns
         -------
-        max : ansys.dpf.core.Field
+        max : Field
             Component-wise maximum field.
         """
         return self._min_max().get_output(1, types.field)
-
-
-class FieldDefinition:
-    """Represent a Field definition"""
-
-    def __init__(self, field_definition=None, channel=None):
-        if channel is None:
-            channel = dpf.core._global_channel()
-
-        self._messageDefinition = field_definition
-        self._stub = self._connect(channel)
-
-    @property
-    def location(self):
-        out = self._stub.List(self._messageDefinition)
-        return out.location.location
-
-    @property
-    def unit(self):
-        return self._stub.List(self._messageDefinition).unit.symbol
-
-    @property
-    def shell_layers(self):
-        enum_val = self._stub.List(self._messageDefinition).shell_layers
-        return ShellLayers(enum_val)
-
-    def __del__(self):
+    
+    def deep_copy(self,server=None):
+        """Creates a deep copy of the field's data on a given server.
+        This can be useful to pass data from one server instance to another.
+        
+        Parameters
+        ----------
+        server : DPFServer, optional
+        
+        Returns
+        -------
+        field_copy : Field
+        
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = dpf.Model(transient)
+        >>> disp = model.results.displacement()
+        >>> fields_container = disp.outputs.fields_container()
+        >>> field = fields_container[0]
+        >>> other_server = dpf.start_local_server(as_global=False)
+        >>> deep_copy = field.deep_copy(server=other_server)
+        
+        """            
+        f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionnality.nature, server=server)
+        f.scoping = self.scoping.deep_copy(server)
+        f.data = self.data
+        f.unit = self.unit
+        f.location = self.location
+       
         try:
-            self._stub.Delete(self._messageDefinition)
+            f._data_pointer = self._data_pointer
         except:
             pass
+        try:
+            f.meshed_region = self.meshed_region.deep_copy(server=server)
+        except:
+            pass
+        try:
+            f.time_freq_support = self.time_freq_support.deep_copy(server=server)
+        except:
+            pass
+        
+        return f
+        
+class _LocalField(_LocalFieldBase,Field):
+    """Class only created by a field to cache the internal data of the field,
+    modify it locallly, and send a single update request to the server 
+    when the local field is deleted
+    
+    Parameters
+    ----------
+    field : Field
+        field to copy
+        
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> import numpy as np
+    >>> num_entities = 3
+    >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
+    >>> with field_to_local.as_local_field() as f:    
+    ...     for i in range(1,num_entities+1):
+    ...         f.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)
+    ...         f.get_entity_data(i-1),[[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]
+    (array([[0.1, 0.2, 0.3],
+           [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+    (array([[0.2, 0.4, 0.6],
+           [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
+    (array([[0.3, 0.6, 0.9],
+           [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
-    def _connect(self, channel):
-        """Connect to the grpc service"""
-        return field_definition_pb2_grpc.FieldDefinitionServiceStub(channel)
+    """
+    
+    def __init__(self, field):
+        super().__init__(field)
+        

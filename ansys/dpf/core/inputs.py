@@ -1,6 +1,7 @@
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_cpp, map_types_to_python
-
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import _Outputs, Output
+from ansys.dpf import core
 
 class Input:
     def __init__(self, spec, pin, operator, count_ellipsis=-1):
@@ -10,7 +11,9 @@ class Input:
         self._count_ellipsis = count_ellipsis
         self._python_expected_types = []
         for cpp_type in self._spec.type_names:
-            self._python_expected_types.append(map_types_to_python[cpp_type])
+            python_type =map_types_to_python[cpp_type]
+            if python_type not in self._python_expected_types:
+                self._python_expected_types.append(map_types_to_python[cpp_type])
         if len(self._spec.type_names) == 0:
             self._python_expected_types.append("Any")
         docstr = self.__str__()
@@ -26,13 +29,19 @@ class Input:
         Parameters
         ----------
         inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
-
-        MeshedRegion, Output, Outputs
+        MeshedRegion, Output, Outputs, Operator
             input of the operator
         """
         # always convert ranges to lists
         if isinstance(inpt, range):
             inpt = list(inpt)
+        elif isinstance(inpt, core.Operator):
+            if hasattr(inpt, "outputs"):
+                inpt = inpt.outputs
+            else:
+                raise ValueError("The operator to connect in input has no outputs available, it cannot be connected")
+        elif isinstance(inpt, core.Model):
+            inpt = inpt.metadata.data_sources
 
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
@@ -42,7 +51,6 @@ class Input:
             return
 
         corresponding_pins = []
-
         self._operator._find_outputs_corresponding_pins(self._python_expected_types, inpt, self._pin, corresponding_pins)
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the pin with:\n"
@@ -54,17 +62,17 @@ class Input:
             err_str = f"The input operator for the {self._spec.name} pin be one of the following types:\n"
             err_str += '\n'.join([f'- {py_type}' for py_type in self._python_expected_types])
             raise TypeError(err_str)
-
-        if input_type_name not in ["Outputs", "Output"]:
-            self._operator.connect(self._pin, inpt)
-            self._operator.inputs._connected_inputs[self._pin] = inpt
-        elif input_type_name == "Output":
+            
+        if isinstance(inpt, _Outputs):
+            self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
+            self._operator.inputs._connected_inputs[self._pin] = {corresponding_pins[0][1]: inpt._operator}
+        elif isinstance(inpt, Output):
             self._operator.connect(self._pin, inpt._operator, inpt._pin)
             self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
         else:
-            self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
-            self._operator.inputs._connected_inputs[self._pin] = {corresponding_pins[0][1]: inpt._operator}
-
+            self._operator.connect(self._pin, inpt)
+            self._operator.inputs._connected_inputs[self._pin] = inpt
+        
         self.__inc_if_ellipsis()
 
     def __call__(self, inpt):
@@ -92,42 +100,18 @@ class Input:
     def __inc_if_ellipsis(self):
         if self._count_ellipsis >=0:
             self._count_ellipsis+=1
-            if isinstance(self._operator.inputs, Inputs):
+            if isinstance(self._operator.inputs, _Inputs):
                 self._operator.inputs._add_input(self._pin + self._count_ellipsis, self._spec, self._count_ellipsis)
 
 
-class Inputs:
+class _Inputs:
     def __init__(self, dict_inputs, operator):
         self._dict_inputs = dict_inputs
         self._operator = operator
         self._inputs = []
         self._connected_inputs = {}
-        self._python_expected_types_by_pin = {}
-
-        # dynamically populate input attributes
-        for pin, spec in self._dict_inputs.items():
-            if spec.ellipsis:
-                self._add_input(pin, spec, 0)
-            else:
-                self._add_input(pin, spec)
-
-    def _add_input(self, pin, spec, count_ellipsis=-1):
-        if spec is not None:
-            class_input = Input(spec, pin, self._operator,count_ellipsis)
-            class_input.__doc__ = spec.name
-            if not hasattr(self, class_input.name):
-                setattr(self, class_input.name, class_input)
-            else:
-                setattr(self, '_' + class_input.name, class_input)
-            self._inputs.append(class_input)
-
-            python_types=[]
-            for cpp_type in spec.type_names:
-                python_types.append(map_types_to_python[cpp_type])
-            if len(spec.type_names) == 0:
-                python_types.append("Any")
-            self._python_expected_types_by_pin[pin]=python_types
-
+        
+        
     def __str__(self):
         docstr = 'Available inputs:\n'
         for inp in self._inputs:
@@ -150,15 +134,21 @@ class Inputs:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
-        MeshedRegion, Output, Outputs
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, ScopingsContainer, CyclicSupport, ..., Output, Outputs, Operator
             input of the operator
         """
         corresponding_pins = []
+        if isinstance(inpt, core.Operator):
+            if hasattr(inpt, "outputs"):
+                inpt = inpt.outputs
+            else:
+                raise ValueError("The operator to connect in input has no outputs available, it cannot be connected")
+        elif isinstance(inpt, core.Model):
+            inpt = inpt.metadata.data_sources
+            
         input_type_name = type(inpt).__name__
-        for pin in self._python_expected_types_by_pin:
-            self._operator._find_outputs_corresponding_pins(self._python_expected_types_by_pin[pin], inpt, pin, corresponding_pins)
-
+        for input_pin in self._inputs:
+            self._operator._find_outputs_corresponding_pins(input_pin._python_expected_types, inpt, input_pin._pin, corresponding_pins)
         if len(corresponding_pins) > 1:
             err_str = "Pin connection is ambiguous, specify the pin with:\n"
             for pin in corresponding_pins:
@@ -174,7 +164,7 @@ class Inputs:
                     err_str += f"   - {map_types_to_python[cpp_type]}\n"
             raise TypeError(err_str)
 
-        if input_type_name != "Outputs" and input_type_name != "Output":
+        if not isinstance(inpt,_Outputs) and not isinstance(inpt,Output):
             self._operator.connect(corresponding_pins[0], inpt)
             self._connected_inputs[corresponding_pins[0]] = inpt
         elif input_type_name == "Output":
@@ -183,6 +173,31 @@ class Inputs:
         else:
             self._operator.connect(corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1])
             self._connected_inputs[corresponding_pins[0][0]]={corresponding_pins[0][1]: inpt._operator}
+                
+
+    def _add_input(self, pin, spec, count_ellipsis=-1):
+        if spec is not None:
+            class_input = Input(spec, pin, self._operator,count_ellipsis)
+            class_input.__doc__ = spec.name
+            if not hasattr(self, class_input.name):
+                setattr(self, class_input.name, class_input)
+            else:
+                setattr(self, '_' + class_input.name, class_input)
+            self._inputs.append(class_input)
             
     def __call__(self, inpt):
         self.connect(inpt)
+
+#Dynamic class Inputs       
+class Inputs(_Inputs):
+    def __init__(self, dict_inputs, operator):
+        super().__init__(dict_inputs, operator)
+        
+        # dynamically populate input attributes
+        for pin, spec in self._dict_inputs.items():
+            if spec.ellipsis:
+                self._add_input(pin, spec, 0)
+            else:
+                self._add_input(pin, spec)
+
+    

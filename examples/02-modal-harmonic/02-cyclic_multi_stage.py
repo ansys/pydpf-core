@@ -24,17 +24,20 @@ print(model)
 # nodes and the first time step.
 
 # Create displacement cyclic operator
-UCyc = model.operator("mapdl::rst::U_cyclic")
+UCyc = model.results.displacement()
+UCyc.inputs.read_cyclic(2)
 
 # expand the displacements and get a total deformation
 nrm = dpf.Operator("norm_fc")
 nrm.inputs.connect(UCyc.outputs)
 fields = nrm.outputs.fields_container()
 
-# get the expanded mesh
-mesh = UCyc.outputs.expanded_meshed_region.get_data()
+# # get the expanded mesh
+mesh_provider = model.metadata.mesh_provider
+mesh_provider.inputs.read_cyclic(2)
+mesh = mesh_provider.outputs.mesh()
 
-# plot the expanded result on the expanded mesh
+# # plot the expanded result on the expanded mesh
 mesh.plot(fields)
 
 ###############################################################################
@@ -42,16 +45,13 @@ mesh.plot(fields)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 3
-SCyc = model.operator("mapdl::rst::S_cyclic")
+SCyc = model.results.stress()
+SCyc.inputs.read_cyclic(2)
 SCyc.inputs.time_scoping.connect([3])
 
 # request the results averaged on the nodes
 SCyc.inputs.requested_location.connect("Nodal")
 
-# connect the base mesh and the expanded mesh, to avoid rexpanding the
-# mesh
-SCyc.inputs.sector_mesh.connect(model.metadata.meshed_region)
-SCyc.inputs.expanded_meshed_region.connect(mesh)
 
 # request equivalent von mises operator and connect it to stress
 # operator
