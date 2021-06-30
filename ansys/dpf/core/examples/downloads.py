@@ -316,7 +316,7 @@ def download_extrapolation_3d_result() -> dict:
     Returns
     -------
     dict
-        containting path to the example file of ref and path to the example file of integrated points.
+        containing path to the example file of ref and path to the example file of integrated points.
 
     Examples
     --------
@@ -341,7 +341,7 @@ def download_extrapolation_2d_result() -> dict:
     Returns
     -------
     dict
-        containting path to the example file of ref and path to the example file of integrated points.
+        containing path to the example file of ref and path to the example file of integrated points.
 
      Examples
     --------
