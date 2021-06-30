@@ -37,7 +37,7 @@ data_sources_ref = dpf.DataSources(dataSourceref)
 model = dpf.Model(data_integration_points)
 mesh = model.metadata.meshed_region
 
-#operator instanciation scoping
+#operator instantiation scoping
 op_scoping = dpf.operators.scoping.splitted_on_property_type() # operator instanciation
 op_scoping.inputs.mesh.connect(mesh)
 op_scoping.inputs.requested_location.connect("Elemental")
