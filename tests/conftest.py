@@ -156,7 +156,7 @@ def engineering_data_sources():
     ds.add_file_path(resolve_test_file("ds.dat","engineeringData"),"dat")
     return ds
 
-local_server=core.start_local_server(as_global = False)
+local_server = core.start_local_server(as_global=False)
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
