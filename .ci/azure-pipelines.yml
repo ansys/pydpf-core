@@ -17,8 +17,10 @@ trigger:
 
 pr:
   branches:
-    exclude:
+    include:
     - '*'
+    exclude:
+    - '*no-ci*'
 
 jobs:
 - job: Windows
