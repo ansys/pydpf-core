@@ -32,8 +32,15 @@ jobs:
     vmImage: 'windows-2019'
 
   steps:
+   - powershell: |
+        Set-StrictMode -Version Latest
+        $ErrorActionPreference = "Stop"
+        $PSDefaultParameterValues['*:ErrorAction']='Stop'
+        git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+        powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      displayName: 'Install OpenGL'
+  
     - powershell: |
-        powershell .ci/install_opengl.ps1
         .ci/setup_headless_display.sh
         pip install -r .ci/requirements_test_xvfb.txt
         python .ci/display_test.py
