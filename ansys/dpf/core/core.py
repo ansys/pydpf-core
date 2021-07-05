@@ -51,7 +51,7 @@ class BaseService():
             self._load_native_operators()
             self._load_mapdl_operators()
             self._load_mesh_operators()
-            self._load_math_operators()
+            #self._load_math_operators()
 
     def _connect(self, timeout=5):
         """Connect to dpf service within a given timeout"""
