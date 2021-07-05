@@ -15,6 +15,7 @@ jobs:
       DPF_START_SERVER: FALSE
       DPF_DOCKER: True
       PYANSYS_OFF_SCREEN: True
+      MPLBACKEND: 'TKAgg'
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
