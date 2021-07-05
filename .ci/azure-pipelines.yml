@@ -38,7 +38,7 @@ jobs:
         $PSDefaultParameterValues['*:ErrorAction']='Stop'
         git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
         powershell gl-ci-helpers/appveyor/install_opengl.ps1
-      displayName: 'Install OpenGL'
+      displayName: Install OpenGL
   
     - powershell: |
         .ci/setup_headless_display.sh
