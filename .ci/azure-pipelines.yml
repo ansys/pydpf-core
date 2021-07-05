@@ -17,7 +17,7 @@ trigger:
 
 pr:
   branches:
-    include:
+    exclude:
     - '*'
 
 jobs:
