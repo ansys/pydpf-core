@@ -59,7 +59,9 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install --find-links=dist ansys_dpf_core
+        FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
+        ECHO %WHEELPATH% 
+        pip install %WHEELPATH%
         cd tests
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
       displayName: Install ansys-dpf-core
@@ -125,7 +127,9 @@ jobs:
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
-        pip install --find-links=dist ansys_dpf_core
+        export WHEELNAME=`ls dist/*.whl`
+        echo ${WHEELNAME}
+        pip install ${WHEELNAME}
         cd tests
         python -c "from ansys.dpf import core; print(core.Report())"
       displayName: Install ansys-dpf-core
