@@ -51,14 +51,15 @@ Create the data sources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 First create a data sources with one result file by domain
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-27
+.. GENERATED FROM PYTHON SOURCE LINES 22-28
 
 .. code-block:: default
 
 
+    distributed_file_path =  examples.download_distributed_files()
     data_sources = dpf.DataSources()
-    data_sources.set_domain_result_file_path(examples.distributed_0, 0)
-    data_sources.set_domain_result_file_path(examples.distributed_1, 1)
+    data_sources.set_domain_result_file_path(distributed_file_path[0], 0)
+    data_sources.set_domain_result_file_path(distributed_file_path[1], 1)
 
 
 
@@ -67,7 +68,7 @@ First create a data sources with one result file by domain
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-35
+.. GENERATED FROM PYTHON SOURCE LINES 29-36
 
 Compute displacements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,7 +78,7 @@ DPF reads parts of the result on each domain and remerge the results in
 the outputs fields. The output will have no difference when using combined 
 or distributed files
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-44
+.. GENERATED FROM PYTHON SOURCE LINES 36-45
 
 .. code-block:: default
 
@@ -136,12 +137,12 @@ or distributed files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-47
+.. GENERATED FROM PYTHON SOURCE LINES 46-48
 
 Compute stress eqv
 ~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-54
+.. GENERATED FROM PYTHON SOURCE LINES 48-55
 
 .. code-block:: default
 
@@ -201,7 +202,7 @@ Compute stress eqv
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.211 seconds)
+   **Total running time of the script:** ( 0 minutes  6.688 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_05-read_distributed_files.py:

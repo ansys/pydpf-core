@@ -11,7 +11,7 @@ from ansys.dpf.core.common import types
 
 class MeshesContainer(Collection):
     """A class used to represent a MeshesContainer which contains
-    meshes splitted on a given space
+    meshes split on a given space
 
     Parameters
     ----------
@@ -41,8 +41,8 @@ class MeshesContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int] 
-            Meshes correponding to the filter (label space) in input, for example:
+        label_space : dict[str,int] 
+            Meshes corresponding to the filter (label space) in input, for example:
             ``{"elshape":1, "body":12}``
 
         Returns
@@ -58,7 +58,7 @@ class MeshesContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int 
+        label_space_or_index : dict[str,int] , int 
             Scoping of the requested mesh, for example:
             ``{"time": 1, "complex": 0}``
             or Index of the mesh.
@@ -90,7 +90,7 @@ class MeshesContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int]
+        label_space : dict[str,int]
             label_space of the requested meshes, ex : {"elshape":1, "body":12}
 
         mesh : MeshedRegion

@@ -22,7 +22,7 @@ def over_time_freq_fields_container(fields, time_freq_unit = None, server = None
     fields : Dictionary(time_int_key : Field) or list of Field
         Dictionary of Field entities to add to the fields container
     
-    time_freq_unit : string , optional
+    time_freq_unit : str , optional
         String that defines the unit symbol of the time_freq_support. Will be taken 
         into account if the fields attribute has a dictionary type.
     
@@ -86,7 +86,7 @@ def over_time_freq_complex_fields_container(real_fields, imaginary_fields, time_
     imaginary_fields : Dictionary(time_int_key : Field) or list of Field
         Dictionary or list of Field entities to add to the fields container
         
-    time_freq_unit : string , optional
+    time_freq_unit : str , optional
         String that defines the unit symbol of the time_freq_support. Will be taken 
         into account if the fields attribute has a dictionary type.
     
@@ -159,10 +159,10 @@ def complex_fields_container(real_field, imaginary_field, server = None):
     Parameters
     ----------
     real_fields : Field
-        Real ansys.dpf.core.Field entitie to add to the fields container
+        Real ansys.dpf.core.Field entity to add to the fields container
         
     imaginary_fields : Field
-        Imaginary ansys.dpf.core.Field entitie to add to the fields container
+        Imaginary ansys.dpf.core.Field entity to add to the fields container
     
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When

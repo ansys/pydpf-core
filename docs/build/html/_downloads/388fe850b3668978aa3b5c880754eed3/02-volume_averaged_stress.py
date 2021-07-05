@@ -14,7 +14,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Create a model targetting a given result file.
+# Create a model targeting a given result file.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The model will give an easy access to the mesh, time_freq_support ...
 
@@ -26,7 +26,7 @@ mesh = model.metadata.meshed_region
 volume_check = 4.0e-11
 
 
-# get the all the node ids in the model to find the minimum amout of 
+# get the all the node ids in the model to find the minimum amount of 
 # surrounding elements to get a minimum volume
 nodes = mesh.nodes.scoping
 nodes_ids = nodes.ids

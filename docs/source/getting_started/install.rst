@@ -29,8 +29,8 @@ development flag.
 
 .. code::
 
-    git clone https://github.com/pyansys/DPF-Core
-    cd DPF-Core
+    git clone https://tfs.ansys.com:8443/tfs/ANSYS_Development/DPF/_git/dpf-python-core
+    cd dpf-python-core
     pip install -e .
 
 
@@ -42,6 +42,6 @@ To install all dpf python modules and requirements from the Ansys internal pypi,
 
 .. code::
 
-	pip install ansys-dpf-core --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
+	pip install ansys-dpf-core
 
 

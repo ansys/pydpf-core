@@ -20,9 +20,10 @@ from ansys.dpf.core import operators as ops
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # First create a data sources with one result file by domain
 
+distributed_file_path =  examples.download_distributed_files()
 data_sources = dpf.DataSources()
-data_sources.set_domain_result_file_path(examples.distributed_0, 0)
-data_sources.set_domain_result_file_path(examples.distributed_1, 1)
+data_sources.set_domain_result_file_path(distributed_file_path[0], 0)
+data_sources.set_domain_result_file_path(distributed_file_path[1], 1)
 
 ###############################################################################
 # Compute displacements

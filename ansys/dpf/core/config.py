@@ -12,7 +12,7 @@ from ansys.dpf.core.errors import protect_grpc
 
 class Config:
     """A class used to represent an operator's configuration.
-        With configurations the user can optionnaly choose how the operator will run.
+        With configurations the user can optionally choose how the operator will run.
         This is an advanced feature used for deep customization. 
         The different options can change the way loops are done, 
         it can change whether the operator needs to make check on the input or not...

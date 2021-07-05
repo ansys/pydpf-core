@@ -17,7 +17,12 @@ from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.dimensionnality import Dimensionnality
 
 class Field(_FieldBase):
-    """Class representing evaluated data from a ``ansys.dpf.core.Operator``.
+    """Class representing the main simulation data container.
+    It can be evaluated data from a ``ansys.dpf.core.Operator``
+    or created (by a factory and directly by an instance of this class).
+    Field's data is always associated to its scoping (entities associated to each value)
+    and support (subset of the model where is the data), 
+    making the field a self-describing piece of data.
 
     Parameters
     ----------
@@ -105,7 +110,7 @@ class Field(_FieldBase):
         
         Warning
         -------
-        If this as_local_field metod is not used as a context manager in a 
+        If this as_local_field method is not used as a context manager in a 
         with statement or if the method release_data() is not called,
         the data will not be actually updated.
         
@@ -413,7 +418,7 @@ class Field(_FieldBase):
         request.type = base_pb2.Type.Value("MESHED_REGION")
         try:
             message = self._stub.GetSupport(request)
-            return meshed_region.MeshedRegion(mesh=message)
+            return meshed_region.MeshedRegion(mesh=message, server = self._server)
         except:
             raise RuntimeError("The field's support is not a mesh.  Try a time_freq_support.")
 
@@ -428,7 +433,7 @@ class Field(_FieldBase):
         request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
         try:
             message = self._stub.GetSupport(request)
-            return time_freq_support.TimeFreqSupport(time_freq_support=message)
+            return time_freq_support.TimeFreqSupport(time_freq_support=message, server = self._server)
         except:
             raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
             
@@ -537,7 +542,7 @@ class Field(_FieldBase):
         return op
     
     def __sub__(self, fields_b):
-        """Substract two fields together
+        """Subtract two fields together
                 
         Returns
         -------
@@ -581,7 +586,7 @@ class Field(_FieldBase):
     
     def deep_copy(self,server=None):
         """Creates a deep copy of the field's data on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         
         Parameters
         ----------
@@ -603,7 +608,7 @@ class Field(_FieldBase):
         >>> other_server = dpf.start_local_server(as_global=False)
         >>> deep_copy = field.deep_copy(server=other_server)
         
-        """
+        """            
         f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionnality.nature, server=server)
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
@@ -622,6 +627,7 @@ class Field(_FieldBase):
             f.time_freq_support = self.time_freq_support.deep_copy(server=server)
         except:
             pass
+        
         return f
         
 class _LocalField(_LocalFieldBase,Field):

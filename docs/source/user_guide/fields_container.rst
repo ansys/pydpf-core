@@ -120,7 +120,7 @@ to the ``get_field_by_time_id`` method:
 .. code-block:: python
 
     model = dpf.Model(examples.download_all_kinds_of_complexity())
-    epel = model.results.elastic_strain.on_all_time_freqs.splitted_by_shape
+    epel = model.results.elastic_strain.on_all_time_freqs.split_by_shape
     fields = epel.eval()
     field = fields.get_field({'time': 1, 'elshape':0})
     print(field)

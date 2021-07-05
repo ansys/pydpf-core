@@ -78,8 +78,8 @@ particular operator can be viewed by printing the operator:
     DPF U Operator: 
       Read/compute nodal displacements by calling the readers defined by the datasources. 
       Inputs:
-             time_scoping (optional) [scoping, int32, vector<int32>, double, field, vector<double>]: time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) requiered in output 
-             mesh_scoping (optional) [scopings_container, scoping]: nodes or elements scoping requiered in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains 
+             time_scoping (optional) [scoping, int32, vector<int32>, double, field, vector<double>]: time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output 
+             mesh_scoping (optional) [scopings_container, scoping]: nodes or elements scoping required in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains 
              fields_container (optional) [fields_container]: Fields container already allocated modified inplace 
              streams_container (optional) [streams_container]: result file container allowed to be kept open to cache data 
              data_sources [data_sources]: result file path container, used if no streams are set 
@@ -90,9 +90,9 @@ particular operator can be viewed by printing the operator:
              fields_container [fields_container] 
 
 
-Alternatively, result providers can be instanciated via the model. With this
+Alternatively, result providers can be instantiated via the model. With this
 model's result usage (see :ref:`user_guide_model`), the results file paths 
-are directly connected to the operator and the user can only instanciate available
+are directly connected to the operator and the user can only instantiate available
 results for his/her result files:
 
 
@@ -273,7 +273,7 @@ to not transfer the array to Python, but rather compute the maximum of
 the fields container within DPF and then return the result to Python.
 
 
-Note that here we are instanciating operators with other operators with other operators:
+Note that here we are instantiating operators with other operators with other operators:
 
 
 .. code-block:: python
@@ -293,7 +293,7 @@ one operator to the inputs of another operator with:
     min_max.inputs.field.connect(displacement.outputs.fields_container)
 
 
-While this last approach is more verbose, it can be usefull for operators 
+While this last approach is more verbose, it can be useful for operators 
 having several matching inputs/outputs.
 
 
@@ -413,7 +413,6 @@ lists the available import/export operators.
        mesh=model.metadata.meshed_region, fields1=disp)
    vtk.run()
    
-Note that a file uploading/dowloading service has been implemented to use 
 those importing/exporting data operators in the case where the python
 client is not on the same machine as the server. Here is the same example
 in the case of distant machines:
@@ -432,7 +431,7 @@ in the case of distant machines:
    vtk = ops.serialization.vtk_export(file_path=server_dir+"\\file.vtk",
        mesh=model.metadata.meshed_region, fields1=disp)
    vtk.run()
-   dpf.download_file(server_dir+"\\file.vtk",r"c:/temp/file_dowloaded.vtk")
+   dpf.download_file(server_dir+"\\file.vtk",r"c:/temp/file_downloaded.vtk")
    
 
 .. rst-class:: sphx-glr-script-out

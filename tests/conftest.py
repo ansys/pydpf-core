@@ -28,6 +28,10 @@ running_docker = os.environ.get('DPF_DOCKER', False)
 
 local_test_repo = True
 
+if os.name == 'posix':
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+
 def resolve_test_file(basename, additional_path='', is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
     environment.
@@ -41,7 +45,7 @@ def resolve_test_file(basename, additional_path='', is_in_examples=None):
         return os.path.join(test_files_path, additional_path, basename)
     elif local_test_repo is False:
         if is_in_examples :
-            return getattr(examples, is_in_examples)()
+            return getattr(examples, is_in_examples)
         else :
             # otherwise, assume file is local
             test_path = os.path.dirname(os.path.abspath(__file__))
@@ -56,7 +60,6 @@ def resolve_test_file(basename, additional_path='', is_in_examples=None):
         if not os.path.isfile(filename):
             raise FileNotFoundError(f'Unable to locate {basename} at {test_files_path}')
         return filename
-        
 
 
 @pytest.fixture()
@@ -126,18 +129,42 @@ def plate_msup():
 @pytest.fixture()
 def model_with_ns():
     """Resolve the path of the "model_with_ns.rst" result file."""
-    return resolve_test_file("model_with_ns.rst")
+    return resolve_test_file("model_with_ns.rst","", "multishells_rst")
+
 
 @pytest.fixture()
-def sub_file():
-    """Resolve the path of the "expansion\msup_cms\2bodies\condensed_geo\cp56\cp56.sub" file.
-    Is in the package. 
-    """
-    return resolve_test_file("cp56.sub", 'expansion\\msup_cms\\2bodies\\condensed_geo\\cp56', 'sub_file')
+def cff_data_sources():
+    """Create a data sources with a cas and a dat file of fluent"""
+    ds = core.DataSources()
+    files = examples.download_fluent_files()
+    ds.set_result_file_path(files["cas"],"cas")
+    ds.add_file_path(files["dat"],"dat")
+    return ds
+
+
+@pytest.fixture()
+def d3plot():
+    """Resolve the path of the "d3plot/d3plot" result file."""
+    return resolve_test_file("d3plot","d3plot")
+
+
+@pytest.fixture()
+def engineering_data_sources():
+    """Resolve the path of the "model_with_ns.rst" result file."""
+    ds = core.DataSources(resolve_test_file("file.rst","engineeringData"))
+    ds.add_file_path(resolve_test_file("MatML.xml","engineeringData"),"EngineeringData")
+    ds.add_file_path(resolve_test_file("ds.dat","engineeringData"),"dat")
+    return ds
+
+local_server = core.start_local_server(as_global=False)
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
     """Cleanup a testing directory once we are finished."""
     def close_servers():
         core.server.shutdown_all_session_servers()
+        try:
+            local_server.shutdown() 
+        except:
+            pass
     request.addfinalizer(close_servers)

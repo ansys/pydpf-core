@@ -236,12 +236,12 @@ stresses, and strains from a transient static analysis.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Go Easily over Times Tranient Analysis">
+    <div class="sphx-glr-thumbcontainer" tooltip="Go Easily over Times Transient Analysis">
 
 .. only:: html
 
  .. figure:: /examples/01-static-transient/images/thumb/sphx_glr_01-transient_easy_time_scoping_thumb.png
-     :alt: Go Easily over Times Tranient Analysis
+     :alt: Go Easily over Times Transient Analysis
 
      :ref:`sphx_glr_examples_01-static-transient_01-transient_easy_time_scoping.py`
 
@@ -495,6 +495,48 @@ These demos show advanced use cases demonstrating high level of workflow customi
    :hidden:
 
    /examples/03-advanced/03-exchange_data_between_servers
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="1st step : get the data source&#x27;s analyse of integration points(this file was add the commands A...">
+
+.. only:: html
+
+ .. figure:: /examples/03-advanced/images/thumb/sphx_glr_04-extrapolation_stress_3d_thumb.png
+     :alt: Extrapolation Method for stress result of 3D-element
+
+     :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/03-advanced/04-extrapolation_stress_3d
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="1st step : get the data source&#x27;s analyse of integration points(this file was add the commands A...">
+
+.. only:: html
+
+ .. figure:: /examples/03-advanced/images/thumb/sphx_glr_05-extrapolation_strain_2d_thumb.png
+     :alt: Extrapolation Method for strain result of 2D-element
+
+     :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/03-advanced/05-extrapolation_strain_2d
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

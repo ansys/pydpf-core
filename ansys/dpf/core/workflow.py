@@ -38,18 +38,18 @@ class Workflow:
     >>> from ansys.dpf import core as dpf
     >>> disp_op = dpf.operators.result.displacement()
     >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
-    >>> workfow = dpf.Workflow()
-    >>> workfow.add_operators([disp_op,max_fc_op])
-    >>> workfow.set_input_name("data_sources", disp_op.inputs.data_sources)
-    >>> workfow.set_output_name("min", max_fc_op.outputs.field_min)
-    >>> workfow.set_output_name("max", max_fc_op.outputs.field_max)
+    >>> workflow = dpf.Workflow()
+    >>> workflow.add_operators([disp_op,max_fc_op])
+    >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    >>> workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    >>> workflow.set_output_name("max", max_fc_op.outputs.field_max)
     
     
     >>> from ansys.dpf.core import examples
     >>> data_src = dpf.DataSources(examples.multishells_rst)
-    >>> workfow.connect("data_sources", data_src)
-    >>> min = workfow.get_output("min", dpf.types.field)
-    >>> max = workfow.get_output("max", dpf.types.field)
+    >>> workflow.connect("data_sources", data_src)
+    >>> min = workflow.get_output("min", dpf.types.field)
+    >>> max = workflow.get_output("max", dpf.types.field)
     
     """
 
@@ -94,18 +94,18 @@ class Workflow:
         >>> from ansys.dpf import core as dpf
         >>> disp_op = dpf.operators.result.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
-        >>> workfow = dpf.Workflow()
-        >>> workfow.add_operators([disp_op,max_fc_op])
-        >>> workfow.set_input_name("data_sources", disp_op.inputs.data_sources)
-        >>> workfow.set_output_name("min", max_fc_op.outputs.field_min)
-        >>> workfow.set_output_name("max", max_fc_op.outputs.field_max)
+        >>> workflow = dpf.Workflow()
+        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+        >>> workflow.set_output_name("min", max_fc_op.outputs.field_min)
+        >>> workflow.set_output_name("max", max_fc_op.outputs.field_max)
         
         
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
-        >>> workfow.connect("data_sources", data_src)
-        >>> min = workfow.get_output("min", dpf.types.field)
-        >>> max = workfow.get_output("max", dpf.types.field)
+        >>> workflow.connect("data_sources", data_src)
+        >>> min = workflow.get_output("min", dpf.types.field)
+        >>> max = workflow.get_output("max", dpf.types.field)
         
         """
         request = workflow_pb2.UpdateConnectionRequest()
@@ -138,7 +138,7 @@ class Workflow:
             out = self._stub.Get(request)
             return dpf_operator._convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
-            raise ValueError("please specify an output type to get the worflow's output")
+            raise ValueError("please specify an output type to get the workflow's output")
         
         
     def set_input_name(self, name, *args):
@@ -157,13 +157,13 @@ class Workflow:
         --------
         >>> from ansys.dpf import core as dpf
         
-        >>> workfow = dpf.Workflow()
-        >>> workfow.add_operators([disp_op,max_fc_op])
-        >>> workfow.set_input_name("data_sources", disp_op.inputs.data_sources)      
+        >>> workflow = dpf.Workflow()
+        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)      
         
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
-        >>> workfow.connect("data_sources", data_src)
+        >>> workflow.connect("data_sources", data_src)
         
         """
         request = workflow_pb2.UpdatePinNamesRequest()
@@ -199,11 +199,11 @@ class Workflow:
         --------
         >>> from ansys.dpf import core as dpf
         
-        >>> workfow = dpf.Workflow()
-        >>> workfow.add_operators([disp_op,max_fc_op])
-        >>> workfow.set_output_name("contour", disp_op.outputs.fields_container)      
+        >>> workflow = dpf.Workflow()
+        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)      
         
-        >>> fc = workfow.get_output("contour", dpf.types.fields_container)
+        >>> fc = workflow.get_output("contour", dpf.types.fields_container)
         
         """
         request = workflow_pb2.UpdatePinNamesRequest()
@@ -235,10 +235,10 @@ class Workflow:
         --------
         >>> from ansys.dpf import core as dpf
         
-        >>> workfow = dpf.Workflow()
+        >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> max_op = dpf.Operator("min_max")
-        >>> workfow.add_operator([disp_op,max_op])
+        >>> workflow.add_operator([disp_op,max_op])
         
         """
         request = workflow_pb2.AddOperatorsRequest()
@@ -264,9 +264,9 @@ class Workflow:
         --------
         >>> from ansys.dpf import core as dpf
         
-        >>> workfow = dpf.Workflow()
+        >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
-        >>> workfow.add_operator(disp_op)
+        >>> workflow.add_operator(disp_op)
         
         """
         self.add_operators(operator)
@@ -282,18 +282,18 @@ class Workflow:
             name given to the workflow
             
         transfer_ownership : bool
-            if the owner ship is not transfered, the worflow is removed from the internal registry
+            if the owner ship is not transferred, the workflow is removed from the internal registry
             as soon as the workflow has been recovered by its id
             
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         
-        >>> workfow = dpf.Workflow()
+        >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
-        >>> workfow.add_operator(disp_op)
+        >>> workflow.add_operator(disp_op)
         >>> # ...
-        >>> id = workfow.record()
+        >>> id = workflow.record()
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
         
         """
@@ -323,11 +323,11 @@ class Workflow:
         --------
         >>> from ansys.dpf import core as dpf
         
-        >>> workfow = dpf.Workflow()
+        >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
-        >>> workfow.add_operator(disp_op)
+        >>> workflow.add_operator(disp_op)
         >>> # ...
-        >>> id = workfow.record()
+        >>> id = workflow.record()
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
         
         """
@@ -340,12 +340,12 @@ class Workflow:
     
     @property
     def info(self):
-        """Returns a dictionnary with the operator names and the exposed input and output names
+        """Returns a dictionary with the operator names and the exposed input and output names
         
         Returns
         ----------
         info : dictionarry str->list str
-            dictionnary with "operator_names", "input_names" and "output_names" key        
+            dictionary with "operator_names", "input_names" and "output_names" key        
         """
         tmp = self._stub.List(self._message)
         out = {"operator_names":[], "input_names":[], "output_names":[]}

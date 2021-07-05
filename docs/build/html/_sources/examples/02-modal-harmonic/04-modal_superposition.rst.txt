@@ -55,14 +55,15 @@ The expansion is recursive in dpf: first the modal response is red,
 then, "upstreams" mode shapes are found in the data sources, so they
 are red and expanded (mode shapes x modal response)
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-34
+.. GENERATED FROM PYTHON SOURCE LINES 26-35
 
 .. code-block:: default
 
 
-    data_sources = dpf.DataSources(examples.msup_files_dict["rfrq"])
-    up_stream_data_sources = dpf.DataSources(examples.msup_files_dict["mode"])
-    up_stream_data_sources.add_file_path(examples.msup_files_dict["rst"])
+    msup_files = examples.download_msup_files_to_dict()
+    data_sources = dpf.DataSources(msup_files["rfrq"])
+    up_stream_data_sources = dpf.DataSources(msup_files["mode"])
+    up_stream_data_sources.add_file_path(msup_files["rst"])
 
     data_sources.add_upstream(up_stream_data_sources)
 
@@ -74,7 +75,7 @@ are red and expanded (mode shapes x modal response)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-40
+.. GENERATED FROM PYTHON SOURCE LINES 36-41
 
 Compute displacements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,7 +83,7 @@ Once the recursivity is put in the data sources (with add_upstream)
 computing displacements with or without expansion, in harmonic, transient
 or modal analysis has the exact same syntax
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-48
+.. GENERATED FROM PYTHON SOURCE LINES 41-49
 
 .. code-block:: default
 
@@ -167,7 +168,7 @@ or modal analysis has the exact same syntax
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.935 seconds)
+   **Total running time of the script:** ( 0 minutes  5.506 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_04-modal_superposition.py:

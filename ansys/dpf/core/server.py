@@ -29,8 +29,8 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
 
 # default DPF server port
-DPF_DEFAULT_PORT = 50054
-LOCALHOST = '127.0.0.1'
+DPF_DEFAULT_PORT =  int(os.environ.get('DPF_PORT',50054))
+LOCALHOST = os.environ.get('DPF_IP','127.0.0.1')
 
 def shutdown_global_server():
     try :
@@ -217,16 +217,16 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
         
     Create a server
     
-    >>> server = dpf.start_local_server(ip = '127.0.0.1')
-    >>> port = server.port
+    >>> #server = dpf.start_local_server(ip = '127.0.0.1')
+    >>> #port = server.port
     
     Connect to a remote server at a non-default port
 
-    >>> specified_server = dpf.connect_to_server('127.0.0.1', port, as_global=False)
+    >>> #specified_server = dpf.connect_to_server('127.0.0.1', port, as_global=False)
 
     Connect to the localhost at the default port
 
-    >>> unspecified_server = dpf.connect_to_server(as_global=False)
+    >>> #unspecified_server = dpf.connect_to_server(as_global=False)
     
     """
     server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False)
@@ -316,12 +316,12 @@ class DpfServer:
     
     @property
     def info(self):
-        """Recover server informations
+        """Recover server information
            
            Returns
            -------
-           info : dictionnary
-               dictionnary with "server_ip", "server_port", "server_process_id"
+           info : dictionary
+               dictionary with "server_ip", "server_port", "server_process_id"
                "server_version" keys
         """
         return self._base_service.server_info
@@ -330,9 +330,9 @@ class DpfServer:
     def ip(self):
         """Get the ip of the server
         
-            Returns
-            -------
-            ip : string
+        Returns
+        -------
+        ip : str
         """
         try:
             return self._base_service.server_info["server_ip"]
@@ -343,9 +343,9 @@ class DpfServer:
     def port(self):
         """Get the port of the server
         
-            Returns
-            -------
-            port : int
+        Returns
+        -------
+        port : int
         """
         try:
             return self._base_service.server_info["server_port"]
@@ -356,9 +356,9 @@ class DpfServer:
     def version(self):
         """Get the version of the server
         
-            Returns
-            -------
-            version : string
+        Returns
+        -------
+        version : str
         """
         return self._base_service.server_info["server_version"]
 
@@ -379,9 +379,9 @@ class DpfServer:
                 pass
                 
             try:
-                for i, ser in enumerate(dpf.core._server_instances):
-                    if ser() == self:
-                        dpf.core._server_instances.remove(ser)
+                for i, server in enumerate(dpf.core._server_instances):
+                    if server() == self:
+                        dpf.core._server_instances.remove(server)
             except:
                 pass
                      

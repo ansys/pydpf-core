@@ -3,36 +3,26 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-
-@pytest.fixture()
-def local_server():
-    try :
-        for ser in dpf._server_instances : 
-            if ser() !=  dpf.SERVER:
-                ser().info #check that the server is responsive
-                return ser()      
-        return dpf.start_local_server(as_global = False)
-    except:
-        return dpf.start_local_server(as_global = False)
+from conftest import local_server
 
 
 @pytest.fixture()
-def static_models(local_server):
+def static_models():
     otherfile = dpf.upload_file_in_tmp_folder(examples.static_rst, server=local_server)
     return (dpf.Model(examples.static_rst), dpf.Model(otherfile, server=local_server))
 
 @pytest.fixture()
-def transient_models(local_server):
+def transient_models():
     otherfile = dpf.upload_file_in_tmp_folder(examples.msup_transient, server=local_server)
     return (dpf.Model(examples.msup_transient), dpf.Model(otherfile, server=local_server))
 
 @pytest.fixture()
-def cyc_models(local_server):
+def cyc_models():
     otherfile = dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=local_server)
     return (dpf.Model(examples.simple_cyclic), dpf.Model(otherfile, server=local_server))
 
 @pytest.fixture()
-def all_kind_of_complexity_models(local_server):
+def all_kind_of_complexity_models():
     otherfile = dpf.upload_file_in_tmp_folder(examples.download_all_kinds_of_complexity(), server=local_server)
     return (dpf.Model(examples.download_all_kinds_of_complexity()), dpf.Model(otherfile, server=local_server))
 

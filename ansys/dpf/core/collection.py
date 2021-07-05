@@ -1,16 +1,3 @@
-##########################################################################
-#                                                                        #
-#          Copyright (C) 2020 ANSYS Inc.  All Rights Reserved            #
-#                                                                        #
-# This file contains proprietary software licensed from ANSYS Inc.       #
-# This header must remain in any source code despite modifications or    #
-# enhancements by any party.                                             #
-#                                                                        #
-##########################################################################
-# Version: 1.0                                                           #
-# Author(s): C.Bellot/R.Lagha                                            #
-# contact(s): ramdane.lagha@ansys.com                                    #
-##########################################################################
 """
 Collection
 ===========
@@ -79,7 +66,7 @@ class Collection:
 
         Parameters
         ----------
-        labels : list[string], optional
+        labels : list[str], optional
             labels on which the entries will be scoped, for example:
                 ['time','complex']
 
@@ -123,7 +110,7 @@ class Collection:
 
         Returns
         -------
-        labels: list[string]
+        labels: list[str]
             labels on which the entries are scoped, for example:
                 ``['time', 'complex']``
         """
@@ -136,12 +123,13 @@ class Collection:
 
         Parameters
         ----------
-        label: string
+        label: str
             Labels that must be searched, for example ``'time'``.
             
         Returns
         -------
-        bool: True if the specified value have been found in the collection. 
+        bool
+            ``True`` if the specified value has been found in the collection. 
 
         Examples
         --------
@@ -150,25 +138,19 @@ class Collection:
         >>> coll.add_label('time')
         >>> coll.has_label('time')
         True
+        
         >>> coll.has_label('complex')
         False
         
         """
-        result = False
-        labels = self.labels
-        i = 0
-        while i < len(labels):
-            if labels[i] == label:
-                result = True
-            i += 1
-        return result
+        return label in self.labels
 
     def _get_entries(self, label_space_or_index):
         """Returns the entries at a requested index or label space
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int]
+        label_space_or_index : dict[str,int]
             Label space of the requested entry, for example:
             ``{"time": 1, "complex": 0}`` or index of the field.
 
@@ -212,7 +194,7 @@ class Collection:
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int]
+        label_space_or_index : dict[str,int]
             Label space of the requested entry, for example:
             ``{"time": 1, "complex": 0}`` or index of the field.
 
@@ -241,7 +223,7 @@ class Collection:
 
         Returns
         -------
-        label_space : dict(string:int)
+        label_space : dict(str:int)
             Scoping of the requested entry, for example:
             ``{"time": 1, "complex": 0}``
         """
@@ -333,7 +315,7 @@ class Collection:
 
         parameters
         ----------
-        label_space : list[string,int]
+        label_space : list[str,int]
             label space of the requested fields, ex : {"time":1, "complex":0}
 
         entry : Field or Scoping

@@ -24,9 +24,10 @@ from ansys.dpf.core import operators as ops
 # then, "upstreams" mode shapes are found in the data sources, so they
 # are red and expanded (mode shapes x modal response)
 
-data_sources = dpf.DataSources(examples.msup_files_dict["rfrq"])
-up_stream_data_sources = dpf.DataSources(examples.msup_files_dict["mode"])
-up_stream_data_sources.add_file_path(examples.msup_files_dict["rst"])
+msup_files = examples.download_msup_files_to_dict()
+data_sources = dpf.DataSources(msup_files["rfrq"])
+up_stream_data_sources = dpf.DataSources(msup_files["mode"])
+up_stream_data_sources.add_file_path(msup_files["rst"])
 
 data_sources.add_upstream(up_stream_data_sources)
 

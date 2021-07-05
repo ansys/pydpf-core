@@ -23,7 +23,10 @@ LOG.setLevel('DEBUG')
 
 class Operator:
     """A class used to represent an Operator which is an elementary
-    operation.
+    operation.The Operator is the only object used to create and 
+    transform the data. When the operator is evaluated, it will 
+    process the input information to compute its output with respect 
+    to its description.
 
     A list of existing operators can be asked through the "html_doc"
     operator.
@@ -245,7 +248,7 @@ class Operator:
     def default_config(name, server=None):
         """Returns the default config for a given operator.
         This config can then be changed to the user needs and be used to
-        instanciate the given operator
+        instantiate the given operator
         
         Parameters
         ----------
@@ -350,7 +353,7 @@ class Operator:
     
     
     def __sub__(self, fields_b):
-        """Substract two fields or fields containers together
+        """Subtract two fields or fields containers together
                 
         Returns
         -------

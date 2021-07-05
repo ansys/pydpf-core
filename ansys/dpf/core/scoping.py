@@ -289,7 +289,7 @@ class Scoping:
 
     @property
     def size(self):
-        """lenght of the ids list
+        """length of the ids list
 
         Returns
         -------
@@ -310,7 +310,7 @@ class Scoping:
     
     def deep_copy(self,server=None):
         """Creates a deep copy of the scoping's data on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         
         Parameters
         ----------

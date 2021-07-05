@@ -23,7 +23,7 @@
 Write/load and upload/download a result file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ansys.dpf.core module is able to upload files to 
-the server machine, and dowload files from there. 
+the server machine, and download files from there. 
 
 This example shows how to write and upload files 
 on the server machine, then how to download it back 
@@ -126,7 +126,7 @@ Let's upload the simple_bar_fc.csv file
 on the server side. The upload_file_in_tmp_folder()
 method will be used here, because we assume we don't
 know the server machine architecture. However, the 
-upload_file() method can be used the same way wil a 
+upload_file() method can be used the same way will a 
 know "server file path". 
 
 .. GENERATED FROM PYTHON SOURCE LINES 59-66
@@ -150,7 +150,7 @@ know "server file path".
 
  .. code-block:: none
 
-    C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp32056\simple_bar_fc.csv
+    C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp31512\simple_bar_fc.csv
 
 
 
@@ -241,7 +241,7 @@ in the basics examples.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.045 seconds)
+   **Total running time of the script:** ( 0 minutes  2.210 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_04-basic-load-file.py:

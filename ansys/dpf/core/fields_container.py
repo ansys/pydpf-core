@@ -164,7 +164,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int] 
+        label_space : dict[str,int] 
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
 
@@ -202,7 +202,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space_or_index : dict[string,int] , int 
+        label_space_or_index : dict[str,int] , int 
             Scoping of the requested fields, for example:
             ``{"time": 1, "complex": 0}``
             or Index of the field.
@@ -305,7 +305,7 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        label_space : dict[string,int]
+        label_space : dict[str,int]
             label_space of the requested fields, ex : {"time":1, "complex":0}
 
         field : Field
@@ -418,7 +418,7 @@ class FieldsContainer(Collection):
     
     def deep_copy(self,server=None):
         """Creates a deep copy of the fields container's data (and its fields) on a given server.
-        This can be usefull to pass data from one server instance to another.
+        This can be useful to pass data from one server instance to another.
         
         Parameters
         ----------
@@ -481,7 +481,7 @@ class FieldsContainer(Collection):
         return op
     
     def __sub__(self, fields_b):
-        """Substract two fields or fields containers together
+        """Subtract two fields or fields containers together
                 
         Returns
         -------

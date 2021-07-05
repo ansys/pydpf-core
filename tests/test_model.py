@@ -113,8 +113,8 @@ def test_result_displacement_model():
     assert len(results.displacement.on_all_time_freqs.eval())==45
     assert results.displacement.on_first_time_freq.eval().get_label_scoping().ids==[1]
     assert results.displacement.on_last_time_freq.eval().get_label_scoping().ids==[45]
-    assert len(results.displacement.splitted_by_body.eval())==32
-    assert len(results.displacement.splitted_by_shape.eval())==4    
+    assert len(results.displacement.split_by_body.eval())==32
+    assert len(results.displacement.split_by_shape.eval())==4    
     assert len(results.displacement.on_named_selection('_FIXEDSU').eval()[0].scoping)==222
     all_time_ns =  results.displacement.on_named_selection('_FIXEDSU').on_all_time_freqs.eval()
     assert len(all_time_ns)==45
@@ -129,8 +129,8 @@ def test_result_stress_model():
     assert len(results.stress.on_all_time_freqs.eval())==45
     assert results.stress.on_first_time_freq.eval().get_label_scoping().ids==[1]
     assert results.stress.on_last_time_freq.eval().get_label_scoping().ids==[45]
-    assert len(results.stress.splitted_by_body.eval())==32
-    assert len(results.stress.splitted_by_shape.eval())==4   
+    assert len(results.stress.split_by_body.eval())==32
+    assert len(results.stress.split_by_shape.eval())==4   
     assert len(results.stress.on_named_selection('_FIXEDSU').eval()[0].scoping)==222
     all_time_ns =  results.stress.on_named_selection('_FIXEDSU').on_all_time_freqs.eval()
     assert len(all_time_ns)==45
@@ -163,9 +163,9 @@ def test_result_time_scoping(plate_msup):
 def test_result_spliited_subset(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     vol = model.results.elemental_volume
-    assert len(vol.splitted_by_body.eval())==11  
-    assert len(vol.splitted_by_body.eval()[0].scoping)==105
-    assert len(vol.on_mesh_scoping([1,2,3,10992]).splitted_by_body.eval())==2    
+    assert len(vol.split_by_body.eval())==11  
+    assert len(vol.split_by_body.eval()[0].scoping)==105
+    assert len(vol.on_mesh_scoping([1,2,3,10992]).split_by_body.eval())==2    
     assert len(vol.eval()[0].scoping)==3
     assert len(vol.eval()[1].scoping)==1
     

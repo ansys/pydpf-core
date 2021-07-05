@@ -177,7 +177,7 @@ class CyclicSupport:
     
     
     def expand_node_id(self, node_id, sectors=None, stage_num=0):
-        """Returns the node ids correponding to the base sector node_id given in input
+        """Returns the node ids corresponding to the base sector node_id given in input
         after expansion
         
         Parameters
@@ -219,7 +219,7 @@ class CyclicSupport:
         return Scoping(scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server)
     
     def expand_element_id(self, element_id, sectors=None, stage_num=0):
-        """Returns the element ids correponding to the base sector element_id given in input
+        """Returns the element ids corresponding to the base sector element_id given in input
         after expansion
         
         Parameters

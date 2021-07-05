@@ -152,7 +152,7 @@ displacement operator.
              indicates whether nodes or elements are asked. using scopings
              container enables to split the result fields container in domains
                              
-         -   time_scoping : Scoping, int, list, float, Field, Vector<Double>, optional
+         -   time_scoping : Scoping, int, list, float, Field, optional
              Time/freq (use doubles or field), time/freq set ids (use ints or
              scoping) or time/freq step ids (use scoping with timefreq_steps
              location) requiered in output
@@ -286,7 +286,7 @@ Create the displacement operator directly from the ``results`` property
 
     disp_op = model.results.displacement()
 
-    # Out of convenience, the operators module contains availabale operators
+    # Out of convenience, the operators module contains available operators
     # Those operators can be created in chain to create a workflow in one line
     from ansys.dpf.core import operators
     mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))
@@ -378,7 +378,7 @@ datasources object. The DataSources constructor input is a path.
 
  .. code-block:: none
 
-    d:\ansysdev\dpf-python-core\ansys\dpf\core\examples\static.rst
+    d:\ansysdev\pyansys\dpf-core\ansys\dpf\core\examples\static.rst
 
 
 
@@ -434,7 +434,7 @@ Let's get the output and print the result data.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.150 seconds)
+   **Total running time of the script:** ( 0 minutes  1.123 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_01-basic_operators.py:

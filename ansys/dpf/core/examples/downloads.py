@@ -199,3 +199,161 @@ def download_multi_stage_cyclic_result() -> str:
 
     """
     return _download_file('multistage', 'multistage.rst')
+
+
+def download_sub_file() -> str:
+    """Download an example .sub result file containing matrices and return the
+    download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_sub_file()
+    >>> path
+    'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\sub\\cp56.sub'
+
+    """
+    return _download_file('sub', 'cp56.sub')
+
+
+def download_msup_files_to_dict() -> dict:
+    """Download all the files necessary for a msup expansion and return the
+    download paths into a dictionnary extension->path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_msup_files_to_dict()
+    >>> paths
+    {'rfrq': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.rfrq',
+     'mode': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.mode',
+     'rst': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.rst'}
+
+    """
+    return {"rfrq":_download_file('msup', 'file.rfrq'),
+        "mode":_download_file('msup', 'file.mode'),
+        "rst":_download_file('msup', 'file.rst')}
+   
+
+def download_distributed_files() -> dict:
+    """Download distributed rst files and return the
+    download paths into a dictionnary domain id->path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    dict[int:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_distributed_files()
+    >>> paths
+    {0: 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\distributed\\file0.rst',
+     1: 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\distributed\\file1.rst'}
+    
+    """
+    return {0:_download_file('distributed', 'file0.rst'),
+        1:_download_file('distributed', 'file1.rst')}
+
+def download_fluent_files()->dict:
+    """Download the cas and dat file of a fluent analysis and return the
+    download paths into a dictionnary extension->path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_fluent_files()
+    >>> paths
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.cas.h5',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.dat.h5'}
+
+    """
+    return {"cas":_download_file('fluent', 'FFF.cas.h5'),
+        "dat":_download_file('fluent', 'FFF.dat.h5')}
+
+def download_extrapolation_3d_result() -> dict:
+    """Download example static results of reference and integrated points for extrapolation of 3d-element and return return the dictionary of 2 download paths.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    dict
+        containing path to the example file of ref and path to the example file of integrated points.
+
+    Examples
+    --------
+    Download 2 example result files and return the dictionary containing 2 files
+
+    >>> from ansys.dpf.core import examples
+    >>> dict = examples.download_extrapolation_ref_result
+    >>> dict
+    {'file_ref': 'C:/Users/user/AppData/local/temp/file_ref.rst', 'file_integrated': 'C:/Users/user/AppData/local/temp/file.rst'}
+
+    """
+    dict={'file_ref': _download_file('extrapolate', 'file_ref.rst'), 'file_integrated': _download_file('extrapolate', 'file.rst')}
+  
+    return dict
+
+def download_extrapolation_2d_result() -> dict:
+    """Download example static results of reference and integrated points for extrapolation of 2d-element and return the dictionary of 2 download paths.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    dict
+    dict
+        containing path to the example file of ref and path to the example file of integrated points.
+
+     Examples
+    --------
+    Download 2 example result files and return the dictionary containing 2 files
+
+    >>> from ansys.dpf.core import examples
+    >>> dict = examples.download_extrapolation_ref_result
+    >>> dict
+    {'file_ref': 'C:/Users/user/AppData/local/temp/extrapolate_2d_ref.rst', 'file_integrated': 'C:/Users/user/AppData/local/temp/extrapolate_2d.rst'}
+
+    """
+    dict={'file_ref': _download_file('extrapolate', 'extrapolate_2d_ref.rst'), 'file_integrated': _download_file('extrapolate', 'extrapolate_2d.rst')}
+  
+    return dict

@@ -45,7 +45,7 @@ total volume
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-20
 
-Create a model targetting a given result file.
+Create a model targeting a given result file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The model will give an easy access to the mesh, time_freq_support ...
 
@@ -62,7 +62,7 @@ The model will give an easy access to the mesh, time_freq_support ...
     volume_check = 4.0e-11
 
 
-    # get the all the node ids in the model to find the minimum amout of 
+    # get the all the node ids in the model to find the minimum amount of 
     # surrounding elements to get a minimum volume
     nodes = mesh.nodes.scoping
     nodes_ids = nodes.ids
@@ -301,7 +301,7 @@ An operator with the same algorithm has been implemented
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  17.735 seconds)
+   **Total running time of the script:** ( 0 minutes  16.263 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_02-volume_averaged_stress.py:

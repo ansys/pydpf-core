@@ -4,7 +4,7 @@
 Load plugin 
 ~~~~~~~~~~~
 This example shows how to load a plugin that is 
-not automaticaly loaded. 
+not automatically loaded. 
 
 """
 

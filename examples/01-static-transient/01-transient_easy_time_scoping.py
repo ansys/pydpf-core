@@ -1,7 +1,7 @@
 """
 .. _ref_transient_easy_time_scoping:
 
-Go Easily over Times Tranient Analysis
+Go Easily over Times Transient Analysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to use model's results to easily
 choose time scoping

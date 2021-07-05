@@ -119,7 +119,7 @@ def version_tuple(ver):
     
     Parameters
     ----------
-    ver : string
+    ver : str
     
     Returns
     -------

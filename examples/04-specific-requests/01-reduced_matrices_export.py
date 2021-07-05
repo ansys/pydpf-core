@@ -22,7 +22,7 @@ tmpdir = tempfile.mkdtemp()
 ###############################################################################
 # Create the operator and connect dataSources
 
-ds = dpf.DataSources(examples.sub_file)
+ds = dpf.DataSources(examples.download_sub_file())
 
 matrices_provider = ops.result.cms_matrices_provider()
 matrices_provider.inputs.data_sources.connect(ds)

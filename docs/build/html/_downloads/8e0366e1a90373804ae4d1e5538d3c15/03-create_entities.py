@@ -6,7 +6,7 @@ Create your own entities to use dpf's operators
 Create your own entities: field/fields container/meshed region 
 to use dpf'operators with your own data
 The ability to create any of dpf's entity in scripting allows to not depend on result files
-and to connect dpf's environement with any python tools.
+and to connect dpf's environment with any python tools.
 """
 import numpy as np
 

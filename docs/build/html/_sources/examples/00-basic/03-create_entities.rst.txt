@@ -25,7 +25,7 @@ Create your own entities to use dpf's operators
 Create your own entities: field/fields container/meshed region 
 to use dpf'operators with your own data
 The ability to create any of dpf's entity in scripting allows to not depend on result files
-and to connect dpf's environement with any python tools.
+and to connect dpf's environment with any python tools.
 
 .. GENERATED FROM PYTHON SOURCE LINES 11-16
 
@@ -334,7 +334,7 @@ Plot the norm over time of our fields container
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.579 seconds)
+   **Total running time of the script:** ( 0 minutes  5.978 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_03-create_entities.py:
