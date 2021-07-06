@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>nodal_averaged_thermal_strains &#8212; PyANSYS DPF 0.3.0 documentation</title>
+    <title>nodal_averaged_thermal_strains &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -2212,6 +2212,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.session.html">
+     Session
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">
      time_freq_scoping_factory
     </a>
@@ -2411,7 +2416,9 @@ and <code class="docutils literal notranslate"><span class="pre">'min_max_fc'</s
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.operators.result.nodal_averaged_thermal_strains.nodal_averaged_thermal_strains.get_output">
 <span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.result.nodal_averaged_thermal_strains.nodal_averaged_thermal_strains.get_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the output of the operator on the pin number.</p>
+<dd><p>Returns the output of the operator on the pin number.
+To activate the progress bar for server version higher or equal to 3.0,
+use my_op.progress_bar = True</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2420,6 +2427,13 @@ and <code class="docutils literal notranslate"><span class="pre">'min_max_fc'</s
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.result.nodal_averaged_thermal_strains.nodal_averaged_thermal_strains.progress_bar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.result.nodal_averaged_thermal_strains.nodal_averaged_thermal_strains.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>With this property, the user can choose to print a progress bar when
+the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py method">

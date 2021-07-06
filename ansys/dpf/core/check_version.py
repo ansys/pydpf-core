@@ -6,6 +6,7 @@ Used to verify if the server version is a minimum value.
 
 from ansys.dpf.core import errors as dpf_errors
 import sys
+from functools import wraps
 
 def server_meet_version(required_version, server):
     """
@@ -148,12 +149,13 @@ def version_tuple(ver):
 def version_requires(min_version):
     """Must be used as decorator. 
     Ensure the method called matches a certain server version."""
-
+   
     def decorator(func):
         # first arg *must* be a tuple containing the version
         if not isinstance(min_version, str):
             raise TypeError('version_requires decorator must a string with dot separator.')
 
+        @wraps(func)
         def wrapper(self, *args, **kwargs):
             """Call the original function"""
             server = self._server
@@ -168,10 +170,10 @@ def version_requires(min_version):
                 if size != 0:
                     max_size = 8.0E6//sys.getsizeof(ids[0])
                     if size > max_size:
-                        server.check_version(min_version)
+                        server.check_version(min_version, " called from " + func.__name__)
             # default case, just check the compatibility
             else: 
-                server.check_version(min_version)
+                server.check_version(min_version, " called from " +func.__name__)
 
             return func(self, *args, **kwargs)
 

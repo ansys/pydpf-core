@@ -33,12 +33,13 @@ Install this repository with:
 
 Clone the internal repository at https://tfs.ansys.com:8443/tfs/ANSYS_Development/DPF/_git/dpf-python-core and run:
 ```
-pip install -e .
+pip install -e . --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
 ```
 ### Installation as Ansys internal consumer
+
 To install all dpf python modules and requirements from the internal pypi, run: 
 ```
-pip install ansys-dpf-core
+pip install ansys-dpf-core --extra-index-url http://canartifactory.ansys.com:8080/artifactory/api/pypi/pypi/simple --trusted-host canartifactory.ansys.com
 ```
 
 ## Running DPF

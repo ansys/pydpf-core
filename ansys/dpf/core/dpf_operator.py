@@ -10,7 +10,8 @@ import logging
 import grpc
 import functools
 
-from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2
+from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2 
+from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.inputs import Inputs, _Inputs, Input
 from ansys.dpf.core.outputs import Outputs, _Outputs, Output
 from ansys.dpf.core.errors import protect_grpc
@@ -82,6 +83,7 @@ class Operator:
             self._outputs = Outputs(self._message.spec.map_output_pin_spec, self)
         
         self._description = self._message.spec.description
+        self._progress_bar=False
 
     def _add_sub_res_operators(self, sub_results):
         """Dynamically add operators instantiating for sub-results.
@@ -103,6 +105,16 @@ class Operator:
             method2 = functools.partial(bound_method, name=result_type["operator name"])
             setattr(self, result_type["name"], method2)
 
+    @property
+    @version_requires("3.0")
+    def progress_bar(self)->bool:
+        """With this property, the user can choose to print a progress bar when
+        the operator's output is requested, default is False"""        
+        return self._progress_bar
+    
+    @progress_bar.setter
+    def progress_bar(self, value)->bool:
+        self._progress_bar = value
         
     @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
@@ -149,6 +161,8 @@ class Operator:
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
         """Returns the output of the operator on the pin number.
+        To activate the progress bar for server version higher or equal to 3.0,
+        use my_op.progress_bar = True
 
         Parameters
         ----------
@@ -161,14 +175,22 @@ class Operator:
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
-        
-        if output_type is not None:
-            _write_output_type_to_proto_style(output_type, request)
-            out = self._stub.Get(request)
+        if output_type :
+            _write_output_type_to_proto_style(output_type, request)   
+            if server_meet_version("3.0", self._server) and self._progress_bar:
+                self._server._session.add_operator(self,pin, "workflow")
+                out_future = self._stub.Get.future(request)            
+                while out_future.is_active():
+                    if self._progress_bar:
+                        self._server._session.listen_to_progress()
+                out = out_future.result()
+            else:
+                out = self._stub.Get(request) 
             return _convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
             request.type = base_pb2.Type.Value('RUN')
-            return self._stub.Get(request)
+            out_future = self._stub.Get.future(request)   
+            out_future.result()
             
     
     @property

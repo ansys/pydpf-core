@@ -54,6 +54,7 @@ Submodules
    ansys.dpf.core.scoping
    ansys.dpf.core.scopings_container
    ansys.dpf.core.server
+   ansys.dpf.core.session
    ansys.dpf.core.time_freq_scoping_factory
    ansys.dpf.core.time_freq_support
    ansys.dpf.core.vtk_helper

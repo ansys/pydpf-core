@@ -22,6 +22,7 @@ from ansys.dpf.core.misc import find_ansys, is_ubuntu
 from ansys.dpf.core import errors
 
 from ansys.dpf.core._version import __ansys_version__
+from ansys.dpf.core import session
 
 MAX_PORT = 65535
 
@@ -306,6 +307,7 @@ class DpfServer:
         self._input_ip = ip
         self._input_port = port
         self._own_process = launch_server
+        self._session = session.Session(self)
         
     @property
     def _base_service(self):

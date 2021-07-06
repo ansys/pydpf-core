@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Workflow &#8212; PyANSYS DPF 0.3.0 documentation</title>
+    <title>Workflow &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -2212,6 +2212,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.session.html">
+     Session
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">
      time_freq_scoping_factory
     </a>
@@ -2348,7 +2353,8 @@ and <code class="docutils literal notranslate"><span class="pre">'min_max_fc'</s
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.workflow.Workflow.get_output">
 <span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.workflow.Workflow.get_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the output of the operator on the pin number.</p>
+<dd><p>Returns the output of the operator on the pin number.
+A progress bar following the worflow state is printed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

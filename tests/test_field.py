@@ -731,7 +731,12 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
     field = stress.outputs.fields_container()[0]
     copy = field.deep_copy()
     iden = dpf.core.operators.logic.identical_fields(field,copy)
-    assert iden.outputs.boolean()
+    
+    try :
+        assert iden.outputs.boolean()
+    except AssertionError as e :
+        print(iden.outputs.message())
+        raise e
     
     mesh = field.meshed_region
     copy = copy.meshed_region

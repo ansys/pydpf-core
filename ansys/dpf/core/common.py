@@ -120,3 +120,8 @@ def _common_progress_bar(text, unit, tot_size=None):
     else:
         widgets = [progressbar.FormatLabel(f'{text}: %(value)d {unit}'), progressbar.RotatingMarker()]
         return progressbar.ProgressBar(widgets=widgets,max_value=progressbar.UnknownLength )
+
+def _common_percentage_progress_bar(text):    
+    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'),progressbar.Bar()]
+    return progressbar.ProgressBar(widgets=widgets,max_value=100)
+   
