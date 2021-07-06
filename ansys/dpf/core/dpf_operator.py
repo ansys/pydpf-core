@@ -297,6 +297,18 @@ class Operator:
         output : FieldsContainer, Field, MeshedRegion, Scoping, ...
             by default returns the first output of the operator, and the output of a given pin when specified, or only evaluates the operator without output.
 
+        Examples
+        --------
+        Use Eval method
+
+        >>> from ansys.dpf import core as dpf
+        >>> import ansys.dpf.core.operators.math as math
+        >>> from ansys.dpf.core import examples
+        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> disp_op.inputs.data_sources(data_src)
+        >>> normfc = math.norm_fc(disp_op).eval()
+
         
         """
 
