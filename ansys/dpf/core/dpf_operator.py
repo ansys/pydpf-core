@@ -286,7 +286,21 @@ class Operator:
         self.get_output()
         
     def eval(self, pin = None):
-        """Evaluate this operator"""
+        """Evaluate this operator
+        
+        Parameters
+        ----------
+        pin : int
+
+        Returns
+        --------
+        output : FieldsContainer, Field, MeshedRegion, Scoping, ...
+            by default returns the first output of the operator, and the output of a given pin when specified, or only evaluates the operator without output.
+
+        
+        """
+
+
         if not pin:
             if self.outputs != None and len(self.outputs._outputs) > 0:
                 return self.outputs._outputs[0]()
