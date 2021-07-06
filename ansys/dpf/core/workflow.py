@@ -8,6 +8,7 @@ import logging
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
@@ -112,6 +113,7 @@ class Workflow:
     @protect_grpc
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
+        A progress bar following the worflow state is printed.
 
         Parameters
         ----------
@@ -128,10 +130,16 @@ class Workflow:
 
         if output_type is not None:
             dpf_operator._write_output_type_to_proto_style(output_type, request)
-            out = self._stub.Get(request)
-            return dpf_operator._convertOutputMessageToPythonInstance(
-                out, output_type, self._server
-            )
+            if server_meet_version("3.0", self._server):
+                #handle progress bar
+                self._server._session.add_workflow(self,"workflow")
+                out_future = self._stub.Get.future(request)
+                while out_future.is_active():
+                    self._server._session.listen_to_progress()
+                out = out_future.result()
+            else:
+                out = self._stub.Get(request)
+            return dpf_operator._convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
             raise ValueError(
                 "please specify an output type to get the workflow's output"

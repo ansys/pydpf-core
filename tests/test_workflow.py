@@ -3,7 +3,9 @@ import pytest
 from ansys import dpf
 
 import conftest
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
 def test_create_workflow():
     wf = dpf.core.Workflow()
@@ -498,6 +500,55 @@ def test_print_workflow():
     assert "fieldB" in str(wf)
     assert "output pins" in str(wf)
     assert "bool" in str(wf)
+    
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_throws_error(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    wf = dpf.core.Workflow()
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)    
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
+    add = dpf.core.operators.math.add_fc(opnorm,opnorm)
+    add2 = dpf.core.operators.math.add_fc(add,add)
+    add3 = dpf.core.operators.math.add_fc(add2)
+    add4 = dpf.core.operators.math.add_fc(add3,add3)
+    wf.add_operators([op,opnorm,add,add2,add3,add4])    
+    wf.set_output_name("output", add4, 0)
+    fc = wf.get_output("output", dpf.core.types.fields_container)
+    assert len(fc)==2
+    add4.connect(1,1)
+    with pytest.raises(Exception):
+        fc = wf.get_output("output", dpf.core.types.fields_container)
+        
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_flush_workflows_session(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    wf = dpf.core.Workflow()
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)    
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
+    add = dpf.core.operators.math.add_fc(opnorm,opnorm)
+    add2 = dpf.core.operators.math.add_fc(add,add)
+    add3 = dpf.core.operators.math.add_fc(add2)
+    add4 = dpf.core.operators.math.add_fc(add3,add3)
+    wf.add_operators([op,opnorm,add,add2,add3,add4])    
+    wf.set_output_name("output", add4, 0)
+    fc = wf.get_output("output", dpf.core.types.fields_container)
+    assert len(fc)==2
+    wf = dpf.core.Workflow()
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)    
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
+    add = dpf.core.operators.math.add_fc(opnorm,opnorm)
+    add2 = dpf.core.operators.math.add_fc(add,add)
+    add3 = dpf.core.operators.math.add_fc(add2)
+    add4 = dpf.core.operators.math.add_fc(add3,add3)
+    wf.add_operators([op,opnorm,add,add2,add3,add4])    
+    wf.set_output_name("output", add4, 0)
+    fc = wf.get_output("output", dpf.core.types.fields_container)
+    assert len(fc)==2
+    wf._server._session.flush_workflows()
+    
 
 
 def main():

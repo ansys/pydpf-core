@@ -9,11 +9,14 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.check_version import meets_version, get_server_version
 from conftest import local_server
 
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
+
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
 
 def test_create_operator():
@@ -978,6 +981,19 @@ def test_dot_operator_operator():
     assert out[0].scoping.ids == [1, 2]
     assert np.allclose(out[0].data, -field.data)
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_with_progress_operator(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)    
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
+    add = dpf.core.operators.math.add_fc(opnorm,opnorm)
+    add2 = dpf.core.operators.math.add_fc(add,add)
+    add3 = dpf.core.operators.math.add_fc(add2)
+    add4 = dpf.core.operators.math.add_fc(add3,add3)
+    add4.progress_bar=True
+    fc = add4.outputs.fields_container()
+    assert len(fc)==2
 
 def test_add_operator_server_operator():
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)

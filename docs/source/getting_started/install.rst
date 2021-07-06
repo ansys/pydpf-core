@@ -30,7 +30,7 @@ development flag:
 
 .. code::
 
-    git clone https://github.com/pyansys/DPF-Core
-    cd DPF-Core
+    git clone https://github.com/pyansys/pydpf-core
+    cd pydpf-core
     pip install -e .
 
