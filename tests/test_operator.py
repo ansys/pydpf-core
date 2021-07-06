@@ -946,7 +946,7 @@ def test_eval_operator(tmpdir):
     assert np.allclose(data, [2.0,2.0,2.0])
     
     csv = dpf.core.Operator("field_to_csv")
-    csv.inputs.file_path.connect(tmpdir.join("file.csv"))
+    csv.inputs.file_path.connect(str(tmpdir)+(r"/file.csv"))
     csv.inputs.field_or_fields_container.connect(f)
     assert csv.eval() == None
     
