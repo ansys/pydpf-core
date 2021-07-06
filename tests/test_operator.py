@@ -932,6 +932,24 @@ def test_dot_operator_operator():
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, -field.data)
     
+def test_eval_operator(tmpdir):
+    op= dpf.core.Operator("norm")
+    inpt = dpf.core.Field(nentities=3)
+    data = [0.0,2.0,2.0,0.0,2.0,2.0,0.0,2.0,2.0]
+    scop = dpf.core.Scoping()
+    scop.ids = [1,2,3]
+    inpt.data = data
+    inpt.scoping = scop
+    op.connect(0,inpt)
+    f = op.eval()
+    data = f.data
+    assert np.allclose(data, [2.0,2.0,2.0])
+    
+    serialize = dpf.operators.serialization.field_to_csv()
+    serialize.inputs.file_path(tmpdir.join("file.csv"))
+    serialize.inputs.field_or_fields_container.connect(inpt)
+    assert serialize.eval() == None
+    
     
 def test_delete_operator():
     op = dpf.core.Operator("min_max")
