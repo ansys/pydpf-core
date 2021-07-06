@@ -935,7 +935,7 @@ def test_dot_operator_operator():
 def test_eval_operator(tmpdir):
     op= dpf.core.Operator("norm")
     inpt = dpf.core.Field(nentities=3)
-    data = [0.0,2.0,2.0,0.0,2.0,2.0,0.0,2.0,2.0]
+    data = [0.0,2.0,0.0,2.0,0.0,0.0,0.0,0.0,2.0]
     scop = dpf.core.Scoping()
     scop.ids = [1,2,3]
     inpt.data = data
