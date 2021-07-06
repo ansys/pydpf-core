@@ -945,10 +945,10 @@ def test_eval_operator(tmpdir):
     data = f.data
     assert np.allclose(data, [2.0,2.0,2.0])
     
-    serialize = dpf.operators.serialization.field_to_csv()
-    serialize.inputs.file_path(tmpdir.join("file.csv"))
-    serialize.inputs.field_or_fields_container.connect(inpt)
-    assert serialize.eval() == None
+    csv = dpf.Operator("field_to_csv")
+    csv.inputs.file_path.connect(tmpdir.join("file.csv"))
+    csv.inputs.field_or_fields_container.connect(f)
+    assert csv.eval() == None
     
     
 def test_delete_operator():
