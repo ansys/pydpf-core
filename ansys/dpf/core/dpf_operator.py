@@ -284,6 +284,18 @@ class Operator:
     def run(self):
         """Evaluate this operator"""
         self.get_output()
+        
+    def eval(self, pin = None):
+        """Evaluate this operator"""
+        if not pin:
+            if self.outputs != None and len(self.outputs._outputs) > 0:
+                return self.outputs._outputs[0]()
+            else:
+                self.run()
+        else :
+            for output in self.outputs._outputs:
+                if output._pin == pin :
+                    return output()
 
     def _find_outputs_corresponding_pins(self, type_names, inpt, pin,
                                          corresponding_pins):
