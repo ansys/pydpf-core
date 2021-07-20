@@ -538,6 +538,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         scoping,
         scopings_container,
         time_freq_support,
+        workflow,
     )
 
     if out.HasField("str"):
@@ -588,6 +589,9 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
     elif out.HasField("cyc_support"):
         toconvert = out.cyc_support
         return cyclic_support.CyclicSupport(server=server, cyclic_support=toconvert)
+    elif out.HasField("workflow"):
+        toconvert = out.workflow
+        return workflow.Workflow(server=server,workflow=toconvert)
 
 
 def _fillConnectionRequestMessage(request, inpt, pin_out=0):
@@ -599,6 +603,7 @@ def _fillConnectionRequestMessage(request, inpt, pin_out=0):
         meshed_region,
         model,
         scoping,
+        workflow,
     )
 
     if isinstance(inpt, str):
@@ -628,6 +633,8 @@ def _fillConnectionRequestMessage(request, inpt, pin_out=0):
         request.mesh.CopyFrom(inpt._message)
     elif isinstance(inpt, cyclic_support.CyclicSupport):
         request.cyc_support.CopyFrom(inpt._message)
+    elif isinstance(inpt, workflow.Workflow):
+        request.workflow.CopyFrom(inpt._message)
     elif isinstance(inpt, Operator):
         request.inputop.inputop.CopyFrom(inpt._message)
         request.inputop.pinOut = pin_out

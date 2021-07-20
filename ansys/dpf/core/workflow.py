@@ -27,7 +27,7 @@ class Workflow:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    workflow :  workflow_pb2.Workflow
+    workflow :  workflow_message_pb2.Workflow
 
     Examples
     --------
