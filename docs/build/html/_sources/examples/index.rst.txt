@@ -182,10 +182,10 @@ These examples explain the basic concepts of DPF.
 
 .. only:: html
 
- .. figure:: /examples/00-basic/images/thumb/sphx_glr_06-use_result_helpers_thumb.png
+ .. figure:: /examples/00-basic/images/thumb/sphx_glr_07-use_result_helpers_thumb.png
      :alt: Use Result Helpers to Load Custom Data
 
-     :ref:`sphx_glr_examples_00-basic_06-use_result_helpers.py`
+     :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py`
 
 .. raw:: html
 
@@ -195,7 +195,7 @@ These examples explain the basic concepts of DPF.
 .. toctree::
    :hidden:
 
-   /examples/00-basic/06-use_result_helpers
+   /examples/00-basic/07-use_result_helpers
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

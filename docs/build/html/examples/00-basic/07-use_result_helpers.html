@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bring Field’s data locally to improve performances &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Use Result Helpers to Load Custom Data &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -38,8 +38,8 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Load plugin" href="06-load_plugin.html" />
-    <link rel="prev" title="Write/load and upload/download a result file" href="04-basic-load-file.html" />
+    <link rel="next" title="Transient Analysis Result Example" href="../01-static-transient/00-basic_transient.html" />
+    <link rel="prev" title="Load plugin" href="06-load_plugin.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -163,9 +163,9 @@
   </a>
  </li>
 </ul>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-use_local_data.html">
    Bring Field’s data locally to improve performances
   </a>
  </li>
@@ -177,9 +177,9 @@
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="07-use_result_helpers.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Use Result Helpers to Load Custom Data
   </a>
  </li>
@@ -317,27 +317,17 @@
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Bring Field’s data locally to improve performances
+   Use Result Helpers to Load Custom Data
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-the-workflow">
-   Create the Workflow
+  <a class="reference internal nav-link" href="#visualize-specific-mode-shapes">
+   Visualize specific mode shapes
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#manipulate-data-locally">
-   Manipulate data locally
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-the-result-field">
-   Plot the result field
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-the-initial-invariants">
-   Plot the initial invariants
+  <a class="reference internal nav-link" href="#choose-a-spatial-subset">
+   Choose a spatial subset
   </a>
  </li>
 </ul>
@@ -363,16 +353,15 @@
                 
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-examples-00-basic-05-use-local-data-py"><span class="std std-ref">here</span></a>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-00-basic-07-use-result-helpers-py"><span class="std std-ref">here</span></a>
 to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="bring-field-s-data-locally-to-improve-performances">
-<span id="ref-use-local-data-example"></span><span id="sphx-glr-examples-00-basic-05-use-local-data-py"></span><h1>Bring Field’s data locally to improve performances<a class="headerlink" href="#bring-field-s-data-locally-to-improve-performances" title="Permalink to this headline">¶</a></h1>
-<p>Using the as_local_field option allows to bring the server’s
-data locally and to work only on the local process before sending the data
-updates to the server on one shot at the end.
-Reducing the number of calls to the server is key to improve
-performances.</p>
+<div class="sphx-glr-example-title section" id="use-result-helpers-to-load-custom-data">
+<span id="ref-use-result-helpers"></span><span id="sphx-glr-examples-00-basic-07-use-result-helpers-py"></span><h1>Use Result Helpers to Load Custom Data<a class="headerlink" href="#use-result-helpers-to-load-custom-data" title="Permalink to this headline">¶</a></h1>
+<p>The <cite>Result</cite> class which instances are created by the <cite>Model</cite> gives access to
+helpers to request results on specific mesh and time scopings.
+With those helpers, working on a custom spatial and temporal subset of the
+model is straightforward.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -381,7 +370,7 @@ performances.</p>
 </pre></div>
 </div>
 <p>First, create a model object to establish a connection with an
-example result file and then extract</p>
+example result file</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_multi_stage_cyclic_result</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
@@ -418,105 +407,73 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 </pre></div>
 </div>
 </div>
-<div class="section" id="create-the-workflow">
-<h1>Create the Workflow<a class="headerlink" href="#create-the-workflow" title="Permalink to this headline">¶</a></h1>
-<p>Create a simple workflow computing the principal stress on the skin
-of the model. Principal stress maximul usually occurs on the skin of the
-model, computing results only on this skin allows to reduce data sizes</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skin_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">external_layer</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
-<span class="n">skin_mesh</span> <span class="o">=</span> <span class="n">skin_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">()</span>
+<div class="section" id="visualize-specific-mode-shapes">
+<h1>Visualize specific mode shapes<a class="headerlink" href="#visualize-specific-mode-shapes" title="Permalink to this headline">¶</a></h1>
+<p>Choose the modes to visualize</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+
+
+<span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">modes</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Plot the mesh skin</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skin_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</div>
+<div class="section" id="choose-a-spatial-subset">
+<h1>Choose a spatial subset<a class="headerlink" href="#choose-a-spatial-subset" title="Permalink to this headline">¶</a></h1>
+<p>Work only a named selection (or component)</p>
+<p>Print the available named selection</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">available_named_selections</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="05 use local data" class="sphx-glr-single-img" src="../../_images/sphx_glr_05-use_local_data_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(1.219394790046167, 1.289764203596167, 1.147514203596167),
- (0.07188058645000002, 0.14225, 0.0),
- (0.0, 0.0, 1.0)]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;BC&#39;, &#39;ELM&#39;, &#39;STAG1&#39;, &#39;STAG1HIGH&#39;, &#39;STAG1LOW&#39;, &#39;STAG2&#39;, &#39;STAG2HIGH&#39;, &#39;STAG2LOW&#39;, &#39;_BC_NOD&#39;, &#39;_FIXEDSU&#39;, &#39;_INTF_ELM&#39;, &#39;_INTF_NOD&#39;, &#39;_NOD&#39;, &#39;_STAG1_BASE_ELM&#39;, &#39;_STAG1_BASE_NOD&#39;, &#39;_STAG1_CYCHIGH_NOD&#39;, &#39;_STAG1_CYCLOW_NOD&#39;, &#39;_STAG2_BASE_ELM&#39;, &#39;_STAG2_BASE_NOD&#39;, &#39;_STAG2_CYCHIGH_NOD&#39;, &#39;_STAG2_CYCLOW_NOD&#39;]
 </pre></div>
 </div>
-<p>Compute the stress principal inveriants on the skin nodes only</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">data_sources</span><span class="p">)</span>
-<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
-<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">skin_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">nodes_mesh_scoping</span><span class="p">)</span>
+<p>Specify to the result that we work on a specific named selection</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span><span class="o">.</span><span class="n">on_named_selection</span><span class="p">(</span><span class="s1">&#39;_STAG1_BASE_NOD&#39;</span><span class="p">)</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">disp</span><span class="p">()</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="c1">#expand cyclic</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
-
-<span class="n">principal_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">invariant</span><span class="o">.</span><span class="n">principal_invariants_fc</span><span class="p">(</span><span class="n">stress_op</span><span class="p">)</span>
-<span class="n">principal_stress_1</span> <span class="o">=</span> <span class="n">principal_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_eig_1</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">principal_stress_2</span> <span class="o">=</span> <span class="n">principal_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_eig_2</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">principal_stress_3</span> <span class="o">=</span> <span class="n">principal_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_eig_3</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="manipulate-data-locally">
-<h1>Manipulate data locally<a class="headerlink" href="#manipulate-data-locally" title="Permalink to this headline">¶</a></h1>
-<p>As an example, we will go over the fields, keep the largest invariant value
-by node if the averaged value of invariants is large enough
-Exploring data allows the user add his own custom needs easily</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">node_scoping_ids</span> <span class="o">=</span> <span class="n">principal_stress_1</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
-<span class="n">threshold</span> <span class="o">=</span> <span class="mf">300000.</span>
-
-<span class="n">field_to_keep</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_scoping_ids</span><span class="p">),</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">field_to_keep</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">principal_stress_1</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">s1</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">principal_stress_2</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">s2</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">principal_stress_3</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">s3</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_scoping_ids</span><span class="p">):</span>
-                    <span class="n">d1</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
-                    <span class="n">d2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
-                    <span class="n">d3</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s3</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">d1</span><span class="o">+</span><span class="n">d2</span><span class="o">+</span><span class="n">d3</span><span class="p">)</span><span class="o">/</span><span class="mf">3.</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="p">:</span>
-                        <span class="n">d</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="p">,</span><span class="n">d3</span><span class="p">)</span>
-                        <span class="n">f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="plot-the-result-field">
-<h1>Plot the result field<a class="headerlink" href="#plot-the-result-field" title="Permalink to this headline">¶</a></h1>
-<p>Plot the result field on the skin mesh</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skin_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field_to_keep</span><span class="p">)</span>
-</pre></div>
-</div>
-<img alt="05 use local data" class="sphx-glr-single-img" src="../../_images/sphx_glr_05-use_local_data_002.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(1.219394790046167, 1.289764203596167, 1.147514203596167),
- (0.07188058645000002, 0.14225, 0.0),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
-</div>
-<div class="section" id="plot-the-initial-invariants">
-<h1>Plot the initial invariants<a class="headerlink" href="#plot-the-initial-invariants" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skin_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">principal_stress_1</span><span class="p">)</span>
-<span class="n">skin_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">principal_stress_2</span><span class="p">)</span>
-<span class="n">skin_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">principal_stress_3</span><span class="p">)</span>
+<span class="c1">#plot</span>
+<span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">:</span>
+    <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
-<li><img alt="05 use local data" class="sphx-glr-multi-img" src="../../_images/sphx_glr_05-use_local_data_003.png" />
+<li><img alt="07 use result helpers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_07-use_result_helpers_001.png" />
 </li>
-<li><img alt="05 use local data" class="sphx-glr-multi-img" src="../../_images/sphx_glr_05-use_local_data_004.png" />
+<li><img alt="07 use result helpers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_07-use_result_helpers_002.png" />
 </li>
-<li><img alt="05 use local data" class="sphx-glr-multi-img" src="../../_images/sphx_glr_05-use_local_data_005.png" />
+<li><img alt="07 use result helpers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_07-use_result_helpers_003.png" />
 </li>
 </ul>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(1.219394790046167, 1.289764203596167, 1.147514203596167),
- (0.07188058645000002, 0.14225, 0.0),
- (0.0, 0.0, 1.0)]
+<p>Specify to the result that we work on specific nodes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">modes</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">on_mesh_scoping</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)))</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">disp</span><span class="p">()</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="c1">#expand cyclic</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="c1">#plot</span>
+<span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">:</span>
+    <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.539 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-05-use-local-data-py">
+<ul class="sphx-glr-horizontal">
+<li><img alt="07 use result helpers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_07-use_result_helpers_004.png" />
+</li>
+<li><img alt="07 use result helpers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_07-use_result_helpers_005.png" />
+</li>
+<li><img alt="07 use result helpers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_07-use_result_helpers_006.png" />
+</li>
+</ul>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.414 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-07-use-result-helpers-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/588398b53425e5d702dbb6eb2434ee16/05-use_local_data.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">05-use_local_data.py</span></code></a></p>
+<p><a class="reference download internal" download="" href="../../_downloads/9488ecf6edc8727f37bfc2855da786ef/07-use_result_helpers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">07-use_result_helpers.py</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/f9d114f85aa34fa9c4ca544dc2530343/05-use_local_data.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">05-use_local_data.ipynb</span></code></a></p>
+<p><a class="reference download internal" download="" href="../../_downloads/c06d060ff24438e6b477e656631c8ba5/07-use_result_helpers.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">07-use_result_helpers.ipynb</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -528,8 +485,8 @@ Exploring data allows the user add his own custom needs easily</p>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="04-basic-load-file.html" title="previous page">Write/load and upload/download a result file</a>
-    <a class='right-next' id="next-link" href="06-load_plugin.html" title="next page">Load plugin</a>
+    <a class='left-prev' id="prev-link" href="06-load_plugin.html" title="previous page">Load plugin</a>
+    <a class='right-next' id="next-link" href="../01-static-transient/00-basic_transient.html" title="next page">Transient Analysis Result Example</a>
 
               </div>
               
