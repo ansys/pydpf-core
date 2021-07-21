@@ -63,7 +63,7 @@ class connectivity_ids(Operator):
                                  10 : PinSpecification(name = "take_mid_nodes", type_names=["bool"], optional=True, document="""default is true""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "mesh_scoping", type_names=["scoping"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "elemental_scoping", type_names=["scoping"], optional=False, document="""same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping""")})
+                                 1 : PinSpecification(name = "elemental_scoping", type_names=["scoping"], optional=False, document="""same as the input scoping but with ids duplicated to have the same size as nodal output scoping""")})
         return spec
 
 
@@ -227,7 +227,7 @@ class OutputsConnectivityIds(_Outputs):
         """Allows to get elemental_scoping output of the operator
 
 
-        - pindoc: same as the input scoping but with ids dupplicated to havve the same size as nodal output scoping
+        - pindoc: same as the input scoping but with ids duplicated to have the same size as nodal output scoping
 
         Returns
         ----------

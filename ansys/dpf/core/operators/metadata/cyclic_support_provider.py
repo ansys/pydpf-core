@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class cyclic_support_provider(Operator):
-    """Read the cyclic support (DPF entity containing necessary informations for expansions) and expands the mesh.
+    """Read the cyclic support (DPF entity containing necessary information for expansions) and expands the mesh.
 
       available inputs:
         - streams_container (StreamsContainer) (optional)
@@ -66,7 +66,7 @@ class cyclic_support_provider(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Read the cyclic support (DPF entity containing necessary informations for expansions) and expands the mesh.""",
+        spec = Specification(description="""Read the cyclic support (DPF entity containing necessary information for expansions) and expands the mesh.""",
                              map_input_pin_spec={
                                  3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""Streams containing the result file."""), 
                                  4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""data sources containing the result file."""), 

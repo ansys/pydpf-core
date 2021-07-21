@@ -14,8 +14,8 @@ class minus(Operator):
     """Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
       available inputs:
-        - fieldA (Field, FieldsContainer)
-        - fieldB (Field, FieldsContainer)
+        - fieldA (Field, FieldsContainer, float, list)
+        - fieldB (Field, FieldsContainer, float, list)
 
       available outputs:
         - field (Field)
@@ -51,8 +51,8 @@ class minus(Operator):
     def _spec():
         spec = Specification(description="""Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 1 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                                 0 : PinSpecification(name = "fieldA", type_names=["field","fields_container","double","vector<double>"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 1 : PinSpecification(name = "fieldB", type_names=["field","fields_container","double","vector<double>"], optional=False, document="""field or fields container with only one field is expected""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
         return spec
@@ -114,7 +114,7 @@ class InputsMinus(_Inputs):
 
         Parameters
         ----------
-        my_fieldA : Field, FieldsContainer, 
+        my_fieldA : Field, FieldsContainer, float, list, 
 
         Examples
         --------
@@ -136,7 +136,7 @@ class InputsMinus(_Inputs):
 
         Parameters
         ----------
-        my_fieldB : Field, FieldsContainer, 
+        my_fieldB : Field, FieldsContainer, float, list, 
 
         Examples
         --------

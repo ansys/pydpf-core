@@ -14,7 +14,7 @@ class component_selector_fc(Operator):
     """Create a scalar fields container based on the selected component for each field.
 
       available inputs:
-        - fields_container (FieldsContainer)
+        - fields_container (FieldsContainer, Field)
         - component_number (int, list)
 
       available outputs:
@@ -51,7 +51,7 @@ class component_selector_fc(Operator):
     def _spec():
         spec = Specification(description="""Create a scalar fields container based on the selected component for each field.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container","field"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "component_number", type_names=["int32","vector<int32>"], optional=False, document="""one or several component index that will be extracted from the initial field.""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
@@ -112,7 +112,7 @@ class InputsComponentSelectorFc(_Inputs):
 
         Parameters
         ----------
-        my_fields_container : FieldsContainer, 
+        my_fields_container : FieldsContainer, Field, 
 
         Examples
         --------

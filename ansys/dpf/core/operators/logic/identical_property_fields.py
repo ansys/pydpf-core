@@ -19,7 +19,7 @@ class identical_property_fields(Operator):
 
       available outputs:
         - are_identical (bool)
-        - informations (str)
+        - information (str)
 
       Examples
       --------
@@ -39,7 +39,7 @@ class identical_property_fields(Operator):
 
       >>> # Get output data
       >>> result_are_identical = op.outputs.are_identical()
-      >>> result_informations = op.outputs.informations()"""
+      >>> result_information = op.outputs.information()"""
     def __init__(self, property_fieldA=None, property_fieldB=None, config=None, server=None):
         super().__init__(name="compare::property_field", config = config, server = server)
         self._inputs = InputsIdenticalPropertyFields(self)
@@ -57,7 +57,7 @@ class identical_property_fields(Operator):
                                  1 : PinSpecification(name = "property_fieldB", type_names=["abstract_meshed_region"], optional=False, document="""""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "are_identical", type_names=["bool"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "informations", type_names=["string"], optional=False, document="""""")})
+                                 1 : PinSpecification(name = "information", type_names=["string"], optional=False, document="""""")})
         return spec
 
 
@@ -158,14 +158,14 @@ class OutputsIdenticalPropertyFields(_Outputs):
       >>> op = dpf.operators.logic.identical_property_fields()
       >>> # Connect inputs : op.inputs. ...
       >>> result_are_identical = op.outputs.are_identical()
-      >>> result_informations = op.outputs.informations()
+      >>> result_information = op.outputs.information()
     """
     def __init__(self, op: Operator):
         super().__init__(identical_property_fields._spec().outputs, op)
         self._are_identical = Output(identical_property_fields._spec().output_pin(0), 0, op) 
         self._outputs.append(self._are_identical)
-        self._informations = Output(identical_property_fields._spec().output_pin(1), 1, op) 
-        self._outputs.append(self._informations)
+        self._information = Output(identical_property_fields._spec().output_pin(1), 1, op) 
+        self._outputs.append(self._information)
 
     @property
     def are_identical(self):
@@ -187,13 +187,13 @@ class OutputsIdenticalPropertyFields(_Outputs):
         return self._are_identical
 
     @property
-    def informations(self):
-        """Allows to get informations output of the operator
+    def information(self):
+        """Allows to get information output of the operator
 
 
         Returns
         ----------
-        my_informations : str, 
+        my_information : str, 
 
         Examples
         --------
@@ -201,7 +201,7 @@ class OutputsIdenticalPropertyFields(_Outputs):
 
         >>> op = dpf.operators.logic.identical_property_fields()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_informations = op.outputs.informations() 
+        >>> result_information = op.outputs.information() 
         """
-        return self._informations
+        return self._information
 

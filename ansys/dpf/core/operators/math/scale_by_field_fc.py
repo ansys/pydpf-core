@@ -14,8 +14,8 @@ class scale_by_field_fc(Operator):
     """Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
       available inputs:
-        - field_or_fields_container_A (FieldsContainer)
-        - field_or_fields_container_B (FieldsContainer)
+        - field_or_fields_container_A (Field, FieldsContainer)
+        - field_or_fields_container_B (Field, FieldsContainer)
 
       available outputs:
         - fields_container (FieldsContainer)
@@ -28,9 +28,9 @@ class scale_by_field_fc(Operator):
       >>> op = dpf.operators.math.scale_by_field_fc()
 
       >>> # Make input connections
-      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_A = dpf.Field()
       >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
-      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_B = dpf.Field()
       >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
 
       >>> # Instantiate operator and connect inputs in one line
@@ -51,8 +51,8 @@ class scale_by_field_fc(Operator):
     def _spec():
         spec = Specification(description="""Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "field_or_fields_container_A", type_names=["fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 1 : PinSpecification(name = "field_or_fields_container_B", type_names=["fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                                 0 : PinSpecification(name = "field_or_fields_container_A", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 1 : PinSpecification(name = "field_or_fields_container_B", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
         return spec
@@ -94,9 +94,9 @@ class InputsScaleByFieldFc(_Inputs):
       >>> from ansys.dpf import core as dpf
 
       >>> op = dpf.operators.math.scale_by_field_fc()
-      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_A = dpf.Field()
       >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
-      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_B = dpf.Field()
       >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
     """
     def __init__(self, op: Operator):
@@ -114,7 +114,7 @@ class InputsScaleByFieldFc(_Inputs):
 
         Parameters
         ----------
-        my_field_or_fields_container_A : FieldsContainer, 
+        my_field_or_fields_container_A : Field, FieldsContainer, 
 
         Examples
         --------
@@ -136,7 +136,7 @@ class InputsScaleByFieldFc(_Inputs):
 
         Parameters
         ----------
-        my_field_or_fields_container_B : FieldsContainer, 
+        my_field_or_fields_container_B : Field, FieldsContainer, 
 
         Examples
         --------

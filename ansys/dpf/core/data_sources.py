@@ -192,7 +192,7 @@ class DataSources:
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
-    def add_upstream(self, upstream_data_sources):
+    def add_upstream(self, upstream_data_sources, result_key=""):
         """Add an upstream datasources.
 
         This is used to add a set of path creating an upstream for
@@ -201,11 +201,36 @@ class DataSources:
         Parameters
         ----------
         upstream_data_sources : DataSources
+        
+        result_key: str, optional
+            Extension of the result file group with which this upstream belongs
 
         """
         request = data_sources_pb2.UpdateUpstreamRequest()
         request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
         request.data_sources.CopyFrom(self._message)
+        request.result_key = result_key
+        self._stub.UpdateUpstream(request)
+        
+    def add_upstream_for_domain(self, upstream_data_sources, domain_id):
+        """Add an upstream datasources.
+
+        This is used to add a set of path creating an upstream for
+        recursive workflows.
+
+        Parameters
+        ----------
+        upstream_data_sources : DataSources
+        
+        domain_id: int
+            Domain id for distributed files.
+
+        """
+        request = data_sources_pb2.UpdateUpstreamRequest()
+        request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
+        request.data_sources.CopyFrom(self._message)
+        request.domain.domain_path = True
+        request.domain.domain_id = domain_id
         self._stub.UpdateUpstream(request)
 
     @property

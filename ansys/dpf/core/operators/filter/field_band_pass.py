@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class field_band_pass(Operator):
-    """The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.
+    """The band pass filter returns all the values strictly superior to the min threshold value and strictly inferior to the max threshold value in input.
 
       available inputs:
         - field (Field, FieldsContainer)
@@ -54,7 +54,7 @@ class field_band_pass(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""The band pass filter returns all the values strictly superior to the min threshold value and stricly inferior to the max threshold value in input.""",
+        spec = Specification(description="""The band pass filter returns all the values strictly superior to the min threshold value and strictly inferior to the max threshold value in input.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
                                  1 : PinSpecification(name = "min_threshold", type_names=["double","field"], optional=False, document="""a min threshold scalar or a field containing one value is expected"""), 

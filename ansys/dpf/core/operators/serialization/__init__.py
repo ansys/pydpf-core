@@ -2,6 +2,8 @@ from .serializer import serializer
 from .mechanical_csv_to_field import mechanical_csv_to_field 
 from .field_to_csv import field_to_csv 
 from .deserializer import deserializer 
+from .serializer_to_string import serializer_to_string 
+from .string_deserializer import string_deserializer 
 from .csv_to_field import csv_to_field 
 from .vtk_export import vtk_export 
 from .vtk_to_fields import vtk_to_fields 

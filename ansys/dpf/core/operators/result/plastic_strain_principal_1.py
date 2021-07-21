@@ -74,8 +74,8 @@ class plastic_strain_principal_1(Operator):
     def _spec():
         spec = Specification(description="""Read/compute element nodal component plastic strains 1st principal component by calling the readers defined by the datasources and computing its eigen values.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "time_scoping", type_names=["scoping","int32","vector<int32>","double","field","vector<double>"], optional=True, document="""time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) requiered in output"""), 
-                                 1 : PinSpecification(name = "mesh_scoping", type_names=["scopings_container","scoping"], optional=True, document="""nodes or elements scoping requiered in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains"""), 
+                                 0 : PinSpecification(name = "time_scoping", type_names=["scoping","int32","vector<int32>","double","field","vector<double>"], optional=True, document="""time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output"""), 
+                                 1 : PinSpecification(name = "mesh_scoping", type_names=["scopings_container","scoping"], optional=True, document="""nodes or elements scoping required in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains"""), 
                                  2 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=True, document="""FieldsContainer already allocated modified inplace"""), 
                                  3 : PinSpecification(name = "streams_container", type_names=["streams_container"], optional=True, document="""result file container allowed to be kept open to cache data"""), 
                                  4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""result file path container, used if no streams are set"""), 
@@ -168,7 +168,7 @@ class InputsPlasticStrainPrincipal1(_Inputs):
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator
 
-        - pindoc: time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) requiered in output
+        - pindoc: time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output
 
         Parameters
         ----------
@@ -190,7 +190,7 @@ class InputsPlasticStrainPrincipal1(_Inputs):
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator
 
-        - pindoc: nodes or elements scoping requiered in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains
+        - pindoc: nodes or elements scoping required in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains
 
         Parameters
         ----------
