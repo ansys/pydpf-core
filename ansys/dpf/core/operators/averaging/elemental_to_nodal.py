@@ -58,7 +58,7 @@ class elemental_to_nodal(Operator):
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
                                  1 : PinSpecification(name = "mesh_scoping", type_names=["scoping"], optional=True, document=""""""), 
-                                 2 : PinSpecification(name = "force_averaging", type_names=["int32"], optional=True, document="""averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for dicrete ones)""")},
+                                 2 : PinSpecification(name = "force_averaging", type_names=["int32"], optional=True, document="""averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for discrete ones)""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
         return spec
@@ -162,7 +162,7 @@ class InputsElementalToNodal(_Inputs):
     def force_averaging(self):
         """Allows to connect force_averaging input to the operator
 
-        - pindoc: averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for dicrete ones)
+        - pindoc: averaging on nodes is used if this pin is set to 1 (default is 1 for integrated results and 0 for discrete ones)
 
         Parameters
         ----------

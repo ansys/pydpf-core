@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class elemental_mean_fc(Operator):
-    """Computes the average of a multi-entity container of fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input fields are mixed shell/solid and collapseShellLayers is not asked, then the fields are splitted by element shape and the output fields container has elshape label.
+    """Computes the average of a multi-entity container of fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input fields are mixed shell/solid and collapseShellLayers is not asked, then the fields are split by element shape and the output fields container has elshape label.
 
       available inputs:
         - fields_container (FieldsContainer)
@@ -64,7 +64,7 @@ class elemental_mean_fc(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Computes the average of a multi-entity container of fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input fields are mixed shell/solid and collapseShellLayers is not asked, then the fields are splitted by element shape and the output fields container has elshape label.""",
+        spec = Specification(description="""Computes the average of a multi-entity container of fields, (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the input fields are mixed shell/solid and collapseShellLayers is not asked, then the fields are split by element shape and the output fields container has elshape label.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "collapse_shell_layers", type_names=["bool"], optional=True, document="""if true shell layers are averaged as well (default is false)"""), 

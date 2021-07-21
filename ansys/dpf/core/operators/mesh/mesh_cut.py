@@ -64,7 +64,7 @@ class mesh_cut(Operator):
                                  0 : PinSpecification(name = "field", type_names=["field"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "iso_value", type_names=["double"], optional=False, document="""iso value"""), 
                                  3 : PinSpecification(name = "closed_surface", type_names=["double"], optional=False, document="""1: closed surface, 0:iso surface"""), 
-                                 4 : PinSpecification(name = "slice_surfaces", type_names=["bool"], optional=False, document="""true: slicing will also take into account shell and 2D elements, false: sliicing will ignore shell and 2D elements. default is true""")},
+                                 4 : PinSpecification(name = "slice_surfaces", type_names=["bool"], optional=False, document="""true: slicing will also take into account shell and 2D elements, false: slicing will ignore shell and 2D elements. default is true""")},
                              map_output_pin_spec={
                                  2 : PinSpecification(name = "mesh", type_names=["meshed_region"], optional=False, document="""""")})
         return spec
@@ -194,7 +194,7 @@ class InputsMeshCut(_Inputs):
     def slice_surfaces(self):
         """Allows to connect slice_surfaces input to the operator
 
-        - pindoc: true: slicing will also take into account shell and 2D elements, false: sliicing will ignore shell and 2D elements. default is true
+        - pindoc: true: slicing will also take into account shell and 2D elements, false: slicing will ignore shell and 2D elements. default is true
 
         Parameters
         ----------

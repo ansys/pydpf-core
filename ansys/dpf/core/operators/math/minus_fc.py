@@ -14,8 +14,8 @@ class minus_fc(Operator):
     """Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.
 
       available inputs:
-        - field_or_fields_container_A (FieldsContainer)
-        - field_or_fields_container_B (FieldsContainer)
+        - field_or_fields_container_A (Field, FieldsContainer, float, list)
+        - field_or_fields_container_B (Field, FieldsContainer, float, list)
 
       available outputs:
         - fields_container (FieldsContainer)
@@ -28,9 +28,9 @@ class minus_fc(Operator):
       >>> op = dpf.operators.math.minus_fc()
 
       >>> # Make input connections
-      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_A = dpf.Field()
       >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
-      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_B = dpf.Field()
       >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
 
       >>> # Instantiate operator and connect inputs in one line
@@ -51,8 +51,8 @@ class minus_fc(Operator):
     def _spec():
         spec = Specification(description="""Computes the difference of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "field_or_fields_container_A", type_names=["fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 1 : PinSpecification(name = "field_or_fields_container_B", type_names=["fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                                 0 : PinSpecification(name = "field_or_fields_container_A", type_names=["field","fields_container","double","vector<double>"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 1 : PinSpecification(name = "field_or_fields_container_B", type_names=["field","fields_container","double","vector<double>"], optional=False, document="""field or fields container with only one field is expected""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
         return spec
@@ -94,9 +94,9 @@ class InputsMinusFc(_Inputs):
       >>> from ansys.dpf import core as dpf
 
       >>> op = dpf.operators.math.minus_fc()
-      >>> my_field_or_fields_container_A = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_A = dpf.Field()
       >>> op.inputs.field_or_fields_container_A.connect(my_field_or_fields_container_A)
-      >>> my_field_or_fields_container_B = dpf.FieldsContainer()
+      >>> my_field_or_fields_container_B = dpf.Field()
       >>> op.inputs.field_or_fields_container_B.connect(my_field_or_fields_container_B)
     """
     def __init__(self, op: Operator):
@@ -114,7 +114,7 @@ class InputsMinusFc(_Inputs):
 
         Parameters
         ----------
-        my_field_or_fields_container_A : FieldsContainer, 
+        my_field_or_fields_container_A : Field, FieldsContainer, float, list, 
 
         Examples
         --------
@@ -136,7 +136,7 @@ class InputsMinusFc(_Inputs):
 
         Parameters
         ----------
-        my_field_or_fields_container_B : FieldsContainer, 
+        my_field_or_fields_container_B : Field, FieldsContainer, float, list, 
 
         Examples
         --------

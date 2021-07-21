@@ -7,7 +7,7 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.Native plugin, from "logic" category
+"""Operators from Ans.Dpf.Native plugin, from "utility" category
 """
 
 class merge_fields_by_label(Operator):
@@ -28,7 +28,7 @@ class merge_fields_by_label(Operator):
       >>> from ansys.dpf import core as dpf
 
       >>> # Instantiate operator
-      >>> op = dpf.operators.logic.merge_fields_by_label()
+      >>> op = dpf.operators.utility.merge_fields_by_label()
 
       >>> # Make input connections
       >>> my_fields_container = dpf.FieldsContainer()
@@ -41,7 +41,7 @@ class merge_fields_by_label(Operator):
       >>> op.inputs.sumMerge.connect(my_sumMerge)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.logic.merge_fields_by_label(fields_container=my_fields_container,label=my_label,merged_field_support=my_merged_field_support,sumMerge=my_sumMerge)
+      >>> op = dpf.operators.utility.merge_fields_by_label(fields_container=my_fields_container,label=my_label,merged_field_support=my_merged_field_support,sumMerge=my_sumMerge)
 
       >>> # Get output data
       >>> result_fields_container = op.outputs.fields_container()
@@ -108,7 +108,7 @@ class InputsMergeFieldsByLabel(_Inputs):
       --------
       >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.logic.merge_fields_by_label()
+      >>> op = dpf.operators.utility.merge_fields_by_label()
       >>> my_fields_container = dpf.FieldsContainer()
       >>> op.inputs.fields_container.connect(my_fields_container)
       >>> my_label = str()
@@ -141,7 +141,7 @@ class InputsMergeFieldsByLabel(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.logic.merge_fields_by_label()
+        >>> op = dpf.operators.utility.merge_fields_by_label()
         >>> op.inputs.fields_container.connect(my_fields_container)
         >>> #or
         >>> op.inputs.fields_container(my_fields_container)
@@ -163,7 +163,7 @@ class InputsMergeFieldsByLabel(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.logic.merge_fields_by_label()
+        >>> op = dpf.operators.utility.merge_fields_by_label()
         >>> op.inputs.label.connect(my_label)
         >>> #or
         >>> op.inputs.label(my_label)
@@ -185,7 +185,7 @@ class InputsMergeFieldsByLabel(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.logic.merge_fields_by_label()
+        >>> op = dpf.operators.utility.merge_fields_by_label()
         >>> op.inputs.merged_field_support.connect(my_merged_field_support)
         >>> #or
         >>> op.inputs.merged_field_support(my_merged_field_support)
@@ -207,7 +207,7 @@ class InputsMergeFieldsByLabel(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.logic.merge_fields_by_label()
+        >>> op = dpf.operators.utility.merge_fields_by_label()
         >>> op.inputs.sumMerge.connect(my_sumMerge)
         >>> #or
         >>> op.inputs.sumMerge(my_sumMerge)
@@ -221,7 +221,7 @@ class OutputsMergeFieldsByLabel(_Outputs):
       --------
       >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.logic.merge_fields_by_label()
+      >>> op = dpf.operators.utility.merge_fields_by_label()
       >>> # Connect inputs : op.inputs. ...
       >>> result_fields_container = op.outputs.fields_container()
       >>> result_merged_field_support = op.outputs.merged_field_support()
@@ -246,7 +246,7 @@ class OutputsMergeFieldsByLabel(_Outputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.logic.merge_fields_by_label()
+        >>> op = dpf.operators.utility.merge_fields_by_label()
         >>> # Connect inputs : op.inputs. ...
         >>> result_fields_container = op.outputs.fields_container() 
         """
@@ -265,7 +265,7 @@ class OutputsMergeFieldsByLabel(_Outputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.logic.merge_fields_by_label()
+        >>> op = dpf.operators.utility.merge_fields_by_label()
         >>> # Connect inputs : op.inputs. ...
         >>> result_merged_field_support = op.outputs.merged_field_support() 
         """

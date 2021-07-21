@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class min_by_component(Operator):
-    """Give the maximum for each element rank by comparing several fields.
+    """Give the minimum for each element rank by comparing several fields.
 
       available inputs:
         - use_absolute_value (bool)
@@ -59,7 +59,7 @@ class min_by_component(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Give the maximum for each element rank by comparing several fields.""",
+        spec = Specification(description="""Give the minimum for each element rank by comparing several fields.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "use_absolute_value", type_names=["bool"], optional=False, document="""use_absolute_value"""), 
                                  1 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 

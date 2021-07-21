@@ -1,6 +1,6 @@
 """
-splitted_on_property_type
-=========================
+split_on_property_type
+======================
 """
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
@@ -10,8 +10,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """Operators from Ans.Dpf.Native plugin, from "scoping" category
 """
 
-class splitted_on_property_type(Operator):
-    """Splits a given scoping or the mesh scoping (nodal or elemental) on given properties (elshape and/or material) and returns a scopings container with those splitted scopings.
+class split_on_property_type(Operator):
+    """Splits a given scoping or the mesh scoping (nodal or elemental) on given properties (elshape and/or material) and returns a scopings container with those split scopings.
 
       available inputs:
         - mesh_scoping (Scoping) (optional)
@@ -28,7 +28,7 @@ class splitted_on_property_type(Operator):
       >>> from ansys.dpf import core as dpf
 
       >>> # Instantiate operator
-      >>> op = dpf.operators.scoping.splitted_on_property_type()
+      >>> op = dpf.operators.scoping.split_on_property_type()
 
       >>> # Make input connections
       >>> my_mesh_scoping = dpf.Scoping()
@@ -43,14 +43,14 @@ class splitted_on_property_type(Operator):
       >>> op.inputs.label2.connect(my_label2)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.scoping.splitted_on_property_type(mesh_scoping=my_mesh_scoping,mesh=my_mesh,requested_location=my_requested_location,label1=my_label1,label2=my_label2)
+      >>> op = dpf.operators.scoping.split_on_property_type(mesh_scoping=my_mesh_scoping,mesh=my_mesh,requested_location=my_requested_location,label1=my_label1,label2=my_label2)
 
       >>> # Get output data
       >>> result_mesh_scoping = op.outputs.mesh_scoping()"""
     def __init__(self, mesh_scoping=None, mesh=None, requested_location=None, label1=None, label2=None, config=None, server=None):
         super().__init__(name="scoping::by_property", config = config, server = server)
-        self._inputs = InputsSplittedOnPropertyType(self)
-        self._outputs = OutputsSplittedOnPropertyType(self)
+        self._inputs = InputsSplitOnPropertyType(self)
+        self._outputs = OutputsSplitOnPropertyType(self)
         if mesh_scoping !=None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if mesh !=None:
@@ -64,7 +64,7 @@ class splitted_on_property_type(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Splits a given scoping or the mesh scoping (nodal or elemental) on given properties (elshape and/or material) and returns a scopings container with those splitted scopings.""",
+        spec = Specification(description="""Splits a given scoping or the mesh scoping (nodal or elemental) on given properties (elshape and/or material) and returns a scopings container with those split scopings.""",
                              map_input_pin_spec={
                                  1 : PinSpecification(name = "mesh_scoping", type_names=["scoping"], optional=True, document="""Scoping"""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=False, document="""mesh region"""), 
@@ -86,7 +86,7 @@ class splitted_on_property_type(Operator):
 
         Returns
         --------
-        inputs : InputsSplittedOnPropertyType 
+        inputs : InputsSplitOnPropertyType 
         """
         return super().inputs
 
@@ -97,21 +97,21 @@ class splitted_on_property_type(Operator):
 
         Returns
         --------
-        outputs : OutputsSplittedOnPropertyType 
+        outputs : OutputsSplitOnPropertyType 
         """
         return super().outputs
 
 
 #internal name: scoping::by_property
-#scripting name: splitted_on_property_type
-class InputsSplittedOnPropertyType(_Inputs):
-    """Intermediate class used to connect user inputs to splitted_on_property_type operator
+#scripting name: split_on_property_type
+class InputsSplitOnPropertyType(_Inputs):
+    """Intermediate class used to connect user inputs to split_on_property_type operator
 
       Examples
       --------
       >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.scoping.splitted_on_property_type()
+      >>> op = dpf.operators.scoping.split_on_property_type()
       >>> my_mesh_scoping = dpf.Scoping()
       >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
       >>> my_mesh = dpf.MeshedRegion()
@@ -124,16 +124,16 @@ class InputsSplittedOnPropertyType(_Inputs):
       >>> op.inputs.label2.connect(my_label2)
     """
     def __init__(self, op: Operator):
-        super().__init__(splitted_on_property_type._spec().inputs, op)
-        self._mesh_scoping = Input(splitted_on_property_type._spec().input_pin(1), 1, op, -1) 
+        super().__init__(split_on_property_type._spec().inputs, op)
+        self._mesh_scoping = Input(split_on_property_type._spec().input_pin(1), 1, op, -1) 
         self._inputs.append(self._mesh_scoping)
-        self._mesh = Input(splitted_on_property_type._spec().input_pin(7), 7, op, -1) 
+        self._mesh = Input(split_on_property_type._spec().input_pin(7), 7, op, -1) 
         self._inputs.append(self._mesh)
-        self._requested_location = Input(splitted_on_property_type._spec().input_pin(9), 9, op, -1) 
+        self._requested_location = Input(split_on_property_type._spec().input_pin(9), 9, op, -1) 
         self._inputs.append(self._requested_location)
-        self._label1 = Input(splitted_on_property_type._spec().input_pin(13), 13, op, 0) 
+        self._label1 = Input(split_on_property_type._spec().input_pin(13), 13, op, 0) 
         self._inputs.append(self._label1)
-        self._label2 = Input(splitted_on_property_type._spec().input_pin(14), 14, op, 1) 
+        self._label2 = Input(split_on_property_type._spec().input_pin(14), 14, op, 1) 
         self._inputs.append(self._label2)
 
     @property
@@ -150,7 +150,7 @@ class InputsSplittedOnPropertyType(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.scoping.splitted_on_property_type()
+        >>> op = dpf.operators.scoping.split_on_property_type()
         >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
         >>> #or
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
@@ -172,7 +172,7 @@ class InputsSplittedOnPropertyType(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.scoping.splitted_on_property_type()
+        >>> op = dpf.operators.scoping.split_on_property_type()
         >>> op.inputs.mesh.connect(my_mesh)
         >>> #or
         >>> op.inputs.mesh(my_mesh)
@@ -194,7 +194,7 @@ class InputsSplittedOnPropertyType(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.scoping.splitted_on_property_type()
+        >>> op = dpf.operators.scoping.split_on_property_type()
         >>> op.inputs.requested_location.connect(my_requested_location)
         >>> #or
         >>> op.inputs.requested_location(my_requested_location)
@@ -216,7 +216,7 @@ class InputsSplittedOnPropertyType(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.scoping.splitted_on_property_type()
+        >>> op = dpf.operators.scoping.split_on_property_type()
         >>> op.inputs.label1.connect(my_label1)
         >>> #or
         >>> op.inputs.label1(my_label1)
@@ -238,7 +238,7 @@ class InputsSplittedOnPropertyType(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.scoping.splitted_on_property_type()
+        >>> op = dpf.operators.scoping.split_on_property_type()
         >>> op.inputs.label2.connect(my_label2)
         >>> #or
         >>> op.inputs.label2(my_label2)
@@ -246,19 +246,19 @@ class InputsSplittedOnPropertyType(_Inputs):
         """
         return self._label2
 
-class OutputsSplittedOnPropertyType(_Outputs):
-    """Intermediate class used to get outputs from splitted_on_property_type operator
+class OutputsSplitOnPropertyType(_Outputs):
+    """Intermediate class used to get outputs from split_on_property_type operator
       Examples
       --------
       >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.scoping.splitted_on_property_type()
+      >>> op = dpf.operators.scoping.split_on_property_type()
       >>> # Connect inputs : op.inputs. ...
       >>> result_mesh_scoping = op.outputs.mesh_scoping()
     """
     def __init__(self, op: Operator):
-        super().__init__(splitted_on_property_type._spec().outputs, op)
-        self._mesh_scoping = Output(splitted_on_property_type._spec().output_pin(0), 0, op) 
+        super().__init__(split_on_property_type._spec().outputs, op)
+        self._mesh_scoping = Output(split_on_property_type._spec().output_pin(0), 0, op) 
         self._outputs.append(self._mesh_scoping)
 
     @property
@@ -276,7 +276,7 @@ class OutputsSplittedOnPropertyType(_Outputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.scoping.splitted_on_property_type()
+        >>> op = dpf.operators.scoping.split_on_property_type()
         >>> # Connect inputs : op.inputs. ...
         >>> result_mesh_scoping = op.outputs.mesh_scoping() 
         """

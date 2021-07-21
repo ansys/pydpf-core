@@ -9,7 +9,6 @@ from .add import add
 from .add_fc import add_fc 
 from .sin_fc import sin_fc 
 from .add_constant import add_constant 
-from .invert_fc import invert_fc 
 from .pow import pow 
 from .add_constant_fc import add_constant_fc 
 from .scale import scale 
@@ -29,6 +28,8 @@ from .sqrt import sqrt
 from .norm import norm 
 from .sqrt_fc import sqrt_fc 
 from .norm_fc import norm_fc 
+from .exponential import exponential 
+from .exponential_fc import exponential_fc 
 from .component_wise_divide import component_wise_divide 
 from .component_wise_divide_fc import component_wise_divide_fc 
 from .kronecker_prod import kronecker_prod 
@@ -52,8 +53,9 @@ from .modulus import modulus
 from .accumulate_fc import accumulate_fc 
 from .generalized_inner_product import generalized_inner_product 
 from .overall_dot import overall_dot 
-from .invert import invert 
 from .dot_tensor import dot_tensor 
+from .invert import invert 
+from .invert_fc import invert_fc 
 from .average_over_label_fc import average_over_label_fc 
 from .accumulate_over_label_fc import accumulate_over_label_fc 
 from .accumulate_level_over_label_fc import accumulate_level_over_label_fc 

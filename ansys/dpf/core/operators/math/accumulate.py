@@ -15,6 +15,7 @@ class accumulate(Operator):
 
       available inputs:
         - fieldA (Field, FieldsContainer)
+        - ponderation (Field)
 
       available outputs:
         - field (Field)
@@ -29,24 +30,29 @@ class accumulate(Operator):
       >>> # Make input connections
       >>> my_fieldA = dpf.Field()
       >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_ponderation = dpf.Field()
+      >>> op.inputs.ponderation.connect(my_ponderation)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.math.accumulate(fieldA=my_fieldA)
+      >>> op = dpf.operators.math.accumulate(fieldA=my_fieldA,ponderation=my_ponderation)
 
       >>> # Get output data
       >>> result_field = op.outputs.field()"""
-    def __init__(self, fieldA=None, config=None, server=None):
+    def __init__(self, fieldA=None, ponderation=None, config=None, server=None):
         super().__init__(name="accumulate", config = config, server = server)
         self._inputs = InputsAccumulate(self)
         self._outputs = OutputsAccumulate(self)
         if fieldA !=None:
             self.inputs.fieldA.connect(fieldA)
+        if ponderation !=None:
+            self.inputs.ponderation.connect(ponderation)
 
     @staticmethod
     def _spec():
         spec = Specification(description="""Sum all the elementary data of a field to get one elementary data at the end.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
+                                 0 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
+                                 1 : PinSpecification(name = "ponderation", type_names=["field"], optional=False, document="""field""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
         return spec
@@ -90,11 +96,15 @@ class InputsAccumulate(_Inputs):
       >>> op = dpf.operators.math.accumulate()
       >>> my_fieldA = dpf.Field()
       >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_ponderation = dpf.Field()
+      >>> op.inputs.ponderation.connect(my_ponderation)
     """
     def __init__(self, op: Operator):
         super().__init__(accumulate._spec().inputs, op)
         self._fieldA = Input(accumulate._spec().input_pin(0), 0, op, -1) 
         self._inputs.append(self._fieldA)
+        self._ponderation = Input(accumulate._spec().input_pin(1), 1, op, -1) 
+        self._inputs.append(self._ponderation)
 
     @property
     def fieldA(self):
@@ -117,6 +127,28 @@ class InputsAccumulate(_Inputs):
 
         """
         return self._fieldA
+
+    @property
+    def ponderation(self):
+        """Allows to connect ponderation input to the operator
+
+        - pindoc: field
+
+        Parameters
+        ----------
+        my_ponderation : Field, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.math.accumulate()
+        >>> op.inputs.ponderation.connect(my_ponderation)
+        >>> #or
+        >>> op.inputs.ponderation(my_ponderation)
+
+        """
+        return self._ponderation
 
 class OutputsAccumulate(_Outputs):
     """Intermediate class used to get outputs from accumulate operator

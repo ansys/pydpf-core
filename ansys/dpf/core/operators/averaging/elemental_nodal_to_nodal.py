@@ -20,7 +20,7 @@ class elemental_nodal_to_nodal(Operator):
         - mesh (MeshedRegion) (optional)
 
       available outputs:
-        - fields_container (FieldsContainer)
+        - field (Field)
 
       Examples
       --------
@@ -43,7 +43,7 @@ class elemental_nodal_to_nodal(Operator):
       >>> op = dpf.operators.averaging.elemental_nodal_to_nodal(field=my_field,mesh_scoping=my_mesh_scoping,should_average=my_should_average,mesh=my_mesh)
 
       >>> # Get output data
-      >>> result_fields_container = op.outputs.fields_container()"""
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, mesh_scoping=None, should_average=None, mesh=None, config=None, server=None):
         super().__init__(name="elemental_nodal_To_nodal", config = config, server = server)
         self._inputs = InputsElementalNodalToNodal(self)
@@ -66,7 +66,7 @@ class elemental_nodal_to_nodal(Operator):
                                  2 : PinSpecification(name = "should_average", type_names=["bool"], optional=True, document="""each nodal value is divided by the number of elements linked to this node (default is true for discrete quantities)"""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=True, document="""""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
         return spec
 
 
@@ -220,21 +220,21 @@ class OutputsElementalNodalToNodal(_Outputs):
 
       >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
       >>> # Connect inputs : op.inputs. ...
-      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_field = op.outputs.field()
     """
     def __init__(self, op: Operator):
         super().__init__(elemental_nodal_to_nodal._spec().outputs, op)
-        self._fields_container = Output(elemental_nodal_to_nodal._spec().output_pin(0), 0, op) 
-        self._outputs.append(self._fields_container)
+        self._field = Output(elemental_nodal_to_nodal._spec().output_pin(0), 0, op) 
+        self._outputs.append(self._field)
 
     @property
-    def fields_container(self):
-        """Allows to get fields_container output of the operator
+    def field(self):
+        """Allows to get field output of the operator
 
 
         Returns
         ----------
-        my_fields_container : FieldsContainer, 
+        my_field : Field, 
 
         Examples
         --------
@@ -242,7 +242,7 @@ class OutputsElementalNodalToNodal(_Outputs):
 
         >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_fields_container = op.outputs.fields_container() 
+        >>> result_field = op.outputs.field() 
         """
-        return self._fields_container
+        return self._field
 
