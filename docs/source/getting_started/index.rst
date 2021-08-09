@@ -8,7 +8,7 @@ Architecture
 DPF-Core is a Python gRPC client communicating with the ``Ans.Dpf.Grpc`` 
 server. To use the native DPF server, you must have a local installation of
 Ansys 2021 R2.  For more information on getting a licensed copy of Ansys,
-visit https://www.ansys.com.
+visit the `Ansys website <https://www.ansys.com/>`_.
 
 
 .. _basic-gallery:
@@ -81,20 +81,20 @@ Dependencies
 ~~~~~~~~~~~~~
 
 DPF-Core dependencies are automatically checked when packages are 
-installed. The dependencies are:
+installed. The package dependencies are:
 
-- `ansys.grpc.dpf` with thegRPC code generated from protobufs
-- ``psutil``
-- ``progressbar2``
+- `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ (gRPC code generated from protobufs)
+- `psutil <https://pypi.org/project/psutil/>`_
+- `progressbar2 <https://pypi.org/project/progressbar2/>`_
 
 Optional Dependencies
 ~~~~~~~~~~~~~~~~~~~~~
 
-Optional dependencies can be installed for specific usage:
+Optional package dependencies can be installed for specific usage:
 
-- ``matplotlib`` for chart plotting
-- ``pyvista`` for 3D plotting
-- ``scooby`` for dependency reports
+- - `Mathplotlib <https://pypi.org/project/matplotlib/>`_ for chart plotting
+- - `PyVista <https://pypi.org/project/pyvista/>`_ for 3D plotting
+- - `Scooby <https://pypi.org/project/scooby//>`_ for dependency reports
 
 
 Compatibility
@@ -105,5 +105,3 @@ more information, see `Ansys Platform Support <https://www.ansys.com/solutions/s
 Other platforms may be supported by using DPF within a
 containerization ecosystem such as Docker or Kubernetes. 
 For more information, see :ref:`docker`.
-
-
