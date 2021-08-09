@@ -46,7 +46,7 @@ class ElementDescriptor:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> element = dpf.ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False)   
+        >>> descriptor = dpf.ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False)   
         
         """
         self.element_id = element_id
@@ -78,7 +78,7 @@ class ElementDescriptor:
         txt += "Element shape: "
         txt += str(self.shape)
         txt += "\n"
-        txt += "Number of corner nodes, mid-side nodes: "
+        txt += "Number of corner and mid-side nodes: "
         txt += str(self.number_of_corner_nodes)
         txt += str(", ")
         txt += str(self.number_of_mid_nodes)

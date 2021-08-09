@@ -817,7 +817,8 @@ class element_types(Enum):
 
         Returns
         -------
-        ElementDescriptor
+        element_descriptor: ElementDescriptor
+            An element descriptor instance that provide access to the element information.
         
         Examples
         --------
