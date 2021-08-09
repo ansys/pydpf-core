@@ -57,31 +57,18 @@ class ElementDescriptor:
         self.is_quadratic = is_quadratic
         
     def __str__(self):
-        txt = 'Element descriptor \n'
-        txt += '-'*18 + '\n'
-        txt += "Enum id (dpf.element_types): "
-        txt += str(self.element_id)
-        txt += "\n"
-        txt += "Element description: "
-        txt += str(self.description)
-        txt += "\n"
-        txt += "Element name (short): "
-        txt += str(self.name)
-        txt += "\n"
-        txt += "Element shape: "
-        txt += str(self.shape)
-        txt += "\n"
-        txt += "Number of corner and mid-side nodes: "
-        txt += str(self.number_of_corner_nodes)
-        txt += str(", ")
-        txt += str(self.number_of_mid_nodes)
-        txt += "\n"
-        txt += "Total number of nodes: "
-        txt += str(self.number_of_nodes)
-        txt += "\n"
-        txt += "Is quadratic element: "
-        txt += str(self.is_quadratic)
-        txt += "\n"
-        return txt
+        lines = []
+        lines.append('Element descriptor')
+        lines.append('-'*18)
+        lines.append("Enum id (dpf.element_types): " + str(self.element_id))
+        lines.append("Element description: " + str(self.description))
+        lines.append("Element name (short): " + str(self.name))
+        lines.append("Element shape: " + str(self.shape))
+        nodes_txt = "Number of corner and mid-side nodes: " + str(self.number_of_corner_nodes)
+        nodes_txt += str(", ") + str(self.number_of_mid_nodes)
+        lines.append(nodes_txt)
+        lines.append("Total number of nodes: " + str(self.number_of_nodes))
+        lines.append("Is quadratic element: " + str(self.is_quadratic))
+        return "\n".join(lines)
         
         
