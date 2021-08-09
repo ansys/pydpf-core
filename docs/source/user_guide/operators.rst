@@ -9,7 +9,7 @@ Operators
 An operator is the only object that is used to create and transform 
 data. It is the fundamental method by which DPF loads, operates on, and
 outputs data. Each operator contains the ``input`` and ``output``
-attribute, which allows you to make various input and output connections. 
+attributed, which allow you to make various input and output connections. 
 
 When the operator is evaluated, it processes the input information to 
 compute its output with respect to its description:
@@ -23,11 +23,11 @@ approaches data processing in an efficient manner, evaluating each operator
 only when the final operator is evaluated and the data is requested.
 
 For example, if you desire the maximum normalized displacement of a
-result, you will construct operators in this order:
+result, you construct operators in this order:
 
 .. figure:: ../images/drawings/max_u_norm.png
 
-To achieve this, you would write:
+To achieve this, you an use:
 
 .. code-block:: default
 
@@ -165,7 +165,7 @@ can also be connected to work on a temporal subset:
     
 Evaluating Operators
 ~~~~~~~~~~~~~~~~~~~~
-With all the required inputs assigned, the ``fields_container`` can be
+With all the required inputs assigned, the :class:`ansys.dpf.core.fields_container`can be
 outputted from the operator:
 
 .. code-block:: python
