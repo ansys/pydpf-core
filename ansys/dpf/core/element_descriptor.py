@@ -39,8 +39,10 @@ class ElementDescriptor:
     
     """
     
-    def __init__(self, element_id, description, name, shape = None, number_of_corner_nodes = None, number_of_mid_nodes = None, 
-                 number_of_nodes = None, is_solid = None, is_shell = None, is_beam = None, is_quadratic = None):
+    def __init__(self, element_id, description, name, shape=None, 
+                 number_of_corner_nodes=None, number_of_mid_nodes=None, 
+                 number_of_nodes=None, is_solid=None, is_shell=None, 
+                 is_beam=None, is_quadratic=None):
         """Constructor of ElementDescriptor."""
         self.element_id = element_id
         self.description = description
