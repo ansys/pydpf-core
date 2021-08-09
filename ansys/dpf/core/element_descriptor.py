@@ -63,4 +63,32 @@ class ElementDescriptor:
         self.is_beam = is_beam
         self.is_quadratic = is_quadratic
         
+    def __str__(self):
+        txt = 'Element descriptor \n'
+        txt += '-'*18 + '\n'
+        txt += "Enum id (dpf.element_types): "
+        txt += str(self.element_id)
+        txt += "\n"
+        txt += "Element description: "
+        txt += str(self.description)
+        txt += "\n"
+        txt += "Element name (short): "
+        txt += str(self.name)
+        txt += "\n"
+        txt += "Element shape: "
+        txt += str(self.shape)
+        txt += "\n"
+        txt += "Number of corner nodes, mid-side nodes: "
+        txt += str(self.number_of_corner_nodes)
+        txt += str(", ")
+        txt += str(self.number_of_mid_nodes)
+        txt += "\n"
+        txt += "Total number of nodes: "
+        txt += str(self.number_of_nodes)
+        txt += "\n"
+        txt += "Is quadratic element: "
+        txt += str(self.is_quadratic)
+        txt += "\n"
+        return txt
+        
         
