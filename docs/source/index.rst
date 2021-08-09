@@ -51,9 +51,8 @@ DPF is developed around two core entities:
 * An ``operator`` to act upon this data 
 
 Each DPF capability is developed through operators that allow for 
-componentization of the framework. DPF is also plugin-based, which 
-meants that new features or formats can be easily added within the 
-operators framework.
+componentization of the framework. Because DPF is plugin-based, new 
+features or formats can be easily added.
 
 
 .. toctree::
