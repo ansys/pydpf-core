@@ -62,7 +62,7 @@ see the files you want it to read.
 Using the DPF Container from Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Normally ``ansys.dpf.core`` attempts to start the DPF server at the first 
-usage of a DPF class.  If you do not have ANSYS installed and simply want 
+usage of a DPF class.  If you do not have Ansys installed and simply want 
 to use the Docker image, you can override this behavior by connecting to the 
 DPF server on the port you mapped:
 
@@ -101,4 +101,3 @@ instance but rather look for the service running at ``DPF_IP`` and
 ``DPF_PORT``.  If these environment variables are undefined, they
 default to 127.0.0.1 and 50054 for ``DPF_IP`` and ``DPF_PORT``
 respectively.
-

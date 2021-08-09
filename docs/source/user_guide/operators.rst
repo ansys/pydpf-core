@@ -152,8 +152,8 @@ Connect this data source to the displacement operator:
     
 Other optional inputs can be connected to the displacement operator.
 Printing the operator above showed that a ``mesh_scoping`` of type :ref:`ref_scoping`
-can be connected to work on a spatial subset. A ``time_scoping`` of a list type with 
-integers can also be connected to work on a temporal subset:
+can be connected to work on a spatial subset. A ``time_scoping`` of a list of integers 
+can also be connected to work on a temporal subset:
 
 
 .. code-block:: python
