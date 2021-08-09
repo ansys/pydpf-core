@@ -4,14 +4,14 @@
 Using DPF Through Docker
 ************************
 
-You can run DPF within a container on any OS using Docker.
+You can run DPF within a container on any OS using `Docker <https://www.docker.com/>`_.
 
 Advantages of running DPF in a containerized environment, such 
-as Docker or Singularity, include:
+as Docker or `Singularity <https://singularity.hpcng.org/>`_, include:
 
 - Running in a consistent environment regardless of the host operating system
 - Offering portability and ease of install
-- Supporting large-scale cluster deployment using Kubernetes
+- Supporting large-scale cluster deployment using `Kubernetes <https://kubernetes.io/>`_
 - Providing genuine application isolation through containerization
 
 Installing the DPF Image
