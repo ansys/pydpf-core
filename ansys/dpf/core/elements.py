@@ -14,6 +14,7 @@ from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.common import locations
 from ansys.dpf.core import nodes
 from ansys.dpf.core.common import __write_enum_doc__
+from ansys.dpf.core.element_descriptor import ElementDescriptor
 
 class Element:
     """An element of the mesh. Encapsulates all the properties of an element: 
@@ -681,6 +682,8 @@ class ElementAdder:
             self.is_point=True
         
 class element_types(Enum):
+    """Enum for element types.
+    """
     General = -2
     All = -1
     Tet10 = 0
@@ -717,7 +720,7 @@ class element_types(Enum):
     Beam4 = 31
     GeneralPlaceholder = 32
     Polygon = 33
-    Polyhedron=34
+    Polyhedron = 34
     
     @staticmethod
     def _shapes():
@@ -754,10 +757,89 @@ class element_types(Enum):
                 element_types.Polyhedron : "solid"}
     
     @staticmethod
+    def _descriptors():
+        return {
+                element_types.General : ElementDescriptor(-2, "General", "general"),
+                element_types.All : ElementDescriptor(-1, "Unknown", "unknown"),
+                element_types.Tet10 : ElementDescriptor(10, "Quadratic 10-nodes Tetrahedron", "tet10", "solid", 4, 6, 10, True, False, False, True),
+                element_types.Hex20 : ElementDescriptor(1, "Quadratic 20-nodes Hexa", "hex20", "solid", 8, 12, 20, True, False, False, True),
+                element_types.Wedge15 : ElementDescriptor(2, "Quadratic 15-nodes Wedge", "wedge15", "solid", 6, 9, 15, True, False, False, True),
+                element_types.Pyramid13 : ElementDescriptor(3, "Quadratic 13-nodes Pyramid", "pyramid13", "solid", 5, 8, 13, True, False, False, True),
+                element_types.Tri6 : ElementDescriptor(4, "Quadratic 6-nodes Triangle", "tri6", "shell", 3, 3, 6, False, True, False, True),
+                element_types.TriShell6 : ElementDescriptor(5, "Quadratic 6-nodes Triangle Shell", "triShell6", "shell", 3, 3, 6, False, True, False, True),
+                element_types.Quad8 : ElementDescriptor(6, "Quadratic 8-nodes Quadrangle", "quad8", "shell", 4, 4, 8, False, True, False, True),
+                element_types.QuadShell8 : ElementDescriptor(7, "Quadratic 8-nodes Quadrangle Shell", "quadShell8", "shell", 4, 4, 8, False, True, False, True),
+                element_types.Line3 : ElementDescriptor(8, "Quadratic 3-nodes Line", "line3", "beam", 2, 1, 3, False, False, True, True),
+                element_types.Point1 : ElementDescriptor(9, "Point", "point1", "point", 1, 0, 1, False, False, False, False),
+                element_types.Tet4 : ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False),
+                element_types.Hex8 : ElementDescriptor(11, "Linear 8-nodes Hexa", "hex8", "solid", 8, 0, 8, True, False, False, False),
+                element_types.Wedge6 : ElementDescriptor(12, "Linear 6-nodes Wedge", "wedge6", "solid", 6, 0, 6, True, False, False, False),
+                element_types.Pyramid5 : ElementDescriptor(13, "Linear 5-nodes Pyramid", "pyramid5", "solid", 5, 0, 5, True, False, False, False),
+                element_types.Tri3 : ElementDescriptor(14, "Linear 3-nodes Triangle", "tri3", "shell", 3, 0, 3, False, True, False, False),
+                element_types.TriShell3 : ElementDescriptor(15, "Linear 3-nodes Triangle Shell", "triShell3", "shell", 3, 0, 3, False, True, False, False),
+                element_types.Quad4 : ElementDescriptor(16, "Linear 4-nodes Quadrangle", "quad4", "shell", 4, 0, 4, False, True, False, False),
+                element_types.QuadShell4 : ElementDescriptor(17, "Linear 3-nodes Quadrangle Shell", "quadShell4", "shell", 4, 0, 4, False, True, False, False),
+                element_types.Line2 : ElementDescriptor(18, "Linear 2-nodes Line", "line2", "beam", 2, 0, 2, False, False, True, False),
+                element_types.NumElementTypes : ElementDescriptor(19, "NumElementTypes", "NumElementTypes", "unknown_shape"),
+                element_types.Unknown : ElementDescriptor(20, "Unknown", "unknown"),
+                element_types.EMagLine : ElementDescriptor(21, "EMagLine", "EMagLine", "beam"),
+                element_types.EMagArc : ElementDescriptor(22, "EMagArc", "EMagArc", "beam"),
+                element_types.EMagCircle : ElementDescriptor(23, "EMagCircle", "EMagCircle", "shell"),
+                element_types.Surface3 : ElementDescriptor(24, "Surface3", "Surface3", "shell"),
+                element_types.Surface4 : ElementDescriptor(25, "Surface4", "Surface4", "shell"),
+                element_types.Surface6 : ElementDescriptor(26, "Surface6", "Surface6", "shell"),
+                element_types.Surface8 : ElementDescriptor(27, "Surface8", "Surface8", "shell"),
+                element_types.Edge2 : ElementDescriptor(28, "Edge2", "Edge2", "beam"),
+                element_types.Edge3 : ElementDescriptor(29, "Edge3", "Edge3", "beam"),
+                element_types.Beam3 : ElementDescriptor(30, "Beam3", "Beam3", "beam"),
+                element_types.Beam4 : ElementDescriptor(31, "Beam4", "Beam4", "beam"),
+                element_types.GeneralPlaceholder : ElementDescriptor(32, "GeneralPlaceholder", "GeneralPlaceholder", "unknown_shape"),
+                element_types.Polygon : ElementDescriptor(33, "Polygon", "polygon", "solid", -1, 0, -1, True, False, False),
+                element_types.Polyhedron : ElementDescriptor(34, "Polyhedron", "polyhedron", "solid", -1, 0, -1, True, False, False)
+            }
+    
+    @staticmethod
     def shape(element_type):
         if isinstance(element_type,(int, np.int32)):
             element_type = element_types(element_type)
-        return element_types._shapes().get(element_type, "unknown_shape")
+        el_shape = element_types._descriptors().get(element_type, None).shape
+        return el_shape
+    
+    @staticmethod
+    def descriptor(element_type):
+        """
+        Provide access to an instance of the ElementDescriptor of the requested element.
+        Provide information such as number of nodes, shape, etc. 
+
+        Parameters
+        ----------
+        element_type : element_types, int
+
+        Returns
+        -------
+        ElementDescriptor
+        
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
+        >>> element = elements[0]
+        >>> type_of_element = element.type
+        >>> type_of_element
+        <element_types.Hex20: 1>
+        >>> element_descriptor = dpf.element_types.descriptor(type_of_element)
+        >>> element_descriptor.name
+        'hex20'
+        >>> element_descriptor.description
+        'Quadratic 20-nodes Hexa'
+        
+        """
+        if isinstance(element_type,(int, np.int32)):
+            element_type = element_types(element_type)
+        descriptor = element_types._descriptors().get(element_type, None)
+        return descriptor
         
 
 element_types.__doc__=__write_enum_doc__(element_types,"Types of elements available in a dpf's mesh.")
