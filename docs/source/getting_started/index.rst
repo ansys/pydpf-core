@@ -5,16 +5,16 @@ Getting Started
 Architecture
 ~~~~~~~~~~~~~
 
-DPF-Core is a python grpc client communicating with the Ans.Dpf.Grpc server.
-To use the native DPF server, you need to have a local installation of
-Ansys 2021R2.  Visit https://www.ansys.com/ for more information on
-getting a licensed copy of Ansys.
+DPF-Core is a Python gRPC client communicating with the ``Ans.Dpf.Grpc`` 
+server. To use the native DPF server, you must have a local installation of
+Ansys 2021 R2.  For more information on getting a licensed copy of Ansys,
+visit https://www.ansys.com.
 
 
 .. _basic-gallery:
 
 Installation
-~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 .. include:: install.rst
 
@@ -26,10 +26,10 @@ Installation
    docker
    
    
-Try Installation
+Tryout Installation
 ~~~~~~~~~~~~~~~~
 
-A quick try out of the installation can be done with:
+For a quick tryout installation, use:
 
 .. code-block:: default
 
@@ -80,30 +80,30 @@ A quick try out of the installation can be done with:
 Dependencies
 ~~~~~~~~~~~~~
 
-DPF-Core dependencies are automatically checked installed when the packages is installed.
-Those dependencies are:
+DPF-Core dependencies are automatically checked when packages are 
+installed. The dependencies are:
 
-- ansys.grpc.dpf : package with grpc code generated from protobufs
-- psutil
-- progressbar2
+- `ansys.grpc.dpf` with thegRPC code generated from protobufs
+- ``psutil``
+- ``progressbar2``
 
 Optional Dependencies
 ~~~~~~~~~~~~~~~~~~~~~
 
 Optional dependencies can be installed for specific usage:
 
-- matplotlib : for chart plotting
-- pyvista : for 3D plotting
-- scooby : for dependency reports
+- ``matplotlib`` for chart plotting
+- ``pyvista`` for 3D plotting
+- ``scooby`` for dependency reports
 
 
 Compatibility
 ~~~~~~~~~~~~~
-DPF supports Windows 10 and CentOS 7 and newer.  For
-more details, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
+DPF supports Windows 10 and CentOS 7 and later.  For
+more information, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
 Other platforms may be supported by using DPF within a
-containerization ecosystem such as Docker or Kubernetes.  See
-:ref:`docker` for more details.
+containerization ecosystem such as Docker or Kubernetes. 
+For more information, see :ref:`docker`.
 
 
