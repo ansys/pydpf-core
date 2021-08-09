@@ -15,7 +15,7 @@ Plotting the Mesh from the Model Object
 The :py:meth:`Model.plot() <ansys.dpf.core.model.Model.plot>` method can 
 be used to plot the mesh of the model immediately after loading it. In 
 this example, a simple pontoon mesh is downloaded from the
-internet and loaded using the ``Model`` class:
+internet and loaded using the :class:ansys.dpf.core.model` class:
 
 .. code:: python
 
@@ -74,8 +74,8 @@ using these values. This example extracts the nodal strain in the X direction:
 
 .. note::
 
-   Only fields with elemental and nodal locations are
+   Only fields with ``Elemental`` and ``Nodal`` locations are
    supported currently.  Use the :py:meth:`to_nodal
    <ansys.dpf.core.field.Field.to_nodal>` operator to 
-   convert to nodal or the ``'nodal_to_elemental'`` operator 
-   to convert to elemental.
+   convert to nodal or the :class:`ansys.dpf.core.operators.averaging.nodal_to_elemental` 
+   class to convert to elemental.
