@@ -30,61 +30,38 @@ def line_element_descriptor(model_elements):
     el_index = model_elements.scoping.index(10834)
     return dpf.element_types.descriptor(model_elements[el_index].type)
 
+def check_element_attributes(descriptor, element_id, description, 
+                             name, shape, n_corner_nodes, n_mid_nodes, 
+                             n_nodes, is_solid, is_shell, is_beam, 
+                             is_quadratic):
+    assert isinstance(descriptor, dpf.ElementDescriptor)
+    assert descriptor.element_id == element_id
+    assert descriptor.description == description
+    assert descriptor.name == name
+    assert descriptor.shape == shape
+    assert descriptor.n_corner_nodes == n_corner_nodes
+    assert descriptor.n_mid_nodes == n_mid_nodes
+    assert descriptor.n_nodes == n_nodes
+    assert descriptor.is_solid == is_solid
+    assert descriptor.is_shell == is_shell
+    assert descriptor.is_beam == is_beam
+    assert descriptor.is_quadratic == is_quadratic
+
 def test_hexa_element_descriptor(hexa_element_descriptor):
-    assert isinstance(hexa_element_descriptor, dpf.ElementDescriptor)
-    assert hexa_element_descriptor.element_id == 1
-    assert hexa_element_descriptor.description == 'Quadratic 20-nodes Hexa'
-    assert hexa_element_descriptor.name == 'hex20'
-    assert hexa_element_descriptor.shape == 'solid'
-    assert hexa_element_descriptor.n_corner_nodes == 8
-    assert hexa_element_descriptor.n_mid_nodes == 12
-    assert hexa_element_descriptor.n_nodes == 20
-    assert hexa_element_descriptor.is_solid == True
-    assert hexa_element_descriptor.is_shell == False
-    assert hexa_element_descriptor.is_beam == False
-    assert hexa_element_descriptor.is_quadratic == True
+    check_element_attributes(hexa_element_descriptor, 1, 'Quadratic 20-nodes Hexa', 
+                             'hex20', 'solid', 8, 12, 20, True, False, False, True)
     
 def test_quad_element_descriptor(quad_element_descriptor):
-    assert isinstance(quad_element_descriptor, dpf.ElementDescriptor)
-    assert quad_element_descriptor.element_id == 16
-    assert quad_element_descriptor.description == 'Linear 4-nodes Quadrangle'
-    assert quad_element_descriptor.name == 'quad4'
-    assert quad_element_descriptor.shape == 'shell'
-    assert quad_element_descriptor.n_corner_nodes == 4
-    assert quad_element_descriptor.n_mid_nodes == 0
-    assert quad_element_descriptor.n_nodes == 4
-    assert quad_element_descriptor.is_solid == False
-    assert quad_element_descriptor.is_shell == True
-    assert quad_element_descriptor.is_beam == False
-    assert quad_element_descriptor.is_quadratic == False
+    check_element_attributes(quad_element_descriptor, 16, 'Linear 4-nodes Quadrangle', 
+                             'quad4', 'shell', 4, 0, 4, False, True, False, False)
 
 def test_tetra_element_descriptor(tetra_element_descriptor):
-    assert isinstance(tetra_element_descriptor, dpf.ElementDescriptor)
-    assert tetra_element_descriptor.element_id == 10
-    assert tetra_element_descriptor.description == 'Quadratic 10-nodes Tetrahedron'
-    assert tetra_element_descriptor.name == 'tet10'
-    assert tetra_element_descriptor.shape == 'solid'
-    assert tetra_element_descriptor.n_corner_nodes == 4
-    assert tetra_element_descriptor.n_mid_nodes == 6
-    assert tetra_element_descriptor.n_nodes == 10
-    assert tetra_element_descriptor.is_solid == True
-    assert tetra_element_descriptor.is_shell == False
-    assert tetra_element_descriptor.is_beam == False
-    assert tetra_element_descriptor.is_quadratic == True
+    check_element_attributes(tetra_element_descriptor, 10, 'Quadratic 10-nodes Tetrahedron', 
+                             'tet10', 'solid', 4, 6, 10, True, False, False, True)
     
 def test_line_element_descriptor(line_element_descriptor):
-    assert isinstance(line_element_descriptor, dpf.ElementDescriptor)
-    assert line_element_descriptor.element_id == 18
-    assert line_element_descriptor.description == 'Linear 2-nodes Line'
-    assert line_element_descriptor.name == 'line2'
-    assert line_element_descriptor.shape == 'beam'
-    assert line_element_descriptor.n_corner_nodes == 2
-    assert line_element_descriptor.n_mid_nodes == 0
-    assert line_element_descriptor.n_nodes == 2
-    assert line_element_descriptor.is_solid == False
-    assert line_element_descriptor.is_shell == False
-    assert line_element_descriptor.is_beam == True
-    assert line_element_descriptor.is_quadratic == False
+    check_element_attributes(line_element_descriptor, 18, 'Linear 2-nodes Line', 
+                             'line2', 'beam', 2, 0, 2, False, False, True, False)
     
 def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
