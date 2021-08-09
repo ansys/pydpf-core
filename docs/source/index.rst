@@ -47,8 +47,8 @@ particular field, physics solution, or file format.
 
 DPF is developed around two core entities: 
 
-* Data represented as a ``field``
-* An ``operator`` to act upon this data 
+- Data represented as a ``field``
+- An ``operator`` to act upon this data 
 
 Each DPF capability is developed through operators that allow for 
 componentization of the framework. Because DPF is plugin-based, new 
