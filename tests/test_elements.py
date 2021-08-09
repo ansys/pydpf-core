@@ -36,9 +36,9 @@ def test_hexa_element_descriptor(hexa_element_descriptor):
     assert hexa_element_descriptor.description == 'Quadratic 20-nodes Hexa'
     assert hexa_element_descriptor.name == 'hex20'
     assert hexa_element_descriptor.shape == 'solid'
-    assert hexa_element_descriptor.number_of_corner_nodes == 8
-    assert hexa_element_descriptor.number_of_mid_nodes == 12
-    assert hexa_element_descriptor.number_of_nodes == 20
+    assert hexa_element_descriptor.n_corner_nodes == 8
+    assert hexa_element_descriptor.n_mid_nodes == 12
+    assert hexa_element_descriptor.n_nodes == 20
     assert hexa_element_descriptor.is_solid == True
     assert hexa_element_descriptor.is_shell == False
     assert hexa_element_descriptor.is_beam == False
@@ -50,9 +50,9 @@ def test_quad_element_descriptor(quad_element_descriptor):
     assert quad_element_descriptor.description == 'Linear 4-nodes Quadrangle'
     assert quad_element_descriptor.name == 'quad4'
     assert quad_element_descriptor.shape == 'shell'
-    assert quad_element_descriptor.number_of_corner_nodes == 4
-    assert quad_element_descriptor.number_of_mid_nodes == 0
-    assert quad_element_descriptor.number_of_nodes == 4
+    assert quad_element_descriptor.n_corner_nodes == 4
+    assert quad_element_descriptor.n_mid_nodes == 0
+    assert quad_element_descriptor.n_nodes == 4
     assert quad_element_descriptor.is_solid == False
     assert quad_element_descriptor.is_shell == True
     assert quad_element_descriptor.is_beam == False
@@ -64,9 +64,9 @@ def test_tetra_element_descriptor(tetra_element_descriptor):
     assert tetra_element_descriptor.description == 'Quadratic 10-nodes Tetrahedron'
     assert tetra_element_descriptor.name == 'tet10'
     assert tetra_element_descriptor.shape == 'solid'
-    assert tetra_element_descriptor.number_of_corner_nodes == 4
-    assert tetra_element_descriptor.number_of_mid_nodes == 6
-    assert tetra_element_descriptor.number_of_nodes == 10
+    assert tetra_element_descriptor.n_corner_nodes == 4
+    assert tetra_element_descriptor.n_mid_nodes == 6
+    assert tetra_element_descriptor.n_nodes == 10
     assert tetra_element_descriptor.is_solid == True
     assert tetra_element_descriptor.is_shell == False
     assert tetra_element_descriptor.is_beam == False
@@ -78,9 +78,9 @@ def test_line_element_descriptor(line_element_descriptor):
     assert line_element_descriptor.description == 'Linear 2-nodes Line'
     assert line_element_descriptor.name == 'line2'
     assert line_element_descriptor.shape == 'beam'
-    assert line_element_descriptor.number_of_corner_nodes == 2
-    assert line_element_descriptor.number_of_mid_nodes == 0
-    assert line_element_descriptor.number_of_nodes == 2
+    assert line_element_descriptor.n_corner_nodes == 2
+    assert line_element_descriptor.n_mid_nodes == 0
+    assert line_element_descriptor.n_nodes == 2
     assert line_element_descriptor.is_solid == False
     assert line_element_descriptor.is_shell == False
     assert line_element_descriptor.is_beam == True

@@ -18,9 +18,9 @@ class ElementDescriptor:
     shape: str
         Can be "solid", "shell" of "beam". 
     
-    number_of_corner_nodes: int
+    n_corner_nodes: int
     
-    number_of_mid_nodes: int
+    n_mid_nodes: int
     
     number_of_nodes: int
         
@@ -40,16 +40,16 @@ class ElementDescriptor:
     """
     
     def __init__(self, element_id, description, name, shape=None, 
-                 number_of_corner_nodes=None, number_of_mid_nodes=None, 
-                 number_of_nodes=None, is_solid=None, is_shell=None, 
+                 n_corner_nodes=None, n_mid_nodes=None, 
+                 n_nodes=None, is_solid=None, is_shell=None, 
                  is_beam=None, is_quadratic=None):
         """Constructor of ElementDescriptor."""
         self.element_id = element_id
         self.description = description
         self.name = name
-        self.number_of_corner_nodes = number_of_corner_nodes
-        self.number_of_mid_nodes = number_of_mid_nodes
-        self.number_of_nodes = number_of_nodes
+        self.n_corner_nodes = n_corner_nodes
+        self.n_mid_nodes = n_mid_nodes
+        self.n_nodes = n_nodes
         self.shape = shape
         if self.shape is None:
             self.shape = "unknown_shape"
@@ -66,10 +66,10 @@ class ElementDescriptor:
         lines.append("Element description: " + str(self.description))
         lines.append("Element name (short): " + str(self.name))
         lines.append("Element shape: " + str(self.shape))
-        nodes_txt = "Number of corner and mid-side nodes: " + str(self.number_of_corner_nodes)
-        nodes_txt += str(", ") + str(self.number_of_mid_nodes)
+        nodes_txt = "Number of corner and mid-side nodes: " + str(self.n_corner_nodes)
+        nodes_txt += str(", ") + str(self.n_mid_nodes)
         lines.append(nodes_txt)
-        lines.append("Total number of nodes: " + str(self.number_of_nodes))
+        lines.append("Total number of nodes: " + str(self.n_nodes))
         lines.append("Is quadratic element: " + str(self.is_quadratic))
         return "\n".join(lines)
         
