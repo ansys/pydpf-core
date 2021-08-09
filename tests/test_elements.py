@@ -71,3 +71,11 @@ def test_no_element_descriptor():
     unknown_shape = "unknown_shape"
     assert descriptor.shape == unknown_shape
     assert dpf.element_types.descriptor(dpf.element_types.General).shape == unknown_shape
+
+def test_descriptor_with_int_value(allkindofcomplexity):
+    # int as attribute instead of element_types.VALUE
+    descriptor = dpf.element_types.descriptor(1)
+    check_element_attributes(descriptor, 1, 'Quadratic 20-nodes Hexa', 
+                             'hex20', 'solid', 8, 12, 20, True, False, False, True)
+    
+    
