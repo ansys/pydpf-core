@@ -1,5 +1,5 @@
-Opening a result file generated from MAPDL (or other of ANSYS solvers) and 
-extracting results from it is as easy as:
+Opening a result file generated from MAPDL (or another ANSYS solver) and 
+extracting results from it is easy:
 
 .. code-block:: default
 
