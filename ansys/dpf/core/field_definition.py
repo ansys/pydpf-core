@@ -71,7 +71,7 @@ class FieldDefinition:
         dimensionality : Dimensionality
             nature and size of the elementary data
         """
-        val = self._stub.List(self._messageDefinition).dimensionality
+        val = self._stub.List(self._messageDefinition).dimensionnality # typo exists on server side
         return Dimensionality(val.size, natures(val.nature.real))
     
     @unit.setter
@@ -103,8 +103,8 @@ class FieldDefinition:
             request.location.location = location
         if dimensionality != None:
             if not isinstance(dimensionality, Dimensionality):
-                raise TypeError("the dimensionality needs to be of type Dimensionnsality")
-            request.dimensionality.CopyFrom(dimensionality._parse_dim_to_message())
+                raise TypeError("the dimensionality needs to be of type Dimensionality")
+            request.dimensionnality.CopyFrom(dimensionality._parse_dim_to_message()) # typo is on server side
         if shell_layer != None:
             if isinstance(shell_layer, shell_layers):
                 request.shell_layers = shell_layer.value+1
