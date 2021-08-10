@@ -723,40 +723,6 @@ class element_types(Enum):
     Polyhedron = 34
     
     @staticmethod
-    def _shapes():
-        return { element_types.Tet10 : "solid",
-                element_types.Hex20 : "solid",
-                element_types.Wedge15 : "solid",
-                element_types.Pyramid13 : "solid",
-                element_types.Tri6 : "shell",
-                element_types.TriShell6 :  "shell",
-                element_types.Quad8 : "shell",
-                element_types.QuadShell8 : "shell",
-                element_types.Line3 : "beam",
-                element_types.Tet4 : "solid",
-                element_types.Hex8 : "solid",
-                element_types.Wedge6 : "solid",
-                element_types.Pyramid5 : "solid",
-                element_types.Tri3 : "shell",
-                element_types.TriShell3 : "shell",
-                element_types.Quad4 : "shell",
-                element_types.QuadShell4 : "shell",
-                element_types.Line2 : "beam",
-                element_types.EMagLine : "beam",
-                element_types.EMagArc: "beam",
-                element_types.EMagCircle : "shell",
-                element_types.Surface3 : "shell",
-                element_types.Surface4 : "shell",
-                element_types.Surface6 : "shell",
-                element_types.Surface8 : "shell",
-                element_types.Edge2 : "beam",
-                element_types.Edge3 : "beam",
-                element_types.Beam3 : "beam",
-                element_types.Beam4 : "beam",
-                element_types.Polygon : "shell",
-                element_types.Polyhedron : "solid"}
-    
-    @staticmethod
     def _descriptors():
         return {
                 element_types.General : ElementDescriptor(-2, "General", "general"),
