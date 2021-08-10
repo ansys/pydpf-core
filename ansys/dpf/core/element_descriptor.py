@@ -62,15 +62,14 @@ class ElementDescriptor:
         lines = []
         lines.append('Element descriptor')
         lines.append('-'*18)
-        lines.append("Enum id (dpf.element_types): " + str(self.enum_id))
-        lines.append("Element description: " + str(self.description))
-        lines.append("Element name (short): " + str(self.name))
-        lines.append("Element shape: " + str(self.shape))
-        nodes_txt = "Number of corner and mid-side nodes: " + str(self.n_corner_nodes)
-        nodes_txt += str(", ") + str(self.n_mid_nodes)
-        lines.append(nodes_txt)
-        lines.append("Total number of nodes: " + str(self.n_nodes))
-        lines.append("Is quadratic element: " + str(self.is_quadratic))
+        lines.append(f"Enum id (dpf.element_types): {self.enum_id}")
+        lines.append(f"Element description: {self.description}")
+        lines.append(f"Element name (short): {self.name}")
+        lines.append(f"Element shape: {self.shape}")
+        lines.append(f"Number of corner nodes: {self.n_corner_nodes}")
+        lines.append(f"Number of mid-side nodes: {self.n_mid_nodes}")
+        lines.append(f"Total number of nodes: {self.n_nodes}")
+        lines.append(f"Quadratic element: {self.is_quadratic}")
         return "\n".join(lines)
         
         
