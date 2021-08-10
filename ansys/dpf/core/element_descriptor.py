@@ -39,12 +39,12 @@ class ElementDescriptor:
     
     """
     
-    def __init__(self, element_id, description, name, shape=None, 
+    def __init__(self, enum_id, description, name, shape=None, 
                  n_corner_nodes=None, n_mid_nodes=None, 
                  n_nodes=None, is_solid=None, is_shell=None, 
                  is_beam=None, is_quadratic=None):
         """Constructor of ElementDescriptor."""
-        self.element_id = element_id
+        self.enum_id = enum_id
         self.description = description
         self.name = name
         self.n_corner_nodes = n_corner_nodes
@@ -62,7 +62,7 @@ class ElementDescriptor:
         lines = []
         lines.append('Element descriptor')
         lines.append('-'*18)
-        lines.append("Enum id (dpf.element_types): " + str(self.element_id))
+        lines.append("Enum id (dpf.element_types): " + str(self.enum_id))
         lines.append("Element description: " + str(self.description))
         lines.append("Element name (short): " + str(self.name))
         lines.append("Element shape: " + str(self.shape))

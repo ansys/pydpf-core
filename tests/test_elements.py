@@ -30,12 +30,12 @@ def line_element_descriptor(model_elements):
     el_index = model_elements.scoping.index(10834)
     return dpf.element_types.descriptor(model_elements[el_index].type)
 
-def check_element_attributes(descriptor, element_id, description, 
+def check_element_attributes(descriptor, enum_id, description, 
                              name, shape, n_corner_nodes, n_mid_nodes, 
                              n_nodes, is_solid, is_shell, is_beam, 
                              is_quadratic):
     assert isinstance(descriptor, dpf.ElementDescriptor)
-    assert descriptor.element_id == element_id
+    assert descriptor.enum_id == enum_id
     assert descriptor.description == description
     assert descriptor.name == name
     assert descriptor.shape == shape
