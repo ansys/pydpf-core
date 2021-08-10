@@ -1,13 +1,13 @@
 """
-Dimensionnality
+Dimensionality
 ===============
 """
 
 from ansys.grpc.dpf import field_definition_pb2
 from ansys.dpf.core.common import natures
 
-class Dimensionnality:
-    """Class representing the dimensionnality of the field
+class Dimensionality:
+    """Class representing the dimensionality of the field
         Read list of dim (1D vector for scalar and vector and 2D vector for matrix)
         and create a field_definition_pb2.Dimensionality message
         
@@ -41,17 +41,17 @@ class Dimensionnality:
     
     @staticmethod
     def scalar_dim():
-        """Dimensionnality instance corresponding to a scalar field
+        """Dimensionality instance corresponding to a scalar field
 
         Returns
         -------
-        dimensionnality : Dimensionnality
+        dimensionality : Dimensionality
         """
-        return Dimensionnality([1], natures.scalar)
+        return Dimensionality([1], natures.scalar)
     
     @staticmethod
     def vector_dim(size):
-        """Dimensionnality instance corresponding to a vector field of size "size"
+        """Dimensionality instance corresponding to a vector field of size "size"
 
         Parameters
         ----------
@@ -60,26 +60,26 @@ class Dimensionnality:
         
         Returns
         -------
-        dimensionnality : Dimensionnality
+        dimensionality : Dimensionality
         """
-        return Dimensionnality([size], natures.vector)
+        return Dimensionality([size], natures.vector)
     
     @staticmethod
     def vector_3d_dim():
-        """Dimensionnality instance corresponding to a 3 dimensions vector field
+        """Dimensionality instance corresponding to a 3 dimensions vector field
 
         Returns
         -------
-        dimensionnality : Dimensionnality
+        dimensionality : Dimensionality
         """
-        return Dimensionnality([3], natures.vector)
+        return Dimensionality([3], natures.vector)
     
     @staticmethod
     def tensor_dim():
-        """Dimensionnality instance corresponding to a symmetrical 3 3 tensor field
+        """Dimensionality instance corresponding to a symmetrical 3 3 tensor field
 
         Returns
         -------
-        dimensionnality : Dimensionnality
+        dimensionality : Dimensionality
         """
-        return Dimensionnality([3,3], natures.symmatrix)
+        return Dimensionality([3,3], natures.symmatrix)

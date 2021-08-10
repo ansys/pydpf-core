@@ -14,7 +14,7 @@ from ansys.dpf.core.plotter import Plotter
 from ansys.dpf.core import errors
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
-from ansys.dpf.core.dimensionnality import Dimensionnality
+from ansys.dpf.core.dimensionality import Dimensionality
 
 class Field(_FieldBase):
     """Class representing the main simulation data container.
@@ -347,28 +347,28 @@ class Field(_FieldBase):
         self.field_definition = fielddef
         
     @property
-    def dimensionnality(self):
-        """The Dimensionnality represents the shape of an elementary
+    def dimensionality(self):
+        """The Dimensionality represents the shape of an elementary
         data contains in the Field.
         
         Returns
         -------
-        dimensionnality : Dimensionnality
+        dimensionality : Dimensionality
             nature and size of the elementary data
         """
         if self.field_definition:
-            return self.field_definition.dimensionnality
+            return self.field_definition.dimensionality
         
-    @dimensionnality.setter
-    def dimensionnality(self, value):
+    @dimensionality.setter
+    def dimensionality(self, value):
         """
         Parameters
         ----------
-        dimensionnality : dpf.core.Dimensionnality
+        dimensionality : dpf.core.Dimensionality
             nature and size of the elementary data
         """
         fielddef = self.field_definition
-        fielddef.dimensionnality = value
+        fielddef.dimensionality = value
         self.field_definition = fielddef
         
     @property
@@ -392,14 +392,14 @@ class Field(_FieldBase):
            
     @property
     def field_definition(self):
-        """The field definition defines what is the field: its location, unit, dimensionnality, shell layers...
+        """The field definition defines what is the field: its location, unit, dimensionality, shell layers...
         """
         return self._field_definition
     
     
     @field_definition.setter
     def field_definition(self, value):
-        """The field definition defines what is the field: its location, unit, dimensionnality, shell layers...
+        """The field definition defines what is the field: its location, unit, dimensionality, shell layers...
 
         Parameters
         ----------
@@ -609,7 +609,7 @@ class Field(_FieldBase):
         >>> deep_copy = field.deep_copy(server=other_server)
         
         """            
-        f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionnality.nature, server=server)
+        f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionality.nature, server=server)
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
         f.unit = self.unit
