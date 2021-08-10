@@ -134,6 +134,10 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     -------
     server : server.DpfServer
     """
+    from ansys.dpf.core._version import __ansys_consumer_version__
+    import warnings
+    warnings.warn(f"This version of ansys-dpf-core matches with an Ansys {__ansys_consumer_version__} product version.")
+    
     if ansys_path is None:
         ansys_path = os.environ.get('AWP_ROOT'+__ansys_version__, find_ansys())
     if ansys_path is None:
