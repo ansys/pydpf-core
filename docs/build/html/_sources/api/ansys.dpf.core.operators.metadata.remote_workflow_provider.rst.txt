@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.remote_workflow_provider
+   :inherited-members:

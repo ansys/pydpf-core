@@ -33,6 +33,8 @@ Submodules
    ansys.dpf.core.operators.math.cplx_multiply
    ansys.dpf.core.operators.math.dot
    ansys.dpf.core.operators.math.dot_tensor
+   ansys.dpf.core.operators.math.exponential
+   ansys.dpf.core.operators.math.exponential_fc
    ansys.dpf.core.operators.math.fft_eval
    ansys.dpf.core.operators.math.fft_gradient_eval
    ansys.dpf.core.operators.math.fft_multi_harmonic_minmax

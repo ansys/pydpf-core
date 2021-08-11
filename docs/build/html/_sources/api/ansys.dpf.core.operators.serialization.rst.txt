@@ -14,6 +14,8 @@ Submodules
    ansys.dpf.core.operators.serialization.migrate_file_to_vtk
    ansys.dpf.core.operators.serialization.serialize_to_hdf5
    ansys.dpf.core.operators.serialization.serializer
+   ansys.dpf.core.operators.serialization.serializer_to_string
+   ansys.dpf.core.operators.serialization.string_deserializer
    ansys.dpf.core.operators.serialization.vtk_export
    ansys.dpf.core.operators.serialization.vtk_to_fields
 

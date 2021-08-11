@@ -73,6 +73,14 @@ Submodules
    ansys.dpf.core.operators.result.heat_flux_Z
    ansys.dpf.core.operators.result.hydrostatic_pressure
    ansys.dpf.core.operators.result.incremental_energy
+   ansys.dpf.core.operators.result.joint_force_reaction
+   ansys.dpf.core.operators.result.joint_moment_reaction
+   ansys.dpf.core.operators.result.joint_relative_acceleration
+   ansys.dpf.core.operators.result.joint_relative_angular_acceleration
+   ansys.dpf.core.operators.result.joint_relative_angular_velocity
+   ansys.dpf.core.operators.result.joint_relative_displacement
+   ansys.dpf.core.operators.result.joint_relative_rotation
+   ansys.dpf.core.operators.result.joint_relative_velocity
    ansys.dpf.core.operators.result.kinetic_energy
    ansys.dpf.core.operators.result.material_property_of_element
    ansys.dpf.core.operators.result.migrate_to_h5dpf

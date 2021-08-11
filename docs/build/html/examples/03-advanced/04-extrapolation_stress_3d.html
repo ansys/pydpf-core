@@ -402,7 +402,7 @@ Extrapolating results available at Gauss or quadrature points to nodal points fo
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
 
 <span class="c1"># operator instantiation scoping</span>
-<span class="n">op_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">splitted_on_property_type</span><span class="p">()</span> <span class="c1"># operator instantiation</span>
+<span class="n">op_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">split_on_property_type</span><span class="p">()</span> <span class="c1"># operator instantiation</span>
 <span class="n">op_scoping</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
 <span class="n">op_scoping</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Elemental&quot;</span><span class="p">)</span>
 <span class="n">mesh_scoping</span> <span class="o">=</span> <span class="n">op_scoping</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">()</span>
@@ -508,7 +508,7 @@ Smallest value which will be considered during the comparison step : all the abs
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>True
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.269 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.311 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-04-extrapolation-stress-3d-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/c743cdddb222eb034113118cd4c58391/04-extrapolation_stress_3d.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">04-extrapolation_stress_3d.py</span></code></a></p>

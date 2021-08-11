@@ -15,7 +15,6 @@ Submodules
    ansys.dpf.core.operators.logic.identical_meshes
    ansys.dpf.core.operators.logic.identical_property_fields
    ansys.dpf.core.operators.logic.included_fields
-   ansys.dpf.core.operators.logic.merge_fields_by_label
    ansys.dpf.core.operators.logic.solid_shell_fields
 
 Module contents
