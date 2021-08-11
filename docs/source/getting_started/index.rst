@@ -97,6 +97,23 @@ Optional dependencies can be installed for specific usage:
 - scooby : for dependency reports
 
 
+Internal versioning
+~~~~~~~~~~~~~~~~~~~
+Please note that the versioning of the various components perfectly matches the following mapping:
+
+------------------------------------
+ansys-dpf-core | 0.2.1   | 0.3.0   |
+ansys-grpc-dpf | 0.2.2   | 0.3.0   |
+DPF Server(*)  | None    | 2.0     |
+Ansys Inc.     | 2021 R1 | 2021 R2 |
+------------------------------------
+
+(*)DPF Server version corresponds to the version of the DPF server file that is distributed 
+with the Ansys Inc unified install. 
+
+There might be some incompatibility in other cases. 
+
+
 Compatibility
 ~~~~~~~~~~~~~
 DPF supports Windows 10 and CentOS 7 and newer.  For
