@@ -143,15 +143,25 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
 
     # verify path exists
     if not os.path.isdir(ansys_path):
-        raise NotADirectoryError(f'Invalid Ansys path "{ansys_path}"')
+        raise NotADirectoryError(f'Invalid Ansys path "{ansys_path}". '
+                                 'Please set the ansys_path variable using '
+                                 'ansys.dpf.core.start_local_server(ansys_path=MY_PATH).')
 
     # parse the version to an int and check for supported
     try:
         ver = int(ansys_path[-3:])
         if ver < 211:
-            raise errors.InvalidANSYSVersionError(f'Ansys v{ver} does not support DPF')
+            raise errors.InvalidANSYSVersionError(f'ansys-dpf-core module does not support version older than 2021 R1.'
+                                                  'Please upgrade your Ansys Inc. product version.')
         if ver == 211 and is_ubuntu():
             raise OSError('DPF on v211 does not support Ubuntu')
+        if ver > int(__ansys_version__):
+            import warnings
+            from ansys.dpf.core._version import __ansys_consumer_version__
+            warnings.warn(f'The Ansys version at {ansys_path}'
+                          'is higher than {__ansys_consumer_version__}.'
+                          'There can be some incompatibility. In a such case, please '
+                          'install a lower version of ansys-dpf-core module.')
     except ValueError:
         pass
     
@@ -182,7 +192,7 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     if server is None:
         raise OSError(f'Unable to launch the server after {n_attempts} attempts.  '
                       'Check the following path:\n{ansys_path}\n\n'
-                      'or attempt to use a different port')
+                      'or attempt to use a different port.')
 
     dpf.core._server_instances.append(weakref.ref(server))
     return server
@@ -470,9 +480,37 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
-    process = subprocess.Popen(run_cmd,
+    try: 
+        # try to find the Ans.Dpf.Grpc.bat/.sh files
+        process = subprocess.Popen(run_cmd,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
+    except: 
+        # if not found (version < 211)
+        if (os.name == 'nt'):
+            paths = [r'\tp\IntelMKL\2020.0.166\winx64\\',
+                 r'\tp\IntelCompiler\2019.3.203\winx64\\',
+                 r'\tp\hdf5\1.8.14\winx64\\',
+                 r'\tp\CFFSDK\lib\winx64']
+            add_path = ';'.join([ansys_path + path for path in paths])
+            env = dict(os.environ)
+            env['PATH'] = add_path + env['PATH']
+            run_cmd = f'Ans.Dpf.Grpc.exe --address {ip} --port {port}'
+            try:
+                process = subprocess.Popen(run_cmd,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+            except:
+                raise Exception('An exception occured while trying to launch DPF server.'
+                                'Please check that your Ansys Inc. install is correctly set up. '
+                                'Please note that DPF Python modules does not support Ansys Inc. '
+                                ' version older than 2021 R1.')
+        else:
+            raise NotImplementedError(f'Dpf launcher is not implemented for this platform.'
+                                      'Please manually run the server using Ans.Dpf.Grpc.exe'
+                                      'and use core.connect_to_server(ip=MY_IP, port=MY_PORT)'
+                                      'method with the correct arguments.')
+            
     os.chdir(old_dir)
 
     # check to see if the service started
