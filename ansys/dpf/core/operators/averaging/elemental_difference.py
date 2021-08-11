@@ -7,43 +7,58 @@ from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs, _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
-"""Operators from Ans.Dpf.FEMutils plugin, from "averaging" category
-"""
+"""Operators from Ans.Dpf.FEMutils plugin, from the "averaging" category."""
 
 class elemental_difference(Operator):
-    """Transform ElementalNodal or Nodal field into Elemental field. Each elemental value is the maximum difference between the computed result for all nodes in this element. Result is computed on a given element scoping.
+    """Transform an ``ElementalNodal`` or ``Nodal`` field into an ``Elemental`` field. 
+    
+    Each elemental value is the maximum difference between the computed result for all 
+    nodes in this element. The result is computed on a given element scoping.
 
-      available inputs:
-        - field (Field, FieldsContainer)
-        - mesh_scoping (Scoping) (optional)
-        - mesh (MeshedRegion) (optional)
-        - through_layers (bool) (optional)
+    Parameters
+    ----------
+    field : str, optional
+        Name of the field or fields container. The default is ``None``.
+    mesh_scoping : optional
+        Name of the mesh scoping. The default is ``None``.
+    mesh : optional
+        Name of the meshed region. The default is ``None``.
+    through_layers : bool, optional
+    
+    config : optional
+        The default is ``None``.
+    server : optional
+        The default is ``None``.
+        
+    Returns
+    -------
+    :class:`ansys.dpf.core.fields_container`
+        Fields container object.    
+    
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
 
-      available outputs:
-        - fields_container (FieldsContainer)
+    >>> # Instantiate operator
+    >>> op = dpf.operators.averaging.elemental_difference()
 
-      Examples
-      --------
-      >>> from ansys.dpf import core as dpf
+    >>> # Make input connections
+    >>> my_field = dpf.Field()
+    >>> op.inputs.field.connect(my_field)
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_through_layers = bool()
+    >>> op.inputs.through_layers.connect(my_through_layers)
 
-      >>> # Instantiate operator
-      >>> op = dpf.operators.averaging.elemental_difference()
+    >>> # Instantiate operator and connect inputs in one line
+    >>> op = dpf.operators.averaging.elemental_difference(field=my_field,mesh_scoping=my_mesh_scoping,mesh=my_mesh,through_layers=my_through_layers)
 
-      >>> # Make input connections
-      >>> my_field = dpf.Field()
-      >>> op.inputs.field.connect(my_field)
-      >>> my_mesh_scoping = dpf.Scoping()
-      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-      >>> my_mesh = dpf.MeshedRegion()
-      >>> op.inputs.mesh.connect(my_mesh)
-      >>> my_through_layers = bool()
-      >>> op.inputs.through_layers.connect(my_through_layers)
-
-      >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.averaging.elemental_difference(field=my_field,mesh_scoping=my_mesh_scoping,mesh=my_mesh,through_layers=my_through_layers)
-
-      >>> # Get output data
-      >>> result_fields_container = op.outputs.fields_container()"""
+    >>> # Get output data
+    >>> result_fields_container = op.outputs.fields_container()
+    """
+    
     def __init__(self, field=None, mesh_scoping=None, mesh=None, through_layers=None, config=None, server=None):
         super().__init__(name="elemental_difference", config = config, server = server)
         self._inputs = InputsElementalDifference(self)
@@ -59,12 +74,12 @@ class elemental_difference(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Transform ElementalNodal or Nodal field into Elemental field. Each elemental value is the maximum difference between the computed result for all nodes in this element. Result is computed on a given element scoping.""",
+        spec = Specification(description="""Transform an ``ElementalNodal`` or ``Nodal`` field into an ``Elemental`` field. Each elemental value is the maximum difference between the computed result for all nodes in this element. Result is computed on a given element scoping.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
-                                 1 : PinSpecification(name = "mesh_scoping", type_names=["scoping"], optional=True, document="""average only on these entities"""), 
+                                 0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""Field or fields container with only one field is expected."""), 
+                                 1 : PinSpecification(name = "mesh_scoping", type_names=["scoping"], optional=True, document="""Average only on these entities."""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=True, document=""""""), 
-                                 10 : PinSpecification(name = "through_layers", type_names=["bool"], optional=True, document="""the max elemental difference is taken through the different shell layers if true (default is false)""")},
+                                 10 : PinSpecification(name = "through_layers", type_names=["bool"], optional=True, document="""The maximum elemental difference is taken through the different shell layers if ``True``. The default is ``False``.""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
         return spec
@@ -76,7 +91,7 @@ class elemental_difference(Operator):
 
     @property
     def inputs(self):
-        """Enables to connect inputs to the operator
+        """Inputs to connect to the operator.
 
         Returns
         --------
@@ -87,7 +102,7 @@ class elemental_difference(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Outputs of the operator that are obtained by evaluating it.
 
         Returns
         --------
@@ -99,22 +114,23 @@ class elemental_difference(Operator):
 #internal name: elemental_difference
 #scripting name: elemental_difference
 class InputsElementalDifference(_Inputs):
-    """Intermediate class used to connect user inputs to elemental_difference operator
+    """Connects user inputs to the elemental difference operator.
+    
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
 
-      Examples
-      --------
-      >>> from ansys.dpf import core as dpf
-
-      >>> op = dpf.operators.averaging.elemental_difference()
-      >>> my_field = dpf.Field()
-      >>> op.inputs.field.connect(my_field)
-      >>> my_mesh_scoping = dpf.Scoping()
-      >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
-      >>> my_mesh = dpf.MeshedRegion()
-      >>> op.inputs.mesh.connect(my_mesh)
-      >>> my_through_layers = bool()
-      >>> op.inputs.through_layers.connect(my_through_layers)
+    >>> op = dpf.operators.averaging.elemental_difference()
+    >>> my_field = dpf.Field()
+    >>> op.inputs.field.connect(my_field)
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_through_layers = bool()
+    >>> op.inputs.through_layers.connect(my_through_layers)
     """
+    
     def __init__(self, op: Operator):
         super().__init__(elemental_difference._spec().inputs, op)
         self._field = Input(elemental_difference._spec().input_pin(0), 0, op, -1) 
@@ -128,9 +144,9 @@ class InputsElementalDifference(_Inputs):
 
     @property
     def field(self):
-        """Allows to connect field input to the operator
+        """Field inputs to connect to the operator.
 
-        - pindoc: field or fields container with only one field is expected
+        - pindoc: A field or fields container with only one field is expected.
 
         Parameters
         ----------
@@ -150,9 +166,9 @@ class InputsElementalDifference(_Inputs):
 
     @property
     def mesh_scoping(self):
-        """Allows to connect mesh_scoping input to the operator
+        """Mesh scoping input to connect to the operator.
 
-        - pindoc: average only on these entities
+        - pindoc: Average only on these entities.
 
         Parameters
         ----------
@@ -172,7 +188,7 @@ class InputsElementalDifference(_Inputs):
 
     @property
     def mesh(self):
-        """Allows to connect mesh input to the operator
+        """Mesh input to connect to the operator.
 
         Parameters
         ----------
@@ -192,9 +208,9 @@ class InputsElementalDifference(_Inputs):
 
     @property
     def through_layers(self):
-        """Allows to connect through_layers input to the operator
+        """Through layers input to connect to the operator.
 
-        - pindoc: the max elemental difference is taken through the different shell layers if true (default is false)
+        - pindoc: The maximum elemental difference is taken through the different shell layers if ``True``. The default is ``False``.
 
         Parameters
         ----------
@@ -213,14 +229,16 @@ class InputsElementalDifference(_Inputs):
         return self._through_layers
 
 class OutputsElementalDifference(_Outputs):
-    """Intermediate class used to get outputs from elemental_difference operator
-      Examples
-      --------
-      >>> from ansys.dpf import core as dpf
+    """Retrieves outputs from the elemental difference operator.
+    
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.averaging.elemental_difference()
-      >>> # Connect inputs : op.inputs. ...
-      >>> result_fields_container = op.outputs.fields_container()
+    >>> op = dpf.operators.averaging.elemental_difference()
+    >>> # Connect inputs : op.inputs. ...
+    >>> result_fields_container = op.outputs.fields_container()
+    
     """
     def __init__(self, op: Operator):
         super().__init__(elemental_difference._spec().outputs, op)
@@ -229,8 +247,7 @@ class OutputsElementalDifference(_Outputs):
 
     @property
     def fields_container(self):
-        """Allows to get fields_container output of the operator
-
+        """Fields container output of the operator.
 
         Returns
         ----------
@@ -243,6 +260,7 @@ class OutputsElementalDifference(_Outputs):
         >>> op = dpf.operators.averaging.elemental_difference()
         >>> # Connect inputs : op.inputs. ...
         >>> result_fields_container = op.outputs.fields_container() 
+        
         """
         return self._fields_container
 
