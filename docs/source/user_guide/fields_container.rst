@@ -1,23 +1,23 @@
 .. _ref_user_guide_fields_container:
 
-==============================
+===========================
 Fields Container and Fields
-==============================
-Where DPF uses :ref:`ref_user_guide_operators` to load operate and operate
-on the data, DPF uses ``Field`` and ``FieldsContainer`` to store
-the data and return it to the user.  In other words, if ``Operators``
-was a verb, the DPF ``Field`` would be the noun.  ``Operators`` acts
-on the data, and ``Field`` and ``FieldsContainer`` hold the data.
+===========================
+Where DPF uses operators to load and operate on data, it uses the 
+field container and fields to store and return data. In other words, 
+operators are like verbs, acting on the data, while the field container 
+and fields are like nouns, objects that hold data.  
 
 
-Obtaining Fields and FieldsContainer
-------------------------------------
-The ``outputs`` from ``Operators`` can be either a
-:py:class:`ansys.dpf.core.field.Field` or
-:py:class:`ansys.dpf.core.fields_container.FieldsContainer`.  A Fields
-Container is the DPF equivalent of a ``list`` of ``Field``, and is
-used to hold a vector of fields within DPF.  In the following the
-example, the ``FieldsContainer`` is returned from the elastic_strain operator:
+Obtaining the Fields Container or Fields
+----------------------------------------
+The outputs from operators can be either a 
+:py:class:`ansys.dpf.core.fields_container.FieldsContainer` or a 
+:py:class:`ansys.dpf.core.field.Field`. A fields container is the DPF 
+equivalent of a list of fields. It is holds a vector of fields.
+
+In this example, the fields container is returned from the 
+``elastic_strain`` operator:
 
 .. code-block:: python
 
@@ -61,11 +61,12 @@ example, the ``FieldsContainer`` is returned from the elastic_strain operator:
       - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
 
 
-Accessing Fields within a Fields Container
+Accessing Fields Within a Fields Container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Since this result contains a transient result, the
-``FieldsContainer`` has one Field by time set.  Access the fields
-from the ``FieldsContainer`` using the following methods:
+Because the result above contains a transient result, the
+fields container has one field by time set. 
+
+Access the fields from the fields contains using these methods:
 
 .. code-block:: python
 
@@ -79,22 +80,21 @@ from the ``FieldsContainer`` using the following methods:
  
     20
     
-Return a field based on its index
+Return a field based on its index:
 
 .. code-block:: python
 
     field_first_time = fields[0]
     field_last_time = fields[19]
 
-Return a field based on its time set id:
+Return a field based on its time set ID:
 
 .. code-block:: python
 
     field = fields.get_field_by_time_id(1)
 
-Alternatively, use ``get_field`` with the identifier of 
-the requested field. This API allows to access fields for more complex
-requests. To use ``get_field`` in the same context:
+Alternatively, to access fields for more complex requests, use the 
+``get_field`` method with the identifier of the requested field:
 
 .. code-block:: python
     
@@ -113,8 +113,7 @@ requests. To use ``get_field`` in the same context:
       40 entities 
       Data:6 components and 320 elementary data 
       
-Or in a more complex context, where the ``get_field`` method has a real use compared
-to the ``get_field_by_time_id`` method:
+Or in a more real-word example:
 
 
 .. code-block:: python
@@ -148,7 +147,7 @@ to the ``get_field_by_time_id`` method:
  
 
 Reference the available time frequency support to determine which
-``time_complex_ids`` are available to in the ``FieldsContainer``
+time complex IDs are available in the fields container:
 
 .. code-block:: python
 
@@ -187,17 +186,22 @@ Reference the available time frequency support to determine which
     19             0.190000       1              19              
     20             0.200000       1              20              
 
-Note that the time set ids used are 1 based.  When indexing from pythonic indexing via
-``fields[0]``, you can use zero based indexing.  When requesting the
-results via ``get_fields``, the request is based on the time scoping set ids.
+Note that the time set IDs used are 1 based.  When indexing from Pythonic 
+indexing via ``fields[0]``, you can use zero-based indexing.  When requesting the
+results using the ``get_fields`` method, the request is based on the time scoping 
+set IDs.
 
 Field
 -----
-The :py:class:`ansys.dpf.core.field.Field` is the fundamental unit of data within DPF.
-It contains the actual data and its metadata:
-results data are defined by values associated to entities (scoping), and these entities are a subset of a model (support). 
-In DPF, field data is always associated to its scoping and support, making the field a self-describing piece of data. 
-A field is also defined by its dimensionnality, unit, location...
+The class :py:class:`ansys.dpf.core.field.Field` is the fundamental unit of data within DPF.
+It contains the actual data and its metadata, which is results data defined by values 
+associated with entities (scoping). These entities are a subset of a model (support). 
+
+In DPF, field data is always associated with its scoping and support, making the field 
+a self-describing piece of data. A field is also defined by its dimensionnality, unit, 
+location, and more.
+
+You can get an overview of a field's metadata by printing the field:
 
 .. code-block:: python
 
@@ -217,16 +221,16 @@ A field is also defined by its dimensionnality, unit, location...
       40 entities 
       Data:6 components and 320 elementary data 
 
-Note that by printing the field you can get an overview of the field's
-metadata.  The next section provides an overview of the metadata associated with the field itself.
+The next section provides an overview of the metadata associated with the field itself.
 
 
 Field Metadata
 ~~~~~~~~~~~~~~
-The field contains the metadata associated with the result it is
-associated with, including the location (either ``Elemental``, ``Nodal``,
-``ElementalNodal``, ...) and IDs associated with that location.  To access the
-scoping of the field, use the ``scoping`` attribute:
+The field contains the metadata for the result it is associated with. The metadata 
+includes the location (such as ``Elemental``, ``Nodal``, or
+``ElementalNodal``) and IDs associated with the location.  
+
+To access the scoping of the field, use the ``scoping`` attribute:
 
 .. code:: python
 
@@ -256,15 +260,15 @@ scoping of the field, use the ``scoping`` attribute:
      field.location:'ElementalNodal'
 
 
-Note that ``Elemental`` denotes one value (multiplied by the number of
-components) of data per element, ``Nodal`` is per node, and
+The location ``Elemental`` denotes one value (multiplied by the number of
+components) of data per element, while ``Nodal`` is per node, and
 ``ElementalNodal`` is one value per node per element.  For example,
-strain is a ``ElementalNodal`` value as the strain is evaluated at
+strain is an ``ElementalNodal`` value as the strain is evaluated at
 each node for each element.
 
 The field also contains additional metadata such as the ``shape`` of
 the data stored, the location of the field, number of components, and
-the units of the data,
+the units of the data:
 
     
 .. code:: python
@@ -305,17 +309,17 @@ Field Data
 
 Accessing Field Data
 ~~~~~~~~~~~~~~~~~~~~
-When DPF-Core returns a :py:class:`ansys.dpf.core.field.Field`, what
-Python actually has is a client side representation of the Field, but
-not the entirety of the field itself.  This means that all the data of
-the field is stored within the DPF service.  This is important because
-when building your post-processing workflows, keep in mind that the
-most efficient way of interacting with the result data is to minimize
-the exchange of data between Python and DPF, either by using operators
-or by accessing only the data that is needed.
+When DPF-Core returns the :py:class:`ansys.dpf.core.field.Field` class, 
+what Python actually has is a client-side representation of the field, 
+but not the entirety of the field itself. This means that all the data of
+the field is stored within the DPF service. This is important because
+when building your postprocessing workflows, the most efficient way of 
+interacting with result data is to minimize the exchange of data between 
+Python and DPF, either by using operators or by accessing only the data 
+that is needed.
 
-Should you need to access the entire array of data, you can request
-the data be returned as a ``numpy`` array with:
+If you need to access the entire array of data, request
+that the data be returned as a ``numpy`` array:
 
 .. code:: python
 
@@ -341,9 +345,9 @@ the data be returned as a ``numpy`` array with:
     >>> type(array)
     numpy.ndarray
 
-Should you need to request data individual node or element, you can
-request it using either ``get_entity_data`` or
-``get_entity_data_by_id``.
+If you need to request an individual node or element, 
+request it using either the ``get_entity_data`` or
+``get_entity_data_by_id`` methods:
 
 .. code:: python
 
@@ -388,10 +392,10 @@ request it using either ``get_entity_data`` or
     
     One 3D vector (X,Y,Z) displacement
 
-These methods are acceptable when requesting data for a few elements
-or nodes, but should not be used when looping over the entire array.
-Field's data can be recovered locally before sending a large number of requests
-for efficiency purpose:
+While these methods are acceptable when requesting data for a few elements
+or nodes, they should not be used when looping over the entire array. For efficiency,
+a field's data can be recovered locally before sending a large number of requests:
+:
 
 .. code-block:: python
 
@@ -403,15 +407,15 @@ for efficiency purpose:
 Operating on Field Data
 ~~~~~~~~~~~~~~~~~~~~~~~
 Often times, it's not necessary to directly act upon the data of an
-array within Python.  For example, if you want to know the maximum of
+array within Python. For example, if you want to know the maximum of
 the data, you could potentially compute the maximum of the array from
-``numpy`` with ``array.max()``, but that requires sending the entire
-array to Python and then computing the maximum there.  Rather than
+``numpy`` with ``array.max()``. However, that requires sending the entire
+array to Python and then computing the maximum there. Rather than
 copying the array over and then computing the maximum in Python, you
-can instead compute the maximum directly from the field itself.  The
-``min`` and ``max`` methods of ``Field`` use the ``'min_max'``
-Operator was used to compute the maximum of the field while returning
-the field.
+can instead compute the maximum directly from the field itself.
+
+This example uses the ``'min_max'``operator to compute the maximum of 
+the field while returning the field:
 
 .. code:: python
 
@@ -429,13 +433,8 @@ the field.
     [369, 1073, 1031, 1040, 2909, 2909]
 
 
-Note that is a convenience method.  For more advanced operator
-chaining, please see the :ref:`ref_user_guide_operators` section in
-the user guide.  Here is a quick example of connecting the
-``'elemental_mean'`` operator to the field data:
-
-
-Compute the average of a field using the 'elemental_mean' operator:
+Here is an example of using the ``elemental_mean`` operator to compute the 
+average of a field:
 
 .. code-block:: python
 
@@ -456,7 +455,7 @@ Compute the average of a field using the 'elemental_mean' operator:
       -7.59655688e+04  0.00000000e+00]]  
     Elemental
     
- 
+For more advanced information on operator chaining, see the :ref:`ref_user_guide_operators`.  
 
 API Reference
 ~~~~~~~~~~~~~
