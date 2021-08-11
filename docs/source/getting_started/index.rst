@@ -102,9 +102,9 @@ Internal versioning
 Please note that the versioning of the various components perfectly matches the following mapping:
 
 ------------------------------------
-ansys-dpf-core | 0.2.1   | 0.3.0   |
-ansys-grpc-dpf | 0.2.2   | 0.3.0   |
-DPF Server(*)  | None    | 2.0     |
+ansys-dpf-core | 0.2.1   | 0.3.*   |
+ansys-grpc-dpf | 0.2.2   | 0.3.*   |
+DPF Server(*)  | None    | 2.*     |
 Ansys Inc.     | 2021 R1 | 2021 R2 |
 ------------------------------------
 
