@@ -6,25 +6,28 @@ Operators
 
 ..    include:: <isonum.txt>
 
-The Operator is the only object used to create and transform the data
-and is the fundamental method by which DPF loads, operates on, and
+An operator is the only object that is used to create and transform 
+data. It is the fundamental method by which DPF loads, operates on, and
 outputs data. Each operator contains the ``input`` and ``output``
-attribute, which allows you to make various inputs/outputs connections. When the operator is evaluated, it will process the input information to compute its output with respect to its description:
+attributed, which allow you to make various input and output connections. 
+
+When the operator is evaluated, it processes the input information to 
+compute its output with respect to its description:
 
 .. figure:: ../images/drawings/operator_drawing.svg
 
-Operators can be chained together in workflows to conduct simple or
-complex data processing by attaching one operator's outputs to
-another's inputs.  Through lazy evaluation, DPF approaches data
-processing in an efficient manner by only evaluating each operator
-when the final operator is evaluated and the data is requested.
+By attaching one operator's outputs to another operator's inputs,
+you can chain together operators to create workflows for conducting 
+simple or complex data processing.  Through lazy evaluation, DPF 
+approaches data processing in an efficient manner, evaluating each operator
+only when the final operator is evaluated and the data is requested.
 
 For example, if you desire the maximum normalized displacement of a
-result, you will construct operators in the following order:
+result, you construct operators in this order:
 
 .. figure:: ../images/drawings/max_u_norm.png
 
-By writing:
+To achieve this, you an use:
 
 .. code-block:: default
 
@@ -38,22 +41,23 @@ By writing:
     max_diplacement = min_max.outputs.field_max()
  
  
-With this approach, you can efficiently compute the maximum
-displacement of a result entirely within the DPF service without
+This approach efficiently computes the maximum
+displacement of a result entirely within the DPF service, without
 transferring any data from DPF to Python until DPF arrives at the
-solution data you desire.
+solution data that you want.
 
-DPF's library of operators is large and includes files reader, mathematical, 
-geometrical or logical transformations... This library can be found in :ref:`ref_dpf_operators_reference` 
-and is progressively enhanced.
+DPF's library of operators is large and includes file readers and mathematical, 
+geometrical, and logical transformations. This library, found in 
+:ref:`ref_dpf_operators_reference`, is progressively enhanced.
 
 
 Creating Operators
 ~~~~~~~~~~~~~~~~~~
-Each operator is of type :ref:`ref_operator`. An Operator's instance 
-can be created in Python with any of the derived class available in the 
+Each operator is of type :ref:`ref_operator`. You can create an instance 
+in Python with any of the derived classes available in the 
 package :ref:`ref_operators_package` or directly with the class :ref:`ref_operator`
-using the internal name string (see :ref:`ref_dpf_operators_reference`) indicating the operator type.
+using the internal name string that indicates the operator type. 
+For more information, see :ref:`ref_dpf_operators_reference`).
 
 For example, to create the displacement operator, use:
 
@@ -62,8 +66,8 @@ For example, to create the displacement operator, use:
    from ansys.dpf.core import operators as ops
    op = ops.result.displacement() # or op = ansys.dpf.core.Operator("U")
 
-The description, available inputs, and available outputs of this
-particular operator can be viewed by printing the operator:
+You can view the description, available inputs, and available outputs of this
+particular operator by printing it:
 
 .. code-block:: python
 
@@ -90,10 +94,12 @@ particular operator can be viewed by printing the operator:
              fields_container [fields_container] 
 
 
-Alternatively, result providers can be instantiated via the model. With this
-model's result usage (see :ref:`user_guide_model`), the results file paths 
-are directly connected to the operator and the user can only instantiate available
-results for his/her result files:
+Alternatively, you can instantiate result providers via the model. For more 
+information, see :ref:`user_guide_model`.
+
+With this model's result usage, file paths for the results are directly  
+connected to the operator, which means that you can only instantiate 
+available results for your result files:
 
 
 .. code-block:: python
@@ -107,13 +113,17 @@ results for his/her result files:
 
 Connecting Operators
 ~~~~~~~~~~~~~~~~~~~~
-The only required input for the displacement operator is the ``data_sources`` (see above). 
-Providing the result files paths to the operator is necessary to compute in
-output the ``fields_container`` containing the displacement results.
-There are two ways of creating the data sources: either use the :ref:`ref_model`
-class, or use the :ref:`ref_data_sources` class. 
-This example will explain the data sources approach as the model approach 
-is used in several other examples.
+The only required input for the displacement operator is ``data_sources`` (see above). 
+Providing file paths for results to the operator is necessary to compute 
+output in the ``fields_container``, which contains the displacement results.
+
+
+There are two ways of creating data sources: use either the :ref:`ref_model`
+class or the :ref:`ref_data_sources` class. 
+
+
+Because several other examples use the model approach, this example uses the data 
+sources approach:
 
 .. code-block:: python
 
@@ -134,15 +144,15 @@ is used in several other examples.
      result key: rst and path: D:\ANSYSDev\dpf-python-core\ansys\dpf\core\examples\model_with_ns.rst 
   Secondary files:
 
-Connect this data sources to the displacement operator with:
+Connect this data source to the displacement operator:
 
 .. code-block:: python
 
     op.inputs.data_sources(data_src)
     
 Other optional inputs can be connected to the displacement operator.
-Printing the operator above showed that a mesh_scoping of type :ref:`ref_scoping`
-can be connected to work on a spatial subset. A time scoping of type list[int] 
+Printing the operator above showed that a ``mesh_scoping`` of type :ref:`ref_scoping`
+can be connected to work on a spatial subset. A ``time_scoping`` of a list of integers 
 can also be connected to work on a temporal subset:
 
 
@@ -155,8 +165,8 @@ can also be connected to work on a temporal subset:
     
 Evaluating Operators
 ~~~~~~~~~~~~~~~~~~~~
-With all the required inputs assigned, the fields_container can now be
-output from the operator with:
+With all the required inputs assigned, the :class:`ansys.dpf.core.fields_container`can be
+outputted from the operator:
 
 .. code-block:: python
 
@@ -177,12 +187,9 @@ output from the operator with:
       with:
       - field 0 {time:  1} with Nodal location, 3 components and 2 entities.
 
-Please note that the operator checks at run-time if all the required
-inputs have been assigned.  Evaluating an operator with missing inputs
-will raise a ``DPFServerException``:
-
-
-Purposely not assigning inputs in this example:
+At run time, the operator checks if all required inputs have been assigned. 
+Evaluating an operator with missing inputs will raise a ``DPFServerException`` 
+like this one:
     
 .. code-block:: python
 
@@ -196,10 +203,9 @@ Purposely not assigning inputs in this example:
 
  .. code-block:: none
  
-    DPFServerException: U<-Data sources not defined
+    DPFServerException: U<-Data sources are not defined.
 
-See the :ref:`ref_user_guide_fields_container` for the user guide
-details regarding the use of the ``FieldsContainer``.
+For information on using the field container, see :ref:`ref_user_guide_fields_container`.
 
 
 Chaining Operators
@@ -207,12 +213,13 @@ Chaining Operators
 
 To create more complex operations and customizable results, operators can be 
 chained together to create workflows.
+
 With the large library of ``Operators`` that DPF offers, customizing results 
 to get a specific output is very easy.
-Note that doing those result customization manually on Python side instead of
-using operators will be far less efficient. 
-While for a very small model, it would be acceptable to bring all the displacement 
-data on the client side to compute the maximum with:
+
+While manually customizing results on the Python side is far less efficient
+than using operators, for a very small model, it is acceptable to bring all 
+displacement data on the client side to compute the maximum:
 
 .. code-block:: python
 
@@ -238,7 +245,7 @@ data on the client side to compute the maximum with:
  
     array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
 
-On industrial model, the user should do:
+On an industrial model, you should use:
 
 .. code-block:: python
 
@@ -261,19 +268,17 @@ On industrial model, the user should do:
     array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
     
 
-Here, the only the maximum displacements in the X, Y, and Z components
-were transferred and returned as a numpy array.
+Here, only the maximum displacements in the X, Y, and Z components
+are transferred and returned as a numpy array.
 
+For small data sets, you can compute the maximum of the array in Numpy.
+While there may be times where having the entire data array for a given 
+result type is necessary, many times it is not necessary.  In these 
+cases, it is faster not to transfer the array to Python but rather to 
+compute the maximum of the fields container within DPF and then return 
+the result to Python.
 
-For small data sets, it is perfectly acceptable to compute the maximum
-of the array in numpy.  Indeed, there are times where it may be
-necessary to have the entire data array for a given result type, but
-many times it is not strictly necessary.  In those cases, it is faster
-to not transfer the array to Python, but rather compute the maximum of
-the fields container within DPF and then return the result to Python.
-
-
-Note that here we are instantiating operators with other operators with other operators:
+This example instantiates operators with other operators:
 
 
 .. code-block:: python
@@ -281,9 +286,9 @@ Note that here we are instantiating operators with other operators with other op
     min_max = ops.min_max.min_max(displacement)
 
 This automatically connects the matching ``displacement`` output with the 
-matching ``min_max`` input. It can also be done manually using the :py:meth:`connect()
-<ansys.dpf.core.dpf_operator.Operator.connect>` method to connect the outputs of
-one operator to the inputs of another operator with:
+matching ``min_max`` input. You can also use the :py:meth:`connect()
+<ansys.dpf.core.dpf_operator.Operator.connect>` method to manually connect 
+the outputs of one operator to the inputs of another operator:
 
 .. code-block:: python
 
@@ -294,28 +299,33 @@ one operator to the inputs of another operator with:
 
 
 While this last approach is more verbose, it can be useful for operators 
-having several matching inputs/outputs.
+having several matching inputs or outputs.
 
 
-Types of operators
+Types of Operators
 ~~~~~~~~~~~~~~~~~~
-3 main types of operators can  be listed in DPF:
+DPF provides three main types of operators:
 
-- Operators importing/reading data
-- Operators transforming existing data
-- Operators exporting data
+- Operators for importing or reading data
+- Operators for transforming data
+- Operators for exporting data
 
-**********************************
-Operators importing / reading data
-**********************************
+***************************************
+Operators for Importing or Reading Data
+***************************************
 
-Those operators allow to read data from solver files or from standard file types. 
-Different solver format are handled by DPF like rst/mode/rfrq/rdsp.. for MAPDL, 
-d3plot for LsDyna, cas.h5/dat.h5/res/flprj for CFX and Fluent, odb for Abaqus... 
-To read those, different readers have been implemented in plugins. 
-Plugins can be loaded on demand in any dpf's scripting language with the "load library" methods. 
-File readers can be used generically thanks to dpf's result providers, which means that the same operators can be used for any file types.
-For example, reading a displacement or a stress for any files will be done with:
+These operators provide for reading data from solver files or from standard file types:
+
+- For MAPDL, supported solver file formats include RST, MODE, RFRQ, and RDSP.
+- For LS DYNA, D3PLOT files are supported.
+- For Fluent and CFX, CAS.H5, DAT.H5, RES, and FLPRJ files are supported.
+- For Abaqus, ODB files are supported.
+
+To read these fciles, different readers are implemented as plugins. 
+Plugins can be loaded on demand in any DPF's scripting language with the "load library" methods. 
+File readers can be used generically thanks to DPF's result providers, which means that the same operators can be used for any file types.
+
+For example, read a displacement or a stress for any file:
 
 .. code-block:: python
 
@@ -326,21 +336,22 @@ For example, reading a displacement or a stress for any files will be done with:
    disp = ops.result.displacement(data_sources = data_src)
    stress = ops.result.stress(data_sources = data_src)
 
-Standards file formats reader are also supported to import custom data. Fields can be imported from csv, vtk or hdf5 files.
+Standard file format readers are also supported to import custom data. 
+Fields can be imported from CSV, VTK, and HDF5 files.
 
-See :ref:`ref_basic_load_file_example` for an example importing and exporting csv files.
+For an example of importing and exporting a CSV file, see :ref:`ref_basic_load_file_example`.
 
-************************************
-Operators transforming existing data
-************************************
+*******************************
+Operators for Transforming Data
+*******************************
 
-The field being the main data container in DPF, most of the operator transforming
-the data take a field or fields container in input and return a transformed 
-field or fields container in output. Analytic, averaging or filtering operations 
-can be performed on the simulation data:
+A field is the main data container in DPF. Most of the operators that transform
+data take a field or a fields container as input and return a transformed 
+field or fields container as output. You can perform analytic, averaging, 
+or filtering operations on simulation data.
 
-Here is an example, where, after creation of a field, scaling and filtering 
-operators are used:
+For example, after creation of a field, use scaling and filtering 
+operators:
 
 .. code-block:: python
 
@@ -390,16 +401,17 @@ operators are used:
        [7., 8., 9.]])
        
  
-*************************
-Operators exporting data
-*************************
+****************************
+Operators for Exporting Data
+****************************
 
-After transforming or reading simulation data with DPF, the user might want 
-to export the results in a given format to use it in another environment or 
-to save it for future use with dpf. Vtk, h5, csv and txt (serializer operator) 
-are examples of supported exports. Export operators often match with import 
-operators allowing user to reuse their data. The "serialization" operators menu 
-lists the available import/export operators.
+After using DPF to read or transform simulation data, you might want 
+to export the results in a given format to either use it in another 
+environment or save it for future use with DPF. Supported file formats 
+for export include VTK, H5, CSV, and TEXT (serializer operator). Export 
+operators often match with import operators, allowing you to reuse data. 
+The "serialization" operators menu lists the available import and export 
+operators.
 
 
 .. code-block:: python
@@ -413,9 +425,8 @@ lists the available import/export operators.
        mesh=model.metadata.meshed_region, fields1=disp)
    vtk.run()
    
-those importing/exporting data operators in the case where the python
-client is not on the same machine as the server. Here is the same example
-in the case of distant machines:
+This example demonstrates how to use import and export operators if the 
+Python client is not on the same machine as the server:
 
 
 .. code-block:: python
@@ -446,6 +457,6 @@ in the case of distant machines:
 
 API Reference
 ~~~~~~~~~~~~~
-See :ref:`ref_dpf_operators_reference` or :ref:`ref_operators_package` for a full list of all
-available operators within DPF.  For additional details regarding the
-operator class itself, see :ref:`ref_operator`.
+For a list of all operators in DPF, see :ref:`ref_dpf_operators_reference` 
+or :ref:`ref_operators_package`.  For more information about the
+class itself, see :ref:`ref_operator`.

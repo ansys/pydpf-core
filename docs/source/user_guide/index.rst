@@ -4,18 +4,17 @@
 User Guide
 ==========
 
-The ansys.dpf.core package is a python client API giving an easy access to
-Data Processing Framework (DPF) post processing capabilities. Highly efficient computation, customization and remote post processing
-is made accessible in python with this package.
+DPF-Core is a Python client API for easily accessing DPF (Data Processing Framework) 
+postprocessing capabilities. The ``ansys.dpf.core`` package makes highly efficient 
+computation, customization, and remote postprocessing accessible in Python.
 
-This guide provides a general overview of the basics and usage of DPF.
-The most common entities are presented :
+These sections describe the most common DPF entities:
 
-- the Model in :ref:`user_guide_model` helps to access results and metadata from result files
-- the Operator in :ref:`ref_user_guide_operators` is the only object used to create and transform the data
-- the Field (contained in the Fields Container) :ref:`ref_user_guide_fields_container` is the main simulation data container.
+- :ref:`user_guide_model` provides the model for accessing results and metadata from result files.
+- :ref:`ref_user_guide_operators` provide the objects for creating and transforming data.
+- :ref:`ref_user_guide_fields_container` provide the main simulation data container with fields.
 
-A quick explaination on how to plot results via pyVista is also provided in :ref:`user_guide_plotting`.
+Additionally, :ref:`user_guide_plotting` describes how to plot results via PyVista.
 
 .. toctree::
    :maxdepth: 2
