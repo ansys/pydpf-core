@@ -1,5 +1,4 @@
 import numpy as np
-from conftest import local_server
 from conftest import local_server,local_servers
 from ansys.dpf import core
 from ansys.dpf.core import operators as ops
@@ -32,7 +31,7 @@ def test_simple_remote_workflow(simple_bar):
     
     remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
     
-    remote_workflow.chain_with(local_wf, ("out", "in"))
+    local_wf.connect_with(remote_workflow, ("out", "in"))
     max = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max.data, [2.52368345e-05])
     
@@ -72,7 +71,7 @@ def test_multi_process_remote_workflow():
     
     for i,wf in enumerate(workflows):
         local_wf.set_input_name("distrib"+str(i), merge, i)
-        wf.chain_with(local_wf)    
+        local_wf.connect_with(wf)    
         
 
     max = local_wf.get_output("tot_output", core.types.field)
