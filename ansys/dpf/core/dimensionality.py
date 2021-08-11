@@ -1,6 +1,6 @@
 """
 Dimensionality
-===============
+==============
 """
 
 from ansys.grpc.dpf import field_definition_pb2
