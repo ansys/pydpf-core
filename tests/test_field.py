@@ -208,29 +208,29 @@ def test_field_definition_modif_field(allkindofcomplexity):
     fielddef = f.field_definition
     assert fielddef.unit == "m"
     assert fielddef.location == dpf.core.locations.nodal
-    assert fielddef.dimensionnality.nature == dpf.core.natures.vector
-    assert fielddef.dimensionnality.dim == [3]
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
     assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
     
     fielddef.unit = "mm"
     assert fielddef.unit == "mm"
     fielddef.location = dpf.core.locations.elemental
     assert fielddef.location == dpf.core.locations.elemental
-    fielddef.dimensionnality = dpf.core.Dimensionnality.scalar_dim()
-    assert fielddef.dimensionnality.nature == dpf.core.natures.scalar
-    assert fielddef.dimensionnality.dim == [1]
+    fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.scalar
+    assert fielddef.dimensionality.dim == [1]
     
-    fielddef.dimensionnality = dpf.core.Dimensionnality.tensor_dim()
-    assert fielddef.dimensionnality.nature == dpf.core.natures.symmatrix
-    assert fielddef.dimensionnality.dim == [3,3]
+    fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
+    assert fielddef.dimensionality.dim == [3,3]
     
-    fielddef.dimensionnality = dpf.core.Dimensionnality.vector_3d_dim()
-    assert fielddef.dimensionnality.nature == dpf.core.natures.vector
-    assert fielddef.dimensionnality.dim == [3]
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
     
-    fielddef.dimensionnality = dpf.core.Dimensionnality.vector_dim(4)
-    assert fielddef.dimensionnality.nature == dpf.core.natures.vector
-    assert fielddef.dimensionnality.dim == [4]
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [4]
     
     fielddef.shell_layers = dpf.core.shell_layers.bottom
     assert fielddef.shell_layers == dpf.core.shell_layers.bottom    
@@ -247,21 +247,21 @@ def test_field_definition_set_in_field(allkindofcomplexity):
     fielddef = f.field_definition
     fielddef.unit = "mm"
     fielddef.location = dpf.core.locations.elemental
-    fielddef.dimensionnality = dpf.core.Dimensionnality.scalar_dim()
+    fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
     fielddef.shell_layers = dpf.core.shell_layers.bottom
     
     f.field_definition = fielddef
     fielddef = f.field_definition
     assert fielddef.unit == "mm"
     assert fielddef.location == dpf.core.locations.elemental
-    assert fielddef.dimensionnality.nature == dpf.core.natures.scalar
-    assert fielddef.dimensionnality.dim == [1]
+    assert fielddef.dimensionality.nature == dpf.core.natures.scalar
+    assert fielddef.dimensionality.dim == [1]
     assert fielddef.shell_layers == dpf.core.shell_layers.bottom   
     
     assert f.unit == "mm"
     assert f.location == dpf.core.locations.elemental
-    assert f.dimensionnality.nature == dpf.core.natures.scalar
-    assert f.dimensionnality.dim == [1]
+    assert f.dimensionality.nature == dpf.core.natures.scalar
+    assert f.dimensionality.dim == [1]
     assert f.shell_layers == dpf.core.shell_layers.bottom  
     
 
@@ -275,20 +275,20 @@ def test_change_field_definition_in_field(allkindofcomplexity):
     f = fcOut[0]
     f.unit = "mm"
     f.location = dpf.core.locations.elemental
-    f.dimensionnality = dpf.core.Dimensionnality.scalar_dim()
+    f.dimensionality = dpf.core.Dimensionality.scalar_dim()
     f.shell_layers = dpf.core.shell_layers.bottom
     
     fielddef = f.field_definition
     assert fielddef.unit == "mm"
     assert fielddef.location == dpf.core.locations.elemental
-    assert fielddef.dimensionnality.nature == dpf.core.natures.scalar
-    assert fielddef.dimensionnality.dim == [1]
+    assert fielddef.dimensionality.nature == dpf.core.natures.scalar
+    assert fielddef.dimensionality.dim == [1]
     assert fielddef.shell_layers == dpf.core.shell_layers.bottom   
     
     assert f.unit == "mm"
     assert f.location == dpf.core.locations.elemental
-    assert f.dimensionnality.nature == dpf.core.natures.scalar
-    assert f.dimensionnality.dim == [1]
+    assert f.dimensionality.nature == dpf.core.natures.scalar
+    assert f.dimensionality.dim == [1]
     assert f.shell_layers == dpf.core.shell_layers.bottom  
 
 

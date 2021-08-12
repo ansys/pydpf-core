@@ -7,7 +7,7 @@ from ansys import dpf
 from ansys.grpc.dpf import (base_pb2,
                             field_definition_pb2, field_definition_pb2_grpc)
 from ansys.dpf.core.common import natures, shell_layers
-from ansys.dpf.core.dimensionnality import Dimensionnality
+from ansys.dpf.core.dimensionality import Dimensionality
 
 
 class FieldDefinition:
@@ -63,16 +63,16 @@ class FieldDefinition:
         return shell_layers(enum_val.real-1) #+1 is added to the proto enum to have notset as 0
     
     @property
-    def dimensionnality(self):
-        """Dimensionnality
+    def dimensionality(self):
+        """Dimensionality
         
         Returns
         -------
-        dimensionnality : Dimensionnality
+        dimensionality : Dimensionality
             nature and size of the elementary data
         """
-        val = self._stub.List(self._messageDefinition).dimensionnality
-        return Dimensionnality(val.size, natures(val.nature.real))
+        val = self._stub.List(self._messageDefinition).dimensionnality # typo exists on server side
+        return Dimensionality(val.size, natures(val.nature.real))
     
     @unit.setter
     def unit(self, value):
@@ -89,22 +89,22 @@ class FieldDefinition:
         self._modify_field_def(shell_layer=value)
         
         
-    @dimensionnality.setter
-    def dimensionnality(self, value):
-        self._modify_field_def(dimensionnality=value)
+    @dimensionality.setter
+    def dimensionality(self, value):
+        self._modify_field_def(dimensionality=value)
     
     
-    def _modify_field_def(self, unit = None, location = None, dimensionnality = None, shell_layer=None):
+    def _modify_field_def(self, unit = None, location = None, dimensionality = None, shell_layer=None):
         request = field_definition_pb2.FieldDefinitionUpdateRequest()
         request.field_definition.CopyFrom(self._messageDefinition)
         if unit != None:
             request.unit_symbol.symbol = unit
         if location != None:
             request.location.location = location
-        if dimensionnality != None:
-            if not isinstance(dimensionnality, Dimensionnality):
-                raise TypeError("the dimensionnality needs to be of type Dimensionnsality")
-            request.dimensionnality.CopyFrom(dimensionnality._parse_dim_to_message())
+        if dimensionality != None:
+            if not isinstance(dimensionality, Dimensionality):
+                raise TypeError("the dimensionality needs to be of type Dimensionality")
+            request.dimensionnality.CopyFrom(dimensionality._parse_dim_to_message()) # typo is on server side
         if shell_layer != None:
             if isinstance(shell_layer, shell_layers):
                 request.shell_layers = shell_layer.value+1

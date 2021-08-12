@@ -8,7 +8,7 @@ Contains functions to make easy fields creation.
 from ansys.dpf import core
 from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import Field
-from ansys.dpf.core.field import Dimensionnality
+from ansys.dpf.core.field import Dimensionality
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2
 
 import numpy as np
@@ -319,9 +319,9 @@ def _create_field(server, nature, nentities, location = locations.nodal,
     else:
         elem_data_size = ncomp_n 
     if (ncomp_n != 0 and ncomp_m != 0):
-        dimensionality = Dimensionnality([ncomp_n, ncomp_m], nature)
+        dimensionality = Dimensionality([ncomp_n, ncomp_m], nature)
     elif (ncomp_n != 0 and ncomp_m == 0):
-        dimensionality = Dimensionnality([ncomp_n], nature)
+        dimensionality = Dimensionality([ncomp_n], nature)
     else: 
         dimensionality = None        
     # set request

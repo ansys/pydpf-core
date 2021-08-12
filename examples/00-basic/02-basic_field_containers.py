@@ -11,7 +11,7 @@ simulations, results data are defined by values associated to entities
 
 In DPF, field data is always associated to its scoping and support,
 making the field a self-describing piece of data. A field is also
-defined by its dimensionnality, unit, location, etc.  A field can for
+defined by its dimensionality, unit, location, etc.  A field can for
 example, describe a displacement vector or norm, stresses and strains
 tensors, stresses and strains equivalent, or the minimum and maximum
 over time of any result.  It can be defined on a complete model or
