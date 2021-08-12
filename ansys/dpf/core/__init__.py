@@ -34,6 +34,7 @@ from ansys.dpf.core.result_info import ResultInfo
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
+from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core import fields_container_factory,fields_factory, mesh_scoping_factory, time_freq_scoping_factory
