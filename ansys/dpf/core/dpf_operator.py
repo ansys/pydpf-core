@@ -284,6 +284,44 @@ class Operator:
     def run(self):
         """Evaluate this operator"""
         self.get_output()
+        
+    def eval(self, pin = None):
+        """Evaluate this operator
+        
+        Parameters
+        ----------
+        pin : int
+
+        Returns
+        --------
+        output : FieldsContainer, Field, MeshedRegion, Scoping, ...
+            by default returns the first output of the operator, and the output of a given pin when specified, or only evaluates the operator without output.
+
+        Examples
+        --------
+        Use Eval method
+
+        >>> from ansys.dpf import core as dpf
+        >>> import ansys.dpf.core.operators.math as math
+        >>> from ansys.dpf.core import examples
+        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> disp_op.inputs.data_sources(data_src)
+        >>> normfc = math.norm_fc(disp_op).eval()
+
+        
+        """
+
+
+        if not pin:
+            if self.outputs != None and len(self.outputs._outputs) > 0:
+                return self.outputs._outputs[0]()
+            else:
+                self.run()
+        else :
+            for output in self.outputs._outputs:
+                if output._pin == pin :
+                    return output()
 
     def _find_outputs_corresponding_pins(self, type_names, inpt, pin,
                                          corresponding_pins):
