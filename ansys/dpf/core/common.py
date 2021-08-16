@@ -1,6 +1,6 @@
 """
 Common
-===========
+======
 """
 from enum import Enum
 
@@ -49,11 +49,11 @@ names.append("fields_container")
 names.append("scopings_container")
 names.append("meshes_container")
 types = Enum('types', names)
-types.__doc__ =__write_enum_doc__(types, "The ``'types'`` enum contains the available types passed through Operators and Workflows to DPF.")
+types.__doc__ =__write_enum_doc__(types, "The ``'types'`` enum contains the available types passed through operators and workflows to DPF.")
 
 names = [(m.lower(), num)  for m, num in base_pb2.Nature.items()]
 natures = Enum('natures', names)
-natures.__doc__ =__write_enum_doc__(natures, "The ``'natures'`` enum contains the dimensionality types.\n It can be used to create a Field of a given dimensionality.")
+natures.__doc__ =__write_enum_doc__(natures, "The ``'natures'`` enum contains the dimensionality types.\n It can be used to create a field of a given dimensionality.")
 
 
 names = [(m.lower(), num-1)  for m, num in field_definition_pb2.ShellLayers.items()]
@@ -62,7 +62,7 @@ shell_layers.__doc__ =__write_enum_doc__(shell_layers, "The ``'shell_layers'`` e
 
 
 class locations:
-    """Contains locations str for scoping and field locations
+    """Contains strings for scoping and field locations.
     
     Attributes
     -----------
