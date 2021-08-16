@@ -3,14 +3,14 @@ from ansys.dpf import core
 from ansys.dpf.core import LOCALHOST
 import weakref
 
-"""Aeneid specific functions and classes"""
+"""Aeneid-specific functions and classes."""
 
 def start_server_using_service_manager():  # pragma: no cover
     if core.module_exists("grpc_interceptor_headers"):
         import grpc_interceptor_headers
         from  grpc_interceptor_headers.header_manipulator_client_interceptor import header_adder_interceptor    
     else:
-        raise ValueError('Module grpc_interceptor_headers is missing to use service manager, please install it using pip install grpc_interceptor_headers')
+        raise ValueError('Module grpc_interceptor_headers is missing. To use Service Manager, install it using pip install grpc_interceptor_headers.')
 
     service_manager_url = f"http://{LOCALHOST}:8089/v1"
 
