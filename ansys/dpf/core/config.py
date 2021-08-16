@@ -1,6 +1,6 @@
 """
-Operator Config
-===============
+Operator Configuration
+======================
 """
 
 import functools
@@ -11,11 +11,23 @@ from ansys.dpf.core.errors import protect_grpc
 
 
 class Config:
-    """A class used to represent an operator's configuration.
-        With configurations the user can optionally choose how the operator will run.
-        This is an advanced feature used for deep customization. 
-        The different options can change the way loops are done, 
-        it can change whether the operator needs to make check on the input or not...
+    """Represents an operator's configuration.
+    
+    You can use configurations to choose how an operator will run.
+    This is an advanced feature for deep customization. 
+    The different options can change the way loops are done. 
+    They can also change whether the operator needs to perform checks on the input.
+        
+    Parameters
+    ----------
+    operator_name : str, optional
+        Name of the operator. The default is ``None``.
+    config : str, optional
+        Name of the configuration. The default is ``None``.
+    server : str, optional
+        Server with the channel connected to the remote or local instance. The default is 
+        ``None``, in which case an attempt is made to use the global server.
+        
     """
     def __init__(self,operator_name=None, config=None, server=None):
         if server is None:
@@ -46,7 +58,7 @@ class Config:
             setattr(self, "set_"+name+"_option", method2)
         
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return operator_config_pb2_grpc.OperatorConfigServiceStub(self._server.channel)
 
 
@@ -59,7 +71,13 @@ class Config:
     
     @property
     def options(self):
-        """Returns a list of the different config options and their values"""
+        """Retrieve a list of configuration options and their values.
+        
+        Returns
+        -------
+        list
+            List of configuration options and their values.
+        """
         tmp= self._stub.List(self._message)
         out ={}
         for opt in tmp.options:
@@ -69,15 +87,14 @@ class Config:
     
     
     def __set_config_option__(self,config_value, config_name):
-        """Change the value of a config option
+        """Change the value of a configuration option.
 
         Parameters
         ----------
-        config_name : str
-            Name of the config option to change
-
         config_value : bool, int, float
-            The value to give to this config option
+            Value to give to a configuration option.
+         config_name : str
+            Name of the configuration option.
         """
         request = operator_config_pb2.UpdateRequest()
         request.config.CopyFrom(self._message)
@@ -90,43 +107,43 @@ class Config:
         elif isinstance(config_value, float):
             option_request.double = config_value
         else:
-            raise TypeError("str, int, float are the accepted type for config options")            
+            raise TypeError("str, int, float are the accepted types for configuration options.")            
         
         request.options.extend([option_request])
         self._stub.Update(request)
         
         
     def set_config_option(self, config_name, config_value):
-        """Change the value of a config option
+        """Change the value of a configuration option.
 
         Parameters
         ----------
-        config_name : str
-            Name of the config option to change
-
         config_value : bool, int, float
-            The value to give to this config option
+            Value to give to a configuration option.
+         config_name : str
+            Name of the configuration option.
         """
         return self.__set_config_option__(config_value, config_name)
         
         
     def config_option_value(self, config_name):
-        """Description of the given config_name and how it impacts the operator
+        """Retrieve the value for a configuration option.
         
         Parameters
         ----------
         config_name : str
-            Name of the config option to change
+            Name of the configuration option.
             
         Returns
         ----------
-        value : str
+        str
+            Value for the configuration option.
         """
         opt = self.options
         if config_name in opt:
             return opt[config_name]
         else:
-            raise KeyError(f"{config_name} option doesn't exist")
+            raise KeyError(f"{config_name} option doesn't exist.")
             
         
     def __try_get_option__(self,config_name):
@@ -138,16 +155,17 @@ class Config:
     
     
     def config_option_documentation(self, config_name):
-        """Description of the given config_name and how it impacts the operator
+        """Retrieve the documentation for a configuration option.
         
         Parameters
         ----------
         config_name : str
-            Name of the config option to change
+            Name of the configuration option.
             
         Returns
         ----------
-        documentation : str
+        str
+           Documentation for the configuration option.
         """
         option =self.__try_get_option__(config_name)
         if option:
@@ -156,16 +174,17 @@ class Config:
     
     
     def config_option_accepted_types(self, config_name):
-        """Description of the given config_name and how it impacts the operator
+        """Retrieve accepted types for a configuration option.
         
         Parameters
         ----------
         config_name : str
-            Name of the config option to change
+            Name of the configuration option.
             
         Returns
         ----------
-        types : list str
+        list, str
+            One or more accepted types for the configuration option.
         """
         if self._config_help:
             for option in self._config_help.config_options_spec:
@@ -174,16 +193,17 @@ class Config:
         return ""
     
     def config_option_default_value(self, config_name):
-        """Description of the given config_name and how it impacts the operator
+        """Retrieve the default value for a configuration option.
         
         Parameters
         ----------
         config_name : str
-            Name of the config option to change
+            Name of the configuration option.
             
         Returns
         ----------
-        default value : str
+        str
+            Default value for the configuration option.
         """
         if self._config_help:
             for option in self._config_help.config_options_spec:
@@ -194,11 +214,12 @@ class Config:
     
     @property
     def available_config_options(self):
-        """Returns the list of available config options for this operator
+        """Available configuration options for the operator.
         
         Returns
         ----------
-        types : list str
+        list, str
+           One or more available configuration options for the operator.
         """
         tmp= self._stub.List(self._message)
         out =[]
@@ -207,11 +228,12 @@ class Config:
         return out
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
-        description : str
+        str
+            Description of the entity.
         """
         from ansys.dpf.core.core import _description
         return _description(self._message, self._server)
