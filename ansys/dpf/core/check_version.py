@@ -8,21 +8,19 @@ from ansys.dpf.core import errors as dpf_errors
 import sys
 
 def server_meet_version(required_version, server):
-    """
-    Check if a given server version matches with a required version.
+    """Check if a given server version matches with a required version.
     
     Parameters
     ----------
     required_version : str
-        Required version that will be compared with the server version.
-        
+        Required version to compare with the server version.   
     server : Server
-        Dpf server object.
+        DPF server object.
 
     Returns
     -------
-    bool : 
-        True if the server version meets the requirement.
+    bool 
+        ``True`` when successful, ``False`` when failed.
     """
     version = get_server_version(server)
     meets = version_tuple(required_version)
@@ -30,29 +28,28 @@ def server_meet_version(required_version, server):
 
 
 def server_meet_version_and_raise(required_version, server, msg = None):
-    """
-    Check if a given server version matches with a required version and throws 
-    if it doesn't.
+    """Check if a given server version matches with a required version and raise 
+    an execepton if it doesn not match.
     
     Parameters
     ----------
     required_version : str
-        Required version that will be compared with the server version.
+        Required version to compare with the server version.
     server : Server
-        Dpf server object.
+        DPF server object.
     msg : str, optional
-        Message to be contained in the raised Exception if versions are
-        not meeting.
+        Message to be contained in the raised exception if the versions do
+        not match. The default is ``None``.
 
     Raises
     ------
     dpf_errors : errors
-        errors.DpfVersionNotSupported is raised if failure.
+        errors.DpfVersionNotSupported is raised if the versions do not match.
 
     Returns
     -------
-    bool : 
-        True if the server version meets the requirement.
+    bool  
+        ``True`` when successful, ``False`` when failed.
     """
     
     if not server_meet_version(required_version,server):
@@ -65,23 +62,19 @@ def server_meet_version_and_raise(required_version, server, msg = None):
             
             
 def meets_version(version, meets):
-    """
-    Check if a version string meets a minimum version.
+    """Check if a version string meets a minimum version.
 
     Parameters
     ----------
     version : str
-        Version to check.
-        For example ``'1.32.1'``.
-        
+        Version string to check. For example, ``"1.32.1"``.    
     meets : str
-        Required version (version must be compared to it).
-        For example ``'1.32.2'``.
+        Required version for comparison. For example, ``"1.32.2"``.
 
     Returns
     -------
-    bool :
-        True if the server version meets the requirements.
+    bool 
+         ``True`` when successful, ``False`` when failed.
     """
     if not isinstance(version, tuple):
         va = version_tuple(version)
@@ -105,7 +98,18 @@ def meets_version(version, meets):
     return True
             
 def get_server_version(server = None):
-    """Return server version as a string."""
+    """Retrieve the server version as a string.
+    
+    Parameters
+    ----------
+    server : Server, optional
+        DPF server object. The default is ``None``.
+    
+    Returns
+    -------
+    str
+        Server version.
+    """
     from ansys.dpf import core
     if server is None:
         version = core.SERVER.version
@@ -115,17 +119,18 @@ def get_server_version(server = None):
 
 
 def version_tuple(ver):
-    """Convert a version string to a tuple containing ints.
+    """Convert a version string to a tuple containing integers.
     
     Parameters
     ----------
     ver : str
+        Version string to convert.
     
     Returns
     -------
     ver_tuple : tuple
-        Length 3 tuple representing the major, minor, and patch
-        version.
+        3-part tuple representing the major, minor, and patch
+        versions.
     """
     split_ver = ver.split(".")
     while len(split_ver) < 3:
@@ -146,13 +151,15 @@ def version_tuple(ver):
 
             
 def version_requires(min_version):
-    """Must be used as decorator. 
-    Ensure the method called matches a certain server version."""
+    """Check that the method being called matches a certain server version.
+  	.. note::
+       The method must be used as decorator. 
+    """
 
     def decorator(func):
         # first arg *must* be a tuple containing the version
         if not isinstance(min_version, str):
-            raise TypeError('version_requires decorator must a string with dot separator.')
+            raise TypeError('version_requires decorator must be a string with a dot separator.')
 
         def wrapper(self, *args, **kwargs):
             """Call the original function"""
