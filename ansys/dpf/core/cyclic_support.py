@@ -1,6 +1,6 @@
 """
-CyclicSupport
-===============
+Cyclic Support
+==============
 """
 import grpc
 
@@ -13,20 +13,21 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.scoping import Scoping
 
 class CyclicSupport:
-    """A class used to represent a CyclicSupport which describes a model with cyclic symmetry.
-    It has the necessary data for cyclic (and multistage) expansion
+    """Represents a cyclic support, which describes a model with cyclic symmetry.
+    
+    The model has the necessary data for cyclic (and multistage) expansion.
     
     Parameters
     ----------
     cyclic_support : ansys.grpc.dpf.cyclic_support_pb2.CyclicSupport message
-
+        Cyclic support.
     server : DPFServer , optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        Server with the channel connected to the remote or local instance. The default is 
+        ``None``, in which case an attempt is made to use the the global server.
 
     Examples
     --------
-    Get a CyclicSupport from a model.
+    Get a cyclic support from a model.
     
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
@@ -42,7 +43,7 @@ class CyclicSupport:
     """
 
     def __init__(self, cyclic_support, server=None):
-        """Initialize the TimeFreqSupport with its TimeFreqSupport message (if possible)"""
+        """Initialize time frequency support with its ``TimeFreqSupport` message (if possible)."""
         if server is None:
             server = dpf.core._global_server()
 
@@ -51,11 +52,12 @@ class CyclicSupport:
         self._message = cyclic_support
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
-        description : str
+        str
+            Description of the entity.
         """
         from ansys.dpf.core.core import _description
         return _description(self._message, self._server)
@@ -73,16 +75,25 @@ class CyclicSupport:
         >>> cyc_support.num_stages
         2
         
+        Returns
+        -------
+        int
+            Number of cyclic stages in the model.     
         """
         return self._stub.List(self._message).num_stages
     
     def num_sectors(self,stage_num=0)->int:
-        """Number of sectors to expand on 360°
+        """Number of sectors to expand on 360 degrees.
         
         Parameters
         ----------
         stage_num : int , optional
-            number of the stage required (from 0 to num_stages)
+            Number of the stages required (from 0 to num_stages).
+        
+        Returns
+        -------
+        int
+            Number of sectors to expand on 360 degrees.
             
         Examples
         --------
@@ -99,18 +110,18 @@ class CyclicSupport:
         return self._stub.List(self._message).stage_infos[stage_num].num_sectors
     
     def base_nodes_scoping(self,stage_num=0)->int:
-        """Get a nodal scoping containing nodes ids in the
-        base sector of the given stage
+        """Retrieve a nodal scoping containing node IDs in the
+        base sector of the given stage.
         
         Parameters
         ----------
-        stage_num : int , optional
-            number of the stage required (from 0 to num_stages)
+        stage_num : int, optional
+            Number of the stage required (from 0 to num_stages).
             
         Returns
         -------
         base_nodes_scoping : Scoping
-            nodes ids in the base sector of the given stage
+            Nodes IDs in the base sector of the given stage.
             
         Examples
         --------
@@ -124,18 +135,18 @@ class CyclicSupport:
         return Scoping(scoping=self._stub.List(self._message).stage_infos[stage_num].base_nodes_scoping, server=self._server)
     
     def base_elements_scoping(self,stage_num=0)->int:
-        """Get an elemental scoping containing elements ids in the
-        base sector of the given stage
+        """Retrieve an elemental scoping containing elements IDs in the
+        base sector of the given stage.
         
         Parameters
         ----------
-        stage_num : int , optional
-            number of the stage required (from 0 to num_stages)
+        stage_num : int, optional
+            Number of the stage required (from 0 to num_stages).
             
         Returns
         -------
         base_elements_scoping : Scoping
-            elements ids in the base sector of the given stage
+            Elements ids in the base sector of the given stage.
             
         Examples
         --------
@@ -149,19 +160,20 @@ class CyclicSupport:
         return Scoping(scoping=self._stub.List(self._message).stage_infos[stage_num].base_elements_scoping, server=self._server)
     
     def sectors_set_for_expansion(self,stage_num=0)->int:
-        """Get a sectors scoping (starting from 0 to max = num_sectors-1)
-        of the already expanded results and mesh or the the list of sectors that will
-        be expanded by default
+        """Retrieve a sector's scoping of the already expanded results and mesh or the list of sectors that will
+        be expanded by default.
+        
+        A sector's scoping starts from 0, with the maximum equal to num_sectors-1.
         
         Parameters
         ----------
-        stage_num : int , optional
-            number of the stage required (from 0 to num_stages)
+        stage_num : int, optional
+            Number of the stage required (from 0 to num_stages).
             
         Returns
         -------
         sectors_set_for_expansion : Scoping
-            list of sectors (starting from 0 to max = num_sectors-1)
+            List of sectors (starting from 0 to max = num_sectors-1).
             
         Examples
         --------
@@ -177,25 +189,23 @@ class CyclicSupport:
     
     
     def expand_node_id(self, node_id, sectors=None, stage_num=0):
-        """Returns the node ids corresponding to the base sector node_id given in input
-        after expansion
+        """Retrieve the node IDs corresponding to the base sector node ID given in the input
+        after expansion.
         
         Parameters
         ----------
         node_id : int
-            base sector's node id to expand
-        
-        sectors : Scoping , list of int , optional
-            list of sectors to expand (from 0 to max = num_sectors-1)
-            default is all the sectors
-            
-        stage_num : int , optional
-            number of the stage required (from 0 to num_stages)
+            Base sector's node ID to expand.
+        sectors : Scoping , list of int, optional
+            List of sectors to expand (from 0 to max = num_sectors-1).
+            The default is ``Npne``, in which case all sectors are expanded.    
+        stage_num : int, optional
+            Number of the stage required (from 0 to num_stages).
             
         Returns
         -------
         sectors_set_for_expansion : Scoping
-            list of sectors (starting from 0 to max = num_sectors-1)
+            List of sectors (starting from 0 to max = num_sectors-1).
             
         Examples
         --------
@@ -219,25 +229,23 @@ class CyclicSupport:
         return Scoping(scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server)
     
     def expand_element_id(self, element_id, sectors=None, stage_num=0):
-        """Returns the element ids corresponding to the base sector element_id given in input
-        after expansion
+        """Retrieves the element IDs corresponding to the base sector element ID given in the input
+        after expansion.
         
         Parameters
         ----------
         element_id : int
-            base sector's element id to expand
-        
-        sectors (optional) : Scoping or list of int
-            list of sectors to expand (from 0 to max = num_sectors-1)
-            default is all the sectors
-            
-        stage_num : int , optional
-            number of the stage required (from 0 to num_stages)
+            Base sector's element ID to expand.  
+        sectors : Scoping or list of int, optional
+            List of sectors to expand (from 0 to max = num_sectors-1).
+            The default is ``Npne``, in which case all sectors are expanded.
+        stage_num : int, optional
+            Number of the stage required (from 0 to num_stages)
             
         Returns
         -------
         sectors_set_for_expansion : Scoping
-            list of sectors (starting from 0 to max = num_sectors-1)
+            list of sectors (starting from 0 to max = num_sectors-1).
             
         Examples
         --------
