@@ -8,8 +8,7 @@ from ansys.grpc.dpf import available_result_pb2, base_pb2
 from ansys.dpf.core.common import _remove_spaces
 
 class AvailableResult:
-    """Represents a result that can be requested 
-    via an operator.
+    """Represents a result that can be requested via an operator.
 
     Parameters
     ----------
@@ -67,8 +66,7 @@ class AvailableResult:
 
     @property
     def dimensionality(self):
-        """Dimensionality nature of the result, such as a vector, scalar, or tensor.
-        so on."""
+        """Dimensionality nature of the result, such as a vector, scalar, or tensor."""
         return base_pb2.Nature.Name(self._message.dimensionality).lower()
 
     @property
