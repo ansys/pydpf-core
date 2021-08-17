@@ -151,7 +151,7 @@ class ElShapeFieldsContainer(FieldsContainer):
         
         Returns
         -------
-        fields: Field
+        :class:`Field <ansys.dpf.core.field>'
             Field corresponding to the request.
         
         Examples
@@ -180,7 +180,7 @@ class ElShapeFieldsContainer(FieldsContainer):
         
         Returns
         -------
-        fields: Field
+        :class:`Field <ansys.dpf.core.field>'
             Field corresponding to the request.
         
         Examples
@@ -198,9 +198,17 @@ class ElShapeFieldsContainer(FieldsContainer):
         You can give a time, complex type, or both. If the number of fields 
         matching the request is higher than one, an exception is raised.
         
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with solid element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with solid element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
+            
         Returns
         -------
-        fields: Field
+        :class:`Field <ansys.dpf.core.field>'
             Field corresponding to the request.
         
         Examples
@@ -257,7 +265,7 @@ class BodyFieldsContainer(FieldsContainer):
         ----------
         matid : int, optional
            Material ID. To request available material IDs, you can use 
-           the :func:`get_mat_scoping` function.
+           the `get_mat_scoping` method.
         timeid : int, optional
             Time ID for filtering fields with the given material ID.
         complexid : int, optional
@@ -290,7 +298,7 @@ class BodyFieldsContainer(FieldsContainer):
         ----------
         matid : int, optional
            Material ID. To request available material IDs, you can use 
-           the :func:`get_mat_scoping` function.
+           the `get_mat_scoping` method.
         timeid : int, optional
             Time ID for filtering fields with the given material ID.
         complexid : int, optional
@@ -299,8 +307,8 @@ class BodyFieldsContainer(FieldsContainer):
                 
         Returns
         -------
-        fields : Field
-            field corresponding to the request.
+        :class:`Field <ansys.dpf.core.field>'
+            Field corresponding to the request.
         
         Examples
         --------
@@ -316,7 +324,8 @@ class BodyFieldsContainer(FieldsContainer):
         
         Returns
         -------
-        scoping: Scoping
+        :class:`Scoping <ansys.dpf.core.scoping>'
+            Field corresponding to the request.
             Scoping containing the material IDs available in the fields container.
         """
         return self.get_label_scoping("mat")
