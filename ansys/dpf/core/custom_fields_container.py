@@ -1,28 +1,29 @@
 """
-Custom FieldsContainers
-=======================
-Contains inherited class of the FieldsContainer.
-Those new classes offer helpers to access data for specific usage:
-results split by body, by material...
+Custom Fields Containers
+========================
+Contains the inherited classes from the
+:class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
+These new classes offer helpers to access data for specific usage, such as 
+results split by body, split by material, and so on.
 """
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.grpc.dpf import meshed_region_pb2
 
 
 class ElShapeFieldsContainer(FieldsContainer):
-    """A class used to represent a FieldsContainer with fields split by
-    element shapes : solid, shell, beam...
-    Instances of this class are created by a result of the model asked to be 
-    split by element shape
+    """Represents a fields container with fields split by an element shape.
+    
+    Instances of this class are created when a model result is split by an 
+    element shape, such as a solid, shell, beam, and so on. 
 
     Parameters
     ----------
     fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
-        Create a fields container from a Collection message or create a copy from an existing fields container
-
+        Fields container created from either a collection message or by copying an existing 
+        fields container. The default is ``None``.
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        Server with the channel connected to the remote or local instance. The default is 
+        ``None``, in which case an attempt is made to use the the global server.
     
     Examples
     --------
@@ -42,15 +43,23 @@ class ElShapeFieldsContainer(FieldsContainer):
             self.add_label("elshape")
     
     def solid_fields(self, timeid=None, complexid=None):
-        """Returns a list of all the fields with solid element shapes.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the list of fields returned are solid fields for a given time and/or 
-        complex type
+        """Retrieve a list of all fields with solid element shapes.
         
+        You can filter the list of fields with solid element shapes 
+        based on a given time, complex type, or both.
+        
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with solid element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with solid element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
+           
         Returns
         -------
-        fields : list[Field]
-            fields corresponding to the request
+        list
+            List of fields corresponding to the request.
         
         Examples
         --------
@@ -65,15 +74,23 @@ class ElShapeFieldsContainer(FieldsContainer):
         return self.get_fields(label_space)
     
     def shell_fields(self, timeid=None, complexid=None):
-        """Returns a list of all the fields with shell element shapes.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the list of fields returned are shell fields for a given time and/or 
-        complex type
+        """Retrieve a list of all fields with shell element shapes.
+        
+        You can filter the list of fields with shell element shapes based on
+        a given time, complex type, or both.
+        
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with shell element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with shell element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
         
         Returns
         -------
-        fields : list[Field]
-            fields corresponding to the request
+        list
+            List of fields corresponding to the request.
         
         Examples
         --------
@@ -88,15 +105,23 @@ class ElShapeFieldsContainer(FieldsContainer):
         return self.get_fields(label_space)
     
     def beam_fields(self, timeid=None, complexid=None):
-        """Returns a list of all the fields with beam element shapes.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the list of fields returned are beam fields for a given time and/or 
-        complex type
+        """Retrieve a list of all fields with beam element shapes.
         
+        You can filter the list of fields with beam element shapes based on
+        a given time, complex type, or both.
+        
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with beam element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with beam element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
+               
         Returns
         -------
-        fields : list[Field]
-            fields corresponding to the request
+        list
+            List of fields corresponding to the request.
         
         Examples
         --------
@@ -111,16 +136,23 @@ class ElShapeFieldsContainer(FieldsContainer):
         return self.get_fields(label_space)
     
     def solid_field(self, timeid=None, complexid=None):
-        """Returns the requested field with solid element shapes.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the field returned is a solid field for a given time and/or 
-        complex type. It throws if the number of fields matching the request is 
-        higher than 1.
+        """Retrieve a field with a solid element shape.
+        
+        You can give a time, complex type, or both. If the number of fields 
+        matching the request is higher than one, an exception is raised.
+        
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with solid element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with solid element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
         
         Returns
         -------
-        fields: Field
-            field corresponding to the request
+        :class:`Field <ansys.dpf.core.field>'
+            Field corresponding to the request.
         
         Examples
         --------
@@ -132,16 +164,24 @@ class ElShapeFieldsContainer(FieldsContainer):
         return self.get_field(label_space)
     
     def shell_field(self, timeid=None, complexid=None):
-        """Returns the requested field with shell element shapes.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the field returned is a shell field for a given time and/or 
-        complex type. It throws if the number of fields matching the request is 
-        higher than 1.
+        """Retrieve a field with a shell element shape.
+        
+        You can give a time, complex type, or both. If the number of fields 
+        matching the request is higher than one, an exception is raised.
+        
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with shell element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with shell element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
+        
         
         Returns
         -------
-        fields: Field
-            field corresponding to the request
+        :class:`Field <ansys.dpf.core.field>'
+            Field corresponding to the request.
         
         Examples
         --------
@@ -153,16 +193,23 @@ class ElShapeFieldsContainer(FieldsContainer):
         return self.get_field(label_space)
     
     def beam_field(self, timeid=None, complexid=None):
-        """Returns the requested field with beam element shapes.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the field returned is a beam field for a given time and/or 
-        complex type. It throws if the number of fields matching the request is 
-        higher than 1.
+        """Retrieve a field with a beam element shape.
         
+        You can give a time, complex type, or both. If the number of fields 
+        matching the request is higher than one, an exception is raised.
+        
+        Parameters
+        ----------
+        timeid : int, optional
+            Time ID for filtering fields with solid element shapes.
+        complexid : int, optional
+            Complex type ID for filtering fields with solid element shapes. 
+            0 is for real numbers, and 1 is for imaginary numbers.
+            
         Returns
         -------
-        fields: Field
-            field corresponding to the request
+        :class:`Field <ansys.dpf.core.field>'
+            Field corresponding to the request.
         
         Examples
         --------
@@ -175,19 +222,19 @@ class ElShapeFieldsContainer(FieldsContainer):
     
 
 class BodyFieldsContainer(FieldsContainer):
-    """A class used to represent a FieldsContainer with fields split by
-    body (mapdl material property)
-    Instances of this class are created by a result of the model asked to be 
-    split by body
+    """Represents a fields container with fields split by a body.
+    
+    Instances of this class are created when a model result is split by a 
+    body, which is an MAPDL material property. 
 
     Parameters
     ----------
     fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
-        Create a fields container from a Collection message or create a copy from an existing fields container
-
+        Fields container created from either a collection message or by copying an existing 
+        fields container. The default is ``None``.
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        Server with the channel connected to the remote or local instance. The default is 
+        ``None``, in which case an attempt is made to use the the global server.
     
     Examples
     --------
@@ -209,15 +256,26 @@ class BodyFieldsContainer(FieldsContainer):
             self.add_label("elshape")
     
     def get_fields_by_mat_id(self, matid, timeid=None, complexid=None):
-        """Returns a list of all the fields with the given material id.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the list of fields returned are fields for a given time and/or 
-        complex type. The available mat id can be requested with `get_mat_scoping`
+        """Retrieve a list of all fields for a material ID.
+        
+        You can filter the list of fields for a material ID based on
+        a given time, complex type, or both. 
+        
+        Parameters
+        ----------
+        matid : int, optional
+           Material ID. To request available material IDs, you can use 
+           the `get_mat_scoping` method.
+        timeid : int, optional
+            Time ID for filtering fields with the given material ID.
+        complexid : int, optional
+            Complex type ID for filtering fields with the given material 
+            ID. 0 is for real numbers, and 1 is for imaginary numbers.
         
         Returns
         -------
-        fields : list[Field]
-            fields corresponding to the request
+        List
+            List of fields corresponding to the request.
         
         Examples
         --------
@@ -232,15 +290,25 @@ class BodyFieldsContainer(FieldsContainer):
         return self.get_fields(label_space)
     
     def get_field_by_mat_id(self, matid, timeid=None, complexid=None):
-        """Returns a a field with the given material id.
-        If a timeid or a complexid (0 for real and 1 for imaginary) are given, 
-        the field returned is for a given time and/or 
-        complex type. The available mat id can be requested with `get_mat_scoping`
+        """Retrieve a field with a given material ID.
         
+         You can filter the field based on a given time, complex type, or both. 
+                
+        Parameters
+        ----------
+        matid : int, optional
+           Material ID. To request available material IDs, you can use 
+           the `get_mat_scoping` method.
+        timeid : int, optional
+            Time ID for filtering fields with the given material ID.
+        complexid : int, optional
+            Complex type ID for filtering fields with the given material 
+            ID. 0 is for real numbers, and 1 is for imaginary numbers.
+                
         Returns
         -------
-        fields : Field
-            field corresponding to the request
+        :class:`Field <ansys.dpf.core.field>'
+            Field corresponding to the request.
         
         Examples
         --------
@@ -252,11 +320,12 @@ class BodyFieldsContainer(FieldsContainer):
         return self.get_field(label_space)
     
     def get_mat_scoping(self):
-        """Returns the material or body scoping containing the mat ids
+        """Retrieves the material or body scoping containing material IDs.
         
         Returns
         -------
-        scoping: Scoping
-            scoping containing the mat ids available in the fields container
+        :class:`Scoping <ansys.dpf.core.scoping>'
+            Field corresponding to the request.
+            Scoping containing the material IDs available in the fields container.
         """
         return self.get_label_scoping("mat")

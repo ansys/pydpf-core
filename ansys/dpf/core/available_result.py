@@ -8,16 +8,15 @@ from ansys.grpc.dpf import available_result_pb2, base_pb2
 from ansys.dpf.core.common import _remove_spaces
 
 class AvailableResult:
-    """A class used to represent an Available result which can be
-    requested via an operator
+    """Represents a result that can be requested via an operator.
 
     Parameters
     ----------
-    availableresult : available_result_pb2.AvailableResult message
+    availableresult : available_result_pb2.AvailableResult message.
     
     Examples
     --------
-    Explore an available result from the model
+    Explore an available result from the model.
     
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
@@ -32,13 +31,14 @@ class AvailableResult:
     >>> res.dimensionality
     'vector'
     
-    Create the operator of the given available result    
+    Create the operator of the given available result.
+    
     >>> disp = model.results.displacement()
 
     """
 
     def __init__(self, availableresult):
-        """Initialize the AvailableResult with an availableResult message"""
+        """Initialize the AvailableResult with an availableResult message."""
         self._message = availableresult
 
     def __str__(self):
@@ -53,7 +53,7 @@ class AvailableResult:
 
     @property
     def name(self):
-        """Result operator"""
+        """Result operator."""
         if self.operator_name in _result_properties:
             return _result_properties[self.operator_name]["scripting_name"]
         else:
@@ -61,17 +61,17 @@ class AvailableResult:
 
     @property
     def n_components(self):
-        """Number of components of the results"""
+        """Number of components of the result."""
         return self._message.ncomp
 
     @property
     def dimensionality(self):
-        """Dimensionality nature of the result (vector, scalar, tensor...)"""
+        """Dimensionality nature of the result, such as a vector, scalar, or tensor."""
         return base_pb2.Nature.Name(self._message.dimensionality).lower()
 
     @property
     def homogeneity(self):
-        """Homogeneity of the result"""
+        """Homogeneity of the result."""
         try:
             homogeneity = self._message.homogeneity
             if (homogeneity==117):
@@ -83,19 +83,17 @@ class AvailableResult:
 
     @property
     def unit(self):
-        """Unit of the result"""
+        """Unit of the result."""
         return self._message.unit.lower()
 
     @property
     def operator_name(self):
-        """Name of the corresponding operator"
-        """
+        """Name of the corresponding operator."""
         return self._message.name
     
     @property
     def sub_results(self):
-        """List of sub result"
-        """
+        """List of the subresult."""
         rep_sub_res =self._message.sub_res
         list = []
         for sub_res in rep_sub_res:
@@ -110,11 +108,13 @@ class AvailableResult:
     
     @property
     def native_location(self):
+        """Native location of the result."""
         if self.operator_name in _result_properties:
             return _result_properties[self.operator_name]["location"]
         
     @property
     def native_scoping_location(self):
+        """Native scoping location of the result."""
         loc = self.native_location
         if loc == "ElementalNodal":
             return "Elemental"
