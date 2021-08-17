@@ -67,7 +67,7 @@ class AvailableResult:
 
     @property
     def dimensionality(self):
-        """Dimensionality nature of the result, such as a vector, scalar, tensor, or 
+        """Dimensionality nature of the result, such as a vector, scalar, or tensor.
         so on."""
         return base_pb2.Nature.Name(self._message.dimensionality).lower()
 
