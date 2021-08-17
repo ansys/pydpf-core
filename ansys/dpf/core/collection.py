@@ -128,7 +128,7 @@ class Collection:
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed. 
+           ``True`` when successful, ``False`` when failed. 
 
         Examples
         --------
@@ -340,8 +340,7 @@ class Collection:
 
 
     def _set_time_freq_support(self, time_freq_support):
-        """Set the time frequnecy support of the collection. 
-        """
+        """Set the time frequency support of the collection."""
         request = collection_pb2.UpdateSupportRequest()
         request.collection.CopyFrom(self._message)
         request.time_freq_support.CopyFrom(time_freq_support._message)

@@ -152,7 +152,8 @@ def version_tuple(ver):
             
 def version_requires(min_version):
     """Check that the method being called matches a certain server version.
-  	.. note::
+
+    .. note::
        The method must be used as decorator. 
     """
 

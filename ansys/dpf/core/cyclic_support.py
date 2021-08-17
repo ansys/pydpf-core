@@ -43,7 +43,7 @@ class CyclicSupport:
     """
 
     def __init__(self, cyclic_support, server=None):
-        """Initialize time frequency support with its ``TimeFreqSupport` message (if possible)."""
+        """Initialize time frequency support with its `TimeFreqSupport` message (if possible)."""
         if server is None:
             server = dpf.core._global_server()
 
@@ -197,15 +197,15 @@ class CyclicSupport:
         node_id : int
             Base sector's node ID to expand.
         sectors : Scoping , list of int, optional
-            List of sectors to expand (from 0 to max = num_sectors-1).
-            The default is ``Npne``, in which case all sectors are expanded.    
+            List of sectors to expand (from 0 to ``num_sectors - 1``).
+            The default is ``None``, in which case all sectors are expanded.    
         stage_num : int, optional
-            Number of the stage required (from 0 to num_stages).
+            Number of the stage required (from 0 to ``num_stages``).
             
         Returns
         -------
         sectors_set_for_expansion : Scoping
-            List of sectors (starting from 0 to max = num_sectors-1).
+            List of sectors (starting from 0 to ``num_sectors - 1``).
             
         Examples
         --------
@@ -237,15 +237,15 @@ class CyclicSupport:
         element_id : int
             Base sector's element ID to expand.  
         sectors : Scoping or list of int, optional
-            List of sectors to expand (from 0 to max = num_sectors-1).
-            The default is ``Npne``, in which case all sectors are expanded.
+            List of sectors to expand (from 0 to ``num_sectors - 1``).
+            The default is ``None``, in which case all sectors are expanded.
         stage_num : int, optional
-            Number of the stage required (from 0 to num_stages)
+            Number of the stage required (from 0 to ``num_stages``).
             
         Returns
         -------
         sectors_set_for_expansion : Scoping
-            list of sectors (starting from 0 to max = num_sectors-1).
+            List of sectors (starting from 0 to ``num_sectors - 1``).
             
         Examples
         --------

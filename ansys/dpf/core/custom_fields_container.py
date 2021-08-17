@@ -1,7 +1,8 @@
 """
 Custom Fields Containers
 ========================
-Contains the inherited classes of the :class:`ansys.dpf.core.fields_container` class.
+Contains the inherited classes from the
+:class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
 These new classes offer helpers to access data for specific usage, such as 
 results split by body, split by material, and so on.
 """
@@ -88,7 +89,7 @@ class ElShapeFieldsContainer(FieldsContainer):
         
         Returns
         -------
-        list : 
+        list
             List of fields corresponding to the request.
         
         Examples
@@ -119,7 +120,7 @@ class ElShapeFieldsContainer(FieldsContainer):
                
         Returns
         -------
-        list 
+        list
             List of fields corresponding to the request.
         
         Examples
@@ -251,7 +252,6 @@ class BodyFieldsContainer(FieldsContainer):
         
         You can filter the list of fields for a material ID based on
         a given time, complex type, or both. 
-        
         
         Parameters
         ----------
