@@ -14,7 +14,7 @@ def server_meet_version(required_version, server):
     ----------
     required_version : str
         Required version to compare with the server version.   
-    server : Server
+    server : :class:`ansys.dpf.core.server`
         DPF server object.
 
     Returns
@@ -35,11 +35,12 @@ def server_meet_version_and_raise(required_version, server, msg = None):
     ----------
     required_version : str
         Required version to compare with the server version.
-    server : Server
+    server : :class:`ansys.dpf.core.server`
         DPF server object.
     msg : str, optional
-        Message to be contained in the raised exception if the versions do
-        not match. The default is ``None``.
+        Message contained in the raised exception if the versions do
+        not match. The default is ``None``, in which case the default message 
+        is used.
 
     Raises
     ------
@@ -102,7 +103,7 @@ def get_server_version(server = None):
     
     Parameters
     ----------
-    server : Server, optional
+    server : :class:`ansys.dpf.core.server`, optional
         DPF server object. The default is ``None``.
     
     Returns
@@ -129,7 +130,7 @@ def version_tuple(ver):
     Returns
     -------
     ver_tuple : tuple
-        3-part tuple representing the major, minor, and patch
+        Three-part tuple representing the major, minor, and patch
         versions.
     """
     split_ver = ver.split(".")
@@ -154,7 +155,7 @@ def version_requires(min_version):
     """Check that the method being called matches a certain server version.
 
     .. note::
-       The method must be used as decorator. 
+       The method must be used as a decorator. 
     """
 
     def decorator(func):
