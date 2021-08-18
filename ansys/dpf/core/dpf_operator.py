@@ -135,7 +135,7 @@ class Operator:
         >>> max_fc_op.inputs.connect(disp_op.outputs)
         >>> max_field = max_fc_op.outputs.field_max()
         >>> max_field.data
-        array([[0.59428386, 0.00201751, 0.0006032]])
+        array([[0.59428386, 0.00201751, 0.0006032 ]])
         
         """
         
