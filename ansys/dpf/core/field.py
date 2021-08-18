@@ -17,38 +17,40 @@ from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.dimensionality import Dimensionality
 
 class Field(_FieldBase):
-    """Class representing the main simulation data container.
-    It can be evaluated data from a ``ansys.dpf.core.Operator``
-    or created (by a factory and directly by an instance of this class).
-    Field's data is always associated to its scoping (entities associated to each value)
-    and support (subset of the model where is the data), 
-    making the field a self-describing piece of data.
+    """Represents the main simulation data container.
+    
+    This call can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
+    or created by a factory and directly by an instance of this class.
+    
+    A field's data is always associated to its scoping (entities associated to each value)
+    and support (subset of the model where the data is), making the field a self-describing piece of data.
 
     Parameters
     ----------
-    nentities : int
-        Number of entities reserved
-
-    nature : natures, optional
+                     field=None, server=None)
+    
+    nentities : int, optional
+        Number of entities reserved. The default is ``0``.
+    nature : :class:`ansys.dpf.core.common.natures`, optional
         Nature of the field.
-
     location : str, optional
-        Location of the field.  For example:
+        Location of the field.  Options are:
 
         - ``"Nodal"``
         - ``"Elemental"``
         - ``"ElementalNodal"``
 
     field : ansys.grpc.dpf.field_pb2.Field, optional
-        Field message generated from a grpc stub.
-        
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
-
+        Field message generated from a gRPC stub.
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The 
+        default is ``None``, in which case an attempt is made to use the global 
+        server.
+    
     Examples
     --------
-    >>> # 1. Create a field from scratch
+    Create a field from scratch.
+    
     >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf.core import locations
     >>> from ansys.dpf import core as dpf
@@ -56,7 +58,8 @@ class Field(_FieldBase):
     >>> field_with_classic_api.location = locations.nodal
     >>> field_with_factory = fields_factory.create_scalar_field(10)
     
-    >>> # 2. Extract a displacement field from a transient result file.
+    Extract a displacement field from a transient result file.
+    
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
@@ -71,14 +74,16 @@ class Field(_FieldBase):
     >>> field.elementary_data_count
     3820
         
-    >>> # 3. Create a displacement field
+    Create a displacement field.
+    
     >>> from ansys.dpf import core as dpf
     >>> import numpy as np
     >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
     >>> my_field.data = np.zeros(30)
     >>> my_field.scoping.ids = range(1,11)
     
-    >>> # 4. Set data
+    Set data.
+    
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
@@ -87,13 +92,13 @@ class Field(_FieldBase):
     >>> fields_container = disp.outputs.fields_container()
     >>> field = fields_container[0]
     >>> field.data[2]
-    array([-0.00672665, -0.03213735,  0.00016716])
+    array([-0.00672665, -0.03213735, 0.00016716])
     
     """
     
     def __init__(self, nentities=0, nature=natures.vector,
                  location=locations.nodal, field=None, server=None):
-        """Initialize the field with either optional field message, or
+        """Initialize the field either with an optional field message or
         by connecting to a stub.
         """
         super().__init__(nentities, nature, location, False, field, server)
@@ -101,18 +106,19 @@ class Field(_FieldBase):
         
         
     def as_local_field(self):
-        """Creates a deep copy of the field locally so that the user can access 
-        and modify it locally without any request sent to the server.
-        This should be used in a with statement, so that the local field
-        is released and the data is sent to the server in one shot.
-        If it's not used in a with statement, the method release_data()
-        should be used to actually update the field.
+        """Create a deep copy of the field that can be accessed and modified locally.
+        
+        This method allows you to access and modify the local copy of the field 
+        without sending a request to the server. It should be used in a ``with`` 
+        statement so that the local field is released and the data is sent to 
+        the server in one action. If it is not used in a ``with`` statement, 
+        the method `release_data()` should be used to actually update the field.
         
         Warning
         -------
-        If this as_local_field method is not used as a context manager in a 
-        with statement or if the method release_data() is not called,
-        the data will not be actually updated.
+        If this `as_local_field` method is not used as a context manager in a 
+        ``with`` statement or if the method `release_data()` is not called,
+        the data will not be updated.
         
         Returns
         -------
@@ -140,17 +146,17 @@ class Field(_FieldBase):
    
     @property
     def location(self):
-        """Return the field location.
+        """Field location.
 
         Returns
         -------
-        location : str
-            Location string.  Either ``'Nodal'``, ``'Elemental'``, or
-            ``'ElementalNodal'``.
+        str
+            Location string, which is ``"Nodal"``, ``"Elemental"``, 
+            or ``"ElementalNodal"``.
 
         Examples
         --------
-        Location for a stress field evaluated at nodes
+        Location for a stress field evaluated at nodes.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -172,12 +178,12 @@ class Field(_FieldBase):
         Parameters
         -------
         location : str or locations
-            Location string.  Either ``'Nodal'``, ``'Elemental'``, 
-            ``'ElementalNodal'``...
+            Location string, which is ``"Nodal"``, ``"Elemental"``, 
+            or ``"ElementalNodal"``.
 
         Examples
         --------
-        Location for a field evaluated at nodes
+        Location for a field evaluated at nodes.
 
         >>> from ansys.dpf import core as dpf
         >>> import numpy as np
@@ -197,33 +203,27 @@ class Field(_FieldBase):
 
     @property
     def shell_layers(self):
-        """Return the field's shell layers order (or lack of shell layers) 
-        that defines how the field's data is ordered.
-
+        """Order of the shell layers. 
+        
         Returns
         -------
-        Enum : shell_layers
+        :class:`ansys.dpf.core.common.shell_layers`
+        
         """
         if self.field_definition:
             return self.field_definition.shell_layers
         
     @shell_layers.setter
     def shell_layers(self, value):
-        """Change the field's shell layers.
-
-        Parameters
-        -------
-        Enum : shell_layer
-        """
         fielddef = self.field_definition
         fielddef.shell_layers = value
         self.field_definition = fielddef
 
     def to_nodal(self):
-        """Convert this field to one with a Nodal location.
+        """Convert the field to one with a ``Nodal`` location.
 
-        Only valid when this field's location is ElementalNodal or
-        Elemental.
+        This method is valid only when the field's current location is 
+        ``ElementalNodal`` or ``Elemental``.
 
         Returns
         -------
@@ -238,11 +238,11 @@ class Field(_FieldBase):
         return op.outputs.field()
 
     def plot(self, notebook=None, shell_layers=None):
-        """Plot the field/fields container on mesh support if exists.
+        """Plot the field or fields container on the mesh support if it exists.
 
         Warning
         -------
-        This is primarily added out of convenience as plotting
+        This method is primarily added out of convenience as plotting
         directly from the field can be slower than extracting the
         meshed region and plotting the field on top of that.  It is
         more efficient to plot with:
@@ -263,13 +263,12 @@ class Field(_FieldBase):
         Parameters
         ----------
         notebook : bool, optional
-            Bool, that specifies if the plotting is in the notebook as
-            a static image or or as a dynamic plot outside of the
-            notebook.
-
+            Whether the plotting is in the notebook as
+            a static image or is a dynamic plot outside of the
+            notebook. The default is ``None``.
         shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
-            contains shell elements.
+            contains shell elements. The default is ``None``.
         """
         pl = Plotter(self.meshed_region)
         pl.plot_contour(self, notebook, shell_layers)
@@ -280,10 +279,10 @@ class Field(_FieldBase):
         Parameters
         ----------
         nentities : int
-            num ids in the scoping
-
+            Number of IDs in the scoping.
         datasize : int
-            data vector size
+            Size of the data vector.
+            
         """
         request = field_pb2.UpdateSizeRequest()
         request.field.CopyFrom(self._message)
@@ -292,7 +291,7 @@ class Field(_FieldBase):
         self._stub.UpdateSize(request)
 
     def _load_field_definition(self):
-        """Attempt to load the field definition for this field"""
+        """Attempt to load the field definition for this field."""
         try:
             request=field_pb2.GetRequest()
             request.field.CopyFrom(self._message)
@@ -303,15 +302,16 @@ class Field(_FieldBase):
 
     @property
     def unit(self):
-        """Units of the field
+        """Units for the field.
 
         Returns
         ----------
-        unit : str
+        str
+           Units for the field.
         
         Examples
         --------
-        Units of a displacement field
+        Units for a displacement field.
 
         >>> from ansys.dpf import core as dpf
         >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
@@ -325,15 +325,16 @@ class Field(_FieldBase):
         
     @unit.setter
     def unit(self, value):
-        """Change the unit of the field
+        """Change the unit for the field
         
         Parameters
         ----------
-        unit : str
+        value : str
+           Units for the field.
 
         Examples
         --------
-        Units of a displacement field
+        Units for a displacement field.
 
         >>> from ansys.dpf import core as dpf
         >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
@@ -348,31 +349,26 @@ class Field(_FieldBase):
         
     @property
     def dimensionality(self):
-        """The Dimensionality represents the shape of an elementary
-        data contains in the Field.
+        """Dimensionality represents the shape of the elementary
+        data contained in the field.
         
         Returns
         -------
-        dimensionality : Dimensionality
-            nature and size of the elementary data
+        dimensionality : :class:`ansys.dpf.core.dimensionality.Dimensionality`
+            Nature and size of the elementary data.
         """
         if self.field_definition:
             return self.field_definition.dimensionality
         
     @dimensionality.setter
     def dimensionality(self, value):
-        """
-        Parameters
-        ----------
-        dimensionality : dpf.core.Dimensionality
-            nature and size of the elementary data
-        """
         fielddef = self.field_definition
         fielddef.dimensionality = value
         self.field_definition = fielddef
         
     @property
     def name(self):
+        """Name of the field."""
         request = field_pb2.GetRequest()
         request.field.CopyFrom(self._message)
         out = self._stub.GetFieldDefinition(request)
@@ -380,10 +376,12 @@ class Field(_FieldBase):
         
             
     def _set_field_definition(self, field_definition):
-        """
+        """Set the field definition.
+        
         Parameters
         ----------
-        field_definition : FieldDefinition
+        field_definition : :class"`ansys.dpf.core.field_definition.FieldDefinition`
+        
         """
         request = field_pb2.UpdateFieldDefinitionRequest()
         request.field_def.CopyFrom(field_definition._messageDefinition)
@@ -392,26 +390,26 @@ class Field(_FieldBase):
            
     @property
     def field_definition(self):
-        """The field definition defines what is the field: its location, unit, dimensionality, shell layers...
+        """Field information, including its location, unit, dimensionality, and shell layers.
+        
+        Returns
+        -------
+        :class"`ansys.dpf.core.field_definition.FieldDefinition`
+        
         """
         return self._field_definition
     
-    
     @field_definition.setter
     def field_definition(self, value):
-        """The field definition defines what is the field: its location, unit, dimensionality, shell layers...
-
-        Parameters
-        ----------
-        field_definition : FieldDefinition
-        """
         return self._set_field_definition(value)
     
     def _get_meshed_region(self):
-        """
+        """Retrieve the meshed region.
+        
         Returns
         -------
-        meshed_region : MeshedRegion
+        :class"`ansys.dpf.core.meshed_region.MeshedRegion`
+        
         """
         request = field_pb2.SupportRequest()
         request.field.CopyFrom(self._message)
@@ -420,13 +418,15 @@ class Field(_FieldBase):
             message = self._stub.GetSupport(request)
             return meshed_region.MeshedRegion(mesh=message, server = self._server)
         except:
-            raise RuntimeError("The field's support is not a mesh.  Try a time_freq_support.")
+            raise RuntimeError("The field's support is not a mesh.  Try to retrieve the time frequency support.")
 
     def _get_time_freq_support(self):
-        """
+        """Retrieve the time frequency support.
+        
         Returns
         -------
-        time_freq_support : TimeFreqSupport
+        :class:`ansys.dpf.core.time_freq_support.TimeFreqSupport`
+        
         """
         request = field_pb2.SupportRequest()
         request.field.CopyFrom(self._message)
@@ -438,9 +438,6 @@ class Field(_FieldBase):
             raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
             
     def _set_support(self, support, support_type: str):
-        """
-        Set field support as time_freq_support or meshed_region.
-        """
         request = field_pb2.SetSupportRequest()
         request.field.CopyFrom(self._message)
         request.support.type = base_pb2.Type.Value(support_type)
@@ -449,58 +446,41 @@ class Field(_FieldBase):
 
     @property
     def time_freq_support(self):
-        """
-        Time_freq_support of the associated field.
+        """Time frequency support of the field.
         
         Returns
         -------
-        time_freq_support : TimeFreqSupport
-            Describe the time frequency support of the field. 
+        :class:`ansys.dpf.core.time_freq_support.TimeFreqSupport`
+        
         """
         return self._get_time_freq_support()
     
     @time_freq_support.setter
     def time_freq_support(self, value):
-        """
-        Set the time_freq_support of the associated field.
-        
-        Parameters
-        ----------
-        time_freq_support : TimeFreqSupport
-            Describe the time frequency support of the field. 
-        """
         self._set_support(value, "TIME_FREQ_SUPPORT")
         
     @property
     def meshed_region(self):
-        """
-        Meshed_region of the associated field.
+        """Meshed region of the field.
         
         Return
         ------
-        meshed_region : MeshedRegion
-            Describe the mesh support of the field. 
+        :class:`ansys.dpf.core.meshed_region.MeshedRegion`
+        
         """
         return self._get_meshed_region()
     
     @meshed_region.setter
     def meshed_region(self, value):
-        """
-        Set the meshed_region of the associated field.
-        
-        Parameters
-        ----------
-        meshed_region : MeshedRegion
-            Describe the mesh support of the field. 
-        """
         self._set_support(value, "MESHED_REGION")
 
     def __add__(self, field_b):
-        """Adds two fields together
+        """Add two fields.
                 
         Returns
         -------
-        add : operators.math.add
+        :class:`ansys.dpf.core.operators.math.add.add`
+        
         """
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
@@ -514,7 +494,7 @@ class Field(_FieldBase):
 
     def __pow__(self, value):
         if value != 2:
-            raise ValueError('DPF only the value is "2" suppported')
+            raise ValueError('Only the value "2" is suppported.')
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "sqr") :
@@ -525,11 +505,12 @@ class Field(_FieldBase):
         return op
     
     def __mul__(self, value):
-        """Multiplies two fields together
+        """Multiplies two fields.
         
         Returns
         -------
-        mul : operators.math.generalized_inner_product
+        :class:`ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product`
+        
         """
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
@@ -542,11 +523,12 @@ class Field(_FieldBase):
         return op
     
     def __sub__(self, fields_b):
-        """Subtract two fields together
+        """Subtract two fields. 
                 
         Returns
         -------
-        minus : operators.math.minus
+        :class:`ansys.dpf.core.operators.math.minus.minus`
+        
         """
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
@@ -565,7 +547,7 @@ class Field(_FieldBase):
         return op
 
     def min(self):
-        """Component-wise minimum over this field
+        """Retrieve the component-wise minimum over this field.
 
         Returns
         -------
@@ -575,7 +557,7 @@ class Field(_FieldBase):
         return self._min_max().get_output(0, types.field)
 
     def max(self):
-        """Component-wise maximum over this field
+        """Retrieve the component-wise maximum over this field.
 
         Returns
         -------
@@ -585,13 +567,17 @@ class Field(_FieldBase):
         return self._min_max().get_output(1, types.field)
     
     def deep_copy(self,server=None):
-        """Creates a deep copy of the field's data on a given server.
-        This can be useful to pass data from one server instance to another.
+        """Create a deep copy of the field's data on a given server.
+        
+        This method can be useful for passing data from one server instance to another.
         
         Parameters
         ----------
-        server : DPFServer, optional
-        
+        server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The 
+        default is ``None``, in which case an attempt is made to use the global 
+        server.
+                
         Returns
         -------
         field_copy : Field
@@ -608,7 +594,8 @@ class Field(_FieldBase):
         >>> other_server = dpf.start_local_server(as_global=False)
         >>> deep_copy = field.deep_copy(server=other_server)
         
-        """            
+        """
+        
         f = Field(nentities=len(self.scoping), location=self.location,nature=self.field_definition.dimensionality.nature, server=server)
         f.scoping = self.scoping.deep_copy(server)
         f.data = self.data
@@ -631,14 +618,14 @@ class Field(_FieldBase):
         return f
         
 class _LocalField(_LocalFieldBase,Field):
-    """Class only created by a field to cache the internal data of the field,
-    modify it locallly, and send a single update request to the server 
-    when the local field is deleted
+    """Caches the internal data of a field so that it can be modified locally.
+    
+    A single update request is to the server when the local field is deleted.
     
     Parameters
     ----------
     field : Field
-        field to copy
+        Field to copy
         
     Examples
     --------
