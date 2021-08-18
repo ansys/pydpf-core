@@ -30,13 +30,11 @@ class Operator:
     input information to compute its output with respect to its 
     description.
 
-    A list of existing operators can be retrieved through the 
-    ``"html_doc"`` operator.
-
     Parameters
     ----------
     name : str
-        Name of the operator. For example. ``'U'``.
+        Name of the operator. For example. ``'U'``. You can use the 
+        ``"html_doc"`` operator to retrieve a list of existing operators.
     config : optional
         The default is ``None``.
     server : server.DPFServer, optional
@@ -85,7 +83,7 @@ class Operator:
         self._description = self._message.spec.description
 
     def _add_sub_res_operators(self, sub_results):
-        """Dynamically add operators instantiating for subresults.
+        """Dynamically add operators for instantiating subresults.
 
         Subresults for new operators are connected to the parent
         operator's inputs when created but are then completely
@@ -99,11 +97,11 @@ class Operator:
         >>> disp_z = model.results.displacement().Z()
         
         """
+        
         for result_type in sub_results:             
             bound_method = self._sub_result_op.__get__(self, self.__class__)
             method2 = functools.partial(bound_method, name=result_type["operator name"])
             setattr(self, result_type["name"], method2)
-
         
     @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
@@ -119,6 +117,10 @@ class Operator:
             If the input is an operator, the output pin of the input operator. The 
             default is ``0``.
 
+        Returns
+        -------
+        type
+        
         Examples
         --------
         Compute the minimum of displacement by chaining the ``"U"``
@@ -133,17 +135,17 @@ class Operator:
         >>> max_fc_op.inputs.connect(disp_op.outputs)
         >>> max_field = max_fc_op.outputs.field_max()
         >>> max_field.data
-        array([[0.59428386, 0.00201751, 0.0006032 ]])
+        array([[0.59428386, 0.00201751, 0.0006032]])
         
         """
+        
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(self._message)        
         request.pin = pin
         _fillConnectionRequestMessage(request, inpt, pin_out)
         if inpt is self:
             raise ValueError('Cannot connect to itself.')
-        self._stub.Update(request)
-    
+        self._stub.Update(request) 
         
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
@@ -153,9 +155,15 @@ class Operator:
         ----------
         pin : int, optional
             Number of the output pin. The default is ``0``.
-        output_type : core.type enum, optional
+        output_type : :class:`ansys.dpf.core.common.types`, optional
             Requested type of the output. The default is ``None``.
+        
+        Returns
+        -------
+        type
+            Output of the operator.
         """
+        
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
@@ -166,8 +174,7 @@ class Operator:
             return _convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
             request.type = base_pb2.Type.Value('RUN')
-            return self._stub.Get(request)
-            
+            return self._stub.Get(request)       
     
     @property
     def config(self):
@@ -181,11 +188,11 @@ class Operator:
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
         """
+        
         out = self._stub.List(self._message)
         config = out.config
         return Config(config =config, server = self._server)
-    
-    
+        
     @config.setter
     def config(self,value):
         """Change the configuration of the operator.
@@ -208,7 +215,8 @@ class Operator:
         
         Returns
         --------
-        inputs : Inputs
+        :class:`ansys.dpf.core.inputs`
+            Inputs object.
         
         Examples
         --------
@@ -221,6 +229,7 @@ class Operator:
         >>> disp_op.inputs.data_sources(data_src)
         
         """
+        
         return self._inputs
     
     @property
@@ -229,7 +238,8 @@ class Operator:
         
         Returns
         --------
-        outputs : Output
+        :class:`ansys.dpf.core.outputs`
+            Outputs object.
         
         Examples
         --------
@@ -249,13 +259,14 @@ class Operator:
     def default_config(name, server=None):
         """Retrieve the default configuration for an operator.
         
-        You can change the default configuration to meet your needs before 
-        instantiating the operator.
+        You can change the copy of the default configuration to meet your needs 
+        before instantiating the operator.
         
         Parameters
         ----------
         name : str
-            Name of the operator.  For example ``"U"``.
+            Name of the operator.  For example ``"U"``. You can use the 
+            ``"html_doc"`` operator to retrieve a list of existing operators.
         server : server.DPFServer, optional
             Server with the channel connected to the remote or local instance. The 
             default is ``None``, in which case an attempt is made to use the global 
@@ -448,7 +459,6 @@ class Operator:
         return op
     
     
-
     def __truediv__(self, inpt):
         if isinstance(inpt, Operator):
             op = Operator("div")
@@ -460,7 +470,6 @@ class Operator:
             op.connect(1, 1.0/inpt)
         return op
     
-
 
 def _write_output_type_to_proto_style(output_type, request):
     subtype=''
