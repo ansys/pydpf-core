@@ -1,10 +1,10 @@
 """
-ElementDescriptor
-=================
+Element Descriptor
+==================
 """
 
 class ElementDescriptor: 
-    """Class that describes an element.
+    """Describes an element.
     
     Parameters
     ----------
@@ -15,22 +15,23 @@ class ElementDescriptor:
     
     name: str
     
-    shape: str
-        Can be "solid", "shell" of "beam". 
+    shape: str, optional
+        Can be "solid", "shell" of "beam". The default is ``None``.
     
-    n_corner_nodes: int
-    
-    n_mid_nodes: int
-    
-    number_of_nodes: int
-        
-    is_solid: bool
-    
-    is_shell: bool
-    
-    is_beam: bool
-    
-    is_quadratic: bool
+    n_corner_nodes: int, optional
+        The default is ``None``.
+    n_mid_nodes: int, optional
+        The default is ``None``.
+    n_nodes: int, optional
+        The default is ``None``.    
+    is_solid: bool, optional
+        Whether the element is a solid. The default is ``None``.
+    is_shell: bool, optional
+        Whether the element is a shell. The default is ``None``.
+    is_beam: bool, optional
+        Whether the element is a beam. The default is ``None``.
+    is_quadratic: bool, optional
+        Whether the element is a quadratic. The default is ``None``.
     
     Examples
     --------
