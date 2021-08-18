@@ -7,22 +7,21 @@ from ansys.grpc.dpf import field_definition_pb2
 from ansys.dpf.core.common import natures
 
 class Dimensionality:
-    """Class representing the dimensionality of the field
-        Read list of dim (1D vector for scalar and vector and 2D vector for matrix)
-        and create a field_definition_pb2.Dimensionality message
+    """Represents the dimensionality of a field.
+    
+        This class reads a list of dimension vectors and creates a dimensionality message.
         
     Parameters
     ----------
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
-
-    dim_vec : list of int
-        [1]: scalar
-        [3]: 3d vector
-        [3,3]: matrix 3 3
+    dim_vec : list
+        List of integers for the dimnesion vectors. There is a 1D vector for a 
+        scalar or #D vector. There is a 2D vector for a matrix. For example:
         
-    nature : Nature
+        * [1]: scalar
+        * [3]: 3d vector
+        * [3,3]: matrix 3 3 
+    nature : :class:`ansys.dpf.core.common.natures`
+    
     """
     
     def __init__(self, dim_vec, nature : natures):
@@ -41,45 +40,49 @@ class Dimensionality:
     
     @staticmethod
     def scalar_dim():
-        """Dimensionality instance corresponding to a scalar field
+        """Retrieve the dimensionality of a scalar field.
 
         Returns
         -------
-        dimensionality : Dimensionality
+        :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+            Dimensionality of the scalar field.
         """
         return Dimensionality([1], natures.scalar)
     
     @staticmethod
     def vector_dim(size):
-        """Dimensionality instance corresponding to a vector field of size "size"
+        """Retrieve the dimensionality of a vector field of a given size.
 
         Parameters
         ----------
         size : int
-            number of components by entity
+            Number of components by entity.
         
         Returns
         -------
-        dimensionality : Dimensionality
+        :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+            Dimensionality of the vector field.
         """
         return Dimensionality([size], natures.vector)
     
     @staticmethod
     def vector_3d_dim():
-        """Dimensionality instance corresponding to a 3 dimensions vector field
+        """Retrieve the dimensionality of a three-dimension vector field.
 
         Returns
         -------
-        dimensionality : Dimensionality
+        :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+            Dimensionality of the three-dimension vector field.
         """
         return Dimensionality([3], natures.vector)
     
     @staticmethod
     def tensor_dim():
-        """Dimensionality instance corresponding to a symmetrical 3 3 tensor field
+        """Retrieve the dimensionality of a symmetrical 3 3 tensor field.
 
         Returns
         -------
-        dimensionality : Dimensionality
+        :class:`ansys.dpf.core.dimensionnality.Dimensionality`
+            Dimensionality of the symmetrical 3 3 tensor field.
         """
         return Dimensionality([3,3], natures.symmatrix)
