@@ -178,9 +178,9 @@ class Operator:
     
     @property
     def config(self):
-        """Retrieve a copy of the operator's current configuration.
+        """Copy of the operator's current configuration.
         
-        To use the configuration that you modify, use ``operator.config = new_config`` 
+        You can modify the copy of the configuration and then use ``operator.config = new_config`` 
         or create an operator with the new configuration as a parameter.
         
         Returns
@@ -211,12 +211,12 @@ class Operator:
         
     @property
     def inputs(self):
-        """Connect inputs to the operator. 
+        """Inputs connected to the operator. 
         
         Returns
         --------
         :class:`ansys.dpf.core.inputs`
-            Inputs object.
+            Inputs connected to the operator.
         
         Examples
         --------
@@ -234,12 +234,12 @@ class Operator:
     
     @property
     def outputs(self):
-        """Retrieve outputs of the operator by evaluating it.
+        """Outputs from the operator's evaluation.
         
         Returns
         --------
         :class:`ansys.dpf.core.outputs`
-            Outputs object.
+            Outputs from the operator's evaluation.
         
         Examples
         --------
