@@ -2,9 +2,10 @@
 .. _ref_operator:
     
 Operator
-===============
-Interface to underlying gRPC Operator
+========
+Provides an interface to the underlying gRPC operator.
 """
+
 from textwrap import wrap
 import logging
 import grpc
@@ -22,32 +23,33 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
 
 class Operator:
-    """A class used to represent an Operator which is an elementary
-    operation.The Operator is the only object used to create and 
-    transform the data. When the operator is evaluated, it will 
-    process the input information to compute its output with respect 
-    to its description.
-
-    A list of existing operators can be asked through the "html_doc"
-    operator.
+    """Represents an operator, which is an elementary operation.
+    
+    The operator is the only object used to create and transform 
+    data. When the operator is evaluated, it processes the 
+    input information to compute its output with respect to its 
+    description.
 
     Parameters
     ----------
     name : str
-        Name of the operator.  For example 'U'.
-
+        Name of the operator. For example. ``"U"``. You can use the 
+        ``"html_doc"`` operator to retrieve a list of existing operators.
+    config : optional
+        The default is ``None``.
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
-
+        Server with the channel connected to the remote or local instance. The 
+        default is ``None``, in which case an attempt is made to use the global 
+        server.
+   
     Examples
     --------
-    Create an operator from the library of operators
+    Create an operator from the library of operators.
 
     >>> from ansys.dpf import core as dpf
     >>> disp_oper = dpf.operators.result.displacement()
 
-    Create an operator from a model
+    Create an operator from a model.
 
     >>> from ansys.dpf.core import Model 
     >>> from ansys.dpf.core import examples
@@ -55,11 +57,8 @@ class Operator:
     >>> disp_oper = model.results.displacement()
     
     """
-
     def __init__(self, name, config = None, server=None):
-        """Initialize the operator with its name by connecting to a
-        stub.
-        """
+        """Initialize the operator with its name by connecting to a stub."""
         if server is None:
             server = serverlib._global_server()
 
@@ -84,11 +83,11 @@ class Operator:
         self._description = self._message.spec.description
 
     def _add_sub_res_operators(self, sub_results):
-        """Dynamically add operators instantiating for sub-results.
+        """Dynamically add operators for instantiating subresults.
 
-        The new operators subresults are connected to the parent
-        operator's inputs when created, but are, then, completely
-        independent of the parent operators.
+        Subresults for new operators are connected to the parent
+        operator's inputs when created but are then completely
+        independent of them.
 
         Examples
         --------
@@ -98,11 +97,11 @@ class Operator:
         >>> disp_z = model.results.displacement().Z()
         
         """
+        
         for result_type in sub_results:             
             bound_method = self._sub_result_op.__get__(self, self.__class__)
             method2 = functools.partial(bound_method, name=result_type["operator name"])
             setattr(self, result_type["name"], method2)
-
         
     @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
@@ -112,18 +111,16 @@ class Operator:
         ----------
         pin : int
             Number of the input pin.
-
         inpt :  str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, Operator
-            Object you wish to connect.
-
+            Object to connect to.
         pin_out : int, optional
-            In case of the input is an Operator, this is the output
-            pin of the input Operator.  Defaults to 0.
+            If the input is an operator, the output pin of the input operator. The
+            default is ``0``.
 
         Examples
         --------
-        Compute the minimum of displacement by chaining the ``'U'``
-        and ``'min_max_fc'`` operators.
+        Compute the minimum of displacement by chaining the ``"U"``
+        and ``"min_max_fc"`` operators.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -137,27 +134,32 @@ class Operator:
         array([[0.59428386, 0.00201751, 0.0006032 ]])
         
         """
+        
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(self._message)        
         request.pin = pin
         _fillConnectionRequestMessage(request, inpt, pin_out)
         if inpt is self:
-            raise ValueError('Cannot connect to itself')
-        self._stub.Update(request)
-    
+            raise ValueError('Cannot connect to itself.')
+        self._stub.Update(request) 
         
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
-        """Returns the output of the operator on the pin number.
+        """Retrieve the output of the operator on the pin number.
 
         Parameters
         ----------
         pin : int, optional
-            Number of the output pin.
-
-        output_type : core.type enum, optional
-            The requested type of the output.
+            Number of the output pin. The default is ``0``.
+        output_type : :class:`ansys.dpf.core.common.types`, optional
+            Requested type of the output. The default is ``None``.
+        
+        Returns
+        -------
+        type
+            Output of the operator.
         """
+        
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
@@ -168,28 +170,31 @@ class Operator:
             return _convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
             request.type = base_pb2.Type.Value('RUN')
-            return self._stub.Get(request)
-            
+            return self._stub.Get(request)       
     
     @property
     def config(self):
-        """Returns a copy of the current config of the operator.
-        To use the config that you modify, please use operator.config = new_config
-        or create an operator with the new config as a parameter.
+        """Copy of the operator's current configuration.
+        
+        You can modify the copy of the configuration and then use ``operator.config = new_config`` 
+        or create an operator with the new configuration as a parameter.
         
         Returns
         ----------
-        config : Config        
+        :class:`ansys.dpf.core.config.Config`
+            Copy of the operator's current configuration.
         """
+        
         out = self._stub.List(self._message)
         config = out.config
         return Config(config =config, server = self._server)
-    
-    
+        
     @config.setter
     def config(self,value):
-        """Change the configuration of the operator 
-        (if the operator is up to date, changing the config doesn't make it not up to date)
+        """Change the configuration of the operator.
+        
+        If the operator is up to date, changing the configuration 
+        doesn't make it not up to date.
          
         Parameters
         ----------
@@ -202,15 +207,16 @@ class Operator:
         
     @property
     def inputs(self):
-        """Enables to connect inputs to the operator 
+        """Inputs connected to the operator. 
         
         Returns
         --------
-        inputs : Inputs
+        :class:`ansys.dpf.core.inputs`
+            Inputs connected to the operator.
         
         Examples
         --------
-        Use the displacement operator
+        Use the displacement operator.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -219,19 +225,21 @@ class Operator:
         >>> disp_op.inputs.data_sources(data_src)
         
         """
+        
         return self._inputs
     
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Outputs from the operator's evaluation.
         
         Returns
         --------
-        outputs : Output
+        :class:`ansys.dpf.core.outputs`
+            Outputs from the operator's evaluation.
         
         Examples
         --------
-        CUse the displacement operator
+        Use the displacement operator.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -241,28 +249,35 @@ class Operator:
         >>> disp_fc = disp_op.outputs.fields_container()
         
         """
-        return self._outputs
-        
+        return self._outputs     
       
     @staticmethod
     def default_config(name, server=None):
-        """Returns the default config for a given operator.
-        This config can then be changed to the user needs and be used to
-        instantiate the given operator
+        """Retrieve the default configuration for an operator.
+        
+        You can change the copy of the default configuration to meet your needs 
+        before instantiating the operator.
         
         Parameters
         ----------
         name : str
-            Name of the operator.  For example 'U'.
-    
+            Name of the operator.  For example ``"U"``. You can use the 
+            ``"html_doc"`` operator to retrieve a list of existing operators.
         server : server.DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            Server with the channel connected to the remote or local instance. The 
+            default is ``None``, in which case an attempt is made to use the global 
+            server.
+        
+        Returns
+        -------
+        :class"`ansys.dpf.core.config.Config`
+            Default configuration for the operator.
+        
         """
         return Config(operator_name = name, server =server)
         
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return operator_pb2_grpc.OperatorServiceStub(self._server.channel)
 
     def __del__(self):
@@ -272,34 +287,37 @@ class Operator:
             pass
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
-        description : str
+        str
+            Description of the entity.
         """
         from ansys.dpf.core.core import _description
         return _description(self._message, self._server)
 
     def run(self):
-        """Evaluate this operator"""
+        """Evaluate this operator."""
         self.get_output()
         
     def eval(self, pin = None):
-        """Evaluate this operator
+        """Evaluate this operator.
         
         Parameters
         ----------
         pin : int
+            Number of the output pin. The default is ``None``.
 
         Returns
-        --------
-        output : FieldsContainer, Field, MeshedRegion, Scoping, ...
-            by default returns the first output of the operator, and the output of a given pin when specified, or only evaluates the operator without output.
+        -------
+        output : FieldsContainer, Field, MeshedRegion, Scoping
+            Returns the first output of the operator by default and the output of a 
+            given pin when specified. Or, it only evaluates the operator without output.
 
         Examples
         --------
-        Use Eval method
+        Use the ``eval`` method.
 
         >>> from ansys.dpf import core as dpf
         >>> import ansys.dpf.core.operators.math as math
@@ -308,10 +326,8 @@ class Operator:
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> normfc = math.norm_fc(disp_op).eval()
-
         
         """
-
 
         if not pin:
             if self.outputs != None and len(self.outputs._outputs) > 0:
@@ -373,7 +389,7 @@ class Operator:
         self._message = self._stub.Create(request)
 
     def __add__(self, fields_b):
-        """Adds two fields or fields containers together
+        """Add two fields or two fields containers.
                 
         Returns
         -------
@@ -391,7 +407,7 @@ class Operator:
     
     
     def __sub__(self, fields_b):
-        """Subtract two fields or fields containers together
+        """Subtract two fields or two fields containers.
                 
         Returns
         -------
@@ -410,7 +426,7 @@ class Operator:
 
     def __pow__(self, value):
         if value != 2:
-            raise ValueError('DPF only the value is "2" suppported')
+            raise ValueError('Only the value "2" is suppported.')
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "sqr_fc") :
@@ -422,7 +438,7 @@ class Operator:
         return op
     
     def __mul__(self, value):
-        """Multiplies two fields or fields containers together
+        """Multiply two fields or two fields containers.
         
         Returns
         -------
@@ -439,7 +455,6 @@ class Operator:
         return op
     
     
-
     def __truediv__(self, inpt):
         if isinstance(inpt, Operator):
             op = Operator("div")
@@ -451,7 +466,6 @@ class Operator:
             op.connect(1, 1.0/inpt)
         return op
     
-
 
 def _write_output_type_to_proto_style(output_type, request):
     subtype=''

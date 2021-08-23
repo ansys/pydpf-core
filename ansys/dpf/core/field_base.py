@@ -8,16 +8,12 @@ from ansys.dpf.core import server as serverlib
 import numpy as np
 
 class _FieldBase:
-    """Base APIs for all implementations that follow Dpf's
-    field concept."""
-    
+    """Contains base APIs for all implementations that follow DPF's field concept."""
     
     def __init__(self, nentities=0, nature=natures.vector,
                  location=locations.nodal, is_property_field = False, 
                  field=None, server=None):
-        """Initialize the field with either optional field message, or
-        by connecting to a stub.
-        """
+        """Initialize the field either with an optional field message or by connecting to a stub."""
         if server is None:
             server = serverlib._global_server()
 
@@ -56,11 +52,12 @@ class _FieldBase:
                 raise TypeError(f'Cannot create a field from a "{type(field)}" object')
     @property
     def shape(self):
-        """Numpy-like shape of the field
+        """Numpy-like shape of the field.
         
         Examples
         --------
-        Shape of a stress field
+        tuple
+            Shape of a stress field.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -78,12 +75,12 @@ class _FieldBase:
                 
     @property
     def component_count(self):
-        """Number of components in an elementary data of the Field
+        """Number of components in each elementary data of the field.
         
         Returns
         -------
-        ncomp : int
-            Number of component of the each elementary data
+        int
+            Number of components in each elementary data of the field.
         """
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_COMPONENT
@@ -92,7 +89,14 @@ class _FieldBase:
     
     @property
     def elementary_data_count(self):
-        """Number of elementary data in the field"""
+        """Number of elementary data in the field.
+        
+        Returns
+        -------
+        int
+            Number of elementary data in the field.
+        
+        """
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_ELEMENTARY_DATA
         request.field.CopyFrom(self._message)
@@ -100,18 +104,21 @@ class _FieldBase:
     
     @property
     def size(self):
-        """The length of the data vector.
-        Also equals to the number of elementary data times the number of components.
+        """Length of the data vector.
+        
+        The length is equal to the number of elementary data times the number of components.
         
         Returns
         -------
-        size : int
+        int
+            Length of the data vector.
+           
         """
         return self.elementary_data_count*self.component_count
     
     @property
     def elementary_data_shape(self):
-        """Numpy-like shape of the field"""
+        """Numpy-like shape of the field."""
         if self.component_count != 1:
             return (1, self.component_count)
         else:
@@ -122,11 +129,13 @@ class _FieldBase:
         return self.component_count
 
     def __str__(self):
-        """describe the entity
+        """Describes the entity.
         
         Returns
         -------
-        description : str
+        str
+            Description of the entity.
+            
         """        
         from ansys.dpf.core.core import _description
         return _description(self._message, self._server)
@@ -144,14 +153,16 @@ class _FieldBase:
             pass
 
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return field_pb2_grpc.FieldServiceStub(self._server.channel)
     
     def _set_scoping(self, scoping):
-        """
+        """Set the scoping.
+        
         Parameters
         ----------
-        scoping : Scoping
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+        
         """
         request = field_pb2.UpdateScopingRequest()
         request.scoping.CopyFrom(scoping._message)
@@ -159,10 +170,12 @@ class _FieldBase:
         self._stub.UpdateScoping(request)
         
     def _get_scoping(self):
-        """
+        """Retrieve the scoping.
+        
         Returns
         -------
-        scoping : Scoping
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+        
         """
         request = field_pb2.GetRequest()
         request.field.CopyFrom(self._message)
@@ -171,12 +184,13 @@ class _FieldBase:
 
     @property
     def scoping(self):
-        """ The scoping allows to know where is the data.
-        Each entity data is on a given scoping id.
+        """Scoping specifying where the data is.
+        
+        Each entity data is on a given scoping ID.
         
         Returns
         -------
-        scoping : Scoping
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
         
         Examples
         --------
@@ -194,24 +208,20 @@ class _FieldBase:
         >>> #The fourth elementary data of the field corresponds to 
         >>> #the element id number 586 in the mesh
         """
+        
         return self._get_scoping()
     
     @scoping.setter
     def scoping(self, scoping):
-        """
-        Parameters
-        ----------
-        scoping : Scoping
-        """
         return self._set_scoping(scoping)
                
         
     def get_entity_data(self, index):
-        """Returns the elementary data of the scoping's index in parameter
+        """Retrieves the elementary data of the scoping's index in an array.
         
         Returns
         --------
-        data : numpy.array
+        numpy.ndarray
         
         Examples
         --------
@@ -258,12 +268,12 @@ class _FieldBase:
         return array
 
     def get_entity_data_by_id(self, id):
-        """Return the data of the scoping's id in parameter of the field.
+        """Retrieve the data of the scoping's ID in the parameter of the field in an array.
 
         Returns
         -------
-        data : numpy.array
-            Data based on the scoping id.            
+        numpy.ndarray
+            Data based on the scoping ID.            
                   
         Examples
         --------
@@ -294,18 +304,18 @@ class _FieldBase:
         """
         index = self.scoping.index(id)
         if index < 0:
-            raise ValueError(f'The id {id} must be greater than 0')
+            raise ValueError(f'The ID {id} must be greater than 0.')
         return self.get_entity_data(index)
 
     def append(self, data, scopingid):
-        """add an entity data to the existing data
+        """Add an entity data to the existing data.
 
         Parameters
         ----------
-        data : list of int, double or array
-
+        data : list of int, double, or array
+          Data in the entity.
         scopingid : int
-            id of the scoping
+            ID of the scoping.
                 
         Examples
         --------
@@ -337,16 +347,17 @@ class _FieldBase:
            
     @property
     def _data_pointer(self):
-        """Gives the first index of each entity data
+        """First index of each entity data.
 
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.    
+        numpy.ndarray
+            Data in the field.    
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
+        
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
@@ -356,16 +367,17 @@ class _FieldBase:
     
     @property
     def _data_pointer_as_list(self):
-        """Gives the first index of each entity data
+        """First index of each entity data.
 
         Returns
         -------
-        data : list of int
-            Data of this field.    
+        list 
+            List of first indexes of each data data.    
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
+        
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
@@ -375,16 +387,6 @@ class _FieldBase:
     
     @_data_pointer.setter
     def _data_pointer(self, data):
-        """Set the data pointer of the field.
-
-        Parameters
-        ----------
-        data : list of int or array    
-        
-        Notes
-        -----
-        Print a progress bar
-        """
         self._set_data_pointer(data)
         
            
@@ -403,31 +405,31 @@ class _FieldBase:
         
     @property
     def data(self):
-        """Access the data of this field.    
+        """Data in the field as an array.    
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
         
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.
+        numpy.ndarray
+            Data in the field.
         """
         return self._get_data()
     
     @property
     def data_as_list(self):
-        """The data of this field in a python list
+        """Data in the field as a Python list.
 
         Returns
         -------
-        data : list
-            Data of this field.    
+        List
+            List of the data in the field.    
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
 
         Examples
         --------
@@ -464,16 +466,6 @@ class _FieldBase:
     
     @data.setter
     def data(self, data):
-        """Set the data of the field.    
-        
-        Notes
-        -----
-        Print a progress bar
-
-        Parameters
-        ----------
-        data : list of int (property field only), double or array
-        """
         self._set_data(data)
     
     def _set_data(self,data):
@@ -494,19 +486,18 @@ class _FieldBase:
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
         self._stub.UpdateData(scoping._data_chunk_yielder(request, data), metadata=metadata)
-        
-    
     
 
 class _LocalFieldBase(_FieldBase):
-    """Class only created by a field to cache the internal data of the field,
-    modify it locallly, and send a single update request to the server 
-    when the local field is deleted
+    """Caches the internal data of the field so that it can be modified locally.
+    
+    A single update request is sent to the server when the local field is deleted.
     
     Parameters
     ----------
     field : _FieldBase
-        field to copy
+        Field to copy locally.
+        
     """
     def __init__(self, field):
         self._message = field._message
@@ -527,21 +518,24 @@ class _LocalFieldBase(_FieldBase):
     
     @property
     def size(self):
-        """The length of the data vector.
-        Also equals to the number of elementary data times the number of components.
+        """Length of the data vector.
+        
+        Length equals the number of elementary data times the number of components.
         
         Returns
         -------
-        size : int
+        int
+            Length of the data vector.
+            
         """
         return len(self._data_copy)
     
     def get_entity_data(self, index):
-        """Returns the elementary data of the scoping's index in parameter
+        """Retrieve the elementary data of the scoping's index as an array.
 
         Returns
         -------
-        data : numpy.array
+        numpy.ndarray
         
         Examples
         --------
@@ -594,12 +588,12 @@ class _LocalFieldBase(_FieldBase):
             return array
     
     def get_entity_data_by_id(self, id):
-        """Return the data of the scoping's id in parameter of the field.
+        """Retrieve the data of the scoping's ID in the parameter of the field.
 
         Returns
         -------
-        data : numpy.array
-            Data based on the scoping id.
+        numpy.ndarray
+            Data based on the scoping ID.
             
         Examples
         --------
@@ -636,14 +630,14 @@ class _LocalFieldBase(_FieldBase):
         return self.get_entity_data(index)
     
     def append(self, data, scopingid):
-        """Add an entity data to the existing data
+        """Add an entity data to the existing data.
 
         Parameters
         ----------
         data : list of int, double or array
-
+            Data for the entity.
         scopingid : int
-            id of the scoping
+            ID of the scoping.
             
         Examples
         --------
@@ -680,12 +674,12 @@ class _LocalFieldBase(_FieldBase):
                 self._has_data_pointer=True   
                 
     def data_as_list(self):
-        """The data of this field in a python list
+        """Retrieve the data in the field as a Python list.
 
         Returns
         -------
-        data : list
-            Data of this field.
+        list
+            List of the data in the field.
 
         Examples
         --------
@@ -705,12 +699,11 @@ class _LocalFieldBase(_FieldBase):
      
     @property
     def data(self):
-        """The data of this field.
+        """Data in the field.
 
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.
+        numpy.ndarray
 
         Examples
         --------
@@ -732,6 +725,7 @@ class _LocalFieldBase(_FieldBase):
          [ 1.03542516e-02 -3.53018374e-03 -3.98914380e-05]]
         
         """
+        
         if self._ncomp>1:
             return np.array(self._data_copy).reshape(len(self._data_copy)//self._ncomp,self._ncomp)
         else:
@@ -757,7 +751,14 @@ class _LocalFieldBase(_FieldBase):
         
     @property
     def elementary_data_count(self):
-        """Number of elementary data in the field"""
+        """Number of elementary data in the field.
+        
+        Returns
+        -------
+        int
+           Number of elementary data in the field.
+           
+        """
         if (hasattr(self, "_data_copy")):
             return len(self._data_copy) / self._ncomp
         else:
@@ -766,46 +767,42 @@ class _LocalFieldBase(_FieldBase):
     
     @property
     def component_count(self):
-        """
+        """Number of components in each elementary data of the field.
+        
         Returns
         -------
-        ncomp : int
-            Number of component of the each elementary data
+        int
+            Number of components in each elementary data of the field.
         """
+        
         return self._ncomp
     
         
     @property
     def _data_pointer(self):
-        """Gives the first index of each entity data
+        """First index of each entity data in an array.
 
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.
+        numpy.ndarray
+            Array of first indexes of each entity data.
         """
         return np.array(self._data_pointer_copy)
     
     @property
     def _data_pointer_as_list(self):
-        """Gives the first index of each entity data
+        """First index of each entity data as a list.
 
         Returns
         -------
-        data : list of int
-            Data of this field.
+        List 
+            List of first indexes of each entity data.
         """
         return self._data_pointer_copy
     
     
     @_data_pointer.setter
     def _data_pointer(self, data):
-        """Set the data pointer of the field.
-
-        Parameters
-        ----------
-        data : list of int or array
-        """
         if isinstance(data,  (np.ndarray, np.generic)):
             self._data_pointer_copy = data.tolist()
         else:
@@ -815,7 +812,12 @@ class _LocalFieldBase(_FieldBase):
     
     @property
     def scoping_ids(self):
-        """List of int representing the scoping ids of the field.
+        """Scoping IDs of the field.
+        
+        Returns
+        -------
+        list
+            List of integers representing the scoping IDs of the field. 
         """
         return self._scoping_ids_copy
     
@@ -826,6 +828,7 @@ class _LocalFieldBase(_FieldBase):
     
         
     def release_data(self):
+        """Release the data."""
         super()._set_data(self._data_copy)
         super()._set_data_pointer(self._data_pointer_copy)
         super().scoping.ids = self._scoping_ids_copy
@@ -842,6 +845,3 @@ class _LocalFieldBase(_FieldBase):
     def __del__(self):
         pass
      
-
-            
-        

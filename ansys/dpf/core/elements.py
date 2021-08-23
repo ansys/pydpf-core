@@ -17,29 +17,25 @@ from ansys.dpf.core.common import __write_enum_doc__
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 
 class Element:
-    """An element of the mesh. Encapsulates all the properties of an element: 
-        its id, index, element type, element shape, connectivity...
-
-    Created from a ``MeshedRegion``.
+    """Contains all properties of an element of a mesh. 
+    
+    The element is created from the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` class.
+    Properties include the element ID, index, type, shape, and connectivity.
 
     Parameters
     ----------
-    mesh : MeshedRegion
-        ``MeshedRegion`` containing this element.
-
+    mesh : :class:`ansys.dpf.core.meshed_region.MeshedRegion`
+        Mesh containing the element.
     elementid : int
-        Element ID.  This is the element number corresponding to the element.
-
+        Number (ID) of the element.
     index : int
-        Index of the element.  Fortran based index of the element in
-        the result.
-
-    nodes : list[Node]
+        Fortran-based (1-based) index of the element in the result.
+    nodes : list
         List of DPF nodes belonging to the element.
 
     Examples
     --------
-    Extract a single element from a meshed region
+    Extract a single element from a meshed region.
 
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
@@ -47,8 +43,7 @@ class Element:
     >>> elements = model.metadata.meshed_region.elements
     >>> element = elements[0]
     
-
-    List the coordinates belonging to the first node of the element
+    List the coordinates belonging to the first node of the element.
 
     >>> element.nodes[0].coordinates
     [0.015, 0.045, 0.015]
@@ -63,12 +58,12 @@ class Element:
 
     @property
     def node_ids(self):
-        """IDs of all the nodes in this element
+        """IDs of all nodes in the element.
 
         Returns
         --------
-        node_ids : list[int]
-            IDs of all the nodes in this element
+        list
+           List of IDs for all nodes in the element.
 
         Examples
         --------
@@ -80,21 +75,35 @@ class Element:
 
     @property
     def id(self) -> int:
-        """Element number"""
+        """ID of the element.
+        
+        Returns
+        -------
+        int
+            ID of the element.
+            
+        """
         return self._id
 
     @property
     def index(self) -> int:
-        """Index of the element in the result (int starting at 0)"""
+        """Index of the element in the result.
+        
+        Returns
+        -------
+        int
+            Index of the element in the result. This uses zero-based indexing starting at ``0``.
+         
+        """
         return self._index
 
     @property
     def nodes(self):
-        """List of Nodes
-        
+        """All nodes in the element.
         Returns
         --------
-        nodes : list[Node]
+        list
+            List of all nodes in the element.
 
         Examples
         --------
@@ -105,7 +114,14 @@ class Element:
 
     @property
     def n_nodes(self) -> int:
-        """Number of nodes"""
+        """Number of nodes in the element.
+        
+        Returns
+        -------
+        int
+            Number of nodes.
+            
+        """
         return len(self._nodes)
 
     def __str__(self):
@@ -118,11 +134,12 @@ class Element:
 
     @property
     def type(self) -> int:
-        """Element type of this element.
+        """Type of the element.
         
         Returns
         -------
-        element_type : element_types
+        int
+            Type of the element. For more information, see :class:`ansys.dpf.core.elements.element_types`.
 
         Examples
         --------
@@ -134,7 +151,8 @@ class Element:
 
     @protect_grpc
     def _get_type(self):
-        """Return the Ansys element type"""
+        """Retrieve the Ansys element type."""
+        
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
@@ -143,9 +161,13 @@ class Element:
 
     @property
     def shape(self) -> str:
-        """Element shape.
-
-        Can be ``'shell'``, ``'solid'``, ``'beam'``, or ``'unknown_shape'``.
+        """Shape of the element.
+       
+        Returns
+        -------
+        str
+           Shape of the element, which can be ``"shell"``, ``"solid"``, ``"beam"``, 
+           or ``"unknown_shape"``.
 
         Examples
         --------
@@ -157,7 +179,7 @@ class Element:
 
     @protect_grpc
     def _get_shape(self):
-        """Return the element shape"""
+        """Retrieve the element shape."""
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
@@ -167,20 +189,26 @@ class Element:
     
     @property
     def connectivity(self):
-        """Return the ordered list of node indices of the element
+        """Ordered list of node indices of the element.
         
         Returns
         --------
-        connectivity : list[int]
+        list
+            Ordered list of node indices. 
+           
         """
         list=[]
         for node in self._nodes:
             list.append(node.index)
-        return list
-        
+        return list     
 
 class Elements():
-    """Elements belonging to a ``meshed_region``.
+    """Contains elements belonging to a meshed region.
+    
+    Parameters
+    ----------
+    mesh : str
+        Name of the meshed region.
 
     Examples
     --------
@@ -201,7 +229,7 @@ class Elements():
         return 'DPF Elements object with %d elements' % len(self)
 
     def __getitem__(self, index):
-        """Returns element based on index"""
+        """Retrieves element based on an index."""
         return self.element_by_index(index)
 
     def __len__(self):
@@ -212,23 +240,23 @@ class Elements():
             yield self[i]
 
     def element_by_id(self, id) -> Element:
-        """Return an element using its element number (id).
+        """Retrieve an element by element ID.
 
         Parameters
         ----------
         id : int
-            Element number.
+            Number (ID) of the element.
 
         Returns
         -------
         Element
-            DPF Element
+            Element object.
 
         """
         return self.__get_element(elementid=id)
 
     def element_by_index(self, index) -> Element:
-        """Return an element using its index.
+        """Retrieve an element using its index.
 
         Parameters
         ----------
@@ -237,7 +265,8 @@ class Elements():
 
         Returns
         -------
-        element : Element.
+        Element
+            Element object.
 
         Examples
         --------
@@ -251,18 +280,17 @@ class Elements():
         return self.__get_element(elementindex=index)  
         
     def add_elements(self, num):     
-        """Add num new elements in the mesh. 
-        add_elements yields num element that the user can fill
-        
+        """Add one or more elements in the mesh. 
+                
         Parameters
         ----------
         num : int
-            number of elements to add
+            Number of elements to add in the mesh.
         
         Returns
         -------
-        yield element : ElementAdder
-            element to add
+        :class:`ansys.dpf.core.elements.ElementAdder`
+            Elements added to the mesh.
         
         Examples
         --------
@@ -292,72 +320,70 @@ class Elements():
         self._mesh._stub.Add(request)
     
     def add_solid_element(self, id, connectivity):
-        """Appends a new solid 3D element in the mesh
+        """Add a solid 3D element in the mesh.
         
         Parameters
         ----------
         id : int
-            new element's id
-        
-        connectivity : list of int
-            list of node indices connected to the the element
+            ID to assign the new element.
+        connectivity : list
+            List of the node indices to connect to the new element.
         """
         self.add_element(id,"solid",connectivity)
 
     def add_shell_element(self, id, connectivity):
-        """Appends a new shell 2D element in the mesh
+        """Add a shell 2D element in the mesh.
         
         Parameters
         ----------
         id : int
-            new element's id
-        
-        connectivity : list of int
-            list of node indices connected to the the element
+            ID to assign the new element.
+        connectivity : list
+            List of the node indices to connect to the new element.
         """
         self.add_element(id, "shell",connectivity)   
         
     def add_beam_element(self, id, connectivity):
-        """Appends a new beam 1D element in the mesh
+        """Add a beam 1D element in the mesh.
         
         Parameters
         ----------
         id : int
-            new element's id
+            ID to assign the new element.
+        connectivity : list
+            List of the node indices to connect to the new element.
         
-        connectivity : list of int
-            list of node indices connected to the the element
         """
         self.add_element(id, "beam",connectivity)   
         
     def add_point_element(self, id, connectivity):
-        """Appends a new point element (1 node connectivity) in the mesh
+        """Add a point element (one node connectivity) in the mesh.
         
         Parameters
         ----------
         id : int
-            new element's id
-        
-        connectivity : list of int
-            list of node indices connected to the the element
+            ID to assign the new element.
+        connectivity : list
+            List of the node indices to connect to the new element.
+            
         """
         if not isinstance(connectivity, list):
             connectivity = [connectivity]
         self.add_element(id, "unknown_shape",connectivity)
     
     def add_element(self, id, shape, connectivity):
-        """Appends a new element in the mesh
+        """Add an element in the mesh.
         
         Parameters
         ----------
         id : int
-            new element's id
-            
+            ID to assign the new element.
         shape : str
-            shape of the element, expected are "solid", "shell", "beam" or "unknown_shape"
-        
-        connectivity : list of int
-            list of node indices connected to the the element
+            Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"`` 
+            and ``"unknown_shape"``.
+        connectivity : list
+            List of the node indices to connect to the new element.
+                
         """
         request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
         element_request = meshed_region_pb2.ElementRequest(id=id)
@@ -368,14 +394,14 @@ class Elements():
     
     @protect_grpc
     def __get_element(self, elementindex=None, elementid=None):
-        """Returns the element by its id or its index
+        """Retrieve the element by ID or index.
 
         Parameters
         ----------
-        elementid : int
-            id of the requested element
-        elementindex : int
-            index of the requested element
+        elementid : int, optional
+            ID of the element. The default is ``None``.
+        elementindex : int, optional
+            Index of the element. The default is ``None``.
 
         Returns
         -------
@@ -396,8 +422,12 @@ class Elements():
 
     @property
     def scoping(self) -> scoping.Scoping:
-        """The Scoping of the elements.
+        """Scoping of the elements.
 
+        Returns
+        -------
+        :class:`ansys.dpf.core.scoping.Scoping`
+        
         Examples
         --------
         >>> my_scoping = elements.scoping
@@ -407,12 +437,12 @@ class Elements():
 
     @property
     def element_types_field(self):
-        """Element types field
+        """Field of all element types.
 
         Returns
         -------
-        element_types_field : core.Field
-            Field of all the element types.
+        :class:`ansys.dpf.core.field.Field`
+            Field of all element types.
 
         Examples
         --------
@@ -431,16 +461,16 @@ class Elements():
     @property
     @protect_grpc
     def materials_field(self):
-        """Materials field
+        """Field of all material IDs.
 
         Returns
         -------
-        materials_field : core.Field
-            Field of all the materials ids.
+        :class:`ansys.dpf.core.field.Field`
+            Field of all materials IDs.
 
         Examples
         --------
-        Extract the material ids from the materials_field
+        Extract the material IDs from the materials_field
 
         >>> elements.materials_field.data
         array([1, 1, 1, 1, 1, 1, 1, 1])
@@ -455,13 +485,12 @@ class Elements():
 
     @property
     def connectivities_field(self):
-        """Connectivity field : field containing for each element id
-        the nodes indices connected to the given element
+        """Field containing for each element ID the node indices connected to the element.
 
         Returns
         -------
-        connectivities_field : Field
-            Field of the node indices associated to each element.
+        :class:`ansys.dpf.core.field.Field`
+            Field containing for each element ID the node indices connected to the element.
 
         Examples
         --------
@@ -475,7 +504,7 @@ class Elements():
 
     @protect_grpc
     def _get_connectivities_field(self):
-        """Return the connectivities field"""
+        """Retrieve the connectivities field."""
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         # request.elemental_property = meshed_region_pb2.ElementalPropertyType.CONNECTIVITY
@@ -489,14 +518,14 @@ class Elements():
         return self._mesh._stub.List(self._mesh._message).num_element
 
     def _build_mapping_id_to_index(self):
-        """Return a mapping between ids and indices of the entity."""
+        """Retrieve the mapping between the IDs and indices of the entity."""
         return {eid: i for i, eid in enumerate(self.scoping.ids)}
 
     @property
     def mapping_id_to_index(self) -> dict:
-        """Mapping between the ids and indices of the entity.
+        """Mapping between the IDs and indices of the entity.
 
-        Useful for mapping scalar results from a field to this meshed region.
+        This proprty is useful for mapping scalar results from a field to the meshed region.
 
         Examples
         --------
@@ -509,12 +538,12 @@ class Elements():
         return self._mapping_id_to_index
 
     def map_scoping(self, external_scope):
-        """Return the indices to map the scoping of these elements to
+        """Retrieve the indices to map the scoping of these elements to
         the scoping of a field.
 
         Parameters
         ----------
-        external_scope : scoping.Scoping
+        external_scope : :class:`ansys.dpf.core.scoping.Scoping`
             Scoping to map to.
 
         Returns
@@ -522,7 +551,6 @@ class Elements():
         indices : numpy.ndarray
             List of indices to map from the external scope to the
             scoping of these elements.
-
         mask : numpy.ndarray
             Members of the external scope that are in the element scoping.
 
@@ -550,44 +578,68 @@ class Elements():
     
     @property
     def has_shell_elements(self) -> bool:
-        """Returns true if at list one element is a 2D element (shell)"""
+        """Whether at least one element is a 2D element (shell).
+        
+        Returns
+        -------
+        bool
+        
+        """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_shell_elements
    
     @property
     def has_solid_elements(self) -> bool:
-        """Returns true if at list one element is a 3D element (solid)"""
+        """Whether at list one element is a 3D element (solid).
+        
+        Returns
+        -------
+        bool
+        
+        """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_solid_elements
     
     @property
     def has_beam_elements(self) -> bool:
-        """Returns true if at list one element is a 1D beam element"""
+        """Whether at least one element is a 1D beam element.
+        
+        Returns
+        -------
+        bool
+        
+        """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_beam_elements
     
     @property
     def has_point_elements(self) -> bool:
-        """Returns true if at list one element is a point element"""
+        """Whether at least one element is a point element.
+        
+        Returns
+        -------
+        bool
+             
+        """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_point_elements
     
 
 class ElementAdder:
-    """A class used to add new elements into a meshed region
+    """Provides for adding new elements in a meshed region.
     
-    Attributes
+    Parameters
     ----------
     id : int
-    
-    connectivity : list of int
-        ordered list of node indices of the element
-        
+        ID to assign to the new element.
     shape : str
-        "solid", "shell", "beam" or "unknown_shape"
+        Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"`` 
+        and ``"unknown_shape"``.
+    connectivity : list
+        List of the node indices to connect to the new element.         
     
     Examples
     --------
-    Create a meshed region from scratch
+    Create a meshed region from scratch.
     
     >>> import ansys.dpf.core as dpf
-    >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=1)
+    >>> meshed_region = dpf.MeshedRegion(num_nodes=4, num_elements=1)
     >>> i=0
     >>> for node in meshed_region.nodes.add_nodes(4):
     ...     node.id = i+1
@@ -605,7 +657,14 @@ class ElementAdder:
         self._shape_info={"solid":True, "shell":False, "beam":False,"point":False}
     
     @property
-    def is_solid(self) ->bool :
+    def is_solid(self) -> bool:
+        """Whether the element is a solid.
+        
+        Returns
+        -------
+        bool
+        """
+        
         return self._shape_info["solid"]
     
     @is_solid.setter
@@ -615,7 +674,14 @@ class ElementAdder:
         self._shape_info["solid"]=True
     
     @property
-    def is_shell(self) ->bool :
+    def is_shell(self) -> bool:
+        """Whether the element is a shell.
+        
+        Returns
+        -------
+        bool
+        """
+        
         return self._shape_info["shell"]
     
     @is_shell.setter
@@ -625,7 +691,14 @@ class ElementAdder:
         self._shape_info["shell"]=True
     
     @property
-    def is_beam(self) ->bool :
+    def is_beam(self) -> bool:
+        """Whether the element is a beam.
+        
+        Returns
+        -------
+        bool
+        """
+      
         return self._shape_info["beam"]
     
     @is_beam.setter
@@ -635,7 +708,14 @@ class ElementAdder:
         self._shape_info["beam"]=True
     
     @property
-    def is_point(self) ->bool :
+    def is_point(self) -> bool:
+        """Whether the element is a point.
+        
+        Returns
+        -------
+        bool
+        """
+     
         return self._shape_info["point"]
     
     @is_point.setter
@@ -646,12 +726,14 @@ class ElementAdder:
      
     @property
     def shape(self) ->str:
-        """Gives the element shape
+        """Shape of the element.
         
         Returns
         --------
-        shape : str
-            "solid", "shell", "beam" or "unknown_shape"
+        str
+           Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"`` 
+           and ``"unknown_shape"``.
+           
         """
         if self.is_solid:
             return "solid"
@@ -664,12 +746,14 @@ class ElementAdder:
     
     @shape.setter
     def shape(self, value):
-        """Set the element shape
+        """Set the shape of the element.
         
         Parameters
         --------
-        shape : str
-            "solid", "shell", "beam" or "unknown_shape"
+        value : str
+           Shape of the element. Options are ``"solid"``, ``"shell"``, ``"beam"`` 
+           and ``"unknown_shape"``.
+           
         """
         self._shape_info={"solid":False, "shell":False, "beam":False,"point":False}
         if value == "solid":
@@ -682,7 +766,7 @@ class ElementAdder:
             self.is_point=True
         
 class element_types(Enum):
-    """Enum for element types.
+    """Contains the types of elements.
     """
     General = -2
     All = -1
@@ -766,6 +850,13 @@ class element_types(Enum):
     
     @staticmethod
     def shape(element_type):
+        """Retrieve the shape of the element.
+        
+        Returns
+        -------
+        type
+        
+        """
         if isinstance(element_type,(int, np.int32)):
             element_type = element_types(element_type)
         el_shape = element_types._descriptors().get(element_type, None).shape
@@ -773,18 +864,20 @@ class element_types(Enum):
     
     @staticmethod
     def descriptor(element_type):
-        """
-        Provide access to an instance of the ElementDescriptor of the requested element.
-        Provide information such as number of nodes, shape, etc. 
+        """Retrieve element information.
+        
+        This method provides access to an instance of the ``ElementDescriptor`` of the requested 
+        element to retrieve such information as the number of nodes and shape. 
 
         Parameters
         ----------
-        element_type : element_types, int
+        element_type : int
+            Type of the elemment. 
 
         Returns
         -------
-        element_descriptor: ElementDescriptor
-            An element descriptor instance that provide access to the element information.
+        ElementDescriptor
+            Element descriptor instance that provides element information.
         
         Examples
         --------
