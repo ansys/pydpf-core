@@ -29,7 +29,7 @@ class Element:
     elementid : int
         Number (ID) of the element.
     index : int
-        Fortran-based (1 based) index of the element in the result.
+        Fortran-based (1-based) index of the element in the result.
     nodes : list
         List of DPF nodes belonging to the element.
 
@@ -92,7 +92,7 @@ class Element:
         Returns
         -------
         int
-            Index of the element in the result. This uses zero based indexing starting at ``0``.
+            Index of the element in the result. This uses zero-based indexing starting at ``0``.
          
         """
         return self._index
