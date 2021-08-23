@@ -17,9 +17,9 @@ class Dimensionality:
         List of integers for the dimnesion vectors. There is a 1D vector for a 
         scalar or #D vector. There is a 2D vector for a matrix. For example:
         
-        * [1]: scalar
-        * [3]: 3d vector
-        * [3,3]: matrix 3 3 
+        * ``[1]``: scalar
+        * ``[3]``: 3d vector
+        * ``[3, 3]``: ``3 x 3`` matrix
     nature : :class:`ansys.dpf.core.common.natures`
     
     """
@@ -78,11 +78,11 @@ class Dimensionality:
     
     @staticmethod
     def tensor_dim():
-        """Retrieve the dimensionality of a symmetrical 3 3 tensor field.
+        """Retrieve the dimensionality of a symmetrical ``3 x 3`` tensor field.
 
         Returns
         -------
         :class:`ansys.dpf.core.dimensionnality.Dimensionality`
-            Dimensionality of the symmetrical 3 3 tensor field.
+            Dimensionality of the symmetrical ``3 x 3`` tensor field.
         """
         return Dimensionality([3,3], natures.symmatrix)

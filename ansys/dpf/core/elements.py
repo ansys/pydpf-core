@@ -19,7 +19,7 @@ from ansys.dpf.core.element_descriptor import ElementDescriptor
 class Element:
     """Contains all properties of an element of a mesh. 
     
-    The element is created from the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` class. 
+    The element is created from the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` class.
     Properties include the element ID, index, type, shape, and connectivity.
 
     Parameters
@@ -29,7 +29,7 @@ class Element:
     elementid : int
         Number (ID) of the element.
     index : int
-        Fortran-based index of the element in the result.
+        Fortran-based (1 based) index of the element in the result.
     nodes : list
         List of DPF nodes belonging to the element.
 
@@ -92,7 +92,7 @@ class Element:
         Returns
         -------
         int
-         Index of the element in the result. The index start at ``0``.
+            Index of the element in the result. This uses zero based indexing starting at ``0``.
          
         """
         return self._index
@@ -100,7 +100,6 @@ class Element:
     @property
     def nodes(self):
         """All nodes in the element.
-            
         Returns
         --------
         list
@@ -195,7 +194,7 @@ class Element:
         Returns
         --------
         list
-           Ordered list of node indices. 
+            Ordered list of node indices. 
            
         """
         list=[]
@@ -281,7 +280,7 @@ class Elements():
         return self.__get_element(elementindex=index)  
         
     def add_elements(self, num):     
-        """Add one ore more elements in the mesh. 
+        """Add one or more elements in the mesh. 
                 
         Parameters
         ----------
@@ -329,7 +328,6 @@ class Elements():
             ID to assign the new element.
         connectivity : list
             List of the node indices to connect to the new element.
-                
         """
         self.add_element(id,"solid",connectivity)
 
@@ -585,7 +583,6 @@ class Elements():
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.
         
         """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_shell_elements
@@ -597,7 +594,6 @@ class Elements():
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.
         
         """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_solid_elements
@@ -609,7 +605,6 @@ class Elements():
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.
         
         """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_beam_elements
@@ -621,7 +616,6 @@ class Elements():
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.
              
         """
         return self._mesh._stub.List(self._mesh._message).element_shape_info.has_point_elements
@@ -645,7 +639,7 @@ class ElementAdder:
     Create a meshed region from scratch.
     
     >>> import ansys.dpf.core as dpf
-    >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=1)
+    >>> meshed_region = dpf.MeshedRegion(num_nodes=4, num_elements=1)
     >>> i=0
     >>> for node in meshed_region.nodes.add_nodes(4):
     ...     node.id = i+1
@@ -663,13 +657,12 @@ class ElementAdder:
         self._shape_info={"solid":True, "shell":False, "beam":False,"point":False}
     
     @property
-    def is_solid(self) ->bool :
+    def is_solid(self) -> bool:
         """Whether the element is a solid.
         
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.
         """
         
         return self._shape_info["solid"]
@@ -681,13 +674,12 @@ class ElementAdder:
         self._shape_info["solid"]=True
     
     @property
-    def is_shell(self) ->bool :
+    def is_shell(self) -> bool:
         """Whether the element is a shell.
         
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed. 
         """
         
         return self._shape_info["shell"]
@@ -699,13 +691,12 @@ class ElementAdder:
         self._shape_info["shell"]=True
     
     @property
-    def is_beam(self) ->bool :
+    def is_beam(self) -> bool:
         """Whether the element is a beam.
         
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.  
         """
       
         return self._shape_info["beam"]
@@ -717,13 +708,12 @@ class ElementAdder:
         self._shape_info["beam"]=True
     
     @property
-    def is_point(self) ->bool :
+    def is_point(self) -> bool:
         """Whether the element is a point.
         
         Returns
         -------
         bool
-             ``True`` when successful, ``False`` when failed.
         """
      
         return self._shape_info["point"]
@@ -886,7 +876,7 @@ class element_types(Enum):
 
         Returns
         -------
-        element_descriptor: ElementDescriptor
+        ElementDescriptor
             Element descriptor instance that provides element information.
         
         Examples

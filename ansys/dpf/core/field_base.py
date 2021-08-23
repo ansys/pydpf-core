@@ -8,15 +8,12 @@ from ansys.dpf.core import server as serverlib
 import numpy as np
 
 class _FieldBase:
-    """Contains base APIs for all implementations that follow DPF's
-    field concept."""
+    """Contains base APIs for all implementations that follow DPF's field concept."""
     
     def __init__(self, nentities=0, nature=natures.vector,
                  location=locations.nodal, is_property_field = False, 
                  field=None, server=None):
-        """Initialize the field either with an optional field message or
-        by connecting to a stub.
-        """
+        """Initialize the field either with an optional field message or by connecting to a stub."""
         if server is None:
             server = serverlib._global_server()
 
@@ -59,7 +56,8 @@ class _FieldBase:
         
         Examples
         --------
-        Shape of a stress field.
+        tuple
+            Shape of a stress field.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -113,7 +111,7 @@ class _FieldBase:
         Returns
         -------
         int
-           Length of the data vector.
+            Length of the data vector.
            
         """
         return self.elementary_data_count*self.component_count
@@ -163,7 +161,7 @@ class _FieldBase:
         
         Parameters
         ----------
-        scoping : :class"`ansys.dpf.core.scoping.Scoping`
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
         
         """
         request = field_pb2.UpdateScopingRequest()
@@ -176,7 +174,7 @@ class _FieldBase:
         
         Returns
         -------
-        scoping : :class"`ansys.dpf.core.scoping.Scoping`
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
         
         """
         request = field_pb2.GetRequest()
@@ -192,7 +190,7 @@ class _FieldBase:
         
         Returns
         -------
-        scoping : :class"`ansys.dpf.core.scoping.Scoping`
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
         
         Examples
         --------
@@ -223,7 +221,7 @@ class _FieldBase:
         
         Returns
         --------
-        numpy.array
+        numpy.ndarray
         
         Examples
         --------
@@ -274,7 +272,7 @@ class _FieldBase:
 
         Returns
         -------
-        numpy.array
+        numpy.ndarray
             Data based on the scoping ID.            
                   
         Examples
@@ -314,7 +312,7 @@ class _FieldBase:
 
         Parameters
         ----------
-        data : list of int, double or array
+        data : list of int, double, or array
           Data in the entity.
         scopingid : int
             ID of the scoping.
@@ -537,7 +535,7 @@ class _LocalFieldBase(_FieldBase):
 
         Returns
         -------
-        numpy.array
+        numpy.ndarray
         
         Examples
         --------
@@ -594,7 +592,7 @@ class _LocalFieldBase(_FieldBase):
 
         Returns
         -------
-        numpy.array
+        numpy.ndarray
             Data based on the scoping ID.
             
         Examples

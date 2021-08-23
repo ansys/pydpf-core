@@ -19,7 +19,7 @@ from ansys.dpf.core.dimensionality import Dimensionality
 class Field(_FieldBase):
     """Represents the main simulation data container.
     
-    This call can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
+    This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
     or created by a factory and directly by an instance of this class.
     
     A field's data is always associated to its scoping (entities associated to each value)
@@ -27,8 +27,6 @@ class Field(_FieldBase):
 
     Parameters
     ----------
-                     field=None, server=None)
-    
     nentities : int, optional
         Number of entities reserved. The default is ``0``.
     nature : :class:`ansys.dpf.core.common.natures`, optional
@@ -46,7 +44,6 @@ class Field(_FieldBase):
         Server with the channel connected to the remote or local instance. The 
         default is ``None``, in which case an attempt is made to use the global 
         server.
-    
     Examples
     --------
     Create a field from scratch.
@@ -112,7 +109,7 @@ class Field(_FieldBase):
         without sending a request to the server. It should be used in a ``with`` 
         statement so that the local field is released and the data is sent to 
         the server in one action. If it is not used in a ``with`` statement, 
-        the method `release_data()` should be used to actually update the field.
+        :func:`<release_data> Field.release_data()` should be used to update the field.
         
         Warning
         -------
@@ -330,7 +327,7 @@ class Field(_FieldBase):
         Parameters
         ----------
         value : str
-           Units for the field.
+            Units for the field.
 
         Examples
         --------
@@ -349,8 +346,7 @@ class Field(_FieldBase):
         
     @property
     def dimensionality(self):
-        """Dimensionality represents the shape of the elementary
-        data contained in the field.
+        """Dimensionality represents the shape of the elementary data contained in the field.
         
         Returns
         -------
@@ -394,7 +390,7 @@ class Field(_FieldBase):
         
         Returns
         -------
-        :class"`ansys.dpf.core.field_definition.FieldDefinition`
+        :class:`ansys.dpf.core.field_definition.FieldDefinition`
         
         """
         return self._field_definition
@@ -408,7 +404,7 @@ class Field(_FieldBase):
         
         Returns
         -------
-        :class"`ansys.dpf.core.meshed_region.MeshedRegion`
+        :class:`ansys.dpf.core.meshed_region.MeshedRegion`
         
         """
         request = field_pb2.SupportRequest()

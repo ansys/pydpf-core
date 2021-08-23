@@ -16,7 +16,7 @@ class ElementDescriptor:
     name: str
     
     shape: str, optional
-        Can be "solid", "shell" of "beam". The default is ``None``.
+        Can be ``"solid"``, ``"shell"`` or ``"beam"``. The default is ``None``.
     
     n_corner_nodes: int, optional
         The default is ``None``.

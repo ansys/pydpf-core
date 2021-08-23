@@ -14,7 +14,7 @@ from ansys.dpf.core.errors import protect_grpc
 class DataSources:
     """Contains files with analysis results.
      
-    An extension key ('rst' for example) is used to choose which files represent 
+    An extension key (``'rst'`` for example) is used to choose which files represent 
     results files versus accessory files. You can set a result file path when
     initializing this class.
      
@@ -134,14 +134,13 @@ class DataSources:
             Path of the file.   
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct 
-            plugin when a result is requested by an operator. The default is ``""``, 
-            in which case the key is found directly.          
+            plugin when a result is requested by an operator. The default is ``""``,
+            in which case the key is found directly.
         is_domain: bool, optional
             Whether the file path is the domain path. The default is ``False``.
         domain_id: int, optional
             Domain ID for the distributed files. The default is ``0``. For this 
-            parameter to be taken into account, ``domain_path = True`` must be set.
-        
+            parameter to be taken into account, ``domain_path=True`` must be set.
         Examples
         --------
         >>> from ansys.dpf import core as dpf

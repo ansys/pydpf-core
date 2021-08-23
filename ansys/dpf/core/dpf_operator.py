@@ -33,7 +33,7 @@ class Operator:
     Parameters
     ----------
     name : str
-        Name of the operator. For example. ``'U'``. You can use the 
+        Name of the operator. For example. ``"U"``. You can use the 
         ``"html_doc"`` operator to retrieve a list of existing operators.
     config : optional
         The default is ``None``.
@@ -114,13 +114,9 @@ class Operator:
         inpt :  str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, Operator
             Object to connect to.
         pin_out : int, optional
-            If the input is an operator, the output pin of the input operator. The 
+            If the input is an operator, the output pin of the input operator. The
             default is ``0``.
 
-        Returns
-        -------
-        type
-        
         Examples
         --------
         Compute the minimum of displacement by chaining the ``"U"``
@@ -281,7 +277,7 @@ class Operator:
         return Config(operator_name = name, server =server)
         
     def _connect(self):
-        """Connect to the gRPCc service."""
+        """Connect to the gRPC service."""
         return operator_pb2_grpc.OperatorServiceStub(self._server.channel)
 
     def __del__(self):
@@ -302,11 +298,11 @@ class Operator:
         return _description(self._message, self._server)
 
     def run(self):
-        """Evaluate the operator."""
+        """Evaluate this operator."""
         self.get_output()
         
     def eval(self, pin = None):
-        """Evaluate the operator.
+        """Evaluate this operator.
         
         Parameters
         ----------
@@ -314,14 +310,14 @@ class Operator:
             Number of the output pin. The default is ``None``.
 
         Returns
-        --------
-        output : FieldsContainer, Field, MeshedRegion, Scoping, ...
+        -------
+        output : FieldsContainer, Field, MeshedRegion, Scoping
             Returns the first output of the operator by default and the output of a 
             given pin when specified. Or, it only evaluates the operator without output.
 
         Examples
         --------
-        Use the `eval` method.
+        Use the ``eval`` method.
 
         >>> from ansys.dpf import core as dpf
         >>> import ansys.dpf.core.operators.math as math
