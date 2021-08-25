@@ -9,6 +9,8 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
+from conftest import local_server
+
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get('AWP_ROOT212', False) is not False
@@ -931,6 +933,55 @@ def test_dot_operator_operator():
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, -field.data)
+    
+   
+def test_add_operator_server_operator():
+    field = dpf.core.fields_factory.create_3d_vector_field(2,server=local_server)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    ####forward field
+    #operator with field out
+    forward = ops.utility.forward_field(field,server=local_server)    
+    add = forward+forward
+    assert type(add)==ops.math.add_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array(field.data)*2.0)
+    
+
+def test_minus_operator_server_operator():
+    field = dpf.core.fields_factory.create_3d_vector_field(2,server=local_server)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    ####forward field
+    #operator with field out
+    forward = ops.utility.forward_field(field,server=local_server)    
+    add = forward-forward
+    assert type(add)==ops.math.minus_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+     
+    
+def test_dot_operator_server_operator():
+    field = dpf.core.fields_factory.create_3d_vector_field(2,server=local_server)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    ####forward field
+    #operator with field out
+    forward = ops.utility.forward_field(field,server=local_server)    
+    add = forward*forward
+    assert type(add)==ops.math.generalized_inner_product_fc
+    out = add.outputs.fields_container()
+    assert len(out)==1
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
     
 def test_eval_operator(tmpdir):
     op= dpf.core.Operator("norm")

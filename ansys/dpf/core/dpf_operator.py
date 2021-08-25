@@ -398,9 +398,9 @@ class Operator:
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "add_fc") :
-            op= operators.math.add_fc(self, fields_b)
+            op= operators.math.add_fc(self, fields_b,server=self._server)
         else :
-            op= dpf_operator.Operator("add_fc")
+            op= dpf_operator.Operator("add_fc",server=self._server)
             op.connect(0,self)        
             op.connect(1, fields_b)
         return op
@@ -416,9 +416,9 @@ class Operator:
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "minus_fc") :
-            op= operators.math.minus_fc()
+            op= operators.math.minus_fc(server=self._server)
         else :
-            op= dpf_operator.Operator("minus_fc")
+            op= dpf_operator.Operator("minus_fc",server=self._server)
         op.connect(0,self)        
         op.connect(1, fields_b)
         return op
@@ -430,9 +430,9 @@ class Operator:
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "sqr_fc") :
-            op= operators.math.sqr_fc()
+            op= operators.math.sqr_fc(server=self._server)
         else :
-            op= dpf_operator.Operator("sqr_fc")
+            op= dpf_operator.Operator("sqr_fc",server=self._server)
         op.connect(0,self)        
         op.connect(1, value)
         return op
@@ -447,9 +447,9 @@ class Operator:
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "generalized_inner_product_fc") :
-            op= operators.math.generalized_inner_product_fc()
+            op= operators.math.generalized_inner_product_fc(server=self._server)
         else :
-            op= dpf_operator.Operator("generalized_inner_product_fc")
+            op= dpf_operator.Operator("generalized_inner_product_fc",server=self._server)
         op.connect(0,self)        
         op.connect(1, value)
         return op
