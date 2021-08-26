@@ -1,4 +1,4 @@
-"""Miscellaneous functions for DPF module"""
+"""Miscellaneous Functions for the DPF module."""
 import platform
 import glob
 import os
@@ -7,12 +7,12 @@ from pkgutil import iter_modules
 
 DEFAULT_FILE_CHUNK_SIZE =65536
 
-# ANSYS CPython workbench environment may not have scooby installed
+# ANSYS CPython Workbench environment may not have scooby installed.
 try:
     from scooby import Report as ScoobyReport
 except ImportError:
     class ScoobyReport():
-        """Placeholder for scooby.Report"""
+        """Placeholder for Scooby report."""
 
         def __init__(self, *args, **kwargs):
             raise ImportError('Install `scooby` with `pip install scooby` to use '
@@ -20,12 +20,19 @@ except ImportError:
 
 
 def module_exists(module_name):
-    """Returns True when a module exists"""
+    """Check if a model exists.
+    
+    Parameters
+    ----------
+    module_name : str
+        Name of the module.
+        
+    """
     return module_name in (name for loader, name, ispkg in iter_modules())
 
 
 class Report(ScoobyReport):
-    """Generate a report of the installed packages for ansys-dpf-core"""
+    """Generate a report of the installed packages for DPF-Core."""
 
     def __init__(self, additional=None, ncol=3, text_width=80, sort=False,
                  gpu=True):
@@ -34,22 +41,18 @@ class Report(ScoobyReport):
         Parameters
         ----------
         additional : list(ModuleType), list(str)
-            List of packages or package names to add to output information.
-
+            List of packages or package names to add to the output information.
         ncol : int, optional
-            Number of package-columns in html table; only has effect if
-            ``mode='HTML'`` or ``mode='html'``. Defaults to 3.
-
+            Number of package columns in the HTML table. This parameter has effect 
+            only if ``mode='HTML'`` or ``mode='html'``. The default is ``3``.
         text_width : int, optional
-            The text width for non-HTML display modes
-
+            Width of the text for non-HTML display modes. The default is ``80``.
         sort : bool, optional
-            Alphabetically sort the packages
-
-        gpu : bool
-            Gather information about the GPU. Defaults to ``True`` but if
-            experiencing renderinng issues, pass ``False`` to safely generate
-            a report.
+            Whether to sort the packages alphabetically. The default is "False``.
+        gpu : bool, optional
+            Whether to gather information about the GPU. The default is ``True``.
+            If rendering issues are experiencd, set to ``False`` to safely generate
+            the report.
 
         """
 
@@ -77,7 +80,18 @@ class Report(ScoobyReport):
 
 
 def is_float(string):
-    """Returns true when a string can be converted to a float"""
+    """Check if a string can be converted to a float.
+    
+    Parameters
+    ----------
+    string : str
+       String to check.
+    
+    Returns
+    -------
+    bool
+        ``True`` when successful, ``False`` when failed.
+    """
     try:
         float(string)
         return True
@@ -86,29 +100,34 @@ def is_float(string):
 
 
 def is_ubuntu():
-    """True when running Ubuntu"""
+    """Check is Ubuntu is running.
+    
+    Returns
+    -------
+    bool
+        ``True`` when successful, ``False`` when failed.
+    """
     if os.name == 'posix':
         return 'ubuntu' in platform.platform().lower()
     return False
 
 
 def find_ansys():
-    """Searches for ansys path within the standard install location
-    and returns the path of the latest version.
-    
+    """Search the standard installation location to find the path to the latest Ansys installation.
+        
     Returns
     -------
     ansys_path : str
-        Full path to ANSYS.  For example, on windows:
+        Full path to the latest version of the Ansys installation. 
 
     Examples
     --------
-    Within Windows
+    Return path of latest Ansys version on Windows.
 
     >>> from ansys.dpf.core.misc import find_ansys
     >>> path = find_ansys()
     
-    Within Linux
+    Return path of latest Ansys version on Linux.
 
     >>> path = find_ansys()
     
