@@ -14,9 +14,9 @@ from ansys.dpf.core import errors as dpf_errors
 class FieldsContainer(Collection):
     """Represents a fields container, which contains fields belonging to a common result.
     
-    The fields container is designed as a set of fields ordered by labels and IDs. 
-    Each field of the fields container has an ID for each label defining the given 
-    fields container, which allows splitting the fields on any criteria.
+    The fields container is a set of fields ordered by labels and IDs. Each field 
+    of the fields container has an ID for each label defining the given fields 
+    container, which allows splitting the fields on any criteria.
     
     The most common fields container has the label ``"time"`` with IDs 
     corresponding to each time set. The label ``"complex"``, which is 
@@ -49,7 +49,7 @@ class FieldsContainer(Collection):
     >>> #print(fields_container)
 
     
-    Create a fields container from scratch
+    Create a fields container from scratch.
     
     >>> from ansys.dpf import core as dpf
     >>> fc= dpf.FieldsContainer()
@@ -64,7 +64,7 @@ class FieldsContainer(Collection):
     """
 
     def __init__(self, fields_container=None, server=None):
-        """Initialize the scoping with either optional scoping message,
+        """Initialize the scoping with either an optional scoping message 
         or by connecting to a stub.
         """
         if server is None:
@@ -80,25 +80,24 @@ class FieldsContainer(Collection):
                             collection=fields_container, server=self._server)
 
     def get_fields_by_time_complex_ids(self, timeid=None, complexid=None):
-        """Returns the fields at a requested time/freq id and real or imaginary depending on 
-        complexid (complexid=1:imaginary, complexid=0:real)
+        """Retrieve fields at a requested time ID or complex ID.
 
         Parameters
         ----------
         timeid : int, optional
-            The time id. One based index of the result set.
-
+            Time ID or frequency ID, which is the one-based index of the 
+            result set.
         complexid : int, optional
-            The complex id.
+            Complex ID, where ``1`` is for imaginary and ``0`` is for real.
 
         Returns
         -------
         fields : list[Field]
-            fields corresponding to the request
+            Fields corresponding to the request.
             
         Examples
         --------
-        Extract a the 5th time set of a transient analysis.
+        Extract the fifth time set of a transient analysis.
     
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -116,27 +115,27 @@ class FieldsContainer(Collection):
         return super()._get_entries(label_space)
     
     def get_field_by_time_complex_ids(self, timeid=None, complexid=None):
-        """Returns the field at a requested time/freq id and real or imaginary depending on 
-        complexid (complexid=1:imaginary, complexid=0:real).
-        It throws if the number of fields matching the request is 
-        higher than 1.
+        """Retrieve a field at a requested time ID or complex ID.
+        
+        An exception is raised if the number of fields matching the request is 
+        greater than one.
 
         Parameters
         ----------
         timeid : int, optional
-            The time id. One based index of the result set.
-
+            Time ID or frequency ID, which is the one-based index of the 
+            result set.
         complexid : int, optional
-            The complex id.
+            Complex ID, where ``1`` is for imaginary and ``0`` is for real.
 
         Returns
         -------
         fields : Field
-            field corresponding to the request
+            Field corresponding to the request
             
         Examples
         --------
-        Extract a the 5th time set of a transient analysis.
+        Extract the fifth time set of a transient analysis.
     
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -162,18 +161,18 @@ class FieldsContainer(Collection):
         return label_space
 
     def get_fields(self, label_space):
-        """Returns the fields at a requested index or label space
+        """Retrieve the fields at a requested index or label space.
 
         Parameters
         ----------
         label_space : dict[str,int] 
-            Scoping of the requested fields, for example:
-            ``{"time": 1, "complex": 0}``
+            Scoping of the requested fields. For example, 
+            ``{"time": 1, "complex": 0}``.
 
         Returns
         -------
         fields : list[Field]
-            fields corresponding to the request
+            Fields corresponding to the request.
           
         Examples
         --------
@@ -199,20 +198,21 @@ class FieldsContainer(Collection):
         return super()._get_entries(label_space)
     
     def get_field(self, label_space_or_index):
-        """Returns the field at a requested index or label space.
-        Throws if the request returns several fields
-
+        """Retrieves the field at a requested index or label space.
+        
+        An exception is raised if the number of fields matching the request is 
+        greater than one.
+        
         Parameters
         ----------
-        label_space_or_index : dict[str,int] , int 
-            Scoping of the requested fields, for example:
-            ``{"time": 1, "complex": 0}``
-            or Index of the field.
+        label_space_or_index : dict[str,int], int 
+            Scoping of the requested fields. For example, 
+            ``{"time": 1, "complex": 0}`` or the index of the field.
 
         Returns
         -------
         field : Field
-            field corresponding to the request
+            Field corresponding to the request.
           
         Examples
         --------
@@ -225,17 +225,17 @@ class FieldsContainer(Collection):
     
     
     def get_field_by_time_id(self, timeid=None):
-        """Returns the complex field at a requested time
+        """Retrieves the complex field at a requested time.
 
         Parameters
         ----------
         timeid: int, optional
-            The time id. Index of the result set.
-
+            Time ID, which is the one-based index of the result set.
+            
         Returns
         -------
         fields : Field 
-            fields corresponding to the request
+            Fields corresponding to the request.
         """
         if (not self.has_label('time')):
             raise dpf_errors.DpfValueError("The fields container is not based on time scoping.")
@@ -248,17 +248,17 @@ class FieldsContainer(Collection):
         return super()._get_entry(label_space)
     
     def get_imaginary_fields(self, timeid=None):
-        """Returns the complex fields at a requested time
+        """Retrieve the complex fields at a requested time
 
         Parameters
         ----------
         timeid: int, optional
-            The time id. Index of the result set.
+            Time ID, which is the one-based index of the result set.
 
         Returns
         -------
         fields : list[Field] 
-            fields corresponding to the request
+            Fields corresponding to the request.
         """
         if (not self.has_label('complex') or not self.has_label('time')):
             raise dpf_errors.DpfValueError("The fields container is not based on time and complex scoping.")
@@ -268,17 +268,17 @@ class FieldsContainer(Collection):
         return super()._get_entries(label_space)
     
     def get_imaginary_field(self, timeid=None):
-        """Returns the complex field at a requested time
+        """Retrieve the complex field at a requested time.
 
         Parameters
         ----------
         timeid: int, optional
-            The time id. Index of the result set.
+            Time ID, which is the one-based index of the result set.
 
         Returns
         -------
         fields : Field 
-            field corresponding to the request
+            Field corresponding to the request.
         """
         if (not self.has_label('complex') or not self.has_label('time')):
             raise dpf_errors.DpfValueError("The fields container is not based on time and complex scoping.")
@@ -288,17 +288,17 @@ class FieldsContainer(Collection):
         return super()._get_entry(label_space)
 
     def __getitem__(self, key):
-        """Returns the field at a requested index
+        """Retrieve the field at a requested index.
 
         Parameters
         ----------
         key : int
-            the index
+            Index.
 
         Returns
         -------
         field : Field
-            field corresponding to the request
+            Field corresponding to the request.
         """
         return super().__getitem__(key)
 
@@ -308,7 +308,8 @@ class FieldsContainer(Collection):
         Parameters
         ----------
         label_space : dict[str,int]
-            label_space of the requested fields, ex : {"time":1, "complex":0}
+            Label space of the requested field. For example, 
+            {"time":1, "complex":0}.
 
         field : Field
             DPF field to add.
@@ -329,15 +330,14 @@ class FieldsContainer(Collection):
         super()._add_entry(label_space, field)
 
     def add_field_by_time_id(self, field, timeid = 1):
-        """Update or add the field at a requested time id.
+        """Add or update a field at a requested time ID.
 
         Parameters
         ----------        
         field : Field
-            DPF field to add.
-            
-        timeid: int, optional
-            time id corresponding to the requested time set. Default: 1
+            DPF field to add or update.
+       timeid: int, optional
+            Time ID for the requested time set. The default is ``1``.
         """
         labels = self.labels
         if (not self.has_label('time') 
@@ -352,15 +352,15 @@ class FieldsContainer(Collection):
             raise dpf_errors.DpfValueError('The fields container is not only based on time scoping.')
             
     def add_imaginary_field(self, field, timeid = 1):
-        """Update or add the imaginary field at a requested time id.
+        """Add or update an imaginary field at a requested time ID.
 
         Parameters
         ----------        
         field : Field
-            DPF field to add.
-            
+            DPF field to add or update.
+           
         timeid: int, optional
-            time id corresponding to the requested time set. Default: 1
+            Time ID for the requested time set. The default is ``1``.
         """
         if (not self.has_label('time') 
             and (len(self.labels) == 0 
@@ -374,10 +374,10 @@ class FieldsContainer(Collection):
             raise dpf_errors.DpfValueError('The fields container is not only based on time scoping.')
 
     def select_component(self, index):
-        """Returns fields containing only the component index.
+        """Select fields containing only the component index.
 
-        Can only select by component index as multiple fields may
-        contain different number of components.
+        Fields can be selected only by component index as multiple fields may
+        contain a different number of components.
 
         Parameters
         ----------
@@ -391,7 +391,7 @@ class FieldsContainer(Collection):
 
         Examples
         --------
-        Select using a component index
+        Select using a component index.
     
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -411,6 +411,7 @@ class FieldsContainer(Collection):
 
     @property
     def time_freq_support(self):
+        """Time frequency support."""
         return self._get_time_freq_support()
     
     @time_freq_support.setter
@@ -419,14 +420,16 @@ class FieldsContainer(Collection):
     
     
     def deep_copy(self, server=None):
-        """Creates a deep copy of the fields container's data (and its fields) on a given server.
-        This can be useful to pass data from one server instance to another.
+        """Create a deep copy of the fields container's data (and its fields) on a given server.
+        
+        This method is useful for passing data from one server instance to another.
         
         Parameters
         ----------
-        server : DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+        server : server.DPFServer, optional
+            Server with the channel connected to the remote or local instance. 
+            The default is ``None``, in which case an attempt is made to use the 
+            global server.
         
         Returns
         -------
@@ -456,17 +459,17 @@ class FieldsContainer(Collection):
         return fc
     
     def get_time_scoping(self):
-        """Returns the time scoping containing the time sets
+        """Retrieves the time scoping containing the time sets.
         
         Returns
         -------
         scoping: Scoping
-            scoping containing the time set ids available in the fields container
+            Scoping containing the time set IDs available in the fields container.
         """
         return self.get_label_scoping("time")
     
     def __add__(self, fields_b):
-        """Adds two fields or fields containers together
+        """Add two fields or fields containers.
                 
         Returns
         -------
@@ -483,7 +486,7 @@ class FieldsContainer(Collection):
         return op
     
     def __sub__(self, fields_b):
-        """Subtract two fields or fields containers together
+        """Subtract two fields or fields containers.
                 
         Returns
         -------
@@ -513,7 +516,7 @@ class FieldsContainer(Collection):
         return op
     
     def __mul__(self, value):
-        """Multiplies two fields or fields containers together
+        """Multiplies two fields or fields containers.
         
         Returns
         -------
