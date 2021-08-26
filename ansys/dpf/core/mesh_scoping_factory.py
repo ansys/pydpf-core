@@ -2,7 +2,7 @@
 mesh_scoping_factory
 ====================
 
-Contains functions to make easy mesh scopings creation.
+Contains functions to make creating mesh scopings easy.
 """
 
 from ansys.dpf import core
@@ -11,16 +11,16 @@ from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
 
 def nodal_scoping(node_ids, server = None):
-    """Helper function to create a specific ``ansys.dpf.core.Scoping``
-    associated to a mesh. 
+    """Create a specific nodal :class:`ansys.dpf.core.Scoping` associated with a mesh. 
 
     Parameters
     ----------
     node_ids : List of int
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.   
+        List of IDs for the nodes.
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.     
         
     Returns
     -------
@@ -32,16 +32,16 @@ def nodal_scoping(node_ids, server = None):
     return scoping
 
 def elemental_scoping(element_ids, server = None):
-    """Helper function to create a specific ``ansys.dpf.core.Scoping``
-    associated to a mesh. 
+    """Create a specific elemental :class:`ansys.dpf.core.Scoping` associated with a mesh. 
 
     Parameters
     ----------
     element_ids : List of int
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.   
+        List of IDs for the elements.
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.  
         
     Returns
     -------
@@ -53,16 +53,16 @@ def elemental_scoping(element_ids, server = None):
     return scoping
 
 def named_selection_scoping(named_selection_name, model, server = None):
-    """Helper function to create a specific ``ansys.dpf.core.Scoping``
-    associated to a specified model's mesh. 
+    """Create a specific :class:`ansys.dpf.core.Scoping` associated with a specified model's mesh. 
 
     Parameters
     ----------
     named_selection_name : str
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.   
+        Name of the named selection. 
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.   
         
     Returns
     -------
