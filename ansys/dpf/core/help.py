@@ -118,7 +118,7 @@ def to_nodal(var_inp):
 
 
 def norm(var_inp):
-    """Retrive the Euclidean norm of a field, field container, or operator.
+    """Retrieve the Euclidean norm of a field, field container, or operator.
 
     Returns
     -------
