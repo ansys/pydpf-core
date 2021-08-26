@@ -4,7 +4,7 @@ Custom Fields Containers
 Contains the inherited classes from the
 :class:`FieldsContainer <ansys.dpf.core.fields_container.FieldsContainer>` class.
 These new classes offer helpers to access data for specific usage, such as 
-results split by body, split by material, and so on.
+results split by body or split by material.
 """
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.grpc.dpf import meshed_region_pb2
@@ -14,7 +14,7 @@ class ElShapeFieldsContainer(FieldsContainer):
     """Represents a fields container with fields split by an element shape.
     
     Instances of this class are created when a model result is split by an 
-    element shape, such as a solid, shell, beam, and so on. 
+    element shape, such as a solid, shell, or beam. 
 
     Parameters
     ----------
@@ -23,7 +23,7 @@ class ElShapeFieldsContainer(FieldsContainer):
         fields container. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The default is 
-        ``None``, in which case an attempt is made to use the the global server.
+        ``None``, in which case an attempt is made to use the global server.
     
     Examples
     --------
@@ -234,7 +234,8 @@ class BodyFieldsContainer(FieldsContainer):
         fields container. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The default is 
-        ``None``, in which case an attempt is made to use the the global server.
+        ``None``, in which case an attempt is made to use the 
+        global server.
     
     Examples
     --------
