@@ -265,8 +265,8 @@ class Elements():
 
         Returns
         -------
-        Element
-            Element object.
+        :class:`ansys.dpf.core.elements.ElementAdder`
+            Yield element.
 
         Examples
         --------
