@@ -14,12 +14,12 @@ from ansys.dpf.core import errors as dpf_errors
 class FieldsContainer(Collection):
     """Represents a fields container, which contains fields belonging to a common result.
     
-    The fields container is a set of fields ordered by labels and IDs. Each field 
+    A fields container is a set of fields ordered by labels and IDs. Each field 
     of the fields container has an ID for each label defining the given fields 
-    container, which allows splitting the fields on any criteria.
+    container. THese IDs allow splitting the fields on any criteria.
     
     The most common fields container has the label ``"time"`` with IDs 
-    corresponding to each time set. The label ``"complex"``, which is 
+    corresponding to time sets. The label ``"complex"``, which is 
     used in a harmonic analysis for example, allows real parts (id=0) 
     to be separated from imaginary parts (id=1). 
 
