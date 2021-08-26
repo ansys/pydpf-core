@@ -23,7 +23,7 @@ class ElShapeFieldsContainer(FieldsContainer):
         fields container. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The default is 
-        ``None``, in which case an attempt is made to use the the global server.
+        ``None``, in which case an attempt is made to use the global server.
     
     Examples
     --------
@@ -234,7 +234,8 @@ class BodyFieldsContainer(FieldsContainer):
         fields container. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The default is 
-        ``None``, in which case an attempt is made to use the the global server.
+        ``None``, in which case an attempt is made to use the 
+        global server.
     
     Examples
     --------
