@@ -14,7 +14,7 @@ class Dimensionality:
     Parameters
     ----------
     dim_vec : list
-        List of integers for the dimnesion vectors. There is a 1D vector for a 
+        List of integers for the dimension vectors. There is a 1D vector for a 
         scalar or #D vector. There is a 2D vector for a matrix. For example:
         
         * ``[1]``: scalar
