@@ -248,7 +248,7 @@ class FieldsContainer(Collection):
         return super()._get_entry(label_space)
     
     def get_imaginary_fields(self, timeid=None):
-        """Retrieve the complex fields at a requested time
+        """Retrieve the complex fields at a requested time.
 
         Parameters
         ----------
@@ -303,16 +303,15 @@ class FieldsContainer(Collection):
         return super().__getitem__(key)
 
     def add_field(self, label_space, field):
-        """Update or add the field at a requested label space.
+        """Add or update a field at a requested label space.
 
         Parameters
         ----------
         label_space : dict[str,int]
             Label space of the requested field. For example, 
             {"time":1, "complex":0}.
-
         field : Field
-            DPF field to add.
+            DPF field to add or update.
             
         Examples
         --------
@@ -358,7 +357,6 @@ class FieldsContainer(Collection):
         ----------        
         field : Field
             DPF field to add or update.
-           
         timeid: int, optional
             Time ID for the requested time set. The default is ``1``.
         """
@@ -382,7 +380,7 @@ class FieldsContainer(Collection):
         Parameters
         ----------
         index : int
-            Component index.
+            Idex of the component.
 
         Returns
         -------
@@ -469,7 +467,7 @@ class FieldsContainer(Collection):
         return self.get_label_scoping("time")
     
     def __add__(self, fields_b):
-        """Add two fields or fields containers.
+        """Add two fields or two fields containers.
                 
         Returns
         -------
@@ -486,7 +484,7 @@ class FieldsContainer(Collection):
         return op
     
     def __sub__(self, fields_b):
-        """Subtract two fields or fields containers.
+        """Subtract two fields or two fields containers.
                 
         Returns
         -------
@@ -516,7 +514,7 @@ class FieldsContainer(Collection):
         return op
     
     def __mul__(self, value):
-        """Multiplies two fields or fields containers.
+        """Multiplies two fields or two fields containers.
         
         Returns
         -------
@@ -531,5 +529,4 @@ class FieldsContainer(Collection):
         op.connect(0,self)        
         op.connect(1, value)
         return op
-    
     
