@@ -1,6 +1,6 @@
 """
-Field Definition
-=================
+FieldDefinition
+================
 """
 
 from ansys import dpf
