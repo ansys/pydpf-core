@@ -1,6 +1,6 @@
 """
-FieldDefinition
-===============
+Field Definition
+=================
 """
 
 from ansys import dpf
@@ -11,8 +11,16 @@ from ansys.dpf.core.dimensionality import Dimensionality
 
 
 class FieldDefinition:
-    """Contains the physical and mathematical description of the Field:
-    unit, homogeneity, dimensionnnality...                        
+    """Contains the physical and mathematical description of the field.
+    
+    Parameters
+    ----------
+    field_definition : optional
+        The default is ``None``.
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use 
+        the global server.
     """
 
     def __init__(self, field_definition=None, server=None):          
@@ -29,35 +37,37 @@ class FieldDefinition:
             
     @property
     def location(self):
-        """Location
+        """Field location.
         
         Returns
         -------
-        location : str
-            where the data is located (Nodal, Elemental, TimeFreq_sets...)
+        str
+            Location string, such as ``"Nodal"``, ``"Elemental"``, 
+            or ``TimeFreq_sets``. 
         """
         out = self._stub.List(self._messageDefinition)
         return out.location.location
 
     @property
     def unit(self):
-        """Returns the unit of the field
+        """Units for the field.
 
         Returns
         -------
-        unit : str
+        str
+            Units for the field.
         """
         return self._stub.List(self._messageDefinition).unit.symbol
     
 
     @property
     def shell_layers(self):        
-        """Shell_layers
+        """Order of the shell layers.
         
         Returns
         -------
         shell_layers : shell_layers
-            returns LayerIndependent for fields unrelated to layers
+            ``LayerIndependent`` is returned for fields unrelated to layers.
         """
         enum_val = self._stub.List(self._messageDefinition).shell_layers
         return shell_layers(enum_val.real-1) #+1 is added to the proto enum to have notset as 0
@@ -69,7 +79,7 @@ class FieldDefinition:
         Returns
         -------
         dimensionality : Dimensionality
-            nature and size of the elementary data
+            Nature and size of the elementary data.
         """
         val = self._stub.List(self._messageDefinition).dimensionnality # typo exists on server side
         return Dimensionality(val.size, natures(val.nature.real))
@@ -120,5 +130,5 @@ class FieldDefinition:
             pass
 
     def _connect(self, channel):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return field_definition_pb2_grpc.FieldDefinitionServiceStub(channel)
