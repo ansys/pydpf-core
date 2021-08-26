@@ -601,6 +601,114 @@ def test_dot_operator_server_fields_container():
     add = fc * -1.0
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, -field.data)
+    
+def test_add_operator_server_fields_container():
+    field = dpf.fields_factory.create_3d_vector_field(2,server=local_server)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field],server=local_server)
+    
+    #operator with field out
+    forward = ops.utility.forward_field(field,server=local_server)    
+    add = fc+forward
+    assert isinstance(add, ops.math.add_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array(field.data)*2.0)
+        
+    
+    #fc + list
+    add = fc+ [0.,1.,2.]
+    assert isinstance(add, ops.math.add_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,field.data + np.array([[0.,1.,2.],[0.,1.,2.]]))
+    
+    
+    #fc + float    
+    add = fc+ 1.0
+    assert isinstance(add, ops.math.add_fc)
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[1., 2., 3.],[4., 5., 6.]]))
+    
+
+def test_minus_operator_server_fields_container():
+    field = dpf.fields_factory.create_3d_vector_field(2,server=local_server)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field], server=local_server)
+    
+    #operator with field out
+    forward = ops.utility.forward_field(field, server=local_server)   
+    add = fc-forward
+    assert isinstance(add, ops.math.minus_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.zeros((2,3)))
+    
+    #fc - list
+    add = fc- [0.,1.,2.]
+    assert isinstance(add, ops.math.minus_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[0.,0.,0.],[3.,3.,3.]]))
+    
+    
+    #fc - float    
+    add = fc- 1.0
+    assert isinstance(add, ops.math.minus_fc)
+    out = add.outputs.fields_container()
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data, np.array([[-1., 0., 1.],[2., 3., 4.]]))
+    
+    
+def test_dot_operator_server_fields_container():
+    field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
+    field.data = [0.,1.,2.,3.,4.,5.]
+    field.scoping.ids = [1,2]
+    
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field], server=local_server)
+    
+    # fc * op
+    forward = ops.utility.forward_field(field, server=local_server)    
+    add = fc*forward
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    #fc * field
+    add = fc* field
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,50.]))
+    
+    
+    #fc * list
+    add = fc* [0.,1.,2.]
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
+    out = add.outputs.fields_container()
+    assert len(out)==2
+    assert out[0].scoping.ids == [1,2]
+    assert np.allclose(out[0].data,np.array([5.,14.]))
+    
+    
+    #fc * float    
+    add = fc* -1.0
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
+    out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1, 2]
     assert np.allclose(out[0].data, -field.data)
 
