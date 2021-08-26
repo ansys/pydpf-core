@@ -28,8 +28,7 @@ class FieldsContainer(Collection):
     fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing 
         fields container. The default is "None``.
-
-    server : server.DPFServer, optional
+    server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
         The default is ``None``, in which case an attempt is made to use the 
         global server.
@@ -424,7 +423,7 @@ class FieldsContainer(Collection):
         
         Parameters
         ----------
-        server : server.DPFServer, optional
+        server : ansys.dpf.core.server, optional
             Server with the channel connected to the remote or local instance. 
             The default is ``None``, in which case an attempt is made to use the 
             global server.
