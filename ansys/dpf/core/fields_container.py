@@ -3,7 +3,7 @@
     
 FieldsContainer
 ===============
-Contains classes associated to the DPF FieldsContainer
+Contains classes associated with the DPF FieldsContainer.
 """
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
@@ -12,25 +12,27 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 class FieldsContainer(Collection):
-    """A class used to represent a FieldsContainer which contains
-    fields belonging to a common results.
-    The fields container is designed as a set of fields ordered by labels 
-    and ids. Each field of the Fields Container has an id for each label 
-    defining the given Fields Container. This allows to split the fields 
-    on any criteria.
-    The most common fields container have the label "time" with ids 
-    corresponding to each time sets, the label "complex" will allow 
-    to separate real parts (id=0) from imaginary parts (id=1) 
-    in a harmonic analysis for example. 
+    """Represents a fields container, which contains fields belonging to a common result.
+    
+    The fields container is designed as a set of fields ordered by labels and IDs. 
+    Each field of the fields container has an ID for each label defining the given 
+    fields container, which allows splitting the fields on any criteria.
+    
+    The most common fields container has the label ``"time"`` with IDs 
+    corresponding to each time set. The label ``"complex"``, which is 
+    used in a harmonic analysis for example, allows real parts (id=0) 
+    to be separated from imaginary parts (id=1). 
 
     Parameters
     ----------
     fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
-        Create a fields container from a Collection message or create a copy from an existing fields container
+        Fields container created from either a collection message or by copying an existing 
+        fields container. The default is "None``.
 
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.
     
     Examples
     --------
