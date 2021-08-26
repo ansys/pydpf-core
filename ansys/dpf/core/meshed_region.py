@@ -14,29 +14,28 @@ from ansys.dpf.core.check_version import server_meet_version
 
 
 class MeshedRegion:
-    """A class used to represent a Mesh from DPF.
+    """Represents a mesh from DPF.
 
     Parameters
     ----------
-    num_nodes : int
-        number of nodes to reserve for mesh creation
-    
-    num_elements : int
-        number of elements to reserve for mesh creation
-        
+    num_nodes : int, optional
+        Number of nodes to reserve for mesh creation. The default is ``None``.
+    num_elements : int, optional
+        Number of elements to reserve for mesh creation. The default is ``None``.      
     mesh : ansys.grpc.dpf.meshed_region_pb2.MeshedRegion
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        The default is ``None``.
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.  
 
     Attributes
     ----------
     nodes : Nodes
-        Entity containing all the nodal properties
+        Entity containing all nodal properties.
 
     elements : Elements
-        Entity containing all the elemental properties
+        Entity containing all elemental properties.
 
     Examples
     --------
@@ -47,7 +46,7 @@ class MeshedRegion:
     >>> model = dpf.Model(examples.static_rst)
     >>> meshed_region = model.metadata.meshed_region
     
-    Create a meshed region from scratch (line with 3 beam elements)
+    Create a meshed region from scratch (line with 3 beam elements).
     
     >>> import ansys.dpf.core as dpf
     >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=3)
@@ -108,13 +107,12 @@ class MeshedRegion:
 
     @property
     def elements(self):
-        """Gives access to all the elemental properties of the mesh:
-            connectivity, element types...
+        """All elemental properties of the mesh, such as connectivity and element types.
 
         Returns
         -------
         elements : Elements
-            Elements belonging to this meshed region.
+            Elements belonging to the meshed region.
 
         Examples
         --------
@@ -133,13 +131,12 @@ class MeshedRegion:
 
     @property
     def nodes(self):
-        """Gives access to all the nodal properties of the mesh:
-            nodes coordinates, nodal connectivity...
+        """All nodal properties of the mesh, such as node coordinates and nodal connectivity.
             
         Returns
         -------
         nodes : Nodes
-            Nodes belonging to this meshed region
+            Nodes belonging to the meshed region
 
         Examples
         --------
@@ -158,8 +155,9 @@ class MeshedRegion:
     
     @property
     def unit(self):
-        """Unit of the meshed region (same as the unit 
-        of the coordinates of the meshed region)
+        """Unit of the meshed region.
+        
+        This unit is the same as the unit of the coordinates of the meshed region.
         
         Returns
         -------
@@ -169,7 +167,7 @@ class MeshedRegion:
     
     @unit.setter
     def unit(self, value):
-        """Unit type
+        """Unit type.
         
         Parameters
         ----------
@@ -178,7 +176,7 @@ class MeshedRegion:
         return self._set_unit(value)
 
     def _get_unit(self):
-        """Returns the unit type
+        """Retrieve the unit type.
 
         Returns
         -------
@@ -187,7 +185,7 @@ class MeshedRegion:
         return self._stub.List(self._message).unit
     
     def _set_unit(self, unit):
-        """Set the unit of the meshed_region.
+        """Set the unit of the meshed region.
         
         Parameters
         ----------
@@ -205,11 +203,11 @@ class MeshedRegion:
             pass
 
     def _connect(self):
-        """Connect to the grpc service containing the reader"""
+        """Connect to the gRPC service containing the reader."""
         return meshed_region_pb2_grpc.MeshedRegionServiceStub(self._server.channel)
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
@@ -220,7 +218,7 @@ class MeshedRegion:
     
     @property
     def available_named_selections(self):
-        """Returns a list of available named selections
+        """List of available named selections.
         
         Returns
         -------
@@ -229,13 +227,12 @@ class MeshedRegion:
         return self._stub.List(self._message).named_selections
     
     def named_selection(self, named_selection):
-        """Returns a scoping containing the list of nodes or elements
-        in the named selection
+        """Scoping containing the list of nodes or elements in the named selection.
         
         Parameters
         ----------
         named_selection : str 
-            name of the named selection
+            Name of the named selection.
             
         Returns
         -------
@@ -283,7 +280,7 @@ class MeshedRegion:
 
     # @property
     # def skin(self):
-    #     """Surface of the meshed region"""
+    #     """Surface of the meshed region."""
     #     mesh = self._model.operator("mapdl::rst::MeshProvider")
     #     mesh.connect(4, self._model.data_sources)
 
@@ -301,7 +298,7 @@ class MeshedRegion:
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
     
     def _as_vtk(self, as_linear=True, include_ids=False):
-        """Convert DPF mesh to a pyvista unstructured grid"""
+        """Convert DPF mesh to a PyVista unstructured grid."""
         nodes = self.nodes.coordinates_field.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
@@ -321,7 +318,7 @@ class MeshedRegion:
 
     @property
     def grid(self):
-        """VTK pyvista UnstructuredGrid
+        """Unstructured grid in VTK fromat from PyVista.
 
         Returns
         -------
@@ -336,7 +333,7 @@ class MeshedRegion:
         >>> meshed_region = model.metadata.meshed_region
         >>> grid = meshed_region.grid
 
-        Plot this grid directly
+        Plot this grid directly.
 
         >>> grid.plot()
         [(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),
@@ -354,33 +351,29 @@ class MeshedRegion:
 
     def plot(self, field_or_fields_container=None, notebook=None,
              shell_layers=None, off_screen=None, show_axes=True, **kwargs):
-        """Plot the field/fields container on mesh.
+        """Plot the field or fields container on the mesh.
 
         Parameters
         ----------
-        field_or_fields_container
-            dpf.core.Field or dpf.core.FieldsContainer
-
+        field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
+            Field or fields container to plot. The default is ``None``.
         notebook : bool, optional
-            That specifies if the plotting is in the notebook (2D) or not (3D).
-
+            Whether the plotting in the notebook is 2D or 3D. The default is 
+            ``None``, in which case the plotting is 2D.
         shell_layers : core.shell_layers, optional
-            Enum used to set the shell layers if the model to plot
-            contains shell elements.
-
+            Enum used to set the shell layers if the model to plot contains shell elements.
         off_screen : bool, optional
-            Renders off screen when ``True``.  Useful for automated screenshots.
-
+            Whether to render the plot off screen, which is useful for automated screenshots. 
+            The default is "None", in which case the plot renders off screen.
         show_axes : bool, optional
-            Shows a vtk axes widget.  Enabled by default.
-
+            Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
-            Additional keyword arguments for the plotter.  See
-            ``help(pyvista.plot)`` for additional keyword arguments.
+            Additional keyword arguments for the plotter. For additional keyword 
+            arguments, see ``help(pyvista.plot)``.
 
         Examples
         --------
-        Plot the displacement field from an example file
+        Plot the displacement field from an example file.
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
@@ -403,18 +396,21 @@ class MeshedRegion:
         return pl.plot_mesh(**kwargs)
     
     def deep_copy(self,server=None):
-        """Creates a deep copy of the meshed region's data on a given server.
-        This can be useful to pass data from one server instance to another.
-        Warning
-        Only nodes scoping and coordinates and elements scoping, connectivity and types 
-        are copied. The eventual property field for elemental properties and named selection
-        will not be copied.
+        """Create a deep copy of the meshed region's data on a given server.
+        
+        This method is useful for passing data from one server instance to another.
+        
+        .. warning::
+           Only nodes scoping and coordinates and elements scoping, connectivity, 
+           and types are copied. The eventual property field for elemental properties 
+           and named selection will not be copied.
         
         Parameters
         ----------     
-        server : DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+        server : ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance. 
+            The default is ``None``, in which case an attempt is made to use the 
+            global server.  
 
         Returns
         -------
