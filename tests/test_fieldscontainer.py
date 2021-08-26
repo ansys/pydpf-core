@@ -386,7 +386,7 @@ def test_add_operator_fields_container():
     #operator with field out
     forward = ops.utility.forward_field(field)    
     add = fc+forward
-    assert type(add)==ops.math.add_fc
+    assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -395,7 +395,7 @@ def test_add_operator_fields_container():
     
     #fc + list
     add = fc+ [0.,1.,2.]
-    assert type(add)==ops.math.add_fc
+    assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -404,7 +404,7 @@ def test_add_operator_fields_container():
     
     #fc + float    
     add = fc+ 1.0
-    assert type(add)==ops.math.add_fc
+    assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, np.array([[1., 2., 3.],[4., 5., 6.]]))
@@ -420,7 +420,7 @@ def test_minus_operator_fields_container():
     #operator with field out
     forward = ops.utility.forward_field(field)   
     add = fc-forward
-    assert type(add)==ops.math.minus_fc
+    assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -428,7 +428,7 @@ def test_minus_operator_fields_container():
     
     #fc - list
     add = fc- [0.,1.,2.]
-    assert type(add)==ops.math.minus_fc
+    assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -437,7 +437,7 @@ def test_minus_operator_fields_container():
     
     #fc - float    
     add = fc- 1.0
-    assert type(add)==ops.math.minus_fc
+    assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, np.array([[-1., 0., 1.],[2., 3., 4.]]))
@@ -453,7 +453,7 @@ def test_dot_operator_fields_container():
     # fc * op
     forward = ops.utility.forward_field(field)    
     add = fc*forward
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -461,7 +461,7 @@ def test_dot_operator_fields_container():
     
     #fc * field
     add = fc* field
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -470,7 +470,7 @@ def test_dot_operator_fields_container():
     
     #fc * list
     add = fc* [0.,1.,2.]
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -479,7 +479,7 @@ def test_dot_operator_fields_container():
     
     #fc * float    
     add = fc* -1.0
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, -field.data)
@@ -494,7 +494,7 @@ def test_add_operator_server_fields_container():
     #operator with field out
     forward = ops.utility.forward_field(field,server=local_server)    
     add = fc+forward
-    assert type(add)==ops.math.add_fc
+    assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -503,7 +503,7 @@ def test_add_operator_server_fields_container():
     
     #fc + list
     add = fc+ [0.,1.,2.]
-    assert type(add)==ops.math.add_fc
+    assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -512,7 +512,7 @@ def test_add_operator_server_fields_container():
     
     #fc + float    
     add = fc+ 1.0
-    assert type(add)==ops.math.add_fc
+    assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, np.array([[1., 2., 3.],[4., 5., 6.]]))
@@ -523,12 +523,12 @@ def test_minus_operator_server_fields_container():
     field.data = [0.,1.,2.,3.,4.,5.]
     field.scoping.ids = [1,2]
     
-    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field],server=local_server)
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field], server=local_server)
     
     #operator with field out
-    forward = ops.utility.forward_field(field,server=local_server)   
+    forward = ops.utility.forward_field(field, server=local_server)   
     add = fc-forward
-    assert type(add)==ops.math.minus_fc
+    assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -536,7 +536,7 @@ def test_minus_operator_server_fields_container():
     
     #fc - list
     add = fc- [0.,1.,2.]
-    assert type(add)==ops.math.minus_fc
+    assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -545,23 +545,23 @@ def test_minus_operator_server_fields_container():
     
     #fc - float    
     add = fc- 1.0
-    assert type(add)==ops.math.minus_fc
+    assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, np.array([[-1., 0., 1.],[2., 3., 4.]]))
     
     
 def test_dot_operator_server_fields_container():
-    field = dpf.fields_factory.create_3d_vector_field(2,server=local_server)
+    field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.,1.,2.,3.,4.,5.]
     field.scoping.ids = [1,2]
     
-    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field],server=local_server)
+    fc = dpf.fields_container_factory.over_time_freq_fields_container([field,field], server=local_server)
     
     # fc * op
-    forward = ops.utility.forward_field(field,server=local_server)    
+    forward = ops.utility.forward_field(field, server=local_server)    
     add = fc*forward
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -569,7 +569,7 @@ def test_dot_operator_server_fields_container():
     
     #fc * field
     add = fc* field
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -578,7 +578,7 @@ def test_dot_operator_server_fields_container():
     
     #fc * list
     add = fc* [0.,1.,2.]
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out)==2
     assert out[0].scoping.ids == [1,2]
@@ -587,7 +587,7 @@ def test_dot_operator_server_fields_container():
     
     #fc * float    
     add = fc* -1.0
-    assert type(add)==ops.math.generalized_inner_product_fc
+    assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data, -field.data)

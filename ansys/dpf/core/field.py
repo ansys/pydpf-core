@@ -483,7 +483,7 @@ class Field(_FieldBase):
         if hasattr(operators, "math") and  hasattr(operators.math, "add") :
             op= operators.math.add(server=self._server)
         else :
-            op= dpf_operator.Operator("add",server=self._server)
+            op= dpf_operator.Operator("add", server=self._server)
         op.connect(0,self)        
         op.connect(1, field_b)
         return op
@@ -494,9 +494,9 @@ class Field(_FieldBase):
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
         if hasattr(operators, "math") and  hasattr(operators.math, "sqr") :
-            op= operators.math.sqr(self,server=self._server)
+            op= operators.math.sqr(self, server=self._server)
         else :
-            op= dpf_operator.Operator("sqr",server=self._server)
+            op= dpf_operator.Operator("sqr", server=self._server)
             op.connect(0,self)        
         return op
     
@@ -513,7 +513,7 @@ class Field(_FieldBase):
         if hasattr(operators, "math") and  hasattr(operators.math, "generalized_inner_product") :
             op= operators.math.generalized_inner_product(server=self._server)
         else :
-            op= dpf_operator.Operator("generalized_inner_product",server=self._server)
+            op= dpf_operator.Operator("generalized_inner_product", server=self._server)
         op.connect(0,self)        
         op.connect(1, value)
         return op
@@ -531,14 +531,14 @@ class Field(_FieldBase):
         if hasattr(operators, "math") and  hasattr(operators.math, "minus") :
             op= operators.math.minus(server=self._server)
         else :
-            op= dpf_operator.Operator("minus",server=self._server)
+            op= dpf_operator.Operator("minus", server=self._server)
         op.connect(0,self)        
         op.connect(1, fields_b)
         return op
     
     def _min_max(self):
         from ansys.dpf.core import dpf_operator
-        op = dpf_operator.Operator("min_max",server=self._server)
+        op = dpf_operator.Operator("min_max", server=self._server)
         op.connect(0, self)
         return op
 
@@ -562,7 +562,7 @@ class Field(_FieldBase):
         """
         return self._min_max().get_output(1, types.field)
     
-    def deep_copy(self,server=None):
+    def deep_copy(self, server=None):
         """Create a deep copy of the field's data on a given server.
         
         This method can be useful for passing data from one server instance to another.
