@@ -33,9 +33,9 @@ class Operator:
     Parameters
     ----------
     name : str
-        Name of the operator. For example. ``"U"``. You can use the 
+        Name of the operator. For example, ``"U"``. You can use the 
         ``"html_doc"`` operator to retrieve a list of existing operators.
-    config : optional
+    config : ansys.dpf.core.Config, optional
         The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The 
