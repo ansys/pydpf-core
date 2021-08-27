@@ -1,7 +1,7 @@
 """Wrappers for DPF operators.
 
 These operators are available as functions from ``dpf.operators`` and
-simplify the creation of new chained operators.
+simplify the creation of chained operators.
 """
 from ansys import dpf
 from ansys.dpf.core.common import types as dpf_types
@@ -17,13 +17,14 @@ def _check_type(instance, allowable_type):
 
 # TODO: deprecate this file
 def sum(var_inp):
-    """Sum all the elementary data of a field to get one elementary
-    data at the end.  If an Operator, must only contain one field.
+    """Sum all elementary data of a field to get one elementary data.
+    
+    If an operator, it must contain only one field.
 
     Parameters
     ----------
     var_inp : ansys.dpf.core.FieldsContainer, ansys.dpf.core.Field, or ansys.dpf.core.Operator
-        Field/or fields container containing only one field.
+        Field or fields container containing only one field.
 
     Returns
     -------
@@ -32,7 +33,7 @@ def sum(var_inp):
     """
     # Examples
     # --------
-    # Sum element volume using a model
+    # Sum element volume using a model.
 
     # >>> from ansys.dpf import core as dpf
     # >>> from ansys.dpf.core import examples
@@ -40,7 +41,7 @@ def sum(var_inp):
     # >>> e_vol = model.results.volume()
     # >>> total_volume = e_vol.sum()
 
-    # Sum element volume using dpf.core.sum
+    # Sum element volume using dpf.core.sum.
 
     # >>> from ansys.dpf.core import examples
     # >>> model = dpf.Model(examples.static_rst)
@@ -50,7 +51,7 @@ def sum(var_inp):
     typ_err = TypeError('Input must be a Field or FieldsContainer containing '
                         'only one field, or an operator that returns one Field')
 
-    # create an accumulate operator
+    # Create an accumulate operator.
     sum_op = dpf.core.Operator('accumulate')
 
     if isinstance(var_inp, dpf.core.Field):
@@ -68,8 +69,9 @@ def sum(var_inp):
 
 
 def _sum_oper(oper):
-    """Sum all the elementary data of this operator.  Operator
-    must contain only one field.
+    """Sum all elementary data of the operator.
+    
+    An operator must contain only one field.
 
     Returns
     -------
@@ -96,13 +98,12 @@ def _sum_oper(oper):
 
 
 def to_nodal(var_inp):
-    """Transform elemental field into a nodal field using an
-    averaging process.
+    """Transform the elemental field into a nodal field using an averaging process.
 
     Returns
     -------
     field : Field
-        Field containing the nodal averaged field
+        Field containing the nodal averaged field.
     """
     # try to use the same server as input
     _check_type(var_inp, dpf.core.Field)
@@ -117,12 +118,12 @@ def to_nodal(var_inp):
 
 
 def norm(var_inp):
-    """Returns the euclidean norm of a Field, FieldContainer, or operator
+    """Retrieve the Euclidean norm of a field, field container, or operator.
 
     Returns
     -------
     field : Field, ansys.dpf.core.FieldContainer, or ansys.dpf.core.Operator
-        The euclidean norm of this field.  Output type will match input type.
+        Euclidean norm of this field. The output type will match the input type.
     """
     if isinstance(var_inp, dpf.core.Field):
         return _norm(var_inp)
@@ -135,12 +136,12 @@ def norm(var_inp):
 
 
 def _norm(field):
-    """Returns the euclidean norm of a field
+    """Retrieve the Euclidean norm of a field.
 
     Returns
     -------
     field : ansys.dpf.core.Field
-        The euclidean norm of this field.
+        Euclidean norm of this field.
     """
     _check_type(field, dpf.core.Field)
     norm_op = dpf.core.Operator('norm')
@@ -150,7 +151,7 @@ def _norm(field):
 
 
 def _norm_fc(fields):
-    """Return the euclidean norm for the elementary data fields
+    """Retrieve the Euclidean norm for the elementary data fields.
 
     Returns
     -------
@@ -165,11 +166,11 @@ def _norm_fc(fields):
 
 
 def _norm_op(oper):
-    """Returns a chained norm operator
+    """Retrieve a chained norm operator.
     Returns
     -------
     oper : ansys.dpf.core.Operator
-        Chained euclidean norm operator.
+        Chained Euclidean norm operator.
     """
     _check_type(oper, dpf.core.Operator)
 
@@ -180,12 +181,12 @@ def _norm_op(oper):
 
 
 def eqv(var_inp):
-    """Returns the von-mises stress of a Field or FieldContainer
+    """Retrieve the Von Mises stress of a field or field container.
 
     Returns
     -------
     field : ansys.dpf.core.Field, ansys.dpf.core.FieldContainer
-        The von-mises stress of this field.  Output type will match input type.
+        The von Mises stress of this field. The output type will match the input type.
     """
     if isinstance(var_inp, dpf.core.Field):
         return _eqv(var_inp)
@@ -199,17 +200,17 @@ def eqv(var_inp):
 
 # TODO: Consider combining eqv and eqv_fc
 def _eqv(field):
-    """Returns the von-mises stress field
+    """Retrieve the von Mises stress field.
 
     Parameters
     ----------
     field : ansys.dpf.core.Field
-        Field containing component stresses.
+        Field containing the component stresses.
 
     Returns
     -------
     field : ansys.dpf.core.Field
-        Field containing the von-mises stress field
+        Field containing the von Mises stress.
     """
     _check_type(field, dpf.core.Field)
     oper = dpf.core.operator('eqv')
@@ -219,13 +220,12 @@ def _eqv(field):
 
 
 def _eqv_fc(fields):
-    """Computes the element-wise Von-Mises criteria for each
-    tensor in the fields of the field container.
+    """Compute the element-wise von Mises criteria for each tensor in the fields of the field container.
 
     Returns
     -------
     fields : ansys.dpf.core.FieldsContainer
-        Element-wise Von-Mises criteria field container.
+        Element-wise von Mises criteria for this field container.
     """
     _check_type(fields, dpf.core.FieldsContainer)
     oper = fields._model.operator('eqv_fc')
@@ -235,8 +235,7 @@ def _eqv_fc(fields):
 
 
 def min_max(var_inp):
-    """Returns a min_max operator for a Field, FieldsContainer, or
-    Operator input.
+    """Retrieve the minimum/maximum operator for a field, fields container, or operator input.
 
     Returns
     -------
@@ -254,7 +253,7 @@ def min_max(var_inp):
 
 
 def _min_max(field):
-    """The min_max operator for a Field
+    """Retrieve the minimum/maximum operator for the field.
 
     Returns
     -------
@@ -268,7 +267,7 @@ def _min_max(field):
 
 
 def _min_max_fc(fields):
-    """The min_max operator for a FieldContainer
+    """Retrieve the minimum/maximum operator for the field container.
 
     Returns
     -------
@@ -282,7 +281,7 @@ def _min_max_fc(fields):
 
 
 def _min_max_oper(oper):
-    """Returns a chained min_max operator
+    """Retrieve a chained minimum/maximum operator.
 
     Returns
     -------
@@ -296,15 +295,14 @@ def _min_max_oper(oper):
 
 
 def add(a, b):
-    """Adds two fields together.
+    """Add two fields.
 
     Parameters
     ----------
     a : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
-
+        Field or fields container with only one field.
     b : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
+        Field or fields container with only one field.
 
     Returns
     -------
@@ -321,15 +319,15 @@ def add(a, b):
 
 
 def element_dot(a, b):
-    """Compute element-wise dot product between two vector fields.
+    """Compute the element-wise dot product between two vector fields.
 
     Parameters
     ----------
     a : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
+        Field or fields container with only one field.
 
     b : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
+        Field or fields container with only one field.
 
     Returns
     -------
@@ -338,7 +336,7 @@ def element_dot(a, b):
 
     Examples
     --------
-    Compute the element-wise dot product
+    Compute the element-wise dot product.
 
     >>> from ansys.dpf import core as dpf
     >>> import numpy as np
@@ -367,21 +365,21 @@ def element_dot(a, b):
 
 
 def sqr(field):
-    """Computes element-wise square of a field.
+    """Compute the element-wise square of a field.
 
     Parameters
     ----------
     field : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
+        Field or fields container with only one field.
 
     Returns
     -------
     field_sqr : ansys.dpf.core.Field
-        Element-wise square of a field
+        Element-wise square of the field.
 
     Examples
     --------
-    Using built-in operator
+    Use the built-in operator.
 
     >>> from ansys.dpf import core as dpf
     >>> field = dpf.field_from_array([1, 8])
@@ -389,7 +387,7 @@ def sqr(field):
     >>> field_sqr.outputs.field().data
     array([ 1., 64.])
 
-    Using operator method
+    Use the operator method.
 
     >>> from ansys.dpf import core as dpf
     >>> field = dpf.field_from_array([1, 8])
@@ -406,15 +404,14 @@ def sqr(field):
 
 
 def dot_tensor(a, b):
-    """Computes element-wise dot product between two tensor fields.
+    """Compute the element-wise dot product between two tensor fields.
 
     Parameters
     ----------
     a : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
-
+        Field or fields container with only one field.
     b : ansys.dpf.core.Field or ansys.dpf.core.FieldContainer
-        Field/or fields container containing only one field.
+        Field or fields container with only one field.
 
     Returns
     -------
@@ -447,6 +444,3 @@ def dot_tensor(a, b):
     op.connect(0, a)
     op.connect(1, b)
     return op.get_output(0, dpf.core.types.field)
-
-
-

@@ -4,6 +4,19 @@ from ansys.dpf.core.outputs import _Outputs, Output
 from ansys.dpf import core
 
 class Input:
+    """
+    Parameters
+    ----------
+    spec :
+    
+    pin :
+    
+    operator :
+    
+    count_ellipsis : optional
+        The default is ``-1``.
+    """
+
     def __init__(self, spec, pin, operator, count_ellipsis=-1):
         self._spec = spec
         self._operator=operator
@@ -23,14 +36,13 @@ class Input:
         self._update_doc_str(docstr,self.name)
 
     def connect(self, inpt):
-        """Allows you to connect any input (an entity or an operator
-        output) to a specified input pin of this operator.
+        """Connect any input (an entity or an operator output) to a specified input pin of this operator.
 
         Parameters
         ----------
         inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
         MeshedRegion, Output, Outputs, Operator
-            input of the operator
+            Input of the operator.
         """
         # always convert ranges to lists
         if isinstance(inpt, range):
@@ -79,8 +91,13 @@ class Input:
         self.connect(inpt)
 
     def _update_doc_str(self, docstr, class_name):
-        """Dynamically updates the docstring of this instance by
-        creating a new class on the fly.
+        """Dynamically update the docstring of this instance by creating a class on the fly.
+        
+        Parameters
+        ----------
+        docstr :
+        
+        class_name :
         """
         child_class = type(class_name, (self.__class__,), {'__doc__': docstr})
         self.__class__ = child_class
@@ -127,15 +144,14 @@ class _Inputs:
         return docstr
 
     def connect(self, inpt):
-        """Allows you to connect any input (an entity or an operator
-        output) to any input pin of this operator.
+        """Connect any input (an entity or an operator output) to any input pin of this operator.
 
-        The matching input type corresponding to the output is looked for.
+        Searches for the input type corresponding to the output.
 
         Parameters
         ----------
         inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, ScopingsContainer, CyclicSupport, ..., Output, Outputs, Operator
-            input of the operator
+            Input of the operator.
         """
         corresponding_pins = []
         if isinstance(inpt, core.Operator):
@@ -199,5 +215,4 @@ class Inputs(_Inputs):
                 self._add_input(pin, spec, 0)
             else:
                 self._add_input(pin, spec)
-
-    
+  

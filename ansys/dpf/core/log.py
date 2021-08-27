@@ -2,7 +2,13 @@ import logging
 
 
 def setup_logger(loglevel='INFO'):
-    """ Setup logger """
+    """Set up the logger.
+    
+    Parameters
+    ----------
+    loglevel : str, optional
+        The level of the logger to set up. The default is ``"INFO"``.
+    """
 
     # return existing log if this function has already been called
     if hasattr(setup_logger, 'log'):

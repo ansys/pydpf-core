@@ -1,9 +1,12 @@
 import socket 
 
 def get_local_ip():
-    """
-    heuristic for determining an ip address to connect to the grpc service
-    :return: ip address in string form
+    """Retrieve the local IP address to connect to the gRPC service.
+    
+    Returns
+    -------
+    str
+        Local IP address to connect with the gRPC service.
     """
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         try:

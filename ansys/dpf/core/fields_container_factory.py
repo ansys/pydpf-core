@@ -2,7 +2,7 @@
 fields_container_factory
 ========================
 
-Contains functions to make easy fields container creation.
+Contains functions to simplify creating a fields container.
 """
 
 from ansys.dpf import core
@@ -13,31 +13,32 @@ from ansys.grpc.dpf import base_pb2
 from ansys.dpf.core import errors as dpf_errors
 
 def over_time_freq_fields_container(fields, time_freq_unit = None, server = None):
-    """Helper function to create a specific ``FieldsContainer``.
-    The returned fields_container will contain one field by time set and, if needed, set
-    the time freq support with the correct unit. 
+    """Create a fields container with one field by time set.
+    
+    This method can also set the time frequency support with the correct unit 
+    if needed. 
 
     Parameters
     ----------
     fields : Dictionary(time_int_key : Field) or list of Field
-        Dictionary of Field entities to add to the fields container
-    
-    time_freq_unit : str , optional
-        String that defines the unit symbol of the time_freq_support. Will be taken 
-        into account if the fields attribute has a dictionary type.
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.   
+        Dictionary of field entities to add to the fields container.
+    time_freq_unit : str, optional
+        Unit of the time frequency support, which is taken into 
+        account if the fields attribute has a dictionary type. The 
+        default is ``None``. 
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.   
         
     Returns
     -------
     fields_container : FieldsContainer
-        FieldsContainer containing one field by time step.
+        Fields container containing one field by time step.
     
     Examples
     --------
-    Create a fields container based on time labels from scratch
+    Create a fields container from scratch based on time labels.
     
     >>> from ansys.dpf import core as dpf
     >>> field1 = dpf.Field()
@@ -72,33 +73,29 @@ def over_time_freq_fields_container(fields, time_freq_unit = None, server = None
     return fc
 
 def over_time_freq_complex_fields_container(real_fields, imaginary_fields, time_freq_unit = None, server = None):
-    """Helper function to create a specific ``FieldsContainer``.
-    The returned fields_container will contain two fields (real and imaginary 
-    fields) by time set.
-    It sets the time freq support with the correct unit if needed (if the fields inputs 
-    are dictionaries).
+    """Create a fields container with two fields (real and imaginary) by time set.
+    
+    If the inputs for the fields are dictionaries, this method sets the time frequency 
+    support with the correct unit if needed.
 
     Parameters
     ----------
     real_fields : Dictionary(time_int_key : Field) or list of Field
-        Dictionary or list of Field entities to add to the fields container
-        
+        Dictionary or list of field entities to add to the fields container.
     imaginary_fields : Dictionary(time_int_key : Field) or list of Field
-        Dictionary or list of Field entities to add to the fields container
-        
+        Dictionary or list of field entities to add to the fields container.
     time_freq_unit : str , optional
-        String that defines the unit symbol of the time_freq_support. Will be taken 
-        into account if the fields attribute has a dictionary type.
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.   
+        Unit of the time frequency support, which is taken into account if 
+        the field's attribute has a dictionary type.
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
         
     Returns
     -------
     fields_container : FieldsContainer
-        FieldsContainer containing two fields (real and imaginary ones)
-        by time step.
+        Fields container containing two fields (real and imaginary) by time step.
     """
     if not isinstance(real_fields, dict) and not isinstance(real_fields, list):
         raise dpf_errors.InvalidTypeError("dictionary/list", "real_fields") 
@@ -152,26 +149,23 @@ def over_time_freq_complex_fields_container(real_fields, imaginary_fields, time_
     
 
 def complex_fields_container(real_field, imaginary_field, server = None):
-    """Helper function to create a specific ``FieldsContainer``.
-    The returned fields_container will contain two fields (real and imaginary 
-    fields) and only one time set.
+    """Create a fields container with two fields (real and imaginary) and only one time set.
 
     Parameters
     ----------
     real_fields : Field
-        Real ansys.dpf.core.Field entity to add to the fields container
-        
+        Real :class:`ansys.dpf.core.Field` entity to add to the fields container.
     imaginary_fields : Field
-        Imaginary ansys.dpf.core.Field entity to add to the fields container
-    
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.   
+        Imaginary :class:`ansys.dpf.core.Field` entity to add to the fields container.
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
         
     Returns
     -------
     fields_container : FieldsContainer
-        FieldsContainer containing two fields (real and imaginary ones).
+        Fields container with two fields (real and imaginary).
     """
     fc = FieldsContainer(server = server)
     fc.labels = ["complex"]
