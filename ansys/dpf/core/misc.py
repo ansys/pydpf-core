@@ -100,12 +100,12 @@ def is_float(string):
 
 
 def is_ubuntu():
-    """Check if OS is Ubuntu.
+    """Check if the operating system is Ubuntu.
     
     Returns
     -------
     bool
-        ``True`` when OS is Ubuntu, ``False`` if otherwise.
+        ``True`` when the operating system is Ubuntu, ``False`` if otherwise.
     """
     if os.name == 'posix':
         return 'ubuntu' in platform.platform().lower()
