@@ -15,8 +15,8 @@ from ansys.dpf.core.errors import protect_grpc
 class Node:
     """Encapsulates all properties of a node in the mesh. 
         
-       A node is created from the :class:`ansys.dpf.core.elements` or 
-       :class:`ansys.dpf.core.meshed_region` class.
+    A node is created from the :class:`ansys.dpf.core.elements` or 
+    :class:`ansys.dpf.core.meshed_region` class.
        
     Parameters
     ----------
@@ -301,7 +301,7 @@ class Nodes():
             ID for the new node.
         
         coordinates : list[float]
-            List of ``[x, y, z}`` coordinates for the node.
+            List of ``[x, y, z]`` coordinates for the node.
         """
         request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
         node_request = meshed_region_pb2.NodeRequest(id=id)
