@@ -207,12 +207,6 @@ class MeshedRegion:
         return meshed_region_pb2_grpc.MeshedRegionServiceStub(self._server.channel)
 
     def __str__(self):
-        """Describe the entity.
-        
-        Returns
-        -------
-        description : str
-        """
         from ansys.dpf.core.core import _description
         return _description(self._message, self._server)
     
@@ -450,5 +444,3 @@ class MeshedRegion:
         if num_elements:
             request.num_elements_reserved = num_elements
         self._message = self._stub.Create(request)
-
-     
