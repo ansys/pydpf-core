@@ -1,6 +1,6 @@
-"""Dpf plotter class is contained in this module.
+"""This module contains the DPF plotter class.
 
-Allows to plot a mesh and a fields container using pyvista.
+This class is used to plot a mesh and a fields container using PyVista.
 """
 import tempfile
 import os
@@ -16,14 +16,14 @@ from ansys.dpf.core import errors as dpf_errors
 def plot_chart(fields_container):
     """Plot the minimum/maximum result values over time.
 
-    This is a valid method if the time_freq_support contains
-    several time_steps (for example, a transient analysis)
+    This is a valid method if ``time_freq_support`` contains
+    several time_steps, such as in a transient analysis.
 
     Parameters
     ----------
     field_container : dpf.core.FieldsContainer
-        A fields container that must contains a result for each
-        time step of the time_freq_support.
+        Fields container that must contains a result for each
+        time step of ``time_freq_support``.
         
     Examples
     --------
@@ -40,13 +40,20 @@ def plot_chart(fields_container):
     
     
 class Plotter:
-    """Internal class used by DPF-Core to plot fields and meshed regions"""
+    """Plots fields and meshed regions in DPF-Core.
+    
+    Parameters
+    ----------
+    mesh : str
+        Name of the mesh.
+    
+    """
 
     def __init__(self, mesh):
         self._mesh = mesh
 
     def plot_mesh(self, **kwargs):
-        """Plot the mesh using pyvista.
+        """Plot the mesh using PyVista.
 
         Parameters
         ----------
@@ -55,10 +62,10 @@ class Plotter:
             iPython notebook if available.  When ``False``, plot
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
-
         **kwargs : optional
-            Additional keyword arguments for the plotter.  See
-            ``help(pyvista.plot)`` for additional keyword arguments.
+            Additional keyword arguments for the plotter. For more information, 
+            ee ``help(pyvista.plot)``.
+        
         """
         kwargs.setdefault('color', 'w')
         kwargs.setdefault('show_edges', True)
@@ -67,14 +74,14 @@ class Plotter:
     def plot_chart(self, fields_container):
         """Plot the minimum/maximum result values over time.
 
-        This is a valid method if the time_freq_support contains
-        several time_steps (for example, a transient analysis)
+        This is a valid method if ``time_freq_support`` contains
+        several time steps, such as in a transient analysis.
 
         Parameters
         ----------
-        field_container : dpf.core.FieldsContainer
-            A fields container that must contains a result for each
-            time step of the time_freq_support.
+        fields_container : dpf.core.FieldsContainer
+            Fields container that must contain a result for each
+            time step of ``time_freq_support``.
             
         Examples
         --------
@@ -122,33 +129,30 @@ class Plotter:
                      shell_layers=None, off_screen=None, show_axes=True, **kwargs):
         """Plot the contour result on its mesh support.
 
-        Can not plot fields container containing results at several
+        You cannot plot a fields container containing results at several
         time steps.
 
         Parameters
         ----------
-        fields_container : dpf.core.FieldsContainer
-            Field container that contains the result to plot.
-
+        field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
+            Field or field container that contains the result to plot.
         notebook : bool, optional
-            When ``None`` (default) plot a static image within an
-            iPython notebook if available.  When ``False``, plot
-            external to the notebook with an interactive window.  When
-            ``True``, always plot within a notebook.
-
+            Whether to plot a static image within an iPython notebook 
+            if available. The default is `None`, in which case an attempt is 
+            made to plot a static imaage within an iPython notebook. When ``False``, 
+            plot external to the notebook is generated with an interactive window. 
+            When ``True``, a plot is always generated within a notebook.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
-
         off_screen : bool, optional
-            Renders off screen when ``True``.  Useful for automated screenshots.
-
+            Whether to render off screen, which is useful for automated 
+            screenshots. The default is ``None``. 
         show_axes : bool, optional
-            Shows a vtk axes widget.  Enabled by default.
-
+            Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
-            Additional keyword arguments for the plotter.  See
-            ``help(pyvista.plot)`` for additional keyword arguments.
+            Additional keyword arguments for the plotter. For more information,
+            see ``help(pyvista.plot)``.
         """
         if not sys.warnoptions:
             import warnings
@@ -247,13 +251,13 @@ class Plotter:
         return plotter.show()
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
-        """Plot the contour result on its mesh support. The obtained
-        figure depends on the support (can be a meshed_region or a
-        time_freq_support).  If transient analysis, plot the last
-        result.
+        """Plot the contour result on its mesh support. 
+        
+        The resulting figure depends on the support, which can be a meshed region 
+        or a time freq support. If a transient analysis, the last result is plotted.
 
-        This method is private.  DPF publishes a vtk file and displays
-        this file using pyvista.
+        This method is private.  DPF publishes a VTK file and displays
+        this file using PyVista.
         """
         try:
             import pyvista as pv
