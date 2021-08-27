@@ -4,6 +4,15 @@ from ansys.grpc.dpf import operator_pb2
 import re
 
 class Output:
+    """
+    Parameters
+    ----------
+    spec :
+    
+    pin :
+    
+    operator :
+    """
     def __init__(self, spec, pin, operator):
         self._spec = spec
         self._operator = operator
@@ -13,7 +22,7 @@ class Output:
             self._python_expected_types.append(map_types_to_python[cpp_type])
 
     def get_data(self):
-        """Returns this output of this operator"""
+        """Retrueves the output of the operator."""
         type_output = self._spec.type_names[0]
         if type_output == 'abstract_meshed_region':
             type_output = 'meshed_region'
@@ -43,6 +52,14 @@ class Output:
 
 
 class _Outputs:
+    """
+    Parameters
+    ----------
+    dict_outputs : dict
+        Dictionary of outputs.
+    operator :
+    
+    """
     def __init__(self, dict_outputs, operator):
         self._dict_outputs = dict_outputs
         self._operator = operator
@@ -82,7 +99,7 @@ def _clearRepeatedMessage(message):
         pass
     
 def _make_printable_type(type):
-    """Remove character not allowed in function names in python"""
+    """Remove character not allowed in function names in Python."""
     chars_to_remove = ['<', '>', '-', '!', '?', "."]
     rx = '[' + re.escape('_'.join(chars_to_remove)) + ']'
     type = re.sub(rx, '_', type)
@@ -102,6 +119,12 @@ def _modify_output_spec_with_one_type(output_spec, type):
     return spec
 
 class Outputs(_Outputs):
+    """
+    dict_outputs : dict
+        Dictionary of outputs.
+    operator :
+    
+    """
     def __init__(self, dict_outputs, operator):
         super().__init__(dict_outputs, operator)
         for pin in self._dict_outputs:
