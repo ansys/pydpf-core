@@ -16,12 +16,12 @@ class FieldsContainer(Collection):
     
     A fields container is a set of fields ordered by labels and IDs. Each field 
     of the fields container has an ID for each label defining the given fields 
-    container. THese IDs allow splitting the fields on any criteria.
+    container. These IDs allow splitting the fields on any criteria.
     
     The most common fields container has the label ``"time"`` with IDs 
     corresponding to time sets. The label ``"complex"``, which is 
-    used in a harmonic analysis for example, allows real parts (id=0) 
-    to be separated from imaginary parts (id=1). 
+    used in a harmonic analysis for example, allows real parts (``id=0``) 
+    to be separated from imaginary parts (``id=1``). 
 
     Parameters
     ----------
@@ -379,7 +379,7 @@ class FieldsContainer(Collection):
         Parameters
         ----------
         index : int
-            Idex of the component.
+            Index of the component.
 
         Returns
         -------
@@ -513,7 +513,7 @@ class FieldsContainer(Collection):
         return op
     
     def __mul__(self, value):
-        """Multiplies two fields or two fields containers.
+        """Multiply two fields or two fields containers.
         
         Returns
         -------

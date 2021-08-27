@@ -1,4 +1,4 @@
-"""Miscellaneous Functions for the DPF module."""
+"""Miscellaneous functions for the DPF module."""
 import platform
 import glob
 import os
@@ -90,7 +90,7 @@ def is_float(string):
     Returns
     -------
     bool
-        ``True`` when successful, ``False`` when failed.
+        ``True`` if the input can be converted to a float, ``False`` if otherwise.
     """
     try:
         float(string)
@@ -100,12 +100,12 @@ def is_float(string):
 
 
 def is_ubuntu():
-    """Check is Ubuntu is running.
+    """Check if OS is Ubuntu.
     
     Returns
     -------
     bool
-        ``True`` when successful, ``False`` when failed.
+        ``True`` when OS is Ubuntu, ``False`` if otherwise.
     """
     if os.name == 'posix':
         return 'ubuntu' in platform.platform().lower()

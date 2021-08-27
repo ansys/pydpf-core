@@ -2,7 +2,7 @@
 mesh_scoping_factory
 ====================
 
-Contains functions to make creating mesh scopings easy.
+Contains functions to simplify creating mesh scopings.
 """
 
 from ansys.dpf import core

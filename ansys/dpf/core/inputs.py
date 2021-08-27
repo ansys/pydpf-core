@@ -15,7 +15,8 @@ class Input:
     
     count_ellipsis : optional
         The default is ``-1``.
-    """    
+    """
+
     def __init__(self, spec, pin, operator, count_ellipsis=-1):
         self._spec = spec
         self._operator=operator
@@ -145,7 +146,7 @@ class _Inputs:
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
 
-        A search for the input type corresponding to the output is performed.
+        Searches for the input type corresponding to the output.
 
         Parameters
         ----------

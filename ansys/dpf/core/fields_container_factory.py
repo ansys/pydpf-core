@@ -2,7 +2,7 @@
 fields_container_factory
 ========================
 
-Contains functions to make creating a fields container easy.
+Contains functions to simplify creating a fields container.
 """
 
 from ansys.dpf import core
@@ -88,9 +88,9 @@ def over_time_freq_complex_fields_container(real_fields, imaginary_fields, time_
         Unit of the time frequency support, which is taken into account if 
         the field's attribute has a dictionary type.
     server : ansys.dpf.core.server, optional
-        Server with the channel connected to the remote or local instance. 
-        The default is ``None``, in which case an attempt is made to use the 
-        global server.      
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
         
     Returns
     -------
@@ -158,14 +158,14 @@ def complex_fields_container(real_field, imaginary_field, server = None):
     imaginary_fields : Field
         Imaginary :class:`ansys.dpf.core.Field` entity to add to the fields container.
     server : ansys.dpf.core.server, optional
-        Server with the channel connected to the remote or local instance. 
-        The default is ``None``, in which case an attempt is made to use the 
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
         global server.
         
     Returns
     -------
     fields_container : FieldsContainer
-        Fields container containing two fields (real and imaginary).
+        Fields container with two fields (real and imaginary).
     """
     fc = FieldsContainer(server = server)
     fc.labels = ["complex"]

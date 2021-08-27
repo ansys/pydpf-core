@@ -363,7 +363,7 @@ class MeshedRegion:
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
         off_screen : bool, optional
-            Whether to render the plot off screen, which is useful for automated screenshots. 
+            Whether to render the plot off screen, which is useful for automated screenshots.
             The default is "None", in which case the plot renders off screen.
         show_axes : bool, optional
             Whether to show a VTK axes widget. The default is ``True``.

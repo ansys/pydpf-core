@@ -1,12 +1,12 @@
 import socket 
 
 def get_local_ip():
-    """Retrieve the IP address that connects to the gRPC service.
+    """Retrieve the local IP address to connect to the gRPC service.
     
-    Return
-    ------
+    Returns
+    -------
     str
-        IP address that connects to the gRPC service.
+        Local IP address to connect with the gRPC service.
     """
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         try:

@@ -2,7 +2,7 @@
 fields_factory
 ==============
 
-Contains functions to make creating fields easy.
+Contains functions to simplify creating fields.
 """
 
 from ansys.dpf import core
@@ -56,9 +56,9 @@ def field_from_array(arr):
     return field
 
 def create_matrix_field(num_entities, num_lines, num_col, location = locations.nodal, server=None):
-    """Create a specific :class:`ansys.dpf.core.Field`.
+    """Create a matrix :class:`ansys.dpf.core.Field`.
     
-    This field contain entities that have a matrix format. This is a "reserve" mechanism, 
+    This field contain entities that have a matrix format. This is a "reserve" mechanism,
     not a resize one. This means that you need to append data to grow the size of your field. 
 
     Parameters
@@ -74,7 +74,7 @@ def create_matrix_field(num_entities, num_lines, num_col, location = locations.n
 
         - ``"Nodal"``
         - ``"Elemental"``
-        - ansys.dpf.core.natures.elemental_nodal
+        - :class:`ansys.dpf.core.natures.elemental_nodal`
     
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
@@ -159,7 +159,7 @@ def create_tensor_field(num_entities, location = locations.nodal, server=None):
     Returns
     -------
     field : Field
-        DPF field of the requested format.
+        DPF field in the requested format.
 
     Examples
     --------
@@ -196,7 +196,7 @@ def create_scalar_field(num_entities, location = locations.nodal, server=None):
     Returns
     -------
     field : Field
-        DPF field of the requested format.
+        DPF field in the requested format.
 
     Examples
     --------
@@ -209,7 +209,7 @@ def create_scalar_field(num_entities, location = locations.nodal, server=None):
     return _create_field(server, natures.scalar, num_entities, location)
 
 def create_vector_field(num_entities, num_comp, location = locations.nodal, server=None):
-    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have vector format. 
+    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have vector format.
     
     This is a "reserve" mechanism, not a resize one. This means that you
     need to append data to grow the size of your field. 
@@ -235,7 +235,7 @@ def create_vector_field(num_entities, num_comp, location = locations.nodal, serv
     Returns
     -------
     field : Field
-        DPF field of the requested format.
+        DPF field in the requested format.
 
     Examples
     --------
@@ -291,7 +291,7 @@ def _create_field(server, nature, nentities, location = locations.nodal,
     Returns
     -------
     field : Field
-        DPF field at the requested format.
+        DPF field in the requested format.
     """
     # ncomp_n is number of column components
     # ncomp_m is number of line components

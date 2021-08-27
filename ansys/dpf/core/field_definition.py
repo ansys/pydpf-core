@@ -43,19 +43,19 @@ class FieldDefinition:
         -------
         str
             Location string, such as ``"Nodal"``, ``"Elemental"``, 
-            or ``TimeFreq_sets``. 
+            or ``"TimeFreq_sets"``. 
         """
         out = self._stub.List(self._messageDefinition)
         return out.location.location
 
     @property
     def unit(self):
-        """Units for the field.
+        """Units of the field.
 
         Returns
         -------
         str
-            Units for the field.
+            Units of the field.
         """
         return self._stub.List(self._messageDefinition).unit.symbol
     

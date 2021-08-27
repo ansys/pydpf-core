@@ -186,7 +186,7 @@ def eqv(var_inp):
     Returns
     -------
     field : ansys.dpf.core.Field, ansys.dpf.core.FieldContainer
-        The Von Mises stress of this field. The output type will match the input type.
+        The von Mises stress of this field. The output type will match the input type.
     """
     if isinstance(var_inp, dpf.core.Field):
         return _eqv(var_inp)
@@ -200,7 +200,7 @@ def eqv(var_inp):
 
 # TODO: Consider combining eqv and eqv_fc
 def _eqv(field):
-    """Retrieve the Von Mises stress field.
+    """Retrieve the von Mises stress field.
 
     Parameters
     ----------
@@ -210,7 +210,7 @@ def _eqv(field):
     Returns
     -------
     field : ansys.dpf.core.Field
-        Field containing the Von Mises stress field.
+        Field containing the von Mises stress field.
     """
     _check_type(field, dpf.core.Field)
     oper = dpf.core.operator('eqv')
@@ -220,12 +220,12 @@ def _eqv(field):
 
 
 def _eqv_fc(fields):
-    """Compute the element-wise Von Mises criteria for each tensor in the fields of the field container.
+    """Compute the element-wise von Mises criteria for each tensor in the fields of the field container.
 
     Returns
     -------
     fields : ansys.dpf.core.FieldsContainer
-        Element-wise Von Mises criteria for this field container.
+        Element-wise von Mises criteria for this field container.
     """
     _check_type(fields, dpf.core.FieldsContainer)
     oper = fields._model.operator('eqv_fc')
