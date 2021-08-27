@@ -210,7 +210,7 @@ def _eqv(field):
     Returns
     -------
     field : ansys.dpf.core.Field
-        Field containing the von Mises stress field.
+        Field containing the von Mises stress.
     """
     _check_type(field, dpf.core.Field)
     oper = dpf.core.operator('eqv')
@@ -444,6 +444,3 @@ def dot_tensor(a, b):
     op.connect(0, a)
     op.connect(1, b)
     return op.get_output(0, dpf.core.types.field)
-
-
-
