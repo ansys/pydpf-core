@@ -209,7 +209,7 @@ def create_scalar_field(num_entities, location = locations.nodal, server=None):
     return _create_field(server, natures.scalar, num_entities, location)
 
 def create_vector_field(num_entities, num_comp, location = locations.nodal, server=None):
-    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have vector format.
+    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have a vector format.
     
     This is a "reserve" mechanism, not a resize one. This means that you
     need to append data to grow the size of your field. 
@@ -271,8 +271,8 @@ def _create_field(server, nature, nentities, location = locations.nodal,
     snature : str 
         Nature of the field entity data. For example: 
             
-        - ansys.dpf.core.natures.matrix
-        - ansys.dpf.core.natures.scalar
+        - :class:`ansys.dpf.core.natures.matrix`
+        - :class:`ansys.dpf.core.natures.scalar`
         
     num_entities : int
         Number of entities to reserve.
