@@ -208,8 +208,10 @@ class Nodes():
     
     @property
     def nodal_connectivity_field(self):
-        """Nodal connectivity field : Field containing for each node ID
-        the elements indices connected to th given node.
+        """Nodal connectivity field
+        
+        Field containing each node ID for the elements indices
+        connected to the given node.
 
         Returns
         -------
@@ -312,15 +314,15 @@ class Nodes():
     def add_nodes(self, num):   
         """Add a number of nodes in the mesh. 
         
-        This method yeilds a number of nodes that you can define.
+        This method yields a number of nodes that you can define.
         
         Parameters
         ----------
         num : int
             Number of nodes to add.
         
-        Returns
-        -------
+        Yields
+        ------
         yield node : NodeAdder
             Node to add
         
@@ -381,7 +383,7 @@ class NodeAdder:
         
     @property
     def coordinates(self):
-        """Coordinates of the node.""
+        """Coordinates of the node."""
         return self._coordinates
     
     @coordinates.setter

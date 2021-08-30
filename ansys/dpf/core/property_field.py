@@ -113,9 +113,9 @@ class PropertyField(_FieldBase):
         the server in one action. If it's not used in a ``with`` statement, the 
         method ``release_data()`` should be used to actually update the field.
         
-      	.. warning::
+        .. warning::
            If this ``as_local_field`` method is not used as a context manager in a 
-           "with` statement or if the method ``release_data()`` is not called,
+           `with` statement or if the method ``release_data()`` is not called,
            the data will not actually be updated.
         
         Returns

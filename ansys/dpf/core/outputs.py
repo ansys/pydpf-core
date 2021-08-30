@@ -22,7 +22,7 @@ class Output:
             self._python_expected_types.append(map_types_to_python[cpp_type])
 
     def get_data(self):
-        """Retrueves the output of the operator."""
+        """Retrieves the output of the operator."""
         type_output = self._spec.type_names[0]
         if type_output == 'abstract_meshed_region':
             type_output = 'meshed_region'
@@ -99,7 +99,7 @@ def _clearRepeatedMessage(message):
         pass
     
 def _make_printable_type(type):
-    """Remove character not allowed in function names in Python."""
+    """Remove characters not allowed in function names in Python."""
     chars_to_remove = ['<', '>', '-', '!', '?', "."]
     rx = '[' + re.escape('_'.join(chars_to_remove)) + ']'
     type = re.sub(rx, '_', type)

@@ -1,6 +1,6 @@
 """This module contains the DPF plotter class.
 
-This class is used to plot a mesh and a fields container using PyVista.
+Contains classes used to plot a mesh and a fields container using PyVista.
 """
 import tempfile
 import os
@@ -140,14 +140,14 @@ class Plotter:
             Whether to plot a static image within an iPython notebook 
             if available. The default is `None`, in which case an attempt is 
             made to plot a static imaage within an iPython notebook. When ``False``, 
-            plot external to the notebook is generated with an interactive window. 
+            a plot external to the notebook is generated with an interactive window. 
             When ``True``, a plot is always generated within a notebook.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
         off_screen : bool, optional
             Whether to render off screen, which is useful for automated 
-            screenshots. The default is ``None``. 
+            screenshots. The default is ``None``.
         show_axes : bool, optional
             Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
