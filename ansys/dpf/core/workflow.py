@@ -1,7 +1,7 @@
 """
 Workflow
 ========
-Interface to underlying gRPC Workflow
+Interface to underlying gRPC workflow.
 """
 from textwrap import wrap
 import logging
@@ -18,21 +18,22 @@ LOG.setLevel('DEBUG')
 
 
 class Workflow:
-    """A class used to represent a Workflow:
-        a workflow is a black box containing operators and exposing only the necessary operator's
-        inputs and outputs to compute a given algorithm
+    """Represents a workflow.
+    
+    A workflow is a black box containing operators and exposing only the necessary operator's
+    inputs and outputs to compute a given algorithm.
 
     Parameters
     ----------
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
-        
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server.       
     workflow :  workflow_pb2.Workflow
 
     Examples
     --------
-    Create a generic Workflow computing the minimum of displacement by chaining the ``'U'``
+    Create a generic workflow computing the minimum of displacement by chaining the ``'U'``
     and ``'min_max_fc'`` operators.
     
     >>> from ansys.dpf import core as dpf
@@ -77,18 +78,16 @@ class Workflow:
         pin_name : str
             Name of the pin to connect. This name should be 
             exposed before with wf.set_input_name
-
         inpt : str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, 
         MeshedRegion, MeshesContainer, DataSources, Operator
-            Object you wish to connect.
-
+            Object to connect to.
         pin_out : int, optional
-            In case of the input is an Operator, this is the output
-            pin of the input Operator.  Defaults to 0.
+            If the input is an operator, the output pin of the input operator.
+            The default is ``0``.
 
         Examples
         --------
-        Create a generic Workflow computing the minimum of displacement by chaining the ``'U'``
+        Create a generic workflow computing the minimum of displacement by chaining the ``'U'``
         and ``'min_max_fc'`` operators.
         
         >>> from ansys.dpf import core as dpf
@@ -117,16 +116,15 @@ class Workflow:
             
     @protect_grpc
     def get_output(self, pin_name, output_type):
-        """Returns the output of the operator on the pin number.
+        """Retrieve the output of the operator on the pin number.
 
         Parameters
         ----------
         pin_name : str
-            Name of the pin to get. This name should be 
+            Name of the pin to retrieve. This name should be 
             exposed before with wf.set_output_name
-
         output_type : core.type enum
-            The requested type of the output.
+            Type of the requested output.
         """
         
         request = workflow_pb2.WorkflowEvaluationRequest()
@@ -142,16 +140,15 @@ class Workflow:
         
         
     def set_input_name(self, name, *args):
-        """Name an input pin of the workflow to expose it for future connection
+        """Set the name of the input pin of the workflow to expose it for future connection.
 
         Parameters
         ----------
         name : str
             Name of the pin to connect. This name should be 
-            exposed before with wf.set_input_name
-            
+            exposed before with wf.set_input_name      
         *args : core.Operator, core.Input, int
-            operator with it's input pin number or input to name 
+            Operator with its input pin number or input to name. 
         
         Examples
         --------
@@ -184,16 +181,15 @@ class Workflow:
     
     
     def set_output_name(self, name, *args):
-        """Name an output pin of the workflow to expose it for future connection
+        """Set the name of the output pin of the workflow to expose it for future connection.
 
         Parameters
         ----------
         name : str
             Name of the pin to connect. This name should be 
-            exposed before with wf.set_input_name
-            
+            exposed before with wf.set_input_name         
         *args : core.Operator, core.Output, int
-            operator with it's outpt pin number or output to name 
+            Operator with its outpt pin number or output to name.
         
         Examples
         --------
@@ -224,12 +220,12 @@ class Workflow:
         
     
     def add_operators(self, operators):
-        """Add operators to the list of operators of the workflow
+        """Add operators to the list of operators of the workflow.
 
         Parameters
         ----------
         operators : dpf.core.Operator, list of dpf.core.Operator
-            operators to add to the list
+            Pperators to add to the list.
             
         Examples
         --------
@@ -253,12 +249,12 @@ class Workflow:
             
         
     def add_operator(self, operator):
-        """Add an operator to the list of operators of the workflow
+        """Add an operator to the list of operators of the workflow.
 
         Parameters
         ----------
         operator : dpf.core.Operator
-            operator to add to the list
+            Operator to add to the list.
             
         Examples
         --------
@@ -273,17 +269,18 @@ class Workflow:
         
         
     def record(self, identifier=None, transfer_ownership = True):
-        """Add the workflow to DPF's internal registry with an id returned by this method.
-        The workflow can be recovered by dpf.core.Workflow.get_recorded_workflow(id)
+        """Add the workflow to DPF's internal registry with an ID returned by this method.
+        
+        The workflow can be recovered by dpf.core.Workflow.get_recorded_workflow(id).
         
         Parameters
         ----------
         identifier : str, optional
-            name given to the workflow
-            
+            Name given to the workflow.
         transfer_ownership : bool
-            if the owner ship is not transferred, the workflow is removed from the internal registry
-            as soon as the workflow has been recovered by its id
+            Whether to transfer the ownership. The default is ``True``. If the ownership is
+            not transferred, the workflow is removed from the internal registry
+            as soon as the workflow has been recovered by its ID.
             
         Examples
         --------
@@ -307,12 +304,12 @@ class Workflow:
     
     @staticmethod
     def get_recorded_workflow(id, server=None):
-        """Recover a workflow registered (with workflow.record())
+        """Retrieve a workflow registered (with workflow.record())
         
         Parameters
         ----------
         id : int
-            id given by the method "record"
+            ID given by the method "record".
         
         Returns
         ----------
@@ -340,12 +337,12 @@ class Workflow:
     
     @property
     def info(self):
-        """Returns a dictionary with the operator names and the exposed input and output names
+        """Dictionary with the operator names and the exposed input and output names.
         
         Returns
         ----------
         info : dictionarry str->list str
-            dictionary with "operator_names", "input_names" and "output_names" key        
+            Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.        
         """
         tmp = self._stub.List(self._message)
         out = {"operator_names":[], "input_names":[], "output_names":[]}
@@ -359,7 +356,7 @@ class Workflow:
     
     @property
     def operator_names(self):
-        """Returns a list of the names of operators added in the workflow
+        """List of the names of operators added in the workflow.
         
         Returns
         ----------
@@ -369,7 +366,7 @@ class Workflow:
     
     @property
     def input_names(self):
-        """Returns a list of the input names exposed in the workflow with set_input_name
+        """List of the input names exposed in the workflow with set_input_name.
         
         Returns
         ----------
@@ -379,7 +376,7 @@ class Workflow:
     
     @property
     def output_names(self):
-        """Returns a list of the output names exposed in the workflow with set_output_name
+        """List of the output names exposed in the workflow with set_output_name.
         
         Returns
         ----------
@@ -389,17 +386,19 @@ class Workflow:
     
     
     def chain_with(self, workflow, input_output_names=None):
-        """Chain 2 workflows together so that they become one workflow
-        with all the operators, inputs and outputs exposed in both workflows
+        """Chain two workflows together so that they become one workflow.
+        
+        The one workflow contains all the operators, inputs, and outputs
+        exposed in both workflows.
         
         Parameters
         ----------
         workflow : core.Workflow
-            This second workflow's inputs will be chained with this workflow's outputs
-            
+            Second workflow's inputs to chained with this workflow's outputs.
         input_output_names : str tuple, optional
-            the input name of this workflow will be chained with the output name of the second workflow
-            If nothing is specified, this workflow's outputs with the same names as the second workflow's inputs will be chained
+            Input name of the workflow to chain with the output name of the second workflow.
+            The default is ``None``, in which case this outputs in this workflow with the same
+            names as the inputs in the second workflow are chained.
         
         Examples
         --------
@@ -432,7 +431,7 @@ class Workflow:
     
         
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return workflow_pb2_grpc.WorkflowServiceStub(self._server.channel)
 
     def __del__(self):
@@ -443,7 +442,7 @@ class Workflow:
         
         
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
