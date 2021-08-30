@@ -128,7 +128,7 @@ class ResultInfo:
         Returns
         -------
         physics_type : str
-            Type of the physics, such as mechanical, electric.
+            Type of the physics, such as mechanical or electric.
         """
         intOut = self._stub.List(self._message).physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
