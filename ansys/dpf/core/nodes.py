@@ -13,10 +13,21 @@ from ansys.dpf.core.errors import protect_grpc
 
 
 class Node:
-    """A node of the mesh. Encapsulates all the properties of a node: 
-        its id, index, coordinates...
-
-    Created from ``Elements`` or a ``MeshedRegion``.
+    """Encapsulates all properties of a node in the mesh. 
+        
+    A node is created from the :class:`ansys.dpf.core.elements` or 
+    :class:`ansys.dpf.core.meshed_region` class.
+       
+    Parameters
+    ----------
+    mesh : :class:`ansys.dpf.core.meshed_region` class
+        Mesh region that the node is contained in.
+    nodeid : int
+        ID of the node.
+    nodeindex : int
+        Index of the node.
+    coordinates : list
+        List of ``[x, y, z]`` coordinates for the node.
 
     Examples
     --------
@@ -28,7 +39,7 @@ class Node:
     >>> # Initialize a node from a nodes collection
     >>> node = nodes[0]
 
-    Initialize a node from an element
+    Initialize a node from an element.
 
     >>> element = model.metadata.meshed_region.elements[0]
     >>> node = element.nodes[0]
@@ -43,12 +54,12 @@ class Node:
 
     @property
     def index(self) -> int:
-        """Index of the node in the model (int starting at 0)"""
+        """Index of the node. The index starts at 0."""
         return self._index
 
     @property
     def id(self) -> int:
-        """Node number"""
+        """ID of the node."""
         return self._id
 
     @property
@@ -65,7 +76,7 @@ class Node:
     
     @property
     def nodal_connectivity(self):
-        """Elements indices connected to the given node
+        """Elements indices connected to the node.
 
         Returns
         -------
@@ -81,10 +92,13 @@ class Node:
 
 
 class Nodes():
-    """Collection of DPF Nodes.
+    """Provides a collection of DPF nodes.
 
-    Created from a MeshedRegion
-
+    Parameters
+    ----------
+    mesh : :class:`ansys.dpf.core.meshed_region` class
+       Mesh region that the collection is created from.
+    
     Examples
     --------
     >>> import ansys.dpf.core as dpf
@@ -116,7 +130,7 @@ class Nodes():
             yield self[i]
 
     def node_by_id(self, id):
-        """Array of node coordinates ordered by index"""
+        """Array of node coordinates ordered by ID."""
         return self.__get_node(nodeid=id)
 
     def node_by_index(self, index):
@@ -125,15 +139,14 @@ class Nodes():
 
     @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
-        """Returns the node by its id or its index
+        """Retrieves the node by its ID or index.
 
         Parameters
         ----------
         nodeid : int
-            id of the requested node
-
+            ID of the node. The default is ``None``.
         nodeindex : int
-            index of the requested node
+            Index of the node. The default is ``None``.
 
         Returns
         -------
@@ -151,16 +164,16 @@ class Nodes():
 
     @property
     def scoping(self):
-        """Return the scoping of the Nodes
+        """Scoping of the nodes.
 
         Returns
         -------
         scoping : Scoping
-            Scoping of the Nodes
+            Scoping of the nodes.
 
         Examples
         --------
-        Get the ids of all the nodes in this collection
+        Get the IDs of all nodes in this collection.
 
         >>> nodes.scoping.ids[2]
         3
@@ -170,17 +183,17 @@ class Nodes():
 
     @property
     def n_nodes(self):
-        """Number of nodes"""
+        """Number of nodes."""
         return self._mesh._stub.List(self._mesh._message).num_nodes
 
     @property
     def coordinates_field(self):
-        """Coordinates field
+        """Coordinates field.
 
         Returns
         -------
         coordinates_field : Field
-            field of all the nodes coordinates
+            Field with all the coordinates for the nodes.
 
         Examples
         --------
@@ -195,13 +208,15 @@ class Nodes():
     
     @property
     def nodal_connectivity_field(self):
-        """Nodal connectivity field : field containing for each node id
-        the elements indices connected to the given node
+        """Nodal connectivity field
+        
+        Field containing each node ID for the elements indices
+        connected to the given node.
 
         Returns
         -------
         nodal_connectivity_field : PropertyField
-            Field of the element indices associated to each node.
+            Field of the element indices associated with each node.
 
         Examples
         --------
@@ -218,7 +233,7 @@ class Nodes():
 
     @protect_grpc
     def _get_coordinates_field(self):
-        """Return the coordinates field"""
+        """Retrieve the coordinates field."""
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         # request.nodal_property = meshed_region_pb2.NodalPropertyType.COORDINATES
@@ -227,7 +242,7 @@ class Nodes():
         return field.Field(server = self._mesh._server, field=fieldOut)
 
     def _build_mapping_id_to_index(self):
-        """Return a mapping between ids and indices of the entity."""
+        """Retrieve a mapping between IDs and indices of the entity."""
         return {eid: i for i, eid in enumerate(self.scoping.ids)}
 
     @property
@@ -237,8 +252,7 @@ class Nodes():
         return self._mapping_id_to_index
 
     def map_scoping(self, external_scope):
-        """Return the indices to map the scoping of these elements to
-        the scoping of a field.
+        """Retrieve the indices to map the scoping of these elements to the scoping of a field.
 
         Parameters
         ----------
@@ -256,7 +270,7 @@ class Nodes():
 
         Examples
         --------
-        Return the indices that map a field to a nodes collection.
+        Retrieve the indices that map a field to a nodes collection.
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
@@ -266,9 +280,9 @@ class Nodes():
         >>> field = disp.outputs.fields_container()[0]
         >>> ind, mask = nodes.map_scoping(field.scoping)
 
-        These indices can then be used to remap ``nodes.coordinates`` to
-        match the order of the field data.  That way the field data matches the
-        order of the nodes in the ``meshed_region``
+        These indices can then be used to remap the coordinates of the nodes to
+        match the order of the field data. This way, the field data matches the
+        order of the nodes in the :class:`ansys.dpf.core.meshed_region` class.
 
         >>> mapped_nodes = nodes.coordinates_field.data[ind]
 
@@ -281,15 +295,15 @@ class Nodes():
         return ind, mask
     
     def add_node(self, id, coordinates):
-        """Appends a new node in the mesh
+        """Add a node in the mesh.
         
         Parameters
         ----------
         id : int
-            new node's id
+            ID for the new node.
         
         coordinates : list[float]
-            x, y, z coordinates of the node
+            List of ``[x, y, z]`` coordinates for the node.
         """
         request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
         node_request = meshed_region_pb2.NodeRequest(id=id)
@@ -298,18 +312,19 @@ class Nodes():
         self._mesh._stub.Add(request)
         
     def add_nodes(self, num):   
-        """Add num new nodes in the mesh. 
-        add_nodes yields num nodes that the user can fill
+        """Add a number of nodes in the mesh. 
+        
+        This method yields a number of nodes that you can define.
         
         Parameters
         ----------
         num : int
-            number of nodes to add
+            Number of nodes to add.
         
-        Returns
-        -------
+        Yields
+        ------
         yield node : NodeAdder
-            node to add
+            Node to add
         
         Examples
         --------
@@ -331,18 +346,18 @@ class Nodes():
         
 
 class NodeAdder:
-    """A class used to add new nodes into a meshed region
+    """Adds a new node to a meshed region.
     
     Attributes
     ----------
     id : int
     
     coordinates : list of doubles
-        x, y, z coordinates
+        List of ``[x, y, z]'' coordinates.
     
     Examples
     --------
-    Create a meshed region from scratch
+    Create a meshed region from scratch.
     
     >>> import ansys.dpf.core as dpf
     >>> meshed_region = dpf.MeshedRegion(num_nodes=4,num_elements=1)
@@ -359,7 +374,7 @@ class NodeAdder:
         
     @property
     def id(self):
-        """Node id"""
+        """ID of the node."""
         return self._id
     
     @id.setter
@@ -368,6 +383,7 @@ class NodeAdder:
         
     @property
     def coordinates(self):
+        """Coordinates of the node."""
         return self._coordinates
     
     @coordinates.setter
@@ -376,5 +392,4 @@ class NodeAdder:
             self._coordinates= xyz.flatten().tolist()
         else:
             self._coordinates= xyz
-            
-
+    

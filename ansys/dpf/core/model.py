@@ -20,18 +20,17 @@ from grpc._channel import _InactiveRpcError
 
 
 class Model:
-    """This class connects to a gRPC DPF server and allows you to
-    access a result using the DPF framework.
+    """Connects to a gRPC DPF server and allows access to a result using the DPF framework.
     
     Parameters
     ----------
     data_sources : str, dpf.core.DataSources
-        Accepts either a dpf.core.DataSources instance or a filename of the
-        result file to open.
-    
+        Accepts either a :class:`dpf.core.DataSources` instance or the name of the
+        result file to open. The default is ``None``.
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
 
     Examples
     --------
@@ -54,7 +53,7 @@ class Model:
 
     @property
     def metadata(self):
-        """Model metadata
+        """Model metadata.
 
         Includes:
 
@@ -82,7 +81,7 @@ class Model:
         >>> meshed_region.elements.scoping.ids[2]
         759
 
-        Get the data_sources of the model.
+        Get the data sources of the model.
 
         >>> ds = model.metadata.data_sources
 
@@ -92,7 +91,7 @@ class Model:
         >>> tf.n_sets
         35
 
-        Get the unit system used in the analysis
+        Get the unit system used in the analysis.
 
         >>> rinfo = model.metadata.result_info
         >>> rinfo.unit_system
@@ -104,24 +103,24 @@ class Model:
     @property
     def results(self):
         """Available results of the model.
-        Organize the results from DPF into accessible methods. All the available
-        results are dynamically created depending on the model's 'ResultInfo'
+        
+        Organizes the results from DPF into accessible methods. All the available
+        results are dynamically created depending on the model's class:`ansys.dpf.core.result_info`.
 
         Returns
         -------
         Results
-            Available results of the model        
+            Available results of the model.
     
         Attributes
         ----------
         all types of results : Result
             Result provider helper wrapping all types of provider available for a 
-            given result file
+            given result file.
             
             Examples
             --------
-            Create a stress result from the model
-            and choose its time and mesh scopings
+            Create a stress result from the model and choose its time and mesh scopings.
             
             >>> from ansys.dpf import core as dpf
             >>> from ansys.dpf.core import examples
@@ -139,7 +138,7 @@ class Model:
         >>> model = dpf.Model(examples.simple_bar)
         >>> results = model.results # printable object
     
-        Access the displacement at all times
+        Access the displacement at all times.
     
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
@@ -151,24 +150,23 @@ class Model:
         return self._results
     
     def __connect_op__(self,op):
-        """Connect the data sources or the streams to the operator"""
+        """Connect the data sources or the streams to the operator."""
         if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
             op.inputs.streams.connect(self.metadata._stream_provider.outputs)
         elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
             op.inputs.data_sources.connect(self.metadata._data_sources)
 
     def operator(self, name):
-        """Returns an operator associated with the data sources of
-        this model.
+        """Operator associated with the data sources of this model.
 
         Parameters
         ----------
         name : str
-            Operator name.  Must be a valid operator name.
+            Operator name, which must be valid.
 
         Examples
         --------
-        Create a displacement operator
+        Create a displacement operator.
         
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
@@ -176,7 +174,7 @@ class Model:
         >>> model = Model(transient)
         >>> disp = model.operator('U')
         
-        Create a sum operator
+        Create a sum operator.
 
         >>> sum = model.operator('accumulate')
         
@@ -196,11 +194,11 @@ class Model:
         return txt
 
     def plot(self, color='w', show_edges=True, **kwargs):
-        """Plot the mesh of the model
+        """Plot the mesh of the model.
 
         Examples
         --------
-        Plot the model with the default options.
+        Plot the model using the default options.
         
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
@@ -216,8 +214,16 @@ class Model:
 
 
 class Metadata:
-    """Contains the metadata of a data source."""
-
+    """Contains the metadata of a data source.
+    
+    Parameters
+    ----------
+    data_sources :
+    
+    server : server.DPFServer
+        Server with the channel connected to the remote or local instance.
+        
+    """
     def __init__(self, data_sources, server):
         self._server = server
         self._set_data_sources(data_sources)
@@ -229,11 +235,11 @@ class Metadata:
         self._cache_result_info()
 
     def _cache_result_info(self):
-        """Store result info"""
+        """Store result information."""
         self.result_info = self._load_result_info()
 
     def _cache_streams_provider(self):
-        """Create a stream provider and cache it"""
+        """Create a stream provider and cache it."""
         from ansys.dpf.core import operators
         if hasattr(operators, "metadata") and hasattr(operators.metadata,"stream_provider"):
             self._stream_provider = operators.metadata.streams_provider(data_sources=self._data_sources, server=self._server)
@@ -283,7 +289,7 @@ class Metadata:
 
     @property
     def data_sources(self):
-        """DataSources instance.
+        """Data sources instance.
 
         This data source can be connected to other operators.
 
@@ -309,13 +315,13 @@ class Metadata:
     
     @property
     def streams_provider(self):
-        """stream_provider operator connected to the data sources
+        """Streams provider operator connected to the data sources.
 
-        This streams_provider can be connected to other operators.
+        This streams provider can be connected to other operators.
 
         Returns
         -------
-        streams_provider : operators.metadata.stream_provider
+        streams_provider : operators.metadata.streams_provider
 
         Examples
         --------
@@ -324,7 +330,7 @@ class Metadata:
         >>> transient = examples.download_transient_result()
         >>> model = dpf.Model(transient)
         
-        Connect the model data sources to the 'U' operator.
+        Connect the model data sources to the ``U`` operator.
         
         >>> streams = model.metadata.streams_provider
         >>> op = dpf.operators.result.displacement()
@@ -363,7 +369,7 @@ class Metadata:
 
         Returns
         -------
-        mesh : ansys.dpf.core.MeshedRegion
+        mesh : :class:`ansys.dpf.core.meshed_region`
             Mesh
         """
         # NOTE: this uses the cached mesh and we might consider
@@ -376,19 +382,17 @@ class Metadata:
 
     @property
     def mesh_provider(self):
-        """Mesh provider operator
+        """Mesh provider operator.
 
-        This operator reads a mesh from the result file.
+        This operator reads a mesh from the result file. The underlying
+        operator symbol is the class:`ansys.dpf.core.operators.mesh.mesh_provider`
+        operator.
 
         Returns
         -------
-        mesh_provider : ansys.dpf.core.Operator
+        mesh_provider : class:`ansys.dpf.core.operators.mesh.mesh_provider`
             Mesh provider operator.
-
-        Notes
-        -----
-        Underlying operator symbol is
-        MeshProvider operator
+        
         """
         try :
             tmp = Operator("MeshSelectionManagerProvider", server=self._server)
@@ -403,7 +407,7 @@ class Metadata:
 
     @property
     def available_named_selections(self):
-        """Returns a list of available named selections
+        """List of available named selections.
         
         Returns
         -------
@@ -412,8 +416,7 @@ class Metadata:
         return self.meshed_region.available_named_selections
     
     def named_selection(self, named_selection):
-        """Returns a scoping containing the list of nodes or elements
-        in the named selection
+        """Scoping containing the list of nodes or elements in the named selection.
         
         Parameters
         ----------
@@ -422,7 +425,7 @@ class Metadata:
             
         Returns
         -------
-        named_selection : dpf.core.Scoping
+        named_selection : :class:`ansys.dpf.core.scoping`
         """
         return self.meshed_region.named_selection(named_selection)
         
