@@ -22,16 +22,18 @@ analysis_types.__doc__=__write_enum_doc__(physics_types,"``'Analysis_types'`` en
 
 
 class ResultInfo:
-    """Class representation the result information.
-    Describes the metadata of the analysis and the available results
+    """Represents the result information.
+    
+    This class describes the metadata of the analysis and the available results.
 
     Parameters
     ----------
     result_info : ansys.grpc.dpf.result_info_pb2.ResultInfo message
 
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+     server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server. 
         
     Examples
     --------
@@ -81,12 +83,12 @@ class ResultInfo:
 
     @property
     def analysis_type(self):
-        """Returns the analysis type.
+        """Retrieves the analysis type.
 
         Returns
         -------
         analysis_type : str
-            type of analysis (ex : static, transient...)
+            Type of the analysis, such as static or transient.
             
         Examples
         --------
@@ -104,7 +106,7 @@ class ResultInfo:
 
     @property
     def physics_type(self):
-        """Type of physics.
+        """Type of the physics.
 
         Examples
         --------
@@ -126,7 +128,7 @@ class ResultInfo:
         Returns
         -------
         physics_type : str
-            type of physics (ex : mecanic, electric...)
+            Type of the physics, such as mechanical, electric.
         """
         intOut = self._stub.List(self._message).physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
@@ -134,48 +136,49 @@ class ResultInfo:
     # TODO: Depreciate
     @property
     def n_results(self):
+            """Number of results."""
         return self._stub.List(self._message).nresult
 
     @property
     def unit_system(self):
-        """Unit system"""
+        """Unit system of the result."""
         val = self._stub.List(self._message).unit_system
         return map_unit_system[val]
     
     @property
     def cyclic_symmetry_type(self):
-        """Cyclic Symmetry Type
+        """Cyclic symmetry type of the result.
         
         Return
         ------
         cyclic_symmetry_type : str
-            "single_stage", "multi_stage" or "not_cyclic"
+            Cyclic symmetry type of the results. Options are ``"single_stage"``, 
+            ``"multi_stage"``, and ``"not_cyclic"``.
         """
         return self._stub.List(self._message).cyc_info.cyclic_type
 
     @property
     def has_cyclic(self): 
-        """Has cyclic symmetry
+        """Check the result file for cyclic symmetry.
         
         Return
         ------
         has_cyclic : bool
-            returns true if the result file has cyclic symmetry (or multistage)
+            Returns ``True`` if the result file has cyclic symmetry or is multistage.
         """
         return self._stub.List(self._message).cyc_info.has_cyclic
     
     @property
     def cyclic_support(self): 
-        """returns the cyclic support if the result file has cyclic symmetry (or multistage).
-        The CyclicSupport contains information relevant for cyclic expansion
-        
+        """Cyclic expansion information for a result file that has cyclic symmetry or is multistage.
+                
         Return
         ------
         cyclic_support : CyclicSupport
         
         Examples
         --------
-        Get a CyclicSupport from a model.
+        Get a cyclic support from a model.
         
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
@@ -191,10 +194,12 @@ class ResultInfo:
     
     @property
     def unit_system_name(self):
+        """Name of the unit system."""
         return self._stub.List(self._message).unit_system_name
     
     @property
     def solver_version(self):
+        """Version of the solver."""
         major = self._stub.List(self._message).solver_major_version
         minor = self._stub.List(self._message).solver_minor_version
         version = str(major) + '.' + str(minor)
@@ -202,32 +207,38 @@ class ResultInfo:
     
     @property
     def solver_date(self):
+        """Date of the solver."""
         return self._stub.List(self._message).solver_date
     
     @property
     def solver_time(self):
+        """Time of the solver."""
         return self._stub.List(self._message).solver_time
 
     @property
     def user_name(self):
+        """Name of the user."""
         return self._stub.List(self._message).user_name 
     
     @property
     def job_name(self):
+        """Name of the job."""
         return self._stub.List(self._message).job_name 
     
     @property
     def product_name(self):
+        """Name of the product."""
         return self._stub.List(self._message).product_name 
     
     @property
     def main_title(self):
+        """Main title."""
         return self._stub.List(self._message).main_title 
 
     @property
     def available_results(self):
-        """Available results wraps all the information about results 
-        present in the result files
+        """Available results, containing all information about results 
+        present in the result files.
         
         Returns
         -------
@@ -281,11 +292,11 @@ class ResultInfo:
         return self._get_result(index)
 
     def _connect(self):
-        """Connect to the grpc service containing the reader"""
+        """Connect to the gRPC service containing the reader."""
         return result_info_pb2_grpc.ResultInfoServiceStub(self._server.channel)
     
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
