@@ -17,27 +17,28 @@ import array
 import sys
 
 class Scoping:
-    """A class used to represent a Scoping which is a subset of a
-    model support.
+    """Represents a scoping, which is a subset of a model support.
 
     Parameters
     ----------
     scoping : ansys.grpc.dpf.scoping_pb2.Scoping message, optional
-
-    server : DPFServer, optional
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server. server : DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
     Attributes
     ----------
     ids : list of int
-
+        List of IDs to include in the scoping.
     location : str
-        Location of the ids.  For example ``"Nodal"`` or ``"Elemental"``.
+        Location of the IDs, such as ``"Nodal"`` or ``"Elemental"``.
         
     Examples
     --------    
-    Create a mesh scoping
+    Create a mesh scoping.
 
     >>> from ansys.dpf import core as dpf
     >>> # 1. using the mesh_scoping_factory
@@ -54,7 +55,7 @@ class Scoping:
     """
 
     def __init__(self, scoping=None, server=None, ids = None, location= None):
-        """Initialize the scoping with either optional scoping message, or
+        """Initializes the scoping with an optional scoping message or
         by connecting to a stub.
         """
         if server is None:
@@ -80,7 +81,7 @@ class Scoping:
         Returns
         -------
         count : int
-            The number of scoping ids
+            Number of scoping IDs.
         """
         request = scoping_pb2.CountRequest()
         request.entity = base_pb2.NUM_ELEMENTARY_DATA
@@ -88,11 +89,12 @@ class Scoping:
         return self._stub.Count(request).count
 
     def _get_location(self):
-        """
+        """Retrieve the location of the IDs.
+        
         Returns
         -------
         location : str
-            location of the ids
+            Location of the IDs.
         """
         sloc = self._stub.GetLocation(self._message).loc.location
         return sloc
@@ -102,7 +104,7 @@ class Scoping:
         Parameters
         ----------
         loc : str or core.locations enum
-            The location needed
+            Location needed.
 
         """
         request = scoping_pb2.UpdateRequest()
@@ -116,11 +118,11 @@ class Scoping:
         Parameters
         ----------
         ids : list of int
-            The ids to set
+            IDs to set.
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
         """
         # must convert to a list for gRPC
         if isinstance(ids, range):
@@ -144,11 +146,11 @@ class Scoping:
         Returns
         -------
         ids : list[int], numpy.array (if np_array==True)
-            List of ids.    
+            List of IDs.    
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
         """
         if server_meet_version("2.1", self._server):  
             service = self._stub.List(self._message)
@@ -166,13 +168,14 @@ class Scoping:
                 return out
 
     def set_id(self, index, scopingid):
-        """Set the id of an index of the scoping
+        """Set the ID of a scoping's index.
 
         Parameters
         ----------
         index : int
-        
+            Index of the scoping.
         scopingid : int
+            ID of the scoping.
         """
         request = scoping_pb2.UpdateRequest()
         request.index_id.id = scopingid
@@ -181,15 +184,17 @@ class Scoping:
         self._stub.Update(request)
 
     def _get_id(self, index):
-        """Returns on which index is located an id in the scoping
+        """Retrieve the index that the scoping ID is located on.
 
         Parameters
         ----------
         index : int
+            Index of the scoping
 
         Returns
         -------
         id : int
+            ID of the scoping's index.
         """
         request = scoping_pb2.GetRequest()
         request.index = index
@@ -197,16 +202,17 @@ class Scoping:
         return self._stub.Get(request).id
 
     def _get_index(self, scopingid):
-        """Returns on which id is corresponding to an id in the
-        scoping.
+        """Retrieve an ID corresponding to an ID in the scoping.
 
         Parameters
         ----------
         id : int
+            ID to retrieve.
 
         Returns
         -------
         index : int
+            Index of the ID.
         """
         request = scoping_pb2.GetRequest()
         request.id = scopingid
@@ -214,8 +220,13 @@ class Scoping:
         return self._stub.Get(request).index
 
     def id(self, index:int):
-        """Get the id at a given index
+        """Retrieve the ID at a given index.
         
+        Parameters
+        ----------
+        index : int
+            Index for the ID.
+            
         Returns
         -------
         size : int
@@ -224,7 +235,12 @@ class Scoping:
         return self._get_id(index)
 
     def index(self, id:int):
-        """Get the index of a given id
+        """Retrieve the index of a given ID.
+        
+        Parameters
+        ----------
+        id : int
+            ID for the index to retrieve.
         
         Returns
         -------
@@ -235,15 +251,16 @@ class Scoping:
 
     @property
     def ids(self):
-        """Get the list of ids in the scoping
+        """Retrive a list of IDs in the scoping.
  
         Returns
         -------
-        ids : list of int    
+        ids : list of int 
+            List of IDs to retrieve. 
         
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
         """
         return self._get_ids()
 
@@ -253,8 +270,8 @@ class Scoping:
 
     @property
     def location(self):
-        """The location of the ids as a string (e.g. nodal, elemental,
-        time_freq, etc...)
+        """Location of the IDs as a string, such as ``"nodal"``, ``"elemental"``,
+        and ``"time_freq"``.
 
         Returns
         -------
@@ -268,7 +285,7 @@ class Scoping:
         self._set_location(value)
 
     def _connect(self):
-        """Connect to the grpc service containing the reader"""
+        """Connect to the gRPC service containing the reader."""
         return scoping_pb2_grpc.ScopingServiceStub(self._server.channel)
 
     def __len__(self):
@@ -284,12 +301,12 @@ class Scoping:
         return self.ids.__iter__()
     
     def __getitem__(self, key):
-        """Returns the id at a requested index"""
+        """Retrieve the ID at a requested index."""
         return self.id(key)
 
     @property
     def size(self):
-        """length of the ids list
+        """Length of the list of IDs.
 
         Returns
         -------
@@ -299,7 +316,7 @@ class Scoping:
         return self._count()
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
@@ -309,14 +326,16 @@ class Scoping:
         return _description(self._message, self._server)
     
     def deep_copy(self,server=None):
-        """Creates a deep copy of the scoping's data on a given server.
-        This can be useful to pass data from one server instance to another.
+        """Create a deep copy of the scoping's data on a given server.
+        
+        This method is useful for passiong data from one server instance to another.
         
         Parameters
         ----------
-        server : DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+        server : ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance.
+            The default is ``None``, in which case an attempt is made to use the
+            global server. 
         
         Returns
         -------
