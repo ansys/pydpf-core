@@ -1,6 +1,6 @@
 from ansys.dpf.core.server import DpfServer
 from ansys.dpf import core
-from ansys.dpf.core import LOCALHOST
+# from ansys.dpf.core import LOCALHOST
 import weakref
 
 """Aeneid specific functions and classes"""

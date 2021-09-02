@@ -1,9 +1,15 @@
 import numpy as np
+import pytest
 from conftest import local_server,local_servers
 from ansys.dpf import core
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
+
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_simple_remote_workflow(simple_bar):
     data_sources1 = core.DataSources(simple_bar)    
     wf = core.Workflow()
@@ -37,6 +43,7 @@ def test_simple_remote_workflow(simple_bar):
     
     
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_multi_process_remote_workflow():
     files = examples.download_distributed_files()
     workflows =[]
@@ -78,6 +85,7 @@ def test_multi_process_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_multi_process_connect_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -120,6 +128,7 @@ def test_multi_process_connect_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_multi_process_connect_operator_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -162,6 +171,7 @@ def test_multi_process_connect_operator_remote_workflow():
     max = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max.data, [10.03242272])
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_multi_process_getoutput_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -204,7 +214,8 @@ def test_multi_process_getoutput_remote_workflow():
     max = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max.data, [10.03242272])
     
-    
+ 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')   
 def test_multi_process_chain_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -254,7 +265,8 @@ def test_multi_process_chain_remote_workflow():
 
     max = remote_workflow.get_output("tot_output", core.types.field)
     assert np.allclose(max.data, [10.03242272])
-    
+ 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')   
 def test_remote_workflow_info():
     wf = core.Workflow()
     op = ops.result.displacement()
@@ -275,6 +287,7 @@ def test_remote_workflow_info():
     assert "distrib" in remote_workflow.output_names
     
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_multi_process_local_remote_local_remote_workflow():
     files = examples.download_distributed_files()
   
@@ -324,4 +337,191 @@ def test_multi_process_local_remote_local_remote_workflow():
     max = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max.data, [10.03242272])
         
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_multi_process_transparent_api_remote_workflow():
+    files = examples.download_distributed_files()
+    workflows =[]
+    for i in files:
+        data_sources1 = core.DataSources(files[i],server=local_servers[i])    
+        wf = core.Workflow(server=local_servers[i])
+        op = ops.result.displacement(data_sources=data_sources1,server=local_servers[i])
+        average = core.operators.math.norm_fc(op,server=local_servers[i])
+        
+        wf.add_operators([op, average])
+        wf.set_output_name("distrib"+str(i),average.outputs.fields_container)
+        
+        workflows.append(wf)
+        
+    local_wf = core.Workflow()
+    merge = ops.utility.merge_fields_containers()
+    min_max = ops.min_max.min_max_fc(merge)
+    local_wf.add_operator(merge)
+    local_wf.add_operator(min_max)
+    local_wf.set_output_name("tot_output", min_max.outputs.field_max)
     
+    for i,wf in enumerate(workflows):
+        local_wf.set_input_name("distrib"+str(i), merge, i)
+        local_wf.connect_with(wf)    
+        
+
+    max = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max.data, [10.03242272])
+    
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_multi_process_with_names_transparent_api_remote_workflow():
+    files = examples.download_distributed_files()
+    workflows =[]
+    for i in files:
+        data_sources1 = core.DataSources(files[i],server=local_servers[i])    
+        wf = core.Workflow(server=local_servers[i])
+        op = ops.result.displacement(data_sources=data_sources1,server=local_servers[i])
+        average = core.operators.math.norm_fc(op,server=local_servers[i])
+        
+        wf.add_operators([op, average])
+        wf.set_output_name("distrib",average.outputs.fields_container)
+        
+        workflows.append(wf)
+        
+    local_wf = core.Workflow()
+    merge = ops.utility.merge_fields_containers()
+    min_max = ops.min_max.min_max_fc(merge)
+    local_wf.add_operator(merge)
+    local_wf.add_operator(min_max)
+    local_wf.set_output_name("tot_output", min_max.outputs.field_max)
+    
+    for i,wf in enumerate(workflows):
+        local_wf.set_input_name("distrib"+str(i), merge, i)
+        local_wf.connect_with(wf,("distrib","distrib"+str(i)))    
+        
+
+    max = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max.data, [10.03242272])
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_multi_process_transparent_api_connect_local_datasources_remote_workflow():
+    files = examples.download_distributed_files()
+    workflows =[]
+    for i in files:
+        wf = core.Workflow(server=local_servers[i])
+        op = ops.result.displacement(server=local_servers[i])
+        average = core.operators.math.norm_fc(op,server=local_servers[i])
+        
+        wf.add_operators([op, average])
+        wf.set_output_name("distrib"+str(i),average.outputs.fields_container)
+        wf.set_input_name("ds", op.inputs.data_sources)
+        workflows.append(wf)
+        
+    local_wf = core.Workflow()
+    merge = ops.utility.merge_fields_containers()
+    min_max = ops.min_max.min_max_fc(merge)
+    local_wf.add_operator(merge)
+    local_wf.add_operator(min_max)
+    local_wf.set_output_name("tot_output", min_max.outputs.field_max)
+    
+    for i,wf in enumerate(workflows):
+        data_sources1 = core.DataSources(files[i])  
+        wf.connect("ds", data_sources1)
+        local_wf.set_input_name("distrib"+str(i), merge, i)
+        local_wf.connect_with(wf)    
+        
+
+    max = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max.data, [10.03242272])
+    
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_multi_process_transparent_api_connect_local_op_remote_workflow():
+    files = examples.download_distributed_files()
+    workflows =[]
+    for i in files:
+        wf = core.Workflow(server=local_servers[i])
+        op = ops.result.displacement(server=local_servers[i])
+        average = core.operators.math.norm_fc(op,server=local_servers[i])
+        
+        wf.add_operators([op, average])
+        wf.set_output_name("distrib"+str(i),average.outputs.fields_container)
+        wf.set_input_name("ds", op.inputs.data_sources)
+        workflows.append(wf)
+        
+    local_wf = core.Workflow()
+    merge = ops.utility.merge_fields_containers()
+    min_max = ops.min_max.min_max_fc(merge)
+    local_wf.add_operator(merge)
+    local_wf.add_operator(min_max)
+    local_wf.set_output_name("tot_output", min_max.outputs.field_max)
+    
+    for i,wf in enumerate(workflows):
+        data_sources1 = core.DataSources(files[i])  
+        forward = ops.utility.forward(data_sources1) 
+        wf.connect("ds", forward,0)
+        local_wf.set_input_name("distrib"+str(i), merge, i)
+        local_wf.connect_with(wf)    
+        
+
+    max = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max.data, [10.03242272])
+        
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_multi_process_transparent_api_create_on_local_remote_workflow():
+    files = examples.download_distributed_files()
+    wf = core.Workflow()
+    op = ops.result.displacement()
+    average = core.operators.math.norm_fc(op)
+    
+    wf.add_operators([op, average])
+    wf.set_output_name("distrib",average.outputs.fields_container)
+    wf.set_input_name("ds", op.inputs.data_sources)
+    
+        
+    local_wf = core.Workflow()
+    merge = ops.utility.merge_fields_containers()
+    min_max = ops.min_max.min_max_fc(merge)
+    local_wf.add_operator(merge)
+    local_wf.add_operator(min_max)
+    local_wf.set_output_name("tot_output", min_max.outputs.field_max)
+    
+    for i in files:
+        data_sources1 = core.DataSources(files[i])  
+        remote_wf = wf.create_on_other_server(server=local_servers[i])
+        remote_wf.connect("ds", data_sources1)
+        local_wf.set_input_name("distrib"+str(i), merge, i)
+        local_wf.connect_with(remote_wf, ("distrib","distrib"+str(i)))    
+        
+
+    max = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max.data, [10.03242272])
+    
+    
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_multi_process_transparent_api_create_on_local_remote_ith_address_workflow():
+    files = examples.download_distributed_files()
+    wf = core.Workflow()
+    op = ops.result.displacement()
+    average = core.operators.math.norm_fc(op)
+    
+    wf.add_operators([op, average])
+    wf.set_output_name("distrib",average.outputs.fields_container)
+    wf.set_input_name("ds", op.inputs.data_sources)
+    
+        
+    local_wf = core.Workflow()
+    merge = ops.utility.merge_fields_containers()
+    min_max = ops.min_max.min_max_fc(merge)
+    local_wf.add_operator(merge)
+    local_wf.add_operator(min_max)
+    local_wf.set_output_name("tot_output", min_max.outputs.field_max)
+    
+    for i in files:
+        data_sources1 = core.DataSources(files[i])  
+        remote_wf = wf.create_on_other_server(ip=local_servers[i].ip, port = local_servers[i].port)
+        remote_wf.connect("ds", data_sources1)
+        local_wf.set_input_name("distrib"+str(i), merge, i)
+        local_wf.connect_with(remote_wf, ("distrib","distrib"+str(i)))    
+        
+
+    max = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max.data, [10.03242272])

@@ -209,7 +209,8 @@ class DataSources:
         request = data_sources_pb2.UpdateUpstreamRequest()
         request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
         request.data_sources.CopyFrom(self._message)
-        request.result_key = result_key
+        if hasattr(request, "result_key"):
+            request.result_key = result_key
         self._stub.UpdateUpstream(request)
         
     def add_upstream_for_domain(self, upstream_data_sources, domain_id):

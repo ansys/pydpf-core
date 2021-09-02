@@ -404,7 +404,11 @@ class BaseService():
            description : str
         """
         request = base_pb2.DescribeRequest()
-        request.dpf_type_id = dpf_entity_message.id
+        if isinstance(dpf_entity_message.id, int):
+            request.dpf_type_id = dpf_entity_message.id
+        else:
+            request.dpf_type_id = dpf_entity_message.id.id
+            
         return self._stub.Describe(request).description
     
     

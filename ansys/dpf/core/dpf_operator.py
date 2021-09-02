@@ -368,7 +368,7 @@ class Operator:
         if hasattr(operators, "math") and  hasattr(operators.math, "add_fc") :
             op= operators.math.add_fc(self, fields_b, server=self._server)
         else :
-            op= dpf_operator.Operator("add_fc", server=self._server)
+            op= dpf_operator.Operator("add_fc",server=self._server)
             op.connect(0,self)        
             op.connect(1, fields_b)
         return op

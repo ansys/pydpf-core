@@ -8,7 +8,7 @@ from setuptools import setup
 install_requires = ['psutil',
                     'progressbar2',
                     'numpy',
-                    'ansys.grpc.dpf>=0.4.0']
+                    'ansys.grpc.dpf>=0.3.0']
 
 
 # Get version from version info

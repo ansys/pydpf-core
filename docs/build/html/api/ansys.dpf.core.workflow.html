@@ -2800,6 +2800,49 @@ If nothing is specified, this workflow’s inputs with the same names as the sec
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.workflow.Workflow.create_on_other_server">
+<span class="sig-name descname"><span class="pre">create_on_other_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.workflow.Workflow.create_on_other_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new instance of a workflow on another server. The new
+Workflow has the same operators, exposed inputs and output pins as
+this workflow. Connections between operators and between data and
+operators are kept (except for exposed pins).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the global server.</p></li>
+<li><p><strong>ip</strong> (<em>str</em><em>, </em><em>optional</em>) – ip address on which the new instance should be created (always put
+a port in args as well)</p></li>
+<li><p><strong>port</strong> (<em>str</em><em>, </em><em>int</em><em> , </em><em>optional</em>) – </p></li>
+<li><p><strong>address</strong> (<em>str</em><em>, </em><em>optional</em>) – address on which the new instance should be created (“ip:port”)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ansys.dpf.core.workflow.Workflow" title="ansys.dpf.core.workflow.Workflow">Workflow</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a generic Workflow computing the minimum of displacement by chaining the <code class="docutils literal notranslate"><span class="pre">'U'</span></code>
+and <code class="docutils literal notranslate"><span class="pre">'min_max_fc'</span></code> operators.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">workflow</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Workflow</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">workflow</span><span class="o">.</span><span class="n">add_operators</span><span class="p">([</span><span class="n">disp_op</span><span class="p">,</span><span class="n">max_fc_op</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;data_sources&quot;</span><span class="p">,</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">workflow</span><span class="o">.</span><span class="n">set_output_name</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">workflow</span><span class="o">.</span><span class="n">set_output_name</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#other_server = dpf.start_local_server(as_global=False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#new_workflow = workflow.create_on_other_server(server=other_server)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#assert &#39;data_sources&#39; in new_workflow.input_names</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </dd></dl>
 
 </div>

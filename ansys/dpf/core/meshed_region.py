@@ -82,7 +82,10 @@ class MeshedRegion:
             self.__send_init_request(num_nodes,num_elements)       
         else: #support_pb2.Support
             self._message = meshed_region_pb2.MeshedRegion()
-            self._message.id = mesh.id
+            if isinstance(self._message.id, int):
+                self._message.id = mesh.id
+            else:
+                self._message.id.id = mesh.id.id
         
 
         self._full_grid = None

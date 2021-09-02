@@ -444,7 +444,10 @@ class Field(_FieldBase):
         request = field_pb2.SetSupportRequest()
         request.field.CopyFrom(self._message)
         request.support.type = base_pb2.Type.Value(support_type)
-        request.support.id = support._message.id
+        if isinstance(request.support.id, int):
+            request.support.id = support._message.id
+        else:
+            request.support.id.id = support._message.id.id
         self._stub.SetSupport(request)
 
     @property

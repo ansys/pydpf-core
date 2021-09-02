@@ -408,6 +408,7 @@ def test_transfer_owner_workflow(allkindofcomplexity):
     wf_copy = dpf.core.Workflow.get_recorded_workflow(id)    
     
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
@@ -436,7 +437,7 @@ def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds):
     meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
     fc = wf2.get_output("u", dpf.core.types.fields_container)
     
-
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_static_connect_with_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
@@ -469,6 +470,7 @@ def test_static_connect_with_workflow(cyclic_lin_rst, cyclic_ds):
     
     
     
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
@@ -498,6 +500,7 @@ def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
 
     
     
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_static_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
@@ -531,6 +534,7 @@ def test_static_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
     
     
         
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
@@ -557,8 +561,9 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
     wf2.connect_with(wf, {"support1":"support2"})
     meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
     fc = wf2.get_output("u", dpf.core.types.fields_container)
+   
     
-    
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')    
 def test_static_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
@@ -682,7 +687,74 @@ def test_flush_workflows_session(allkindofcomplexity):
     assert len(fc)==2
     wf._server._session.flush_workflows()
     
+      
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_create_on_other_server_workflow(): 
+    disp_op = op.result.displacement()
+    max_fc_op = op.min_max.min_max_fc(disp_op)
+    workflow = dpf.core.Workflow()
+    workflow.add_operators([disp_op,max_fc_op])
+    workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    workflow.set_output_name("max", max_fc_op.outputs.field_max)
+    new_workflow = workflow.create_on_other_server(conftest.local_server)
+    assert new_workflow.input_names == ['data_sources']
+    assert new_workflow.output_names == ['max', 'min']
     
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_create_on_other_server2_workflow(): 
+    disp_op = op.result.displacement()
+    max_fc_op = op.min_max.min_max_fc(disp_op)
+    workflow = dpf.core.Workflow()
+    workflow.add_operators([disp_op,max_fc_op])
+    workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    workflow.set_output_name("max", max_fc_op.outputs.field_max)
+    new_workflow = workflow.create_on_other_server(server=conftest.local_server)
+    assert new_workflow.input_names == ['data_sources']
+    assert new_workflow.output_names == ['max', 'min']
+    
+      
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_create_on_other_server_with_ip_workflow(): 
+    disp_op = op.result.displacement()
+    max_fc_op = op.min_max.min_max_fc(disp_op)
+    workflow = dpf.core.Workflow()
+    workflow.add_operators([disp_op,max_fc_op])
+    workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    workflow.set_output_name("max", max_fc_op.outputs.field_max)
+    new_workflow = workflow.create_on_other_server(ip=conftest.local_server.ip, port = conftest.local_server.port)
+    assert new_workflow.input_names == ['data_sources']
+    assert new_workflow.output_names == ['max', 'min']
+    
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_create_on_other_server_with_address_workflow(): 
+    disp_op = op.result.displacement()
+    max_fc_op = op.min_max.min_max_fc(disp_op)
+    workflow = dpf.core.Workflow()
+    workflow.add_operators([disp_op,max_fc_op])
+    workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    workflow.set_output_name("max", max_fc_op.outputs.field_max)
+    new_workflow = workflow.create_on_other_server(address=conftest.local_server.ip+":"+str(conftest.local_server.port))
+    assert new_workflow.input_names == ['data_sources']
+    assert new_workflow.output_names == ['max', 'min']
+    
+    
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_create_on_other_server_with_address2_workflow(): 
+    disp_op = op.result.displacement()
+    max_fc_op = op.min_max.min_max_fc(disp_op)
+    workflow = dpf.core.Workflow()
+    workflow.add_operators([disp_op,max_fc_op])
+    workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    workflow.set_output_name("max", max_fc_op.outputs.field_max)
+    new_workflow = workflow.create_on_other_server(conftest.local_server.ip+":"+str(conftest.local_server.port))
+    assert new_workflow.input_names == ['data_sources']
+    assert new_workflow.output_names == ['max', 'min']
     
     
 def main():
