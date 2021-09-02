@@ -370,7 +370,10 @@ class Collection:
             Description of the entity.
         """
         request = base_pb2.DescribeRequest()
-        request.dpf_type_id = self._message.id
+        if isinstance(self._message.id, int):
+            request.dpf_type_id = self._message.id
+        else:
+            request.dpf_type_id = self._message.id.id
         return self._stub.Describe(request).description
 
     def __len__(self):

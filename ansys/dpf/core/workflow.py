@@ -8,7 +8,7 @@ import logging
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
@@ -62,9 +62,13 @@ class Workflow:
 
         self._message = workflow
 
-        if workflow is None:
-            self.__send_init_request()
-
+        remote_copy_needed =  server_meet_version("3.0",self._server) and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
+        if isinstance(workflow, str):
+            self.__create_from_stream(workflow)
+        elif workflow is None or remote_copy_needed:
+            self.__send_init_request(workflow)
+        
+            
     @staticmethod
     def connect_together(left_workflow, right_workflow, output_input_names=None):
         """Connect 2 workflows together and create a new workflow with all the 
@@ -445,6 +449,7 @@ class Workflow:
         """
         return self.info["output_names"]
 
+    @version_requires("3.0")
     def connect_with(self, left_workflow, output_input_names=None):
         """Chain 2 workflows together so that they become one workflow.
 
@@ -495,6 +500,75 @@ class Workflow:
 
         self._stub.Connect(request)            
 
+    @version_requires("3.0")
+    def create_on_other_server(self,*args,**kwargs):
+        """Create a new instance of a workflow on another server. The new
+        Workflow has the same operators, exposed inputs and output pins as 
+        this workflow. Connections between operators and between data and 
+        operators are kept (except for exposed pins).
+
+        Parameters
+        ----------
+        server : server.DPFServer, optional
+            Server with channel connected to the remote or local instance. When
+            ``None``, attempts to use the global server.
+        
+        ip : str, optional
+            ip address on which the new instance should be created (always put
+            a port in args as well)
+        
+        port : str, int , optional
+        
+        address: str, optional
+            address on which the new instance should be created ("ip:port")
+            
+        Returns
+        -------
+        Workflow
+    
+        Examples
+        --------
+        Create a generic Workflow computing the minimum of displacement by chaining the ``'U'``
+        and ``'min_max_fc'`` operators.
+        
+        >>> from ansys.dpf import core as dpf
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
+        >>> workflow = dpf.Workflow()
+        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+        >>> workflow.set_output_name("min", max_fc_op.outputs.field_min)
+        >>> workflow.set_output_name("max", max_fc_op.outputs.field_max)
+        >>> #other_server = dpf.start_local_server(as_global=False)
+        >>> #new_workflow = workflow.create_on_other_server(server=other_server)
+        >>> #assert 'data_sources' in new_workflow.input_names
+        
+        """
+        server =None
+        address = None
+        for arg in args :
+            if isinstance(arg, dpf.core.server.DpfServer):
+                server = arg
+            elif isinstance(arg, str):
+                address =arg
+        
+        if "ip" in kwargs:
+            address =  kwargs["ip"] +":"+str(kwargs["port"])
+        if "address"in kwargs:
+            address =  kwargs["address"]
+        if "server" in kwargs:
+            server = kwargs["server"]
+        if server :
+            text_stream = self._stub.WriteToStream(self._message)
+            return Workflow(workflow=text_stream.stream,server=server)  
+        elif address:
+            request = workflow_pb2.RemoteCopyRequest()
+            request.wf.CopyFrom(self._message)
+            request.address = address
+            return Workflow(workflow=request,server=self._server)  
+        else:
+            raise ValueError("a connection address (either with adddress input" 
+                             "or both ip and port inputs) or a server is required")
     def _connect(self):
         """Connect to the gRPC service."""
         return workflow_pb2_grpc.WorkflowServiceStub(self._server.channel)
@@ -517,7 +591,17 @@ class Workflow:
         return _description(self._message, self._server)
 
     @protect_grpc
-    def __send_init_request(self):
-        empty_request = base_pb2.Empty()
-        request = workflow_pb2.CreateRequest(empty=empty_request)
+    def __send_init_request(self, workflow):
+        if server_meet_version("3.0", self._server) and  isinstance(workflow,workflow_pb2.RemoteCopyRequest):
+            request = workflow_pb2.CreateRequest()
+            request.remote_copy.CopyFrom(workflow)
+        else:
+            request = base_pb2.Empty()
+            if hasattr(workflow_pb2, "CreateRequest"):
+                request = workflow_pb2.CreateRequest(empty=request)
         self._message = self._stub.Create(request)
+        
+    @protect_grpc
+    def __create_from_stream(self, string):
+        request = workflow_pb2.TextStream(stream=string)
+        self._message = self._stub.LoadFromStream(request)

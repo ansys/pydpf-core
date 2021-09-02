@@ -53,7 +53,10 @@ class TimeFreqSupport:
             self._message = time_freq_support
         elif isinstance(time_freq_support, support_pb2.Support):
             self._message = time_freq_support_pb2.TimeFreqSupport()
-            self._message.id = time_freq_support.id
+            if isinstance(self._message.id, int):
+                self._message.id = time_freq_support.id
+            else:
+                self._message.id.id =  time_freq_support.id.id
         else:
             request = base_pb2.Empty()
             self._message = self._stub.Create(request)
@@ -336,6 +339,12 @@ class TimeFreqSupport:
         request.time_freq_support.CopyFrom(self._message)
         request.entity = base_pb2.NUM_SETS
         return self._stub.Count(request).count
+    
+    def __check_if_field_id(self,field):
+        if isinstance(field.id, int):
+            return field.id!=0
+        else:
+            return field.id.id!=0
 
     @protect_grpc
     def _get_frequencies(self, cplx=False):
@@ -356,9 +365,9 @@ class TimeFreqSupport:
         request.time_freq_support.CopyFrom(self._message)
 
         list_response = self._stub.List(request)
-        if cplx is True and list_response.freq_complex.id != 0:
+        if cplx is True and self.__check_if_field_id(list_response.freq_complex):
             return dpf.core.Field(server=self._server, field=list_response.freq_complex)
-        elif cplx is False and list_response.freq_real.id != 0:
+        elif cplx is False and self.__check_if_field_id(list_response.freq_real):
             return dpf.core.Field(server=self._server, field=list_response.freq_real)
         return None
 
@@ -375,7 +384,7 @@ class TimeFreqSupport:
         request.time_freq_support.CopyFrom(self._message)
 
         list_response = self._stub.List(request)
-        if list_response.rpm.id != 0:
+        if self.__check_if_field_id(list_response.rpm):
             return dpf.core.Field(server=self._server, field=list_response.rpm)
         return None
 
@@ -396,7 +405,7 @@ class TimeFreqSupport:
         request.cyclic_stage_num = stage_num
 
         list_response = self._stub.List(request)
-        if list_response.cyc_harmonic_index.id != 0:
+        if self.__check_if_field_id(list_response.cyc_harmonic_index):
             return dpf.core.Field(
                 server=self._server, field=list_response.cyc_harmonic_index
             )
