@@ -156,7 +156,7 @@ class Results:
 class Result:
     """Helps with using DPF's result providers.
     
-    This calss helps to connect common inputs to the operator and 
+    This class helps to connect common inputs to the operator and 
     recover its fields container output. 'Result' is created by the model.
     
     Examples
@@ -414,7 +414,6 @@ class Result:
     @property
     def split_by_shape(self):
         """Set the mesh scoping to a scopings container where each scoping is an element shape.
-                
         The evaluated fields container will have one field on 'solid',
         one on 'shell', one on 'beam' and one on 'unknown_shape'.
         

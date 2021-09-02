@@ -22,7 +22,7 @@ class TimeFreqSupport:
 
     Parameters
     ----------
-    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport message
+    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
         The default is ``None``, in which case an attempt is made to use the 
@@ -294,7 +294,7 @@ class TimeFreqSupport:
 
     @protect_grpc
     def _get_cumulative_index(self, step, substep, freq, cplx):
-        """Retrive the cumulative index corresponding to the reqeusted step/substep
+        """Retrieve the cumulative index corresponding to the requested step/substep
         or frequency."""
         request = time_freq_support_pb2.GetRequest()
         request.time_freq_support.CopyFrom(self._message)
@@ -407,7 +407,7 @@ class TimeFreqSupport:
         rpm_value: int/float, optional
             Value for RPM value for the specified step.
         step_harmonic_indices: optional, dictionary or list
-            Dictionary of { int : list of int/float } = { stage_num : harmonic_indices }
+            Dictionary of ``{ int : list of int/float } = { stage_num : harmonic_indices }``
             or a list of int/float. In this case, stage_num default value is 0. 
             Harmonic indices are values related to the specified step. 
         
@@ -469,9 +469,9 @@ class TimeFreqSupport:
         Parameters
         ----------
         server : ansys.dpf.core.server, optional
-             Server with the channel connected to the remote or local instance. 
-             The default is ``None``, in which case an attempt is made to use the 
-             global server. 
+            Server with the channel connected to the remote or local instance. 
+            The default is ``None``, in which case an attempt is made to use the 
+            global server. 
         
         Returns
         -------
@@ -500,7 +500,7 @@ class TimeFreqSupport:
         ----------
         stage_num: int
             Stage number.
-         harmonic_indices: list of int/float 
+         harmonic_indices: list of int or float 
             List of values for harmonic indices.
         """
         harmonic_indices = self.get_harmonic_indices(stage_num)

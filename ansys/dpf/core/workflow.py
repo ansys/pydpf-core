@@ -28,7 +28,7 @@ class Workflow:
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
         The default is ``None``, in which case an attempt is made to use the 
-        global server.       
+        global server.
     workflow :  workflow_pb2.Workflow
 
     Examples
@@ -225,7 +225,7 @@ class Workflow:
         Parameters
         ----------
         operators : dpf.core.Operator, list of dpf.core.Operator
-            Pperators to add to the list.
+            Operators to add to the list.
             
         Examples
         --------
@@ -271,7 +271,7 @@ class Workflow:
     def record(self, identifier=None, transfer_ownership = True):
         """Add the workflow to DPF's internal registry with an ID returned by this method.
         
-        The workflow can be recovered by dpf.core.Workflow.get_recorded_workflow(id).
+        The workflow can be recovered by ``dpf.core.Workflow.get_recorded_workflow(id)``.
         
         Parameters
         ----------

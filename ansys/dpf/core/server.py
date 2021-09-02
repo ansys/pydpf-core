@@ -47,7 +47,7 @@ def has_local_server():
     Returns
     -------
     bool
-        ``True`` when successful, ``False`` when failed.
+        ``True`` when a local DPF gRPC server has been created.
     
     """
     return dpf.core.SERVER is not None
@@ -82,7 +82,7 @@ def port_in_use(port, host=LOCALHOST):
     Returns
     -------
     bool
-    ``True`` when successful, ``False`` when failed.
+        ``True`` when the port is in use, ``False`` when free.
        
     """
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -121,8 +121,8 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     """Start a new local DPF server at a given port and IP address.
     
     This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
-    the default) the server is stored in the module, replace the one stored previously.
-    Otherwise, a user must keep a handle on his or her server.
+    the default) the server is stored globally, replacing the one stored previously.
+    Otherwise, a user must keep a handle on their server.
 
     Parameters
     ----------

@@ -136,7 +136,7 @@ class ResultInfo:
     # TODO: Depreciate
     @property
     def n_results(self):
-            """Number of results."""
+        """Number of results."""
         return self._stub.List(self._message).nresult
 
     @property

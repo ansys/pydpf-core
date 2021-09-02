@@ -2,7 +2,7 @@
 time_freq_scoping_factory
 =========================
 
-Contains functions for easier creation of time frequency scopings.
+Contains functions to simplify creating time frequency scopings.
 """
 
 from ansys.dpf import core
@@ -34,14 +34,14 @@ def scoping_by_load_step(load_step, server = None):
     return scoping
 
 def scoping_by_load_steps(load_steps, server = None):
-    """Create a specific ``ansys.dpf.core.Scoping`` for a given list of load steps.
+    """Create a specific :class:`ansys.dpf.core.Scoping` for a given list of load steps.
     
     The returned scoping describes a specific time frequency support element
     for a given list of load steps. 
 
     Parameters
     ----------
-    load_steps : List of int
+    load_steps : list of int
         List of load steps IDs of the specific time frequency scoping.
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
@@ -59,7 +59,7 @@ def scoping_by_load_steps(load_steps, server = None):
     return scoping
 
 def scoping_by_set(cumulative_set, server = None):
-    """Create a specific ``ansys.dpf.core.Scoping`` for a given cumulative set index.
+    """Create a specific :class:`ansys.dpf.core.Scoping` for a given cumulative set index.
     
     The returned scoping describes a specific time frequency support element for a given
     cumulative set index. 
@@ -82,14 +82,14 @@ def scoping_by_set(cumulative_set, server = None):
     return scoping
 
 def scoping_by_sets(cumulative_sets, server = None):
-    """Create a specific ``ansys.dpf.core.Scoping`` for a given list of cumulative set indices.
+    """Create a specific :class:`ansys.dpf.core.Scoping` for a given list of cumulative set indices.
     
     The returned scoping describes a specific time frequencey support element for a given 
     list of cumulative sets of indices. 
 
     Parameters
     ----------
-    cumulative_sets : List of int
+    cumulative_sets : list of int
         List of cumulative indices of the sets.
      server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
@@ -107,7 +107,7 @@ def scoping_by_sets(cumulative_sets, server = None):
     return scoping
 
 def scoping_by_step_and_substep(load_step_id, subset_id, time_freq_support, server = None):
-    """Create a specific ``ansys.dpf.core.Scoping`` for a given step and subset.
+    """Create a specific :class:`ansys.dpf.core.Scoping` for a given step and subset.
     
     The returned scoping describes a specific time frequency support element for a given 
     step and substep. 
@@ -118,7 +118,7 @@ def scoping_by_step_and_substep(load_step_id, subset_id, time_freq_support, serv
         ID of the load step.
     subset_id : int
         ID of the subset.
-    time_freq_support : ansys.dpf.core.TimeFreqSupport()
+    time_freq_support : ansys.dpf.core.TimeFreqSupport
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance. 
         The default is ``None``, in which case an attempt is made to use the 
