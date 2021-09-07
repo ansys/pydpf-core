@@ -13,25 +13,24 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 class TimeFreqSupport:
-    """A class used to represent a TimeFreqSupport which is a
-    description of the temporal/frequency analysis. 
+    """Represents a time frequency support, which is a description of a temporal or frequency analysis. 
     
-    It stores values such as the frequencies (time/complex), the RPMs and the hamonic indices. 
-    The rpm_value is step (or load_step) based value. 
-    The time_freqencies/complex_frequencies/harmonic_indices are set based values. 
+    This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices. 
+    The RPM value is a step (or load step)-based value. 
+    The time freqencies, complex frequencies, and harmonic indices are set-based values. 
     There is one set value for each step/substep combination.
 
     Parameters
     ----------
-    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport message
-
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance. 
+        The default is ``None``, in which case an attempt is made to use the 
+        global server. 
 
     Examples
     --------
-    Create a TimeFreqSupport from a model.
+    Create a time frequency support from a model.
     
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
@@ -42,7 +41,7 @@ class TimeFreqSupport:
     """
 
     def __init__(self, time_freq_support=None, server=None):
-        """Initialize the TimeFreqSupport with its TimeFreqSupport message (if possible)"""
+        """Initialize the TimeFreqSupport with its TimeFreqSupport message (if possible)."""
         if server is None:
             server = dpf.core._global_server()
 
@@ -58,7 +57,7 @@ class TimeFreqSupport:
             self._message = self._stub.Create(request)
 
     def __str__(self):
-        """describe the entity
+        """Describe the entity.
         
         Returns
         -------
@@ -69,7 +68,7 @@ class TimeFreqSupport:
 
     @property
     def time_frequencies(self):
-        """Field of time frequencies or time values for the active result
+        """Field of time frequencies or time values for the active result.
         Frequencies field can have one value by set.
 
         Examples
@@ -154,20 +153,20 @@ class TimeFreqSupport:
     @property
     def rpms(self):
         """Field of RPMs for the active result.
-        RPM field has one value by load step.
+        The RPM field has one value by load step.
 
-        Returns ``None`` if result has no RPMs.
+        Returns ``None`` if the result has no RPMs.
         """
         return self._get_rpms()
     
     def _set_rpms(self, rpms):
         """Set the RPMs values of the time_freq_support.
-        RPM field has one value by load step. 
+        RPMs field has one value by load step. 
         
         Parameters
         ----------
         rpms : Field
-            Field of rpms that must be set. 
+            Field of RPMs that must be set. 
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         request.time_freq_support.CopyFrom(self._message)
@@ -177,22 +176,22 @@ class TimeFreqSupport:
     @rpms.setter
     def rpms(self, value):
         """RPMs that define the time_freq_support of the analysis. 
-        RPM field has one value by load step. 
+        RPMs field has one value by load step. 
 
         Parameters
         ----------
         value : Field
-            Field of rpms that must be set.
+            Field of RPMs that must be set.
         """
         return self._set_rpms(value)
 
     def get_harmonic_indices(self, stage_num = 0):
-        """Field of harmonic indices for the active result.
+        """Retrieve the field of harmonic indices for the active result.
 
         Returns
         -------
         field : dpf.core.Field
-            Field of all the harmonic indices in the model (complex or
+            Field of all harmonic indices in the model (complex or
             real).  ``None`` if result is not cyclic and contains no
             harmonic indices.
             
@@ -203,15 +202,14 @@ class TimeFreqSupport:
         return self._get_harmonic_indices(stage_num)
     
     def set_harmonic_indices(self, harmonic_indices, stage_num = 0):
-        """Set the harmonic indices values of the time_freq_support.
+        """Set the harmonic indices values of the time frequency support.
         
         Parameters
         ----------
         harmonic_indices : Field
-            Field of harmonic_indices that must be set. 
-        
+            Field of harmonic indices that must be set. 
         stage_num: int, default: 0, optional
-            Stage number that is defined by those harmonic indices. 
+            Stage number that is defined by these harmonic indices. 
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         cyclic_data = time_freq_support_pb2.CyclicHarmonicData()
@@ -223,7 +221,7 @@ class TimeFreqSupport:
 
     @property
     def n_sets(self):
-        """Number of result sets
+        """Number of result sets.
 
         Examples
         --------
@@ -234,22 +232,19 @@ class TimeFreqSupport:
         return self._sets_count()
 
     def get_frequency(self, step=0, substep=0, cumulative_index=None, cplx=False):
-        """Returns the frequence corresponding to step/substep or
-        cumulative index requested.
+        """Retrieve the frequence corresponding to a requested step/substep or
+        cumulative index.
 
         Parameters
         ----------
         step : int, optional
-            Step index (one based).
-
+            Index of the step (one-based).
         substep : int, optional
-            Substep index (one based).
-
+            Index of the substep (one-based).
         cumulative_index : int, optional
-            Cumulative index (one based).
-
+            Cumulative index (one-based).
         cplx: bool
-            Return a complex frequency, default ``False``.
+            Whether to return a complex frequency. The  default is ``False``.
 
         Returns
         -------
@@ -260,8 +255,8 @@ class TimeFreqSupport:
 
     @protect_grpc
     def _get_frequency(self, step, substep, cumulative_index, cplx):
-        """Returns the frequence corresponding to step/substep or
-        cumulative index requested.
+        """Retrieves the frequence corresponding to the requested step/substep or
+        cumulative index.
         """
         request = time_freq_support_pb2.GetRequest()
         request.time_freq_support.CopyFrom(self._message)
@@ -275,35 +270,32 @@ class TimeFreqSupport:
         return self._stub.Get(request).frequency
 
     def get_cumulative_index(self, step=0, substep=0, freq=None, cplx=False):
-        """Returns the cumulative index corresponding to step/substep
-        or frequency requested.
+        """Retrieves the cumulative index corresponding to the requested step/substep
+        or frequency.
 
         Parameters
         ----------
         step : int, optional
             Analysis step.
-
         substep : int, optional
-            Analysis substep
-
+            Analysis substep.
         freq  : double, optional
             Frequency in Hz.
-
         cplx : False, optional
-            Return a complex frequency.  Default False
+            Whehter to return a complex frequency. The default is ``False``.
 
         Returns
         -------
         index : int
-            Cumulative index based on either the step, substep or
+            Cumulative index based on either the step, substep, or
             frequency.
         """
         return self._get_cumulative_index(step, substep, freq, cplx)
 
     @protect_grpc
     def _get_cumulative_index(self, step, substep, freq, cplx):
-        """Return the cumulative index corresponding to step/substep
-        or frequency requested."""
+        """Retrieve the cumulative index corresponding to the requested step/substep
+        or frequency."""
         request = time_freq_support_pb2.GetRequest()
         request.time_freq_support.CopyFrom(self._message)
         request.bool_cumulative_index = True
@@ -329,18 +321,18 @@ class TimeFreqSupport:
 
     @protect_grpc
     def _get_frequencies(self, cplx = False):
-        """Returns a field of all the frequencies in the model
+        """Retrieves a field of all the frequencies in the model
         (complex or real).
 
         Parameters
         ----------
-        cplx : int, optional
-            Return a complex frequency.  Default False.
+        cplx : bool, optional
+            Whether to return a complex frequency. The default ``False``.
 
         Returns
         -------
         field : dpf.core.Field
-            Field of all the frequencies in the model (complex or real)
+            Field of all the frequencies in the model (complex or real).
         """
         request = time_freq_support_pb2.ListRequest()
         request.time_freq_support.CopyFrom(self._message)
@@ -356,12 +348,12 @@ class TimeFreqSupport:
 
     @protect_grpc
     def _get_rpms(self):
-        """Returns a field of all the rpms in the model
+        """Retrieves a field of all the RPMs in the model.
 
         Returns
         -------
         field : dpf.core.Field
-            Field of all the rpms in the model (complex or real)
+            Field of all the RPMs in the model (complex or real).
         """
         request = time_freq_support_pb2.ListRequest()
         request.time_freq_support.CopyFrom(self._message)
@@ -373,12 +365,12 @@ class TimeFreqSupport:
 
     @protect_grpc
     def _get_harmonic_indices(self, stage_num = 0):
-        """Returns a field of all the harmonic indices in the model
+        """Retrieves a field of all the harmonic indices in the model.
 
         Returns
         -------
         field : dpf.core.Field
-            Field of all the harmonic indices in the model (complex or real)
+            Field of all the harmonic indices in the model (complex or real).
             
         stage_num: int, optional, default = 0
             Targeted stage number. 
@@ -394,8 +386,8 @@ class TimeFreqSupport:
     
     def append_step(self, step_id, step_time_frequencies, step_complex_frequencies = None, rpm_value = None, step_harmonic_indices = None):
         """Append a step with all its field values in the time frequencies support.
-        The rpm_value is step (or load_step) based value. 
-        The time_freqencies/complex_frequencies/harmonic_indices are set based values. 
+        The RPM value is a step (or load step)-based value. 
+        The values for time freqencies, complex frequencies, and harmonic indices are set-based. 
         There is one set value for each step/substep combination.
         
         It is necessary that each call of my_time_freq_support.append_step(kwargs**) contains 
@@ -407,21 +399,17 @@ class TimeFreqSupport:
         Parameters
         ----------
         step_id: int
-            Id of the step to add.
-            
+            ID of the step to add.
         step_time_frequencies: list of int/float
-            Time frequencies values related to the specified step
-            
+            Values for time frequencies related to the specified step.
         step_complex_frequencies: list of int/float, optional
-            Complex frequencies values related to the specified step
-            
+            Values for complex frequencies related to the specified step.          
         rpm_value: int/float, optional
-            RPM value for the specified step
-        
+            Value for RPM value for the specified step.
         step_harmonic_indices: optional, dictionary or list
-            Can be dictionary of { int : list of int/float } = { stage_num : harmonic_indices }
+            Dictionary of ``{ int : list of int/float } = { stage_num : harmonic_indices }``
             or a list of int/float. In this case, stage_num default value is 0. 
-            harmonic_indices are values related to the specified step. 
+            Harmonic indices are values related to the specified step. 
         
         Example
         -------
@@ -474,14 +462,16 @@ class TimeFreqSupport:
                 
                 
     def deep_copy(self,server=None):
-        """Creates a deep copy of the time_freq_support's data on a given server.
-        This can be useful to pass data from one server instance to another.
+        """Create a deep copy of the data for a time frequency support on a given server.
+        
+        This methos is useful for passing data from one server instance to another.
         
         Parameters
         ----------
-        server : DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        server : ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance. 
+            The default is ``None``, in which case an attempt is made to use the 
+            global server. 
         
         Returns
         -------
@@ -504,15 +494,14 @@ class TimeFreqSupport:
         
                 
     def _set_harmonic_indices_at_stage(self, stage_num, step_harmonic_indices, step_id):
-        """Set the harmonic_indices values for a specific stage number.
+        """Set values for harmonic indices for a specific stage number.
         
         Parameters
         ----------
         stage_num: int
-            specific stage number
-        
-        harmonic_indices: list of int/float 
-            list of harmonic indices values.
+            Stage number.
+         harmonic_indices: list of int or float 
+            List of values for harmonic indices.
         """
         harmonic_indices = self.get_harmonic_indices(stage_num)
         if harmonic_indices is None:
@@ -522,7 +511,7 @@ class TimeFreqSupport:
         self.set_harmonic_indices(harmonic_indices, stage_num)
 
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return time_freq_support_pb2_grpc.TimeFreqSupportServiceStub(self._server.channel)
 
     def __del__(self):

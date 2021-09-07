@@ -3,7 +3,7 @@
     
 Results
 ========
-Module contains the Results and Result class that are created by the Model
+This module contains the Results and Result classes that are created by the model
 to easily access results in result files."""
 import functools
 
@@ -14,20 +14,20 @@ from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.custom_fields_container import ElShapeFieldsContainer, BodyFieldsContainer
 
 class Results:
-    """Organize the results from DPF into accessible methods. All the available
-    results are dynamically created depending on the model's 'ResultInfo'
+    """Organizes the results from DPF into accessible methods. 
+    
+    All the available results are dynamically created base on the model's class:'ResultInfo' class.
     
     Attributes
     ----------
     displacement : Result 
-        Result provider helper wrapping regular displacement operator. 
+        Result provider helper wrapping the regular displacement operator. 
         With this wrapper, time and mesh scopings can easily
-        be customized
+        be customized.
                 
         Examples
         --------
-        Create a displacement result from the model
-        and choose its time and mesh scopings
+        Create a displacement result from the model and choose its time and mesh scopings.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -36,14 +36,13 @@ class Results:
         >>> last_time_disp = disp.eval()
         
     stress : Result
-        Result provider helper wrapping regular stress operator. 
-        With this wrapper, time and mesh scopings, location.. can easily
-        be customized
+        Result provider helper wrapping the regular stress operator.
+        With this wrapper, time and mesh scopings, location, and more
+        can easily be customized.
         
         Examples
         --------
-        Create a stress result from the model
-        and choose its time and mesh scopings
+        Create a stress result from the model and choose its time and mesh scopings.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -52,13 +51,12 @@ class Results:
         >>> last_time_stress = stress.eval()
 
     .... all other results : Result
-        Result provider helper wrapping all types of provider available for a 
-        given result file
+        Result provider helper wrapping all types of providers available for a 
+        given result file.
         
         Examples
         --------
-        Create a stress result from the model
-        and choose its time and mesh scopings
+        Create a stress result from the model and choose its time and mesh scopings.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -76,7 +74,7 @@ class Results:
     >>> model = dpf.Model(examples.simple_bar)
     >>> results = model.results # printable object
 
-    Access the displacement at all times
+    Access the displacement at all times.
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
@@ -100,7 +98,7 @@ class Results:
     def _connect_operators(self):
         """Dynamically add operators for results.
 
-        The new operators subresults are connected to the model's
+        The new operator's subresults are connected to the model's
         streams.
 
         Examples
@@ -156,15 +154,14 @@ class Results:
                 
                 
 class Result:
-    """An instance of this class helps using dpf's result providers.
-    It helps connecting common inputs to the operator and 
-    recovering its fields container output.
-    'Result' is created by the model.
+    """Helps with using DPF's result providers.
+    
+    This class helps to connect common inputs to the operator and 
+    recover its fields container output. 'Result' is created by the model.
     
     Examples
     --------
-    Create a displacement result from the model
-    and choose its time and mesh scopings
+    Create a displacement result from the model and choose its time and mesh scopings
     
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
@@ -172,16 +169,16 @@ class Result:
     >>> disp = model.results.displacement.on_last_time_freq.on_named_selection('_CONSTRAINEDNODES')
     >>> last_time_disp = disp.eval()
     
-    Create a stress result from the model
-    and split the result by element shapes: solid, shell, beam
+    Create a stress result from the model and split the result by element shapes (solid, 
+    shell, and beam).
     
     >>> model = dpf.Model(examples.download_all_kinds_of_complexity())
     >>> stress = model.results.stress
     >>> stress_split = stress.split_by_shape.eval()
     >>> solid_stress = stress_split.solid_field()
     
-    Create a strain result from the model on all time sets
-    and recover the operator to connect it to other operators
+    Create a strain result from the model on all time sets and recover the 
+    operator to connect it to other operators.
     
     >>> model = dpf.Model(examples.msup_transient)
     >>> strain = model.results.elastic_strain.on_all_time_freqs()
@@ -233,14 +230,13 @@ class Result:
         return op
     
     def eval(self):
-        """Evaluate the result provider with the inputs specified before 
-        and returns its result fields container
+        """Evaluate the result provider with the previously specified inputs and return the result fields container.
         
         Returns
         -------
         fields_container : FieldsContainer, ElShapeFieldsContainer, BodyFieldsContainer
-            if split_by_body is used, a BodyFieldsContainer is returned.
-            if split_by_shape is used, a ElShapeFieldsContainer is returned.
+            If ``split_by_body`` is used, a ``BodyFieldsContainer`` is returned.
+            if ``split_by_shape`` is used, an ``ElShapeFieldsContainer`` is returned.
         
         Examples
         --------
@@ -260,7 +256,7 @@ class Result:
 
     @property
     def on_all_time_freqs(self):
-        """Sets the time scoping to all the time frequencies available in the time freq support
+        """Sets the time scoping to all the time frequencies available in the time frequency support.
         
         Returns
         -------
@@ -281,7 +277,7 @@ class Result:
     
     @property
     def on_first_time_freq(self):
-        """Sets the time scoping to the first time frequency available in the time freq support
+        """Sets the time scoping to the first time frequency available in the time frequency support.
         
         Returns
         -------
@@ -302,7 +298,7 @@ class Result:
     
     @property
     def on_last_time_freq(self):
-        """Sets the time scoping to the last time frequency available in the time freq support
+        """Sets the time scoping to the last time frequency available in the time frequency support.
         
         Returns
         -------
@@ -322,12 +318,12 @@ class Result:
         return self
     
     def on_time_scoping(self, time_scoping):
-        """Sets the time scoping to the given one
+        """Sets the time scoping to a given one.
         
         Parameters
         ----------
         time_scoping :  float, list[float], int, list[int], Scoping
-            time/frequency(ies) or time set(s) are specified
+            One or more times or frequencies.
         
         Returns
         -------
@@ -335,7 +331,7 @@ class Result:
         
         Examples
         --------
-        Choose time sets
+        Choose time sets.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -345,8 +341,8 @@ class Result:
         >>> len(fc)
         4
         
-        Choose times, if the times chosen are not in the time freq support,
-        results will be extrapolated
+        Choose times. If the times chosen are not in the time frequency support,
+        results are extrapolated.
         
         >>> fc = stress.on_time_scoping([0.115,0.125]).eval()
         >>> len(fc)
@@ -360,12 +356,12 @@ class Result:
         
     
     def on_named_selection(self, named_selection):
-        """Sets the mesh scoping to a given name selection's name
+        """Set the mesh scoping to a given named selection.
         
         Parameters
         ----------
         named_selection : str
-            name of the named selection or component in upper case
+            Name of the named selection or component in upper case.
         
         Returns
         -------
@@ -373,7 +369,7 @@ class Result:
         
         Examples
         --------
-        Add a requested location to average result on nodes
+        Add a requested location to the average result on the nodes.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -391,8 +387,7 @@ class Result:
     
     @property
     def split_by_body(self):
-        """Set the mesh scoping to a scopings container
-        where each scoping is a body
+        """Set the mesh scoping to a scopings container where each scoping is a body.
         
         Returns
         -------
@@ -418,10 +413,9 @@ class Result:
     
     @property
     def split_by_shape(self):
-        """Set the mesh scoping to a scopings container
-        where each scoping is a specific element shape.
-        The evaluated fields container will have on field on 'solid',
-        one on 'shell', one on 'beam' and one on 'unknown_shape'
+        """Set the mesh scoping to a scopings container where each scoping is an element shape.
+        The evaluated fields container will have one field on 'solid',
+        one on 'shell', one on 'beam' and one on 'unknown_shape'.
         
         Returns
         -------
@@ -464,7 +458,7 @@ class Result:
     
     
     def on_mesh_scoping(self, mesh_scoping):
-        """Set the mesh scoping to the given mesh_scoping
+        """Set the mesh scoping to a given mesh scoping.
         
         Parameters
         ----------
@@ -476,7 +470,7 @@ class Result:
         
         Examples
         --------
-        Use a list of nodes
+        Use a list of nodes.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -486,7 +480,7 @@ class Result:
         >>> len(fc[0].scoping)
         3
         
-        Use a Scoping to specify a list of entity ids with their location
+        Use a scoping to specify a list of entity IDs with their locations.
         
         >>> stress = model.results.stress
         >>> scop = dpf.Scoping(ids=[3,4,5], location= dpf.locations.nodal)
@@ -506,8 +500,9 @@ class Result:
     
     
     def on_location(self, location):
-        """Set the requested location of the provider:
-        elemental nodal fields can be averaged to nodal or elemental location 
+        """Set the requested location of the provider.
+        
+        Elemental nodal fields can be averaged to a nodal or elemental location.
         
         Parameters
         ----------
@@ -519,7 +514,7 @@ class Result:
         
         Examples
         --------
-        Add a requested location to average result on nodes
+        Add a requested location to the average result on the nodes.
         
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
