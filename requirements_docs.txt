@@ -1,6 +1,6 @@
 pypandoc>=1.5.0
 matplotlib
-pyvista
+pyvista<=0.32.0
 imageio>=2.5.0
 imageio-ffmpeg
 Sphinx
