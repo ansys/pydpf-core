@@ -1,21 +1,17 @@
 """
 .. _ref_basic_load_file_example:
 
-Write/load and upload/download a result file
+Write/Load and Upload/Download a Result Rile
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ansys.dpf.core module is able to upload files to 
-the server machine, and download files from there. 
+DPF-Core can upload files to the server machine and download files from there. 
 
-This example shows how to write and upload files 
-on the server machine, then how to download it back 
-on the cient side. 
-
-The result fields container will be exported under 
-.csv format.
+This example shows how to write and upload files on the server machine and then 
+download them back on the cient side. The resulting fields container is exported
+in CSV format.
 """
 
 ###############################################################################
-# Let's first load a ``Model`` from the ``Examples`` provided by 
+# First load a model from the examples that DPF-Core provides: 
 # ``ansys.dpf.core`` module. 
 
 from ansys.dpf import core
@@ -25,19 +21,18 @@ model = core.Model(examples.simple_bar)
 mesh = model.metadata.meshed_region
 
 ###############################################################################
-# Get the result
-# ~~~~~~~~~~~~~~
-# Get the result fields container and plot (in order to compare later)
+# Get and Plot the Fields Container for the Result
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get the fields container for the result and plot it so it can be compared later:
 
 displacement_operator = model.results.displacement()
 fc_out = displacement_operator.outputs.fields_container()
 mesh.plot(fc_out)
 
 ###############################################################################
-# Export result
+# Export Result
 # ~~~~~~~~~~~~~
-# Let's get the result fields container and export
-# it using .csv format. 
+# Get the fields container for the result and export it in the CSV format: 
 
 import os
 file_path = os.getcwd() + '\\simple_bar_fc.csv'
@@ -48,14 +43,13 @@ export_csv_operator.inputs.file_path.connect(file_path)
 export_csv_operator.run()
 
 ###############################################################################
-# Upload .csv result file
+# Upload CSV Result Rile
 # ~~~~~~~~~~~~~~~~~~~~~~~
-# Let's upload the simple_bar_fc.csv file 
-# on the server side. The upload_file_in_tmp_folder()
-# method will be used here, because we assume we don't
-# know the server machine architecture. However, the 
-# upload_file() method can be used the same way will a 
-# know "server file path". 
+# Upload the file ``simple_bar_fc.csv`` on the server side.
+# Here, the ``upload_file_in_tmp_folder``is used because 
+# it is assumened that server machine architecture is unknown. 
+# However, when the server file path is known, the ``upload_file()`` 
+# method can be used. 
 
 server_file_path = core.upload_file_in_tmp_folder(file_path)
 print(server_file_path)
@@ -64,18 +58,17 @@ print(server_file_path)
 os.remove(file_path)
 
 ###############################################################################
-# Download .csv result file
+# Download CSV Result File
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
-# Let's now download the simple_bar_fc.csv file.
+# Now download the file ``simple_bar_fc.csv``:
 
 downloaded_client_file_path = os.getcwd() + '\\simple_bar_fc_downloaded.csv'
 core.download_file(server_file_path, downloaded_client_file_path)
 
 ###############################################################################
-# Load .csv result file as operators input
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Let's now load the fields container contained in 
-# the .csv file.
+# Load CSV Result File as Operator Input
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Load the fields container contained in the CSV file as an operator input:
 
 my_data_sources = core.DataSources(downloaded_client_file_path)
 import_csv_operator = core.operators.serialization.csv_to_field()
@@ -87,10 +80,9 @@ mesh.plot(downloaded_fc_out)
 os.remove(downloaded_client_file_path)
 
 ###############################################################################
-# Make operations over the imported fields container
+# Make Operations Over the Imported Fields Container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This fields container can be used as it was introduced 
-# in the basics examples. 
+# Use this fields container: 
 
 min_max_op = core.operators.min_max.min_max_fc()
 min_max_op.inputs.fields_container.connect(downloaded_fc_out)
