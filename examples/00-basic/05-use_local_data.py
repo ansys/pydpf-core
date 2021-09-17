@@ -1,13 +1,14 @@
 """
 .. _ref_use_local_data_example:
 
-Bring Field's data locally to improve performances
+Bring a Field's Data Locally to Improve Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Using the as_local_field option allows to bring the server's
-data locally and to work only on the local process before sending the data
-updates to the server on one shot at the end.
-Reducing the number of calls to the server is key to improve
-performances.
+Reducing the number of calls to the server is key to improving
+performances. Using the ``as_local_field`` option brings the data
+from the server to your local machine where you can work on it.
+When finished, you can then send the updated data to the server
+in one transaction.
+
 """
 import numpy as np
 
@@ -16,8 +17,8 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# First, create a model object to establish a connection with an
-# example result file and then extract
+# Create a model object to establish a connection with an
+# example result file and then extract:
 model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
 
@@ -28,13 +29,13 @@ print(model)
 # ~~~~~~~~~~~~~~~~~~~~
 # Create a simple workflow computing the principal stress on the skin
 # of the model. Principal stress maximul usually occurs on the skin of the 
-# model, computing results only on this skin allows to reduce data sizes
+# model. Computing results only on this skin reduces the data size.
 
 skin_op = ops.mesh.external_layer(model.metadata.meshed_region)
 skin_mesh = skin_op.outputs.mesh()
 
 ###############################################################################
-# Plot the mesh skin
+# Plot the mesh skin:
 skin_mesh.plot()
 
 
@@ -53,14 +54,14 @@ principal_stress_3 = principal_op.outputs.fields_eig_3()[0]
 
 
 ###############################################################################
-# Manipulate data locally
+# Manipulate Data Locally
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
 
 ###############################################################################
-# As an example, we will go over the fields, keep the largest invariant value
-# by node if the averaged value of invariants is large enough
-# Exploring data allows the user add his own custom needs easily
+# This example goes over the fields, keeping the largest invariant value
+# by node if the averaged value of invariants is large enough.
+# Exploring data allows you to customize it to meet your needs.
 
 node_scoping_ids = principal_stress_1.scoping.ids
 threshold = 300000.
@@ -81,22 +82,24 @@ with field_to_keep.as_local_field() as f:
 
 
 ###############################################################################
-# Plot the result field
-# ~~~~~~~~~~~~~~~~~~~~~~~
+# Plot Result Field
+# ~~~~~~~~~~~~~~~~~
 
 
 ###############################################################################
-# Plot the result field on the skin mesh
+# Plot the result field on the skin mesh:
 skin_mesh.plot(field_to_keep)
 
 
 ###############################################################################
-# Plot the initial invariants
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Plot Initial Invariants
+# ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+###############################################################################
+# Plot the initial invariants on the skin mesh:
 
 skin_mesh.plot(principal_stress_1)
 skin_mesh.plot(principal_stress_2)
 skin_mesh.plot(principal_stress_3)
-                    
-                    
 
