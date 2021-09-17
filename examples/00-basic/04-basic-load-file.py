@@ -11,7 +11,7 @@ in CSV format.
 """
 
 ###############################################################################
-# First load a model from the examples that DPF-Core provides: 
+# First load a model from the DPF-Core examples: 
 # ``ansys.dpf.core`` module. 
 
 from ansys.dpf import core
