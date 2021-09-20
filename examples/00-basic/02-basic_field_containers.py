@@ -9,19 +9,21 @@ simulations, result data is defined by values associated to entities
 
 Because field data is always associated to its scoping and support,
 the field is a self-describing piece of data. A field is also
-defined by its dimensionality, unit, location, etc.  For example, a field
-can describe a displacement vector or norm, stress or strain
-tensor, stress or strain equivalents or minimum or maximum
+defined by its parameters, such as dimensionality, unit, and location.
+For example, a field can describe a displacement vector or norm, stress or strain
+tensor, stress or strain equivalent, or minimum or maximum
 over time of any result. A field can be defined on a complete model or
 on only certain entities of the model based on its scoping. The data
 is stored as a vector of double values and each elementary entity has
 a number of components. For example, a displacement will have three
-components and a symmetrical stress matrix will have six components.
+components, and a symmetrical stress matrix will have six components.
 
 In DPF, a fields container is simply a collection of fields that can be
 indexed, just like a Python list. Operators applied to a fields
 container will have each individual field operated on. Fields
 containers are outputs from operators.
+
+First, import necessary modules:
 
 """
 import numpy as np
@@ -31,14 +33,14 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators
 
 ###############################################################################
-# First, create a model object to establish a connection with an
+# Create a model object to establish a connection with an
 # example result file and then extract:
 model = dpf.Model(examples.static_rst)
 print(model)
 
 ###############################################################################
 # Create the displacement operator directly from the ``results``
-# property and extract the displacement fields container.
+# property and extract the displacement fields container:
 disp_op = model.results.displacement()
 fields = disp_op.outputs.fields_container()
 print(fields)
@@ -50,7 +52,7 @@ field = fields[0]
 print(field)
 
 ###############################################################################
-# Extracting data from a field
+# Extracting Data from a Field
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # You can extract all the data from a given field using the ``data``
 # property.  This returns a ``numpy`` array.
@@ -61,8 +63,8 @@ print(field.data)
 # While it might seem preferable to work entirely within ``numpy``,
 # DPF runs outside of Python and potentially even on a
 # remote machine.  Therefore, the transfer of unnecessary data between
-# the DPF instance and the Python client will lead to inefficient
-# operations on large models.  Instead, you should use DPF operators to
+# the DPF instance and the Python client leads to inefficient
+# operations on large models. Instead, you should use DPF operators to
 # assemble the necessary data before recalling the data from DPF.
 #
 # For example, if you want the maximum displacement for a given
