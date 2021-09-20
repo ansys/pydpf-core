@@ -4,11 +4,12 @@
 Bring a Field's Data Locally to Improve Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Reducing the number of calls to the server is key to improving
-performances. Using the ``as_local_field`` option brings the data
+performance. Using the ``as_local_field`` option brings the data
 from the server to your local machine where you can work on it.
-When finished, you can then send the updated data to the server
+When finished, you send the updated data back to the server
 in one transaction.
 
+Import necessary modules:
 """
 import numpy as np
 
@@ -27,9 +28,11 @@ print(model)
 ###############################################################################
 # Create the Workflow
 # ~~~~~~~~~~~~~~~~~~~~
-# Create a simple workflow computing the principal stress on the skin
-# of the model. Principal stress maximul usually occurs on the skin of the 
+# Maximum principal stress usually occurs on the skin of the 
 # model. Computing results only on this skin reduces the data size.
+
+# Create a simple workflow computing the principal stress on the skin
+# of the model. 
 
 skin_op = ops.mesh.external_layer(model.metadata.meshed_region)
 skin_mesh = skin_op.outputs.mesh()
@@ -40,7 +43,7 @@ skin_mesh.plot()
 
 
 ###############################################################################
-# Compute the stress principal inveriants on the skin nodes only
+# Compute the stress principal inveriants on the skin nodes only:
 stress_op = ops.result.stress(data_sources=model.metadata.data_sources)
 stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stress_op.inputs.mesh_scoping.connect(skin_op.outputs.nodes_mesh_scoping)
