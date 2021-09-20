@@ -6,6 +6,7 @@ Transient Analysis Result Example
 This example shows how to postprocess a transient result and
 visualize the outputs.
 
+Import the necessary modules:
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,9 +16,9 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Begin by downloading the transient result example. This example is
+# Download the transient result example. This example is
 # not included in DPF-Core by default to speed up the installation.
-# Download should take only a few seconds.
+# Downloading this example should take only a few seconds.
 #
 # Next, create the model and display the state of the result. This transient 
 # result file contains several individual results, each at a different timestamp.
@@ -34,12 +35,12 @@ print(tf.time_frequencies.data)
 
 
 ###############################################################################
-# Obtain Minimum and Maximum Displacement for All Results
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Obtain Minimum and Maximum Displacements for All Results
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create a displacement operator and set its time scoping request to
 # the entire time frequency support:
 disp = model.results.displacement()
-timeids = range(1, tf.n_sets + 1)  # must use 1-based indexing
+timeids = range(1, tf.n_sets + 1)  # Must use 1-based indexing.
 disp.inputs.time_scoping(timeids)
 
 # Chain the displacement operator with ``norm`` and ``min_max`` operators.
@@ -81,7 +82,7 @@ plt.show()
 ###############################################################################
 # Postprocessing Stress
 # ~~~~~~~~~~~~~~~~~~~~~
-# Create a equivalent (von Mises) stress operator and set its time
+# Create an equivalent (von Mises) stress operator and set its time
 # scoping to the entire time frequency support:
 
 # Component stress operator (stress)
@@ -123,7 +124,7 @@ print(field.scoping.ids[:10])
 
 
 ################################################################################
-# As you can see, these node numbers are not in order. Additionally,
+# As you can see, these node IDs are not in order. Additionally,
 # there may be fewer entries in the field than nodes in the model. For
 # example, stresses are not computed at mid-side nodes.
 #
@@ -146,7 +147,7 @@ for node_id in node_ids[:10]:
 
 ###############################################################################
 # Rather than individually querying for each node coordinate of the
-# field, you can using the ``map_scoping`` method to remap the field data 
+# field, you can use the :func:`map_scoping` to remap the field data 
 # to match the order of the nodes in the meshed region.
 #
 # Obtain the indices needed to get the data from ``field.data`` to match
