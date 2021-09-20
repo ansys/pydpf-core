@@ -4,9 +4,11 @@
 Create Your Own Entities Use DPF Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can create your field, fields container, or meshed region to use DPF operators
-with your own data. The ability to use scripting to create any of DPF entity 
-means that you are not dependent on result files and can connect the DPF environment
+with your own data. The ability to use scripting to create any DPF entity means
+that you are not dependent on result files and can connect the DPF environment
 with any Python tool.
+
+Import necessary modules:
 """
 import numpy as np
 
@@ -14,7 +16,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Create a parallele piped mesh made of linear hexa:
+# Create a parallel piped mesh made of linear hexa:
 length = 0.1
 width = 0.05
 depth = 0.1
@@ -82,9 +84,9 @@ mesh.plot()
 
 ###############################################################################
 # Create displacement fields over time with three time sets.
-# Here the displacement on each node will be the value of its x, y, z coordinates for time 1.
-# The displacement on each node will be two times the value of its x, y, z coordinates for time 2.
-# The displacement on each node will be three times the value of its x, y, z coordinates for time 3.
+# Here the displacement on each node will be the value of its x, y, and z coordinates for time 1.
+# The displacement on each node will be two times the value of its x, y, and z coordinates for time 2.
+# The displacement on each node will be three times the value of its x, y, and z coordinates for time 3.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 *coordinates_data
