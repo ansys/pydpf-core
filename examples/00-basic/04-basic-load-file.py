@@ -1,17 +1,17 @@
 """
 .. _ref_basic_load_file_example:
 
-Write/Load and Upload/Download a Result Rile
+Write/Load and Upload/Download a Result File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DPF-Core can upload files to the server machine and download files from there. 
+DPF-Core can upload files to and download files from the server machine. 
 
 This example shows how to write and upload files on the server machine and then 
-download them back on the cient side. The resulting fields container is exported
+download them back on the client side. The resulting fields container is exported
 in CSV format.
 """
 
 ###############################################################################
-# First load a model from the DPF-Core examples: 
+# Load a model from the DPF-Core examples: 
 # ``ansys.dpf.core`` module. 
 
 from ansys.dpf import core
@@ -23,7 +23,7 @@ mesh = model.metadata.meshed_region
 ###############################################################################
 # Get and Plot the Fields Container for the Result
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get the fields container for the result and plot it so it can be compared later:
+# Get the fields container for the result and plot it so you can compare it later:
 
 displacement_operator = model.results.displacement()
 fc_out = displacement_operator.outputs.fields_container()
@@ -43,24 +43,24 @@ export_csv_operator.inputs.file_path.connect(file_path)
 export_csv_operator.run()
 
 ###############################################################################
-# Upload CSV Result Rile
+# Upload CSV Result File
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # Upload the file ``simple_bar_fc.csv`` on the server side.
-# Here, the ``upload_file_in_tmp_folder``is used because 
-# it is assumened that server machine architecture is unknown. 
-# However, when the server file path is known, the ``upload_file()`` 
-# method can be used. 
+# Here, :func:`upload_file_in_tmp_folder` is used because 
+# it is assumed that the server machine architecture is unknown. 
+# However, when the server file path is known, :func:`upload_file` 
+# can be used. 
 
 server_file_path = core.upload_file_in_tmp_folder(file_path)
 print(server_file_path)
 
-# remove file to avoid polluting
+# Remove file to avoid polluting.
 os.remove(file_path)
 
 ###############################################################################
 # Download CSV Result File
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
-# Now download the file ``simple_bar_fc.csv``:
+# Download the file ``simple_bar_fc.csv``:
 
 downloaded_client_file_path = os.getcwd() + '\\simple_bar_fc_downloaded.csv'
 core.download_file(server_file_path, downloaded_client_file_path)
@@ -76,7 +76,7 @@ import_csv_operator.inputs.data_sources.connect(my_data_sources)
 downloaded_fc_out = import_csv_operator.outputs.fields_container()
 mesh.plot(downloaded_fc_out)
 
-# remove file to avoid polluting
+# Remove file to avoid polluting.
 os.remove(downloaded_client_file_path)
 
 ###############################################################################
