@@ -3,7 +3,6 @@
 
 Operators Overview
 ~~~~~~~~~~~~~~~~~~
-Overview of the usage of operators in DPF.
 
 In DPF, operators provide the primary method for interacting with and extracting
 results.  Within DPF-Core, operators are directly exposed with
@@ -15,15 +14,15 @@ For a list of all operators, see :ref:`ref_dpf_operators_reference`.
 This example demonstrates how to work directly with operators and
 compares this method to a wrapped approach.
 
-
+Import the necessary modules:
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
-# First, create a model object to establish a connection with an
-# example result file.
+# Create a model object to establish a connection with an
+# example result file:
 model = dpf.Model(examples.static_rst)
 print(model)
 
@@ -94,7 +93,7 @@ print(field_max.data)
 print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 
 ###############################################################################
-# Scripting Oerator Syntax
+# Scripting Operator Syntax
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Because DPF provides a scripting syntax, knowing 
 # an operator's "string name" is not mandatory. 
@@ -102,13 +101,13 @@ print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 # scripting syntax. 
 
 ###############################################################################
-# Instead of using a ``model`` class instance, directly use a 
-# datasources object. The ``DataSources`` constructor input is a path. 
+# Instead of using a ``model`` class instance, use a 
+# datasources object directly. The ``DataSources`` constructor input is a path. 
 ds = dpf.DataSources(examples.static_rst)
 print(examples.static_rst)
 
 ###############################################################################
-# Instantiate the operators and connect them together: 
+# Instantiate the operators and connect them: 
 
 disp_op = dpf.operators.result.displacement()
 disp_op.inputs.data_sources.connect(ds)
