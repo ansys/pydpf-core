@@ -407,16 +407,16 @@ class Workflow:
             +-------------------------------------------------------------------------------------------------+
             |  INPUT:                                                                                         |
             |                                                                                                 |
-            |input_output_names = ("output","field" )                                                          |
-            |                      ____                                  ______________________                |
-    	    |  "data_sources"  -> |this| ->  "stuff"        "field" -> |workflow_to_chain_with| -> "contour"  |
-    	    |"time_scoping"    -> |    |             "mesh_scoping" -> |                      |               |
-    	    |                     |____| ->  "output"                  |______________________|               |
+            |input_output_names = ("output","field" )                                                         |
+            |                      ____                                  ______________________               |
+            |  "data_sources"  -> |this| ->  "stuff"        "field" -> |workflow_to_chain_with| -> "contour"  |
+            |"time_scoping"    -> |    |             "mesh_scoping" -> |                      |               |
+            |                     |____| ->  "output"                  |______________________|               |
             |  OUTPUT                                                                                         |
-    	    |                    ____                                                                         |
-    	    |"data_sources"  -> |this| ->  "stuff"                                                            |
-    	    |"time_scoping" ->  |    | ->  "contour"                                                           |
-    	    |"mesh_scoping" ->  |____| -> "output"                                                             |
+            |                    ____                                                                         |
+            |"data_sources"  -> |this| ->  "stuff"                                                            |
+            |"time_scoping" ->  |    | ->  "contour"                                                          |
+            |"mesh_scoping" ->  |____| -> "output"                                                            |
             +-------------------------------------------------------------------------------------------------+
            
         

@@ -102,4 +102,3 @@ def test_delete_meshes_container():
 def test_str_meshes_container(elshape_body_mc): 
     mc =elshape_body_mc
     assert 'body' in str(mc)
-
