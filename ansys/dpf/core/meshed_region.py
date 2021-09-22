@@ -330,9 +330,6 @@ class MeshedRegion:
         Plot this grid directly.
 
         >>> grid.plot()
-        [(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),
-         (0.015, 0.045, 0.015),
-         (0.0, 0.0, 1.0)]
 
         Extract the surface mesh of this grid
 
