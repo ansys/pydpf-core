@@ -253,9 +253,6 @@ class Field(_FieldBase):
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> mesh.plot(field)
-        [(1.675707321585373, 1.675707321585373, 2.425707321585373),
-         (0.0, 0.0, 0.75),
-         (0.0, 0.0, 1.0)]
 
         Parameters
         ----------
