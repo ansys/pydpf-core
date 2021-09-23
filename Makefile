@@ -12,22 +12,26 @@ codespell:
 	@echo "Running codespell"
 	@codespell $(CODESPELL_DIRS) -S $(CODESPELL_SKIP) -I $(CODESPELL_IGNORE)
 
+flake8:
+	@echo "Running flake8"
+	@flake8 .
+
 pydocstyle:
 	@echo "Running pydocstyle"
-	@pydocstyle ansys.mapdl
+	@pydocstyle ansys.dpf.core
 
 doctest-modules:
 	@echo "Runnnig module doctesting"
-	pytest -v --doctest-modules ansys.mapdl
+	pytest -v --doctest-modules ansys.dpf.core
 
 coverage:
 	@echo "Running coverage"
-	@pytest -v --cov ansys.mapdl
+	@pytest -v --cov ansys.dpf.core
 
 coverage-xml:
 	@echo "Reporting XML coverage"
-	@pytest -v --cov ansys.mapdl --cov-report xml
+	@pytest -v --cov ansys.dpf.core --cov-report xml
 
 coverage-html:
 	@echo "Reporting HTML coverage"
-	@pytest -v --cov ansys.mapdl --cov-report html
+	@pytest -v --cov ansys.dpf.core --cov-report html

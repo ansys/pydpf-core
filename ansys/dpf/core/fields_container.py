@@ -240,7 +240,7 @@ class FieldsContainer(Collection):
             raise dpf_errors.DpfValueError("The fields container is not based on time scoping.")
         
         if self.has_label('complex'):
-             label_space = self.__time_complex_label_space__(timeid,0)
+            label_space = self.__time_complex_label_space__(timeid,0)
         else:
             label_space = self.__time_complex_label_space__(timeid)
         
