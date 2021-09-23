@@ -38,7 +38,6 @@ def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_mesh()
-    assert isinstance(cpos, CameraPosition)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
@@ -55,7 +54,6 @@ def test_plotter_on_field(allkindofcomplexity):
     fields_container.add_label('time')
     fields_container.add_field({'time': 1}, field)
     cpos = pl.plot_contour(fields_container)
-    assert isinstance(cpos, CameraPosition)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
@@ -68,7 +66,6 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     fc = avg_op.outputs.fields_container()
     pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
-    assert isinstance(cpos, CameraPosition)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
@@ -81,7 +78,6 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     fc = avg_op.outputs.fields_container()
     pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
-    assert isinstance(cpos, CameraPosition)
     
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason='Please install pyvista')
