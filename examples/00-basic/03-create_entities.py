@@ -1,12 +1,14 @@
 """
 .. _ref_create_entities_example:
 
-Create your own entities to use dpf's operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Create your own entities: field/fields container/meshed region 
-to use dpf'operators with your own data
-The ability to create any of dpf's entity in scripting allows to not depend on result files
-and to connect dpf's environment with any python tools.
+Create Your Own Entities Use DPF Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can create your field, fields container, or meshed region to use DPF operators
+with your own data. The ability to use scripting to create any DPF entity means
+that you are not dependent on result files and can connect the DPF environment
+with any Python tool.
+
+Import necessary modules:
 """
 import numpy as np
 
@@ -14,7 +16,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Here a parallelepiped mesh made of linear hexa will be created
+# Create a parallel piped mesh made of linear hexa:
 length = 0.1
 width = 0.05
 depth = 0.1
@@ -35,7 +37,7 @@ def search_sequence_numpy(arr,seq):
 
     
 ###############################################################################
-# Add nodes
+# Add nodes:
 id =1
 for i,x in enumerate([float(i)*length/float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]):
     for j,y in enumerate([ float(i)*width/float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]):
@@ -44,12 +46,12 @@ for i,x in enumerate([float(i)*length/float(num_nodes_in_length) for i in range(
             id +=1
 
 ###############################################################################
-# Get nodes coordinates field
+# Get the nodes' coordinates field:
 coordinates = mesh.nodes.coordinates_field
 
 
 ###############################################################################
-# Set the mesh unit
+# Set the mesh unit:
 mesh.unit = "mm"
 
 coordinates_data = coordinates.data
@@ -57,7 +59,7 @@ flat_coordinates_data = coordinates_data.reshape(coordinates_data.size)
 coordinates_scoping = coordinates.scoping
 
 ###############################################################################
-# Add solid elements (linear hexa with 8 nodes)
+# Add solid elements (linear hexa with eight nodes):
 id =1
 for i,x in enumerate([float(i)*length/float(num_nodes_in_length) for i in range(0, num_nodes_in_length-1)]):
     for j,y in enumerate([ float(i)*width/float(num_nodes_in_width) for i in range(0, num_nodes_in_width-1)]):
@@ -81,10 +83,10 @@ for i,x in enumerate([float(i)*length/float(num_nodes_in_length) for i in range(
 mesh.plot()
 
 ###############################################################################
-# Create displacement fields over time with 3 time sets
-# Here the displacement on each node will be the value of its x,y,z coordinates for time 1
-# the displacement on each node will be twice the value of its x,y,z coordinates for time 2
-# the displacement on each node will be three time the value of its x,y,z coordinates for time 3
+# Create displacement fields over time with three time sets.
+# Here the displacement on each node will be the value of its x, y, and z coordinates for time 1.
+# The displacement on each node will be two times the value of its x, y, and z coordinates for time 2.
+# The displacement on each node will be three times the value of its x, y, and z coordinates for time 3.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 *coordinates_data
@@ -108,18 +110,18 @@ time3_field.unit = mesh.unit
 
 
 ###############################################################################
-# Create results over times in a fields container with its time freq support
+# Create results over times in a fields container with its time frequency support:
 fc = dpf.fields_container_factory.over_time_freq_fields_container({0.1:time1_field, 0.2:time2_field, 0.3:time3_field},"s")
 
                       
 
 ###############################################################################
-# Check that the time freq support has been built
+# Check that the time frequency support has been built:
 print(fc.time_freq_support)
 
 
 ###############################################################################
-# Plot the norm over time of our fields container
+# Plot the norm over time of the fields container:
 norm = ops.math.norm_fc(fc)
 fc_norm = norm.outputs.fields_container()
 mesh.plot(fc_norm.get_field_by_time_complex_ids(1))
