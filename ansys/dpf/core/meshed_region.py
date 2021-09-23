@@ -291,6 +291,7 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
     
+    
     def _as_vtk(self, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
         nodes = self.nodes.coordinates_field.data
@@ -330,9 +331,6 @@ class MeshedRegion:
         Plot this grid directly.
 
         >>> grid.plot()
-        [(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),
-         (0.015, 0.045, 0.015),
-         (0.0, 0.0, 1.0)]
 
         Extract the surface mesh of this grid
 
@@ -375,9 +373,6 @@ class MeshedRegion:
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]
         >>> model.metadata.meshed_region.plot(field)
-        [(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),
-         (0.015, 0.045, 0.015),
-         (0.0, 0.0, 1.0)]
         
         """
         pl = _DpfPlotter(self)

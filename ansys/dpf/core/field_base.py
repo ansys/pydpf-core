@@ -50,6 +50,7 @@ class _FieldBase:
                 self._message = field
             else:
                 raise TypeError(f'Cannot create a field from a "{type(field)}" object')
+    
     @property
     def shape(self):
         """Numpy-like shape of the field.
@@ -655,7 +656,7 @@ class _LocalFieldBase(_FieldBase):
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
         if (len(data)>0 and isinstance(data, list)) or isinstance(data,  (np.ndarray, np.generic)):
-                data=np.array(data).flatten().tolist()
+            data=np.array(data).flatten().tolist()
             
         data_size =len(self._data_copy)      
         self._scoping_ids_copy.append(scopingid)

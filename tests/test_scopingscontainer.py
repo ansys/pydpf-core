@@ -102,4 +102,3 @@ def test_delete_scopings_container():
 def test_str_scopings_container(elshape_body_sc): 
     sc =elshape_body_sc
     assert 'body' in str(sc)
-

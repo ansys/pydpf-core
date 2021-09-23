@@ -101,4 +101,3 @@ print(expanded_ids.ids)
 # verify that the displacement values are the same on all those nodes
 for node in expanded_ids.ids:
     print(fields[0].get_entity_data_by_id(node))
-

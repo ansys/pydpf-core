@@ -91,4 +91,3 @@ mesh_copy.plot(out.get_field({"complex":0}))
 
 #imaginary part
 mesh_copy.plot(out.get_field({"complex":1}))
-

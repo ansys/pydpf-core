@@ -105,4 +105,3 @@ skin_mesh.plot(field_to_keep)
 skin_mesh.plot(principal_stress_1)
 skin_mesh.plot(principal_stress_2)
 skin_mesh.plot(principal_stress_3)
-
