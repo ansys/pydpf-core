@@ -13,17 +13,22 @@ from ansys.dpf.core.common import __write_enum_doc__
 
 
 names = [m for m in result_info_pb2.PhysicsType.keys()]
-physics_types = Enum('physics_types', names)
-physics_types.__doc__=__write_enum_doc__(physics_types,"``'Physics_types'`` enumerates the different types of physics that an analysis can have.")
+physics_types = Enum("physics_types", names)
+physics_types.__doc__ = __write_enum_doc__(
+    physics_types,
+    "``'Physics_types'`` enumerates the different types of physics that an analysis can have.",
+)
 
 names = [m for m in result_info_pb2.AnalysisType.keys()]
-analysis_types = Enum('analysis_types', names)
-analysis_types.__doc__=__write_enum_doc__(physics_types,"``'Analysis_types'`` enumerates the different types of analysis.")
+analysis_types = Enum("analysis_types", names)
+analysis_types.__doc__ = __write_enum_doc__(
+    physics_types, "``'Analysis_types'`` enumerates the different types of analysis."
+)
 
 
 class ResultInfo:
     """Represents the result information.
-    
+
     This class describes the metadata of the analysis and the available results.
 
     Parameters
@@ -33,23 +38,23 @@ class ResultInfo:
      server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
-        global server. 
-        
+        global server.
+
     Examples
     --------
     Explore the result info from the model
-    
+
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
     >>> result_info = model.metadata.result_info # printable result_info
-    
+
     >>> result_info.available_results[0].name
     'displacement'
     >>> result_info.available_results[0].homogeneity
     'length'
-    
+
     """
 
     def __init__(self, result_info, server=None):
@@ -68,13 +73,15 @@ class ResultInfo:
         self._names = [item.name for item in self.available_results]
 
     def __str__(self):
-        txt = '%s analysis\n' % self.analysis_type.capitalize() +\
-              'Unit system: %s\n' % self.unit_system +\
-              'Physics Type: %s\n' % self.physics_type.capitalize() +\
-              'Available results:\n'
+        txt = (
+            "%s analysis\n" % self.analysis_type.capitalize()
+            + "Unit system: %s\n" % self.unit_system
+            + "Physics Type: %s\n" % self.physics_type.capitalize()
+            + "Available results:\n"
+        )
         for res in self.available_results:
-            line = ['', '-', res.name]
-            txt += '{0:^4} {1:^2} {2:<30}'.format(*line)+'\n'
+            line = ["", "-", res.name]
+            txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
         return txt
 
@@ -89,7 +96,7 @@ class ResultInfo:
         -------
         analysis_type : str
             Type of the analysis, such as static or transient.
-            
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -99,7 +106,7 @@ class ResultInfo:
         >>> result_info = model.metadata.result_info
         >>> result_info.analysis_type
         'static'
-        
+
         """
         intOut = self._stub.List(self._message).analysis_type
         return result_info_pb2.AnalysisType.Name(intOut).lower()
@@ -119,7 +126,7 @@ class ResultInfo:
         >>> result_info = model.metadata.result_info
         >>> result_info.physics_type
         'mecanic'
-        
+
         """
         return self._get_physics_type()
 
@@ -144,72 +151,71 @@ class ResultInfo:
         """Unit system of the result."""
         val = self._stub.List(self._message).unit_system
         return map_unit_system[val]
-    
+
     @property
     def cyclic_symmetry_type(self):
         """Cyclic symmetry type of the result.
-        
+
         Return
         ------
         cyclic_symmetry_type : str
-            Cyclic symmetry type of the results. Options are ``"single_stage"``, 
+            Cyclic symmetry type of the results. Options are ``"single_stage"``,
             ``"multi_stage"``, and ``"not_cyclic"``.
         """
         return self._stub.List(self._message).cyc_info.cyclic_type
 
     @property
-    def has_cyclic(self): 
+    def has_cyclic(self):
         """Check the result file for cyclic symmetry.
-        
+
         Return
         ------
         has_cyclic : bool
             Returns ``True`` if the result file has cyclic symmetry or is multistage.
         """
         return self._stub.List(self._message).cyc_info.has_cyclic
-    
+
     @property
-    def cyclic_support(self): 
+    def cyclic_support(self):
         """Cyclic expansion information for a result file that has cyclic symmetry or is multistage.
-                
+
         Return
         ------
         cyclic_support : CyclicSupport
-        
+
         Examples
         --------
         Get a cyclic support from a model.
-        
+
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> model = Model(multi_stage)
         >>> result_info = model.metadata.result_info
         >>> cyc_support = result_info.cyclic_support
-        
+
         """
         tmp = self._stub.List(self._message).cyc_info.cyc_support
-        return CyclicSupport(cyclic_support=tmp,server=self._server)
-        
-    
+        return CyclicSupport(cyclic_support=tmp, server=self._server)
+
     @property
     def unit_system_name(self):
         """Name of the unit system."""
         return self._stub.List(self._message).unit_system_name
-    
+
     @property
     def solver_version(self):
         """Version of the solver."""
         major = self._stub.List(self._message).solver_major_version
         minor = self._stub.List(self._message).solver_minor_version
-        version = str(major) + '.' + str(minor)
+        version = str(major) + "." + str(minor)
         return version
-    
+
     @property
     def solver_date(self):
         """Date of the solver."""
         return self._stub.List(self._message).solver_date
-    
+
     @property
     def solver_time(self):
         """Time of the solver."""
@@ -218,28 +224,28 @@ class ResultInfo:
     @property
     def user_name(self):
         """Name of the user."""
-        return self._stub.List(self._message).user_name 
-    
+        return self._stub.List(self._message).user_name
+
     @property
     def job_name(self):
         """Name of the job."""
-        return self._stub.List(self._message).job_name 
-    
+        return self._stub.List(self._message).job_name
+
     @property
     def product_name(self):
         """Name of the product."""
-        return self._stub.List(self._message).product_name 
-    
+        return self._stub.List(self._message).product_name
+
     @property
     def main_title(self):
         """Main title."""
-        return self._stub.List(self._message).main_title 
+        return self._stub.List(self._message).main_title
 
     @property
     def available_results(self):
-        """Available results, containing all information about results 
+        """Available results, containing all information about results
         present in the result files.
-        
+
         Returns
         -------
         available_result : list[AvailableResult]
@@ -261,9 +267,9 @@ class ResultInfo:
         result : Result
         """
         if numres >= len(self):
-            raise IndexError('There are only %d results' % len(self))
+            raise IndexError("There are only %d results" % len(self))
         elif numres < 0:
-            raise IndexError('Result index must be greater than 0')
+            raise IndexError("Result index must be greater than 0")
 
         request = result_info_pb2.AvailableResultRequest()
         request.result_info.CopyFrom(self._message)
@@ -294,15 +300,16 @@ class ResultInfo:
     def _connect(self):
         """Connect to the gRPC service containing the reader."""
         return result_info_pb2_grpc.ResultInfoServiceStub(self._server.channel)
-    
+
     def __str__(self):
         """Describe the entity.
-        
+
         Returns
         -------
         description : str
         """
         from ansys.dpf.core.core import _description
+
         return _description(self._message, self._server)
 
     def __del__(self):

@@ -6,7 +6,7 @@ Scoping
 """
 
 from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
-from ansys.dpf.core.common import locations,_common_progress_bar
+from ansys.dpf.core.common import locations, _common_progress_bar
 from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import version_requires, server_meet_version
@@ -16,6 +16,7 @@ import array
 
 import sys
 
+
 class Scoping:
     """Represents a scoping, which is a subset of a model support.
 
@@ -23,8 +24,8 @@ class Scoping:
     ----------
     scoping : ansys.grpc.dpf.scoping_pb2.Scoping message, optional
     server : ansys.dpf.core.server, optional
-        Server with the channel connected to the remote or local instance. 
-        The default is ``None``, in which case an attempt is made to use the 
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
         global server.
     server : DPFServer, optional
         Server with channel connected to the remote or local instance. When
@@ -36,9 +37,9 @@ class Scoping:
         List of IDs to include in the scoping.
     location : str
         Location of the IDs, such as ``"Nodal"`` or ``"Elemental"``.
-        
+
     Examples
-    --------    
+    --------
     Create a mesh scoping.
 
     >>> from ansys.dpf import core as dpf
@@ -52,15 +53,16 @@ class Scoping:
     >>> my_scoping = dpf.Scoping()
     >>> my_scoping.location = "Nodal" #optional
     >>> my_scoping.ids = list(range(1,11))
-    
+
     """
 
-    def __init__(self, scoping=None, server=None, ids = None, location= None):
+    def __init__(self, scoping=None, server=None, ids=None, location=None):
         """Initializes the scoping with an optional scoping message or
         by connecting to a stub.
         """
         if server is None:
             import ansys.dpf.core.server as serverlib
+
             server = serverlib._global_server()
 
         self._server = server
@@ -71,11 +73,11 @@ class Scoping:
             self._message = self._stub.Create(request)
         else:
             self._message = scoping
-        
+
         if ids:
-            self.ids=ids
+            self.ids = ids
         if location:
-            self.location=location
+            self.location = location
 
     def _count(self):
         """
@@ -91,7 +93,7 @@ class Scoping:
 
     def _get_location(self):
         """Retrieve the location of the IDs.
-        
+
         Returns
         -------
         location : str
@@ -112,7 +114,7 @@ class Scoping:
         request.location.location = loc
         request.scoping.CopyFrom(self._message)
         self._stub.Update(request)
-        
+
     @version_requires("2.1")
     def _set_ids(self, ids):
         """
@@ -120,7 +122,7 @@ class Scoping:
         ----------
         ids : list of int
             IDs to set.
-        
+
         Notes
         -----
         Print a progress bar.
@@ -128,43 +130,44 @@ class Scoping:
         # must convert to a list for gRPC
         if isinstance(ids, range):
             ids = np.array(list(ids), dtype=np.int32)
-        elif not isinstance(ids,(np.ndarray, np.generic)):            
-            ids= np.array(ids, dtype=np.int32)
+        elif not isinstance(ids, (np.ndarray, np.generic)):
+            ids = np.array(ids, dtype=np.int32)
         else:
             ids = np.array(list(ids), dtype=np.int32)
-        
-        metadata=[(u"size_int", f"{len(ids)}")]
+
+        metadata = [("size_int", f"{len(ids)}")]
         request = scoping_pb2.UpdateIdsRequest()
         request.scoping.CopyFrom(self._message)
         if server_meet_version("2.1", self._server):
             self._stub.UpdateIds(_data_chunk_yielder(request, ids), metadata=metadata)
         else:
-            self._stub.UpdateIds(_data_chunk_yielder(request, ids, 8.0e6), metadata=metadata)
-        
+            self._stub.UpdateIds(
+                _data_chunk_yielder(request, ids, 8.0e6), metadata=metadata
+            )
 
     def _get_ids(self, np_array=False):
         """
         Returns
         -------
         ids : list[int], numpy.array (if np_array==True)
-            List of IDs.    
-        
+            List of IDs.
+
         Notes
         -----
         Print a progress bar.
         """
-        if server_meet_version("2.1", self._server):  
+        if server_meet_version("2.1", self._server):
             service = self._stub.List(self._message)
             dtype = np.int32
-            return _data_get_chunk_(dtype, service,np_array)
+            return _data_get_chunk_(dtype, service, np_array)
         else:
             out = []
-                    
+
             service = self._stub.List(self._message)
             for chunk in service:
                 out.extend(chunk.ids.rep_int)
             if np_array:
-                return np.array(out, dtype = np.int32)
+                return np.array(out, dtype=np.int32)
             else:
                 return out
 
@@ -220,45 +223,45 @@ class Scoping:
         request.scoping.CopyFrom(self._message)
         return self._stub.Get(request).index
 
-    def id(self, index:int):
+    def id(self, index: int):
         """Retrieve the ID at a given index.
-        
+
         Parameters
         ----------
         index : int
             Index for the ID.
-            
+
         Returns
         -------
         size : int
-    
+
         """
         return self._get_id(index)
 
-    def index(self, id:int):
+    def index(self, id: int):
         """Retrieve the index of a given ID.
-        
+
         Parameters
         ----------
         id : int
             ID for the index to retrieve.
-        
+
         Returns
         -------
         size : int
-    
+
         """
         return self._get_index(id)
 
     @property
     def ids(self):
         """Retrive a list of IDs in the scoping.
- 
+
         Returns
         -------
-        ids : list of int 
-            List of IDs to retrieve. 
-        
+        ids : list of int
+            List of IDs to retrieve.
+
         Notes
         -----
         Print a progress bar.
@@ -277,7 +280,7 @@ class Scoping:
         Returns
         -------
         location : str
-    
+
         """
         return self._get_location()
 
@@ -297,10 +300,10 @@ class Scoping:
             self._stub.Delete(self._message)
         except:
             pass
-        
+
     def __iter__(self):
         return self.ids.__iter__()
-    
+
     def __getitem__(self, key):
         """Retrieve the ID at a requested index."""
         return self.id(key)
@@ -312,61 +315,64 @@ class Scoping:
         Returns
         -------
         size : int
-    
+
         """
         return self._count()
 
     def __str__(self):
         """Describe the entity.
-        
+
         Returns
         -------
         description : str
         """
         from ansys.dpf.core.core import _description
+
         return _description(self._message, self._server)
-    
-    def deep_copy(self,server=None):
+
+    def deep_copy(self, server=None):
         """Create a deep copy of the scoping's data on a given server.
-        
+
         This method is useful for passiong data from one server instance to another.
-        
+
         Parameters
         ----------
         server : ansys.dpf.core.server, optional
             Server with the channel connected to the remote or local instance.
             The default is ``None``, in which case an attempt is made to use the
-            global server. 
-        
+            global server.
+
         Returns
         -------
         scoping_copy : Scoping
         """
         scop = Scoping(server=server)
         scop.ids = self.ids
-        scop.location =self.location
+        scop.location = self.location
         return scop
 
 
-def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE): 
+def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE):
     length = data.size
-    need_progress_bar = length>1e6
+    need_progress_bar = length > 1e6
     if need_progress_bar:
-        bar =_common_progress_bar("Sending data...", unit=data.dtype.name, tot_size =length)
+        bar = _common_progress_bar(
+            "Sending data...", unit=data.dtype.name, tot_size=length
+        )
         bar.start()
-    sent_length =0
+    sent_length = 0
     if length == 0:
         yield request
         return
-    unitary_size =int(chunk_size//sys.getsizeof(data[0]))
-    if length-sent_length<unitary_size:
-        unitary_size= length-sent_length
-    while sent_length<length:
-        currentcopy = data.take(range(sent_length,sent_length+unitary_size))
-        request.array= currentcopy.tobytes()
-        sent_length=sent_length+unitary_size
-        if length-sent_length<unitary_size:
-            unitary_size= length-sent_length
+    unitary_size = int(chunk_size // sys.getsizeof(data[0]))
+    if length - sent_length < unitary_size:
+        unitary_size = length - sent_length
+    while sent_length < length:
+        currentcopy = data.take(range(sent_length, sent_length + unitary_size))
+        request.array = currentcopy.tobytes()
+        sent_length = sent_length + unitary_size
+        if length - sent_length < unitary_size:
+            unitary_size = length - sent_length
         yield request
         try:
             if need_progress_bar:
@@ -378,32 +384,30 @@ def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE):
             bar.finish()
     except:
         pass
-    
-    
 
 
 def _data_get_chunk_(dtype, service, np_array=True):
     tupleMetaData = service.initial_metadata()
-    
+
     need_progress_bar = False
     for iMeta in range(len(tupleMetaData)):
-        if tupleMetaData[iMeta].key == u"size_tot":
+        if tupleMetaData[iMeta].key == "size_tot":
             size = int(tupleMetaData[iMeta].value)
-            
-        
+
     itemsize = np.dtype(dtype).itemsize
-    need_progress_bar = size//itemsize>1e6
+    need_progress_bar = size // itemsize > 1e6
     if need_progress_bar:
-        bar =_common_progress_bar("Receiving data...", unit=dtype.__name__+"s", tot_size = size//itemsize)
+        bar = _common_progress_bar(
+            "Receiving data...", unit=dtype.__name__ + "s", tot_size=size // itemsize
+        )
         bar.start()
-        
-        
+
     if np_array:
-        arr = np.empty(size//itemsize, dtype)
+        arr = np.empty(size // itemsize, dtype)
         i = 0
         for chunk in service:
-            curr_size = len(chunk.array)//itemsize
-            arr[i:i + curr_size] = np.frombuffer(chunk.array, dtype)
+            curr_size = len(chunk.array) // itemsize
+            arr[i : i + curr_size] = np.frombuffer(chunk.array, dtype)
             i += curr_size
             try:
                 if need_progress_bar:
@@ -412,13 +416,13 @@ def _data_get_chunk_(dtype, service, np_array=True):
                 pass
 
     else:
-        arr=[]
-        if dtype==np.float:
-            dtype = 'd'
+        arr = []
+        if dtype == np.float:
+            dtype = "d"
         else:
-            dtype='i'
+            dtype = "i"
         for chunk in service:
-            arr.extend(array.array(dtype,chunk.array))
+            arr.extend(array.array(dtype, chunk.array))
             try:
                 if need_progress_bar:
                     bar.update(len(arr))

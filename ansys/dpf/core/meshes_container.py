@@ -15,32 +15,32 @@ class MeshesContainer(Collection):
     Parameters
     ----------
     meshes_container : ansys.grpc.dpf.collection_pb2.Collection or ansys.dpf.core.MeshesContainer, optional
-        Create a meshes container from a collection message or create a copy from an 
+        Create a meshes container from a collection message or create a copy from an
         existing meshes container. The default is ``None``.
     server : ansys.dpf.core.server, optional
-        Server with the channel connected to the remote or local instance. 
-        The default is ``None``, in which case an attempt is made to use the 
-        global server.  
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
     """
 
     def __init__(self, meshes_container=None, server=None):
-        """Initialize the scoping with either an optional scoping message or by connecting to a stub.
-        """
+        """Initialize the scoping with either an optional scoping message or by connecting to a stub."""
         if server is None:
             server = dpf.core._global_server()
 
         self._server = server
         self._stub = self._connect()
-        
-        Collection.__init__(self, types.meshed_region,  
-                            collection=meshes_container, server=self._server)
+
+        Collection.__init__(
+            self, types.meshed_region, collection=meshes_container, server=self._server
+        )
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.
 
         Parameters
         ----------
-        label_space : dict[str,int] 
+        label_space : dict[str,int]
             Meshes corresponding to a filter (label space) in the input. For example:
             ``{"elshape":1, "body":12}``
 
@@ -50,16 +50,16 @@ class MeshesContainer(Collection):
             Meshes corresponding to the request.
         """
         return super()._get_entries(label_space)
-    
+
     def get_mesh(self, label_space_or_index):
         """Retrieve the mesh at a requested index or label space.
-        
+
         Raises an exception if the request returns more than one mesh.
 
         Parameters
         ----------
-        label_space_or_index : dict[str,int] , int 
-            Scoping of the requested mesh, such as ``{"time": 1, "complex": 0}`` 
+        label_space_or_index : dict[str,int] , int
+            Scoping of the requested mesh, such as ``{"time": 1, "complex": 0}``
             or the index of the mesh.
 
         Returns
@@ -98,7 +98,7 @@ class MeshesContainer(Collection):
         return super()._add_entry(label_space, mesh)
 
     def __str__(self):
-        txt = 'DPF Meshes Container with\n'
+        txt = "DPF Meshes Container with\n"
         txt += "\t%d mesh(es)\n" % len(self)
         txt += f"\tdefined on labels {self.labels} \n\n"
         return txt
