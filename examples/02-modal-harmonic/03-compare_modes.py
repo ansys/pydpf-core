@@ -25,7 +25,7 @@ print(model)
 # Visualize specific mode shapes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Choose the modes to visualize
-modes = [1,5,10,15]
+modes = [1, 5, 10, 15]
 
 
 ###############################################################################
@@ -35,7 +35,7 @@ disp = model.results.displacement
 for mode in modes:
     fc = disp.on_time_scoping(mode).split_by_shape.eval()
     model.metadata.meshed_region.plot(fc.shell_field())
-    
+
 
 ###############################################################################
 # Choose to split the displacement on solid/shell/beam to only focus on solid

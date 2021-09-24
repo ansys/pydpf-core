@@ -24,15 +24,14 @@ model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
 
 
-
 ###############################################################################
 # Create the Workflow
 # ~~~~~~~~~~~~~~~~~~~~
-# Maximum principal stress usually occurs on the skin of the 
+# Maximum principal stress usually occurs on the skin of the
 # model. Computing results only on this skin reduces the data size.
 
 # Create a simple workflow computing the principal stress on the skin
-# of the model. 
+# of the model.
 
 skin_op = ops.mesh.external_layer(model.metadata.meshed_region)
 skin_mesh = skin_op.outputs.mesh()
@@ -55,7 +54,6 @@ principal_stress_2 = principal_op.outputs.fields_eig_2()[0]
 principal_stress_3 = principal_op.outputs.fields_eig_3()[0]
 
 
-
 ###############################################################################
 # Manipulate Data Locally
 # ~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,20 +65,22 @@ principal_stress_3 = principal_op.outputs.fields_eig_3()[0]
 # Exploring data allows you to customize it to meet your needs.
 
 node_scoping_ids = principal_stress_1.scoping.ids
-threshold = 300000.
+threshold = 300000.0
 
-field_to_keep = dpf.fields_factory.create_scalar_field(len(node_scoping_ids), location=dpf.locations.nodal)
+field_to_keep = dpf.fields_factory.create_scalar_field(
+    len(node_scoping_ids), location=dpf.locations.nodal
+)
 
 with field_to_keep.as_local_field() as f:
     with principal_stress_1.as_local_field() as s1:
         with principal_stress_2.as_local_field() as s2:
             with principal_stress_3.as_local_field() as s3:
-                for i,id in enumerate(node_scoping_ids):
+                for i, id in enumerate(node_scoping_ids):
                     d1 = abs(s1.get_entity_data_by_id(id))
                     d2 = abs(s2.get_entity_data_by_id(id))
                     d3 = abs(s3.get_entity_data_by_id(id))
-                    if (d1+d2+d3)/3. > threshold :
-                        d = max(d1,d2,d3)
+                    if (d1 + d2 + d3) / 3.0 > threshold:
+                        d = max(d1, d2, d3)
                         f.append(d, id)
 
 

@@ -26,12 +26,15 @@ print(result_info.cyclic_symmetry_type)
 
 
 ###############################################################################
-# Go over the cyclic support 
+# Go over the cyclic support
 cyc_support = result_info.cyclic_support
 print("num stages:", cyc_support.num_stages)
 print("num_sectors stage 0:", cyc_support.num_sectors(0))
 print("num_sectors stage 1:", cyc_support.num_sectors(1))
-print("num nodes in the first stage's base sector: ", len(cyc_support.base_nodes_scoping(0)))
+print(
+    "num nodes in the first stage's base sector: ",
+    len(cyc_support.base_nodes_scoping(0)),
+)
 
 
 ###############################################################################
@@ -44,12 +47,12 @@ print("num nodes in the first stage's base sector: ", len(cyc_support.base_nodes
 UCyc = dpf.operators.result.cyclic_expanded_displacement()
 UCyc.inputs.data_sources(model.metadata.data_sources)
 # Select the sectors to expand on the first stage
-UCyc.inputs.sectors_to_expand([0,1,2])
+UCyc.inputs.sectors_to_expand([0, 1, 2])
 # Or select the sectors to expand stage by stage
 sectors_scopings = dpf.ScopingsContainer()
 sectors_scopings.labels = ["stage"]
-sectors_scopings.add_scoping({"stage":0}, dpf.Scoping(ids=[0,1,2]))
-sectors_scopings.add_scoping({"stage":1}, dpf.Scoping(ids=[0,1,2,3,4,5,6]))
+sectors_scopings.add_scoping({"stage": 0}, dpf.Scoping(ids=[0, 1, 2]))
+sectors_scopings.add_scoping({"stage": 1}, dpf.Scoping(ids=[0, 1, 2, 3, 4, 5, 6]))
 UCyc.inputs.sectors_to_expand(sectors_scopings)
 
 
@@ -72,7 +75,9 @@ mesh.plot(fields)
 ###############################################################################
 # Choose to expand only some sectors for the mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cyc_support_provider = ops.metadata.cyclic_support_provider(data_sources=model.metadata.data_sources)
+cyc_support_provider = ops.metadata.cyclic_support_provider(
+    data_sources=model.metadata.data_sources
+)
 cyc_support_provider.inputs.sectors_to_expand(sectors_scopings)
 mesh_exp = ops.metadata.cyclic_mesh_expansion(cyclic_support=cyc_support_provider)
 selected_sectors_mesh = mesh_exp.outputs.meshed_region()
@@ -85,7 +90,7 @@ selected_sectors_mesh.plot(fields)
 # Check results precisely
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# print the time_freq_support to see the harmonic index 
+# print the time_freq_support to see the harmonic index
 print(model.metadata.time_freq_support)
 print(model.metadata.time_freq_support.get_harmonic_indices(stage_num=1).data)
 
@@ -95,7 +100,7 @@ node_id = cyc_support.base_nodes_scoping(0)[18]
 print(node_id)
 
 # check what are the expanded ids of this node
-expanded_ids = cyc_support.expand_node_id(node_id,[0,1,2], 0)
+expanded_ids = cyc_support.expand_node_id(node_id, [0, 1, 2], 0)
 print(expanded_ids.ids)
 
 # verify that the displacement values are the same on all those nodes

@@ -33,7 +33,7 @@ disp = model.results.displacement
 disp_op = disp.on_all_time_freqs()
 
 # Chain the displacement operator with norm and min_max operators.
-min_max_op =ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
+min_max_op = ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
 
 min_disp = min_max_op.outputs.field_min()
 max_disp = min_max_op.outputs.field_max()
@@ -43,8 +43,8 @@ print(max_disp.data)
 # Plot the minimum and maximum displacements over time:
 
 tdata = model.metadata.time_freq_support.time_frequencies.data
-plt.plot(tdata, max_disp.data, 'r', label='Max')
-plt.plot(tdata, min_disp.data, 'b', label="Min")
+plt.plot(tdata, max_disp.data, "r", label="Max")
+plt.plot(tdata, min_disp.data, "b", label="Min")
 plt.xlabel("Time (s)")
 plt.ylabel("Displacement (m)")
 plt.legend()
@@ -59,7 +59,7 @@ plt.show()
 # to draw a nicer plot on this range.
 
 offset = 0.0005
-time_scoping = [0.05+offset*i for i in range(0, int((0.08-0.05)/offset))]
+time_scoping = [0.05 + offset * i for i in range(0, int((0.08 - 0.05) / offset))]
 print(time_scoping)
 
 ###############################################################################
@@ -68,7 +68,7 @@ disp = model.results.displacement
 disp_op = disp.on_time_scoping(time_scoping)()
 
 # Chain the displacement operator with norm and min_max operators.
-min_max_op =ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
+min_max_op = ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
 
 min_disp = min_max_op.outputs.field_min()
 max_disp = min_max_op.outputs.field_max()
@@ -77,7 +77,7 @@ print(max_disp.data)
 ###############################################################################
 # Plot the minimum and maximum displacements over time:
 
-plt.plot(time_scoping, max_disp.data, 'rx', label='Max')
+plt.plot(time_scoping, max_disp.data, "rx", label="Max")
 plt.xlabel("Time (s)")
 plt.ylabel("Displacement (m)")
 plt.legend()

@@ -17,6 +17,7 @@ from ansys.dpf.core import operators as ops
 import os
 
 import tempfile
+
 tmpdir = tempfile.mkdtemp()
 
 ###############################################################################
@@ -30,23 +31,23 @@ displacement = model.results.displacement()
 mesh = model.metadata.meshed_region
 
 ###############################################################################
-# Create the hdf5 export operator. Hdf5 module should already be loaded. 
+# Create the hdf5 export operator. Hdf5 module should already be loaded.
 
 h5op = ops.serialization.serialize_to_hdf5()
 print(h5op)
 
 ###############################################################################
-# Connect the correct time scoping to the results operators (stress 
+# Connect the correct time scoping to the results operators (stress
 # and displacement).
 
-timeIds = list(range(1, model.metadata.time_freq_support.n_sets+1))
+timeIds = list(range(1, model.metadata.time_freq_support.n_sets + 1))
 timeIds
 
 stress.inputs.time_scoping.connect(timeIds)
 displacement.inputs.time_scoping.connect(timeIds)
 
 ###############################################################################
-# Connect inputs of the hdf5 export operator. 
+# Connect inputs of the hdf5 export operator.
 
 h5op.inputs.data1.connect(stress.outputs)
 h5op.inputs.data2.connect(displacement.outputs)
@@ -55,16 +56,18 @@ h5op.inputs.data3.connect(mesh)
 ###############################################################################
 # Export with simple precision
 
-h5op.inputs.file_path.connect(os.path.join(tmpdir,'c:/temp/dpf_float.h5'))
+h5op.inputs.file_path.connect(os.path.join(tmpdir, "c:/temp/dpf_float.h5"))
 h5op.run()
 
 ###############################################################################
 # Export with simple precision
 
 h5op.inputs.export_floats.connect(False)
-h5op.inputs.file_path.connect(os.path.join(tmpdir,'c:/temp/dpf_double.h5'))
+h5op.inputs.file_path.connect(os.path.join(tmpdir, "c:/temp/dpf_double.h5"))
 h5op.run()
 
 ###############################################################################
 # Comparison
-print(f"size with float precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_double.h5')).st_size}")
+print(
+    f"size with float precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_double.h5')).st_size}"
+)
