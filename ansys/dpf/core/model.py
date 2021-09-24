@@ -21,7 +21,7 @@ from grpc._channel import _InactiveRpcError
 
 class Model:
     """Connects to a gRPC DPF server and allows access to a result using the DPF framework.
-    
+
     Parameters
     ----------
     data_sources : str, dpf.core.DataSources
@@ -38,14 +38,14 @@ class Model:
     >>> from ansys.dpf.core import examples
     >>> transient = examples.download_transient_result()
     >>> model = dpf.Model(transient)
-    
+
     """
 
     def __init__(self, data_sources=None, server=None):
         """Initialize connection with DPF server."""
-        
+
         if server is None:
-           server = dpf.core._global_server()
+            server = dpf.core._global_server()
 
         self._server = server
         self._metadata = Metadata(data_sources, self._server)
@@ -62,7 +62,7 @@ class Model:
         - ``time_freq_support``
         - ``result_info``
         - ``mesh_provider``
-        
+
         Returns
         -------
         metadata : Metadata
@@ -73,10 +73,10 @@ class Model:
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
-        
+
         Get the meshed region of the model and extract the element
         numbers.
-        
+
         >>> meshed_region = model.metadata.meshed_region
         >>> meshed_region.elements.scoping.ids[2]
         759
@@ -103,7 +103,7 @@ class Model:
     @property
     def results(self):
         """Available results of the model.
-        
+
         Organizes the results from DPF into accessible methods. All the available
         results are dynamically created depending on the model's class:`ansys.dpf.core.result_info`.
 
@@ -111,49 +111,51 @@ class Model:
         -------
         Results
             Available results of the model.
-    
+
         Attributes
         ----------
         all types of results : Result
-            Result provider helper wrapping all types of provider available for a 
+            Result provider helper wrapping all types of provider available for a
             given result file.
-            
+
             Examples
             --------
             Create a stress result from the model and choose its time and mesh scopings.
-            
+
             >>> from ansys.dpf import core as dpf
             >>> from ansys.dpf.core import examples
             >>> model = dpf.Model(examples.electric_therm)
             >>> v = model.results.electric_potential
             >>> rf = model.results.reaction_force
             >>> dissip = model.results.thermal_dissipation_energy
-            
+
         Examples
         --------
         Extract the result object from a model.
-    
+
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.simple_bar)
         >>> results = model.results # printable object
-    
+
         Access the displacement at all times.
-    
+
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         >>> displacements = model.results.displacement.on_all_time_freqs.eval()
-    
+
         """
         return self._results
-    
-    def __connect_op__(self,op):
+
+    def __connect_op__(self, op):
         """Connect the data sources or the streams to the operator."""
-        if self.metadata._stream_provider is not None and hasattr(op.inputs, 'streams'):
+        if self.metadata._stream_provider is not None and hasattr(op.inputs, "streams"):
             op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
+        elif self.metadata._data_sources is not None and hasattr(
+            op.inputs, "data_sources"
+        ):
             op.inputs.data_sources.connect(self.metadata._data_sources)
 
     def operator(self, name):
@@ -167,63 +169,63 @@ class Model:
         Examples
         --------
         Create a displacement operator.
-        
+
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         >>> disp = model.operator('U')
-        
+
         Create a sum operator.
 
         >>> sum = model.operator('accumulate')
-        
+
         """
-        op = Operator(name= name, server = self._server)
+        op = Operator(name=name, server=self._server)
         self.__connect_op__(op)
         return op
 
     def __str__(self):
-        txt = 'DPF Model\n'
-        txt += '-'*30 + '\n'
+        txt = "DPF Model\n"
+        txt += "-" * 30 + "\n"
         txt += str(self.results)
-        txt += '-'*30 + '\n'
+        txt += "-" * 30 + "\n"
         txt += str(self.metadata.meshed_region)
-        txt += '\n' + '-'*30 + '\n'
+        txt += "\n" + "-" * 30 + "\n"
         txt += str(self.metadata.time_freq_support)
         return txt
 
-    def plot(self, color='w', show_edges=True, **kwargs):
+    def plot(self, color="w", show_edges=True, **kwargs):
         """Plot the mesh of the model.
 
         Examples
         --------
         Plot the model using the default options.
-        
+
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
         >>> model.plot()
-        
+
         """
-        self.metadata.meshed_region.grid.plot(color=color,
-                                              show_edges=show_edges, **kwargs)
-
-
+        self.metadata.meshed_region.grid.plot(
+            color=color, show_edges=show_edges, **kwargs
+        )
 
 
 class Metadata:
     """Contains the metadata of a data source.
-    
+
     Parameters
     ----------
     data_sources :
-    
+
     server : server.DPFServer
         Server with the channel connected to the remote or local instance.
-        
+
     """
+
     def __init__(self, data_sources, server):
         self._server = server
         self._set_data_sources(data_sources)
@@ -241,8 +243,13 @@ class Metadata:
     def _cache_streams_provider(self):
         """Create a stream provider and cache it."""
         from ansys.dpf.core import operators
-        if hasattr(operators, "metadata") and hasattr(operators.metadata,"stream_provider"):
-            self._stream_provider = operators.metadata.streams_provider(data_sources=self._data_sources, server=self._server)
+
+        if hasattr(operators, "metadata") and hasattr(
+            operators.metadata, "stream_provider"
+        ):
+            self._stream_provider = operators.metadata.streams_provider(
+                data_sources=self._data_sources, server=self._server
+            )
         else:
             self._stream_provider = Operator("stream_provider", server=self._server)
             self._stream_provider.inputs.connect(self._data_sources)
@@ -262,7 +269,7 @@ class Metadata:
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
-        
+
         Get the number of sets from the result file.
 
         >>> tf = model.metadata.time_freq_support
@@ -284,7 +291,9 @@ class Metadata:
         if self._time_freq_support is None:
             timeProvider = Operator("TimeFreqSupportProvider", server=self._server)
             timeProvider.inputs.connect(self._stream_provider.outputs)
-            self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
+            self._time_freq_support = timeProvider.get_output(
+                0, types.time_freq_support
+            )
         return self._time_freq_support
 
     @property
@@ -303,16 +312,16 @@ class Metadata:
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = dpf.Model(transient)
-        
+
         Connect the model data sources to the 'U' operator.
-        
+
         >>> ds = model.metadata.data_sources
         >>> op = dpf.operators.result.displacement()
         >>> op.inputs.data_sources.connect(ds)
-        
+
         """
         return self._data_sources
-    
+
     @property
     def streams_provider(self):
         """Streams provider operator connected to the data sources.
@@ -329,16 +338,15 @@ class Metadata:
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = dpf.Model(transient)
-        
+
         Connect the model data sources to the ``U`` operator.
-        
+
         >>> streams = model.metadata.streams_provider
         >>> op = dpf.operators.result.displacement()
         >>> op.inputs.streams_container.connect(streams)
-        
+
         """
         return self._stream_provider
-
 
     def _set_data_sources(self, var_inp):
         if isinstance(var_inp, dpf.core.DataSources):
@@ -357,8 +365,8 @@ class Metadata:
             result_info = op.get_output(0, types.result_info)
         except _InactiveRpcError as e:
             # give the user a more helpful error
-            if 'results file is not defined in the Data sources' in e.details():
-                raise RuntimeError('Unable to open result file') from None
+            if "results file is not defined in the Data sources" in e.details():
+                raise RuntimeError("Unable to open result file") from None
             else:
                 raise e
         return result_info
@@ -392,40 +400,38 @@ class Metadata:
         -------
         mesh_provider : class:`ansys.dpf.core.operators.mesh.mesh_provider`
             Mesh provider operator.
-        
+
         """
-        try :
+        try:
             tmp = Operator("MeshSelectionManagerProvider", server=self._server)
             tmp.inputs.connect(self._stream_provider.outputs)
             tmp.run()
-        except :
+        except:
             pass
         mesh_provider = Operator("MeshProvider", server=self._server)
         mesh_provider.inputs.connect(self._stream_provider.outputs)
         return mesh_provider
 
-
     @property
     def available_named_selections(self):
         """List of available named selections.
-        
+
         Returns
         -------
         named_selections : list str
         """
         return self.meshed_region.available_named_selections
-    
+
     def named_selection(self, named_selection):
         """Scoping containing the list of nodes or elements in the named selection.
-        
+
         Parameters
         ----------
-        named_selection : str 
+        named_selection : str
             name of the named selection
-            
+
         Returns
         -------
         named_selection : :class:`ansys.dpf.core.scoping`
         """
         return self.meshed_region.named_selection(named_selection)
-        

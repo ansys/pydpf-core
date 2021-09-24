@@ -32,9 +32,10 @@ class ScopingsContainer(Collection):
 
         self._server = server
         self._stub = self._connect()
-        
-        Collection.__init__(self, types.scoping,  
-                            collection=scopings_container, server=self._server)
+
+        Collection.__init__(
+            self, types.scoping, collection=scopings_container, server=self._server
+        )
 
     def get_scopings(self, label_space):
         """Returns the scopings at a requested label space
@@ -51,7 +52,7 @@ class ScopingsContainer(Collection):
             scopings corresponding to the request
         """
         return super()._get_entries(label_space)
-    
+
     def get_scoping(self, label_space_or_index):
         """Returns the scoping at a requested index or label space.
         Throws if the request returns several scoping
@@ -99,9 +100,7 @@ class ScopingsContainer(Collection):
         return super()._add_entry(label_space, scoping)
 
     def __str__(self):
-        txt = 'DPF Scopings Container with\n'
+        txt = "DPF Scopings Container with\n"
         txt += "\t%d scoping(s)\n" % len(self)
         txt += f"\tdefined on labels {self.labels} \n\n"
         return txt
-
-    

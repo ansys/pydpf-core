@@ -3,27 +3,28 @@ Element Descriptor
 ==================
 """
 
-class ElementDescriptor: 
+
+class ElementDescriptor:
     """Describes an element.
-    
+
     Parameters
     ----------
     element_id: int
-    
+
     description: str
         Specifies the element geometry and integration order.
-    
+
     name: str
-    
+
     shape: str, optional
         Can be ``"solid"``, ``"shell"``, or ``"beam"``. The default is ``None``.
-    
+
     n_corner_nodes: int, optional
         The default is ``None``.
     n_mid_nodes: int, optional
         The default is ``None``.
     n_nodes: int, optional
-        The default is ``None``.    
+        The default is ``None``.
     is_solid: bool, optional
         Whether the element is a solid. The default is ``None``.
     is_shell: bool, optional
@@ -32,18 +33,28 @@ class ElementDescriptor:
         Whether the element is a beam. The default is ``None``.
     is_quadratic: bool, optional
         Whether the element is a quadratic. The default is ``None``.
-    
+
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> descriptor = dpf.ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False)   
-    
+    >>> descriptor = dpf.ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False)
+
     """
-    
-    def __init__(self, enum_id, description, name, shape=None, 
-                 n_corner_nodes=None, n_mid_nodes=None, 
-                 n_nodes=None, is_solid=None, is_shell=None, 
-                 is_beam=None, is_quadratic=None):
+
+    def __init__(
+        self,
+        enum_id,
+        description,
+        name,
+        shape=None,
+        n_corner_nodes=None,
+        n_mid_nodes=None,
+        n_nodes=None,
+        is_solid=None,
+        is_shell=None,
+        is_beam=None,
+        is_quadratic=None,
+    ):
         """Constructor of ElementDescriptor."""
         self.enum_id = enum_id
         self.description = description
@@ -58,11 +69,11 @@ class ElementDescriptor:
         self.is_shell = is_shell
         self.is_beam = is_beam
         self.is_quadratic = is_quadratic
-        
+
     def __str__(self):
         lines = []
-        lines.append('Element descriptor')
-        lines.append('-'*18)
+        lines.append("Element descriptor")
+        lines.append("-" * 18)
         lines.append(f"Enum id (dpf.element_types): {self.enum_id}")
         lines.append(f"Element description: {self.description}")
         lines.append(f"Element name (short): {self.name}")
@@ -72,5 +83,3 @@ class ElementDescriptor:
         lines.append(f"Total number of nodes: {self.n_nodes}")
         lines.append(f"Quadratic element: {self.is_quadratic}")
         return "\n".join(lines)
-        
-        
