@@ -31,7 +31,7 @@ def test_simple_remote_workflow(simple_bar):
     grpc_data_sources.set_result_file_path(local_server.ip+":"+ str(local_server.port),"grpc")
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
     
-    remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+    remote_workflow_prov = core.Operator("remote_workflow_instantiate")
     remote_workflow_prov.connect(3, grpc_stream_provider, 0)
     remote_workflow_prov.connect(0, wf)
     
@@ -61,7 +61,7 @@ def test_multi_process_remote_workflow():
         grpc_data_sources.set_result_file_path(local_servers[i].ip+":"+ str(local_servers[i].port),"grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
         
-        remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         
@@ -104,7 +104,7 @@ def test_multi_process_connect_remote_workflow():
         grpc_data_sources.set_result_file_path(local_servers[i].ip+":"+ str(local_servers[i].port),"grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
         
-        remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         
@@ -147,7 +147,7 @@ def test_multi_process_connect_operator_remote_workflow():
         grpc_data_sources.set_result_file_path(local_servers[i].ip+":"+ str(local_servers[i].port),"grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
         
-        remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         
@@ -190,7 +190,7 @@ def test_multi_process_getoutput_remote_workflow():
         grpc_data_sources.set_result_file_path(local_servers[i].ip+":"+ str(local_servers[i].port),"grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
         
-        remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
@@ -234,7 +234,7 @@ def test_multi_process_chain_remote_workflow():
         grpc_data_sources.set_result_file_path(local_servers[i].ip+":"+ str(local_servers[i].port),"grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
         
-        remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
@@ -255,7 +255,7 @@ def test_multi_process_chain_remote_workflow():
     grpc_data_sources.set_result_file_path(local_servers[2].ip+":"+ str(local_servers[2].port),"grpc")
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
     
-    remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+    remote_workflow_prov = core.Operator("remote_workflow_instantiate")
     remote_workflow_prov.connect(3, grpc_stream_provider, 0)
     remote_workflow_prov.connect(0, local_wf)
     remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
@@ -279,7 +279,7 @@ def test_remote_workflow_info():
     grpc_data_sources = core.DataSources()
     grpc_data_sources.set_result_file_path(local_server.ip+":"+ str(local_server.port),"grpc")
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
-    remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+    remote_workflow_prov = core.Operator("remote_workflow_instantiate")
     remote_workflow_prov.connect(3, grpc_stream_provider, 0)
     remote_workflow_prov.connect(0, wf)
     remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
@@ -306,7 +306,7 @@ def test_multi_process_local_remote_local_remote_workflow():
         grpc_data_sources.set_result_file_path(local_servers[i].ip+":"+ str(local_servers[i].port),"grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
         
-        remote_workflow_prov = core.Operator("remote_workflow_instanciate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
