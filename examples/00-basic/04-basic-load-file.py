@@ -11,8 +11,8 @@ in CSV format.
 """
 
 ###############################################################################
-# Load a model from the DPF-Core examples: 
-# ``ansys.dpf.core`` module. 
+# Load a model from the DPF-Core examples:
+# ``ansys.dpf.core`` module.
 
 from ansys.dpf import core
 from ansys.dpf.core import examples
@@ -32,10 +32,11 @@ mesh.plot(fc_out)
 ###############################################################################
 # Export Result
 # ~~~~~~~~~~~~~
-# Get the fields container for the result and export it in the CSV format: 
+# Get the fields container for the result and export it in the CSV format:
 
 import os
-file_path = os.getcwd() + '\\simple_bar_fc.csv'
+
+file_path = os.getcwd() + "\\simple_bar_fc.csv"
 
 export_csv_operator = core.operators.serialization.field_to_csv()
 export_csv_operator.inputs.field_or_fields_container.connect(fc_out)
@@ -46,10 +47,10 @@ export_csv_operator.run()
 # Upload CSV Result File
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # Upload the file ``simple_bar_fc.csv`` on the server side.
-# Here, :func:`upload_file_in_tmp_folder` is used because 
-# it is assumed that the server machine architecture is unknown. 
-# However, when the server file path is known, :func:`upload_file` 
-# can be used. 
+# Here, :func:`upload_file_in_tmp_folder` is used because
+# it is assumed that the server machine architecture is unknown.
+# However, when the server file path is known, :func:`upload_file`
+# can be used.
 
 server_file_path = core.upload_file_in_tmp_folder(file_path)
 print(server_file_path)
@@ -62,7 +63,7 @@ os.remove(file_path)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 # Download the file ``simple_bar_fc.csv``:
 
-downloaded_client_file_path = os.getcwd() + '\\simple_bar_fc_downloaded.csv'
+downloaded_client_file_path = os.getcwd() + "\\simple_bar_fc_downloaded.csv"
 core.download_file(server_file_path, downloaded_client_file_path)
 
 ###############################################################################
@@ -82,7 +83,7 @@ os.remove(downloaded_client_file_path)
 ###############################################################################
 # Make Operations Over the Imported Fields Container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use this fields container: 
+# Use this fields container:
 
 min_max_op = core.operators.min_max.min_max_fc()
 min_max_op.inputs.fields_container.connect(downloaded_fc_out)

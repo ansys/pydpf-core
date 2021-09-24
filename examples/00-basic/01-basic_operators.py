@@ -34,7 +34,7 @@ print(model)
 #
 # To print out the available inputs and outputs of the
 # displacement operator:
-disp_op = dpf.Operator('U')
+disp_op = dpf.Operator("U")
 print(disp_op.inputs)
 print(disp_op.outputs)
 
@@ -51,12 +51,12 @@ disp_op.inputs.data_sources.connect(model.metadata.data_sources)
 
 # Create a field container norm operator and connect it to the
 # displacement operator to chain the operators.
-norm_op = dpf.Operator('norm_fc')
+norm_op = dpf.Operator("norm_fc")
 norm_op.inputs.connect(disp_op.outputs)
 
 # Create a field container min/max operator and connect it to the
 # output of the norm operator.
-mm_op = dpf.Operator('min_max_fc')
+mm_op = dpf.Operator("min_max_fc")
 mm_op.inputs.connect(norm_op.outputs)
 
 # Finally, get the value of the maximum displacement
@@ -81,6 +81,7 @@ disp_op = model.results.displacement()
 # Out of convenience, the operators module contains available operators
 # Those operators can be created in chain to create a workflow in one line
 from ansys.dpf.core import operators
+
 mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))
 
 # Finally, get the value of the maximum displacement.
@@ -95,19 +96,19 @@ print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 ###############################################################################
 # Scripting Operator Syntax
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Because DPF provides a scripting syntax, knowing 
-# an operator's "string name" is not mandatory. 
-# While this example is similar to the above script, it uses the DPF 
-# scripting syntax. 
+# Because DPF provides a scripting syntax, knowing
+# an operator's "string name" is not mandatory.
+# While this example is similar to the above script, it uses the DPF
+# scripting syntax.
 
 ###############################################################################
-# Instead of using a ``model`` class instance, use a 
-# datasources object directly. The ``DataSources`` constructor input is a path. 
+# Instead of using a ``model`` class instance, use a
+# datasources object directly. The ``DataSources`` constructor input is a path.
 ds = dpf.DataSources(examples.static_rst)
 print(examples.static_rst)
 
 ###############################################################################
-# Instantiate the operators and connect them: 
+# Instantiate the operators and connect them:
 
 disp_op = dpf.operators.result.displacement()
 disp_op.inputs.data_sources.connect(ds)
@@ -117,7 +118,7 @@ mm_op = dpf.operators.min_max.min_max_fc()
 mm_op.inputs.connect(norm_op.outputs)
 
 ###############################################################################
-# Get the output and print the result data: 
+# Get the output and print the result data:
 
 field_max = mm_op.outputs.field_max()
 print(field_max.data)

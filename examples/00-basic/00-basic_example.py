@@ -69,7 +69,7 @@ print(metadata.time_freq_support)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # All results of the model can be accessed through the ``results``
 # property, which returns the :class:`ansys.dpf.core.results.Results`
-# class. This class contains the DPF result operators available to a 
+# class. This class contains the DPF result operators available to a
 # specific result file, which are listed when printing the object with
 # ``print(results)``.
 #
