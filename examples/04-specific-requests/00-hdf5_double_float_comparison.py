@@ -3,8 +3,8 @@
 
 Hdf5 export and compare precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to use hdf5 format to export and 
-make a comparison between simple/double precision. 
+This example shows how to use hdf5 format to export and
+make a comparison between simple/double precision.
 
 """
 

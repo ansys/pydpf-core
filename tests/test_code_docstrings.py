@@ -1,5 +1,5 @@
 """Here we write all the doc string examples. This way we can be sure that they
-still work. 
+still work.
 A method is written for each python file of dpf-core.
 If a failure occurs, the change must be done here and in the corresponding
 docstring."""

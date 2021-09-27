@@ -3,8 +3,8 @@
 
 Get reduced matrices and make export
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to get reduced matrices and 
-export them to hdf5 and csv format. 
+This example shows how to get reduced matrices and
+export them to hdf5 and csv format.
 
 """
 

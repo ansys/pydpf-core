@@ -1,6 +1,6 @@
 """
 .. _ref_operator:
-    
+
 Operator
 ========
 Provides an interface to the underlying gRPC operator.
@@ -496,10 +496,19 @@ def _write_output_type_to_proto_style(output_type, request):
 
 
 def _convertOutputMessageToPythonInstance(out, output_type, server):
-    from ansys.dpf.core import (cyclic_support, data_sources, field,
-                                fields_container, meshed_region,
-                                meshes_container, property_field, result_info,
-                                scoping, scopings_container, time_freq_support)
+    from ansys.dpf.core import (
+        cyclic_support,
+        data_sources,
+        field,
+        fields_container,
+        meshed_region,
+        meshes_container,
+        property_field,
+        result_info,
+        scoping,
+        scopings_container,
+        time_freq_support,
+    )
 
     if out.HasField("str"):
         return out.str
@@ -552,8 +561,15 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
 
 
 def _fillConnectionRequestMessage(request, inpt, pin_out=0):
-    from ansys.dpf.core import (collection, cyclic_support, data_sources,
-                                field_base, meshed_region, model, scoping)
+    from ansys.dpf.core import (
+        collection,
+        cyclic_support,
+        data_sources,
+        field_base,
+        meshed_region,
+        model,
+        scoping,
+    )
 
     if isinstance(inpt, str):
         request.str = inpt

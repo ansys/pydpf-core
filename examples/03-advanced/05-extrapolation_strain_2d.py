@@ -4,7 +4,7 @@
 Extrapolation Method for strain result of 2D-element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to compute the nodal components elastic strain from Gaussian points (integration points) for 2D-element by using the method of extrapolation.
-Extrapolating results available at Gauss or quadrature points to nodal points for a field or fields container. The available elements are : linear quadrangle, parabolic quadrangle, linear hexagonal, quadratic hexagonal, linear tetrahedral, quadratic tetrahedral. 
+Extrapolating results available at Gauss or quadrature points to nodal points for a field or fields container. The available elements are : linear quadrangle, parabolic quadrangle, linear hexagonal, quadratic hexagonal, linear tetrahedral, quadratic tetrahedral.
 
 1st step : get the data source's analyse of integration points(this file was add the commands APDL "EREXS, NO").
 

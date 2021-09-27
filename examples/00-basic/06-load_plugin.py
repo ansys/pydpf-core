@@ -1,9 +1,9 @@
 """
 .. _ref_load_plugin:
 
-Load Plugin 
+Load Plugin
 ~~~~~~~~~~~
-This example shows how to load a plugin that is not loaded automatically. 
+This example shows how to load a plugin that is not loaded automatically.
 
 """
 
