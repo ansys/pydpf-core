@@ -117,9 +117,12 @@ mesh.plot()
 
 ###############################################################################
 # Create displacement fields over time with three time sets.
-# Here the displacement on each node will be the value of its x, y, and z coordinates for time 1.
-# The displacement on each node will be two times the value of its x, y, and z coordinates for time 2.
-# The displacement on each node will be three times the value of its x, y, and z coordinates for time 3.
+# Here the displacement on each node will be the value of its x, y, and
+# z coordinates for time 1.
+# The displacement on each node will be two times the value of its x, y,
+# and z coordinates for time 2.
+# The displacement on each node will be three times the value of its x,
+# y, and z coordinates for time 3.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 * coordinates_data

@@ -492,7 +492,8 @@ class _FieldBase:
                     != data.size / self.component_count
                 ):
                     raise ValueError(
-                        f"An array of shape {self.shape} is expected and shape {data.shape} is in input"
+                        f"An array of shape {self.shape} is expected and "
+                        f"shape {data.shape} is in input"
                     )
                 else:
                     data = np.array(data.reshape(data.size), dtype=float)
@@ -587,7 +588,8 @@ class _LocalFieldBase(_FieldBase):
         """
         if index > self._num_entities:
             raise ValueError(
-                f"asked scoping {index} is greater than the number of available indices {len(self._scoping_ids_copy)}"
+                f"asked scoping {index} is greater than the number of "
+                f"available indices {len(self._scoping_ids_copy)}"
             )
         if self._has_data_pointer:
             first_index = self._data_pointer_copy[index]
@@ -666,7 +668,9 @@ class _LocalFieldBase(_FieldBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> num_entities=100
-        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
+        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(
+        ...     num_entities, location=dpf.locations.elemental_nodal
+        ... )
         >>> with field_to_local.as_local_field() as f:
         ...     for i in range(1,num_entities+1):
         ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
@@ -768,7 +772,8 @@ class _LocalFieldBase(_FieldBase):
             if isinstance(data, (np.ndarray, np.generic)):
                 if data.shape != self.shape and 0 != self.size:
                     raise ValueError(
-                        f"An array of shape {self.shape} is expected and shape {data.shape} is in input"
+                        f"An array of shape {self.shape} is expected and "
+                        f"shape {data.shape} is in input"
                     )
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_copy = data.flatten().tolist()

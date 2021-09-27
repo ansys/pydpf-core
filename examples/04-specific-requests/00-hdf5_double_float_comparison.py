@@ -68,6 +68,9 @@ h5op.run()
 
 ###############################################################################
 # Comparison
+float_precision = os.stat(os.path.join(tmpdir, "c:/temp/dpf_float.h5")).st_size
+double_precision = os.stat(os.path.join(tmpdir, "c:/temp/dpf_double.h5")).st_size
 print(
-    f"size with float precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_double.h5')).st_size}"
+    f"size with float precision: {float_precision}\n"
+    f"size with double precision: {double_precision}"
 )

@@ -14,7 +14,8 @@ def start_server_using_service_manager():  # pragma: no cover
         )
     else:
         raise ValueError(
-            "Module grpc_interceptor_headers is missing. To use Service Manager, install it using pip install grpc_interceptor_headers."
+            "Module grpc_interceptor_headers is missing. To use Service "
+            "Manager, install it using pip install grpc_interceptor_headers."
         )
 
     service_manager_url = f"http://{LOCALHOST}:8089/v1"

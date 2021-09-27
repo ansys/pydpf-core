@@ -51,14 +51,20 @@ names.append("meshes_container")
 types = Enum("types", names)
 types.__doc__ = __write_enum_doc__(
     types,
-    "The ``'types'`` enum contains the available types passed through operators and workflows to DPF.",
+    (
+        "The ``'types'`` enum contains the available types passed "
+        "through operators and workflows to DPF."
+    ),
 )
 
 names = [(m.lower(), num) for m, num in base_pb2.Nature.items()]
 natures = Enum("natures", names)
 natures.__doc__ = __write_enum_doc__(
     natures,
-    "The ``'natures'`` enum contains the dimensionality types.\n It can be used to create a field of a given dimensionality.",
+    (
+        "The ``'natures'`` enum contains the dimensionality types.\n "
+        "It can be used to create a field of a given dimensionality."
+    ),
 )
 
 
@@ -66,7 +72,11 @@ names = [(m.lower(), num - 1) for m, num in field_definition_pb2.ShellLayers.ite
 shell_layers = Enum("shell_layers", names)
 shell_layers.__doc__ = __write_enum_doc__(
     shell_layers,
-    "The ``'shell_layers'`` enum contains the available order of shell layers (or lack of shell layers) that defines how the field's data is ordered.",
+    (
+        "The ``'shell_layers'`` enum contains the available order of "
+        "shell layers (or lack of shell layers) that defines how the "
+        "field's data is ordered."
+    ),
 )
 
 

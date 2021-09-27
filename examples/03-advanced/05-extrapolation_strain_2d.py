@@ -3,16 +3,25 @@
 
 Extrapolation Method for strain result of 2D-element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to compute the nodal components elastic strain from Gaussian points (integration points) for 2D-element by using the method of extrapolation.
-Extrapolating results available at Gauss or quadrature points to nodal points for a field or fields container. The available elements are : linear quadrangle, parabolic quadrangle, linear hexagonal, quadratic hexagonal, linear tetrahedral, quadratic tetrahedral.
+This example shows how to compute the nodal components elastic strain
+from Gaussian points (integration points) for 2D-element by using the
+method of extrapolation.
 
-1st step : get the data source's analyse of integration points(this file was add the commands APDL "EREXS, NO").
+Extrapolating results available at Gauss or quadrature points to nodal
+points for a field or fields container. The available elements are:
+linear quadrangle, parabolic quadrangle, linear hexagonal,
+quadratic hexagonal, linear tetrahedral, quadratic tetrahedral.
+
+1st step : get the data source's analyse of integration points(this file
+was add the commands APDL "EREXS, NO").
 
 2nd step: using operator of extrapolation to compute the nodal elastic strain.
 
-3rd step: get nodal elastic strain result from data source's analyse reference. The analyse was computed by ANSYS Mechanical APDL.
+3rd step: get nodal elastic strain result from data source's analyse reference.
+The analyse was computed by ANSYS Mechanical APDL.
 
-4th step: compare the results between nodal elastic strain from data source ref and nodal strain computed by Extrapolation Method.
+4th step: compare the results between nodal elastic strain from data source
+ref and nodal strain computed by Extrapolation Method.
 
 """
 
@@ -39,7 +48,8 @@ mesh = model.metadata.meshed_region
 ###############################################################################
 # Extrapolation from integration points for elastic strain result
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In this example we compute nodal component elastic strain results from integration points's elastic strain by using operator gauss_to_node_fc
+# In this example we compute nodal component elastic strain results from
+# integration points's elastic strain by using operator gauss_to_node_fc
 
 # Create elastic strain operator to get strain result of integration points
 strainop = dpf.operators.result.elastic_strain()
@@ -49,8 +59,13 @@ strain = strainop.outputs.fields_container()
 ###############################################################################
 # Nodal elastic strain result of integration points:
 ###############################################################################
-# The command "ERESX,NO" in Mechanical APDL is used to copy directly the gaussian (integration) points results to the nodes, instead of the results at nodes or elements (which are interpolation of results at a few gauss points).
-# The following plot shows the nodal values which are the averaged values of elastic strain at each node. The value shown at the node is the average of the elastic strains from the gaussian points of each element that it belongs to.
+# The command "ERESX,NO" in Mechanical APDL is used to copy directly the
+# gaussian (integration) points results to the nodes, instead of the results
+# at nodes or elements (which are interpolation of results at a few gauss points).
+# The following plot shows the nodal values which are the averaged values
+# of elastic strain at each node. The value shown at the node is the
+# average of the elastic strains from the gaussian points of each element
+# that it belongs to.
 
 # plot
 strain_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
@@ -59,7 +74,8 @@ mesh.plot(strain_nodal_op.outputs.fields_container())
 
 
 ###############################################################################
-# Create operator gauss_to_node_fc and compute nodal component elastic strain by applying Extrapolation Method
+# Create operator gauss_to_node_fc and compute nodal component elastic strain
+# by applying Extrapolation Method
 
 ex_strain = dpf.operators.averaging.gauss_to_node_fc()
 # connect mesh
@@ -98,7 +114,8 @@ mesh.plot(strain_ref_nodal_op.outputs.fields_container())
 # Compare the elastic strain result computed by extrapolation and reference's result.
 # Check if two fields container are identical.
 # Maximum tolerance gap between to compared values: 1e-3.
-# Smallest value which will be considered during the comparison step : all the abs(values) in field less than 1e-14 is considered as null
+# Smallest value which will be considered during the comparison
+# step : all the abs(values) in field less than 1e-14 is considered as null
 
 # operator AreFieldsIdentical_fc
 op = dpf.operators.logic.identical_fc()

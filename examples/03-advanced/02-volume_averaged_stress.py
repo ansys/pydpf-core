@@ -64,7 +64,8 @@ with connectivity_field.as_local_field() as connectivity:
 
                 current_node_indexes = [i]
                 volume = 0.0
-                # Loop through recursively selecting elements attached to nodes until specified volume is reached
+                # Loop through recursively selecting elements attached
+                # to nodes until specified volume is reached
                 while volume_check > volume:
                     volume = 0.0
                     elements_indexes = []

@@ -20,8 +20,9 @@ class Field(_FieldBase):
     This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
     or created by a factory and directly by an instance of this class.
 
-    A field's data is always associated to its scoping (entities associated to each value)
-    and support (subset of the model where the data is), making the field a self-describing piece of data.
+    A field's data is always associated to its scoping (entities
+    associated to each value) and support (subset of the model where the
+    data is), making the field a self-describing piece of data.
 
     Parameters
     ----------
@@ -128,7 +129,9 @@ class Field(_FieldBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> num_entities = 3
-        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
+        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(
+        ...     num_entities, location=dpf.locations.elemental_nodal
+        ... )
         >>> with field_to_local.as_local_field() as f:
         ...     for i in range(1,num_entities+1):
         ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
@@ -137,8 +140,12 @@ class Field(_FieldBase):
                [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         (array([[0.2, 0.4, 0.6],
                [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
-        (array([[0.3, 0.6, 0.9],
-               [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
+        (array([[0.3, 0.6, 0.9], [0.3, 0.6, 0.9]]),
+            [
+                [0.30000000000000004, 0.6000000000000001, 0.8999999999999999],
+                [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]
+            ]
+        )
 
         """
         return _LocalField(self)
@@ -641,7 +648,9 @@ class _LocalField(_LocalFieldBase, Field):
     >>> from ansys.dpf import core as dpf
     >>> import numpy as np
     >>> num_entities = 3
-    >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
+    >>> field_to_local = dpf.fields_factory.create_3d_vector_field(
+    ...    num_entities, location=dpf.locations.elemental_nodal
+    ... )
     >>> with field_to_local.as_local_field() as f:
     ...     for i in range(1,num_entities+1):
     ...         f.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)
@@ -650,8 +659,12 @@ class _LocalField(_LocalFieldBase, Field):
            [0.1, 0.2, 0.3]]), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
     (array([[0.2, 0.4, 0.6],
            [0.2, 0.4, 0.6]]), [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6]])
-    (array([[0.3, 0.6, 0.9],
-           [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
+    (array([[0.3, 0.6, 0.9], [0.3, 0.6, 0.9]]),
+        [
+            [0.30000000000000004, 0.6000000000000001, 0.8999999999999999],
+            [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]
+        ]
+    )
 
     """
 

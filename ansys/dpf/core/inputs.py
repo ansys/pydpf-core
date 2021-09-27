@@ -53,7 +53,8 @@ class Input:
                 inpt = inpt.outputs
             else:
                 raise ValueError(
-                    "The operator to connect in input has no outputs available, it cannot be connected"
+                    "The operator to connect in input has no outputs "
+                    "available, it cannot be connected"
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
@@ -85,7 +86,10 @@ class Input:
             raise ValueError(err_str)
 
         if len(corresponding_pins) == 0:
-            err_str = f"The input operator for the {self._spec.name} pin be one of the following types:\n"
+            err_str = (
+                f"The input operator for the {self._spec.name} pin be "
+                "one of the following types:\n"
+            )
             err_str += "\n".join(
                 [f"- {py_type}" for py_type in self._python_expected_types]
             )
@@ -169,7 +173,9 @@ class _Inputs:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, ScopingsContainer, CyclicSupport, ..., Output, Outputs, Operator
+        inpt : str, int, double, Field, FieldsContainer, Scoping,
+        DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,
+        ..., Output, Outputs, Operator
             Input of the operator.
         """
         corresponding_pins = []
@@ -178,7 +184,8 @@ class _Inputs:
                 inpt = inpt.outputs
             else:
                 raise ValueError(
-                    "The operator to connect in input has no outputs available, it cannot be connected"
+                    "The operator to connect in input has no outputs "
+                    "available, it cannot be connected"
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
