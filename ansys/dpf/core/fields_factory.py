@@ -8,6 +8,7 @@ Contains functions to simplify creating fields.
 from ansys.dpf import core
 from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import Field
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2
 
 import numpy as np

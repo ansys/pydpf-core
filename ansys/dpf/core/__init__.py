@@ -18,6 +18,7 @@ from ansys.dpf.core.misc import module_exists, Report
 from ansys.dpf.core.dpf_operator import Operator, Config
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field, FieldDefinition
+from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core.property_field import PropertyField
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.meshes_container import MeshesContainer
