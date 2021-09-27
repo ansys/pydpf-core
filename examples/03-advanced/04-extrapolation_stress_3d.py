@@ -9,19 +9,24 @@ of extrapolation.
 
 Extrapolating results available at Gauss or quadrature points to nodal
 points for a field or fields container. The available elements are:
-linear quadrangle, parabolic quadrangle, linear hexagonal,
-quadratic hexagonal, linear tetrahedral, quadratic tetrahedral.
 
-1st step : get the data source's analyse of integration points(this file
-was add the commands APDL "EREXS, NO").
+* Linear quadrangle
+* Parabolic quadrangle
+* Linear hexagonal
+* Quadratic hexagonal
+* Linear tetrahedral
+* Quadratic tetrahedral
 
-2nd step: using operator of extrapolation to compute the nodal stress.
+1st step : Get the data source's solution from the integration points (this
+result file was generated with the MAPDL option ``EREXS, NO``).
 
-3rd step: get nodal stress result from data source's analyse reference.
-The analyse was computed by ANSYS Mechanical APDL.
+2nd step: Use operator of extrapolation to compute the nodal stress.
 
-4th step: compare the results between nodal stress from data source ref
-and nodal stress computed by Extrapolation Method.
+3rd step: Get nodal stress result from data source's analysis reference.
+The analysis was computed by Ansys Mechanical APDL.
+
+4th step: Compare the results between nodal stress from data source
+reference and nodal stress computed by the extrapolation method.
 
 """
 
@@ -55,7 +60,7 @@ mesh_scoping = op_scoping.outputs.mesh_scoping()
 # Extrapolation from integration points for stress result
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # In this example we compute nodal component stress result from
-# integration points's stress by using operator gauss_to_node_fc
+# integration points stress by using the ``gauss_to_node_fc`` operator.
 
 # Create stress operator to get stress result of integration points
 stressop = dpf.operators.result.stress()
@@ -65,7 +70,7 @@ stress = stressop.outputs.fields_container()
 ###############################################################################
 # Nodal stress result of integration points:
 ###############################################################################
-# The command "ERESX,NO" in Mechanical APDL is used to copy directly the
+# The command ``ERESX,NO`` in Mechanical APDL is used to copy directly the
 # gaussian (integration) points results to the nodes, instead of the
 # results at nodes or elements (which are interpolation of results at a
 # few gauss points).
@@ -80,8 +85,8 @@ mesh.plot(stress_nodal_op.outputs.fields_container())
 
 
 ###############################################################################
-# Create operator gauss_to_node_fc and compute nodal component stress
-# by applying Extrapolation Method
+# Create operator ``gauss_to_node_fc`` and compute nodal component stress
+# by applying the extrapolation method.
 
 ex_stress = dpf.operators.averaging.gauss_to_node_fc()
 # connect mesh
@@ -122,7 +127,7 @@ mesh.plot(stress_ref_nodal_op.outputs.fields_container())
 # Check if two fields container are identical.
 # Maximum tolerance gap between to compared values: 1e-2.
 # Smallest value which will be considered during the comparison
-# step : all the abs(values) in field less than 1e-8 is considered as null
+# step : all the ``abs(values)`` in field less than 1e-8 is considered as null
 
 # operator AreFieldsIdentical_fc
 op = dpf.operators.logic.identical_fc()

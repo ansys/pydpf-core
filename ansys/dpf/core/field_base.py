@@ -493,7 +493,7 @@ class _FieldBase:
                 ):
                     raise ValueError(
                         f"An array of shape {self.shape} is expected and "
-                        f"shape {data.shape} is in input"
+                        f"shape {data.shape} was input"
                     )
                 else:
                     data = np.array(data.reshape(data.size), dtype=float)
@@ -588,7 +588,7 @@ class _LocalFieldBase(_FieldBase):
         """
         if index > self._num_entities:
             raise ValueError(
-                f"asked scoping {index} is greater than the number of "
+                f"Requested scoping {index} is greater than the number of "
                 f"available indices {len(self._scoping_ids_copy)}"
             )
         if self._has_data_pointer:
@@ -773,7 +773,7 @@ class _LocalFieldBase(_FieldBase):
                 if data.shape != self.shape and 0 != self.size:
                     raise ValueError(
                         f"An array of shape {self.shape} is expected and "
-                        f"shape {data.shape} is in input"
+                        f"shape {data.shape} was input"
                     )
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_copy = data.flatten().tolist()

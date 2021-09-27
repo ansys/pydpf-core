@@ -102,7 +102,7 @@ class Plotter:
             import matplotlib.pyplot as pyplot
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plot_chart capabilities, please install "
+                "To use plot_chart capabilities, please install "
                 "matplotlib with :\n pip install matplotlib>=3.2"
             )
         tfq = fields_container.time_freq_support
@@ -262,7 +262,7 @@ class Plotter:
             import pyvista as pv
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plotting capabilities, please install pyvista "
+                "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
         plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
@@ -294,7 +294,7 @@ class Plotter:
             import pyvista as pv
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plotting capabilities, please install pyvista "
+                "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
 

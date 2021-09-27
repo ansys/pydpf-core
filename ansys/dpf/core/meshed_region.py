@@ -246,7 +246,7 @@ class MeshedRegion:
                 return op.get_output(0, types.scoping)
             else:
                 raise Exception(
-                    "getting a named selection from a meshed region is "
+                    "Getting a named selection from a meshed region is "
                     "only implemented for meshed region created from a "
                     "model for server version 2.0. Please update your server."
                 )
@@ -304,7 +304,7 @@ class MeshedRegion:
             from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plotting capabilities, please install pyvista "
+                "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
 

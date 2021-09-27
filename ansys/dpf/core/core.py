@@ -248,8 +248,8 @@ def _description(dpf_entity_message, server=None):
     Parameters
     ----------
     dpf_entity_message : core.Operator._message, core.Workflow._message,
-    core.Scoping._message, core.Field._message,
-    core.FieldContainer._message, core.MeshedRegion._message...
+                         core.Scoping._message, core.Field._message,
+                         core.FieldContainer._message, core.MeshedRegion._message
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
@@ -422,7 +422,7 @@ class BaseService:
         Parameters
         ----------
         dpf_entity_message : core.Operator._message, core.Workflow._message,
-        core.Scoping._message, core.Field._message,
+                             core.Scoping._message, core.Field._message,
         core.FieldContainer._message, core.MeshedRegion._message...
 
         Returns
