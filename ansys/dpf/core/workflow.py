@@ -74,7 +74,7 @@ class Workflow:
             Name of the pin to connect. This name should be
             exposed before with wf.set_input_name
         inpt : str, int, double, bool, list of int, list of doubles,
-        Field, FieldsContainer, Scoping, ScopingsContainer,
+               Field, FieldsContainer, Scoping, ScopingsContainer,
         MeshedRegion, MeshesContainer, DataSources, Operator
             Object to connect to.
         pin_out : int, optional
@@ -241,7 +241,7 @@ class Workflow:
             request.operators.extend([operators._message])
         else:
             raise TypeError(
-                "operators to add to the workflow are expected to be of "
+                "Operators to add to the workflow are expected to be of "
                 f"type {type(list).__name__} or {type(dpf_operator.Operator).__name__}"
             )
         self._stub.AddOperators(request)

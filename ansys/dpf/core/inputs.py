@@ -54,7 +54,7 @@ class Input:
             else:
                 raise ValueError(
                     "The operator to connect in input has no outputs "
-                    "available, it cannot be connected"
+                    "available. It cannot be connected."
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
@@ -174,8 +174,8 @@ class _Inputs:
         Parameters
         ----------
         inpt : str, int, double, Field, FieldsContainer, Scoping,
-        DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,
-        ..., Output, Outputs, Operator
+               DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,
+               ..., Output, Outputs, Operator
             Input of the operator.
         """
         corresponding_pins = []
@@ -185,7 +185,7 @@ class _Inputs:
             else:
                 raise ValueError(
                     "The operator to connect in input has no outputs "
-                    "available, it cannot be connected"
+                    "available. It cannot be connected."
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
