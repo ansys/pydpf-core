@@ -1,7 +1,7 @@
 """
-Check the matching for a client/server pair. 
+Check the matching for a client/server pair.
 
-Used to verify if the server version is a minimum value. 
+Used to verify if the server version is a minimum value.
 """
 
 from ansys.dpf.core import errors as dpf_errors

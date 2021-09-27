@@ -1,6 +1,6 @@
 """
 .. _ref_results:
-    
+
 Results
 ========
 This module contains the Results and Result classes that are created by the model

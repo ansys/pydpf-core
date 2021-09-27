@@ -3,9 +3,9 @@
 
 Solve Harmonic Problem (with damping) Using Matrix Inverse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to create an harmonic (over frequencies) fields 
-container for an analysis with damping. This fields container is then used to 
-solve the problem Ma+Dv+Ku =F by inversing the matrix 
+This example shows how to create an harmonic (over frequencies) fields
+container for an analysis with damping. This fields container is then used to
+solve the problem Ma+Dv+Ku =F by inversing the matrix
 """
 
 from ansys.dpf import core as dpf

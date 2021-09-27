@@ -4,10 +4,10 @@ Operator Configuration
 """
 
 import functools
-import grpc
+
 from ansys import dpf
-from ansys.grpc.dpf import base_pb2, operator_config_pb2, operator_config_pb2_grpc
 from ansys.dpf.core.errors import protect_grpc
+from ansys.grpc.dpf import operator_config_pb2, operator_config_pb2_grpc
 
 
 class Config:

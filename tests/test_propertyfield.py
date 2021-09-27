@@ -1,7 +1,5 @@
-import pytest
 import numpy as np
-import os
-
+import pytest
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, natures

@@ -3,8 +3,8 @@
 
 Exchange Data Between Servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In this example, 2 dpf's servers will be started and a workflow will be 
-created with a part on both servers. This example opens the possibility for a 
+In this example, 2 dpf's servers will be started and a workflow will be
+created with a part on both servers. This example opens the possibility for a
 user to read data from a given machine and transform this data on another
 without any more difficulties than working on a local computer
 """

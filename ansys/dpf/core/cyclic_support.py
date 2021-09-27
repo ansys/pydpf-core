@@ -2,15 +2,10 @@
 Cyclic Support
 ==============
 """
-import grpc
 
 from ansys import dpf
-from ansys.grpc.dpf import cyclic_support_pb2, cyclic_support_pb2_grpc
-from ansys.grpc.dpf import base_pb2, support_pb2
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf import core
-from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.scoping import Scoping
+from ansys.grpc.dpf import cyclic_support_pb2, cyclic_support_pb2_grpc
 
 
 class CyclicSupport:

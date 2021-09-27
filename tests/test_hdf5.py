@@ -1,6 +1,4 @@
-import pytest
 from ansys.dpf import core
-
 
 # try:
 #     core.BaseService(load_operators=False)._load_hdf5_operators()

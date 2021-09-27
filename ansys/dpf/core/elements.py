@@ -3,18 +3,14 @@ Elements
 ========
 """
 
-import numpy as np
 from enum import Enum
 
-
-from ansys import dpf
-from ansys.dpf.core import scoping, field, property_field
-from ansys.grpc.dpf import meshed_region_pb2
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.common import locations
-from ansys.dpf.core import nodes
-from ansys.dpf.core.common import __write_enum_doc__
+import numpy as np
+from ansys.dpf.core import field, nodes, property_field, scoping
+from ansys.dpf.core.common import __write_enum_doc__, locations
 from ansys.dpf.core.element_descriptor import ElementDescriptor
+from ansys.dpf.core.errors import protect_grpc
+from ansys.grpc.dpf import meshed_region_pb2
 
 
 class Element:

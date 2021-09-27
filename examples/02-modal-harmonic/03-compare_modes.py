@@ -3,16 +3,14 @@
 
 Use Result Helpers to compare mode shapes for solids and then shells
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `Result` class which instances are created by the `Model` gives access to 
+The `Result` class which instances are created by the `Model` gives access to
 helpers to request results on specific mesh and time scopings.
-With those helpers, working on a custom spatial and temporal subset of the 
+With those helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # First, create a model object to establish a connection with an

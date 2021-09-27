@@ -1,7 +1,4 @@
-import os
 import pytest
-from ansys.dpf import core
-
 from ansys import dpf
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")

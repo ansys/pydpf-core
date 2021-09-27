@@ -5,16 +5,14 @@ Use Result Helpers to Load Custom Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The ``Result`` class, which are instances created by the ``Model``, give
 access to helpers for requesting results on specific mesh and time scopings.
-With these helpers, working on a custom spatial and temporal subset of the 
+With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 
 Import necessary modules:
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file:

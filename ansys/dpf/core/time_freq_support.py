@@ -2,14 +2,16 @@
 TimeFreqSupport
 ===============
 """
-import grpc
-
 from ansys import dpf
-from ansys.grpc.dpf import time_freq_support_pb2, time_freq_support_pb2_grpc
-from ansys.grpc.dpf import base_pb2, support_pb2
-from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.errors import protect_grpc
+from ansys.grpc.dpf import (
+    base_pb2,
+    support_pb2,
+    time_freq_support_pb2,
+    time_freq_support_pb2_grpc,
+)
 
 
 class TimeFreqSupport:

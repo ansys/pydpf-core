@@ -7,7 +7,6 @@ This example shows how to use a model's results to easily
 choose a time scoping.
 
 """
-import numpy as np
 import matplotlib.pyplot as plt
 
 from ansys.dpf import core as dpf

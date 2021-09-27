@@ -1,23 +1,21 @@
 """
 .. _ref_operator:
-    
+
 Operator
 ========
 Provides an interface to the underlying gRPC operator.
 """
 
-from textwrap import wrap
-import logging
-import grpc
 import functools
+import logging
 
-from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2
-from ansys.dpf.core.inputs import Inputs, _Inputs, Input
-from ansys.dpf.core.outputs import Outputs, _Outputs, Output
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.config import Config
-from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as serverlib
+from ansys.dpf.core.config import Config
+from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.inputs import Inputs
+from ansys.dpf.core.mapping_types import types
+from ansys.dpf.core.outputs import Output, Outputs, _Outputs
+from ansys.grpc.dpf import base_pb2, operator_pb2, operator_pb2_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -399,8 +397,7 @@ class Operator:
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
             op = operators.math.add_fc(self, fields_b, server=self._server)
@@ -417,8 +414,7 @@ class Operator:
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
             op = operators.math.minus_fc(server=self._server)
@@ -431,8 +427,7 @@ class Operator:
     def __pow__(self, value):
         if value != 2:
             raise ValueError('Only the value "2" is suppported.')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
             op = operators.math.sqr_fc(server=self._server)
@@ -449,8 +444,7 @@ class Operator:
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(
             operators.math, "generalized_inner_product_fc"
@@ -503,21 +497,17 @@ def _write_output_type_to_proto_style(output_type, request):
 
 def _convertOutputMessageToPythonInstance(out, output_type, server):
     from ansys.dpf.core import (
-        fields_container,
-        field,
-        property_field,
-        field_base,
-        scopings_container,
-        scoping,
-        meshes_container,
-        meshed_region,
-        result_info,
-        time_freq_support,
-        collection,
-        data_sources,
-        collection,
-        data_sources,
         cyclic_support,
+        data_sources,
+        field,
+        fields_container,
+        meshed_region,
+        meshes_container,
+        property_field,
+        result_info,
+        scoping,
+        scopings_container,
+        time_freq_support,
     )
 
     if out.HasField("str"):
@@ -572,22 +562,13 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
 
 def _fillConnectionRequestMessage(request, inpt, pin_out=0):
     from ansys.dpf.core import (
-        fields_container,
-        field,
-        property_field,
-        field_base,
-        scopings_container,
-        scoping,
-        meshes_container,
-        meshed_region,
-        result_info,
-        time_freq_support,
         collection,
-        data_sources,
-        collection,
-        data_sources,
         cyclic_support,
+        data_sources,
+        field_base,
+        meshed_region,
         model,
+        scoping,
     )
 
     if isinstance(inpt, str):
