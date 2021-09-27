@@ -80,7 +80,7 @@ mesh.plot(strain_nodal_op.outputs.fields_container())
 
 
 ###############################################################################
-# Create the ``gauss_to_node_fc`` operator and compute nodal component 
+# Create the ``gauss_to_node_fc`` operator and compute nodal component
 # elastic strain by applying the extrapolation method.
 
 ex_strain = dpf.operators.averaging.gauss_to_node_fc()
