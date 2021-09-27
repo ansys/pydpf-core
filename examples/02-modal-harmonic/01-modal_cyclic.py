@@ -6,7 +6,6 @@ Modal Cyclic symmetry Example
 This example shows how to expand a cyclic mesh and its results.
 
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples

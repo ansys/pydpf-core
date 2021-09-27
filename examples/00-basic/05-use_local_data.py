@@ -11,7 +11,6 @@ in one transaction.
 
 Import necessary modules:
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples

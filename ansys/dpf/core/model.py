@@ -7,15 +7,12 @@ Module contains the Model class to manage file result models.
 
 
 """
-import functools
 
 from ansys import dpf
 from ansys.dpf.core import Operator
-from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.core import BaseService
 from ansys.dpf.core.common import types
+from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.results import Results
-
 from grpc._channel import _InactiveRpcError
 
 

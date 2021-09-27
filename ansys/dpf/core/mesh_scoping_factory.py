@@ -5,10 +5,9 @@ mesh_scoping_factory
 Contains functions to simplify creating mesh scopings.
 """
 
-from ansys.dpf import core
-from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.common import locations
 
 
 def nodal_scoping(node_ids, server=None):

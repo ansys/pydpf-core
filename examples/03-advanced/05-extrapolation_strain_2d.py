@@ -18,7 +18,6 @@ Extrapolating results available at Gauss or quadrature points to nodal points fo
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators
 
 
 ###############################################################################

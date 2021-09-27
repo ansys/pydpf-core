@@ -2,15 +2,11 @@
 Common
 ======
 """
+import re
 from enum import Enum
 
-import numpy as np
-import re
-
-
-from ansys.grpc.dpf import base_pb2
-from ansys.grpc.dpf import field_definition_pb2
 import progressbar
+from ansys.grpc.dpf import base_pb2, field_definition_pb2
 
 
 def _camel_to_snake_case(name):

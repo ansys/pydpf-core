@@ -5,12 +5,10 @@ fields_container_factory
 Contains functions to simplify creating a fields container.
 """
 
-from ansys.dpf import core
 from ansys.dpf.core import FieldsContainer, TimeFreqSupport
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core.common import natures, locations
-from ansys.grpc.dpf import base_pb2
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core import fields_factory
+from ansys.dpf.core.common import locations
 
 
 def over_time_freq_fields_container(fields, time_freq_unit=None, server=None):

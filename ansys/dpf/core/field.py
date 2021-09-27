@@ -4,17 +4,14 @@
 Field
 =====
 """
-import numpy as np
 
 from ansys import dpf
-from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2
-from ansys.dpf.core.common import natures, types, locations
-from ansys.dpf.core import scoping, meshed_region, time_freq_support
-from ansys.dpf.core.plotter import Plotter
-from ansys.dpf.core import errors
-from ansys.dpf.core.field_definition import FieldDefinition
+from ansys.dpf.core import errors, meshed_region, time_freq_support
+from ansys.dpf.core.common import locations, natures, types
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
-from ansys.dpf.core.dimensionality import Dimensionality
+from ansys.dpf.core.field_definition import FieldDefinition
+from ansys.dpf.core.plotter import Plotter
+from ansys.grpc.dpf import base_pb2, field_pb2
 
 
 class Field(_FieldBase):
@@ -485,8 +482,7 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.operators.math.add.add`
 
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add"):
             op = operators.math.add(server=self._server)
@@ -499,8 +495,7 @@ class Field(_FieldBase):
     def __pow__(self, value):
         if value != 2:
             raise ValueError('Only the value "2" is suppported.')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr"):
             op = operators.math.sqr(self, server=self._server)
@@ -517,8 +512,7 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.operators.math.generalized_inner_product.generalized_inner_product`
 
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(
             operators.math, "generalized_inner_product"
@@ -538,8 +532,7 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.operators.math.minus.minus`
 
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus"):
             op = operators.math.minus(server=self._server)

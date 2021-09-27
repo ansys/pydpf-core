@@ -3,10 +3,8 @@
 import weakref
 
 import pytest
-
 from ansys import dpf
-from ansys.dpf.core import MeshesContainer, MeshedRegion
-from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core import MeshesContainer
 
 
 @pytest.fixture()

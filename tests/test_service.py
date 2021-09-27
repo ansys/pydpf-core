@@ -1,8 +1,8 @@
-from ansys import dpf
-from ansys.dpf import core
-import ansys.grpc.dpf
 import os
 import pathlib
+
+import ansys.grpc.dpf
+from ansys import dpf
 
 
 def test_connect():

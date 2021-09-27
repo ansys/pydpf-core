@@ -9,11 +9,9 @@ reading one result in distributed files has been implemented in DPF. This
 allows to skip the merging of files solver side which is time consuming and often
 duplicates the memory used.
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Create the data sources

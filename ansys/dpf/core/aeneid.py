@@ -8,7 +8,7 @@ import weakref
 
 def start_server_using_service_manager():  # pragma: no cover
     if core.module_exists("grpc_interceptor_headers"):
-        import grpc_interceptor_headers
+        import grpc_interceptor_headers # noqa: F401
         from grpc_interceptor_headers.header_manipulator_client_interceptor import (
             header_adder_interceptor,
         )

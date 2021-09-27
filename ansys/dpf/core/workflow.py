@@ -3,15 +3,12 @@ Workflow
 ========
 Interface to underlying gRPC workflow.
 """
-from textwrap import wrap
 import logging
-import functools
 
 from ansys import dpf
-from ansys.grpc.dpf import workflow_pb2, workflow_pb2_grpc, base_pb2
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.common import types
 from ansys.dpf.core.errors import protect_grpc
+from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")

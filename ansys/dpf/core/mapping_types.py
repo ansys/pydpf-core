@@ -2,13 +2,13 @@ import sys
 import inspect
 
 ## to do : change that one the module is done
-from ansys.dpf.core.meshed_region import *
-from ansys.dpf.core.available_result import *
-from ansys.dpf.core.data_sources import *
-from ansys.dpf.core.field import *
-from ansys.dpf.core.fields_container import *
-from ansys.dpf.core.scoping import *
-from ansys.dpf.core.time_freq_support import *
+# from ansys.dpf.core.meshed_region import *
+# from ansys.dpf.core.available_result import *
+# from ansys.dpf.core.data_sources import *
+# from ansys.dpf.core.field import *
+# from ansys.dpf.core.fields_container import *
+# from ansys.dpf.core.scoping import *
+# from ansys.dpf.core.time_freq_support import *
 from ansys.dpf.core.common import (
     _smart_dict_camel,
     _camel_to_snake_case,

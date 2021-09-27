@@ -5,16 +5,14 @@ Scoping
 =======
 """
 
-from ansys.grpc.dpf import scoping_pb2, scoping_pb2_grpc, base_pb2
-from ansys.dpf.core.common import locations, _common_progress_bar
-from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import version_requires, server_meet_version
-import numpy as np
 import array
-
-
 import sys
+
+import numpy as np
+from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.common import _common_progress_bar, locations
+from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 
 
 class Scoping:

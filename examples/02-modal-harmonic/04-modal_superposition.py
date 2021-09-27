@@ -10,11 +10,9 @@ a structure under given boundary conditions in a range of frequencies.
 Doing this expansion "on demand" in DPF instead of in the solver 
 reduces the size of the result files.
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Create the data sources

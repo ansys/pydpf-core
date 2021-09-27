@@ -3,14 +3,13 @@ MeshedRegion
 ============
 """
 from ansys import dpf
-from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 from ansys.dpf.core import scoping
-from ansys.dpf.core.common import locations, types
-from ansys.dpf.core.plotter import Plotter as _DpfPlotter
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.common import locations, types
+from ansys.dpf.core.elements import Elements, element_types
+from ansys.dpf.core.nodes import Nodes
+from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 
 
 class MeshedRegion:

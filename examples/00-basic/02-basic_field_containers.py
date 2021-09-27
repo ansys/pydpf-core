@@ -30,7 +30,6 @@ import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators
 
 ###############################################################################
 # Create a model object to establish a connection with an

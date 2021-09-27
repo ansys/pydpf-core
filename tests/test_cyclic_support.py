@@ -1,13 +1,8 @@
 import gc
 import weakref
-import os
-import shutil
 
-import numpy as np
 import pytest
-
 from ansys import dpf
-from ansys.dpf.core import errors
 from ansys.dpf import core as dpf
 
 

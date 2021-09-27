@@ -1,12 +1,11 @@
-import pytest
 import numpy as np
-import os
-
+import pytest
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import shell_layers, locations
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.common import locations, shell_layers
+
 from conftest import local_server
 
 

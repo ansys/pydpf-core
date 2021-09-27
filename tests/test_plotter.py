@@ -1,17 +1,16 @@
 import os
 
 import pytest
-
 from ansys import dpf
-from ansys.dpf.core import Model, Operator
 from ansys.dpf import core
+from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from pyvista.plotting.renderer import CameraPosition
     from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
 
