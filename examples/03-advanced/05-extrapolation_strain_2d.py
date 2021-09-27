@@ -25,8 +25,8 @@ file was generated from MAPDL with ``EREXS, NO``).
 3rd step: Get the nodal elastic strain result from the data source.
 The analysis was computed by Ansys Mechanical APDL.
 
-4th step: compare the results between nodal elastic strain from data source
-ref and nodal strain computed by Extrapolation Method.
+4th step: Compare the results between nodal elastic strain from the data
+source and nodal strain computed by extrapolation method.
 
 """
 
@@ -54,7 +54,8 @@ mesh = model.metadata.meshed_region
 # Extrapolation from integration points for elastic strain result
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # In this example we compute nodal component elastic strain results from
-# integration points's elastic strain by using operator gauss_to_node_fc
+# the elastic strain at the integration points  by using the ``gauss_to_node_fc``
+# operator.
 
 # Create elastic strain operator to get strain result of integration points
 strainop = dpf.operators.result.elastic_strain()
@@ -64,7 +65,7 @@ strain = strainop.outputs.fields_container()
 ###############################################################################
 # Nodal elastic strain result of integration points:
 ###############################################################################
-# The command "ERESX,NO" in Mechanical APDL is used to copy directly the
+# The command ``ERESX,NO`` in Mechanical APDL is used to copy directly the
 # gaussian (integration) points results to the nodes, instead of the results
 # at nodes or elements (which are interpolation of results at a few gauss points).
 # The following plot shows the nodal values which are the averaged values
@@ -79,8 +80,8 @@ mesh.plot(strain_nodal_op.outputs.fields_container())
 
 
 ###############################################################################
-# Create operator gauss_to_node_fc and compute nodal component elastic strain
-# by applying Extrapolation Method
+# Create the ``gauss_to_node_fc`` operator and compute nodal component 
+# elastic strain by applying the extrapolation method.
 
 ex_strain = dpf.operators.averaging.gauss_to_node_fc()
 # connect mesh
@@ -120,7 +121,7 @@ mesh.plot(strain_ref_nodal_op.outputs.fields_container())
 # Check if two fields container are identical.
 # Maximum tolerance gap between to compared values: 1e-3.
 # Smallest value which will be considered during the comparison
-# step : all the abs(values) in field less than 1e-14 is considered as null
+# step : all the ``abs(values)`` in the field less than 1e-14 are considered null
 
 # operator AreFieldsIdentical_fc
 op = dpf.operators.logic.identical_fc()
