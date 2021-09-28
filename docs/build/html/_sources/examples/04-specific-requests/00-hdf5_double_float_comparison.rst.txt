@@ -159,7 +159,7 @@ Export with simple precision
 .. code-block:: default
 
 
-    h5op.inputs.file_path.connect(os.path.join(tmpdir,'c:/temp/dpf_float.h5'))
+    h5op.inputs.file_path.connect(os.path.join(tmpdir,'dpf_float.h5'))
     h5op.run()
 
 
@@ -179,7 +179,7 @@ Export with simple precision
 
 
     h5op.inputs.export_floats.connect(False)
-    h5op.inputs.file_path.connect(os.path.join(tmpdir,'c:/temp/dpf_double.h5'))
+    h5op.inputs.file_path.connect(os.path.join(tmpdir,'dpf_double.h5'))
     h5op.run()
 
 
@@ -197,7 +197,7 @@ Comparison
 
 .. code-block:: default
 
-    print(f"size with float precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_double.h5')).st_size}")
+    print(f"size with float precision: {os.stat(os.path.join(tmpdir,'dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'dpf_double.h5')).st_size}")
 
 
 
@@ -216,7 +216,7 @@ Comparison
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.684 seconds)
+   **Total running time of the script:** ( 0 minutes  1.944 seconds)
 
 
 .. _sphx_glr_download_examples_04-specific-requests_00-hdf5_double_float_comparison.py:

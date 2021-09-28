@@ -55,16 +55,16 @@ h5op.inputs.data3.connect(mesh)
 ###############################################################################
 # Export with simple precision
 
-h5op.inputs.file_path.connect(os.path.join(tmpdir,'c:/temp/dpf_float.h5'))
+h5op.inputs.file_path.connect(os.path.join(tmpdir,'dpf_float.h5'))
 h5op.run()
 
 ###############################################################################
 # Export with simple precision
 
 h5op.inputs.export_floats.connect(False)
-h5op.inputs.file_path.connect(os.path.join(tmpdir,'c:/temp/dpf_double.h5'))
+h5op.inputs.file_path.connect(os.path.join(tmpdir,'dpf_double.h5'))
 h5op.run()
 
 ###############################################################################
 # Comparison
-print(f"size with float precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'c:/temp/dpf_double.h5')).st_size}")
+print(f"size with float precision: {os.stat(os.path.join(tmpdir,'dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'dpf_double.h5')).st_size}")
