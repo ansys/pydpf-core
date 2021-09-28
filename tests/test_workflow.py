@@ -429,39 +429,7 @@ def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds):
     meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
-def test_static_connect_with_workflow(cyclic_lin_rst, cyclic_ds):
-    data_sources = dpf.core.DataSources(cyclic_lin_rst)
-    data_sources.add_file_path(cyclic_ds)
-    model = dpf.core.Model(data_sources)
-    support = model.operator("mapdl::rst::support_provider_cyclic")
-    mesh = model.operator("cyclic_expansion_mesh")
-    
-    wf = dpf.core.Workflow()
-    wf.add_operators([support, mesh])
-    wf.set_input_name("support",mesh.inputs.cyclic_support)
-    wf.connect("support", support.outputs.cyclic_support)
-    wf.set_output_name("mesh_expand", mesh, 0)
-    wf.set_output_name("support", mesh, 1)
-    
-    
-    op = model.operator("mapdl::rst::U")
-    expand =model.operator("cyclic_expansion")
-    expand.connect(0, op, 0)
-    
-    wf2 = dpf.core.Workflow()
-    wf2.add_operators([op, expand]) 
-    wf2.set_input_name("support", expand.inputs.cyclic_support)
-    wf2.set_output_name("u", op, 0)
-    
-    wf3 = dpf.core.Workflow.connect_together(wf,wf2)
-    meshed_region = wf3.get_output("mesh_expand", dpf.core.types.meshed_region)
-    fc = wf3.get_output("u", dpf.core.types.fields_container)
-    assert "u" not in wf.output_names
-    assert "mesh_expand" not in wf2.output_names
-    
-    
-    
+
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
     data_sources = dpf.core.DataSources(cyclic_lin_rst)
@@ -492,39 +460,6 @@ def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
 
     
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
-def test_static_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds):
-    data_sources = dpf.core.DataSources(cyclic_lin_rst)
-    data_sources.add_file_path(cyclic_ds)
-    model = dpf.core.Model(data_sources)
-    support = model.operator("mapdl::rst::support_provider_cyclic")
-    mesh = model.operator("cyclic_expansion_mesh")
-    
-    wf = dpf.core.Workflow()
-    wf.add_operators([support, mesh])
-    wf.set_input_name("support",mesh.inputs.cyclic_support)
-    wf.connect("support", support.outputs.cyclic_support)
-    wf.set_output_name("mesh_expand", mesh, 0)
-    wf.set_output_name("support1", mesh, 1)
-    
-    op = model.operator("mapdl::rst::U")
-    expand =model.operator("cyclic_expansion")
-    expand.connect(0, op, 0)
-    
-    wf2 = dpf.core.Workflow()
-    wf2.add_operators([op, expand]) 
-    wf2.set_input_name("support2", expand.inputs.cyclic_support)
-    wf2.set_output_name("u", op, 0)
-    
-    wf3 = dpf.core.Workflow.connect_together(wf,wf2, ("support1","support2"))
-    meshed_region = wf3.get_output("mesh_expand", dpf.core.types.meshed_region)
-    fc = wf3.get_output("u", dpf.core.types.fields_container)
-    assert "support2" not in wf.input_names
-    assert "support" not in wf2.input_names
-    assert "u" not in wf.output_names
-    assert "mesh_expand" not in wf2.output_names
-    
-    
         
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
@@ -555,37 +490,6 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
    
     
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')    
-def test_static_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
-    data_sources = dpf.core.DataSources(cyclic_lin_rst)
-    data_sources.add_file_path(cyclic_ds)
-    model = dpf.core.Model(data_sources)
-    support = model.operator("mapdl::rst::support_provider_cyclic")
-    mesh = model.operator("cyclic_expansion_mesh")
-    
-    wf = dpf.core.Workflow()
-    wf.add_operators([support, mesh])
-    wf.set_input_name("support",mesh.inputs.cyclic_support)
-    wf.connect("support", support.outputs.cyclic_support)
-    wf.set_output_name("mesh_expand", mesh, 0)
-    wf.set_output_name("support1", mesh, 1)
-    
-    op = model.operator("mapdl::rst::U")
-    expand =model.operator("cyclic_expansion")
-    expand.connect(0, op, 0)
-    
-    wf2 = dpf.core.Workflow()
-    wf2.add_operators([op, expand]) 
-    wf2.set_input_name("support2", expand.inputs.cyclic_support)
-    wf2.set_output_name("u", op, 0)
-    
-    wf3 = dpf.core.Workflow.connect_together(wf,wf2, {"support1":"support2"})
-    meshed_region = wf3.get_output("mesh_expand", dpf.core.types.meshed_region)
-    wf3 = wf2.get_output("u", dpf.core.types.fields_container)
-    assert "support2" not in wf.input_names
-    assert "support" not in wf2.input_names
-    assert "u" not in wf.output_names
-    assert "mesh_expand" not in wf2.output_names
 
 def test_info_workflow(allkindofcomplexity):
     data_sources = dpf.core.DataSources(allkindofcomplexity)

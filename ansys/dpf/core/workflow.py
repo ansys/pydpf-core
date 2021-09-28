@@ -69,62 +69,6 @@ class Workflow:
             self.__send_init_request(workflow)
         
             
-    @staticmethod
-    def connect_together(left_workflow, right_workflow, output_input_names=None):
-        """Connect 2 workflows together and create a new workflow with all the 
-        exposed inputs and outputs and all operators of both workflows connected
-        together.
-        
-        Parameters
-        ----------
-        left_workflow : core.Workflow
-            This workflow's outputs will be chained with right_workflow's inputs
-            
-        right_workflow : core.Workflow
-            This workflow's inputs will be chained with left_workflow's outputs
-            
-        output_input_names : str tuple, str dict optional
-            the input name of left_workflow workflow will be chained with the output name of right_workflow
-            If nothing is specified, right_workflows inputs with the same names as the left_workflow's outputs will be chained
-        
-        Examples
-        --------
-        ::
-            
-            +-------------------------------------------------------------------------------------------------+
-            |  INPUT:                                                                                         |
-            |                                                                                                 |
-            |input_output_names = ("output","field" )                                                         |
-            |                      _____________                                  ____________                |
-    	    |  "data_sources"  -> |left_workflow| ->  "stuff"        "field" -> |right_workflow| -> "contour" |
-    	    |"time_scoping"    -> |             |             "mesh_scoping" -> |              |              |
-    	    |                     |_____________| ->  "output"                  |_____________|               |
-            |  OUTPUT                                                                                         |
-    	    |                    ____                                                                         |
-    	    |"data_sources"  -> |this| ->  "stuff"                                                            |
-    	    |"time_scoping" ->  |    | ->  "contour"                                                          |
-    	    |"mesh_scoping" ->  |____| -> "output"                                                            |
-            +-------------------------------------------------------------------------------------------------+
-           
-        
-        """
-        request = workflow_pb2.CreateRequest()
-        request.connect.right_wf.CopyFrom(right_workflow._message)
-        request.connect.left_wf.CopyFrom(left_workflow._message)
-        
-        if output_input_names:
-            if isinstance(output_input_names, tuple):
-                request.connect.input_to_output.append(workflow_pb2.InputToOutputChainRequest(output_name=output_input_names[0], input_name =output_input_names[1]))
-            elif isinstance(output_input_names,dict):
-                for key in output_input_names:
-                    request.connect.input_to_output.append(workflow_pb2.InputToOutputChainRequest(output_name=key, input_name =output_input_names[key]))
-            else:
-                raise TypeError("output_input_names argument is expect to be either a str tuple or a str dict")
-        
-        
-        message = right_workflow._stub.Create(request)
-        
-        return Workflow(workflow=message,server=right_workflow._server)
     @protect_grpc
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
