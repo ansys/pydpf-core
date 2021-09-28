@@ -37,11 +37,9 @@ class ElementDescriptor:
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> descriptor = dpf.ElementDescriptor(
-    ...     10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False
-    ... )
+    >>> descriptor = dpf.ElementDescriptor(10, "Linear 4-nodes Tetrahedron", "tet4", "solid", 4, 0, 4, True, False, False, False)
 
-    """
+    """  # noqa: E501
 
     def __init__(
         self,

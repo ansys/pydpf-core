@@ -36,9 +36,7 @@ class Results:
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.msup_transient)
-        >>> disp = model.displacement.on_last_time_freq.on_named_selection(
-        ...     "_CONSTRAINEDNODES"
-        ... )
+        >>> disp = model.displacement.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
 
     stress : Result

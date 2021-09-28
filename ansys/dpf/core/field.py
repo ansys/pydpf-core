@@ -129,9 +129,7 @@ class Field(_FieldBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> num_entities = 3
-        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(
-        ...     num_entities, location=dpf.locations.elemental_nodal
-        ... )
+        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
         >>> with field_to_local.as_local_field() as f:
         ...     for i in range(1,num_entities+1):
         ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
@@ -143,7 +141,7 @@ class Field(_FieldBase):
         (array([[0.3, 0.6, 0.9],
                [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
-        """
+        """  # noqa: E501
         return _LocalField(self)
 
     @property
@@ -416,7 +414,8 @@ class Field(_FieldBase):
             return meshed_region.MeshedRegion(mesh=message, server=self._server)
         except:
             raise RuntimeError(
-                "The field's support is not a mesh.  Try to retrieve the time frequency support."
+                "The field's support is not a mesh. "
+                "Try to retrieve the time frequency support."
             )
 
     def _get_time_freq_support(self):
@@ -644,9 +643,7 @@ class _LocalField(_LocalFieldBase, Field):
     >>> from ansys.dpf import core as dpf
     >>> import numpy as np
     >>> num_entities = 3
-    >>> field_to_local = dpf.fields_factory.create_3d_vector_field(
-    ...    num_entities, location=dpf.locations.elemental_nodal
-    ... )
+    >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
     >>> with field_to_local.as_local_field() as f:
     ...     for i in range(1,num_entities+1):
     ...         f.append(np.array([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]]),i)
@@ -658,7 +655,7 @@ class _LocalField(_LocalFieldBase, Field):
     (array([[0.3, 0.6, 0.9],
            [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
-    """
+    """  # noqa: E501
 
     def __init__(self, field):
         super().__init__(field)
