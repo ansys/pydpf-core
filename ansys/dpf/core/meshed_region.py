@@ -246,7 +246,9 @@ class MeshedRegion:
                 return op.get_output(0, types.scoping)
             else:
                 raise Exception(
-                    "getting a named selection from a meshed region is only implemented for meshed region created from a model for server version 2.0. Please update your server."
+                    "Getting a named selection from a meshed region is "
+                    "only implemented for meshed region created from a "
+                    "model for server version 2.0. Please update your server."
                 )
 
     def _set_stream_provider(self, stream_provider):
@@ -302,7 +304,8 @@ class MeshedRegion:
             from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.24.0"
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
             )
 
         grid = dpf_mesh_to_vtk(nodes, etypes, conn, as_linear)

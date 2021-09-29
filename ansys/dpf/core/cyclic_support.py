@@ -167,8 +167,8 @@ class CyclicSupport:
         )
 
     def sectors_set_for_expansion(self, stage_num=0) -> int:
-        """Retrieve a sector's scoping of the already expanded results and mesh or the list of sectors that will
-        be expanded by default.
+        """Retrieve a sector's scoping of the already expanded results
+        and mesh or the list of sectors that will be expanded by default.
 
         A sector's scoping starts from 0, with the maximum equal to num_sectors-1.
 

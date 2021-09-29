@@ -15,8 +15,10 @@ class ScopingsContainer(Collection):
 
     Parameters
     ----------
-    scopings_container : ansys.grpc.dpf.collection_pb2.Collection or ansys.dpf.core.ScopingsContainer, optional
-        Create a scopings container from a Collection message or create a copy from an existing scopings container
+    scopings_container : ansys.grpc.dpf.collection_pb2.Collection or
+                         ansys.dpf.core.ScopingsContainer, optional
+        Create a scopings container from a Collection message or create
+        a copy from an existing scopings container
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When

@@ -169,7 +169,11 @@ def test_downloadinfolder_uploadinfolder(multishells, tmpdir):
 #     copyfile(multishells, path4)
 #     # upload it
 #     TARGET_PATH = base.make_tmp_dir_server()
-#     base.upload_files_in_folder(to_server_folder_path = TARGET_PATH, client_folder_path = tmpdir, specific_extension = "rst")
+#     base.upload_files_in_folder(
+#         to_server_folder_path = TARGET_PATH,
+#         client_folder_path = tmpdir,
+#         specific_extension = "rst"
+#     )
 #     # download it
 #     new_tmpdir = os.path.join(tmpdir, "tmpdir")
 #     os.mkdir(new_tmpdir)

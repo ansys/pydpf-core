@@ -250,7 +250,7 @@ def download_msup_files_to_dict() -> dict:
     >>> paths
     {'rfrq': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.rfrq',
      'mode': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.mode',
-     'rst': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.rst'}
+     'rst': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\msup\\file.rst'} # noqa: E501
 
     """
     return {
@@ -280,7 +280,7 @@ def download_distributed_files() -> dict:
     >>> paths = examples.download_distributed_files()
     >>> paths
     {0: 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\distributed\\file0.rst',
-     1: 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\distributed\\file1.rst'}
+     1: 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\distributed\\file1.rst'} # noqa: E501
 
     """
     return {
@@ -309,7 +309,7 @@ def download_fluent_files() -> dict:
     >>> paths = examples.download_fluent_files()
     >>> paths
     {'cas': 'C:\\Users\\cbellot\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.cas.h5',
-     'dat': 'C:\\Users\\cbellot\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.dat.h5'}
+     'dat': 'C:\\Users\\cbellot\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.dat.h5'} # noqa: E501
 
     """
     return {
@@ -319,7 +319,8 @@ def download_fluent_files() -> dict:
 
 
 def download_extrapolation_3d_result() -> dict:
-    """Download example static results of reference and integrated points for extrapolation of 3d-element and return return the dictionary of 2 download paths.
+    """Download example static results of reference and integrated points
+    for extrapolation of 3d-element and return return the dictionary of 2 download paths.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -327,7 +328,8 @@ def download_extrapolation_3d_result() -> dict:
     Returns
     -------
     dict
-        containing path to the example file of ref and path to the example file of integrated points.
+        containing path to the example file of ref and path to the example
+        file of integrated points.
 
     Examples
     --------
@@ -336,7 +338,10 @@ def download_extrapolation_3d_result() -> dict:
     >>> from ansys.dpf.core import examples
     >>> dict = examples.download_extrapolation_ref_result
     >>> dict
-    {'file_ref': 'C:/Users/user/AppData/local/temp/file_ref.rst', 'file_integrated': 'C:/Users/user/AppData/local/temp/file.rst'}
+    {
+        'file_ref': 'C:/Users/user/AppData/local/temp/file_ref.rst',
+        'file_integrated': 'C:/Users/user/AppData/local/temp/file.rst'
+    }
 
     """
     dict = {
@@ -348,7 +353,8 @@ def download_extrapolation_3d_result() -> dict:
 
 
 def download_extrapolation_2d_result() -> dict:
-    """Download example static results of reference and integrated points for extrapolation of 2d-element and return the dictionary of 2 download paths.
+    """Download example static results of reference and integrated points
+    for extrapolation of 2d-element and return the dictionary of 2 download paths.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -356,7 +362,8 @@ def download_extrapolation_2d_result() -> dict:
     Returns
     -------
     dict
-        containing path to the example file of ref and path to the example file of integrated points.
+        Contains path to the example file of ref and path to the example
+        file of integrated points.
 
      Examples
     --------
@@ -365,7 +372,10 @@ def download_extrapolation_2d_result() -> dict:
     >>> from ansys.dpf.core import examples
     >>> dict = examples.download_extrapolation_ref_result
     >>> dict
-    {'file_ref': 'C:/Users/user/AppData/local/temp/extrapolate_2d_ref.rst', 'file_integrated': 'C:/Users/user/AppData/local/temp/extrapolate_2d.rst'}
+    {
+        'file_ref': 'C:/Users/user/AppData/local/temp/extrapolate_2d_ref.rst',
+        'file_integrated': 'C:/Users/user/AppData/local/temp/extrapolate_2d.rst'
+    }
 
     """
     dict = {

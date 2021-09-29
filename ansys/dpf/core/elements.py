@@ -16,7 +16,8 @@ from ansys.grpc.dpf import meshed_region_pb2
 class Element:
     """Contains all properties of an element of a mesh.
 
-    The element is created from the :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` class.
+    The element is created from the
+    :class:`MeshedRegion <ansys.dpf.core.meshed_region.MeshedRegion>` class.
     Properties include the element ID, index, type, shape, and connectivity.
 
     Parameters
@@ -136,7 +137,8 @@ class Element:
         Returns
         -------
         int
-            Type of the element. For more information, see :class:`ansys.dpf.core.elements.element_types`.
+            Type of the element. For more information, see
+            :class:`ansys.dpf.core.elements.element_types`.
 
         Examples
         --------

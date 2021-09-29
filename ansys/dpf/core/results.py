@@ -36,7 +36,7 @@ class Results:
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.msup_transient)
-        >>> disp = model.results.displacement.on_last_time_freq.on_named_selection('_CONSTRAINEDNODES')
+        >>> disp = model.results.displacement.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
 
     stress : Result
@@ -86,7 +86,7 @@ class Results:
     >>> model = Model(transient)
     >>> displacements = model.results.displacement.on_all_time_freqs.eval()
 
-    """
+    """  # noqa: E501
 
     def __init__(self, model):
         self.__class__ = type(Results.__name__ + str(id(self)), (Results,), {})
@@ -241,7 +241,8 @@ class Result:
         return op
 
     def eval(self):
-        """Evaluate the result provider with the previously specified inputs and return the result fields container.
+        """Evaluate the result provider with the previously specified
+        inputs and return the result fields container.
 
         Returns
         -------

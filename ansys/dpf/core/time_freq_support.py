@@ -435,9 +435,9 @@ class TimeFreqSupport:
         >>> tfq2.append_step(3, [0.23, 0.25], rpm_value = 3.0, step_harmonic_indices = [1.0, 2.0])
 
         >>> tfq3 = TimeFreqSupport()
-        >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = { 1 : [1.0, 2.0, 3.0], 2 : [1.0, 2.0, 2.5] } )
+        >>> tfq3.append_step(1, [0.1, 0.21, 1.0], rpm_value = 2.0, step_harmonic_indices = {1: [1.0, 2.0, 3.0], 2: [1.0, 2.0, 2.5]})
 
-        """
+        """  # noqa: E501
 
         time_frequencies = self.time_frequencies
         if time_frequencies is None:

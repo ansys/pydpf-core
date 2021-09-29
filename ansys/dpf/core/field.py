@@ -20,8 +20,9 @@ class Field(_FieldBase):
     This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
     or created by a factory and directly by an instance of this class.
 
-    A field's data is always associated to its scoping (entities associated to each value)
-    and support (subset of the model where the data is), making the field a self-describing piece of data.
+    A field's data is always associated to its scoping (entities
+    associated to each value) and support (subset of the model where the
+    data is), making the field a self-describing piece of data.
 
     Parameters
     ----------
@@ -140,7 +141,7 @@ class Field(_FieldBase):
         (array([[0.3, 0.6, 0.9],
                [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
-        """
+        """  # noqa: E501
         return _LocalField(self)
 
     @property
@@ -413,7 +414,8 @@ class Field(_FieldBase):
             return meshed_region.MeshedRegion(mesh=message, server=self._server)
         except:
             raise RuntimeError(
-                "The field's support is not a mesh.  Try to retrieve the time frequency support."
+                "The field's support is not a mesh. "
+                "Try to retrieve the time frequency support."
             )
 
     def _get_time_freq_support(self):
@@ -653,7 +655,7 @@ class _LocalField(_LocalFieldBase, Field):
     (array([[0.3, 0.6, 0.9],
            [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
-    """
+    """  # noqa: E501
 
     def __init__(self, field):
         super().__init__(field)

@@ -14,7 +14,8 @@ class MeshesContainer(Collection):
 
     Parameters
     ----------
-    meshes_container : ansys.grpc.dpf.collection_pb2.Collection or ansys.dpf.core.MeshesContainer, optional
+    meshes_container : ansys.grpc.dpf.collection_pb2.Collection or
+                       ansys.dpf.core.MeshesContainer, optional
         Create a meshes container from a collection message or create a copy from an
         existing meshes container. The default is ``None``.
     server : ansys.dpf.core.server, optional
@@ -24,7 +25,8 @@ class MeshesContainer(Collection):
     """
 
     def __init__(self, meshes_container=None, server=None):
-        """Initialize the scoping with either an optional scoping message or by connecting to a stub."""
+        """Initialize the scoping with either an optional scoping
+        message or by connecting to a stub."""
         if server is None:
             server = dpf.core._global_server()
 

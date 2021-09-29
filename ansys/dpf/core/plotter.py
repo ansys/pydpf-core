@@ -102,12 +102,14 @@ class Plotter:
             import matplotlib.pyplot as pyplot
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plot_chart capabilities, please install matplotlib with :\n pip install matplotlib>=3.2"
+                "To use plot_chart capabilities, please install "
+                "matplotlib with :\n pip install matplotlib>=3.2"
             )
         tfq = fields_container.time_freq_support
         if len(fields_container) != len(tfq.time_frequencies):
             raise Exception(
-                "Fields container must contain real fields at all time steps of the time_freq_support."
+                "Fields container must contain real fields at all time "
+                "steps of the time_freq_support."
             )
         time_field = tfq.time_frequencies
         normOp = dpf.core.Operator("norm_fc")
@@ -260,7 +262,8 @@ class Plotter:
             import pyvista as pv
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.24.0"
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
             )
         plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
 
@@ -291,7 +294,8 @@ class Plotter:
             import pyvista as pv
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "to use plotting capabilities, please install pyvista with :\n pip install pyvista>=0.24.0"
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
             )
 
         plotter = pv.Plotter(notebook=notebook)

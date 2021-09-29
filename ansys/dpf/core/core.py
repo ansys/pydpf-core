@@ -247,8 +247,9 @@ def _description(dpf_entity_message, server=None):
 
     Parameters
     ----------
-    dpf_entity_message : core.Operator._message, core.Workflow._message, core.Scoping._message, core.Field._message,
-    core.FieldContainer._message, core.MeshedRegion._message...
+    dpf_entity_message : core.Operator._message, core.Workflow._message,
+                         core.Scoping._message, core.Field._message,
+                         core.FieldContainer._message, core.MeshedRegion._message
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
@@ -313,7 +314,8 @@ class BaseService:
 
             if not state._matured:
                 raise IOError(
-                    f"Unable to connect to DPF instance at {self._server()._input_ip} {self._server()._input_port}"
+                    f"Unable to connect to DPF instance at {self._server()._input_ip} "
+                    f"{self._server()._input_port}"
                 )
 
         return stub
@@ -419,7 +421,8 @@ class BaseService:
 
         Parameters
         ----------
-        dpf_entity_message : core.Operator._message, core.Workflow._message, core.Scoping._message, core.Field._message,
+        dpf_entity_message : core.Operator._message, core.Workflow._message,
+                             core.Scoping._message, core.Field._message,
         core.FieldContainer._message, core.MeshedRegion._message...
 
         Returns
