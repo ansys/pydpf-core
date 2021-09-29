@@ -1,6 +1,7 @@
-/__pycache__
-/.pytest_cache
-/.spyproject
+# cache and pyc
+__pycache__
+.pytest_cache
+.spyproject
 
 #tests
 __pycache__
@@ -43,3 +44,6 @@ test-output.xml
 
 # downloaded files
 ansys/dpf/core/examples/_cache/
+
+# Virtual environment
+venv/

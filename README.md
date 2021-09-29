@@ -1,5 +1,10 @@
 # DPF - Ansys Data Processing Framework
 
+[![PyPI version](https://badge.fury.io/py/ansys-dpf-core.svg)](https://badge.fury.io/py/ansys-dpf-core)
+
+[![Build Status](https://dev.azure.com/pyansys/pyansys/_apis/build/status/pyansys.DPF-Core?branchName=master)](https://dev.azure.com/pyansys/pyansys/_build/latest?definitionId=2&branchName=master)
+
+
 The Data Processing Framework (DPF) is designed to provide numerical
 simulation users/engineers with a toolbox for accessing and
 transforming simulation data. DPF can access data from solver result
@@ -17,15 +22,14 @@ product designed to handle large amount of data.
 The Python ``ansys.dpf.core`` module provides a Python interface to
 the powerful DPF framework enabling rapid post-processing of a variety
 of Ansys file formats and physics solutions without ever leaving a
-Python environment.
-
+Python environment.  
 
 ## Installation
 
 Install this repository with:
 
 ```
-pip install ansys-dpf-core
+pip install ansys-dpf-core 
 ```
 
 You can also clone and install this repository with:
@@ -39,57 +43,78 @@ pip install . --user
 
 ## Running DPF
 
+See the example scripts in the examples folder for some basic example.  More will be added later.
+
 ### Brief Demo
-Provided you have ANSYS 2021R1 installed, a DPF server will start
+
+Provided you have ANSYS 2021R1 or higher installed, a DPF server will start
 automatically once you start using DPF.
 
-Opening a result file generated from Ansys workbench or MAPDL is as easy as:
+To open a result file and explore what's inside, do:
 
-```
->>> from ansys.dpf.core import Model
->>> model = Model('file.rst')
+```py
+>>> from ansys.dpf import core as dpf
+>>> from ansys.dpf.core import examples
+>>> model = dpf.Model(examples.simple_bar)
 >>> print(model)
-DPF Model
-------------------------------
-Static analysis
-Unit system: Metric (m, kg, N, s, V, A)
-Physics Type: Mecanic
-Available results:
-     -  displacement
-     -  element_nodal_forces
-     -  volume
-     -  energy_stiffness_matrix
-     -  hourglass_energy
-     -  thermal_dissipation_energy
-     -  kinetic_energy
-     -  co_energy
-     -  incremental_energy
-     -  temperature
+
+    DPF Model
+    ------------------------------
+    DPF Result Info 
+      Analysis: static 
+      Physics Type: mecanic 
+      Unit system: MKS: m, kg, N, s, V, A, degC 
+      Available results: 
+        U Displacement :nodal displacements 
+        ENF Element nodal Forces :element nodal forces 
+        ENG_VOL Volume :element volume 
+        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
+        ENG_AHO Hourglass Energy :artificial hourglass energy 
+        ENG_TH thermal dissipation energy :thermal dissipation energy 
+        ENG_KE Kinetic Energy :kinetic energy 
+        ENG_CO co-energy :co-energy (magnetics) 
+        ENG_INC incremental energy :incremental energy (magnetics) 
+        BFE Temperature :element structural nodal temperatures 
+    ------------------------------
+    DPF  Meshed Region: 
+      3751 nodes 
+      3000 elements 
+      Unit: m 
+      With solid (3D) elements
+    ------------------------------
+    DPF  Time/Freq Support: 
+      Number of sets: 1 
+    Cumulative     Time (s)       LoadStep       Substep         
+    1              1.000000       1              1       
+    
+
 ```
 
-Open up an result with:
+Read a result with:
 
 ```py
->>> model.displacement
+>>> result = model.results.displacement.eval()
 ```
 
-Then start linking operators with:
+Then start connecting operators with:
 
 ```py
->>> norm = core.Operator('norm_fc')
+>>> from ansys.dpf.core import operators as ops
+>>> norm = ops.math.norm(model.results.displacement())
 ```
 
 ### Starting the Service
 
-The `ansys.dpf.core` automatically starts the DPF service in the
+The `ansys.dpf.core` automatically starts a local instance of the DPF service in the
 background and connects to it.  If you need to connect to an existing
-remote DPF instance, use the ``connect_to_server`` function:
+remote or local DPF instance, use the ``connect_to_server`` function:
 
 ```py
-from ansys.dpf import core
-connect_to_server('10.0.0.22, 50054)
+>>> from ansys.dpf import core as dpf
+>>> dpf.connect_to_server(ip='10.0.0.22', port=50054)
 ```
 
 Once connected, this connection will remain for the duration of the
 module until you exit python or connect to a different server.
 
+     

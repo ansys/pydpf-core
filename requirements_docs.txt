@@ -1,8 +1,10 @@
 pypandoc>=1.5.0
 matplotlib
+pyvista
 imageio>=2.5.0
 imageio-ffmpeg
 Sphinx
+nbsphinx
 sphinx-autobuild
 sphinxcontrib-napoleon
 sphinxcontrib-websupport
@@ -10,4 +12,4 @@ pytest-sphinx
 sphinx-notfound-page>=0.3.0
 sphinx-copybutton
 sphinx-gallery>=0.4.0
-pydata-sphinx-theme
+pyansys_sphinx_theme

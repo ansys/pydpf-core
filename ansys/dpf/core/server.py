@@ -1,4 +1,8 @@
-"""Contains the directives necessary to start the dpf server."""
+"""
+Server
+======
+Contains the directives necessary to start the DPF server.
+"""
 from threading import Thread
 import io
 import platform
@@ -8,52 +12,82 @@ import os
 import socket
 import subprocess
 import grpc
-import requests
+import psutil
+import weakref
+import atexit
+import copy
 
 from ansys import dpf
-from ansys.dpf.core.errors import InvalidPortError
 from ansys.dpf.core.misc import find_ansys, is_ubuntu
-from ansys.dpf.core.core import BaseService
 from ansys.dpf.core import errors
+
+from ansys.dpf.core._version import __ansys_version__
 
 MAX_PORT = 65535
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel('DEBUG')
+LOG.setLevel("DEBUG")
 
 # default DPF server port
-DPF_DEFAULT_PORT = 50054
-LOCALHOST = '127.0.0.1'
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 
 
-def _global_channel():
-    """Return the global channel if it exists.
+def shutdown_global_server():
+    try:
+        if dpf.core.SERVER != None:
+            del dpf.core.SERVER
+    except:
+        pass
 
-    If the global channel has not been specified, check if the user
+
+atexit.register(shutdown_global_server)
+
+
+def has_local_server():
+    """Check if a local DPF gRPC server has been created.
+
+    Returns
+    -------
+    bool
+        ``True`` when a local DPF gRPC server has been created.
+
+    """
+    return dpf.core.SERVER is not None
+
+
+def _global_server():
+    """Retrieve the global server if it exists.
+
+    If the global server has not been specified, check if the user
     has specified the "DPF_START_SERVER" environment variable.  If
     ``True``, start the server locally.  If ``False``, connect to the
     existing server.
     """
-    if dpf.core.CHANNEL is None:
-        if os.environ.get('DPF_START_SERVER', '').lower() == 'false':
-            ip = os.environ.get('DPF_IP', LOCALHOST)
-            port = int(os.environ.get('DPF_PORT', DPF_DEFAULT_PORT))
+    if dpf.core.SERVER is None:
+        if os.environ.get("DPF_START_SERVER", "").lower() == "false":
+            ip = os.environ.get("DPF_IP", LOCALHOST)
+            port = int(os.environ.get("DPF_PORT", DPF_DEFAULT_PORT))
             connect_to_server(ip, port)
         else:
             start_local_server()
 
-    return dpf.core.CHANNEL
+    return dpf.core.SERVER
 
 
 def port_in_use(port, host=LOCALHOST):
-    """Returns True when a port is in use at the given host.
+    """Check if a port is in use at the given host.
 
-    Must actually "bind" the address.  Just checking if we can create
-    a socket is insufficient as it's possible to run into permission
-    errors like:
+    The port must actually "bind" the address. Just checking to see if a
+    socket can be created is insufficient because it's possible to run into
+    permission errors like: ``An attempt was made to access a socket in a way
+    forbidden by its access permissions.``
 
-    - An attempt was made to access a socket in a way forbidden by its
-      access permissions.
+    Returns
+    -------
+    bool
+        ``True`` when the port is in use, ``False`` when free.
+
     """
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         try:
@@ -64,54 +98,72 @@ def port_in_use(port, host=LOCALHOST):
 
 
 def check_valid_ip(ip):
-    """Raises an error when an invalid ip is entered"""
+    """Check if a valid IP address is entered.
+
+    This method raises an error when an invalid IP address is entered.
+    """
     try:
         socket.inet_aton(ip)
     except OSError:
         raise ValueError(f'Invalid IP address "{ip}"')
 
 
-def close_servers():
-    """Close all active servers created by this module"""
+def shutdown_all_session_servers():
+    """Shut down all active servers created by this module."""
     from ansys.dpf.core import _server_instances
-    for instance in _server_instances:
-        instance.shutdown()
+
+    copy_instances = copy.deepcopy(_server_instances)
+    for instance in copy_instances:
+        try:
+            instance().shutdown()
+        except Exception as e:
+            print(e.args)
+            pass
 
 
-def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
-                       ansys_path=None, as_global=True):
-    """Start a new local DPF server at a given port and ip.
+def start_local_server(
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    ansys_path=None,
+    as_global=True,
+    load_operators=True,
+):
+    """Start a new local DPF server at a given port and IP address.
 
-    Requires Windows and ANSYS v211 or newer be installed.
+    This method requires Windows and ANSYS 2021 R1 or later. If ``as_global=True``, which is
+    the default) the server is stored globally, replacing the one stored previously.
+    Otherwise, a user must keep a handle on their server.
 
     Parameters
     ----------
-    ip : str
-        IP address of the remote or local instance to connect to.
-
+    ip : str, optional
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
     port : int
-        Port to connect to the remote instance on.
-
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
     ansys_path : str, optional
-        Root path containing ansys.  For example ``/ansys_inc/v212/``.
-        Defaults to the latest install of ANSYS.
-
+        Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+        The default is the latest Ansys installation.
     as_global : bool, optional
-        Stores this ip and port as global variables for the dpf
-        module.  All DPF objects created in this Python session will
-        use this IP and port.  Default ``True``.
+        Global variable that stores the IP address and port for the DPF
+        module. All DPF objects created in this Python session will
+        use this IP and port. The default is ``True``.
+    load_operators : bool, optional
+        Whether to automatically load the math operators. The default is ``True``.
 
     Returns
     -------
-    port : int
-        Port server was launched on.
+    server : server.DpfServer
     """
     if ansys_path is None:
-        ansys_path = os.environ.get('AWP_ROOT211', find_ansys())
+        ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
     if ansys_path is None:
-        raise ValueError('Unable to automatically locate the Ansys path.  '
-                         'Manually enter one when starting the server or set it '
-                         'as the environment variable "ANSYS_PATH"')
+        raise ValueError(
+            "Unable to automatically locate the Ansys path.  "
+            "Manually enter one when starting the server or set it "
+            'as the environment variable "ANSYS_PATH"'
+        )
 
     # verify path exists
     if not os.path.isdir(ansys_path):
@@ -120,15 +172,20 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     # parse the version to an int and check for supported
     try:
         ver = int(ansys_path[-3:])
+        if ver < 211:
+            raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
+        if ver == 211 and is_ubuntu():
+            raise OSError("DPF on v211 does not support Ubuntu")
     except ValueError:
-        raise ValueError(f'Unable to get version from the Ansys path "{ansys_path}"')
-    if ver < 211:
-        raise errors.InvalidANSYSVersionError(f'Ansys v{ver} does not support DPF')
-    if ver == 211 and is_ubuntu():
-        raise OSError('DPF on v211 does not support Ubuntu')
+        pass
 
     # avoid using any ports in use from existing servers
-    used_ports = [srv.port for srv in dpf.core._server_instances]
+    used_ports = []
+    if dpf.core._server_instances:
+        for srv in dpf.core._server_instances:
+            if srv():
+                used_ports.append(srv().port)
+
     while port in used_ports:
         port += 1
 
@@ -140,86 +197,238 @@ def start_local_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT,
     n_attempts = 10
     for _ in range(n_attempts):
         try:
-            server = DpfServer(ansys_path, ip, port, as_global, as_global)
+            server = DpfServer(
+                ansys_path, ip, port, as_global=as_global, load_operators=load_operators
+            )
             break
-        except InvalidPortError:  # allow socket in use errors
+        except errors.InvalidPortError:  # allow socket in use errors
             port += 1
 
     if server is None:
-        raise OSError(f'Unable to launch the server after {n_attempts} attempts.  '
-                      'Check the following path:\n{ansys_path}\n\n'
-                      'or attempt to use a different port')
+        raise OSError(
+            f"Unable to launch the server after {n_attempts} attempts.  "
+            "Check the following path:\n{ansys_path}\n\n"
+            "or attempt to use a different port"
+        )
 
-    dpf.core._server_instances.append(server)
-    return server.port
+    dpf.core._server_instances.append(weakref.ref(server))
+    return server
 
 
-class DpfServer:
-    """Starts the DPF server locally
+def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=5):
+    """Connect to an existing DPF server.
+
+    This method sets the global default channel that is then used for the
+    duration of the DPF sesssion.
 
     Parameters
     ----------
-    server_bin : str
-        Location of the dpf executable.
-
     ip : str
-        IP address of the remote or local instance to connect to.
-
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
     port : int
-        Port to connect to the remote instance on.  Defaults to 50054.
-
-    timeout : float, optional
-        Fails when a connection takes longer than ``timeout`` seconds
-        to initialize.
-
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
     as_global : bool, optional
-        Stores this ip and port as global variables for the dpf
-        module.  All DPF objects created in this Python session will
-        use this IP and port.
+        Global variable that stores the IP address and port for the DPF
+        module. All DPF objects created in this Python session will
+        use this IP and port. The default is ``True``.
+    timeout : float, optional
+        Maximum number of seconds for the initalization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
 
+    Examples
+    --------
+
+    >>> from ansys.dpf import core as dpf
+
+    Create a server.
+
+    >>> #server = dpf.start_local_server(ip = '127.0.0.1')
+    >>> #port = server.port
+
+    Connect to a remote server at a non-default port.
+
+    >>> #specified_server = dpf.connect_to_server('127.0.0.1', port, as_global=False)
+
+    Connect to the localhost at the default port.
+
+    >>> #unspecified_server = dpf.connect_to_server(as_global=False)
+
+    """
+    server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False)
+    dpf.core._server_instances.append(weakref.ref(server))
+    return server
+
+
+class DpfServer:
+    """Provides an instance of the DPF server.
+
+    Parameters
+    -----------
+    server_bin : str
+        Path for the DPF executable.
+    ip : str
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
+    port : int
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout : float, optional
+        Maximum number of seconds for the initalization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
+    as_global : bool, optional
+        Global variable that stores the IP address and port for the DPF
+        module. All DPF objects created in this Python session will
+        use this IP and port. The default is ``True``.
     load_operators : bool, optional
-        Automatically load the mesh and mapdl operators
-
-    ansys_path : str, optional
-        Path containing ansys.  For example ``/ansys_inc/v212/``
+        Whether to automatically load the math operators. The default
+        is ``True``.
+    launch_server : bool, optional
+        Whether to launch the server on Windows.
     """
 
-    def __init__(self, ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
-                 timeout=10, as_global=True, load_operators=True):
-        """Start the dpf server server"""
-        self._process = None
-
+    def __init__(
+        self,
+        ansys_path="",
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        timeout=10,
+        as_global=True,
+        load_operators=True,
+        launch_server=True,
+    ):
+        """Start the DPF server."""
         # check valid ip and port
         check_valid_ip(ip)
         if not isinstance(port, int):
-            raise ValueError('Port must be an integer')
+            raise ValueError("Port must be an integer")
 
-        if os.name == 'posix':
-            if 'ubuntu' in platform.platform().lower():
-                raise OSError('DPF does not support Ubuntu')
-            raise NotImplementedError()
-            # self._process = launch_linux_local()
-        elif os.name == 'nt':
-            self._process = launch_dpf_windows(ansys_path, ip, port)
-        else:
-            NotImplementedError('OS {os.name} not supported')
+        if os.name == "posix" and "ubuntu" in platform.platform().lower():
+            raise OSError("DPF does not support Ubuntu")
+        elif launch_server:
+            launch_dpf(ansys_path, ip, port)
 
-        channel = grpc.insecure_channel('%s:%d' % (ip, port))
-        BaseService(channel, timeout=1, load_operators=load_operators)
+        self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
+
+        if launch_server is False:
+            state = grpc.channel_ready_future(self.channel)
+            # verify connection has matured
+            tstart = time.time()
+            while ((time.time() - tstart) < timeout) and not state._matured:
+                time.sleep(0.01)
+
+            if not state._matured:
+                raise TimeoutError(
+                    f"Failed to connect to {ip}:{port} in {timeout} seconds"
+                )
+
+            LOG.debug("Established connection to DPF gRPC")
 
         # assign to global channel when requested
         if as_global:
-            dpf.core.CHANNEL = channel
+            dpf.core.SERVER = self
+
+        # TODO: add to PIDs ...
 
         # store port and ip for later reference
-        self.ip = ip
-        self.port = port
         self.live = True
+        self.ansys_path = ansys_path
+        self._input_ip = ip
+        self._input_port = port
+        self._own_process = launch_server
+
+    @property
+    def _base_service(self):
+        if not hasattr(self, "__base_service"):
+            from ansys.dpf.core.core import BaseService
+
+            self.__base_service = BaseService(self, timeout=1)
+        return self.__base_service
+
+    @property
+    def info(self):
+        """Server information.
+
+        Returns
+        -------
+        info : dictionary
+            Dictionary with server information, including ``"server_ip"``,
+            ``"server_port"``, ``"server_process_id"``, and
+            ``"server_version"`` keys.
+        """
+        return self._base_service.server_info
+
+    @property
+    def ip(self):
+        """IP address of the server.
+
+        Returns
+        -------
+        ip : str
+        """
+        try:
+            return self._base_service.server_info["server_ip"]
+        except:
+            return ""
+
+    @property
+    def port(self):
+        """Port of the server.
+
+        Returns
+        -------
+        port : int
+        """
+        try:
+            return self._base_service.server_info["server_port"]
+        except:
+            return 0
+
+    @property
+    def version(self):
+        """Version of the server.
+
+        Returns
+        -------
+        version : str
+        """
+        return self._base_service.server_info["server_version"]
+
+    def __str__(self):
+        return f"DPF Server: {self.info}"
 
     def shutdown(self):
-        if self._process is not None:
-            self._process.kill()
+        if self._own_process and self.live and self._base_service:
+            self._base_service._prepare_shutdown()
+            p = psutil.Process(self._base_service.server_info["server_process_id"])
+            p.kill()
+            time.sleep(0.1)
             self.live = False
+            try:
+                if id(dpf.core.SERVER) == id(self):
+                    dpf.core.SERVER = None
+            except:
+                pass
+
+            try:
+                for i, server in enumerate(dpf.core._server_instances):
+                    if server() == self:
+                        dpf.core._server_instances.remove(server)
+            except:
+                pass
+
+    def __eq__(self, other_server):
+        """Return true, if the ip and the port are equals"""
+        if isinstance(other_server, DpfServer):
+            return self.ip == other_server.ip and self.port == other_server.port
+        return False
+
+    def __ne__(self, other_server):
+        """Return true, if the ip or the port are different"""
+        return not self.__eq__(other_server)
 
     def __del__(self):
         try:
@@ -227,115 +436,93 @@ class DpfServer:
         except:
             pass
 
+    def check_version(self, required_version, msg=None):
+        """Check if the server version matches with a required version.
 
-def connect_to_server(ip='127.0.0.1', port=50054, timeout=5):
-    """Connect to an existing dpf server.
+        Parameters
+        ----------
+        required_version : str
+            Required version to compare with the server version.
+        msg : str, optional
+            Message for the raised exception if version requirements do not match.
 
-    Set this as the global default channel that will be used for the
-    duration of dpf.
+        Raises
+        ------
+        dpf_errors : errors
+            errors.DpfVersionNotSupported is raised if failure.
 
-    Parameters
-    ----------
-    ip : str, optional
-        IP address of the server.  Default to localhost.
+        Returns
+        -------
+        bool
+            ``True`` if the server version meets the requirement.
+        """
+        from ansys.dpf.core.check_version import server_meet_version_and_raise
 
-    port : int
-        Port of the server.  Defaults to the default DPF port
-        ``50054``.
-
-    timeout : float
-        Maximum timeout to connect to the DPF server.
-
-    Examples
-    --------
-    Connect to a remote server at a non-default port
-
-    >>> from ansys import dpf
-    >>> dpf.core.connect_to_server('10.0.0.1', 50055)
-
-    Connect to the localhost at the default port
-
-    >>> dpf.core.connect_to_server()
-    """
-    channel = grpc.insecure_channel(f'{ip}:{port}')
-    state = grpc.channel_ready_future(channel)
-
-    # verify connection has matured
-    tstart = time.time()
-    while ((time.time() - tstart) < timeout) and not state._matured:
-        time.sleep(0.01)
-
-    if not state._matured:
-        raise TimeoutError(f'Failed to connect to {ip}:{port} in {timeout} seconds')
-
-    LOG.debug('Established connection to MAPDL gRPC')
-    dpf.core.CHANNEL = channel
+        return server_meet_version_and_raise(required_version, self, msg)
 
 
-def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
-    """Launch ANSYS DPF on Windows.
+def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
+    """Launch Ansys DPF.
 
     Parameters
     ----------
-    ansys_path : str
-        Full path to ANSYS.  For example:
-        'C:\\Program Files\\ANSYS Inc\\v211'
-
+    ansys_path : str, optional
+        Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+        The default is the latest Ansys installation.
     ip : str, optional
-        IP address of the server.  Default to localhost.
-
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
     port : int
-        Port of the server.  Defaults to the default DPF port
-        ``50054``.
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout : float, optional
+        Maximum number of seconds for the initalization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
 
     Returns
     -------
     process : subprocess.Popen
         DPF Process.
     """
-    # append ansys libs to path
-    paths = [r'\tp\IntelMKL\2020.0.166\winx64\\',
-             r'\tp\IntelCompiler\2019.3.203\winx64\\',
-             r'\tp\hdf5\1.8.14\winx64\\',
-             r'\tp\CFFSDK\lib\winx64']
-
-    add_path = ';'.join([ansys_path + path for path in paths])
-    run_cmd = f'Ans.Dpf.Grpc.exe --address {ip} --port {port}'
+    if os.name == "nt":
+        run_cmd = f"Ans.Dpf.Grpc.bat --address {ip} --port {port}"
+        path_in_install = "aisol/bin/winx64"
+    else:
+        run_cmd = ["./Ans.Dpf.Grpc.sh", f"--address {ip}", f"--port {port}"]
+        path_in_install = "aisol/bin/linx64"
 
     # verify ansys path is valid
-    dpf_run_dir = f'{ansys_path}/aisol/bin/winx64'
+    if os.path.isdir(f"{ansys_path}/{path_in_install}"):
+        dpf_run_dir = f"{ansys_path}/{path_in_install}"
+    else:
+        dpf_run_dir = f"{ansys_path}"
     if not os.path.isdir(dpf_run_dir):
-        raise NotADirectoryError(f'Invalid ansys path at "{ansys_path}".  '
-                                 'Unable to locate the directory containing DPF at '
-                                 f'"{dpf_run_dir}"')
-
-    dpf_bin = os.path.join(dpf_run_dir, 'Ans.Dpf.Grpc.exe')
-    if not os.path.isfile(dpf_bin):
-        raise FileNotFoundError('Unable to locate the DPF executable at '
-                                f'"{dpf_bin}"')
+        raise NotADirectoryError(
+            f'Invalid ansys path at "{ansys_path}".  '
+            "Unable to locate the directory containing DPF at "
+            f'"{dpf_run_dir}"'
+        )
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
-    env = dict(os.environ)
-    env['PATH'] = add_path + env['PATH']
-    process = subprocess.Popen(run_cmd, env=env,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
+    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     os.chdir(old_dir)
 
     # check to see if the service started
     lines = []
+
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             LOG.debug(line)
             lines.append(line)
 
     errors = []
+
     def read_stderr():
         for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
             LOG.error(line)
             errors.append(line)
-
 
     # must be in the background since the process reader is blocking
     Thread(target=read_stdout, daemon=True).start()
@@ -344,10 +531,10 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
     t_timeout = time.time() + timeout
     started = False
     while not started:
-        started = any('server started' in line for line in lines)
+        started = any("server started" in line for line in lines)
 
         if time.time() > t_timeout:
-            raise TimeoutError(f'Server did not start in {timeout} seconds')
+            raise TimeoutError(f"Server did not start in {timeout} seconds")
 
     # verify there were no errors
     time.sleep(1)
@@ -356,9 +543,7 @@ def launch_dpf_windows(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=
             process.kill()
         except PermissionError:
             pass
-        errstr = '\n'.join(errors)
-        if 'Only one usage of each socket address' in errstr:
-            raise InvalidPortError(f'Port {port} in use')
+        errstr = "\n".join(errors)
+        if "Only one usage of each socket address" in errstr:
+            raise errors.InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)
-
-    return process

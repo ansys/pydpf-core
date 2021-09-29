@@ -1,3 +1,9 @@
+"""
+.. _ref_data_sources:
+
+Data Sources
+============
+"""
 import os
 
 from ansys import dpf
@@ -6,37 +12,41 @@ from ansys.dpf.core.errors import protect_grpc
 
 
 class DataSources:
-    """Represent the file sources of a model.
+    """Contains files with analysis results.
 
-    Initialize the data_sources with either optional data_sources
-    message, or by connecting to a stub.  Result path can also be
-    directly set.
+    An extension key (``'rst'`` for example) is used to choose which files represent
+    results files versus accessory files. You can set a result file path when
+    initializing this class.
+
 
     Parameters
     ----------
     result_path : str, optional
-        path of the result
-
+        Path of the result. The default is ``None``.
     data_sources : ansys.grpc.dpf.data_sources_pb2.DataSources
-        gRPC data sources message.
-
-    channel : channel, optional
-        Channel connected to the remote or local instance. Defaults to
-        the global channel.
+        gRPC data sources message. The default is ``None``.
+    server : server.DPFServer, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
 
     Examples
     --------
-    Initialize a model from a result path
-    >>> import dpf
-    >>> dpf.core.DataSources('file.rst')
+    Initialize a model from a result path.
+
+    >>> from ansys.dpf import core as dpf
+    >>> my_data_sources = dpf.DataSources('file.rst')
+    >>> my_data_sources.result_files
+    ['file.rst']
+
     """
 
-    def __init__(self, result_path=None, data_sources=None, channel=None):
-        """Initialize connection with the server"""
-        if channel is None:
-            channel = dpf.core._global_channel()
+    def __init__(self, result_path=None, data_sources=None, server=None):
+        """Initialize a connection with the server."""
+        if server is None:
+            server = dpf.core._global_server()
 
-        self._channel = channel
+        self._server = server
         self._stub = self._connect()
 
         if data_sources is None:
@@ -50,27 +60,31 @@ class DataSources:
 
     @protect_grpc
     def _connect(self):
-        """Connect to the grpc service"""
-        return data_sources_pb2_grpc.DataSourcesServiceStub(self._channel)
+        """Connect to the gRPC service."""
+        return data_sources_pb2_grpc.DataSourcesServiceStub(self._server.channel)
 
     def set_result_file_path(self, filepath, key=""):
-        """Set the result file path
+        """Add a result file path to the data sources.
 
         Parameters
         ----------
         filepath : str
             Path to the result file.
-
         key : str, optional
-            Extension of the file, found directly if it is not set.
+            Extension of the file, which is used as a key for choosing the correct
+            plugin when a result is requested by an operator. The default is ``""``,
+            in which case the key is found directly.
 
         Examples
         --------
-        Create a data source and set the result file path
+        Create a data source and set the result file path.
 
-        >>> import dpf
-        >>> data_sources = dpf.core.DataSources()
+        >>> from ansys.dpf import core as dpf
+        >>> data_sources = dpf.DataSources()
         >>> data_sources.set_result_file_path('/tmp/file.rst')
+        >>> data_sources.result_files
+        ['/tmp/file.rst']
+
         """
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
@@ -79,21 +93,60 @@ class DataSources:
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
-    def add_file_path(self, filepath, key=""):
-        """Add a file path.
+    def set_domain_result_file_path(self, path, domain_id):
+        """Add a result file path by domain.
 
-        This is used for files other than the result file.
+        This method is used to handle files created by a
+        distributed solve.
 
         Parameters
         ----------
-        filepath : str
-            Path of the file.
+        path: str
+            Path to the file.
+        domain_id: int, optional
+            Domain ID for the distributed files.
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> data_sources = dpf.DataSources()
+        >>> data_sources.set_domain_result_file_path('/tmp/file0.sub', 0)
+        >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
+
+        """
+        request = data_sources_pb2.UpdateRequest()
+        request.result_path = True
+        request.domain.domain_path = True
+        request.domain.domain_id = domain_id
+        request.path = path
+        request.data_sources.CopyFrom(self._message)
+        self._stub.Update(request)
+
+    def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
+        """Add a file path to the data sources.
+
+        Files not added as result files are accessory files, which contain accessory
+        information not present in the result files.
+
+        Parameters
+        ----------
+        filepath : str
+            Path of the file.
+        key : str, optional
+            Extension of the file, which is used as a key for choosing the correct
+            plugin when a result is requested by an operator. The default is ``""``,
+            in which case the key is found directly.
+        is_domain: bool, optional
+            Whether the file path is the domain path. The default is ``False``.
+        domain_id: int, optional
+            Domain ID for the distributed files. The default is ``0``. For this
+            parameter to be taken into account, ``domain_path=True`` must be set.
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> data_sources = dpf.DataSources()
         >>> data_sources.add_file_path('/tmp/ds.dat')
+
         """
         # The filename needs to be a fully qualified file name
         if not os.path.dirname(filepath):
@@ -103,40 +156,90 @@ class DataSources:
         request = data_sources_pb2.UpdateRequest()
         request.key = key
         request.path = filepath
+        if is_domain:
+            request.domain.domain_path = True
+            request.domain.domain_id = domain_id
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
-    def add_upstream(self, upstream_data_sources, upstream_id=-2):
-        """Add an upstream datasources.
+    def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
+        """Add a file path for a specified result file key to the data sources.
 
-        This is used to add a set of path creating an upstram for
-        recursive workflows.
+        This method can be used when results files with different keys (extensions) are
+        contained in the data sources. For example, a solve using two different solvers
+        could generate two different sets of files.
 
         Parameters
         ----------
-        datasources : DataSources
+        filepath : str
+            Path of the file.
+        key : str, optional
+            Extension of the file, which is used as a key for choosing the correct
+            plugin when a result is requested by an operator. The default is ``""``,
+            in which case the key is found directly.
+        result_key: str, optional
+            Extension of the results file that the specified file path belongs to.
+            The default is ``""``, in which case the key is found directly.
+        """
+        # The filename needs to be a fully qualified file name
+        if not os.path.dirname(filepath):
+            # append local path
+            filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
+
+        request = data_sources_pb2.UpdateRequest()
+        request.key = key
+        request.result_key = result_key
+        request.path = filepath
+        request.data_sources.CopyFrom(self._message)
+        self._stub.Update(request)
+
+    def add_upstream(self, upstream_data_sources):
+        """Add upstream data sources.
+
+        Parameters
+        ----------
+        upstream_data_sources : DataSources
+            Set of paths creating an upstream for recursive workflows.
 
         """
         request = data_sources_pb2.UpdateUpstreamRequest()
-        request.upstream_id = upstream_id
         request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
         request.data_sources.CopyFrom(self._message)
         self._stub.UpdateUpstream(request)
 
     @property
     def result_key(self):
+        """Result key used by the data sources.
+
+        Returns
+        -------
+        str
+           Result key.
+
+        """
         return self._info["result_key"]
 
     @property
     def result_files(self):
-        return self._info["paths"][self.result_key]
+        """List of result files contained in the data sources.
+
+        Returns
+        ----------
+        list
+            List of result files.
+        """
+        key = self.result_key
+        if key == "":
+            return None
+        else:
+            return self._info["paths"][key]
 
     @property
     def _info(self):
         list = self._stub.List(self._message)
         paths = {}
         for key in list.paths:
-            key_paths=[]
+            key_paths = []
             for path in list.paths[key].paths:
                 key_paths.append(path)
             paths[key] = key_paths
@@ -144,10 +247,16 @@ class DataSources:
         return out
 
     def __str__(self):
-        info = self._info
-        txt = f'DPF data_sources with result key: {self.result_key}\n'
-        txt += f'paths: {info["paths"]}\n'
-        return txt
+        """Describe the entity.
+
+        Returns
+        -------
+        str
+            Description of the entity.
+        """
+        from ansys.dpf.core.core import _description
+
+        return _description(self._message, self._server)
 
     def __del__(self):
         try:  # should silently fail

@@ -13,22 +13,33 @@ if ansys_path is not None:
         invalid_version = True
 
 
-# skip unless ansys v211 is installed
+# skip unless ansys v212 is installed
 if ansys_path is None or invalid_version or is_ubuntu():
-    pytestmark = pytest.mark.skip("Requires local install of ANSYS 2020R1")
+    pytestmark = pytest.mark.skip("Requires local install of ANSYS 2021R2")
 
 
 def test_start_local():
-    starting_channel = id(core.CHANNEL)
+    starting_server = id(core.SERVER)
     n_init = len(core._server_instances)
-    core.start_local_server(as_global=False)
+    server = core.start_local_server(as_global=False, ansys_path=core.SERVER.ansys_path)
     assert len(core._server_instances) == n_init + 1
-    core._server_instances[-1].shutdown()
+    core._server_instances[-1]().shutdown()
 
     # ensure global channel didn't change
-    assert starting_channel == id(core.CHANNEL)
+    assert starting_server == id(core.SERVER)
 
 
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
-        core.start_local_server(ansys_path='')
+        core.start_local_server(ansys_path="")
+
+
+def test_server_ip():
+    assert core.SERVER.ip != None
+    assert core.SERVER.port != None
+    assert core.SERVER.version != None
+
+    assert core.SERVER.info["server_process_id"] != None
+    assert core.SERVER.info["server_ip"] != None
+    assert core.SERVER.info["server_port"] != None
+    assert core.SERVER.info["server_version"] != None
