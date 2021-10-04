@@ -24,6 +24,13 @@ the powerful DPF framework enabling rapid post-processing of a variety
 of Ansys file formats and physics solutions without ever leaving a
 Python environment.  
 
+## Documentation
+
+Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for a
+detailed description of the library, or see the [Examples
+Gallery](https://dpfdocs.pyansys.com/examples/index.html) for more
+detailed examples.
+
 ## Installation
 
 Install this repository with:
