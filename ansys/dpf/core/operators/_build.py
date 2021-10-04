@@ -1,7 +1,6 @@
 """Build static source operators from DPF server
 
 """
-import warnings
 from collections import OrderedDict
 from datetime import datetime
 import os
@@ -10,7 +9,7 @@ from textwrap import wrap
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core.operators._operators_list import oper_dict
-from ansys.dpf.core.mapping_types import map_types_to_cpp, map_types_to_python
+from ansys.dpf.core.mapping_types import map_types_to_python
 
 map_types_to_python = dict(map_types_to_python)
 map_types_to_python['b'] = 'bool'
@@ -86,8 +85,9 @@ def build_example(op, cls_name, req_parm, opt_parm, build_class_methods=False):
         else:
             lines.append(f'    >>> op.inputs.{item.name}.connect(my_{item.name})')
 
-    for item in op.outputs._dict_outputs.values():
-        lines.append(f'    >>> my_{item.name} = op.outputs.{item.name}()')
+    if op.outputs:
+        for item in op.outputs._dict_outputs.values():
+            lines.append(f'    >>> my_{item.name} = op.outputs.{item.name}()')
     joined = '\n'.join(lines)
     return joined.replace('"', "'")
 
@@ -119,13 +119,15 @@ def output_messagemap_to_dict(msg_map):
 
 def build_input_cls(input_spec, indent='    '):
     lines = ['class _Inputs(dpf.inputs.Inputs):']
+    lines.append('')
     lines.append(f'    _spec = {input_spec}')
+    lines.append('')
     lines.append('    def __init__(self, oper):')
     for _, spec in input_spec.items():
         lines.append(f'        self._{spec.name} = None')
     lines.append('        super().__init__(self._spec, oper)')
-    lines.append('')
     for _, spec in input_spec.items():
+        lines.append('')
         lines.append('    @property')
         lines.append(f'    def {spec.name}(self):')
         if spec.document:
@@ -135,36 +137,37 @@ def build_input_cls(input_spec, indent='    '):
         lines.append(f'    @{spec.name}.setter')
         lines.append(f'    def {spec.name}(self, {spec.name}):')
         lines.append(f'        self._{spec.name}.connect({spec.name})')
-        lines.append('')
     return '\n'.join(f'{indent}{line}' for line in lines)
 
 
 def build_output_cls(output_spec, indent='    '):
-    lines = ['class _Outputs(dpf.outputs.Outputs):']
+    lines = ['']
+    lines.append('class _Outputs(dpf.outputs.Outputs):')
+    lines.append('')
     lines.append(f'    _spec = {output_spec}')
+    lines.append('')
     lines.append('    def __init__(self, oper):')
     for _, spec in output_spec.items():
         lines.append(f'        self._{spec.name} = None')
     lines.append('        super().__init__(self._spec, oper)')
-    lines.append('')
     for _, spec in output_spec.items():
+        lines.append('')
         lines.append('    @property')
         lines.append(f'    def {spec.name}(self):')
         lines.append(f'        """{spec.document}"""')
         lines.append(f'        return self._{spec.name}')
         lines.append('')
-
     return '\n'.join(f'{indent}{line}' for line in lines)
 
 
 def build_output_parm(output_spec, indent='    '):
     lines = []
     for _, spec in output_spec.items():
+        lines.append('')
         lines.append('@property')
         lines.append(f'def {spec.name}(self):')
         lines.append(f'    """{spec.document}"""')
         lines.append(f'    return self.outputs._{spec.name}')
-        lines.append('')
 
     return '\n'.join(f'{indent}{line}' for line in lines)
 
@@ -203,7 +206,6 @@ def build_operator(name, cls_name, build_class_methods=False):
     docstring = gen_docstring(op)
 
     input_spec = input_messagemap_to_dict(op.inputs._dict_inputs)
-    output_spec = output_messagemap_to_dict(op.outputs._dict_outputs)
 
     # build parameters string for function signature
     req_parm, opt_parm = build_parameters(input_spec)
@@ -217,10 +219,14 @@ def build_operator(name, cls_name, build_class_methods=False):
     example = build_example(op, cls_name, req_parm, opt_parm, build_class_methods)
     parameters_docstring = '\n\n'.join(req_parm.values()) + '\n\n' + '\n\n'.join(opt_parm.values())
 
-    attributes = build_output_parm(output_spec)
+    out_cls = ""
+    attributes = ""
+    if op.outputs:
+        output_spec = output_messagemap_to_dict(op.outputs._dict_outputs)
+        attributes = build_output_parm(output_spec)
+        out_cls = build_output_cls(output_spec)
 
     inp_cls = build_input_cls(input_spec)
-    out_cls = build_output_cls(output_spec)
 
     cls = f'''class {cls_name}(dpf.Operator):
     """{docstring}
@@ -235,9 +241,7 @@ def build_operator(name, cls_name, build_class_methods=False):
     """
 
 {inp_cls}
-
 {out_cls}
-
     def __init__({parameters_str}):
         if channel is None:
             channel = dpf.server._global_channel()
@@ -252,7 +256,6 @@ def build_operator(name, cls_name, build_class_methods=False):
 
         self.inputs = self._Inputs(self)
         self.outputs = self._Outputs(self)
-
 {attributes}
 '''
 
@@ -282,55 +285,48 @@ OutputSpec = namedtuple('OutputSpec', ['name', 'type_names', 'document'])
 
 '''
 
-# op_str = build_operator('U', 'Displacement')
-# exec(op_str)
-# disp = Displacement()
-
 if __name__ == '__main__':
     this_path = os.path.dirname(os.path.abspath(__file__))
 
     # known to have issues
-    skip = ['max_over_phase',
-            'html_doc',
-            'vtk_export',
+    skip = ['vtk_export',
             'field_to_csv']
 
-    # reorganize according to categories
-    categories = {}
+    # Create file per operator and organize into directories
+    # per category
+    n_succeed = 0
     for oper_name, oper_data in oper_dict.items():
+        # Skip operators with known issues
         if oper_name in skip:
             print(f'skipping {oper_name}')
             continue
-        category = oper_data['category']
-        if category not in categories:
-            categories[category] = {}
-        categories[category][oper_name] = oper_data
 
-    n_succeed = 0
-    for category, operators in categories.items():
-        oper_file = os.path.join(this_path, category + '.py')
+        # Make directory for new category
+        category = oper_data['category']
+        category_path = os.path.join(this_path, category)
+        if not os.path.exists(category_path):
+            os.mkdir(category_path)
+
+        # Clean up short name
+        short_name = oper_data['short_name']
+        if '::' in short_name:
+            short_name = short_name.split('::')[-1]
+        split_name = short_name.split('_')
+        pyclsname = ''.join([part.capitalize() for part in split_name])
+        if '.' in short_name:
+            short_name = short_name.replace('.', '_')
+
+        # Write to operator file
+        oper_file = os.path.join(category_path, short_name + '.py')
         with open(oper_file, 'w') as f:
             f.write(HEADER)
-            for name, data in operators.items():
-                short_name = data['short_name']
-                if '::' in short_name:
-                    short_name = short_name.split('::')[-1]
-                # if '.' in short
-                split_name = short_name.split('_')
-                pyclsname = ''.join([part.capitalize() for part in split_name])
-
-                if '.' in short_name:
-                    # warnings.warn('multi-level nested operators are not available')
-                    # continue
-                    short_name = short_name.replace('.', '_')
-
-                try:
-                    op_str = build_operator(name, pyclsname)
-                    exec(op_str)
-                    f.write(op_str + '\n\n')
-                    n_succeed += 1
-                except SyntaxError:
-                    # breakpoint()
-                    print(f'Unable to generate {name}, {short_name}, {pyclsname}')
+            try:
+                op_str = build_operator(oper_name, pyclsname)
+                exec(op_str)
+                f.write(op_str)
+                n_succeed += 1
+            except SyntaxError:
+                print(f'Unable to generate {oper_name}, {short_name}, {pyclsname}')
 
     print(f'Generated {n_succeed} out of {len(oper_dict)}')
+    dpf.SERVER.shutdown()
