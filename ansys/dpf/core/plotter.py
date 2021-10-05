@@ -210,7 +210,7 @@ class Plotter:
                         raise TypeError("shell_layer attribute must be a core.shell_layers instance.")
                     sl = shell_layers
                 changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                fields_container = changeOp.outputs.fields_container()
+                fields_container = changeOp.outputs.fields_container_as_fields_container()
                 break
 
         # Merge field data into a single array
