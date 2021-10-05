@@ -8,7 +8,7 @@ from collections import namedtuple
 from textwrap import wrap
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core.operators._operators_list import oper_dict
+from ansys.dpf.core.operators._operators_list import operators
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 map_types_to_python = dict(map_types_to_python)
@@ -37,7 +37,7 @@ def gen_docstring(op):
     return txt
 
 
-def build_example(op, cls_name, req_parm, opt_parm, build_class_methods=False):
+def build_example(op, cls_name, req_param, opt_param, build_class_methods=False):
     lines = []
 
     if build_class_methods:
@@ -46,30 +46,30 @@ def build_example(op, cls_name, req_parm, opt_parm, build_class_methods=False):
         line = f'    >>> op = dpf.operators.{cls_name}('
         indent = ' '*len(line)
 
-        req_keys = list(req_parm.keys())
-        opt_keys = list(opt_parm.keys())
+        req_keys = list(req_param.keys())
+        opt_keys = list(opt_param.keys())
 
         if req_keys:
-            parm = req_keys[0]
-            line += f'my_{parm},'
-            req_keys.remove(parm)
+            param = req_keys[0]
+            line += f'my_{param},'
+            req_keys.remove(param)
         elif opt_keys:
-            parm = opt_keys[0]
-            line += f'my_{parm},'
+            param = opt_keys[0]
+            line += f'my_{param},'
         else:
             line += ')'
 
         lines.append(line)
-        for parm in req_keys[:-1]:
-            lines.append(f'{indent}my_{parm},')
+        for param in req_keys[:-1]:
+            lines.append(f'{indent}my_{param},')
         if req_keys:
             if opt_keys:
                 lines.append(f'{indent}my_{req_keys[-1]},')
             else:
                 lines.append(f'{indent}my_{req_keys[-1]})')
 
-        for parm in opt_keys[:-1]:
-            lines.append(f'{indent}my_{parm}, # optional')
+        for param in opt_keys[:-1]:
+            lines.append(f'{indent}my_{param}, # optional')
         lines.append(f'{indent}my_{opt_keys[-1]})  # optional')
         for item in op.outputs._dict_outputs.values():
             lines.append(f'    >>> my_{item.name} = op.{item.name}')
@@ -160,7 +160,7 @@ def build_output_cls(output_spec, indent='    '):
     return '\n'.join(f'{indent}{line}' for line in lines)
 
 
-def build_output_parm(output_spec, indent='    '):
+def build_output_param(output_spec, indent='    '):
     lines = []
     for _, spec in output_spec.items():
         lines.append('')
@@ -183,20 +183,20 @@ def build_parameters(input_spec):
             else:
                 types.append(cpp_type)
 
-        parm_str = f'    {spec.name} : {" or ".join(types)}'
+        param_str = f'    {spec.name} : {" or ".join(types)}'
         if spec.optional:
-            parm_str += ', optional'
-        parm_str += '\n'
+            param_str += ', optional'
+        param_str += '\n'
 
         if spec.document:
             docs = wrap(spec.document.capitalize(), initial_indent='        ',
                         subsequent_indent='        ')
-            parm_str += '\n'.join(docs)
+            param_str += '\n'.join(docs)
 
         if spec.optional:
-            optional[spec.name] = parm_str
+            optional[spec.name] = param_str
         else:
-            required[spec.name] = parm_str
+            required[spec.name] = param_str
 
     return required, optional
 
@@ -208,22 +208,22 @@ def build_operator(name, cls_name, build_class_methods=False):
     input_spec = input_messagemap_to_dict(op.inputs._dict_inputs)
 
     # build parameters string for function signature
-    req_parm, opt_parm = build_parameters(input_spec)
-    parm = ['self']
-    if req_parm:
-        parm.extend(list(req_parm.keys()))
-    if opt_parm:
-        parm.extend([f'{parm}=None' for parm in opt_parm.keys()])
-    parameters_str = ', '.join(parm)
+    req_param, opt_param = build_parameters(input_spec)
+    param = ['self']
+    if req_param:
+        param.extend(list(req_param.keys()))
+    if opt_param:
+        param.extend([f'{param}=None' for param in opt_param.keys()])
+    parameters_str = ', '.join(param)
 
-    example = build_example(op, cls_name, req_parm, opt_parm, build_class_methods)
-    parameters_docstring = '\n\n'.join(req_parm.values()) + '\n\n' + '\n\n'.join(opt_parm.values())
+    example = build_example(op, cls_name, req_param, opt_param, build_class_methods)
+    parameters_docstring = '\n\n'.join(req_param.values()) + '\n\n' + '\n\n'.join(opt_param.values())
 
     out_cls = ""
     attributes = ""
     if op.outputs:
         output_spec = output_messagemap_to_dict(op.outputs._dict_outputs)
-        attributes = build_output_parm(output_spec)
+        attributes = build_output_param(output_spec)
         out_cls = build_output_cls(output_spec)
 
     inp_cls = build_input_cls(input_spec)
@@ -264,10 +264,19 @@ def build_operator(name, cls_name, build_class_methods=False):
 
     # remove trailing whitespace
     lines = cls.split('\n')
+    lines = remove_extra_blank_lines(lines)
     cls = '\n'.join([line.rstrip() for line in lines])
 
     return cls
 
+def remove_extra_blank_lines(lines):
+    index = 1
+    last_line = lines[-index]
+    while last_line == "":
+        index += 1
+        last_line = lines[-index]
+
+    return lines[:-(index-2)] if index > 2 else lines
 
 HEADER = f'''"""Autogenerated DPF operator classes.
 
@@ -288,45 +297,40 @@ OutputSpec = namedtuple('OutputSpec', ['name', 'type_names', 'document'])
 if __name__ == '__main__':
     this_path = os.path.dirname(os.path.abspath(__file__))
 
-    # known to have issues
-    skip = ['vtk_export',
-            'field_to_csv']
-
     # Create file per operator and organize into directories
     # per category
-    n_succeed = 0
-    for oper_name, oper_data in oper_dict.items():
-        # Skip operators with known issues
-        if oper_name in skip:
-            print(f'skipping {oper_name}')
-            continue
-
+    succeeded = 0
+    for operator_name, operator_data in operators.items():
         # Make directory for new category
-        category = oper_data['category']
+        category = operator_data['category']
         category_path = os.path.join(this_path, category)
         if not os.path.exists(category_path):
             os.mkdir(category_path)
 
         # Clean up short name
-        short_name = oper_data['short_name']
+        short_name = operator_data['short_name']
+        if short_name == "":
+            short_name = operator_name
         if '::' in short_name:
             short_name = short_name.split('::')[-1]
-        split_name = short_name.split('_')
-        pyclsname = ''.join([part.capitalize() for part in split_name])
         if '.' in short_name:
-            short_name = short_name.replace('.', '_')
+            short_name = short_name.split('.')[-1]
+
+        # Get python class name fron short name
+        split_name = short_name.split('_')
+        class_name = ''.join([part.capitalize() for part in split_name])
 
         # Write to operator file
-        oper_file = os.path.join(category_path, short_name + '.py')
-        with open(oper_file, 'w') as f:
+        operator_file = os.path.join(category_path, short_name + '.py')
+        with open(operator_file, 'w') as f:
             f.write(HEADER)
             try:
-                op_str = build_operator(oper_name, pyclsname)
-                exec(op_str)
-                f.write(op_str)
-                n_succeed += 1
+                operator_str = build_operator(operator_name, class_name)
+                exec(operator_str)
+                f.write(operator_str)
+                succeeded += 1
             except SyntaxError:
-                print(f'Unable to generate {oper_name}, {short_name}, {pyclsname}')
+                print(f'Unable to generate {operator_name}, {short_name}, {class_name}')
 
-    print(f'Generated {n_succeed} out of {len(oper_dict)}')
+    print(f'Generated {succeeded} out of {len(operators)}')
     dpf.SERVER.shutdown()
