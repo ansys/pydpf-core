@@ -20,6 +20,8 @@ class nmisc(Operator):
         - streams_container (StreamsContainer, Stream) (optional)
         - data_sources (DataSources)
         - mesh (MeshedRegion) (optional)
+        - item_index (int)
+        - num_components (int) (optional)
 
       available outputs:
         - fields_container (FieldsContainer)
@@ -44,13 +46,17 @@ class nmisc(Operator):
       >>> op.inputs.data_sources.connect(my_data_sources)
       >>> my_mesh = dpf.MeshedRegion()
       >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_item_index = int()
+      >>> op.inputs.item_index.connect(my_item_index)
+      >>> my_num_components = int()
+      >>> op.inputs.num_components.connect(my_num_components)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.result.nmisc(time_scoping=my_time_scoping,mesh_scoping=my_mesh_scoping,fields_container=my_fields_container,streams_container=my_streams_container,data_sources=my_data_sources,mesh=my_mesh)
+      >>> op = dpf.operators.result.nmisc(time_scoping=my_time_scoping,mesh_scoping=my_mesh_scoping,fields_container=my_fields_container,streams_container=my_streams_container,data_sources=my_data_sources,mesh=my_mesh,item_index=my_item_index,num_components=my_num_components)
 
       >>> # Get output data
       >>> result_fields_container = op.outputs.fields_container()"""
-    def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, config=None, server=None):
+    def __init__(self, time_scoping=None, mesh_scoping=None, fields_container=None, streams_container=None, data_sources=None, mesh=None, item_index=None, num_components=None, config=None, server=None):
         super().__init__(name="mapdl::nmisc", config = config, server = server)
         self._inputs = InputsNmisc(self)
         self._outputs = OutputsNmisc(self)
@@ -66,6 +72,10 @@ class nmisc(Operator):
             self.inputs.data_sources.connect(data_sources)
         if mesh !=None:
             self.inputs.mesh.connect(mesh)
+        if item_index !=None:
+            self.inputs.item_index.connect(item_index)
+        if num_components !=None:
+            self.inputs.num_components.connect(num_components)
 
     @staticmethod
     def _spec():
@@ -76,7 +86,9 @@ class nmisc(Operator):
                                  2 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=True, document="""FieldsContainer already allocated modified inplace"""), 
                                  3 : PinSpecification(name = "streams_container", type_names=["streams_container","stream"], optional=True, document="""streams containing the result file."""), 
                                  4 : PinSpecification(name = "data_sources", type_names=["data_sources"], optional=False, document="""data sources containing the result file."""), 
-                                 7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=True, document="""""")},
+                                 7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=True, document=""""""), 
+                                 10 : PinSpecification(name = "item_index", type_names=["int32"], optional=False, document="""Index of requested item."""), 
+                                 11 : PinSpecification(name = "num_components", type_names=["int32"], optional=True, document="""Number of components for the requested item.""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""FieldsContainer filled in""")})
         return spec
@@ -130,6 +142,10 @@ class InputsNmisc(_Inputs):
       >>> op.inputs.data_sources.connect(my_data_sources)
       >>> my_mesh = dpf.MeshedRegion()
       >>> op.inputs.mesh.connect(my_mesh)
+      >>> my_item_index = int()
+      >>> op.inputs.item_index.connect(my_item_index)
+      >>> my_num_components = int()
+      >>> op.inputs.num_components.connect(my_num_components)
     """
     def __init__(self, op: Operator):
         super().__init__(nmisc._spec().inputs, op)
@@ -145,6 +161,10 @@ class InputsNmisc(_Inputs):
         self._inputs.append(self._data_sources)
         self._mesh = Input(nmisc._spec().input_pin(7), 7, op, -1) 
         self._inputs.append(self._mesh)
+        self._item_index = Input(nmisc._spec().input_pin(10), 10, op, -1) 
+        self._inputs.append(self._item_index)
+        self._num_components = Input(nmisc._spec().input_pin(11), 11, op, -1) 
+        self._inputs.append(self._num_components)
 
     @property
     def time_scoping(self):
@@ -271,6 +291,50 @@ class InputsNmisc(_Inputs):
 
         """
         return self._mesh
+
+    @property
+    def item_index(self):
+        """Allows to connect item_index input to the operator
+
+        - pindoc: Index of requested item.
+
+        Parameters
+        ----------
+        my_item_index : int, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.result.nmisc()
+        >>> op.inputs.item_index.connect(my_item_index)
+        >>> #or
+        >>> op.inputs.item_index(my_item_index)
+
+        """
+        return self._item_index
+
+    @property
+    def num_components(self):
+        """Allows to connect num_components input to the operator
+
+        - pindoc: Number of components for the requested item.
+
+        Parameters
+        ----------
+        my_num_components : int, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.result.nmisc()
+        >>> op.inputs.num_components.connect(my_num_components)
+        >>> #or
+        >>> op.inputs.num_components(my_num_components)
+
+        """
+        return self._num_components
 
 class OutputsNmisc(_Outputs):
     """Intermediate class used to get outputs from nmisc operator

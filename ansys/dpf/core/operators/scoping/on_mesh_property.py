@@ -67,7 +67,7 @@ class on_mesh_property(Operator):
         spec = Specification(description="""Provides a scoping on a given property name and a property number.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "requested_location", type_names=["string"], optional=True, document="""Nodal or Elemental location are expected"""), 
-                                 1 : PinSpecification(name = "property_name", type_names=["string"], optional=False, document="""ex "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "shell_elements", "solid_elements", "skin_elements", "beam_elements", "point_elements"..."""), 
+                                 1 : PinSpecification(name = "property_name", type_names=["string"], optional=False, document="""ex "apdl_element_type", "elprops", "mat", "eltype", "connectivity", "shell_elements", "solid_elements", "skin_elements", "beam_elements", "point_elements"..."""), 
                                  2 : PinSpecification(name = "property_id", type_names=["int32"], optional=True, document=""""""), 
                                  5 : PinSpecification(name = "inclusive", type_names=["int32"], optional=True, document="""If element scoping is requested on a nodal named selection, if inclusive == 1 then all the elements adjacent to the nodes ids in input are added, if inclusive == 0, only the elements which have all their nodes in the scoping are included"""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=False, document="""""")},
@@ -162,7 +162,7 @@ class InputsOnMeshProperty(_Inputs):
     def property_name(self):
         """Allows to connect property_name input to the operator
 
-        - pindoc: ex "mapdl_element_type", "apdl_type_index", "mapdl_type_id", "material", "shell_elements", "solid_elements", "skin_elements", "beam_elements", "point_elements"...
+        - pindoc: ex "apdl_element_type", "elprops", "mat", "eltype", "connectivity", "shell_elements", "solid_elements", "skin_elements", "beam_elements", "point_elements"...
 
         Parameters
         ----------

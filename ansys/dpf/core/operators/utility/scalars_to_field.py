@@ -15,6 +15,7 @@ class scalars_to_field(Operator):
 
       available inputs:
         - double_or_vector_double (float, list)
+        - unit (str) (optional)
 
       available outputs:
         - field (Field)
@@ -29,24 +30,29 @@ class scalars_to_field(Operator):
       >>> # Make input connections
       >>> my_double_or_vector_double = float()
       >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+      >>> my_unit = str()
+      >>> op.inputs.unit.connect(my_unit)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.utility.scalars_to_field(double_or_vector_double=my_double_or_vector_double)
+      >>> op = dpf.operators.utility.scalars_to_field(double_or_vector_double=my_double_or_vector_double,unit=my_unit)
 
       >>> # Get output data
       >>> result_field = op.outputs.field()"""
-    def __init__(self, double_or_vector_double=None, config=None, server=None):
+    def __init__(self, double_or_vector_double=None, unit=None, config=None, server=None):
         super().__init__(name="fieldify", config = config, server = server)
         self._inputs = InputsScalarsToField(self)
         self._outputs = OutputsScalarsToField(self)
         if double_or_vector_double !=None:
             self.inputs.double_or_vector_double.connect(double_or_vector_double)
+        if unit !=None:
+            self.inputs.unit.connect(unit)
 
     @staticmethod
     def _spec():
         spec = Specification(description="""take a double or a vector of double and transform it in a one entity field of location "numeric".""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "double_or_vector_double", type_names=["double","vector<double>"], optional=False, document="""double or vector of double""")},
+                                 0 : PinSpecification(name = "double_or_vector_double", type_names=["double","vector<double>"], optional=False, document="""double or vector of double"""), 
+                                 1 : PinSpecification(name = "unit", type_names=["string"], optional=True, document="""unit symbole (m, Hz, kg, ...)""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
         return spec
@@ -90,11 +96,15 @@ class InputsScalarsToField(_Inputs):
       >>> op = dpf.operators.utility.scalars_to_field()
       >>> my_double_or_vector_double = float()
       >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
+      >>> my_unit = str()
+      >>> op.inputs.unit.connect(my_unit)
     """
     def __init__(self, op: Operator):
         super().__init__(scalars_to_field._spec().inputs, op)
         self._double_or_vector_double = Input(scalars_to_field._spec().input_pin(0), 0, op, -1) 
         self._inputs.append(self._double_or_vector_double)
+        self._unit = Input(scalars_to_field._spec().input_pin(1), 1, op, -1) 
+        self._inputs.append(self._unit)
 
     @property
     def double_or_vector_double(self):
@@ -117,6 +127,28 @@ class InputsScalarsToField(_Inputs):
 
         """
         return self._double_or_vector_double
+
+    @property
+    def unit(self):
+        """Allows to connect unit input to the operator
+
+        - pindoc: unit symbole (m, Hz, kg, ...)
+
+        Parameters
+        ----------
+        my_unit : str, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.utility.scalars_to_field()
+        >>> op.inputs.unit.connect(my_unit)
+        >>> #or
+        >>> op.inputs.unit(my_unit)
+
+        """
+        return self._unit
 
 class OutputsScalarsToField(_Outputs):
     """Intermediate class used to get outputs from scalars_to_field operator
