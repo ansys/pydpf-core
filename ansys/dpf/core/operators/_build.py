@@ -12,28 +12,30 @@ from ansys.dpf.core.operators._operators_list import operators
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 map_types_to_python = dict(map_types_to_python)
-map_types_to_python['b'] = 'bool'
+map_types_to_python["b"] = "bool"
 
-InputSpec = namedtuple('InputSpec', ['document', 'ellipsis', 'name', 'optional',
-                                     'type_names'])
+InputSpec = namedtuple(
+    "InputSpec", ["document", "ellipsis", "name", "optional", "type_names"]
+)
 
-OutputSpec = namedtuple('OutputSpec', ['name', 'type_names', 'document'])
+OutputSpec = namedtuple("OutputSpec", ["name", "type_names", "document"])
 
 
 def gen_docstring(op):
     """Used to generate class docstrings"""
     txt = f'DPF "{op.name}" Operator\n\n'
     if op._description:
-        txt += '\n'.join(wrap(op._description, initial_indent='    ',
-                              subsequent_indent='    '))
-        txt += '\n\n'
+        txt += "\n".join(
+            wrap(op._description, initial_indent="    ", subsequent_indent="    ")
+        )
+        txt += "\n\n"
     if op.inputs:
-        line = [' ', str(op.inputs)]
-        txt += '{:^3} {:^21}'.format(*line)
-        txt += '\n'
+        line = [" ", str(op.inputs)]
+        txt += "{:^3} {:^21}".format(*line)
+        txt += "\n"
     if op.outputs:
-        line = [' ', str(op.outputs)]
-        txt += '{:^3} {:^21}'.format(*line)
+        line = [" ", str(op.outputs)]
+        txt += "{:^3} {:^21}".format(*line)
     return txt
 
 
@@ -41,54 +43,56 @@ def build_example(op, cls_name, req_param, opt_param, build_class_methods=False)
     lines = []
 
     if build_class_methods:
-        lines.append('    Create the operator')
-        lines.append('')
-        line = f'    >>> op = dpf.operators.{cls_name}('
-        indent = ' '*len(line)
+        lines.append("    Create the operator")
+        lines.append("")
+        line = f"    >>> op = dpf.operators.{cls_name}("
+        indent = " " * len(line)
 
         req_keys = list(req_param.keys())
         opt_keys = list(opt_param.keys())
 
         if req_keys:
             param = req_keys[0]
-            line += f'my_{param},'
+            line += f"my_{param},"
             req_keys.remove(param)
         elif opt_keys:
             param = opt_keys[0]
-            line += f'my_{param},'
+            line += f"my_{param},"
         else:
-            line += ')'
+            line += ")"
 
         lines.append(line)
         for param in req_keys[:-1]:
-            lines.append(f'{indent}my_{param},')
+            lines.append(f"{indent}my_{param},")
         if req_keys:
             if opt_keys:
-                lines.append(f'{indent}my_{req_keys[-1]},')
+                lines.append(f"{indent}my_{req_keys[-1]},")
             else:
-                lines.append(f'{indent}my_{req_keys[-1]})')
+                lines.append(f"{indent}my_{req_keys[-1]})")
 
         for param in opt_keys[:-1]:
-            lines.append(f'{indent}my_{param}, # optional')
-        lines.append(f'{indent}my_{opt_keys[-1]})  # optional')
+            lines.append(f"{indent}my_{param}, # optional")
+        lines.append(f"{indent}my_{opt_keys[-1]})  # optional")
         for item in op.outputs._dict_outputs.values():
-            lines.append(f'    >>> my_{item.name} = op.{item.name}')
+            lines.append(f"    >>> my_{item.name} = op.{item.name}")
 
-        lines.append('')
-        lines.append('    Alternative: Connect operator using Inputs and Outputs')
-        lines.append('')
+        lines.append("")
+        lines.append("    Alternative: Connect operator using Inputs and Outputs")
+        lines.append("")
 
-    lines.append(f'    >>> op = dpf.operators.{cls_name}()')
+    lines.append(f"    >>> op = dpf.operators.{cls_name}()")
     for item in op.inputs._dict_inputs.values():
-        if hasattr(item, 'optional') and item.optional:
-            lines.append(f'    >>> op.inputs.{item.name}.connect(my_{item.name})  # optional')
+        if hasattr(item, "optional") and item.optional:
+            lines.append(
+                f"    >>> op.inputs.{item.name}.connect(my_{item.name})  # optional"
+            )
         else:
-            lines.append(f'    >>> op.inputs.{item.name}.connect(my_{item.name})')
+            lines.append(f"    >>> op.inputs.{item.name}.connect(my_{item.name})")
 
     if op.outputs:
         for item in op.outputs._dict_outputs.values():
-            lines.append(f'    >>> my_{item.name} = op.outputs.{item.name}()')
-    joined = '\n'.join(lines)
+            lines.append(f"    >>> my_{item.name} = op.outputs.{item.name}()")
+    joined = "\n".join(lines)
     return joined.replace('"', "'")
 
 
@@ -100,8 +104,13 @@ def input_messagemap_to_dict(msg_map):
 
     for pin in pins:
         spec = msg_map[pin]
-        spec_dict[pin] = InputSpec(spec.document.replace('"', "'"), spec.ellipsis, spec.name,
-                                   spec.optional, spec.type_names)
+        spec_dict[pin] = InputSpec(
+            spec.document.replace('"', "'"),
+            spec.ellipsis,
+            spec.name,
+            spec.optional,
+            spec.type_names,
+        )
     return spec_dict
 
 
@@ -117,59 +126,59 @@ def output_messagemap_to_dict(msg_map):
     return spec_dict
 
 
-def build_input_cls(input_spec, indent='    '):
-    lines = ['class _Inputs(dpf.inputs.Inputs):']
-    lines.append('')
-    lines.append(f'    _spec = {input_spec}')
-    lines.append('')
-    lines.append('    def __init__(self, oper):')
+def build_input_cls(input_spec, indent="    "):
+    lines = ["class _Inputs(dpf.inputs.Inputs):"]
+    lines.append("")
+    lines.append(f"    _spec = {input_spec}")
+    lines.append("")
+    lines.append("    def __init__(self, oper):")
     for _, spec in input_spec.items():
-        lines.append(f'        self._{spec.name} = None')
-    lines.append('        super().__init__(self._spec, oper)')
+        lines.append(f"        self._{spec.name} = None")
+    lines.append("        super().__init__(self._spec, oper)")
     for _, spec in input_spec.items():
-        lines.append('')
-        lines.append('    @property')
-        lines.append(f'    def {spec.name}(self):')
+        lines.append("")
+        lines.append("    @property")
+        lines.append(f"    def {spec.name}(self):")
         if spec.document:
             lines.append(f'        """{spec.document}"""')
-        lines.append(f'        return self._{spec.name}')
-        lines.append('')
-        lines.append(f'    @{spec.name}.setter')
-        lines.append(f'    def {spec.name}(self, {spec.name}):')
-        lines.append(f'        self._{spec.name}.connect({spec.name})')
-    return '\n'.join(f'{indent}{line}' for line in lines)
+        lines.append(f"        return self._{spec.name}")
+        lines.append("")
+        lines.append(f"    @{spec.name}.setter")
+        lines.append(f"    def {spec.name}(self, {spec.name}):")
+        lines.append(f"        self._{spec.name}.connect({spec.name})")
+    return "\n".join(f"{indent}{line}" for line in lines)
 
 
-def build_output_cls(output_spec, indent='    '):
-    lines = ['']
-    lines.append('class _Outputs(dpf.outputs.Outputs):')
-    lines.append('')
-    lines.append(f'    _spec = {output_spec}')
-    lines.append('')
-    lines.append('    def __init__(self, oper):')
+def build_output_cls(output_spec, indent="    "):
+    lines = [""]
+    lines.append("class _Outputs(dpf.outputs.Outputs):")
+    lines.append("")
+    lines.append(f"    _spec = {output_spec}")
+    lines.append("")
+    lines.append("    def __init__(self, oper):")
     for _, spec in output_spec.items():
-        lines.append(f'        self._{spec.name} = None')
-    lines.append('        super().__init__(self._spec, oper)')
+        lines.append(f"        self._{spec.name} = None")
+    lines.append("        super().__init__(self._spec, oper)")
     for _, spec in output_spec.items():
-        lines.append('')
-        lines.append('    @property')
-        lines.append(f'    def {spec.name}(self):')
+        lines.append("")
+        lines.append("    @property")
+        lines.append(f"    def {spec.name}(self):")
         lines.append(f'        """{spec.document}"""')
-        lines.append(f'        return self._{spec.name}')
-        lines.append('')
-    return '\n'.join(f'{indent}{line}' for line in lines)
+        lines.append(f"        return self._{spec.name}")
+        lines.append("")
+    return "\n".join(f"{indent}{line}" for line in lines)
 
 
-def build_output_param(output_spec, indent='    '):
+def build_output_param(output_spec, indent="    "):
     lines = []
     for _, spec in output_spec.items():
-        lines.append('')
-        lines.append('@property')
-        lines.append(f'def {spec.name}(self):')
+        lines.append("")
+        lines.append("@property")
+        lines.append(f"def {spec.name}(self):")
         lines.append(f'    """{spec.document}"""')
-        lines.append(f'    return self.outputs._{spec.name}')
+        lines.append(f"    return self.outputs._{spec.name}")
 
-    return '\n'.join(f'{indent}{line}' for line in lines)
+    return "\n".join(f"{indent}{line}" for line in lines)
 
 
 def build_parameters(input_spec):
@@ -185,13 +194,16 @@ def build_parameters(input_spec):
 
         param_str = f'    {spec.name} : {" or ".join(types)}'
         if spec.optional:
-            param_str += ', optional'
-        param_str += '\n'
+            param_str += ", optional"
+        param_str += "\n"
 
         if spec.document:
-            docs = wrap(spec.document.capitalize(), initial_indent='        ',
-                        subsequent_indent='        ')
-            param_str += '\n'.join(docs)
+            docs = wrap(
+                spec.document.capitalize(),
+                initial_indent="        ",
+                subsequent_indent="        ",
+            )
+            param_str += "\n".join(docs)
 
         if spec.optional:
             optional[spec.name] = param_str
@@ -209,15 +221,17 @@ def build_operator(name, cls_name, build_class_methods=False):
 
     # build parameters string for function signature
     req_param, opt_param = build_parameters(input_spec)
-    param = ['self']
+    param = ["self"]
     if req_param:
         param.extend(list(req_param.keys()))
     if opt_param:
-        param.extend([f'{param}=None' for param in opt_param.keys()])
-    parameters_str = ', '.join(param)
+        param.extend([f"{param}=None" for param in opt_param.keys()])
+    parameters_str = ", ".join(param)
 
     example = build_example(op, cls_name, req_param, opt_param, build_class_methods)
-    parameters_docstring = '\n\n'.join(req_param.values()) + '\n\n' + '\n\n'.join(opt_param.values())
+    parameters_docstring = (
+        "\n\n".join(req_param.values()) + "\n\n" + "\n\n".join(opt_param.values())
+    )
 
     out_cls = ""
     attributes = ""
@@ -260,14 +274,15 @@ def build_operator(name, cls_name, build_class_methods=False):
 '''
 
     # cleanup
-    cls = cls.replace('[0m', '``').replace('[1m', '``')
+    cls = cls.replace("[0m", "``").replace("[1m", "``")
 
     # remove trailing whitespace
-    lines = cls.split('\n')
+    lines = cls.split("\n")
     lines = remove_extra_blank_lines(lines)
-    cls = '\n'.join([line.rstrip() for line in lines])
+    cls = "\n".join([line.rstrip() for line in lines])
 
     return cls
+
 
 def remove_extra_blank_lines(lines):
     index = 1
@@ -276,7 +291,8 @@ def remove_extra_blank_lines(lines):
         index += 1
         last_line = lines[-index]
 
-    return lines[:-(index-2)] if index > 2 else lines
+    return lines[: -(index - 2)] if index > 2 else lines
+
 
 HEADER = f'''"""Autogenerated DPF operator classes.
 
@@ -294,7 +310,7 @@ OutputSpec = namedtuple('OutputSpec', ['name', 'type_names', 'document'])
 
 '''
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     this_path = os.path.dirname(os.path.abspath(__file__))
 
     # Create file per operator and organize into directories
@@ -302,27 +318,27 @@ if __name__ == '__main__':
     succeeded = 0
     for operator_name, operator_data in operators.items():
         # Make directory for new category
-        category = operator_data['category']
+        category = operator_data["category"]
         category_path = os.path.join(this_path, category)
         if not os.path.exists(category_path):
             os.mkdir(category_path)
 
         # Clean up short name
-        short_name = operator_data['short_name']
+        short_name = operator_data["short_name"]
         if short_name == "":
             short_name = operator_name
-        if '::' in short_name:
-            short_name = short_name.split('::')[-1]
-        if '.' in short_name:
-            short_name = short_name.split('.')[-1]
+        if "::" in short_name:
+            short_name = short_name.split("::")[-1]
+        if "." in short_name:
+            short_name = short_name.split(".")[-1]
 
         # Get python class name fron short name
-        split_name = short_name.split('_')
-        class_name = ''.join([part.capitalize() for part in split_name])
+        split_name = short_name.split("_")
+        class_name = "".join([part.capitalize() for part in split_name])
 
         # Write to operator file
-        operator_file = os.path.join(category_path, short_name + '.py')
-        with open(operator_file, 'w') as f:
+        operator_file = os.path.join(category_path, short_name + ".py")
+        with open(operator_file, "w") as f:
             f.write(HEADER)
             try:
                 operator_str = build_operator(operator_name, class_name)
@@ -330,7 +346,7 @@ if __name__ == '__main__':
                 f.write(operator_str)
                 succeeded += 1
             except SyntaxError:
-                print(f'Unable to generate {operator_name}, {short_name}, {class_name}')
+                print(f"Unable to generate {operator_name}, {short_name}, {class_name}")
 
-    print(f'Generated {succeeded} out of {len(operators)}')
+    print(f"Generated {succeeded} out of {len(operators)}")
     dpf.SERVER.shutdown()
