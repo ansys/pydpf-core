@@ -4,7 +4,6 @@
 ansys.dpf.core.operators
 ========================
 """
-  
 
 from . import result
 from . import math
