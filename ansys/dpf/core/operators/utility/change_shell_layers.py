@@ -18,7 +18,7 @@ class change_shell_layers(Operator):
         - e_shell_layer (int)
 
       available outputs:
-        - fields_container (FieldsContainer)
+        - fields_container (FieldsContainer ,Field)
 
       Examples
       --------
@@ -54,7 +54,7 @@ class change_shell_layers(Operator):
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container","field"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "e_shell_layer", type_names=["int32"], optional=False, document="""0:Top, 1: Bottom, 2: BottomTop, 3:Mid, 4:BottomTopMid""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container","field"], optional=False, document="""""")})
         return spec
 
 
@@ -160,25 +160,8 @@ class OutputsChangeShellLayers(_Outputs):
     """
     def __init__(self, op: Operator):
         super().__init__(change_shell_layers._spec().outputs, op)
-        self._fields_container = Output(change_shell_layers._spec().output_pin(0), 0, op) 
-        self._outputs.append(self._fields_container)
-
-    @property
-    def fields_container(self):
-        """Allows to get fields_container output of the operator
-
-
-        Returns
-        ----------
-        my_fields_container : FieldsContainer, 
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-
-        >>> op = dpf.operators.utility.change_shell_layers()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_fields_container = op.outputs.fields_container() 
-        """
-        return self._fields_container
+        self.fields_container_as_fields_container = Output( _modify_output_spec_with_one_type(change_shell_layers._spec().output_pin(0), "fields_container"), 0, op) 
+        self._outputs.append(self.fields_container_as_fields_container)
+        self.fields_container_as_field = Output( _modify_output_spec_with_one_type(change_shell_layers._spec().output_pin(0), "field"), 0, op) 
+        self._outputs.append(self.fields_container_as_field)
 
