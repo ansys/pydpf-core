@@ -1,35 +1,43 @@
 """
 Get available operators, categories, and short names from "dpf.html"
 """
-from warnings import warn 
+import argparse
 import os
+from pprint import pformat
+from warnings import warn
+
 from bs4 import BeautifulSoup
 
 
-def interpert_html():
+def interpert_html(this_path):
     """Get available operators, categories, and short names from 'dpf.html'"""
-    with open('dpf.html', 'r', encoding='latin1') as f:
+    project_root_dir = os.path.abspath(os.curdir)
+    html_file = os.path.join(project_root_dir, "docs", "source", "_static", "dpf.html")
+    with open(html_file, "r", encoding="latin1") as f:
         contents = f.read()
-    soup = BeautifulSoup(contents, features="lxml")
+    soup = BeautifulSoup(contents, features="html.parser")
 
     operators = soup.findAll(class_="operator")
-    oper_dict = {}
+    result = {}
     for operator in operators:
-        scp = operator.find_all('scripting-part')[0]
-        name = scp.get('cpp-name')
-        short_name = scp.get('scripting_name')
-        if name in oper_dict:
-            warn(f'Duplicate name {name}')
-        oper_dict[name] = {'category': scp.get('cat'),
-                           'short_name': short_name}
+        scp = operator.find_all("scripting-part")[0]
+        name = scp.get("cpp-name")
+        short_name = scp.get("scripting_name")
+        if name in result:
+            warn(f"Duplicate name {name}")
+        result[name] = {"category": scp.get("cat"), "short_name": short_name}
 
-    return oper_dict
+    return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Scan dpf.html file.")
+    parser.add_argument("--operators-file", default="_operators_list")
+    args = parser.parse_args()
+
     this_path = os.path.dirname(os.path.abspath(__file__))
-    oper_file = os.path.join(this_path, '_operators_list.py')
-    oper_dict = interpert_html()
-    print(f'Extracted {len(oper_dict)} operators')
-    with open(oper_file, 'w') as f:
-        f.write('oper_dict = ' + str(oper_dict))
+    operators_file = os.path.join(this_path, args.operators_file + ".py")
+    operators = interpert_html(this_path)
+    print(f"Extracted {len(operators)} operators to {operators_file}.")
+    with open(operators_file, "w") as f:
+        f.write("operators = " + str(pformat(operators, width=70)))
