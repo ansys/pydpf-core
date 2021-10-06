@@ -153,18 +153,25 @@ class _Inputs:
         self._connected_inputs = {}
 
     def __str__(self):
-        docstr = "Available inputs:\n"
+        docstr = ["Available inputs:"]
         for inp in self._inputs:
             tot_string = inp.__str__()
             input_string = tot_string.split("\n")
             input_string1 = input_string[0]
             line = ["   ", "- ", input_string1]
-            docstr += "{:<5}{:<4}{:<20}\n".format(*line)
-            for inputstr in input_string:
-                if inputstr != input_string1:
-                    line = ["   ", "  ", inputstr]
-                    docstr += "{:<5}{:<4}{:<20}\n".format(*line)
-        return docstr
+
+            # Format parameter
+            formatted_line = "{:<5}{:<4}{:<20}\n".format(*line)
+            wrapped_line = wrap(formatted_line, subsequent_indent="            ")
+            docstr.extend(wrapped_line)
+
+            # Format other lines
+            other_parameters = " ".join(input_string[1:])
+            line = ["   ", "  ", other_parameters]
+            formatted_line = "{:<5}{:<4}{:<20}\n".format(*line)
+            wrapped_line = wrap(formatted_line, subsequent_indent="         ")
+            docstr.extend(wrapped_line)
+        return"\n".join(docstr)
 
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
