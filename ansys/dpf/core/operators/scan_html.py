@@ -3,7 +3,7 @@ Get available operators, categories, and short names from "dpf.html"
 """
 import argparse
 import os
-from pprint import pformat
+import black
 from warnings import warn
 
 from bs4 import BeautifulSoup
@@ -40,4 +40,7 @@ if __name__ == "__main__":
     operators = interpert_html(this_path)
     print(f"Extracted {len(operators)} operators to {operators_file}.")
     with open(operators_file, "w") as f:
-        f.write("operators = " + str(pformat(operators, width=70)))
+        operator_contents = black.format_str(
+            f"operators = {operators}", mode=black.FileMode()
+        )
+        f.write(operator_contents)
