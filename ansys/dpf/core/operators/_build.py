@@ -105,11 +105,8 @@ def input_messagemap_to_dict(msg_map):
 
     for pin in pins:
         spec = msg_map[pin]
-        # Ignore flake8 check for line length on doc
-        doc = spec.document.replace('"', "'")
-        formatted_doc = f'"{doc}" # noqa: E501'
         spec_dict[pin] = InputSpec(
-            formatted_doc,
+            spec.document.replace('"', "'"),
             spec.ellipsis,
             spec.name,
             spec.optional,
@@ -126,16 +123,19 @@ def output_messagemap_to_dict(msg_map):
 
     for pin in pins:
         spec = msg_map[pin]
-        # Ignore flake8 check for line length on doc
-        formatted_doc = f'"{spec.document}" # noqa: E501'
-        spec_dict[pin] = OutputSpec(spec.name, spec.type_names, formatted_doc)
+        spec_dict[pin] = OutputSpec(spec.name, spec.type_names, spec.document)
     return spec_dict
 
 
 def build_input_cls(input_spec, indent="    "):
     lines = ["class _Inputs(dpf.inputs.Inputs):"]
     lines.append("")
-    lines.append(f"    _spec = {input_spec}")
+    # Formatting switched off and then back on so that black does not
+    # format this line. input_spec cannot be formatted properly due
+    # named tuples and long document strings. Ignore for E501.
+    lines.append("# fmt: off")
+    lines.append(f"    _spec = {input_spec} # noqa: E501")
+    lines.append("# fmt: on")
     lines.append("")
     lines.append("    def __init__(self, oper):")
     for _, spec in input_spec.items():
@@ -165,7 +165,12 @@ def build_output_cls(output_spec, indent="    "):
     lines = [""]
     lines.append("class _Outputs(dpf.outputs.Outputs):")
     lines.append("")
-    lines.append(f"    _spec = {output_spec}")
+    # Formatting switched off and then back on so that black does not
+    # format this line. input_spec cannot be formatted properly due
+    # named tuples and long document strings. Ignore for E501.
+    lines.append("# fmt: off")
+    lines.append(f"    _spec = {output_spec} # noqa: E501")
+    lines.append("# fmt: on")
     lines.append("")
     lines.append("    def __init__(self, oper):")
     for _, spec in output_spec.items():
@@ -175,7 +180,14 @@ def build_output_cls(output_spec, indent="    "):
         lines.append("")
         lines.append("    @property")
         lines.append(f"    def {spec.name}(self):")
-        lines.append(f'        """{spec.document}"""')
+        if spec.document:
+            doc = wrap(
+                f'"""{spec.document}"""',
+                initial_indent="        ",
+                subsequent_indent="            ",
+                width=65
+            )
+            lines.extend(doc)
         lines.append(f"        return self._{spec.name}")
     lines.append("")
     return "\n".join(f"{indent}{line}" for line in lines)
@@ -187,7 +199,14 @@ def build_output_param(output_spec, indent="    "):
         lines.append("")
         lines.append("@property")
         lines.append(f"def {spec.name}(self):")
-        lines.append(f'    """{spec.document}"""')
+        if spec.document:
+            doc = wrap(
+                f'"""{spec.document}"""',
+                initial_indent="    ",
+                subsequent_indent="            ",
+                width=65
+            )
+            lines.extend(doc)
         lines.append(f"    return self.outputs._{spec.name}")
 
     return "\n".join(f"{indent}{line}" for line in lines)
@@ -207,6 +226,7 @@ def build_parameters(input_spec):
         param_str = f'    {spec.name} : {" or ".join(types)}'
         if spec.optional:
             param_str += ", optional"
+        param_str = "\n".join(wrap(param_str, subsequent_indent="        "))
         param_str += "\n"
 
         if spec.document:
@@ -264,7 +284,7 @@ def build_operator(name, cls_name, build_class_methods=False):
     Examples
     --------
 {example}
-    """
+    """ # noqa: E501
 
 {inp_cls}
 {out_cls}
