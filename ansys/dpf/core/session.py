@@ -26,12 +26,15 @@ class Session:
         if server is None:
             server = dpf.core._global_server()
 
-        self._server = server
-        
+        self._server_weak_ref = weakref.ref(server)
         if server_meet_version("3.0", self._server):
             self._stub = self._connect()
             self.__send_init_request()      
             self.add_progress_system()
+
+    @property
+    def _server(self):
+        return self._server_weak_ref()
     
     @version_requires("3.0")
     def _connect(self):
