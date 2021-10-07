@@ -10,6 +10,7 @@ from ansys import dpf
 from ansys.dpf.core import field, property_field
 from ansys.grpc.dpf import meshed_region_pb2
 from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.common import nodal_properties
 
 
 class Node:
@@ -246,7 +247,7 @@ class Nodes:
         """
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
-        request.nodal_property = meshed_region_pb2.NODAL_CONNECTIVITY
+        request.property_type.property_name.property_name = nodal_properties.nodal_connectivity
         fieldOut = self._mesh._stub.ListProperty(request)
         return property_field.PropertyField(
             server=self._mesh._server, property_field=fieldOut
@@ -257,8 +258,7 @@ class Nodes:
         """Retrieve the coordinates field."""
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
-        # request.nodal_property = meshed_region_pb2.NodalPropertyType.COORDINATES
-        request.nodal_property = meshed_region_pb2.COORDINATES
+        request.property_type.property_name.property_name = nodal_properties.coordinates
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(server=self._mesh._server, field=fieldOut)
 

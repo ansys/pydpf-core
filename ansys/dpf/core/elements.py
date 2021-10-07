@@ -7,7 +7,7 @@ from enum import Enum
 
 import numpy as np
 from ansys.dpf.core import field, nodes, property_field, scoping
-from ansys.dpf.core.common import __write_enum_doc__, locations
+from ansys.dpf.core.common import __write_enum_doc__, locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.errors import protect_grpc
 from ansys.grpc.dpf import meshed_region_pb2
@@ -170,7 +170,7 @@ class Element:
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
-        request.property = meshed_region_pb2.ELEMENT_TYPE
+        request.property_name.property_name = elemental_properties.element_type
         return element_types(self._mesh._stub.GetElementalProperty(request).prop)
 
     @property
@@ -202,7 +202,7 @@ class Element:
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
-        request.property = meshed_region_pb2.ELEMENT_SHAPE
+        request.property_name.property_name = elemental_properties.element_shape
         prop = self._mesh._stub.GetElementalProperty(request).prop
         return meshed_region_pb2.ElementShape.Name(prop).lower()
 
@@ -485,8 +485,7 @@ class Elements:
         """
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
-        # request.elemental_property = meshed_region_pb2.ElementalPropertyType.ELEMENT_TYPE
-        request.elemental_property = meshed_region_pb2.ELEMENT_TYPE
+        request.property_type.property_name.property_name = elemental_properties.element_type
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(server=self._mesh._server, field=fieldOut)
 
@@ -514,8 +513,7 @@ class Elements:
         """
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
-        # request.elemental_property = meshed_region_pb2.ElementalPropertyType.MATERIAL
-        request.elemental_property = meshed_region_pb2.MATERIAL
+        request.property_type.property_name.property_name = elemental_properties.material
         fieldOut = self._mesh._stub.ListProperty(request)
         return field.Field(server=self._mesh._server, field=fieldOut)
 
@@ -547,8 +545,7 @@ class Elements:
         """Retrieve the connectivities field."""
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
-        # request.elemental_property = meshed_region_pb2.ElementalPropertyType.CONNECTIVITY
-        request.elemental_property = meshed_region_pb2.CONNECTIVITY
+        request.property_type.property_name.property_name = elemental_properties.connectivity
         fieldOut = self._mesh._stub.ListProperty(request)
         return property_field.PropertyField(
             server=self._mesh._server, property_field=fieldOut
