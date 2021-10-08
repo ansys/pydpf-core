@@ -290,7 +290,7 @@ def test_generated_operator_set_config():
     op1.inputs.fieldA.connect(inpt)
     op1.inputs.fieldB.connect(inpt2)
     out = op1.outputs.field() 
-    assert np.allclose(out.scoping.ids,[3, 4, 5])
+    assert np.allclose(out.scoping.ids,[1,2,3])
     assert np.allclose( out.data, np.array([[ 2.,  4.,  6.],
        [ 8., 10., 12.],
        [14., 16., 18.]]))

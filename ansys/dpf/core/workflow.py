@@ -112,7 +112,7 @@ class Workflow:
         request = workflow_pb2.UpdateConnectionRequest()
         request.wf.CopyFrom(self._message)
         request.pin_name = pin_name
-        dpf_operator._fillConnectionRequestMessage(request, inpt, pin_out)
+        tmp = dpf_operator._fillConnectionRequestMessage(request, inpt, self._server, pin_out)
         self._stub.UpdateConnection(request)
     
             

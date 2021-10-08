@@ -301,6 +301,27 @@ def test_outputs_bool_workflow():
     assert out == True
     
 
+def test_connect_get_output_int_list_workflow():
+    d = list(range(0,10000000)) 
+    wf = dpf.core.Workflow()
+    op = dpf.core.operators.utility.forward(d)
+    wf.add_operators([op]) 
+    wf.set_input_name("in",op,0) 
+    wf.set_output_name("out", op, 0) 
+    dout = wf.get_output("out", dpf.core.types.vec_int)
+    assert np.allclose(d,dout)
+
+def test_connect_get_output_double_list_workflow():
+    d = list(np.ones(10000000))
+    wf = dpf.core.Workflow()
+    op = dpf.core.operators.utility.forward(d)
+    wf.add_operators([op]) 
+    wf.set_input_name("in",op,0) 
+    wf.set_output_name("out", op, 0) 
+    dout = wf.get_output("out", dpf.core.types.vec_double)
+    assert np.allclose(d,dout)
+
+
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity):
     data_sources = dpf.core.DataSources(allkindofcomplexity)
     model = dpf.core.Model(data_sources)

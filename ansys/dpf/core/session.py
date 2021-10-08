@@ -6,6 +6,7 @@ Session
 import functools
 import grpc
 import logging
+import weakref
 from ansys import dpf
 from ansys.grpc.dpf import base_pb2
 from ansys.dpf.core.check_version import version_requires, server_meet_version

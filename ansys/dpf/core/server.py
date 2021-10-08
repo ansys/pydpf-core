@@ -288,7 +288,7 @@ class DpfServer:
             # verify connection has matured
             tstart = time.time()
             while ((time.time() - tstart) < timeout) and not state._matured:
-                time.sleep(0.01)
+                time.sleep(0.001)
         
             if not state._matured:
                 raise TimeoutError(f'Failed to connect to {ip}:{port} in {timeout} seconds')
