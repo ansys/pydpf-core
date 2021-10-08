@@ -156,7 +156,7 @@ class Operator:
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
-        _fillConnectionRequestMessage(request, inpt, pin_out)
+        tmp = _fillConnectionRequestMessage(request, inpt, self._server, pin_out)
         if inpt is self:
             raise ValueError("Cannot connect to itself.")
         self._stub.Update(request)
@@ -513,6 +513,12 @@ def _write_output_type_to_proto_style(output_type, request):
         elif output_type == types.meshes_container:
             stype = "collection"
             subtype = "meshed_region"
+        elif output_type == types.vec_int:            
+            stype='collection'
+            subtype = 'int'
+        elif output_type == types.vec_double:            
+            stype='collection'
+            subtype = 'double'
         else:
             stype = output_type.name
     elif isinstance(output_type, list):
@@ -569,6 +575,8 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
             return meshes_container.MeshesContainer(
                 server=server, meshes_container=toconvert
             )
+        elif output_type == types.vec_int or output_type == types.vec_double:
+            return collection.Collection(server=server,collection=toconvert)._get_integral_entries()
     elif out.HasField("scoping"):
         toconvert = out.scoping
         return scoping.Scoping(scoping=toconvert, server=server)
@@ -604,6 +612,7 @@ def _fillConnectionRequestMessage(request, inpt, pin_out=0):
         model,
         scoping,
         workflow,
+        collection,
     )
 
     if isinstance(inpt, str):
@@ -616,9 +625,22 @@ def _fillConnectionRequestMessage(request, inpt, pin_out=0):
         request.double = inpt
     elif isinstance(inpt, list):
         if all(isinstance(x, int) for x in inpt):
-            request.vint.rep_int.extend(inpt)
+            if server_meet_version("3.0", server) :
+                inpt = collection.Collection.integral_collection(inpt, server)
+                request.collection.CopyFrom(inpt._message)
+                return inpt
+            else:
+                request.vint.rep_int.extend(inpt)
         elif all(isinstance(x, float) for x in inpt):
-            request.vdouble.rep_double.extend(inpt)
+            if server_meet_version("3.0", server) :
+                inpt = collection.Collection.integral_collection(inpt, server)
+                request.collection.CopyFrom(inpt._message)
+                return inpt
+            else:
+                request.vdouble.rep_double.extend(inpt) 
+        else:
+            errormsg = f"input type {inpt.__class__} cannot be connected"
+            raise TypeError(errormsg)
     elif isinstance(inpt, field_base._FieldBase):
         request.field.CopyFrom(inpt._message)
     elif isinstance(inpt, collection.Collection):
