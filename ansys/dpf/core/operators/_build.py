@@ -113,6 +113,7 @@ def build_operator(name, class_name, snake_case_class_name, category):
         "specification_description": specification_description,
         "input_pins": input_pins,
         "output_pins": output_pins,
+        "outputs": len(output_pins) >= 1,
         "category": category,
         "date_and_time": date_and_time,
     }

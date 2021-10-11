@@ -5,12 +5,12 @@ Created on {{date_and_time}}.
 from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
-{{#output_pins.length}}
+{{#outputs}}
 from ansys.dpf.core.outputs import Output, _Outputs
-{{/output_pins.length}}
-{{^output_pins.length}}
+{{/outputs}}
+{{^outputs}}
 from ansys.dpf.core.outputs import _Outputs
-{{/output_pins.length}}
+{{/outputs}}
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
 def {{snake_case_class_name}}(*args, **kwargs):
