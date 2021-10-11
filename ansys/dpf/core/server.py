@@ -406,7 +406,7 @@ class DpfServer:
             self._base_service._prepare_shutdown()
             p = psutil.Process(self._base_service.server_info["server_process_id"])
             p.kill()
-            time.sleep(0.1)
+            time.sleep(0.01)
             self.live = False
             try:
                 if id(dpf.core.SERVER) == id(self):
@@ -538,7 +538,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
             raise TimeoutError(f"Server did not start in {timeout} seconds")
 
     # verify there were no errors
-    time.sleep(1)
+    time.sleep(0.1)
     if errors:
         try:
             process.kill()

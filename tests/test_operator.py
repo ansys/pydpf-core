@@ -1044,6 +1044,21 @@ def test_dot_operator_server_operator():
     assert np.allclose(out[0].data,np.array([5.,50.]))
     
 
+def test_list_operators():
+    l = dpf.core.dpf_operator.available_operator_names()
+    assert len(l)>400
+    assert 'merge::result_info' in l    
+    assert 'unit_convert' in l
+    assert 'MeshProvider' in l
+
+def test_get_static_spec_operator():
+    l = dpf.core.dpf_operator.available_operator_names()
+    for i,name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name)
+        assert len(spec.operator_name)>0
+        assert len(spec.inputs)>0
+        assert len(spec.description)>0
+    
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_with_progress_operator(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)

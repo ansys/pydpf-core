@@ -312,7 +312,7 @@ class BaseService:
             state = grpc.channel_ready_future(self._server().channel)
             tstart = time.time()
             while (time.time() - tstart) < timeout and not state._matured:
-                time.sleep(0.01)
+                time.sleep(0.001)
 
             if not state._matured:
                 raise IOError(
