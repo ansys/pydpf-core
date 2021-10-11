@@ -9,6 +9,7 @@ from textwrap import wrap
 import logging
 import grpc
 import functools
+from typing import NamedTuple
 
 from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2 
 from ansys.dpf.core.check_version import version_requires, server_meet_version
@@ -76,13 +77,15 @@ class Operator:
 
         self.__send_init_request(config)
         
-        # add dynamic inputs
-        if len(self._message.spec.map_input_pin_spec) > 0 and self._inputs==None:
-            self._inputs = Inputs(self._message.spec.map_input_pin_spec, self)
-        if len(self._message.spec.map_output_pin_spec) != 0 and self._outputs==None:
-            self._outputs = Outputs(self._message.spec.map_output_pin_spec, self)
+        self.__fill_spec()
         
-        self._description = self._message.spec.description
+        # add dynamic inputs
+        if len(self._spec.inputs) > 0 and self._inputs==None:
+            self._inputs = Inputs(self._spec.inputs, self)
+        if len(self._spec.outputs) != 0 and self._outputs==None:
+            self._outputs = Outputs(self._spec.outputs, self)
+        
+        self._description = self._spec.description
         self._progress_bar=False
 
     def _add_sub_res_operators(self, sub_results):
@@ -282,6 +285,24 @@ class Operator:
             ``None``, attempts to use the the global server.
         """
         return Config(operator_name = name, server =server)
+    
+    
+    @staticmethod
+    def default_config(name, server=None):
+        """Returns the default config for a given operator.
+        This config can then be changed to the user needs and be used to
+        instantiate the given operator
+        
+        Parameters
+        ----------
+        name : str
+            Name of the operator.  For example 'U'.
+    
+        server : server.DPFServer, optional
+            Server with channel connected to the remote or local instance. When
+            ``None``, attempts to use the the global server.
+        """
+        return Config(operator_name = name, server =server)
         
     def _connect(self):
         """Connect to the grpc service"""
@@ -422,6 +443,20 @@ class Operator:
         op.connect(1, value)
         return op
     
+    def __fill_spec(self):
+        """Put the grpc spec message in self._spec"""
+        out = self._stub.List(self._message)
+        self._spec = OperatorSpecification._fill_from_message(self.name, out.spec)    
+    
+    @staticmethod
+    def operator_specification(op_name, server = None):
+        """Put the grpc spec message in self._spec"""
+        if server is None:
+            server = serverlib._global_server()
+        request = operator_pb2.Operator()
+        request.name=op_name
+        out = operator_pb2_grpc.OperatorServiceStub(server.channel).List(request)
+        return OperatorSpecification._fill_from_message(op_name, out.spec)
     
 
     def __truediv__(self, inpt):
@@ -436,6 +471,66 @@ class Operator:
         return op
     
 
+
+class PinSpecification(NamedTuple):
+    name: str
+    type_names: list
+    optional: bool
+    document: str
+    ellipsis: bool
+    
+    @staticmethod
+    def _get_copy(other, changed_types):
+        return PinSpecification(other.name,changed_types,other.optional,other.document,other.ellipsis)
+    
+
+class OperatorSpecification(NamedTuple):
+    operator_name: str
+    description: str
+    properties: dict
+    inputs: dict
+    outputs: dict    
+    
+    @staticmethod
+    def _fill_from_message(op_name, message: operator_pb2.Specification):
+        tmpinputs={}
+        for key,inp in message.map_input_pin_spec.items():
+            tmpinputs[key]=PinSpecification(inp.name, inp.type_names,inp.optional, inp.document, inp.ellipsis)
+            
+        tmpoutputs={}
+        for key,inp in message.map_output_pin_spec.items():
+            tmpoutputs[key]=PinSpecification(inp.name, inp.type_names,inp.optional, inp.document, inp.ellipsis)
+        return OperatorSpecification(op_name, message.description, dict(message.properties), tmpinputs, tmpoutputs)
+     
+       
+    def __str__(self):
+        out=""
+        for key,i in self._asdict().items(): 
+            out += key +": "+ str(i)+"\n\n"
+        return out
+        
+def available_operator_names(server=None):
+    """Returns the list of operators name available in the server
+    
+    Parameters
+    ----------
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global server.
+        
+    Returns
+    -------
+    list
+    
+    """
+    if server is None:
+        server = serverlib._global_server()
+    service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(operator_pb2.ListAllOperatorsRequest())
+    arr=[]        
+    import re
+    for chunk in service:        
+        arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
+    return arr       
 
 def _write_output_type_to_proto_style(output_type, request):
     subtype=''

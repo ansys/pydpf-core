@@ -90,14 +90,14 @@ def _make_printable_type(type):
     return type
 
 def _modify_output_spec_with_one_type(output_spec, type):
+    from ansys.dpf.core.dpf_operator import PinSpecification
     if isinstance(output_spec, operator_pb2.PinSpecification):
         spec = operator_pb2.PinSpecification() #create a copy of the pin spec with only one type
         spec.CopyFrom(output_spec)     
         _clearRepeatedMessage(spec.type_names)
         spec.type_names.extend([type])
     else:
-        spec = output_spec
-        spec.type_names = [type]
+        spec = PinSpecification._get_copy(output_spec, [type])
     
     return spec
 

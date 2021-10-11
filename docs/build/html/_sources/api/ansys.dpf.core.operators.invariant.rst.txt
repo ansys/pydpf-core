@@ -15,6 +15,8 @@ Submodules
    ansys.dpf.core.operators.invariant.invariants_fc
    ansys.dpf.core.operators.invariant.principal_invariants
    ansys.dpf.core.operators.invariant.principal_invariants_fc
+   ansys.dpf.core.operators.invariant.segalman_von_mises_eqv
+   ansys.dpf.core.operators.invariant.segalman_von_mises_eqv_fc
    ansys.dpf.core.operators.invariant.von_mises_eqv
    ansys.dpf.core.operators.invariant.von_mises_eqv_fc
 

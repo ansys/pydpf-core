@@ -2,7 +2,7 @@
 .. _ref_distributed_total_disp:
 
 Distributed post without client connection to remote processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed 
 on distributed processes. After remote post processing, results a merged
 on the local process.
@@ -19,6 +19,7 @@ from ansys.dpf.core import operators as ops
 ###############################################################################
 # Create the template workflow of total displacement
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create displacement and norm operators
 
 template_workflow = dpf.Workflow()
 displacement = ops.result.displacement()

@@ -15,8 +15,6 @@ Submodules
    ansys.dpf.core.operators.metadata.material_support_provider
    ansys.dpf.core.operators.metadata.mesh_selection_manager_provider
    ansys.dpf.core.operators.metadata.mesh_support_provider
-   ansys.dpf.core.operators.metadata.remote_data_provider
-   ansys.dpf.core.operators.metadata.remote_workflow_provider
    ansys.dpf.core.operators.metadata.result_info_provider
    ansys.dpf.core.operators.metadata.streams_provider
    ansys.dpf.core.operators.metadata.time_freq_provider

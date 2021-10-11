@@ -1,5 +1,5 @@
 """
-.. _ref_distributed_total_disp:
+.. _ref_distributed_msup:
 
 Distributed modal superposition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

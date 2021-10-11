@@ -64,8 +64,10 @@ Submodules
    ansys.dpf.core.operators.result.elemental_mass
    ansys.dpf.core.operators.result.elemental_volume
    ansys.dpf.core.operators.result.enf_rotation_by_euler_nodes
+   ansys.dpf.core.operators.result.equivalent_mass
    ansys.dpf.core.operators.result.equivalent_radiated_power
    ansys.dpf.core.operators.result.eqv_stress_parameter
+   ansys.dpf.core.operators.result.euler_load_buckling
    ansys.dpf.core.operators.result.euler_nodes
    ansys.dpf.core.operators.result.heat_flux
    ansys.dpf.core.operators.result.heat_flux_X
@@ -83,6 +85,9 @@ Submodules
    ansys.dpf.core.operators.result.joint_relative_velocity
    ansys.dpf.core.operators.result.kinetic_energy
    ansys.dpf.core.operators.result.material_property_of_element
+   ansys.dpf.core.operators.result.members_in_bending_not_certified
+   ansys.dpf.core.operators.result.members_in_compression_not_certified
+   ansys.dpf.core.operators.result.members_in_linear_compression_bending_not_certified
    ansys.dpf.core.operators.result.migrate_to_h5dpf
    ansys.dpf.core.operators.result.modal_basis
    ansys.dpf.core.operators.result.nmisc

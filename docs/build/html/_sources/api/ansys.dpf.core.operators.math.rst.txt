@@ -24,15 +24,16 @@ Submodules
    ansys.dpf.core.operators.math.component_wise_divide
    ansys.dpf.core.operators.math.component_wise_divide_fc
    ansys.dpf.core.operators.math.conjugate
+   ansys.dpf.core.operators.math.correlation
    ansys.dpf.core.operators.math.cos
    ansys.dpf.core.operators.math.cos_fc
-   ansys.dpf.core.operators.math.cplx_add
    ansys.dpf.core.operators.math.cplx_derive
    ansys.dpf.core.operators.math.cplx_divide
    ansys.dpf.core.operators.math.cplx_dot
    ansys.dpf.core.operators.math.cplx_multiply
    ansys.dpf.core.operators.math.dot
    ansys.dpf.core.operators.math.dot_tensor
+   ansys.dpf.core.operators.math.entity_extractor
    ansys.dpf.core.operators.math.exponential
    ansys.dpf.core.operators.math.exponential_fc
    ansys.dpf.core.operators.math.fft_eval
@@ -45,6 +46,9 @@ Submodules
    ansys.dpf.core.operators.math.invert_fc
    ansys.dpf.core.operators.math.kronecker_prod
    ansys.dpf.core.operators.math.linear_combination
+   ansys.dpf.core.operators.math.ln
+   ansys.dpf.core.operators.math.ln_fc
+   ansys.dpf.core.operators.math.make_one_on_comp
    ansys.dpf.core.operators.math.matrix_inverse
    ansys.dpf.core.operators.math.minus
    ansys.dpf.core.operators.math.minus_fc
