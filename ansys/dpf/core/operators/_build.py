@@ -1,348 +1,129 @@
-"""Build static source operators from DPF server
-
-"""
-from collections import OrderedDict
-from datetime import datetime
+"""Build static source operators from DPF server."""
 import os
-from collections import namedtuple
+from datetime import datetime
 from textwrap import wrap
-import black
 
+import black
+import chevron
 from ansys.dpf import core as dpf
-from ansys.dpf.core.operators._operators_list import operators
 from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.operators._operators_list import operators
 
 map_types_to_python = dict(map_types_to_python)
 map_types_to_python["b"] = "bool"
 
-InputSpec = namedtuple(
-    "InputSpec", ["document", "ellipsis", "name", "optional", "type_names"]
-)
-
-OutputSpec = namedtuple("OutputSpec", ["name", "type_names", "document"])
-
-def generate_class_deprecation(old_class_name, class_name):
-    return f'''
-    def {old_class_name}(*args, **kwargs):
-        warn("`{old_class_name}` is deprecated. Use `{class_name}` instead.")
-        return {class_name}(*args, **kwargs)'''
-
-def gen_docstring(op):
-    """Used to generate class docstrings"""
-    txt = f'DPF "{op.name}" Operator\n\n'
+def build_docstring(op):
+    """Used to generate class docstrings."""
+    txt = ""
     if op._description:
-        txt += "\n".join(
-            wrap(op._description, initial_indent="    ", subsequent_indent="    ")
-        )
+        txt += "\n".join(wrap(op._description, subsequent_indent="    "))
         txt += "\n\n"
     if op.inputs:
         line = [" ", str(op.inputs)]
         txt += "{:^3} {:^21}".format(*line)
         txt += "\n"
     if op.outputs:
+        txt += "\n"
         line = [" ", str(op.outputs)]
         txt += "{:^3} {:^21}".format(*line)
-    return txt
+    txt = txt.rstrip()
+    return txt.replace('"', "'")
 
-
-def build_example(op, cls_name, req_param, opt_param, build_class_methods=False):
-    lines = []
-
-    if build_class_methods:
-        lines.append("    Create the operator")
-        lines.append("")
-        line = f"    >>> op = dpf.operators.{cls_name}("
-        indent = " " * len(line)
-
-        req_keys = list(req_param.keys())
-        opt_keys = list(opt_param.keys())
-
-        if req_keys:
-            param = req_keys[0]
-            line += f"my_{param},"
-            req_keys.remove(param)
-        elif opt_keys:
-            param = opt_keys[0]
-            line += f"my_{param},"
+def map_types(cpp_types):
+    """Map C++ object types to Python types."""
+    types = []
+    for cpp_type in cpp_types:
+        if cpp_type in map_types_to_python:
+            types.append(map_types_to_python[cpp_type])
         else:
-            line += ")"
+            types.append(cpp_type)
+    return types
 
-        lines.append(line)
-        for param in req_keys[:-1]:
-            lines.append(f"{indent}my_{param},")
-        if req_keys:
-            if opt_keys:
-                lines.append(f"{indent}my_{req_keys[-1]},")
-            else:
-                lines.append(f"{indent}my_{req_keys[-1]})")
+def build_pin_data(pins):
+    """Build pin data for use within template."""
+    pin_ids = [pin for pin in pins]
+    pin_ids.sort()
 
-        for param in opt_keys[:-1]:
-            lines.append(f"{indent}my_{param}, # optional")
-        lines.append(f"{indent}my_{opt_keys[-1]})  # optional")
-        for item in op.outputs._dict_outputs.values():
-            lines.append(f"    >>> my_{item.name} = op.{item.name}")
-
-        lines.append("")
-        lines.append("    Alternative: Connect operator using Inputs and Outputs")
-        lines.append("")
-
-    lines.append(f"    >>> op = dpf.operators.{cls_name}()")
-    for item in op.inputs._dict_inputs.values():
-        if hasattr(item, "optional") and item.optional:
-            lines.append(
-                f"    >>> op.inputs.{item.name}.connect(my_{item.name})  # optional"
-            )
-        else:
-            lines.append(f"    >>> op.inputs.{item.name}.connect(my_{item.name})")
-
-    if op.outputs:
-        for item in op.outputs._dict_outputs.values():
-            lines.append(f"    >>> my_{item.name} = op.outputs.{item.name}()")
-    joined = "\n".join(lines)
-    return joined.replace('"', "'")
-
-
-def input_messagemap_to_dict(msg_map):
-    """Translate google.protobuf.pyext._message.MessageMapContainer to dict"""
-    spec_dict = OrderedDict()
-    pins = [pin for pin in msg_map.keys()]
-    pins.sort()
-
-    for pin in pins:
-        spec = msg_map[pin]
-        spec_dict[pin] = InputSpec(
-            spec.document.replace('"', "'"),
-            spec.ellipsis,
-            spec.name,
-            spec.optional,
-            spec.type_names,
+    data = []
+    optional = []
+    required = []
+    for id in pin_ids:
+        specification = pins[id]
+        docstring_types = map_types(specification.type_names)
+        parameter_types = " or ".join(docstring_types)
+        parameter_types = "\n".join(wrap(parameter_types, subsequent_indent="        ", width=60))
+        data.append(
+            {
+                "id": id,
+                "name": specification.name,
+                "types": specification.type_names,
+                "types_for_docstring": parameter_types,
+                "main_type": docstring_types[0] if len(docstring_types) >= 1 else "",
+                "optional": specification.optional,
+                "document": "\n".join(
+                    wrap(
+                        specification.document.capitalize(),
+                        subsequent_indent="        ",
+                        width=45
+                    )
+                ),
+                "ellipsis": 0 if specification.ellipsis else -1,
+            }
         )
-    return spec_dict
-
-
-def output_messagemap_to_dict(msg_map):
-    """Translate google.protobuf.pyext._message.MessageMapContainer to dict"""
-    spec_dict = OrderedDict()
-    pins = [pin for pin in msg_map.keys()]
-    pins.sort()
-
-    for pin in pins:
-        spec = msg_map[pin]
-        spec_dict[pin] = OutputSpec(spec.name, spec.type_names, spec.document)
-    return spec_dict
-
-
-def build_input_cls(input_spec, indent="    "):
-    lines = ["class _Inputs(dpf.inputs._Inputs):"]
-    lines.append("")
-    # Formatting switched off and then back on so that black does not
-    # format this line. input_spec cannot be formatted properly due
-    # named tuples and long document strings. Ignore for E501.
-    lines.append("# fmt: off")
-    lines.append(f"    _spec = {input_spec} # noqa: E501")
-    lines.append("# fmt: on")
-    lines.append("")
-    lines.append("    def __init__(self, oper):")
-    for _, spec in input_spec.items():
-        lines.append(f"        self._{spec.name} = None")
-    lines.append("        super().__init__(self._spec, oper)")
-    for _, spec in input_spec.items():
-        lines.append("")
-        lines.append("    @property")
-        lines.append(f"    def {spec.name}(self):")
-        if spec.document:
-            doc = wrap(
-                f'"""{spec.document}"""',
-                initial_indent="        ",
-                subsequent_indent="        ",
-                width=65
-            )
-            lines.extend(doc)
-        lines.append(f"        return self._{spec.name}")
-        lines.append("")
-        lines.append(f"    @{spec.name}.setter")
-        lines.append(f"    def {spec.name}(self, {spec.name}):")
-        lines.append(f"        self._{spec.name}.connect({spec.name})")
-    return "\n".join(f"{indent}{line}" for line in lines)
-
-
-def build_output_cls(output_spec, indent="    "):
-    lines = [""]
-    lines.append("class _Outputs(dpf.outputs._Outputs):")
-    lines.append("")
-    # Formatting switched off and then back on so that black does not
-    # format this line. input_spec cannot be formatted properly due
-    # named tuples and long document strings. Ignore for E501.
-    lines.append("# fmt: off")
-    lines.append(f"    _spec = {output_spec} # noqa: E501")
-    lines.append("# fmt: on")
-    lines.append("")
-    lines.append("    def __init__(self, oper):")
-    for _, spec in output_spec.items():
-        lines.append(f"        self._{spec.name} = None")
-    lines.append("        super().__init__(self._spec, oper)")
-    for _, spec in output_spec.items():
-        lines.append("")
-        lines.append("    @property")
-        lines.append(f"    def {spec.name}(self):")
-        if spec.document:
-            doc = wrap(
-                f'"""{spec.document}"""',
-                initial_indent="        ",
-                subsequent_indent="            ",
-                width=65
-            )
-            lines.extend(doc)
-        lines.append(f"        return self._{spec.name}")
-    lines.append("")
-    return "\n".join(f"{indent}{line}" for line in lines)
-
-
-def build_output_param(output_spec, indent="    "):
-    lines = []
-    for _, spec in output_spec.items():
-        lines.append("")
-        lines.append("@property")
-        lines.append(f"def {spec.name}(self):")
-        if spec.document:
-            doc = wrap(
-                f'"""{spec.document}"""',
-                initial_indent="    ",
-                subsequent_indent="            ",
-                width=65
-            )
-            lines.extend(doc)
-        lines.append(f"    return self.outputs._{spec.name}")
-
-    return "\n".join(f"{indent}{line}" for line in lines)
-
-
-def build_parameters(input_spec):
-    required = OrderedDict()
-    optional = OrderedDict()
-    for spec in input_spec.values():
-        types = []
-        for cpp_type in spec.type_names:
-            if cpp_type in map_types_to_python:
-                types.append(map_types_to_python[cpp_type])
-            else:
-                types.append(cpp_type)
-
-        param_str = f'    {spec.name} : {" or ".join(types)}'
-        if spec.optional:
-            param_str += ", optional"
-        param_str = "\n".join(wrap(param_str, subsequent_indent="        "))
-        param_str += "\n"
-
-        if spec.document:
-            docs = wrap(
-                spec.document.capitalize(),
-                initial_indent="        ",
-                subsequent_indent="        ",
-            )
-            param_str += "\n".join(docs)
-
-        if spec.optional:
-            optional[spec.name] = param_str
+        if specification.optional:
+            optional.append(specification.name)
         else:
-            required[spec.name] = param_str
+            required.append(specification.name)
+    return data, required, optional
 
-    return required, optional
+def build_operator(name, class_name, snake_case_class_name, category):
+    operator = dpf.Operator(name)
 
+    input_pins = []
+    required = []
+    optional = []
+    if operator.inputs:
+        input_pins, required, optional = build_pin_data(operator.inputs._dict_inputs)
 
-def build_operator(name, cls_name, short_name, build_class_methods=False):
-    op = dpf.Operator(name)
+    output_pins = []
+    if operator.outputs:
+        output_pins = build_pin_data(operator.outputs._dict_outputs)[0]
 
-    class_deprecation = generate_class_deprecation(short_name, cls_name)
+    docstring = build_docstring(operator)
 
-    docstring = gen_docstring(op)
+    # Init parameters
+    init_parameters = []
+    if required:
+        init_parameters.extend(required)
+    if optional:
+        init_parameters.extend([f"{param}=None" for param in optional])
+    init_parameters = ", ".join(init_parameters)
 
-    input_spec = input_messagemap_to_dict(op.inputs._dict_inputs)
-
-    # build parameters string for function signature
-    req_param, opt_param = build_parameters(input_spec)
-    param = ["self"]
-    if req_param:
-        param.extend(list(req_param.keys()))
-    if opt_param:
-        param.extend([f"{param}=None" for param in opt_param.keys()])
-    parameters_str = ", ".join(param)
-
-    example = build_example(op, cls_name, req_param, opt_param, build_class_methods)
-    parameters_docstring = (
-        "\n\n".join(req_param.values()) + "\n\n" + "\n\n".join(opt_param.values())
+    specification_description = "\n".join(
+        wrap(operator._description, subsequent_indent="            ")
     )
 
-    out_cls = ""
-    attributes = ""
-    if op.outputs:
-        output_spec = output_messagemap_to_dict(op.outputs._dict_outputs)
-        attributes = build_output_param(output_spec)
-        out_cls = build_output_cls(output_spec)
+    date_and_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
-    inp_cls = build_input_cls(input_spec)
+    data = {
+        "class_name": class_name,
+        "snake_case_class_name": snake_case_class_name,
+        "docstring": docstring,
+        "init_parameters": init_parameters,
+        "specification_description": specification_description,
+        "input_pins": input_pins,
+        "output_pins": output_pins,
+        "category": category,
+        "date_and_time": date_and_time,
+    }
 
-    cls = f'''
-{class_deprecation}
+    this_path = os.path.dirname(os.path.abspath(__file__))
+    mustache_file = os.path.join(this_path, "operator_template.mustache")
+    with open(mustache_file, "r") as f:
+        cls = chevron.render(f, data)
 
-class {cls_name}(dpf.Operator):
-    """{docstring}
-
-    Parameters
-    ----------
-{parameters_docstring}
-
-    Examples
-    --------
-{example}
-    """ # noqa: E501
-
-{inp_cls}
-{out_cls}
-    def __init__({parameters_str}):
-        if channel is None:
-            channel = dpf.server._global_channel()
-
-        self._channel = channel
-        self._stub = self._connect()
-        self._message = None
-        self._description = None
-        self.name = "{op.name}"
-
-        self._Operator__send_init_request()
-
-        self.inputs = self._Inputs(self)
-        self.outputs = self._Outputs(self)
-{attributes}
-'''
-
-    # cleanup
-    cls = cls.replace("[0m", "``").replace("[1m", "``")
-
-    # remove trailing whitespace
-    lines = cls.split("\n")
-    cls = "\n".join([line.rstrip() for line in lines])
-
-    cls = black.format_str(cls, mode=black.FileMode())
-
-    return cls
-
-HEADER = f'''"""Autogenerated DPF operator classes.
-
-Created on {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}
-"""
-from warnings import warn
-from collections import OrderedDict
-from collections import namedtuple
-from ansys.dpf import core as dpf
-
-InputSpec = namedtuple('InputSpec', ['document', 'ellipsis', 'name', 'optional',
-                                     'type_names'])
-
-OutputSpec = namedtuple('OutputSpec', ['name', 'type_names', 'document'])
-
-
-'''
+    return black.format_str(cls, mode=black.FileMode())
+    # return cls
 
 if __name__ == "__main__":
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -373,14 +154,20 @@ if __name__ == "__main__":
         # Write to operator file
         operator_file = os.path.join(category_path, short_name + ".py")
         with open(operator_file, "w") as f:
-            f.write(HEADER)
             try:
-                operator_str = build_operator(operator_name, class_name, short_name)
+                operator_str = build_operator(operator_name, class_name, short_name, category)
                 exec(operator_str)
                 f.write(operator_str)
                 succeeded += 1
-            except SyntaxError:
-                print(f"Unable to generate {operator_name}, {short_name}, {class_name}")
+            except SyntaxError as e:
+                error_message = (
+                    f"Unable to generate {operator_name}, {short_name}, {class_name}.\n"
+                    f"Error message: {e}\n"
+                )
+                with open(os.path.join(this_path, "failures.txt"), "w") as error_file:
+                    error_file.write(error_message)
+                    error_file.write(f"Class: {operator_str}")
+                print(error_message)
 
     print(f"Generated {succeeded} out of {len(operators)}")
     dpf.SERVER.shutdown()
