@@ -611,7 +611,7 @@ class Field(_FieldBase):
         f.data = self.data
         f.unit = self.unit
         f.location = self.location
-
+        f.field_definition = self.field_definition.deep_copy(server)
         try:
             f._data_pointer = self._data_pointer
         except:
