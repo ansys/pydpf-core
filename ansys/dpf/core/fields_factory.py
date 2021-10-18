@@ -104,8 +104,13 @@ def create_matrix_field(
 
     """
     return _create_field(
-        server, natures.matrix, num_entities, location, num_col, num_lines
-    )
+        server,
+        natures.matrix,
+        num_entities,
+        location,
+        num_col,
+        num_lines,
+        )
 
 
 def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
