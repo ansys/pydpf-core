@@ -857,7 +857,7 @@ def test_deep_copy_over_time_field(velocity_acceleration):
 
 def test_deep_copy_spec_ncomp_field():
     field = dpf.core.fields_factory.create_vector_field(100, 6, dpf.core.locations.elemental)
-    arr = np.arange(300).reshape(100,6)
+    arr = np.arange(300).reshape(100, 6)
     field.data = arr
     copy = field.deep_copy()
     assert copy.component_count == 6
