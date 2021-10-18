@@ -123,9 +123,10 @@ def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
     ----------
     num_entities : int
         Number of entities to reserve
+
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
-  
+
         - ansys.dpf.core.natures.nodal (``"Nodal"``)
         - ansys.dpf.core.natures.elemental (``"Elemental"``)
         - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
@@ -304,6 +305,7 @@ def _create_field(
 
     num_entities : int
         Number of entities to reserve.
+
     location : str optional
         Location of the field. For example:
 
