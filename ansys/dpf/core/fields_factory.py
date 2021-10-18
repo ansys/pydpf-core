@@ -312,7 +312,7 @@ def _create_field(
         - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
         - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
         - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
-        - ...  
+        - ...
 
     ncomp_n : int
         Number of lines.
