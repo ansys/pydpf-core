@@ -15,7 +15,6 @@ version_file = os.path.join(filepath, "ansys", "dpf", "core", "_version.py")
 with io_open(version_file, mode="r") as fd:
     exec(fd.read())  # execute file from raw string
 
-
 readme_file = os.path.join(filepath, "README.md")
 
 setup(
@@ -73,10 +72,14 @@ setup(
             "distributed/file1.rst",
         ]
     },
+    author='Ansys',
+    author_email='ramdane.lagha@ansys.com',
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
     install_requires=install_requires,
     extras_require={
         "plotting": ["pyvista>=0.24.0", "matplotlib==3.2"],
         "reporting": ["scooby"],
     },
+    url='https://github.com/pyansys/pydpf-core',
+    license='MIT',
 )
