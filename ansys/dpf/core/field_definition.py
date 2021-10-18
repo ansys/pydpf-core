@@ -127,11 +127,11 @@ class FieldDefinition:
     def deep_copy(self, server=None):
         """Creates a deep copy of the field_definition's data on a given server.
         This can be useful to pass data from one server instance to another.
-        
+
         Parameters
         ----------
         server : DPFServer, optional
-        
+
         Returns
         -------
         field_definition_copy : FieldDefinition
