@@ -27,7 +27,7 @@ Installation
    
    
 Tryout Installation
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 For a quick tryout installation, use:
 
@@ -105,3 +105,31 @@ more information, see `Ansys Platform Support <https://www.ansys.com/solutions/s
 Other platforms may be supported by using DPF within a
 containerization ecosystem such as Docker or Kubernetes. 
 For more information, see :ref:`docker`.
+
+***************************
+Client Server Compatibility
+***************************
+
+The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>` module should be synchronized 
+with the server version as shown here:
+
+.. list-table:: Title
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Ans.Dpf.Grpc.exe server version
+     - ansys.grpc.dpf python module version
+     - ansys.dpf.core python module version
+   * - 2.0 (Ansys 2021R2)
+     - 0.3.0
+     - 0.3.0
+   * - 1.0 (Ansys 2021R1)
+     - 0.2.2
+     - 0.2.1/0.2.0
+
+
+Future development will ensure backward compatibilty from the client to the server.
+
+
+To start a server with Ans.Dpf.Grpc.bat or Ans.Dpf.Grpc.sh (used in the `start_local_server` function),
+please make sure that the environment variable `AWP_ROOT{VER}` with (VER=212, 221, ...) is set.
