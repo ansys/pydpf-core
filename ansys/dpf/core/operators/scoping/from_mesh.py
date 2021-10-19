@@ -52,7 +52,7 @@ class from_mesh(Operator):
         spec = Specification(description="""Provides the entire mesh scoping based on the requested location""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "requested_location", type_names=["string"], optional=True, document="""if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental""")},
+                                 1 : PinSpecification(name = "requested_location", type_names=["string"], optional=True, document="""if nothing the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "scoping", type_names=["scoping"], optional=False, document="""""")})
         return spec
@@ -130,7 +130,7 @@ class InputsFromMesh(_Inputs):
     def requested_location(self):
         """Allows to connect requested_location input to the operator
 
-        - pindoc: if nothing the operator returns the nodes scoping, possible locations are: Nodal or Elemental
+        - pindoc: if nothing the operator returns the nodes scoping, possible locations are: Nodal(default) or Elemental
 
         Parameters
         ----------

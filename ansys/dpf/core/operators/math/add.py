@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class add(Operator):
-    """Computes the sum of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field. if one of the input field is empty, the remaining is forwarded to the output.
+    """Computes the sum of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field. If one of the input field is empty, the remaining is forwarded to the output. When using a constant or 'work_by_index', it's possible to use 'inplace' to reuse one of the fields.
 
       available inputs:
         - fieldA (Field, FieldsContainer, float, list)
@@ -49,7 +49,7 @@ class add(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Computes the sum of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field. if one of the input field is empty, the remaining is forwarded to the output.""",
+        spec = Specification(description="""Computes the sum of two fields. If one field's scoping has 'overall' location, then these field's values are applied on the entire other field. If one of the input field is empty, the remaining is forwarded to the output. When using a constant or 'work_by_index', it's possible to use 'inplace' to reuse one of the fields.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fieldA", type_names=["field","fields_container","double","vector<double>"], optional=False, document="""field or fields container with only one field is expected"""), 
                                  1 : PinSpecification(name = "fieldB", type_names=["field","fields_container","double","vector<double>"], optional=False, document="""field or fields container with only one field is expected""")},

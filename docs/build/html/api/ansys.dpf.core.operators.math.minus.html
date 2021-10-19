@@ -986,6 +986,11 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
         </a>
@@ -1329,6 +1334,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.contact_total_stress.html">
          contact_total_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.coordinate_system.html">
+         coordinate_system
         </a>
        </li>
        <li class="toctree-l4">
@@ -2263,6 +2273,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.remote_operator_instantiate.html">
+         remote_operator_instantiate
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.utility.remote_workflow_instantiate.html">
          remote_workflow_instantiate
         </a>
@@ -2494,7 +2509,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="ansys.dpf.core.operators.math.minus.minus">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.minus.</span></span><span class="sig-name descname"><span class="pre">minus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.minus.minus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the difference of two fields. If one field’s scoping has ‘overall’ location, then these field’s values are applied on the entire other field.</p>
+<dd><p>Computes the difference of two fields. If one field’s scoping has ‘overall’ location, then these field’s values are applied on the entire other field.When using a constant or ‘work_by_index’, it’s possible to use ‘inplace’ to reuse one of the fields.</p>
 <dl class="simple">
 <dt>available inputs:</dt><dd><ul class="simple">
 <li><p>fieldA (Field, FieldsContainer, float, list)</p></li>

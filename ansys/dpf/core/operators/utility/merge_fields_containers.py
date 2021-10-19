@@ -16,7 +16,8 @@ class merge_fields_containers(Operator):
       available inputs:
         - merged_fields_support (AbstractFieldSupport) (optional)
         - merged_fields_containers_support (AbstractFieldSupport) (optional)
-        - fields_containers (FieldsContainer)
+        - fields_containers1 (FieldsContainer)
+        - fields_containers2 (FieldsContainer)
 
       available outputs:
         - merged_fields_container (FieldsContainer)
@@ -33,15 +34,17 @@ class merge_fields_containers(Operator):
       >>> op.inputs.merged_fields_support.connect(my_merged_fields_support)
       >>> my_merged_fields_containers_support = dpf.AbstractFieldSupport()
       >>> op.inputs.merged_fields_containers_support.connect(my_merged_fields_containers_support)
-      >>> my_fields_containers = dpf.FieldsContainer()
-      >>> op.inputs.fields_containers.connect(my_fields_containers)
+      >>> my_fields_containers1 = dpf.FieldsContainer()
+      >>> op.inputs.fields_containers1.connect(my_fields_containers1)
+      >>> my_fields_containers2 = dpf.FieldsContainer()
+      >>> op.inputs.fields_containers2.connect(my_fields_containers2)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.utility.merge_fields_containers(merged_fields_support=my_merged_fields_support,merged_fields_containers_support=my_merged_fields_containers_support,fields_containers=my_fields_containers)
+      >>> op = dpf.operators.utility.merge_fields_containers(merged_fields_support=my_merged_fields_support,merged_fields_containers_support=my_merged_fields_containers_support,fields_containers1=my_fields_containers1,fields_containers2=my_fields_containers2)
 
       >>> # Get output data
       >>> result_merged_fields_container = op.outputs.merged_fields_container()"""
-    def __init__(self, merged_fields_support=None, merged_fields_containers_support=None, fields_containers=None, config=None, server=None):
+    def __init__(self, merged_fields_support=None, merged_fields_containers_support=None, fields_containers1=None, fields_containers2=None, config=None, server=None):
         super().__init__(name="merge::fields_container", config = config, server = server)
         self._inputs = InputsMergeFieldsContainers(self)
         self._outputs = OutputsMergeFieldsContainers(self)
@@ -49,8 +52,10 @@ class merge_fields_containers(Operator):
             self.inputs.merged_fields_support.connect(merged_fields_support)
         if merged_fields_containers_support !=None:
             self.inputs.merged_fields_containers_support.connect(merged_fields_containers_support)
-        if fields_containers !=None:
-            self.inputs.fields_containers.connect(fields_containers)
+        if fields_containers1 !=None:
+            self.inputs.fields_containers1.connect(fields_containers1)
+        if fields_containers2 !=None:
+            self.inputs.fields_containers2.connect(fields_containers2)
 
     @staticmethod
     def _spec():
@@ -58,7 +63,8 @@ class merge_fields_containers(Operator):
                              map_input_pin_spec={
                                  -2 : PinSpecification(name = "merged_fields_support", type_names=["abstract_field_support"], optional=True, document="""Already merged field support."""), 
                                  -1 : PinSpecification(name = "merged_fields_containers_support", type_names=["abstract_field_support"], optional=True, document="""Already merged fields containers support."""), 
-                                 0 : PinSpecification(name = "fields_containers", type_names=["fields_container"], optional=False, document="""A vector of fields containers to merge or fields containers from pin 0 to ...""")},
+                                 0 : PinSpecification(name = "fields_containers", type_names=["fields_container"], optional=False, document="""A vector of fields containers to merge or fields containers from pin 0 to ..."""), 
+                                 1 : PinSpecification(name = "fields_containers", type_names=["fields_container"], optional=False, document="""A vector of fields containers to merge or fields containers from pin 0 to ...""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "merged_fields_container", type_names=["fields_container"], optional=False, document="""""")})
         return spec
@@ -104,8 +110,10 @@ class InputsMergeFieldsContainers(_Inputs):
       >>> op.inputs.merged_fields_support.connect(my_merged_fields_support)
       >>> my_merged_fields_containers_support = dpf.AbstractFieldSupport()
       >>> op.inputs.merged_fields_containers_support.connect(my_merged_fields_containers_support)
-      >>> my_fields_containers = dpf.FieldsContainer()
-      >>> op.inputs.fields_containers.connect(my_fields_containers)
+      >>> my_fields_containers1 = dpf.FieldsContainer()
+      >>> op.inputs.fields_containers1.connect(my_fields_containers1)
+      >>> my_fields_containers2 = dpf.FieldsContainer()
+      >>> op.inputs.fields_containers2.connect(my_fields_containers2)
     """
     def __init__(self, op: Operator):
         super().__init__(merge_fields_containers._spec().inputs, op)
@@ -113,8 +121,10 @@ class InputsMergeFieldsContainers(_Inputs):
         self._inputs.append(self._merged_fields_support)
         self._merged_fields_containers_support = Input(merge_fields_containers._spec().input_pin(-1), -1, op, -1) 
         self._inputs.append(self._merged_fields_containers_support)
-        self._fields_containers = Input(merge_fields_containers._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self._fields_containers)
+        self._fields_containers1 = Input(merge_fields_containers._spec().input_pin(0), 0, op, 0) 
+        self._inputs.append(self._fields_containers1)
+        self._fields_containers2 = Input(merge_fields_containers._spec().input_pin(1), 1, op, 1) 
+        self._inputs.append(self._fields_containers2)
 
     @property
     def merged_fields_support(self):
@@ -161,26 +171,48 @@ class InputsMergeFieldsContainers(_Inputs):
         return self._merged_fields_containers_support
 
     @property
-    def fields_containers(self):
-        """Allows to connect fields_containers input to the operator
+    def fields_containers1(self):
+        """Allows to connect fields_containers1 input to the operator
 
         - pindoc: A vector of fields containers to merge or fields containers from pin 0 to ...
 
         Parameters
         ----------
-        my_fields_containers : FieldsContainer, 
+        my_fields_containers1 : FieldsContainer, 
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
 
         >>> op = dpf.operators.utility.merge_fields_containers()
-        >>> op.inputs.fields_containers.connect(my_fields_containers)
+        >>> op.inputs.fields_containers1.connect(my_fields_containers1)
         >>> #or
-        >>> op.inputs.fields_containers(my_fields_containers)
+        >>> op.inputs.fields_containers1(my_fields_containers1)
 
         """
-        return self._fields_containers
+        return self._fields_containers1
+
+    @property
+    def fields_containers2(self):
+        """Allows to connect fields_containers2 input to the operator
+
+        - pindoc: A vector of fields containers to merge or fields containers from pin 0 to ...
+
+        Parameters
+        ----------
+        my_fields_containers2 : FieldsContainer, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.utility.merge_fields_containers()
+        >>> op.inputs.fields_containers2.connect(my_fields_containers2)
+        >>> #or
+        >>> op.inputs.fields_containers2(my_fields_containers2)
+
+        """
+        return self._fields_containers2
 
 class OutputsMergeFieldsContainers(_Outputs):
     """Intermediate class used to get outputs from merge_fields_containers operator

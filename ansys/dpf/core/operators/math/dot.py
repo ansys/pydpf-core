@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class dot(Operator):
-    """Computes element-wise dot product between two vector fields. If one field's scoping has 'overall' location, then this field's values are applied on the entire other field.
+    """Computes element-wise dot product between two vector fields. If one field's scoping has 'overall' location, then this field's values are applied on the entire other field.When using a constant or 'work_by_index', it's possible to use 'inplace' to reuse one of the fields, but only in the case where both fields are scalar.
 
       available inputs:
         - fieldA (Field, FieldsContainer)
@@ -49,7 +49,7 @@ class dot(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Computes element-wise dot product between two vector fields. If one field's scoping has 'overall' location, then this field's values are applied on the entire other field.""",
+        spec = Specification(description="""Computes element-wise dot product between two vector fields. If one field's scoping has 'overall' location, then this field's values are applied on the entire other field.When using a constant or 'work_by_index', it's possible to use 'inplace' to reuse one of the fields, but only in the case where both fields are scalar.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
                                  1 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},

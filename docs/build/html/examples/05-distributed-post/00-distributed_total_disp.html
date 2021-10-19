@@ -38,7 +38,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Compute total displacement from distributed files with distributed post" href="01-distributed_delegate_to_server.html" />
+    <link rel="next" title="Distributed post without client connection to remote processes" href="00-distributed_total_disp1.html" />
     <link rel="prev" title="Get reduced matrices and make export" href="../04-specific-requests/01-reduced_matrices_export.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -305,6 +305,13 @@
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="00-distributed_total_disp1.html">
+   Distributed post without client connection to remote processes
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
   <a class="reference internal" href="01-distributed_delegate_to_server.html">
    Compute total displacement from distributed files with distributed post
   </a>
@@ -420,6 +427,7 @@ on the local process.</p>
 </div>
 <div class="section" id="create-the-template-workflow-of-total-displacement">
 <h1>Create the template workflow of total displacement<a class="headerlink" href="#create-the-template-workflow-of-total-displacement" title="Permalink to this headline">¶</a></h1>
+<p>Create displacement and norm operators</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">template_workflow</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Workflow</span><span class="p">()</span>
 <span class="n">displacement</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 <span class="n">norm</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
@@ -454,7 +462,7 @@ but we could get connected to any existing servers on the network.</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ips: [&#39;127.0.0.1&#39;, &#39;127.0.0.1&#39;]
-ports: [50058, 50059]
+ports: [50055, 50056]
 </pre></div>
 </div>
 <p>Here we show how we could send files in temporary directory if we were not
@@ -511,7 +519,7 @@ We also connect the data sources to those workflows</p>
 [10.03242272]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.620 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.952 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-distributed-post-00-distributed-total-disp-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/be5637b6f3ac29863efd87ce8adcd2aa/00-distributed_total_disp.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-distributed_total_disp.py</span></code></a></p>
@@ -530,7 +538,7 @@ We also connect the data sources to those workflows</p>
               <div class='prev-next-bottom'>
                 
     <a class='left-prev' id="prev-link" href="../04-specific-requests/01-reduced_matrices_export.html" title="previous page">Get reduced matrices and make export</a>
-    <a class='right-next' id="next-link" href="01-distributed_delegate_to_server.html" title="next page">Compute total displacement from distributed files with distributed post</a>
+    <a class='right-next' id="next-link" href="00-distributed_total_disp1.html" title="next page">Distributed post without client connection to remote processes</a>
 
               </div>
               

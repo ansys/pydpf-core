@@ -21,7 +21,7 @@
 .. _ref_distributed_total_disp:
 
 Distributed post without client connection to remote processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed 
 on distributed processes. After remote post processing, results a merged
 on the local process.
@@ -46,12 +46,13 @@ Import dpf module and its examples files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-22
+.. GENERATED FROM PYTHON SOURCE LINES 20-23
 
 Create the template workflow of total displacement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create displacement and norm operators
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-27
+.. GENERATED FROM PYTHON SOURCE LINES 23-28
 
 .. code-block:: default
 
@@ -67,12 +68,12 @@ Create the template workflow of total displacement
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-30
+.. GENERATED FROM PYTHON SOURCE LINES 29-31
 
 Add the operators to the template workflow and name its inputs and outputs
 Once workflow's inputs and outputs are named, they can be connected later on
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-35
+.. GENERATED FROM PYTHON SOURCE LINES 31-36
 
 .. code-block:: default
 
@@ -88,7 +89,7 @@ Once workflow's inputs and outputs are named, they can be connected later on
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-45
+.. GENERATED FROM PYTHON SOURCE LINES 37-46
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -100,7 +101,7 @@ we will consequently require 2 remote processes
 To make this example easier, we will start local servers here, 
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-50
+.. GENERATED FROM PYTHON SOURCE LINES 46-51
 
 .. code-block:: default
 
@@ -116,11 +117,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 Print the ips and ports
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-55
+.. GENERATED FROM PYTHON SOURCE LINES 53-56
 
 .. code-block:: default
 
@@ -138,17 +139,17 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50058, 50059]
+    ports: [50055, 50056]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
+.. GENERATED FROM PYTHON SOURCE LINES 57-59
 
 Here we show how we could send files in temporary directory if we were not
 in shared memory
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-63
+.. GENERATED FROM PYTHON SOURCE LINES 59-64
 
 .. code-block:: default
 
@@ -164,14 +165,14 @@ in shared memory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-68
+.. GENERATED FROM PYTHON SOURCE LINES 65-69
 
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
 We also connect the data sources to those workflows 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-75
+.. GENERATED FROM PYTHON SOURCE LINES 69-76
 
 .. code-block:: default
 
@@ -189,12 +190,12 @@ We also connect the data sources to those workflows
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-78
+.. GENERATED FROM PYTHON SOURCE LINES 77-79
 
 Create a local workflow able to merge the results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-86
+.. GENERATED FROM PYTHON SOURCE LINES 79-87
 
 .. code-block:: default
 
@@ -213,12 +214,12 @@ Create a local workflow able to merge the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-89
+.. GENERATED FROM PYTHON SOURCE LINES 88-90
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-97
+.. GENERATED FROM PYTHON SOURCE LINES 90-98
 
 .. code-block:: default
 
@@ -256,7 +257,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.620 seconds)
+   **Total running time of the script:** ( 0 minutes  1.952 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_00-distributed_total_disp.py:

@@ -16,8 +16,8 @@ class identical_fc(Operator):
       available inputs:
         - fields_containerA (FieldsContainer)
         - fields_containerB (FieldsContainer)
-        - tolerance (float)
-        - small_value (float)
+        - small_value (float) (optional)
+        - tolerance (float) (optional)
 
       available outputs:
         - boolean (bool)
@@ -35,18 +35,18 @@ class identical_fc(Operator):
       >>> op.inputs.fields_containerA.connect(my_fields_containerA)
       >>> my_fields_containerB = dpf.FieldsContainer()
       >>> op.inputs.fields_containerB.connect(my_fields_containerB)
-      >>> my_tolerance = float()
-      >>> op.inputs.tolerance.connect(my_tolerance)
       >>> my_small_value = float()
       >>> op.inputs.small_value.connect(my_small_value)
+      >>> my_tolerance = float()
+      >>> op.inputs.tolerance.connect(my_tolerance)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.logic.identical_fc(fields_containerA=my_fields_containerA,fields_containerB=my_fields_containerB,tolerance=my_tolerance,small_value=my_small_value)
+      >>> op = dpf.operators.logic.identical_fc(fields_containerA=my_fields_containerA,fields_containerB=my_fields_containerB,small_value=my_small_value,tolerance=my_tolerance)
 
       >>> # Get output data
       >>> result_boolean = op.outputs.boolean()
       >>> result_message = op.outputs.message()"""
-    def __init__(self, fields_containerA=None, fields_containerB=None, tolerance=None, small_value=None, config=None, server=None):
+    def __init__(self, fields_containerA=None, fields_containerB=None, small_value=None, tolerance=None, config=None, server=None):
         super().__init__(name="AreFieldsIdentical_fc", config = config, server = server)
         self._inputs = InputsIdenticalFc(self)
         self._outputs = OutputsIdenticalFc(self)
@@ -54,10 +54,10 @@ class identical_fc(Operator):
             self.inputs.fields_containerA.connect(fields_containerA)
         if fields_containerB !=None:
             self.inputs.fields_containerB.connect(fields_containerB)
-        if tolerance !=None:
-            self.inputs.tolerance.connect(tolerance)
         if small_value !=None:
             self.inputs.small_value.connect(small_value)
+        if tolerance !=None:
+            self.inputs.tolerance.connect(tolerance)
 
     @staticmethod
     def _spec():
@@ -65,8 +65,8 @@ class identical_fc(Operator):
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fields_containerA", type_names=["fields_container"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "fields_containerB", type_names=["fields_container"], optional=False, document=""""""), 
-                                 2 : PinSpecification(name = "tolerance", type_names=["double"], optional=False, document="""Double relative tolerance. Maximum tolerance gap between to compared values: values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001)."""), 
-                                 3 : PinSpecification(name = "small_value", type_names=["double"], optional=False, document="""Double positive small value.Smallest value which will be considered during the comparison step : all the abs(values) in field less than this value is considered as null, (default value:1.0e-14).""")},
+                                 2 : PinSpecification(name = "small_value", type_names=["double"], optional=True, document="""Double positive small value.Smallest value which will be considered during the comparison step : all the abs(values) in field less than this value is considered as null, (default value:1.0e-14)."""), 
+                                 3 : PinSpecification(name = "tolerance", type_names=["double"], optional=True, document="""Double relative tolerance. Maximum tolerance gap between to compared values: values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001).""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "boolean", type_names=["bool"], optional=False, document="""bool (true if identical...)"""), 
                                  1 : PinSpecification(name = "message", type_names=["string"], optional=False, document="""""")})
@@ -113,10 +113,10 @@ class InputsIdenticalFc(_Inputs):
       >>> op.inputs.fields_containerA.connect(my_fields_containerA)
       >>> my_fields_containerB = dpf.FieldsContainer()
       >>> op.inputs.fields_containerB.connect(my_fields_containerB)
-      >>> my_tolerance = float()
-      >>> op.inputs.tolerance.connect(my_tolerance)
       >>> my_small_value = float()
       >>> op.inputs.small_value.connect(my_small_value)
+      >>> my_tolerance = float()
+      >>> op.inputs.tolerance.connect(my_tolerance)
     """
     def __init__(self, op: Operator):
         super().__init__(identical_fc._spec().inputs, op)
@@ -124,10 +124,10 @@ class InputsIdenticalFc(_Inputs):
         self._inputs.append(self._fields_containerA)
         self._fields_containerB = Input(identical_fc._spec().input_pin(1), 1, op, -1) 
         self._inputs.append(self._fields_containerB)
-        self._tolerance = Input(identical_fc._spec().input_pin(2), 2, op, -1) 
-        self._inputs.append(self._tolerance)
-        self._small_value = Input(identical_fc._spec().input_pin(3), 3, op, -1) 
+        self._small_value = Input(identical_fc._spec().input_pin(2), 2, op, -1) 
         self._inputs.append(self._small_value)
+        self._tolerance = Input(identical_fc._spec().input_pin(3), 3, op, -1) 
+        self._inputs.append(self._tolerance)
 
     @property
     def fields_containerA(self):
@@ -170,28 +170,6 @@ class InputsIdenticalFc(_Inputs):
         return self._fields_containerB
 
     @property
-    def tolerance(self):
-        """Allows to connect tolerance input to the operator
-
-        - pindoc: Double relative tolerance. Maximum tolerance gap between to compared values: values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001).
-
-        Parameters
-        ----------
-        my_tolerance : float, 
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-
-        >>> op = dpf.operators.logic.identical_fc()
-        >>> op.inputs.tolerance.connect(my_tolerance)
-        >>> #or
-        >>> op.inputs.tolerance(my_tolerance)
-
-        """
-        return self._tolerance
-
-    @property
     def small_value(self):
         """Allows to connect small_value input to the operator
 
@@ -212,6 +190,28 @@ class InputsIdenticalFc(_Inputs):
 
         """
         return self._small_value
+
+    @property
+    def tolerance(self):
+        """Allows to connect tolerance input to the operator
+
+        - pindoc: Double relative tolerance. Maximum tolerance gap between to compared values: values within relative tolerance are considered identical (v1-v2)/v2 < relativeTol (default is 0.001).
+
+        Parameters
+        ----------
+        my_tolerance : float, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.logic.identical_fc()
+        >>> op.inputs.tolerance.connect(my_tolerance)
+        >>> #or
+        >>> op.inputs.tolerance(my_tolerance)
+
+        """
+        return self._tolerance
 
 class OutputsIdenticalFc(_Outputs):
     """Intermediate class used to get outputs from identical_fc operator

@@ -34,6 +34,7 @@ Submodules
    ansys.dpf.core.operators.utility.merge_supports
    ansys.dpf.core.operators.utility.merge_time_freq_supports
    ansys.dpf.core.operators.utility.python_generator
+   ansys.dpf.core.operators.utility.remote_operator_instantiate
    ansys.dpf.core.operators.utility.remote_workflow_instantiate
    ansys.dpf.core.operators.utility.scalars_to_field
    ansys.dpf.core.operators.utility.set_property

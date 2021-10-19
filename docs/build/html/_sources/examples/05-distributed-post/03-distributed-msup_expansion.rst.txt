@@ -18,7 +18,7 @@
 .. _sphx_glr_examples_05-distributed-post_03-distributed-msup_expansion.py:
 
 
-.. _ref_distributed_total_disp:
+.. _ref_distributed_msup:
 
 Distributed modal superposition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,7 +142,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50071, 50072]
+    ports: [50055, 50056]
 
 
 
@@ -308,7 +308,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.821 seconds)
+   **Total running time of the script:** ( 0 minutes  3.465 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_03-distributed-msup_expansion.py:

@@ -129,6 +129,7 @@ from .euler_nodes import euler_nodes
 from .nmisc import nmisc 
 from .enf_rotation_by_euler_nodes import enf_rotation_by_euler_nodes 
 from .cms_matrices_provider import cms_matrices_provider 
+from .coordinate_system import coordinate_system 
 from .smisc import smisc 
 from .nodal_rotation_by_euler_nodes import nodal_rotation_by_euler_nodes 
 from .stress_rotation_by_euler_nodes import stress_rotation_by_euler_nodes 

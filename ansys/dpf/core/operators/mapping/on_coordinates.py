@@ -15,7 +15,7 @@ class on_coordinates(Operator):
 
       available inputs:
         - fields_container (FieldsContainer)
-        - coordinates (Field, FieldsContainer)
+        - coordinates (Field, FieldsContainer, MeshedRegion, MeshesContainer)
         - create_support (bool) (optional)
         - mapping_on_scoping (bool) (optional)
         - mesh (MeshedRegion, MeshesContainer) (optional)
@@ -67,7 +67,7 @@ class on_coordinates(Operator):
         spec = Specification(description="""Evaluates a result on specified coordinates (interpolates results inside elements with shape functions).""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "coordinates", type_names=["field","fields_container"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "coordinates", type_names=["field","fields_container","abstract_meshed_region","meshes_container"], optional=False, document=""""""), 
                                  2 : PinSpecification(name = "create_support", type_names=["bool"], optional=True, document="""if this pin is set to true, then, a support associated to the fields consisting of points is created"""), 
                                  3 : PinSpecification(name = "mapping_on_scoping", type_names=["bool"], optional=True, document="""if this pin is set to true, then the mapping between the coordinates and the fields is created only on the first field scoping"""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region","meshes_container"], optional=True, document="""if the first field in input has no mesh in support, then the mesh in this pin is expected (default is false), if a meshes container with several meshes is set, it should be on the same label spaces as the coordinates fields container""")},
@@ -162,7 +162,7 @@ class InputsOnCoordinates(_Inputs):
 
         Parameters
         ----------
-        my_coordinates : Field, FieldsContainer, 
+        my_coordinates : Field, FieldsContainer, MeshedRegion, MeshesContainer, 
 
         Examples
         --------

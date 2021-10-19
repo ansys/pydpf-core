@@ -27,6 +27,7 @@ Submodules
    ansys.dpf.core.operators.result.contact_status
    ansys.dpf.core.operators.result.contact_surface_heat_flux
    ansys.dpf.core.operators.result.contact_total_stress
+   ansys.dpf.core.operators.result.coordinate_system
    ansys.dpf.core.operators.result.creep_strain_energy_density
    ansys.dpf.core.operators.result.custom
    ansys.dpf.core.operators.result.cyclic_analytic_seqv_max

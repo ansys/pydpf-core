@@ -51,6 +51,7 @@ class Model:
         self._server = server
         self._metadata = Metadata(data_sources, self._server)
         self._results = Results(self)
+        self._mesh_by_default = True
 
     @property
     def metadata(self):
@@ -156,6 +157,9 @@ class Model:
             op.inputs.streams.connect(self.metadata._stream_provider.outputs)
         elif self.metadata._data_sources is not None and hasattr(op.inputs, 'data_sources'):
             op.inputs.data_sources.connect(self.metadata._data_sources)
+            
+        if self.mesh_by_default and self.metadata.mesh_provider and hasattr(op.inputs,"mesh"):
+            op.inputs.mesh.connect(self.metadata.mesh_provider)
 
     def operator(self, name):
         """Returns an operator associated with the data sources of
@@ -211,10 +215,18 @@ class Model:
         """
         self.metadata.meshed_region.grid.plot(color=color,
                                               show_edges=show_edges, **kwargs)
+    @property
+    def mesh_by_default(self):
+        """If true, the mesh is connected by default to operators
+        supporting the mesh input
+        """
+        return self._mesh_by_default
 
-
-
-
+    @mesh_by_default.setter
+    def mesh_by_default(self, value):
+        self._mesh_by_default = value
+        
+        
 class Metadata:
     """Contains the metadata of a data source."""
 
@@ -240,6 +252,10 @@ class Metadata:
         else:
             self._stream_provider = Operator("stream_provider", server=self._server)
             self._stream_provider.inputs.connect(self._data_sources)
+        try:
+            self._stream_provider.run()
+        except:
+            self._stream_provider = None
 
     @property
     def time_freq_support(self):
@@ -277,7 +293,11 @@ class Metadata:
         """
         if self._time_freq_support is None:
             timeProvider = Operator("TimeFreqSupportProvider", server=self._server)
-            timeProvider.inputs.connect(self._stream_provider.outputs)
+            if self._stream_provider:
+                timeProvider.inputs.connect(self._stream_provider.outputs)
+            else: 
+                timeProvider.inputs.connect(self.data_sources)
+                
             self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
         return self._time_freq_support
 
@@ -355,6 +375,8 @@ class Metadata:
                 raise RuntimeError('Unable to open result file') from None
             else:
                 raise e
+        except:
+            return None
         return result_info
 
     @property
@@ -397,7 +419,10 @@ class Metadata:
         except :
             pass
         mesh_provider = Operator("MeshProvider", server=self._server)
-        mesh_provider.inputs.connect(self._stream_provider.outputs)
+        if self._stream_provider:
+            mesh_provider.inputs.connect(self._stream_provider.outputs)
+        else: 
+            mesh_provider.inputs.connect(self.data_sources)
         return mesh_provider
 
 

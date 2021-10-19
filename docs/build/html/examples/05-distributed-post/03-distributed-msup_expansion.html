@@ -305,6 +305,13 @@
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="00-distributed_total_disp1.html">
+   Distributed post without client connection to remote processes
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
   <a class="reference internal" href="01-distributed_delegate_to_server.html">
    Compute total displacement from distributed files with distributed post
   </a>
@@ -407,7 +414,7 @@
 to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="distributed-modal-superposition">
-<span id="ref-distributed-total-disp"></span><span id="sphx-glr-examples-05-distributed-post-03-distributed-msup-expansion-py"></span><h1>Distributed modal superposition<a class="headerlink" href="#distributed-modal-superposition" title="Permalink to this headline">¶</a></h1>
+<span id="ref-distributed-msup"></span><span id="sphx-glr-examples-05-distributed-post-03-distributed-msup-expansion-py"></span><h1>Distributed modal superposition<a class="headerlink" href="#distributed-modal-superposition" title="Permalink to this headline">¶</a></h1>
 <p>This example shows how distributed files can be read and expanded
 on distributed processes. The modal basis (2 distributed files) is read
 on 2 remote servers and the modal response reading and the expansion is
@@ -458,7 +465,7 @@ but we could get connected to any existing servers on the network.</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ips: [&#39;127.0.0.1&#39;, &#39;127.0.0.1&#39;]
-ports: [50071, 50072]
+ports: [50055, 50056]
 </pre></div>
 </div>
 <p>Choose the file path</p>
@@ -553,7 +560,7 @@ and expand the modal response with the modal basis</p>
   - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 1065 entities.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  10.821 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.465 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-distributed-post-03-distributed-msup-expansion-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6023fb22d0b46c743ad4c47db077af3d/03-distributed-msup_expansion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-distributed-msup_expansion.py</span></code></a></p>

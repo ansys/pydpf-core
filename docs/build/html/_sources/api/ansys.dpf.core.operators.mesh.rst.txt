@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   ansys.dpf.core.operators.mesh.acmo_mesh_provider
    ansys.dpf.core.operators.mesh.beam_properties
    ansys.dpf.core.operators.mesh.external_layer
    ansys.dpf.core.operators.mesh.from_field
