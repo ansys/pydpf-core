@@ -122,7 +122,7 @@ with the server version as shown here:
      - ansys.dpf.core python module version
    * - 2.0 (Ansys 2021R2)
      - 0.3.0
-     - 0.3.0
+     - >=0.3.0
    * - 1.0 (Ansys 2021R1)
      - 0.2.2
      - 0.2.1/0.2.0
