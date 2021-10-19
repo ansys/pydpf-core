@@ -52,12 +52,12 @@ def test_makeconnections(allkindofcomplexity):
     displacement_op = my_model.results.displacement()
     norm_op = my_model.operator("norm")
     square_op = core.operators.math.sqr()
-    assert len(displacement_op.inputs._connected_inputs) == 1
+    assert len(displacement_op.inputs._connected_inputs)==2
     assert len(norm_op.inputs._connected_inputs) == 0
     # assert len(square_op.inputs._connected_inputs)==0
     norm_op.inputs.connect(displacement_op.outputs)
     square_op.inputs.field.connect(norm_op.outputs.field)
-    assert len(displacement_op.inputs._connected_inputs) == 1
+    assert len(displacement_op.inputs._connected_inputs)==2
     assert len(norm_op.inputs._connected_inputs) == 1
     assert len(square_op.inputs._connected_inputs) == 1
     square_op.inputs.connect(norm_op.outputs.field)

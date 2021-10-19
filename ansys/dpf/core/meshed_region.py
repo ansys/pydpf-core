@@ -84,7 +84,7 @@ class MeshedRegion:
             if isinstance(self._message.id, int):
                 self._message.id = mesh.id
             else:
-                self._message.id.id = mesh.id.id
+                self._message.id.CopyFrom(mesh.id)
 
         self._full_grid = None
         self._elements = None

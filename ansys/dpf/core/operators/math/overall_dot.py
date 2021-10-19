@@ -11,11 +11,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class overall_dot(Operator):
-    """Compute a sdot product between two fields and return a scalar.
+    """Compute a dot product between two fields (fields are seen like a single large vector) and return a scalar.
 
       available inputs:
-        - FieldA (Field)
-        - FieldB (Field)
+        - fieldA (Field)
+        - fieldB (Field)
 
       available outputs:
         - field (Field)
@@ -28,31 +28,31 @@ class overall_dot(Operator):
       >>> op = dpf.operators.math.overall_dot()
 
       >>> # Make input connections
-      >>> my_FieldA = dpf.Field()
-      >>> op.inputs.FieldA.connect(my_FieldA)
-      >>> my_FieldB = dpf.Field()
-      >>> op.inputs.FieldB.connect(my_FieldB)
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.math.overall_dot(FieldA=my_FieldA,FieldB=my_FieldB)
+      >>> op = dpf.operators.math.overall_dot(fieldA=my_fieldA,fieldB=my_fieldB)
 
       >>> # Get output data
       >>> result_field = op.outputs.field()"""
-    def __init__(self, FieldA=None, FieldB=None, config=None, server=None):
+    def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
         super().__init__(name="native::overall_dot", config = config, server = server)
         self._inputs = InputsOverallDot(self)
         self._outputs = OutputsOverallDot(self)
-        if FieldA !=None:
-            self.inputs.FieldA.connect(FieldA)
-        if FieldB !=None:
-            self.inputs.FieldB.connect(FieldB)
+        if fieldA !=None:
+            self.inputs.fieldA.connect(fieldA)
+        if fieldB !=None:
+            self.inputs.fieldB.connect(fieldB)
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Compute a sdot product between two fields and return a scalar.""",
+        spec = Specification(description="""Compute a dot product between two fields (fields are seen like a single large vector) and return a scalar.""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "FieldA", type_names=["field"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "FieldB", type_names=["field"], optional=False, document="""""")},
+                                 0 : PinSpecification(name = "fieldA", type_names=["field"], optional=False, document=""""""), 
+                                 1 : PinSpecification(name = "fieldB", type_names=["field"], optional=False, document="""""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""Field defined on over-all location, contains a unique scalar value""")})
         return spec
@@ -94,57 +94,57 @@ class InputsOverallDot(_Inputs):
       >>> from ansys.dpf import core as dpf
 
       >>> op = dpf.operators.math.overall_dot()
-      >>> my_FieldA = dpf.Field()
-      >>> op.inputs.FieldA.connect(my_FieldA)
-      >>> my_FieldB = dpf.Field()
-      >>> op.inputs.FieldB.connect(my_FieldB)
+      >>> my_fieldA = dpf.Field()
+      >>> op.inputs.fieldA.connect(my_fieldA)
+      >>> my_fieldB = dpf.Field()
+      >>> op.inputs.fieldB.connect(my_fieldB)
     """
     def __init__(self, op: Operator):
         super().__init__(overall_dot._spec().inputs, op)
-        self._FieldA = Input(overall_dot._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self._FieldA)
-        self._FieldB = Input(overall_dot._spec().input_pin(1), 1, op, -1) 
-        self._inputs.append(self._FieldB)
+        self._fieldA = Input(overall_dot._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self._fieldA)
+        self._fieldB = Input(overall_dot._spec().input_pin(1), 1, op, -1) 
+        self._inputs.append(self._fieldB)
 
     @property
-    def FieldA(self):
-        """Allows to connect FieldA input to the operator
+    def fieldA(self):
+        """Allows to connect fieldA input to the operator
 
         Parameters
         ----------
-        my_FieldA : Field, 
+        my_fieldA : Field, 
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
 
         >>> op = dpf.operators.math.overall_dot()
-        >>> op.inputs.FieldA.connect(my_FieldA)
+        >>> op.inputs.fieldA.connect(my_fieldA)
         >>> #or
-        >>> op.inputs.FieldA(my_FieldA)
+        >>> op.inputs.fieldA(my_fieldA)
 
         """
-        return self._FieldA
+        return self._fieldA
 
     @property
-    def FieldB(self):
-        """Allows to connect FieldB input to the operator
+    def fieldB(self):
+        """Allows to connect fieldB input to the operator
 
         Parameters
         ----------
-        my_FieldB : Field, 
+        my_fieldB : Field, 
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
 
         >>> op = dpf.operators.math.overall_dot()
-        >>> op.inputs.FieldB.connect(my_FieldB)
+        >>> op.inputs.fieldB.connect(my_fieldB)
         >>> #or
-        >>> op.inputs.FieldB(my_FieldB)
+        >>> op.inputs.fieldB(my_fieldB)
 
         """
-        return self._FieldB
+        return self._fieldB
 
 class OutputsOverallDot(_Outputs):
     """Intermediate class used to get outputs from overall_dot operator

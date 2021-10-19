@@ -69,8 +69,8 @@ class split_on_property_type(Operator):
                                  1 : PinSpecification(name = "mesh_scoping", type_names=["scoping"], optional=True, document="""Scoping"""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region"], optional=False, document="""mesh region"""), 
                                  9 : PinSpecification(name = "requested_location", type_names=["string"], optional=False, document="""location (default is elemental)"""), 
-                                 13 : PinSpecification(name = "label", type_names=["string"], optional=True, document="""properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape)"""), 
-                                 14 : PinSpecification(name = "label", type_names=["string"], optional=True, document="""properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape)""")},
+                                 13 : PinSpecification(name = "label", type_names=["string"], optional=True, document="""properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape')"""), 
+                                 14 : PinSpecification(name = "label", type_names=["string"], optional=True, document="""properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape')""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "mesh_scoping", type_names=["scopings_container"], optional=False, document="""Scoping""")})
         return spec
@@ -206,7 +206,7 @@ class InputsSplitOnPropertyType(_Inputs):
     def label1(self):
         """Allows to connect label1 input to the operator
 
-        - pindoc: properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape)
+        - pindoc: properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape')
 
         Parameters
         ----------
@@ -228,7 +228,7 @@ class InputsSplitOnPropertyType(_Inputs):
     def label2(self):
         """Allows to connect label2 input to the operator
 
-        - pindoc: properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape)
+        - pindoc: properties to apply the filtering 'mat' and/or 'elshape' (default is 'elshape')
 
         Parameters
         ----------

@@ -18,7 +18,7 @@ class to_polar_coordinates(Operator):
         - coordinate_system (Field) (optional)
 
       available outputs:
-        - fields_container (FieldsContainer)
+        - field (Field)
 
       Examples
       --------
@@ -37,7 +37,7 @@ class to_polar_coordinates(Operator):
       >>> op = dpf.operators.geo.to_polar_coordinates(field=my_field,coordinate_system=my_coordinate_system)
 
       >>> # Get output data
-      >>> result_fields_container = op.outputs.fields_container()"""
+      >>> result_field = op.outputs.field()"""
     def __init__(self, field=None, coordinate_system=None, config=None, server=None):
         super().__init__(name="polar_coordinates", config = config, server = server)
         self._inputs = InputsToPolarCoordinates(self)
@@ -54,7 +54,7 @@ class to_polar_coordinates(Operator):
                                  0 : PinSpecification(name = "field", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
                                  1 : PinSpecification(name = "coordinate_system", type_names=["field"], optional=True, document="""3-3 rotation matrix and origin coordinates must be set here to define a coordinate system. By default, the rotation axis is the z axis and the origin is [0,0,0]""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
         return spec
 
 
@@ -158,21 +158,21 @@ class OutputsToPolarCoordinates(_Outputs):
 
       >>> op = dpf.operators.geo.to_polar_coordinates()
       >>> # Connect inputs : op.inputs. ...
-      >>> result_fields_container = op.outputs.fields_container()
+      >>> result_field = op.outputs.field()
     """
     def __init__(self, op: Operator):
         super().__init__(to_polar_coordinates._spec().outputs, op)
-        self._fields_container = Output(to_polar_coordinates._spec().output_pin(0), 0, op) 
-        self._outputs.append(self._fields_container)
+        self._field = Output(to_polar_coordinates._spec().output_pin(0), 0, op) 
+        self._outputs.append(self._field)
 
     @property
-    def fields_container(self):
-        """Allows to get fields_container output of the operator
+    def field(self):
+        """Allows to get field output of the operator
 
 
         Returns
         ----------
-        my_fields_container : FieldsContainer, 
+        my_field : Field, 
 
         Examples
         --------
@@ -180,7 +180,7 @@ class OutputsToPolarCoordinates(_Outputs):
 
         >>> op = dpf.operators.geo.to_polar_coordinates()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_fields_container = op.outputs.fields_container() 
+        >>> result_field = op.outputs.field() 
         """
-        return self._fields_container
+        return self._field
 

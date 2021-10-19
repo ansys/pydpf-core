@@ -23,6 +23,7 @@ from .merge_scopings import merge_scopings
 from .merge_materials import merge_materials 
 from .merge_property_fields import merge_property_fields 
 from .remote_workflow_instantiate import remote_workflow_instantiate 
+from .remote_operator_instantiate import remote_operator_instantiate 
 from .merge_fields_by_label import merge_fields_by_label 
 from .merge_scopings_containers import merge_scopings_containers 
 from .merge_meshes import merge_meshes 

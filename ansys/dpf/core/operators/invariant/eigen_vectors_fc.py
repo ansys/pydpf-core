@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class eigen_vectors_fc(Operator):
-    """Computes the element-wise eigen vectors for each tensor in the field
+    """Computes the element-wise eigen vectors for each tensor in the fields of the field container
 
       available inputs:
-        - field (FieldsContainer, Field)
+        - fields_container (FieldsContainer, Field)
 
       available outputs:
-        - field (Field)
+        - fields_container (FieldsContainer)
 
       Examples
       --------
@@ -27,28 +27,28 @@ class eigen_vectors_fc(Operator):
       >>> op = dpf.operators.invariant.eigen_vectors_fc()
 
       >>> # Make input connections
-      >>> my_field = dpf.FieldsContainer()
-      >>> op.inputs.field.connect(my_field)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.invariant.eigen_vectors_fc(field=my_field)
+      >>> op = dpf.operators.invariant.eigen_vectors_fc(fields_container=my_fields_container)
 
       >>> # Get output data
-      >>> result_field = op.outputs.field()"""
-    def __init__(self, field=None, config=None, server=None):
+      >>> result_fields_container = op.outputs.fields_container()"""
+    def __init__(self, fields_container=None, config=None, server=None):
         super().__init__(name="eig_vectors_fc", config = config, server = server)
         self._inputs = InputsEigenVectorsFc(self)
         self._outputs = OutputsEigenVectorsFc(self)
-        if field !=None:
-            self.inputs.field.connect(field)
+        if fields_container !=None:
+            self.inputs.fields_container.connect(fields_container)
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Computes the element-wise eigen vectors for each tensor in the field""",
+        spec = Specification(description="""Computes the element-wise eigen vectors for each tensor in the fields of the field container""",
                              map_input_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["fields_container","field"], optional=False, document="""field or fields container with only one field is expected""")},
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container","field"], optional=False, document="""""")},
                              map_output_pin_spec={
-                                 0 : PinSpecification(name = "field", type_names=["field"], optional=False, document="""""")})
+                                 0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
         return spec
 
 
@@ -88,35 +88,33 @@ class InputsEigenVectorsFc(_Inputs):
       >>> from ansys.dpf import core as dpf
 
       >>> op = dpf.operators.invariant.eigen_vectors_fc()
-      >>> my_field = dpf.FieldsContainer()
-      >>> op.inputs.field.connect(my_field)
+      >>> my_fields_container = dpf.FieldsContainer()
+      >>> op.inputs.fields_container.connect(my_fields_container)
     """
     def __init__(self, op: Operator):
         super().__init__(eigen_vectors_fc._spec().inputs, op)
-        self._field = Input(eigen_vectors_fc._spec().input_pin(0), 0, op, -1) 
-        self._inputs.append(self._field)
+        self._fields_container = Input(eigen_vectors_fc._spec().input_pin(0), 0, op, -1) 
+        self._inputs.append(self._fields_container)
 
     @property
-    def field(self):
-        """Allows to connect field input to the operator
-
-        - pindoc: field or fields container with only one field is expected
+    def fields_container(self):
+        """Allows to connect fields_container input to the operator
 
         Parameters
         ----------
-        my_field : FieldsContainer, Field, 
+        my_fields_container : FieldsContainer, Field, 
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
 
         >>> op = dpf.operators.invariant.eigen_vectors_fc()
-        >>> op.inputs.field.connect(my_field)
+        >>> op.inputs.fields_container.connect(my_fields_container)
         >>> #or
-        >>> op.inputs.field(my_field)
+        >>> op.inputs.fields_container(my_fields_container)
 
         """
-        return self._field
+        return self._fields_container
 
 class OutputsEigenVectorsFc(_Outputs):
     """Intermediate class used to get outputs from eigen_vectors_fc operator
@@ -126,21 +124,21 @@ class OutputsEigenVectorsFc(_Outputs):
 
       >>> op = dpf.operators.invariant.eigen_vectors_fc()
       >>> # Connect inputs : op.inputs. ...
-      >>> result_field = op.outputs.field()
+      >>> result_fields_container = op.outputs.fields_container()
     """
     def __init__(self, op: Operator):
         super().__init__(eigen_vectors_fc._spec().outputs, op)
-        self._field = Output(eigen_vectors_fc._spec().output_pin(0), 0, op) 
-        self._outputs.append(self._field)
+        self._fields_container = Output(eigen_vectors_fc._spec().output_pin(0), 0, op) 
+        self._outputs.append(self._fields_container)
 
     @property
-    def field(self):
-        """Allows to get field output of the operator
+    def fields_container(self):
+        """Allows to get fields_container output of the operator
 
 
         Returns
         ----------
-        my_field : Field, 
+        my_fields_container : FieldsContainer, 
 
         Examples
         --------
@@ -148,7 +146,7 @@ class OutputsEigenVectorsFc(_Outputs):
 
         >>> op = dpf.operators.invariant.eigen_vectors_fc()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_field = op.outputs.field() 
+        >>> result_fields_container = op.outputs.fields_container() 
         """
-        return self._field
+        return self._fields_container
 

@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """
 
 class component_wise_divide(Operator):
-    """Computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.
+    """Computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.When using a constant or 'work_by_index', it's possible to use 'inplace' to reuse one of the fields.
 
       available inputs:
         - fieldA (Field, FieldsContainer)
@@ -49,7 +49,7 @@ class component_wise_divide(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.""",
+        spec = Specification(description="""Computes component-wise fraction between two fields of same dimensionality. If one field's scoping has overall location, then these field's values are applied on the entire other field.When using a constant or 'work_by_index', it's possible to use 'inplace' to reuse one of the fields.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fieldA", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected"""), 
                                  1 : PinSpecification(name = "fieldB", type_names=["field","fields_container"], optional=False, document="""field or fields container with only one field is expected""")},
