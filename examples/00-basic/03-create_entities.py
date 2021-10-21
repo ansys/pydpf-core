@@ -1,7 +1,7 @@
 """
 .. _ref_create_entities_example:
 
-Create Your Own Entities Use DPF Operators
+Create Your Own Entities Using DPF Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can create your field, fields container, or meshed region to use DPF operators
 with your own data. The ability to use scripting to create any DPF entity means
