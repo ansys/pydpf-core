@@ -92,9 +92,9 @@ Optional Dependencies
 
 Optional package dependencies can be installed for specific usage:
 
-- - `Matplotlib <https://pypi.org/project/matplotlib/>`_ for chart plotting
-- - `PyVista <https://pypi.org/project/pyvista/>`_ for 3D plotting
-- - `Scooby <https://pypi.org/project/scooby//>`_ for dependency reports
+- `Matplotlib <https://pypi.org/project/matplotlib/>`_ for chart plotting
+- `PyVista <https://pypi.org/project/pyvista/>`_ for 3D plotting
+- `Scooby <https://pypi.org/project/scooby//>`_ for dependency reports
 
 
 Compatibility
@@ -110,11 +110,11 @@ For more information, see :ref:`docker`.
 Client Server Compatibility
 ***************************
 
-The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>` module should be synchronized 
+The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module should be synchronized 
 with the server version as shown here:
 
-.. list-table:: Title
-   :widths: 25 25 50
+.. list-table:: Client-Server Compatibility
+   :widths: 35 35 35
    :header-rows: 1
 
    * - Ans.Dpf.Grpc.exe server version
@@ -125,11 +125,11 @@ with the server version as shown here:
      - >=0.3.0
    * - 1.0 (Ansys 2021R1)
      - 0.2.2
-     - 0.2.1/0.2.0
+     - 0.2.*
 
 
-Future development will ensure backward compatibilty from the client to the server.
+Future development will try to ensure backward compatibilty from the client to the server.
 
 
-To start a server with Ans.Dpf.Grpc.bat or Ans.Dpf.Grpc.sh (used in the `start_local_server` function),
+To start a server with Ans.Dpf.Grpc.bat or Ans.Dpf.Grpc.sh (used in the `start_local_server`  function),
 please make sure that the environment variable `AWP_ROOT{VER}` with (VER=212, 221, ...) is set.
