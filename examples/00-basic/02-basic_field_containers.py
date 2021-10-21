@@ -4,7 +4,7 @@
 Field and Field Containers Overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In DPF, the field is the main simulation data container. During a numerical
-simulations, result data is defined by values associated to entities
+simulation, result data is defined by values associated to entities
 (scoping). These entities are a subset of a model (support).
 
 Because field data is always associated to its scoping and support,
@@ -14,7 +14,7 @@ For example, a field can describe a displacement vector or norm, stress or strai
 tensor, stress or strain equivalent, or minimum or maximum
 over time of any result. A field can be defined on a complete model or
 on only certain entities of the model based on its scoping. The data
-is stored as a vector of double values and each elementary entity has
+is stored as a vector of double values, and each elementary entity has
 a number of components. For example, a displacement will have three
 components, and a symmetrical stress matrix will have six components.
 
