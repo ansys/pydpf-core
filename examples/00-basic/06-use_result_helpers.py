@@ -3,7 +3,7 @@
 
 Use Result Helpers to Load Custom Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The ``Result`` class, which are instances created by the ``Model``, give
+The ``Result`` class, which is an instance created by the ``Model``, gives
 access to helpers for requesting results on specific mesh and time scopings.
 With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
