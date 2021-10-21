@@ -27,7 +27,7 @@ Installation
    
    
 Tryout Installation
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 For a quick tryout installation, use:
 
