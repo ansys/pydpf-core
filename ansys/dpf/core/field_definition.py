@@ -137,7 +137,7 @@ class FieldDefinition:
         field_definition_copy : FieldDefinition
         """
         out = FieldDefinition(server=server)
-        out._modify_field_def(self.unit, self.location, self.dimensionnality, self.shell_layers)
+        out._modify_field_def(self.unit, self.location, self.dimensionality, self.shell_layers)
         return out
 
     def __del__(self):
