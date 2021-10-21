@@ -32,7 +32,7 @@ print(model)
 # various sources to include other operators.  This allows operators
 # to be "chained" to allow for highly efficient operations.
 #
-# To print the available inputs and outputs of the
+# To print out the available inputs and outputs of the
 # displacement operator:
 disp_op = dpf.Operator("U")
 print(disp_op.inputs)
