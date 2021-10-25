@@ -119,7 +119,6 @@ class Results:
         """
         if self._result_info is None:
             return
-        
         # dynamically add function based on input type
         self._op_map_rev = {}
         for result_type in self._result_info:
@@ -554,9 +553,9 @@ class Result:
 
 
 class CommonResults(Results):
-    """Default implementation of the class:'Results'. 
+    """Default implementation of the class:'Results'.
     Is created by default by the 'Model' with the method:'results'.
-    Create default result instances for common result types
+    Create default result instances for common result types.
     """
 
     @property
@@ -578,7 +577,8 @@ class CommonResults(Results):
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.msup_transient)
-        >>> disp = model.results.displacement.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+        >>> disp = model.results.displacement
+        >>> disp.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
         """
         return super().__result__("displacement")
@@ -602,7 +602,8 @@ class CommonResults(Results):
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.msup_transient)
-        >>> elastic_strain = model.results.elastic_strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+        >>> elastic_strain = model.results.elastic_strain
+        >>> elastic_strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = elastic_strain.eval()
         """
         return super().__result__("elastic_strain")
@@ -626,7 +627,8 @@ class CommonResults(Results):
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.msup_transient)
-        >>> stress = model.results.stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+        >>> stress = model.results.stress
+        >>> stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = stress.eval()
         """
         return super().__result__("elastic_strain")
@@ -651,7 +653,8 @@ class CommonResults(Results):
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.msup_transient)
-        >>> structural_temperature = model.results.structural_temperature.on_last_time_freq()
+        >>> structural_temperature = model.results.structural_temperature
+        >>> structural_temperature.on_last_time_freq()
         >>> last_time_disp = structural_temperature.eval()
         """
         return super().__result__("structural_temperature")
@@ -730,4 +733,3 @@ class CommonResults(Results):
         >>> last_time_disp = heat_flux.eval()
         """
         return super().__result__("heat_flux")
-    
