@@ -636,7 +636,7 @@ class CommonResults(Results):
     @property
     def structural_temperature(self):
         """
-        Result provider helper wrapping the regular structural_temperature 
+        Result provider helper wrapping the regular structural_temperature
         operator.
         With this wrapper, time and mesh scopings can easily
         be customized.
@@ -662,7 +662,7 @@ class CommonResults(Results):
     @property
     def temperature(self):
         """
-        Result provider helper wrapping the regular temperature 
+        Result provider helper wrapping the regular temperature
         operator.
         With this wrapper, time and mesh scopings can easily
         be customized.
@@ -687,7 +687,7 @@ class CommonResults(Results):
     @property
     def electric_potential(self):
         """
-        Result provider helper wrapping the regular electric_potential 
+        Result provider helper wrapping the regular electric_potential
         operator.
         With this wrapper, time and mesh scopings can easily
         be customized.
@@ -712,7 +712,7 @@ class CommonResults(Results):
     @property
     def heat_flux(self):
         """
-        Result provider helper wrapping the regular heat_flux 
+        Result provider helper wrapping the regular heat_flux
         operator.
         With this wrapper, time and mesh scopings can easily
         be customized.
