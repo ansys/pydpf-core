@@ -105,21 +105,6 @@ class FieldDefinition:
     def _modify_field_def(
         self, unit=None, location=None, dimensionality=None, shell_layer=None
     ):
-    def deep_copy(self, server=None):
-        """Creates a deep copy of the field_definition's data on a given server.
-        This can be useful to pass data from one server instance to another.
-        
-        Parameters
-        ----------
-        server : DPFServer, optional
-        
-        Returns
-        -------
-        field_definition_copy : FieldDefinition
-        """
-        out = FieldDefinition(server=server)
-        out._modify_field_def(self.unit, self.location, self.dimensionnality, self.shell_layers)
-        return out
         request = field_definition_pb2.FieldDefinitionUpdateRequest()
         request.field_definition.CopyFrom(self._messageDefinition)
         if unit != None:
@@ -138,6 +123,22 @@ class FieldDefinition:
             else:
                 request.shell_layers = shell_layer + 1
         self._stub.Update(request)
+
+    def deep_copy(self, server=None):
+        """Creates a deep copy of the field_definition's data on a given server.
+        This can be useful to pass data from one server instance to another.
+
+        Parameters
+        ----------
+        server : DPFServer, optional
+
+        Returns
+        -------
+        field_definition_copy : FieldDefinition
+        """
+        out = FieldDefinition(server=server)
+        out._modify_field_def(self.unit, self.location, self.dimensionality, self.shell_layers)
+        return out
 
     def __del__(self):
         try:

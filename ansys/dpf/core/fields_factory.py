@@ -306,13 +306,13 @@ def _create_field(
     num_entities : int
         Number of entities to reserve.
 
-    location : str optional
+    location : str, optional
         Location of the field. For example:
 
         - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
         - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
         - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
-        - ...  
+        - ...
 
     ncomp_n : int
         Number of lines.
