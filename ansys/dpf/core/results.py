@@ -119,6 +119,7 @@ class Results:
         """
         if self._result_info is None:
             return
+        
         # dynamically add function based on input type
         self._op_map_rev = {}
         for result_type in self._result_info:
@@ -550,3 +551,183 @@ class Result:
         """
         self._location = location
         return self
+
+
+class CommonResults(Results):
+    """Default implementation of the class:'Results'. 
+    Is created by default by the 'Model' with the method:'results'.
+    Create default result instances for common result types
+    """
+
+    @property
+    def displacement(self):
+        """Result provider helper wrapping the regular
+        displacement operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create a displacement result from the model and choose its time
+        and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> disp = model.results.displacement.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+        >>> last_time_disp = disp.eval()
+        """
+        return super().__result__("displacement")
+
+    @property
+    def elastic_strain(self):
+        """
+        Result provider helper wrapping the regular elastic strain operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create an elastic strain result from the model and choose its time
+        and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> elastic_strain = model.results.elastic_strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+        >>> last_time_disp = elastic_strain.eval()
+        """
+        return super().__result__("elastic_strain")
+
+    @property
+    def stress(self):
+        """
+        Result provider helper wrapping the regular stress operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create a stress result from the model and choose its time
+        and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> stress = model.results.stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
+        >>> last_time_disp = stress.eval()
+        """
+        return super().__result__("elastic_strain")
+
+    @property
+    def structural_temperature(self):
+        """
+        Result provider helper wrapping the regular structural_temperature 
+        operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create a structural_temperature result from the model and choose its time
+        and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> structural_temperature = model.results.structural_temperature.on_last_time_freq()
+        >>> last_time_disp = structural_temperature.eval()
+        """
+        return super().__result__("structural_temperature")
+
+    @property
+    def temperature(self):
+        """
+        Result provider helper wrapping the regular temperature 
+        operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create a temperature result from the model and choose its time
+        and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> temperature = model.results.temperature.on_last_time_freq()
+        >>> last_time_disp = temperature.eval()
+        """
+        return super().__result__("temperature")
+
+    @property
+    def electric_potential(self):
+        """
+        Result provider helper wrapping the regular electric_potential 
+        operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create a electric_potential result from the model and
+        choose its time and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> electric_potential = model.results.electric_potential.on_first_time_freq()
+        >>> last_time_disp = electric_potential.eval()
+        """
+        return super().__result__("electric_potential")
+
+    @property
+    def heat_flux(self):
+        """
+        Result provider helper wrapping the regular heat_flux 
+        operator.
+        With this wrapper, time and mesh scopings can easily
+        be customized.
+
+        Returns
+        -------
+        Result
+
+        Examples
+        --------
+        Create a heat_flux result from the model and
+        choose its time and mesh scopings.
+
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.msup_transient)
+        >>> heat_flux = model.results.heat_flux.on_first_time_freq()
+        >>> last_time_disp = heat_flux.eval()
+        """
+        return super().__result__("heat_flux")
+    

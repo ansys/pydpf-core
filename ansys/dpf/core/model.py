@@ -12,7 +12,7 @@ from ansys import dpf
 from ansys.dpf.core import Operator
 from ansys.dpf.core.common import types
 from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.results import Results
+from ansys.dpf.core.results import Results, CommonResults
 from grpc._channel import _InactiveRpcError
 
 
@@ -46,7 +46,11 @@ class Model:
 
         self._server = server
         self._metadata = Metadata(data_sources, self._server)
-        self._results = Results(self)
+        try:
+            self._results = Results(self)
+        except Exception as e:
+            self._results = None
+            print(e)
 
     @property
     def metadata(self):
@@ -106,8 +110,9 @@ class Model:
 
         Returns
         -------
-        Results
-            Available results of the model.
+        results: Results, CommonResults
+            Available results of the model if possible, else
+            return common results.
 
         Attributes
         ----------
@@ -144,6 +149,8 @@ class Model:
         >>> displacements = model.results.displacement.on_all_time_freqs.eval()
 
         """
+        if not self._results:
+            return CommonResults(self)
         return self._results
 
     def __connect_op__(self, op):
