@@ -38,7 +38,7 @@ To achieve this, you an use:
     displacement = model.results.displacement()
     norm = ops.math.norm(displacement)
     min_max = ops.min_max.min_max(norm)
-    max_diplacement = min_max.outputs.field_max()
+    max_displacement = min_max.outputs.field_max()
  
  
 This approach efficiently computes the maximum
