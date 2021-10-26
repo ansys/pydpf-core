@@ -682,6 +682,36 @@ def test_connect_model(plate_msup):
     assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
 
 
+def test_connect_result(plate_msup):
+    model = dpf.core.Model(plate_msup)
+    stress = model.results.stress
+    eqv = ops.invariant.von_mises_eqv_fc(stress)
+    out = eqv.outputs.fields_container()
+    eqv = ops.invariant.von_mises_eqv_fc()
+    eqv.inputs.fields_container.connect(stress)
+    out2 = eqv.outputs.fields_container()
+    assert len(out)==len(out2)
+    eqv = ops.invariant.von_mises_eqv_fc()
+    eqv.inputs.connect(stress)
+    out2 = eqv.outputs.fields_container()
+    assert len(out)==len(out2)
+    
+
+def test_connect_result2(plate_msup):
+    model = dpf.core.Model(plate_msup)
+    disp = model.results.displacement
+    norm = ops.math.norm_fc(disp)
+    out = norm.outputs.fields_container()
+    norm = ops.math.norm_fc()
+    norm.inputs.fields_container.connect(disp)
+    out2 = norm.outputs.fields_container()
+    assert len(out)==len(out2)
+    norm = ops.math.norm_fc()
+    norm.inputs.connect(disp)
+    out2 = norm.outputs.fields_container()
+    assert len(out)==len(out2)
+    
+    
 def test_operator_several_output_types(plate_msup):
     inpt = dpf.core.Field(nentities=3)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
