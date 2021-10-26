@@ -112,7 +112,7 @@ class Model:
         -------
         results: Results, CommonResults
             Available results of the model if possible, else
-            return common results.
+            returns common results.
 
         Attributes
         ----------

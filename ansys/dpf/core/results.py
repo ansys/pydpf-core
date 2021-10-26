@@ -652,7 +652,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.complex_rst)
         >>> structural_temperature = model.results.structural_temperature
         >>> structural_temperature.on_last_time_freq()
         >>> last_time_disp = structural_temperature.eval()
@@ -678,7 +678,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.steady_therm)
         >>> temperature = model.results.temperature.on_last_time_freq()
         >>> last_time_disp = temperature.eval()
         """
@@ -703,33 +703,8 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.electric_therm)
         >>> electric_potential = model.results.electric_potential.on_first_time_freq()
         >>> last_time_disp = electric_potential.eval()
         """
         return super().__result__("electric_potential")
-
-    @property
-    def heat_flux(self):
-        """
-        Result provider helper wrapping the regular heat_flux
-        operator.
-        With this wrapper, time and mesh scopings can easily
-        be customized.
-
-        Returns
-        -------
-        Result
-
-        Examples
-        --------
-        Create a heat_flux result from the model and
-        choose its time and mesh scopings.
-
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
-        >>> heat_flux = model.results.heat_flux.on_first_time_freq()
-        >>> last_time_disp = heat_flux.eval()
-        """
-        return super().__result__("heat_flux")
