@@ -355,7 +355,7 @@ class Operator:
 
             if type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
-            elif isinstance(inpt, _Outputs) or isinstance(inpt, Operator) or isinstance(inpt, Result):
+            elif isinstance(inpt, (_Outputs, Operator, Result)):
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
                 elif isinstance(inpt, Result):

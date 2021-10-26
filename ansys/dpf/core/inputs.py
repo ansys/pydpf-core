@@ -96,7 +96,7 @@ class Input:
             raise TypeError(err_str)
 
         from ansys.dpf.core.results import Result
-        
+
         if isinstance(inpt, _Outputs):
             self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
             self._operator.inputs._connected_inputs[self._pin] = {
@@ -239,7 +239,7 @@ class _Inputs:
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
                 corresponding_pins[0][1]: inpt()
-            }   
+            }
         else:
             self._operator.connect(corresponding_pins[0], inpt)
             self._connected_inputs[corresponding_pins[0]] = inpt
