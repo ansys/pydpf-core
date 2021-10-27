@@ -65,6 +65,11 @@ class Element:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
+        >>> element = elements[0]
         >>> element.node_ids
         [1, 26, 14, 12, 2, 27, 15, 13, 33, 64, 59, 30, 37, 65, 61, 34, 28, 81, 63, 58]
 
@@ -105,6 +110,11 @@ class Element:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
+        >>> element = elements[0]
         >>> first_node = element.nodes[0]
 
         """
@@ -142,6 +152,11 @@ class Element:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
+        >>> element = elements[0]
         >>> element.type
         <element_types.Hex20: 1>
 
@@ -170,6 +185,11 @@ class Element:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
+        >>> element = elements[0]
         >>> element.shape
         'solid'
 
@@ -434,6 +454,10 @@ class Elements:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
         >>> my_scoping = elements.scoping
 
         """
@@ -450,6 +474,10 @@ class Elements:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.element_types_field
         >>> field.data
         array([1, 1, 1, 1, 1, 1, 1, 1])
@@ -476,6 +504,10 @@ class Elements:
         --------
         Extract the material IDs from the materials_field
 
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
         >>> elements.materials_field.data
         array([1, 1, 1, 1, 1, 1, 1, 1])
 
@@ -498,6 +530,10 @@ class Elements:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.connectivities_field
         >>> field.get_entity_data(1)
         array([ 0, 11, 13, 25,  2,  9,  8,  3, 29, 58, 63, 32, 40, 52, 42, 37, 28,
@@ -535,8 +571,11 @@ class Elements:
 
         Examples
         --------
-        >>> meshed_region.nodes.mapping_id_to_index
-        {1: 0, 2: 1, 3: 2, 4: 3}
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.simple_bar)
+        >>> meshed_region = model.metadata.meshed_region
+        >>> map = meshed_region.nodes.mapping_id_to_index
 
         """
         if self._mapping_id_to_index is None:
