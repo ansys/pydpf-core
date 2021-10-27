@@ -44,12 +44,11 @@ jobs:
 
     - script: |
         pip install -r requirements_test.txt
-
       displayName: Install Test Environment
 
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
-        cd tests=$(System.DefaultWorkingDirectory)
+        cd tests=$(System.DefaultWorkingDirectory)\tests
         set AWP_ROOT212=%THISDIR%\server\v212
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
         
@@ -68,7 +67,7 @@ jobs:
         cd tests=$(System.DefaultWorkingDirectory)
         set AWP_ROOT212=%THISDIR%\server\v212
         pytest --doctest-modules --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=junit/test-doctests-results.xml ansys\dpf\core
-
+      condition: always()
       displayName: Test API Docstrings
 
     - task: PublishTestResults@2
