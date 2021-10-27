@@ -47,18 +47,35 @@ jobs:
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd tests=$(System.DefaultWorkingDirectory)
         set AWP_ROOT212=%THISDIR%\server\v212
+
+      displayName: Install Test Environment
+
+    - script: |
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
         
       displayName: Test Core API
-      
+
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-results.xml' 
+        testResultsFiles: 'junit/test-results.xml'
         testRunTitle: 'windowsTests'
-        publishRunAttachments: true      
+        publishRunAttachments: true
       condition: always()
-      
+
+    - script: |
+        pytest --doctest-modules --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=junit/test-doctests-results.xml ansys\dpf\core
+
+      displayName: Test API Docstrings
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-doctests-results.xml'
+        testRunTitle: 'docTestsTests'
+        publishRunAttachments: true
+      condition: always()
+
     - script: |
         pip install twine
         python setup.py sdist

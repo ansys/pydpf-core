@@ -19,6 +19,8 @@ if ansys_path is None or invalid_version or is_ubuntu():
 
 
 def test_start_local():
+    if not core.SERVER:
+        core.start_local_server()
     starting_server = id(core.SERVER)
     n_init = len(core._server_instances)
     server = core.start_local_server(as_global=False, ansys_path=core.SERVER.ansys_path)
