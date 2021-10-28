@@ -53,6 +53,7 @@ jobs:
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
         
       displayName: Test Core API
+      timeoutInMinutes: 10
 
     - task: PublishTestResults@2
       inputs:
@@ -69,6 +70,7 @@ jobs:
         pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
       condition: always()
       displayName: Test API Docstrings
+      timeoutInMinutes: 5
 
     - task: PublishTestResults@2
       inputs:
@@ -83,6 +85,7 @@ jobs:
         set AWP_ROOT212=%THISDIR%\server\v212
         python .ci/run_examples.py
       displayName: 'Run example scripts'
+      timeoutInMinutes: 5
 
     - script: |
         pip install twine
