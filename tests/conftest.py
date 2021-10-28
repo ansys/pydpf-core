@@ -1,7 +1,7 @@
 """This runs at the init of the pytest session
 
 Launch or connect to a persistent local DPF service to be shared in
-pytest as a sesson fixture
+pytest as a session fixture
 """
 import os
 
