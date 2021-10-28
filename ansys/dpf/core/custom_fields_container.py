@@ -63,9 +63,13 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.split_by_shape.eval()
         >>> len(fc.solid_fields())
-        45
-        >>> len(fc.solid_fields(timeid=3))
+        1
+        >>> len(fc.solid_fields(timeid=1))
         1
 
         """
@@ -94,6 +98,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
         >>> len(fc.shell_fields())
         45
         >>> len(fc.shell_fields(timeid=3))
@@ -125,6 +133,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
         >>> len(fc.beam_fields())
         45
         >>> len(fc.beam_fields(timeid=3))
@@ -156,6 +168,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
         >>> field = fc.solid_field(timeid=3)
 
         """
@@ -185,6 +201,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
         >>> field = fc.shell_field(timeid=3)
 
         """
@@ -213,6 +233,10 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_shape.eval()
         >>> field = fc.beam_field(timeid=3)
 
         """
@@ -280,6 +304,10 @@ class BodyFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_body.eval()
         >>> len(fc.get_fields_by_mat_id(1))
         45
         >>> len(fc.get_fields_by_mat_id(1, timeid=3))
@@ -313,6 +341,10 @@ class BodyFieldsContainer(FieldsContainer):
 
         Examples
         --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
+        >>> fc = model.results.displacement.on_all_time_freqs.split_by_body.eval()
         >>> f_time_2 = fc.get_field_by_mat_id(45, timeid=2)
 
         """
