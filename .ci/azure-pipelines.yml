@@ -48,13 +48,6 @@ jobs:
 
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
-        python .ci/run_examples.py
-      displayName: 'Run example scripts'
-
-
-    - script: |
-        set THISDIR=$(System.DefaultWorkingDirectory)
         cd tests
         set AWP_ROOT212=%THISDIR%\server\v212
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3

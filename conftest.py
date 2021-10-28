@@ -16,19 +16,8 @@ if module_exists("matplotlib"):
 
     mpl.use("Agg")
 
+
 # enable off_screen plotting to avoid test interruption
-
-if module_exists("pyvista"):
-    import pyvista as pv
-
-    pv.OFF_SCREEN = True
-
-
-if os.name == "posix":
-    import ssl
-
-    ssl._create_default_https_context = ssl._create_unverified_context
-
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
@@ -38,3 +27,5 @@ def cleanup(request):
         core.server.shutdown_all_session_servers()
 
     request.addfinalizer(close_servers)
+
+core.disable_off_screen_rendering()
