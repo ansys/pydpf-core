@@ -153,7 +153,8 @@ class Workflow:
         >>> from ansys.dpf import core as dpf
 
         >>> workflow = dpf.Workflow()
-        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
 
         >>> from ansys.dpf.core import examples
@@ -191,11 +192,12 @@ class Workflow:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-
+        >>> from ansys.dpf.core import examples
         >>> workflow = dpf.Workflow()
-        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> model = dpf.Model(examples.simple_bar)
+        >>> disp_op = model.results.displacement()
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)
-
         >>> fc = workflow.get_output("contour", dpf.types.fields_container)
 
         """

@@ -76,6 +76,11 @@ class TimeFreqSupport:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        >>> time_freq_support = model.metadata.time_freq_support
         >>> freq = time_freq_support.time_frequencies
         >>> freq.data
         array([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
@@ -122,6 +127,11 @@ class TimeFreqSupport:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        >>> time_freq_support = model.metadata.time_freq_support
         >>> freq = time_freq_support.complex_frequencies
 
         """
@@ -228,6 +238,11 @@ class TimeFreqSupport:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> transient = examples.download_transient_result()
+        >>> model = Model(transient)
+        >>> time_freq_support = model.metadata.time_freq_support
         >>> time_freq_support.n_sets
         35
 

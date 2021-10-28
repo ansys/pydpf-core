@@ -91,6 +91,10 @@ class Operator:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> model = Model(examples.static_rst)
+        >>> disp_oper = model.results.displacement()
         >>> disp_oper = model.results.displacement()
         >>> disp_x = model.results.displacement().X()
         >>> disp_y = model.results.displacement().Y()
