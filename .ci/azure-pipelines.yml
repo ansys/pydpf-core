@@ -46,6 +46,24 @@ jobs:
         pip install -r requirements_test.txt
       displayName: Install Test Environment
 
+  - task: PythonScript@0
+    inputs:
+      scriptSource: inline
+      script: |
+        import os
+        import glob
+
+        actual_path = pathlib.Path(__file__).parent.absolute()
+        for root, subdirectories, files in os.walk(os.path.join(actual_path, "examples")):
+            for subdirectory in subdirectories:
+                subdir = os.path.join(root, subdirectory)
+                print(subdir)
+                for file in glob.iglob(r"subdir\*.py"):
+                    os.system("python3 " + file)
+
+      displayName: 'Run example scripts'
+
+
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd tests
@@ -77,6 +95,23 @@ jobs:
         testRunTitle: 'docTestsTests'
         publishRunAttachments: true
       condition: always()
+
+  - task: PythonScript@0
+    inputs:
+      scriptSource: inline
+      script: |
+        import os
+        import glob
+
+        actual_path = pathlib.Path(__file__).parent.absolute()
+        for root, subdirectories, files in os.walk(os.path.join(actual_path, "examples")):
+            for subdirectory in subdirectories:
+                subdir = os.path.join(root, subdirectory)
+                print(subdir)
+                for file in glob.iglob(r"subdir\*.py"):
+                    os.system("python3 " + file)
+
+      displayName: 'Run example scripts'
 
     - script: |
         pip install twine
