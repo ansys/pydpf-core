@@ -104,3 +104,16 @@ if module_exists("pyvista"):
 SERVER = None
 
 _server_instances = []
+
+def disable_off_screen_rendering() -> None:
+    # enable matplotlib off_screen plotting to avoid test interruption
+    if module_exists("matplotlib"):
+        import matplotlib as mpl
+
+        mpl.use("Agg")
+
+    # enable off_screen plotting to avoid test interruption
+    if module_exists("pyvista"):
+        import pyvista as pv
+
+        pv.OFF_SCREEN = True

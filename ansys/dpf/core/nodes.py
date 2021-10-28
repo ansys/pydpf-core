@@ -68,6 +68,10 @@ class Node:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> node = model.metadata.meshed_region.nodes[0]
         >>> node.coordinates
         [0.015, 0.045, 0.015]
 
@@ -175,6 +179,11 @@ class Nodes:
         --------
         Get the IDs of all nodes in this collection.
 
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
+        >>> nodes = model.metadata.meshed_region.nodes
         >>> nodes.scoping.ids[2]
         3
 
@@ -197,6 +206,11 @@ class Nodes:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
+        >>> nodes = model.metadata.meshed_region.nodes
         >>> coordinates = nodes.coordinates_field
 
         >>> # Extract the array of coordinates the coordinates field
@@ -220,6 +234,11 @@ class Nodes:
 
         Examples
         --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
+        >>> nodes = model.metadata.meshed_region.nodes
         >>> field = nodes.nodal_connectivity_field
         >>> field.get_entity_data(1)
         array([0, 2, 4, 6])

@@ -44,21 +44,49 @@ jobs:
 
     - script: |
         pip install -r requirements_test.txt
+      displayName: Install Test Environment
+
+    - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
-        cd tests=$(System.DefaultWorkingDirectory)
+        cd tests
         set AWP_ROOT212=%THISDIR%\server\v212
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
         
       displayName: Test Core API
-      
+      timeoutInMinutes: 10
+
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-results.xml' 
+        testResultsFiles: 'tests/junit/test-results.xml'
         testRunTitle: 'windowsTests'
-        publishRunAttachments: true      
+        publishRunAttachments: true
       condition: always()
-      
+
+    - script: |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        cd $(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
+      condition: always()
+      displayName: Test API Docstrings
+      timeoutInMinutes: 5
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-doctests-results.xml'
+        testRunTitle: 'docTestsTests'
+        publishRunAttachments: true
+      condition: always()
+
+    - script:  |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        python .ci/run_examples.py
+      displayName: 'Run example scripts'
+      timeoutInMinutes: 5
+
     - script: |
         pip install twine
         python setup.py sdist
