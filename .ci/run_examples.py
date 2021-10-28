@@ -1,6 +1,7 @@
 import os
 import glob
 import pathlib
+import subprocess
 
 actual_path = pathlib.Path(__file__).parent.absolute()
 print(os.path.join(actual_path,os.path.pardir, "examples"))
@@ -10,5 +11,7 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
         for file in glob.iglob(os.path.join(subdir, "*.py")):
             print("\n\n--------------------------------------------------\n")
             print(file)
-            print("\n\n--------------------------------------------------\n")
-            os.system("python " + file)
+            print("--------------------------------------------------\n")
+            p = subprocess.check_output(["python", file],
+                                 stderr=subprocess.STDOUT,
+                                 shell=False)
