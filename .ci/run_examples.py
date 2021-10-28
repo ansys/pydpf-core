@@ -6,7 +6,7 @@ from ansys.dpf import core
 core.disable_off_screen_rendering()
 
 actual_path = pathlib.Path(__file__).parent.absolute()
-print(os.path.join(actual_path,os.path.pardir, "examples"))
+print(os.path.join(actual_path, os.path.pardir, "examples"))
 for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.pardir, "examples")):
     for subdirectory in subdirectories:
         subdir = os.path.join(root, subdirectory)

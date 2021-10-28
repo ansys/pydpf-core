@@ -117,4 +117,3 @@ def disable_off_screen_rendering() -> None:
         import pyvista as pv
 
         pv.OFF_SCREEN = True
-

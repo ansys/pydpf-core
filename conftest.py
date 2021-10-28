@@ -3,10 +3,8 @@
 Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
-import os
 import pytest
 from ansys.dpf import core
-from ansys.dpf.core import examples
 from ansys.dpf.core.misc import module_exists
 
 # enable matplotlib off_screen plotting to avoid test interruption

@@ -8,8 +8,6 @@ import os
 import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples
-from ansys.dpf.core.misc import module_exists
-
 
 core.disable_off_screen_rendering()
 
