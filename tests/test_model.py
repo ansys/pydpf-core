@@ -184,7 +184,7 @@ def test_result_time_scoping(plate_msup):
     )
 
 
-def test_result_spliited_subset(allkindofcomplexity):
+def test_result_splitted_subset(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     vol = model.results.elemental_volume
     assert len(vol.split_by_body.eval()) == 11
