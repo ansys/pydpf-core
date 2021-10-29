@@ -39,10 +39,10 @@ def all_kind_of_complexity_models():
     from ansys.dpf.core import server
     server.LOG.debug("before all_kind_of_complexity_models"+ str(dpf.SERVER)+ str(local_server.info))
     otherfile = dpf.upload_file_in_tmp_folder(
-        examples.download_all_kinds_of_complexity(server=local_server), server=local_server
+        examples.download_all_kinds_of_complexity(), server=local_server
     )
     return (
-        dpf.Model(examples.download_all_kinds_of_complexity(server=local_server)),
+        dpf.Model(examples.download_all_kinds_of_complexity()),
         dpf.Model(otherfile, server=local_server),
     )
 
