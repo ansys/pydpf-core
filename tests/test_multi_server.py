@@ -218,6 +218,7 @@ def test_model_stress_multi_server(transient_models):
 
 def test_model_different_results_big_multi_server(all_kind_of_complexity_models):
 
+    from ansys.dpf.core import server
     server.LOG.debug("after all_kind_of_complexity_models"+ str(dpf.SERVER)+ str(local_server.info))
     tf = all_kind_of_complexity_models[0].metadata.time_freq_support
     time_scoping = len(tf.time_frequencies)
