@@ -373,7 +373,7 @@ class BaseService:
         # TODO: fix code generation upload posix
         import os
 
-        if os.name != "posix":
+        if self._server().os != 'posix' or (not self._server().os and os.name!= 'posix'):
             local_dir = os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
 
@@ -419,6 +419,12 @@ class BaseService:
             + "."
             + str(response.minorVersion),
         }
+        if hasattr(response, "properties"):
+            for key in response.properties:
+                out[key] = response.properties[key]
+        else:
+            out["os"] = None
+
         return out
 
     def _description(self, dpf_entity_message):

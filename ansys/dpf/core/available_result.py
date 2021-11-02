@@ -50,6 +50,7 @@ class AvailableResult:
                 + "Number of components: %d\n" % self.n_components
                 + "Dimensionality: %s\n" % self.dimensionality
                 + "Homogeneity: %s\n" % self.homogeneity
+                + "Location: %s\n" % self.location
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit
@@ -58,7 +59,9 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator."""
-        if self.operator_name in _result_properties:
+        if hasattr(self._message, "properties") and "scripting_name" in self._message.properties:
+            return self._message.properties["scripting_name"]
+        elif self.operator_name in _result_properties:
             return _result_properties[self.operator_name]["scripting_name"]
         else:
             return _remove_spaces(self._message.physicsname)
@@ -122,6 +125,8 @@ class AvailableResult:
     @property
     def native_location(self):
         """Native location of the result."""
+        if hasattr(self._message, "properties") and "location" in self._message.properties:
+            return self._message.properties["location"]
         if self.operator_name in _result_properties:
             return _result_properties[self.operator_name]["location"]
 

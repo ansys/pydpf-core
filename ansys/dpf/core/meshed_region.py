@@ -230,7 +230,12 @@ class MeshedRegion:
         -------
         named_selections : list str
         """
-        return self._stub.List(self._message).named_selections
+        if hasattr(self._stub, "ListNamedSelections"):
+            request = meshed_region_pb2.ListNamedSelectionsRequest()
+            request.mesh.CopyFrom(self._message)
+            return self._stub.ListNamedSelections(request).named_selections
+        else:
+            return self._stub.List(self._message).named_selections
 
     def named_selection(self, named_selection):
         """Scoping containing the list of nodes or elements in the named selection.
