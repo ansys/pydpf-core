@@ -351,7 +351,7 @@ class BaseService():
         
         #TODO: fix code generation upload posix
         import os
-        if os.name != 'posix':
+        if self._server().os != 'posix' or (not self._server().os and os.name!= 'posix'):
             local_dir =os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
             
@@ -388,6 +388,11 @@ class BaseService():
             raise IOError(f'Unable to recover information from the server:\n{str(e)}')
         out = {"server_ip":response.ip, "server_port":response.port, "server_process_id":response.processId,
                "server_version": str(response.majorVersion) +"."+str(response.minorVersion)}
+        if hasattr(response, "properties"):
+            for key in response.properties:
+                out[key] = response.properties[key]
+        else:
+            out["os"] = None
         return out
     
     

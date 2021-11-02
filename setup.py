@@ -23,7 +23,7 @@ readme_file = os.path.join(filepath, 'README.md')
 
 setup(
     name='ansys-dpf-core',
-    packages=['ansys.dpf.core', 'ansys.dpf.core.examples', 'ansys.dpf.core.operators', 
+    packages=['ansys.dpf.core', 'ansys.dpf.core.examples', 'ansys.dpf.core.examples.msup_distributed', 'ansys.dpf.core.operators', 
     'ansys.dpf.core.operators.averaging', 'ansys.dpf.core.operators.filter', 'ansys.dpf.core.operators.geo', 
     'ansys.dpf.core.operators.invariant', 'ansys.dpf.core.operators.logic', 'ansys.dpf.core.operators.mapping', 
     'ansys.dpf.core.operators.math', 'ansys.dpf.core.operators.mesh', 'ansys.dpf.core.operators.metadata', 
