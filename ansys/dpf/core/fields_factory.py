@@ -79,9 +79,10 @@ def create_matrix_field(
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - :class:`ansys.dpf.core.natures.elemental_nodal`
+        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
+        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
+        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
+        - ...
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -103,8 +104,13 @@ def create_matrix_field(
 
     """
     return _create_field(
-        server, natures.matrix, num_entities, location, num_col, num_lines
-    )
+        server,
+        natures.matrix,
+        num_entities,
+        location,
+        num_col,
+        num_lines,
+        )
 
 
 def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
@@ -117,12 +123,14 @@ def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
     ----------
     num_entities : int
         Number of entities to reserve
+
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - ansys.dpf.core.natures.elemental_nodal
+        - ansys.dpf.core.natures.nodal (``"Nodal"``)
+        - ansys.dpf.core.natures.elemental (``"Elemental"``)
+        - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
+        - ...
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -158,9 +166,10 @@ def create_tensor_field(num_entities, location=locations.nodal, server=None):
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - ansys.dpf.core.natures.elemental_nodal
+        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
+        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
+        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
+        - ...
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -196,9 +205,10 @@ def create_scalar_field(num_entities, location=locations.nodal, server=None):
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - ansys.dpf.core.natures.elemental_nodal
+        - ansys.dpf.core.natures.nodal (``"Nodal"``)
+        - ansys.dpf.core.natures.elemental (``"Elemental"``)
+        - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
+        - ...
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -236,9 +246,10 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - ansys.dpf.core.natures.elemental_nodal
+        - ansys.dpf.core.natures.nodal (``"Nodal"``)
+        - ansys.dpf.core.natures.elemental (``"Elemental"``)
+        - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
+        - ...
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -294,12 +305,14 @@ def _create_field(
 
     num_entities : int
         Number of entities to reserve.
-    location : str optional
-        Location of the field.  For example:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - ansys.dpf.core.locations.elemental_nodal
+    location : str, optional
+        Location of the field. For example:
+
+        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
+        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
+        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
+        - ...
 
     ncomp_n : int
         Number of lines.
