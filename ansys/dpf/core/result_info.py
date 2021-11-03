@@ -10,6 +10,7 @@ from ansys.dpf.core import available_result
 from ansys.dpf.core.mapping_types import map_unit_system
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.common import __write_enum_doc__
+from ansys.dpf.core.cache import class_handling_cache
 
 
 names = [m for m in result_info_pb2.PhysicsType.keys()]
@@ -26,6 +27,7 @@ analysis_types.__doc__ = __write_enum_doc__(
 )
 
 
+@class_handling_cache
 class ResultInfo:
     """Represents the result information.
 
@@ -70,8 +72,6 @@ class ResultInfo:
         else:
             self._message = result_info
 
-        self._names = [item.name for item in self.available_results]
-
     def __str__(self):
         txt = (
             "%s analysis\n" % self.analysis_type.capitalize()
@@ -84,6 +84,9 @@ class ResultInfo:
             txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
         return txt
+
+    def _names(self):
+        return [item.name for item in self.available_results]
 
     def __contains__(self, value):
         return value in self._names
@@ -108,7 +111,7 @@ class ResultInfo:
         'static'
 
         """
-        intOut = self._stub.List(self._message).analysis_type
+        intOut = self._get_list().analysis_type
         return result_info_pb2.AnalysisType.Name(intOut).lower()
 
     @property
@@ -137,19 +140,19 @@ class ResultInfo:
         physics_type : str
             Type of the physics, such as mechanical or electric.
         """
-        intOut = self._stub.List(self._message).physics_type
+        intOut = self._get_list().physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
 
     # TODO: Depreciate
     @property
     def n_results(self):
         """Number of results."""
-        return self._stub.List(self._message).nresult
+        return self._get_list().nresult
 
     @property
     def unit_system(self):
         """Unit system of the result."""
-        val = self._stub.List(self._message).unit_system
+        val = self._get_list().unit_system
         return map_unit_system[val]
 
     @property
@@ -162,7 +165,7 @@ class ResultInfo:
             Cyclic symmetry type of the results. Options are ``"single_stage"``,
             ``"multi_stage"``, and ``"not_cyclic"``.
         """
-        return self._stub.List(self._message).cyc_info.cyclic_type
+        return self._get_list().cyc_info.cyclic_type
 
     @property
     def has_cyclic(self):
@@ -173,7 +176,7 @@ class ResultInfo:
         has_cyclic : bool
             Returns ``True`` if the result file has cyclic symmetry or is multistage.
         """
-        return self._stub.List(self._message).cyc_info.has_cyclic
+        return self._get_list().cyc_info.has_cyclic
 
     @property
     def cyclic_support(self):
@@ -195,13 +198,13 @@ class ResultInfo:
         >>> cyc_support = result_info.cyclic_support
 
         """
-        tmp = self._stub.List(self._message).cyc_info.cyc_support
+        tmp = self._get_list().cyc_info.cyc_support
         return CyclicSupport(cyclic_support=tmp, server=self._server)
 
     @property
     def unit_system_name(self):
         """Name of the unit system."""
-        return self._stub.List(self._message).unit_system_name
+        return self._get_list().unit_system_name
 
     @property
     def solver_version(self):
@@ -214,32 +217,32 @@ class ResultInfo:
     @property
     def solver_date(self):
         """Date of the solver."""
-        return self._stub.List(self._message).solver_date
+        return self._get_list().solver_date
 
     @property
     def solver_time(self):
         """Time of the solver."""
-        return self._stub.List(self._message).solver_time
+        return self._get_list().solver_time
 
     @property
     def user_name(self):
         """Name of the user."""
-        return self._stub.List(self._message).user_name
+        return self._get_list().user_name
 
     @property
     def job_name(self):
         """Name of the job."""
-        return self._stub.List(self._message).job_name
+        return self._get_list().job_name
 
     @property
     def product_name(self):
         """Name of the product."""
-        return self._stub.List(self._message).product_name
+        return self._get_list().product_name
 
     @property
     def main_title(self):
         """Main title."""
-        return self._stub.List(self._message).main_title
+        return self._get_list().main_title
 
     @property
     def available_results(self):
@@ -279,7 +282,7 @@ class ResultInfo:
         return available_result.AvailableResult(res)
 
     def __len__(self):
-        return self._stub.List(self._message).nresult
+        return self._get_list().nresult
 
     def __iter__(self):
         for i in range(len(self)):
@@ -317,3 +320,8 @@ class ResultInfo:
             self._stub.Delete(self._message)
         except:
             pass
+
+    def _get_list(self):
+        return self._stub.List(self._message)
+
+    _to_cache = {_get_list: None, _get_result: None}
