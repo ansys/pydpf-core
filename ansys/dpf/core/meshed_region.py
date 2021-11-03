@@ -4,8 +4,8 @@ MeshedRegion
 """
 from ansys import dpf
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
-from ansys.dpf.core import scoping
-from ansys.dpf.core.common import locations, types
+from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.nodes import Nodes
@@ -463,4 +463,48 @@ class MeshedRegion:
             request.num_elements_reserved = num_elements
         self._message = self._stub.Create(request)
 
-     
+
+    def field_of_properties(self, property_name):
+        """Returns the ``Field`` or ``PropertyField`` associated
+        to a given property of the mesh
+
+        Parameters
+        ----------
+        property_name : str, common.elemental_properties, common.nodal_properties
+
+        Return
+        ------
+        properties : Field, PropertyField
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.static_rst)
+        >>> meshed_region = model.metadata.meshed_region
+        >>> connectivity = meshed_region.field_of_properties(dpf.common.elemental_properties.connectivity)
+        >>> coordinates = meshed_region.field_of_properties(dpf.common.nodal_properties.coordinates)
+        """
+        request = meshed_region_pb2.ListPropertyRequest()
+        request.mesh.CopyFrom(self._message)
+        if hasattr(request, "property_type"):
+            request.property_type.property_name.property_name = property_name
+        elif property_name in nodal_properties._nodal_property_type_dict:
+            request.nodal_property = meshed_region_pb2.NodalPropertyType.Value(
+                nodal_properties._nodal_property_type_dict[property_name]
+            )
+        elif property_name in elemental_properties._elemental_property_type_dict:
+            request.elemental_property = meshed_region_pb2.ElementalPropertyType.Value(
+                elemental_properties._elemental_property_type_dict[property_name]
+            )
+        else:
+            raise ValueError(property_name + " property is not supported")
+
+        field_out = self._stub.ListProperty(request)
+        if field_out.datatype == "int":
+            return property_field.PropertyField(server=self._server, property_field=field_out)
+        else:
+            return field.Field(server=self._server, field=field_out)
+
+
+

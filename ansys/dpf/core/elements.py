@@ -131,14 +131,10 @@ class Element:
         """
         return self._get_type()
 
-    @protect_grpc
     def _get_type(self):
         """Return the Ansys element type"""
-        request = meshed_region_pb2.ElementalPropertyRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.index = self.index
-        request.property_name.property_name = elemental_properties.element_type
-        return element_types(self._mesh._stub.GetElementalProperty(request).prop)
+        prop = self._get_single_property(elemental_properties.element_type)
+        return element_types(prop)
 
     @property
     def shape(self) -> str:
@@ -154,16 +150,28 @@ class Element:
         """
         return self._get_shape()
 
-    @protect_grpc
     def _get_shape(self):
+        """Return the element shape"""
+        prop = self._get_single_property(elemental_properties.element_shape)
+        return meshed_region_pb2.ElementShape.Name(prop).lower()
+
+    @protect_grpc
+    def _get_single_property(self, property_name):
         """Return the element shape"""
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(self._mesh._message)
         request.index = self.index
-        request.property_name.property_name = elemental_properties.element_shape
-        prop = self._mesh._stub.GetElementalProperty(request).prop
-        return meshed_region_pb2.ElementShape.Name(prop).lower()
-    
+        if hasattr(request, "property_name"):
+            request.property_name.property_name = property_name
+        elif property_name in elemental_properties._elemental_property_type_dict:
+            request.property = meshed_region_pb2.ElementalPropertyType.Value(
+                elemental_properties._elemental_property_type_dict[property_name]
+            )
+        else:
+            raise ValueError(property_name + " property is not supported")
+
+        return self._mesh._stub.GetElementalProperty(request).prop
+
     @property
     def connectivity(self):
         """Return the ordered list of node indices of the element
@@ -420,11 +428,7 @@ class Elements():
         array([1, 1, 1, 1, 1, 1, 1, 1])
         
         """
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = elemental_properties.element_type
-        fieldOut = self._mesh._stub.ListProperty(request)
-        return field.Field(server=self._mesh._server, field=fieldOut)
+        return self._mesh.field_of_properties(elemental_properties.element_type)
 
     @property
     @protect_grpc
@@ -444,11 +448,7 @@ class Elements():
         array([1, 1, 1, 1, 1, 1, 1, 1])
         
         """
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = elemental_properties.material
-        fieldOut = self._mesh._stub.ListProperty(request)
-        return field.Field(server=self._mesh._server, field=fieldOut)
+        return self._mesh.field_of_properties(elemental_properties.material)
 
     @property
     def connectivities_field(self):
@@ -473,11 +473,7 @@ class Elements():
     @protect_grpc
     def _get_connectivities_field(self):
         """Return the connectivities field"""
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = elemental_properties.connectivity
-        fieldOut = self._mesh._stub.ListProperty(request)
-        return property_field.PropertyField(server=self._mesh._server, property_field=fieldOut)
+        return self._mesh.field_of_properties(elemental_properties.connectivity)
 
     @property
     def n_elements(self) -> int:
