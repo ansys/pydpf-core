@@ -556,7 +556,7 @@ class CommonResults(Results):
     """Default implementation of the class:'Results'.
     Is created by default by the 'Model' with the method:'results'.
     Create default result instances for common result types.
-    
+
     Notes
     -----
     Used to allow type hints and auto completion for the method:'results'
