@@ -87,7 +87,6 @@ class MeshedRegion:
         self._elements = None
         self._nodes = None
 
-
     def _get_scoping(self, loc=locations.nodal):
         """
         Parameters
@@ -471,4 +470,8 @@ class MeshedRegion:
             request.num_elements_reserved = num_elements
         self._message = self._stub.Create(request)
 
-    _to_cache = {_get_unit: [_set_unit], _get_available_named_selections: None, named_selection: None}
+    _to_cache = {
+        _get_unit: [_set_unit],
+        _get_available_named_selections: None,
+        named_selection: None
+    }

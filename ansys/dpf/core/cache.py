@@ -32,7 +32,9 @@ class MethodIdentifier(NamedTuple):
         if isinstance(other, str):
             return self.method_name == other
         else:
-            return self.method_name == other.method_name and self.args == other.args and self.kwargs == other.kwargs
+            return self.method_name == other.method_name \
+                   and self.args == other.args \
+                   and self.kwargs == other.kwargs
 
     def __hash__(self):
         hash = self.method_name.__hash__()
@@ -70,8 +72,8 @@ class CacheHandler:
             setattr(func, "under_cache", False)
             return self.cached[identifier]
         else:
-            if func.__name__ in self.setter_to_getter_names and self.setter_to_getter_names[
-                func.__name__] in self.cached:
+            if func.__name__ in self.setter_to_getter_names \
+                    and self.setter_to_getter_names[func.__name__] in self.cached:
                 del self.cached[self.setter_to_getter_names[func.__name__]]
             return func(object, *args, **kwargs)
 
