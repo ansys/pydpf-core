@@ -22,9 +22,9 @@ pyvista.BUILDING_GALLERY = True
 
 # -- Project information -----------------------------------------------------
 
-project = "PyANSYS DPF"
-copyright = f"{datetime.now().year}, ANSYS"
-author = "ANSYS Inc"
+project = "PyDPF-Core"
+copyright = "(c) 2021 ANSYS, Inc. All rights reserved"
+author = "ANSYS Inc."
 
 # The short X.Y version
 version = __version__
@@ -111,7 +111,7 @@ autodoc_member_order = "bysource"
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "pyansys_sphinx_theme"
-html_logo = "https://docs.pyansys.com/_static/pyansys-logo-black-cropped.png"
+html_logo = os.path.join("_static", "pyansys-logo-black-cropped.png")
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
 }
