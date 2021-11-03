@@ -9,6 +9,7 @@ import progressbar
 from ansys.grpc.dpf import base_pb2, field_definition_pb2
 
 
+
 def _camel_to_snake_case(name):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
 
@@ -32,6 +33,7 @@ class _smart_dict_camel(dict):
 class _smart_dict_unit_system(dict):
     def __missing__(self, key):
         return "unknown"
+
 
 
 def __write_enum_doc__(enum, intro=None):
@@ -66,7 +68,6 @@ natures.__doc__ = __write_enum_doc__(
         "It can be used to create a field of a given dimensionality."
     ),
 )
-
 
 names = [(m.lower(), num - 1) for m, num in field_definition_pb2.ShellLayers.items()]
 shell_layers = Enum("shell_layers", names)
@@ -125,8 +126,8 @@ class locations:
 
     # one per time step
     time_freq_step = "TimeFreq_steps"
-    
-    
+
+
 class elemental_properties:
     """Contains strings to define elemental property fields.
     
@@ -153,10 +154,18 @@ class elemental_properties:
     element_shape = "elshape"
     element_type = "eltype"
     connectivity = "connectivity"
-    material = "mat" 
-    element_properties = "elprops" 
+    material = "mat"
+    element_properties = "elprops"
     apdl_element_type = "apdl_element_type"
-    
+
+    _elemental_property_type_dict = {
+        element_type: "ELEMENT_TYPE",
+        element_shape: "ELEMENT_SHAPE",
+        material: "MATERIAL",
+        connectivity: "CONNECTIVITY",
+    }
+
+
 class nodal_properties:
     """Contains strings to define nodal property fields.
     
@@ -171,6 +180,11 @@ class nodal_properties:
     coordinates = "coordinates"
     nodal_connectivity = "reverse_connectivity"
 
+    _nodal_property_type_dict = {
+        coordinates: "COORDINATES",
+        nodal_connectivity: "NODAL_CONNECTIVITY",
+    }
+
 
 class DefinitionLabels:
     """Contains Python definition labels."""
@@ -179,8 +193,8 @@ class DefinitionLabels:
     complex = "complex"
 
 
-def _common_progress_bar(text, unit, tot_size=None):
 
+def _common_progress_bar(text, unit, tot_size=None):
     if tot_size:
         widgets = [
             progressbar.FormatLabel(f"{text}: %(value)d of %(max_value)d {unit} "),
@@ -197,7 +211,7 @@ def _common_progress_bar(text, unit, tot_size=None):
             widgets=widgets, max_value=progressbar.UnknownLength
         )
 
-def _common_percentage_progress_bar(text):    
-    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'),progressbar.Bar()]
-    return progressbar.ProgressBar(widgets=widgets,max_value=100)
-   
+
+def _common_percentage_progress_bar(text):
+    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
+    return progressbar.ProgressBar(widgets=widgets, max_value=100)

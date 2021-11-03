@@ -622,7 +622,6 @@ def test_operator_set_config():
     op.inputs.fieldA.connect(inpt)
     op.inputs.fieldB.connect(inpt2)
     out = op.outputs.field()
-    assert np.allclose(out.scoping.ids, [1, 2, 3])
     assert np.allclose(
         out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
     )
@@ -683,14 +682,15 @@ def test_connect_model(plate_msup):
     fc = u.outputs.fields_container()
     assert len(fc) == 1
     assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
-    
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_get_output_int_list_operator():
     d = list(range(0,10000000))
     op = dpf.core.operators.utility.forward(d)
     dout = op.get_output(0, dpf.core.types.vec_int)
     assert np.allclose(d,dout)
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_connect_get_output_double_list_operator():
     d = list(np.ones(10000000))
     op = dpf.core.operators.utility.forward(d)
@@ -1042,8 +1042,9 @@ def test_dot_operator_server_operator():
     assert len(out)==1
     assert out[0].scoping.ids == [1,2]
     assert np.allclose(out[0].data,np.array([5.,50.]))
-    
 
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_list_operators():
     l = dpf.core.dpf_operator.available_operator_names()
     assert len(l)>400
@@ -1051,6 +1052,7 @@ def test_list_operators():
     assert 'unit_convert' in l
     assert 'MeshProvider' in l
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_get_static_spec_operator():
     l = dpf.core.dpf_operator.available_operator_names()
     for i,name in enumerate(l):

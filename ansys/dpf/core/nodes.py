@@ -245,22 +245,13 @@ class Nodes:
         array([0, 2, 4, 6])
 
         """
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = nodal_properties.nodal_connectivity
-        fieldOut = self._mesh._stub.ListProperty(request)
-        return property_field.PropertyField(
-            server=self._mesh._server, property_field=fieldOut
-        )
+        return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
+
 
     @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = nodal_properties.coordinates
-        fieldOut = self._mesh._stub.ListProperty(request)
-        return field.Field(server=self._mesh._server, field=fieldOut)
+        return self._mesh.field_of_properties(nodal_properties.coordinates)
 
     def _build_mapping_id_to_index(self):
         """Retrieve a mapping between IDs and indices of the entity."""
