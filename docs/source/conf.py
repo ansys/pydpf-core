@@ -23,7 +23,7 @@ pyvista.BUILDING_GALLERY = True
 # -- Project information -----------------------------------------------------
 
 project = "PyDPF-Core"
-copyright = "(c) 2021 ANSYS, Inc. All rights reserved"
+copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
 
 # The short X.Y version
