@@ -1,3 +1,5 @@
+.. _ref_getting_started:
+
 ===============
 Getting Started
 ===============
