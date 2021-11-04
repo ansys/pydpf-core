@@ -306,7 +306,6 @@ class Scoping:
         """Retrieve the ID at a requested index."""
         return self.id(key)
 
-
     def __setitem__(self, index, id):
         """Retrieve the ID at a requested index."""
         return self.set_id(index, id)
@@ -493,8 +492,8 @@ class _LocalScoping(Scoping):
         """
         if self._count() <= index:
             self._scoping_ids_copy.resize(index+1)
-        self._scoping_ids_copy[index]=scopingid
-        self._mapper[scopingid]=index
+        self._scoping_ids_copy[index] = scopingid
+        self._mapper[scopingid] = index
 
     def append(self, id):
         self._scoping_ids_copy.append(id)
