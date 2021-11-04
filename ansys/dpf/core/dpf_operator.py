@@ -36,8 +36,10 @@ class Operator:
     name : str
         Name of the operator. For example, ``"U"``. You can use the
         ``"html_doc"`` operator to retrieve a list of existing operators.
-    config : ansys.dpf.core.Config, optional
-        The default is ``None``.
+    config : Config, optional
+        The Configuration allows to customize how the operation
+        will be processed by the operator.
+
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -288,6 +290,8 @@ class Operator:
 
         You can change the copy of the default configuration to meet your needs
         before instantiating the operator.
+        The Configuration allows to customize how the operation
+        will be processed by the operator.
 
         Parameters
         ----------
@@ -307,23 +311,6 @@ class Operator:
         """
         return Config(operator_name=name, server=server)
 
-    
-    @staticmethod
-    def default_config(name, server=None):
-        """Returns the default config for a given operator.
-        This config can then be changed to the user needs and be used to
-        instantiate the given operator
-        
-        Parameters
-        ----------
-        name : str
-            Name of the operator.  For example 'U'.
-    
-        server : server.DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
-        """
-        return Config(operator_name = name, server =server)
         
     def _connect(self):
         """Connect to the gRPC service."""
