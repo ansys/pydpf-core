@@ -4,7 +4,12 @@ from typing import NamedTuple
 def class_handling_cache(cls):
     """Class decorator used to handle cache.
     To use it, add a ''_to_cache'' static attribute in the given class.
-    This private dictionary should map class getters to their list of setters
+    This private dictionary should map class getters to their list of setters.
+    At initialization, this decorator add a ''_cache'' property to the class.
+    This new property is an instance of ''CacheHandler''.
+
+    .. note::
+       The method must be used as a class decorator.
     """
     if hasattr(cls, "_to_cache"):
         def get_handler(mesh):
@@ -46,10 +51,27 @@ class MethodIdentifier(NamedTuple):
 
 
 class CacheHandler:
-    def __init__(self, cls, getters_to_setters_list):
+    """"Handle cache complexity.
+    Is initialized by a class and a dictionary mapping the getters
+    which support caching to their setters.
+    When the getters of the dictionary are called, their parameters
+    and their results are cached so that, when the getters are called again
+    with the same parameters, the data is directly recovered instead of reevaluated.
+    When the setters associated to getters in the input dictionary are called,
+    their associated getters' caches are cleared.
+
+    Parameters
+    ----------
+    cls : type
+        Class type
+
+    getters_to_setters_dict : dict[function:list[function]]
+        Map class getters to their list of setters which need to be cached
+    """
+    def __init__(self, cls, getters_to_setters_dict):
 
         self.getter_to_setters_name = {}
-        for getter, setters in getters_to_setters_list.items():
+        for getter, setters in getters_to_setters_dict.items():
             setters_name = []
             if setters:
                 for setter in setters:
@@ -79,7 +101,8 @@ class CacheHandler:
 
 
 def _handle_cache(func):
-    """Check that the method being called matches a certain server version.
+    """Calls the cache handler to either recover cached data, either cache the data
+    or clear some cached data if the method is a setter.
 
     .. note::
        The method must be used as a decorator.
