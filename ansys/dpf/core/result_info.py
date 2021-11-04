@@ -85,6 +85,7 @@ class ResultInfo:
 
         return txt
 
+    @property
     def _names(self):
         return [item.name for item in self.available_results]
 
