@@ -99,6 +99,9 @@ class CacheHandler:
                 del self.cached[self.setter_to_getter_names[func.__name__]]
             return func(object, *args, **kwargs)
 
+    def clear(self):
+        self.cached = {}
+
 
 def _handle_cache(func):
     """Calls the cache handler to either recover cached data, either cache the data
