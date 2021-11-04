@@ -95,6 +95,8 @@ class Input:
             )
             raise TypeError(err_str)
 
+        from ansys.dpf.core.results import Result
+
         if isinstance(inpt, _Outputs):
             self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
             self._operator.inputs._connected_inputs[self._pin] = {
@@ -103,6 +105,11 @@ class Input:
         elif isinstance(inpt, Output):
             self._operator.connect(self._pin, inpt._operator, inpt._pin)
             self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
+        elif isinstance(inpt, Result):
+            self._operator.connect(self._pin, inpt(), corresponding_pins[0][1])
+            self._operator.inputs._connected_inputs[self._pin] = {
+                corresponding_pins[0][1]: inpt()
+                }
         else:
             self._operator.connect(self._pin, inpt)
             self._operator.inputs._connected_inputs[self._pin] = inpt
@@ -215,19 +222,27 @@ class _Inputs:
                     err_str += f"   - {map_types_to_python[cpp_type]}\n"
             raise TypeError(err_str)
 
-        if not isinstance(inpt, _Outputs) and not isinstance(inpt, Output):
-            self._operator.connect(corresponding_pins[0], inpt)
-            self._connected_inputs[corresponding_pins[0]] = inpt
-        elif input_type_name == "Output":
+        from ansys.dpf.core.results import Result
+        if isinstance(inpt, Output):
             self._operator.connect(corresponding_pins[0], inpt._operator, inpt._pin)
             self._connected_inputs[corresponding_pins[0]] = {inpt._pin: inpt._operator}
-        else:
+        elif isinstance(inpt, _Outputs):
             self._operator.connect(
                 corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1]
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
                 corresponding_pins[0][1]: inpt._operator
             }
+        elif isinstance(inpt, Result):
+            self._operator.connect(
+                corresponding_pins[0][0], inpt(), corresponding_pins[0][1]
+            )
+            self._connected_inputs[corresponding_pins[0][0]] = {
+                corresponding_pins[0][1]: inpt()
+            }
+        else:
+            self._operator.connect(corresponding_pins[0], inpt)
+            self._connected_inputs[corresponding_pins[0]] = inpt
 
     def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:

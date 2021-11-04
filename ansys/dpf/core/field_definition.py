@@ -124,6 +124,22 @@ class FieldDefinition:
                 request.shell_layers = shell_layer + 1
         self._stub.Update(request)
 
+    def deep_copy(self, server=None):
+        """Creates a deep copy of the field_definition's data on a given server.
+        This can be useful to pass data from one server instance to another.
+
+        Parameters
+        ----------
+        server : DPFServer, optional
+
+        Returns
+        -------
+        field_definition_copy : FieldDefinition
+        """
+        out = FieldDefinition(server=server)
+        out._modify_field_def(self.unit, self.location, self.dimensionality, self.shell_layers)
+        return out
+
     def __del__(self):
         try:
             self._stub.Delete(self._messageDefinition)

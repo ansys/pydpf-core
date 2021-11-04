@@ -91,6 +91,10 @@ class Operator:
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> model = Model(examples.static_rst)
+        >>> disp_oper = model.results.displacement()
         >>> disp_oper = model.results.displacement()
         >>> disp_x = model.results.displacement().X()
         >>> disp_y = model.results.displacement().Y()
@@ -345,6 +349,7 @@ class Operator:
     def _find_outputs_corresponding_pins(
         self, type_names, inpt, pin, corresponding_pins
     ):
+        from ansys.dpf.core.results import Result
         for python_name in type_names:
             # appears to be an issue on Linux.  This check is here
             # because cpp mappings are a single type mapping and
@@ -354,11 +359,12 @@ class Operator:
 
             if type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
-            elif isinstance(inpt, _Outputs) or isinstance(inpt, Operator):
+            elif isinstance(inpt, (_Outputs, Operator, Result)):
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
+                elif isinstance(inpt, Result):
+                    output_pin_available = inpt().outputs._get_given_output([python_name])
                 else:
-
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
                     corresponding_pins.append((pin, outputpin))
