@@ -173,11 +173,11 @@ def version_requires(min_version):
             """Call the original function"""
             server = self._server
             func_name = func.__name__
-            class_name = self.__class__.__name__
 
             # particular cases
             # scoping._set_ids case, must be checked in a particular way
-            if func_name == "_set_ids" and class_name == "Scoping":
+            from ansys.dpf.core import scoping
+            if func_name == "_set_ids" and isinstance(self, scoping.Scoping):
                 ids = args[0]
                 size = len(ids)
                 if size != 0:

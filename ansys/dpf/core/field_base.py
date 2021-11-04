@@ -532,8 +532,8 @@ class _LocalFieldBase(_FieldBase):
         self._data_copy = super().data_as_list
         self._num_entities_reserved = len(self._data_copy)
         self._data_pointer_copy = super()._data_pointer_as_list
-        self._scoping_ids_copy = super().scoping.ids
-        self._num_entities = len(self._scoping_ids_copy)
+        self._scoping_copy = super().scoping.as_local_scoping()
+        self._num_entities = len(self._scoping_copy)
         self._has_data_pointer = len(self._data_pointer_copy) > 0
 
     @property
@@ -589,7 +589,7 @@ class _LocalFieldBase(_FieldBase):
         if index > self._num_entities:
             raise ValueError(
                 f"Requested scoping {index} is greater than the number of "
-                f"available indices {len(self._scoping_ids_copy)}"
+                f"available indices {len(self._scoping_copy)}"
             )
         if self._has_data_pointer:
             first_index = self._data_pointer_copy[index]
@@ -649,7 +649,7 @@ class _LocalFieldBase(_FieldBase):
            7.69014221e+02  4.90502930e+02]]
 
         """
-        index = self._scoping_ids_copy.index(id)
+        index = self._scoping_copy.index(id)
         if index < 0:
             raise ValueError(f"The id {id} doesn't exist in the scoping")
         return self.get_entity_data(index)
@@ -687,7 +687,7 @@ class _LocalFieldBase(_FieldBase):
             data = np.array(data).flatten().tolist()
 
         data_size = len(self._data_copy)
-        self._scoping_ids_copy.append(scopingid)
+        self._scoping_copy.append(scopingid)
         if len(self._data_pointer_copy) > 0:
             self._data_pointer_copy.append(data_size)
 
@@ -860,7 +860,7 @@ class _LocalFieldBase(_FieldBase):
         """Release the data."""
         super()._set_data(self._data_copy)
         super()._set_data_pointer(self._data_pointer_copy)
-        super().scoping.ids = self._scoping_ids_copy
+        self._scoping_copy.release_data()
 
     def __enter__(self):
         return self
