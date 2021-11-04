@@ -11,7 +11,7 @@ import sys
 import numpy as np
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import _common_progress_bar, locations
-from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+from ansys.dpf.core import misc
 from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 
 
@@ -350,7 +350,10 @@ class Scoping:
         return scop
 
 
-def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE):
+def _data_chunk_yielder(request, data, chunk_size=None):
+    if not chunk_size:
+        chunk_size = misc.DEFAULT_FILE_CHUNK_SIZE
+
     length = data.size
     need_progress_bar = length > 1e6
     if need_progress_bar:
@@ -366,7 +369,7 @@ def _data_chunk_yielder(request, data, chunk_size=DEFAULT_FILE_CHUNK_SIZE):
     if length - sent_length < unitary_size:
         unitary_size = length - sent_length
     while sent_length < length:
-        currentcopy = data.take(range(sent_length, sent_length + unitary_size))
+        currentcopy = data[sent_length: sent_length + unitary_size]
         request.array = currentcopy.tobytes()
         sent_length = sent_length + unitary_size
         if length - sent_length < unitary_size:

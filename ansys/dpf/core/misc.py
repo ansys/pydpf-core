@@ -5,7 +5,7 @@ import os
 from pkgutil import iter_modules
 
 
-DEFAULT_FILE_CHUNK_SIZE = 65536
+DEFAULT_FILE_CHUNK_SIZE = 500000
 
 # ANSYS CPython Workbench environment may not have scooby installed.
 try:

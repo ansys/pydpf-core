@@ -26,4 +26,4 @@ def cleanup(request):
 
     request.addfinalizer(close_servers)
 
-core.disable_off_screen_rendering()
+core.settings.disable_off_screen_rendering()

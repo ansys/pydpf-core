@@ -13,7 +13,7 @@ import grpc
 from ansys.grpc.dpf import base_pb2, base_pb2_grpc
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import server as serverlib
-from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+from ansys.dpf.core import misc
 from ansys.dpf.core.common import _common_progress_bar
 
 LOG = logging.getLogger(__name__)
@@ -708,6 +708,7 @@ class BaseService:
         request.use_temp_dir = use_tmp_dir
 
         tot_size = os.path.getsize(file_path) * 1e-3
+        print(misc.DEFAULT_FILE_CHUNK_SIZE)
 
         need_progress_bar = tot_size > 10000
         if need_progress_bar:
@@ -716,7 +717,7 @@ class BaseService:
         i = 0
         with open(file_path, "rb") as f:
             while True:
-                piece = f.read(DEFAULT_FILE_CHUNK_SIZE)
+                piece = f.read(misc.DEFAULT_FILE_CHUNK_SIZE)
                 if len(piece) == 0:
                     break
                 request.data.data = piece
