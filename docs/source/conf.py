@@ -115,7 +115,7 @@ html_logo = os.path.join("_static", "pyansys-logo-black-cropped.png")
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
     "show_prev_next": False,
-    "logo_link": "https://dpfdocs.pyansys.com/",  # navigate to the main page
+    "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
 }
 
 
