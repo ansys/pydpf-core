@@ -9,6 +9,8 @@ from ansys.dpf.core.check_version import meets_version, get_server_version
 
 serv = dpf.core.start_local_server("127.0.0.1", 50075)
 SERVER_VERSION_HIGHER_THAN_2_0 = meets_version(get_server_version(serv), "2.1")
+
+
 # serv.shutdown()
 
 
@@ -190,3 +192,46 @@ def test_largest_set_ids_one_shot():
         return  # check that either more than 8MB works or it throws
 
     assert np.allclose(scop.ids, range(1, int(8.2e6 / 28)))
+
+
+def test_as_local_scoping():
+    scop = Scoping()
+    with scop.as_local_scoping() as loc:
+        loc.location = "Nodal"
+        for i in range(0, 100):
+            loc.append(i + 1)
+            assert loc.id(i) == i + 1
+            assert loc.index(i + 1) == i
+    assert scop.ids == list(range(1, 101))
+    assert scop.location == "Nodal"
+    with scop.as_local_scoping() as loc:
+        assert loc.location == "Nodal"
+        for i in range(0, 100):
+            assert loc.id(i) == i + 1
+            assert loc.index(i + 1) == i
+
+def test_as_local_scoping2():
+    scop = Scoping()
+    with scop.as_local_scoping() as loc:
+        loc.location = "Nodal"
+        loc.ids = range(1, 101)
+        for i in range(0, 100):
+            assert loc.id(i) == i + 1
+            assert loc.index(i + 1) == i
+    assert scop.ids == list(range(1, 101))
+    assert scop.location == "Nodal"
+    with scop.as_local_scoping() as loc:
+        assert loc.location == "Nodal"
+        for i in range(0, 100):
+            assert loc.id(i) == i + 1
+            assert loc.index(i + 1) == i
+
+
+def test_auto_delete_scoping_local():
+    scop = Scoping()
+    s = scop.as_local_scoping()
+    s.append(1)
+    del s
+    with scop.as_local_scoping() as s:
+        assert s[0] == 1
+
