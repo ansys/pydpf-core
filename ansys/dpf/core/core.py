@@ -708,7 +708,6 @@ class BaseService:
         request.use_temp_dir = use_tmp_dir
 
         tot_size = os.path.getsize(file_path) * 1e-3
-        print(misc.DEFAULT_FILE_CHUNK_SIZE)
 
         need_progress_bar = tot_size > 10000
         if need_progress_bar:

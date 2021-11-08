@@ -487,8 +487,10 @@ class _LocalScoping(Scoping):
         scopingid : int
             ID of the scoping.
         """
-        if self._count() <= index:
-            self._scoping_ids_copy.resize(index+1)
+        init_size = self._count()
+        if init_size <= index:
+            for i in range(init_size, index+1):
+                self._scoping_ids_copy.append(-1)
         self._scoping_ids_copy[index] = scopingid
         self._mapper[scopingid] = index
 
