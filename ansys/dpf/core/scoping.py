@@ -475,7 +475,7 @@ class _LocalScoping(Scoping):
         if np_array:
             return np.ndarray(self._scoping_ids_copy, dtype=np.int32)
         else:
-            return self._scoping_ids_copy.tolist()
+            return self._scoping_ids_copy
 
     def set_id(self, index, scopingid):
         """Set the ID of a scoping's index.
