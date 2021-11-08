@@ -234,4 +234,3 @@ def test_auto_delete_scoping_local():
     del s
     with scop.as_local_scoping() as s:
         assert s[0] == 1
-
