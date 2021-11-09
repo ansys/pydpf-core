@@ -35,7 +35,6 @@ template_workflow.set_input_name("data_sources", mesh.inputs.data_sources)
 template_workflow.set_output_name("out", displacement.outputs.fields_container)
 template_workflow.set_output_name("outmesh", mesh.outputs.mesh)
 
-
 ###############################################################################
 # Configure the servers
 # ~~~~~~~~~~~~~~~~~~~~~~
@@ -47,7 +46,7 @@ template_workflow.set_output_name("outmesh", mesh.outputs.mesh)
 # To make this example easier, we will start local servers here, 
 # but we could get connected to any existing servers on the network.
 
-remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
@@ -59,23 +58,22 @@ print("ports:", ports)
 ###############################################################################
 # Choose the file path
 
-base_path=examples.distributed_msup_folder
-files = [base_path+r'\file0.mode',base_path+r'\file1.mode']
-files_aux = [base_path+r'\file0.rst',base_path+r'\file1.rst']
+base_path = examples.distributed_msup_folder
+files = [base_path + r'\file0.mode', base_path + r'\file1.mode']
+files_aux = [base_path + r'\file0.rst', base_path + r'\file1.rst']
 
 ###############################################################################
 # Send workflows on servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Here we create new instances on the server by copies of the template workflow
 # We also connect the data sources to those workflows 
-remote_workflows =[]
-for i,server in enumerate(remote_servers) :
+remote_workflows = []
+for i, server in enumerate(remote_servers):
     remote_workflows.append(template_workflow.create_on_other_server(server))
     ds = dpf.DataSources(files[i])
     ds.add_file_path(files_aux[i])
     remote_workflows[i].connect("data_sources", ds)
-        
-    
+
 ###############################################################################
 # Create a local workflow for expansion
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,40 +84,40 @@ local_workflow = dpf.Workflow()
 merge = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(base_path+r'\file_load_1.rfrq')
+ds = dpf.DataSources(base_path + r'\file_load_1.rfrq')
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-ds = dpf.DataSources(base_path+r'\file_load_2.rfrq')
+ds = dpf.DataSources(base_path + r'\file_load_2.rfrq')
 response2 = ops.result.displacement(data_sources=ds)
 response2fc = response2.outputs.fields_container()
-response2fc.time_freq_support.time_frequencies.scoping.set_id(0,2)
+response2fc.time_freq_support.time_frequencies.scoping.set_id(0, 2)
 
 merge_use_pass = ops.utility.merge_fields_containers()
-merge_use_pass.inputs.fields_containers(response)
-merge_use_pass.connect(1,response2fc)
+merge_use_pass.inputs.fields_containers1(response)
+merge_use_pass.inputs.fields_containers2(response2fc)
 
-expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis = merge)
-component = ops.logic.component_selector_fc(expansion,1)
+expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis=merge)
+component = ops.logic.component_selector_fc(expansion, 1)
 
-local_workflow.add_operators([merge, merge_use_pass,expansion,merge_mesh,component])
-local_workflow.set_input_name("in0", merge,0)
-local_workflow.set_input_name("in1", merge,1)
-local_workflow.set_input_name("inmesh0", merge_mesh,0)
-local_workflow.set_input_name("inmesh1", merge_mesh,1)
+local_workflow.add_operators([merge, merge_use_pass, expansion, merge_mesh, component])
+local_workflow.set_input_name("in0", merge, 0)
+local_workflow.set_input_name("in1", merge, 1)
+local_workflow.set_input_name("inmesh0", merge_mesh, 0)
+local_workflow.set_input_name("inmesh1", merge_mesh, 1)
 
 local_workflow.set_output_name("expanded", component.outputs.fields_container)
 local_workflow.set_output_name("mesh", merge_mesh.outputs.merges_mesh)
-    
+
 ###############################################################################
 # Connect the workflows together and get the output
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-for i,server in enumerate(remote_servers) :
-    local_workflow.connect_with(remote_workflows[i],{"out":"in"+str(i),"outmesh":"inmesh"+str(i)})
-    
+for i, server in enumerate(remote_servers):
+    local_workflow.connect_with(remote_workflows[i], {"out": "in" + str(i), "outmesh": "inmesh" + str(i)})
+
 fc = local_workflow.get_output("expanded", dpf.types.fields_container)
-merged_mesh = local_workflow.get_output("mesh",dpf.types.meshed_region)
-merged_mesh.plot(fc.get_field_by_time_complex_ids(1,0))
-merged_mesh.plot(fc.get_field_by_time_complex_ids(20,0))
+merged_mesh = local_workflow.get_output("mesh", dpf.types.meshed_region)
+merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
+merged_mesh.plot(fc.get_field_by_time_complex_ids(20, 0))
 print(fc)

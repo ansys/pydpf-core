@@ -37,6 +37,10 @@ class Operator:
     ----------
     name : str
         Name of the operator.  For example 'U'.
+        
+    config : Config, optional
+        The Configuration allows to customize how the operation
+        will be processed by the operator.
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
@@ -256,7 +260,7 @@ class Operator:
         
         Examples
         --------
-        CUse the displacement operator
+        Use the displacement operator
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -273,7 +277,9 @@ class Operator:
     def default_config(name, server=None):
         """Returns the default config for a given operator.
         This config can then be changed to the user needs and be used to
-        instantiate the given operator
+        instantiate the given operator.
+        The Configuration allows to customize how the operation
+        will be processed by the operator.
         
         Parameters
         ----------
@@ -285,24 +291,7 @@ class Operator:
             ``None``, attempts to use the the global server.
         """
         return Config(operator_name = name, server =server)
-    
-    
-    @staticmethod
-    def default_config(name, server=None):
-        """Returns the default config for a given operator.
-        This config can then be changed to the user needs and be used to
-        instantiate the given operator
-        
-        Parameters
-        ----------
-        name : str
-            Name of the operator.  For example 'U'.
-    
-        server : server.DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
-        """
-        return Config(operator_name = name, server =server)
+
         
     def _connect(self):
         """Connect to the grpc service"""

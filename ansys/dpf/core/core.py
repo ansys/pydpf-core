@@ -7,6 +7,7 @@ import logging
 import time
 import weakref
 import pathlib
+import sys
 
 import grpc
 
@@ -448,14 +449,26 @@ class BaseService():
         request = base_pb2.DownloadFileRequest()
         request.server_file_path = server_file_path
         chunks = self._stub.DownloadFile(request)
-        bar =_common_progress_bar("Downloading...", unit="KB")
+        bar = None
+        tot_size = sys.float_info.max
+        for i in range(0, len(chunks.initial_metadata())):
+            if chunks.initial_metadata()[i].key == u"size_tot" :
+                tot_size = int(chunks.initial_metadata()[i].value)*1E-3
+                bar = _common_progress_bar("Downloading...",
+                                           unit="KB",
+                                           tot_size=tot_size)
+        if not bar:
+            bar = _common_progress_bar("Downloading...", unit="KB")
         bar.start()
         i = 0
         with open(to_client_file_path, 'wb') as f:
             for chunk in chunks:
                 f.write(chunk.data.data)
                 i += len(chunk.data.data)*1E-3
-                bar.update(i)
+                try:
+                    bar.update(min(i,tot_size))
+                except :
+                    pass
         bar.finish()
                 
     @protect_grpc
