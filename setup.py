@@ -40,7 +40,8 @@ setup(
     ],
     version=__version__,
     description="DPF Python gRPC client",
-    # long_description=io_open(readme_file, encoding="utf-8").read(),
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
