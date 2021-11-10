@@ -37,6 +37,10 @@ class Operator:
     ----------
     name : str
         Name of the operator.  For example 'U'.
+        
+    config : Config, optional
+        The Configuration allows to customize how the operation
+        will be processed by the operator.
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
@@ -256,7 +260,7 @@ class Operator:
         
         Examples
         --------
-        CUse the displacement operator
+        Use the displacement operator
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -273,7 +277,9 @@ class Operator:
     def default_config(name, server=None):
         """Returns the default config for a given operator.
         This config can then be changed to the user needs and be used to
-        instantiate the given operator
+        instantiate the given operator.
+        The Configuration allows to customize how the operation
+        will be processed by the operator.
         
         Parameters
         ----------
@@ -285,24 +291,7 @@ class Operator:
             ``None``, attempts to use the the global server.
         """
         return Config(operator_name = name, server =server)
-    
-    
-    @staticmethod
-    def default_config(name, server=None):
-        """Returns the default config for a given operator.
-        This config can then be changed to the user needs and be used to
-        instantiate the given operator
-        
-        Parameters
-        ----------
-        name : str
-            Name of the operator.  For example 'U'.
-    
-        server : server.DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
-        """
-        return Config(operator_name = name, server =server)
+
         
     def _connect(self):
         """Connect to the grpc service"""
@@ -445,8 +434,11 @@ class Operator:
     
     def __fill_spec(self):
         """Put the grpc spec message in self._spec"""
-        out = self._stub.List(self._message)
-        self._spec = OperatorSpecification._fill_from_message(self.name, out.spec)    
+        if hasattr(self._message, "spec"):
+            self._spec = OperatorSpecification._fill_from_message(self.name, self._message.spec)  
+        else:
+            out = self._stub.List(self._message)
+            self._spec = OperatorSpecification._fill_from_message(self.name, out.spec)    
     
     @staticmethod
     def operator_specification(op_name, server = None):
@@ -500,7 +492,12 @@ class OperatorSpecification(NamedTuple):
         tmpoutputs={}
         for key,inp in message.map_output_pin_spec.items():
             tmpoutputs[key]=PinSpecification(inp.name, inp.type_names,inp.optional, inp.document, inp.ellipsis)
-        return OperatorSpecification(op_name, message.description, dict(message.properties), tmpinputs, tmpoutputs)
+        
+        if hasattr(message, "properties"):
+            properties = dict(message.properties)
+        else:
+            properties = dict()
+        return OperatorSpecification(op_name, message.description, properties, tmpinputs, tmpoutputs)
      
        
     def __str__(self):
@@ -545,10 +542,10 @@ def _write_output_type_to_proto_style(output_type, request):
         elif output_type== types.meshes_container:
             stype='collection'
             subtype = 'meshed_region'
-        elif output_type == types.vec_int:            
+        elif hasattr(types, "vec_int") and output_type == types.vec_int:
             stype='collection'
             subtype = 'int'
-        elif output_type == types.vec_double:            
+        elif hasattr(types, "vec_double") and output_type == types.vec_double:
             stype='collection'
             subtype = 'double'
         else :

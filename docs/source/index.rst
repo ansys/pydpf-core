@@ -62,5 +62,3 @@ framework.
    operator_reference
    examples/index
    contributing
-   
-   *.ipynb

@@ -7,10 +7,10 @@ from enum import Enum
 import numpy as np
 import re
 
-
 from ansys.grpc.dpf import base_pb2
 from ansys.grpc.dpf import field_definition_pb2
 import progressbar
+
 
 def _camel_to_snake_case(name):
     return re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
@@ -36,29 +36,34 @@ class _smart_dict_unit_system(dict):
     def __missing__(self, key):
         return 'unknown'
 
+
 def __write_enum_doc__(enum, intro=None):
-    str =""
+    str = ""
     if intro:
-        str =intro +" \n\n"
-    str+="    Attributes\n"+"    -----------\n"
+        str = intro + " \n\n"
+    str += "    Attributes\n" + "    -----------\n"
     for e in enum:
-        str+="    "+e.name +" \n\n"
+        str += "    " + e.name + " \n\n"
     return str
+
+
 names = [m.lower() for m in base_pb2.Type.keys()]
 names.append("fields_container")
 names.append("scopings_container")
 names.append("meshes_container")
 types = Enum('types', names)
-types.__doc__ =__write_enum_doc__(types, "The ``'types'`` enum contains the available types passed through Operators and Workflows to DPF.")
+types.__doc__ = __write_enum_doc__(types,
+                                   "The ``'types'`` enum contains the available types passed through Operators and Workflows to DPF.")
 
-names = [(m.lower(), num)  for m, num in base_pb2.Nature.items()]
+names = [(m.lower(), num) for m, num in base_pb2.Nature.items()]
 natures = Enum('natures', names)
-natures.__doc__ =__write_enum_doc__(natures, "The ``'natures'`` enum contains the dimensionnality types.\n It can be used to create a Field of a given dimensionnality.")
+natures.__doc__ = __write_enum_doc__(natures,
+                                     "The ``'natures'`` enum contains the dimensionnality types.\n It can be used to create a Field of a given dimensionnality.")
 
-
-names = [(m.lower(), num-1)  for m, num in field_definition_pb2.ShellLayers.items()]
+names = [(m.lower(), num - 1) for m, num in field_definition_pb2.ShellLayers.items()]
 shell_layers = Enum('shell_layers', names)
-shell_layers.__doc__ =__write_enum_doc__(shell_layers, "The ``'shell_layers'`` enum contains the available order of shell layers (or lack of shell layers) that defines how the field's data is ordered.")
+shell_layers.__doc__ = __write_enum_doc__(shell_layers,
+                                          "The ``'shell_layers'`` enum contains the available order of shell layers (or lack of shell layers) that defines how the field's data is ordered.")
 
 
 class locations:
@@ -100,13 +105,13 @@ class locations:
     # one per time set
     time_freq = "TimeFreq_sets"
 
-    #applies everywhere
+    # applies everywhere
     overall = "overall"
-    
+
     # one per time step
-    time_freq_step = "TimeFreq_steps"    
-    
-    
+    time_freq_step = "TimeFreq_steps"
+
+
 class elemental_properties:
     """Contains strings to define elemental property fields.
     
@@ -133,10 +138,18 @@ class elemental_properties:
     element_shape = "elshape"
     element_type = "eltype"
     connectivity = "connectivity"
-    material = "mat" 
-    element_properties = "elprops" 
+    material = "mat"
+    element_properties = "elprops"
     apdl_element_type = "apdl_element_type"
-    
+
+    _elemental_property_type_dict = {
+        element_type: "ELEMENT_TYPE",
+        element_shape: "ELEMENT_SHAPE",
+        material: "MATERIAL",
+        connectivity: "CONNECTIVITY",
+    }
+
+
 class nodal_properties:
     """Contains strings to define nodal property fields.
     
@@ -151,22 +164,28 @@ class nodal_properties:
     coordinates = "coordinates"
     nodal_connectivity = "reverse_connectivity"
 
-    
+    _nodal_property_type_dict = {
+        coordinates: "COORDINATES",
+        nodal_connectivity: "NODAL_CONNECTIVITY",
+    }
+
+
 class DefinitionLabels:
     """Contains Python definition labels."""
     time = "time"
     complex = "complex"
-    
+
+
 def _common_progress_bar(text, unit, tot_size=None):
-    
     if tot_size:
-        widgets = [progressbar.FormatLabel(f'{text}: %(value)d of %(max_value)d {unit} '),progressbar.Percentage(), progressbar.Bar()]
-        return progressbar.ProgressBar(widgets=widgets,max_value=tot_size )
+        widgets = [progressbar.FormatLabel(f'{text}: %(value)d of %(max_value)d {unit} '), progressbar.Percentage(),
+                   progressbar.Bar()]
+        return progressbar.ProgressBar(widgets=widgets, max_value=tot_size)
     else:
         widgets = [progressbar.FormatLabel(f'{text}: %(value)d {unit}'), progressbar.RotatingMarker()]
-        return progressbar.ProgressBar(widgets=widgets,max_value=progressbar.UnknownLength )
+        return progressbar.ProgressBar(widgets=widgets, max_value=progressbar.UnknownLength)
 
-def _common_percentage_progress_bar(text):    
-    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'),progressbar.Bar()]
-    return progressbar.ProgressBar(widgets=widgets,max_value=100)
-   
+
+def _common_percentage_progress_bar(text):
+    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
+    return progressbar.ProgressBar(widgets=widgets, max_value=100)
