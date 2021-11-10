@@ -59,8 +59,8 @@ print("ports:", ports)
 # Choose the file path
 
 base_path=examples.distributed_msup_folder
-files = [base_path+r'/file0.mode',base_path+r'/file1.mode']
-files_aux = [base_path+r'/file0.rst',base_path+r'/file1.rst']
+files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
+files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
 
 ###############################################################################
 # Send workflows on servers
@@ -85,7 +85,7 @@ local_workflow = dpf.Workflow()
 merge = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(base_path+r'/file_load_1.rfrq')
+ds = dpf.DataSources(base_path + r'/file_load_1.rfrq')
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
