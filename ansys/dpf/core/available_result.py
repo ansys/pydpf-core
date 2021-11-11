@@ -167,3 +167,11 @@ _result_properties = {
     "UTOT": {"location": "Nodal", "scripting_name": "raw_displacement"},
     "RFTOT": {"location": "Nodal", "scripting_name": "raw_reaction_force"},
 }
+
+def available_result_from_name(name) -> AvailableResult:
+     message = available_result_pb2.AvailableResultResponse()
+     message.physicsname = name
+     for key, item in _result_properties.items():
+         if item["scripting_name"] == name:
+             message.name = key
+     return AvailableResult(message)

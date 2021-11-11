@@ -194,7 +194,11 @@ class Result:
         self._time_scoping = None
         self._mesh_scoping = None
         self._location = None
-        self._result_info = result_info
+        if isinstance(result_info, str):
+            from ansys.dpf.core.available_result import available_result_from_name
+            self._result_info = available_result_from_name(result_info)
+        else:
+            self._result_info = result_info
         self._specific_fc_type = None
         from ansys.dpf.core import operators
 
@@ -562,6 +566,11 @@ class CommonResults(Results):
     Used to allow type hints and auto completion for the method:'results'
     of the class:'Results'.
     """
+    def __init__(self, model):
+        self._model = model
+        self._op_map_rev = dict(displacement="displacement", stress="stress", elastic_strain="elastic_strain",
+                                structural_temperature="structural_temperature", temperature="temperature",
+                                electric_potential="electric_potential")
 
     @property
     def displacement(self):
@@ -713,3 +722,4 @@ class CommonResults(Results):
         >>> last_time_disp = electric_potential.eval()
         """
         return super().__result__("electric_potential")
+

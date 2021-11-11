@@ -13,6 +13,7 @@ from ansys.dpf.core import Operator
 from ansys.dpf.core.common import types
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.results import Results, CommonResults
+from ansys.dpf.core import misc
 from grpc._channel import _InactiveRpcError
 
 
@@ -46,11 +47,14 @@ class Model:
 
         self._server = server
         self._metadata = Metadata(data_sources, self._server)
-        try:
-            self._results = Results(self)
-        except Exception as e:
-            self._results = None
-            print(e)
+        if misc.DYNAMIC_RESULTS:
+            try:
+                self._results = Results(self)
+            except Exception as e:
+                self._results = None
+                print(e)
+        else:
+            self._results = CommonResults(self)
 
     @property
     def metadata(self):
@@ -234,15 +238,15 @@ class Metadata:
         self._server = server
         self._set_data_sources(data_sources)
         self._meshed_region = None
-        self.result_info = None
+        self._result_info = None
         self._stream_provider = None
         self._time_freq_support = None
         self._cache_streams_provider()
-        self._cache_result_info()
 
     def _cache_result_info(self):
         """Store result information."""
-        self.result_info = self._load_result_info()
+        if not self._result_info:
+            self._result_info = self._load_result_info()
 
     def _cache_streams_provider(self):
         """Create a stream provider and cache it."""
@@ -415,6 +419,18 @@ class Metadata:
         mesh_provider = Operator("MeshProvider", server=self._server)
         mesh_provider.inputs.connect(self._stream_provider.outputs)
         return mesh_provider
+
+    @property
+    def result_info(self):
+        """Result Info instance.
+
+        Returns
+        -------
+        result_info : :class:`ansys.dpf.core.ResultInfo`
+        """
+        self._cache_result_info()
+
+        return self._result_info
 
     @property
     def available_named_selections(self):

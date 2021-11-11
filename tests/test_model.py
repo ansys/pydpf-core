@@ -194,6 +194,21 @@ def test_result_splitted_subset(allkindofcomplexity):
     assert len(vol.eval()[1].scoping) == 1
 
 
+def test_result_not_dynamic(plate_msup):
+    dpf.core.settings.set_dynamic_available_results_capability(False)
+    model = dpf.core.Model(plate_msup)
+    assert isinstance(model.results, dpf.core.results.CommonResults)
+    stress = model.results.stress
+    fc = stress.on_time_scoping([1, 2, 3, 19]).eval()
+    assert len(fc) == 4
+    fc = stress.on_time_scoping([0.115, 0.125]).eval()
+    assert len(fc) == 2
+    assert np.allclose(
+        fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125])
+    )
+    dis = model.results.displacement().eval()
+    dpf.core.settings.set_dynamic_available_results_capability(True)
+
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):
 #     from pyvista import CameraPosition
