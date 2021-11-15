@@ -24,10 +24,13 @@ jobs:
           git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
       
-      - name: Test plot image
+      - name: Install doc requirements
         run: |
           pip install -r requirements_docs.txt
+
+      - name: Run test
           python .ci\test_plot_image.py
+          ls .ci
 
       - uses: actions/upload-artifact@v2
         with:
