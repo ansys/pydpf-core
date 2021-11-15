@@ -6,6 +6,7 @@ from pkgutil import iter_modules
 
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
+DYNAMIC_RESULTS = True
 
 # ANSYS CPython Workbench environment may not have scooby installed.
 try:

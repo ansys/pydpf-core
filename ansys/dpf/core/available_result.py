@@ -44,12 +44,12 @@ class AvailableResult:
 
     def __str__(self):
         txt = (
-            self.name
-            + "\n"
-            + 'Operator name: "%s"\n' % self.operator_name
-            + "Number of components: %d\n" % self.n_components
-            + "Dimensionality: %s\n" % self.dimensionality
-            + "Homogeneity: %s\n" % self.homogeneity
+                self.name
+                + "\n"
+                + 'Operator name: "%s"\n' % self.operator_name
+                + "Number of components: %d\n" % self.n_components
+                + "Dimensionality: %s\n" % self.dimensionality
+                + "Homogeneity: %s\n" % self.homogeneity
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit
@@ -167,3 +167,12 @@ _result_properties = {
     "UTOT": {"location": "Nodal", "scripting_name": "raw_displacement"},
     "RFTOT": {"location": "Nodal", "scripting_name": "raw_reaction_force"},
 }
+
+
+def available_result_from_name(name) -> AvailableResult:
+    message = available_result_pb2.AvailableResultResponse()
+    message.physicsname = name
+    for key, item in _result_properties.items():
+        if item["scripting_name"] == name:
+            message.name = key
+    return AvailableResult(message)
