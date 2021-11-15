@@ -73,17 +73,21 @@ class ResultInfo:
             self._message = result_info
 
     def __str__(self):
-        txt = (
-            "%s analysis\n" % self.analysis_type.capitalize()
-            + "Unit system: %s\n" % self.unit_system
-            + "Physics Type: %s\n" % self.physics_type.capitalize()
-            + "Available results:\n"
-        )
-        for res in self.available_results:
-            line = ["", "-", res.name]
-            txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
+        try:
+            txt = (
+                "%s analysis\n" % self.analysis_type.capitalize()
+                + "Unit system: %s\n" % self.unit_system
+                + "Physics Type: %s\n" % self.physics_type.capitalize()
+                + "Available results:\n"
+            )
+            for res in self.available_results:
+                line = ["", "-", f'{res.name}: {res.native_location} {res.physical_name}']
+                txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
-        return txt
+            return txt
+        except:
+            from ansys.dpf.core.core import _description
+            return _description(self._message, self._server)
 
     @property
     def _names(self):
@@ -307,17 +311,6 @@ class ResultInfo:
     def _connect(self):
         """Connect to the gRPC service containing the reader."""
         return result_info_pb2_grpc.ResultInfoServiceStub(self._server.channel)
-
-    def __str__(self):
-        """Describe the entity.
-
-        Returns
-        -------
-        description : str
-        """
-        from ansys.dpf.core.core import _description
-
-        return _description(self._message, self._server)
 
     def __del__(self):
         try:

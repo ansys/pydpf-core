@@ -134,6 +134,11 @@ class AvailableResult:
         else:
             return loc
 
+    @property
+    def physical_name(self) -> str:
+        """Name of the result with spaces"""
+        return self._message.physicsname
+
 
 _result_properties = {
     "S": {"location": "ElementalNodal", "scripting_name": "stress"},
