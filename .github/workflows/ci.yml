@@ -31,10 +31,8 @@ jobs:
       - name: Run test
         run: |
           python .ci\test_plot_image.py
-          ls .ci
-          ls
 
       - uses: actions/upload-artifact@v2
         with:
           name: tmp
-          path: .ci\tmp.png
+          path: .tmp.png
