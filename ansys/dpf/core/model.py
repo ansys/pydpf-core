@@ -13,6 +13,7 @@ from ansys.dpf.core import Operator
 from ansys.dpf.core.common import types
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.results import Results, CommonResults
+from ansys.dpf.core.server import LOG
 from ansys.dpf.core import misc
 from grpc._channel import _InactiveRpcError
 
@@ -51,8 +52,8 @@ class Model:
             try:
                 self._results = Results(self)
             except Exception as e:
-                self._results = None
-                print(e)
+                self._results = CommonResults(self)
+                LOG.debug(str(e))
         else:
             self._results = CommonResults(self)
 
