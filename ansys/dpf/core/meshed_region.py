@@ -9,9 +9,10 @@ from ansys.dpf.core.common import locations, types
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.cache import class_handling_cache
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 
-
+@class_handling_cache
 class MeshedRegion:
     """Represents a mesh from DPF.
 
@@ -76,7 +77,7 @@ class MeshedRegion:
             self._message = mesh._mesh
         elif isinstance(mesh, meshed_region_pb2.MeshedRegion):
             self._message = mesh
-        elif mesh == None:
+        elif mesh is None:
             self.__send_init_request(num_nodes, num_elements)
         else:  # support_pb2.Support
             self._message = meshed_region_pb2.MeshedRegion()
@@ -217,6 +218,15 @@ class MeshedRegion:
         -------
         named_selections : list str
         """
+        return self._get_available_named_selections()
+
+    def _get_available_named_selections(self):
+        """List of available named selections.
+
+        Returns
+        -------
+        named_selections : list str
+        """
         return self._stub.List(self._message).named_selections
 
     def named_selection(self, named_selection):
@@ -348,13 +358,13 @@ class MeshedRegion:
         return self._full_grid
 
     def plot(
-        self,
-        field_or_fields_container=None,
-        notebook=None,
-        shell_layers=None,
-        off_screen=None,
-        show_axes=True,
-        **kwargs
+            self,
+            field_or_fields_container=None,
+            notebook=None,
+            shell_layers=None,
+            off_screen=None,
+            show_axes=True,
+            **kwargs
     ):
         """Plot the field or fields container on the mesh.
 
@@ -459,3 +469,9 @@ class MeshedRegion:
         if num_elements:
             request.num_elements_reserved = num_elements
         self._message = self._stub.Create(request)
+
+    _to_cache = {
+        _get_unit: [_set_unit],
+        _get_available_named_selections: None,
+        named_selection: None
+    }

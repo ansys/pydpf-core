@@ -66,6 +66,7 @@ def test_delete_resultinfo(velocity_acceleration):
     new_model = dpf.core.Model(velocity_acceleration)
     res = new_model.metadata.result_info
     res.__del__()
+    res._cache.clear()
     with pytest.raises(Exception):
         res.n_results
 
