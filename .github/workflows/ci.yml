@@ -29,6 +29,7 @@ jobs:
           pip install -r requirements_docs.txt
 
       - name: Run test
+        run: |
           python .ci\test_plot_image.py
           ls .ci
 
