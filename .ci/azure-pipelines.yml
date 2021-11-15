@@ -36,7 +36,7 @@ jobs:
     - template: templates\prepare-environment-windows.yml    
    
     - script: |
-        python test_plot_image.py
+        python .ci\test_plot_image.py
       displayName: PyVista Plot
     
     - task: PublishBuildArtifacts@1
