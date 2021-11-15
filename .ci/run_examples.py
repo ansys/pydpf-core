@@ -3,7 +3,7 @@ import glob
 import pathlib
 from ansys.dpf import core
 
-core.disable_off_screen_rendering()
+core.settings.disable_off_screen_rendering()
 
 actual_path = pathlib.Path(__file__).parent.absolute()
 print(os.path.join(actual_path, os.path.pardir, "examples"))

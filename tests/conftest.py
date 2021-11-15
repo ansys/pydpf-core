@@ -9,7 +9,7 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples
 
-core.disable_off_screen_rendering()
+core.settings.disable_off_screen_rendering()
 
 # currently running dpf on docker.  Used for testing on CI
 running_docker = os.environ.get("DPF_DOCKER", False)

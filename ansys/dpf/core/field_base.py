@@ -532,9 +532,12 @@ class _LocalFieldBase(_FieldBase):
         self._data_copy = super().data_as_list
         self._num_entities_reserved = len(self._data_copy)
         self._data_pointer_copy = super()._data_pointer_as_list
-        self._scoping_ids_copy = super().scoping.ids
-        self._num_entities = len(self._scoping_ids_copy)
+        self._scoping_copy = super().scoping.as_local_scoping()
         self._has_data_pointer = len(self._data_pointer_copy) > 0
+
+    @property
+    def _num_entities(self):
+        return len(self._scoping_copy)
 
     @property
     def size(self):
@@ -589,7 +592,7 @@ class _LocalFieldBase(_FieldBase):
         if index > self._num_entities:
             raise ValueError(
                 f"Requested scoping {index} is greater than the number of "
-                f"available indices {len(self._scoping_ids_copy)}"
+                f"available indices {len(self._scoping_copy)}"
             )
         if self._has_data_pointer:
             first_index = self._data_pointer_copy[index]
@@ -649,7 +652,7 @@ class _LocalFieldBase(_FieldBase):
            7.69014221e+02  4.90502930e+02]]
 
         """
-        index = self._scoping_ids_copy.index(id)
+        index = self._scoping_copy.index(id)
         if index < 0:
             raise ValueError(f"The id {id} doesn't exist in the scoping")
         return self.get_entity_data(index)
@@ -687,12 +690,11 @@ class _LocalFieldBase(_FieldBase):
             data = np.array(data).flatten().tolist()
 
         data_size = len(self._data_copy)
-        self._scoping_ids_copy.append(scopingid)
+        self._scoping_copy.append(scopingid)
         if len(self._data_pointer_copy) > 0:
             self._data_pointer_copy.append(data_size)
 
         self._data_copy.extend(data)
-        self._num_entities += 1
         if self._has_data_pointer == False:
             if isinstance(data, (np.ndarray, np.generic)):
                 data_size = data.size
@@ -849,27 +851,46 @@ class _LocalFieldBase(_FieldBase):
         list
             List of integers representing the scoping IDs of the field.
         """
-        return self._scoping_ids_copy
+        return self._scoping_copy.ids
 
     @scoping_ids.setter
     def scoping_ids(self, data):
-        self._scoping_ids_copy = data
-        self._num_entities = len(data)
+        self._scoping_copy.ids = data
+
+    @property
+    def scoping(self):
+        """Scoping specifying where the data is.
+
+        Each entity data is on a given scoping ID.
+
+        Returns
+        -------
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+        """
+        return self._scoping_copy
+
+    @scoping.setter
+    def scoping(self, data):
+        self._scoping_copy = data
 
     def release_data(self):
         """Release the data."""
         super()._set_data(self._data_copy)
         super()._set_data_pointer(self._data_pointer_copy)
-        super().scoping.ids = self._scoping_ids_copy
+        self._scoping_copy.release_data()
 
     def __enter__(self):
         return self
 
     def __exit__(self, type, value, tb):
         if tb is None:
+            self._is_exited = True
             self.release_data()
         else:
             print(tb)
 
     def __del__(self):
+        if not hasattr(self, "_is_exited") or not self._is_exited:
+            self._is_exited = True
+            self.release_data()
         pass

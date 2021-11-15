@@ -642,6 +642,18 @@ def test_auto_delete_field_local():
         assert np.allclose(f.get_entity_data(0), [3.0, 4.0, 5.0])
 
 
+def test_auto_delete_field_local2():
+    num_entities = 1
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, location=dpf.core.locations.elemental_nodal
+    )
+    f = field_to_local.as_local_field()
+    f.append([3.0, 4.0, 5.0], 1)
+    del f
+    with field_to_local.as_local_field() as f:
+        assert np.allclose(f.get_entity_data(0), [3.0, 4.0, 5.0])
+
+
 def test_get_set_data_local_field():
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
         2, location=dpf.core.locations.elemental_nodal

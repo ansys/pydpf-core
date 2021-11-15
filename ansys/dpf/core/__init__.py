@@ -14,7 +14,7 @@ if "jupyter" in socket.gethostname():
     if "AWP_UNIT_TEST_FILES" not in os.environ:
         os.environ["AWP_UNIT_TEST_FILES"] = "/mnt/ansys_inc/dpf/test_files/"
 
-from ansys.dpf.core.misc import module_exists, Report
+from ansys.dpf.core.misc import Report
 from ansys.dpf.core.dpf_operator import Operator, Config
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field, FieldDefinition
@@ -61,6 +61,7 @@ from ansys.dpf.core import (
 )
 from ansys.dpf.core import server
 from ansys.dpf.core import check_version
+from ansys.dpf.core import settings
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
@@ -91,29 +92,8 @@ else:
         pass
 
 
-# Configure PyVista's ``rcParams`` for dpf
-if module_exists("pyvista"):
-    import pyvista as pv
-
-    pv.rcParams["interactive"] = True
-    pv.rcParams["cmap"] = "jet"
-    pv.rcParams["font"]["family"] = "courier"
-    pv.rcParams["title"] = "DPF"
-
-
 SERVER = None
 
 _server_instances = []
 
-def disable_off_screen_rendering() -> None:
-    # enable matplotlib off_screen plotting to avoid test interruption
-    if module_exists("matplotlib"):
-        import matplotlib as mpl
-
-        mpl.use("Agg")
-
-    # enable off_screen plotting to avoid test interruption
-    if module_exists("pyvista"):
-        import pyvista as pv
-
-        pv.OFF_SCREEN = True
+settings.set_default_pyvista_config()
