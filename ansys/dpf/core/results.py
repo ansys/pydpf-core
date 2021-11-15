@@ -574,6 +574,7 @@ class CommonResults(Results):
                                 structural_temperature="structural_temperature",
                                 temperature="temperature",
                                 electric_potential="electric_potential")
+        self._result_info = model.metadata.result_info
 
     @property
     def displacement(self):
