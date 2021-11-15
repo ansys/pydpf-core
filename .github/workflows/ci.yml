@@ -13,7 +13,16 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2.1.4
         with:
-          python-version: 3.8   
+          python-version: 3.8
+
+      - name: Install OpenGL
+        shell: pwsh
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
       
       - name: Test plot image
         run: |
