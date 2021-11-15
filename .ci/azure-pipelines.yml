@@ -36,8 +36,7 @@ jobs:
     - template: templates\prepare-environment-windows.yml    
    
     - script: |
-          import pyvista
-          pyvista.Sphere().plot(screenshot="tmp.png", off_screen=True)
+        python test_plot_image.py
       displayName: PyVista Plot
     
     - task: PublishBuildArtifacts@1
