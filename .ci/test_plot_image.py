@@ -1,2 +1,3 @@
 import pyvista
-pyvista.Sphere().plot(screenshot="tmp.png", off_screen=True)
+mesh = pyvista.Sphere()
+mesh.plot(screenshot="tmp.png", scalars=range(mesh.n_points), off_screen=True)
