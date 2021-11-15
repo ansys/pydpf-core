@@ -7,11 +7,11 @@ steps:
         powershell gl-ci-helpers/appveyor/install_opengl.ps1
       displayName: 'Install OpenGL'
 
-    - powershell: |
-        .ci/setup_headless_display.sh
-        pip install -r .ci/requirements_test_xvfb.txt
-        python .ci/display_test.py
-      displayName: Install test offscreen rendering
+    # - powershell: |
+    #     .ci/setup_headless_display.sh
+    #     pip install -r .ci/requirements_test_xvfb.txt
+    #     python .ci/display_test.py
+    #   displayName: Install test offscreen rendering
       
     - task: UsePythonVersion@0
       inputs:

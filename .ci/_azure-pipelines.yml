@@ -1,0 +1,275 @@
+# azure pipelines build and test pymapdl
+
+variables:
+  ALLOW_PLOTTING: true
+  package_name: ansys-dpf-core
+  SHELLOPTS: 'errexit:pipefail'
+
+trigger:
+  branches:
+    include:
+    - '*'
+    exclude:
+    - gh-pages
+  tags:
+    include:
+    - '*'
+
+pr:
+  branches:
+    include:
+    - '*'
+    exclude:
+    - '*no-ci*'
+
+jobs:
+- job: Windows
+  variables:
+    python.version: '3.8'
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:  
+    - template: templates\prepare-environment-windows.yml   
+        
+    - task: PublishBuildArtifacts@1
+      displayName: 'WHEEL: publish artifacts'
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\dist'
+        ArtifactName: 'ansys_dpf_core_wheel'
+      enabled: true
+
+    - script: |
+        pip install -r requirements_test.txt
+      displayName: Install Test Environment
+
+    - script: |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        cd tests
+        set AWP_ROOT212=%THISDIR%\server\v212
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
+        
+      displayName: Test Core API
+      timeoutInMinutes: 10
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'tests/junit/test-results.xml'
+        testRunTitle: 'windowsTests'
+        publishRunAttachments: true
+      condition: always()
+
+    - script: |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        cd $(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
+      condition: always()
+      displayName: Test API Docstrings
+      timeoutInMinutes: 5
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-doctests-results.xml'
+        testRunTitle: 'docTestsTests'
+        publishRunAttachments: true
+      condition: always()
+
+    - script:  |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        python .ci/run_examples.py
+      displayName: 'Run example scripts'
+      timeoutInMinutes: 5
+
+    - script: |
+        pip install twine
+        python setup.py sdist
+        twine upload --skip-existing dist/*
+      displayName: 'Upload to PyPi'
+      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: $(PYPI_TOKEN)
+        TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"      
+     
+
+    - script: |
+        type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
+      displayName:  'Show DPF Server Logs'
+      condition: always() 
+    
+    - template: templates\kill-servers-windows.yml   
+      
+
+- job: Linux
+  variables:
+    python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 50055
+    TEMP: $(System.DefaultWorkingDirectory)/temp
+    
+  pool:
+    vmImage: 'ubuntu-20.04'
+  steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: 'Use Python $(python.version)'
+
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'pyansys'
+        onlyAddExtraIndex: true
+
+    - script: |
+        .ci/setup_headless_display.sh
+        pip install -r .ci/requirements_test_xvfb.txt
+        python .ci/display_test.py
+      displayName: Install and start a virtual framebuffer
+
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        export WHEELNAME=`ls dist/*.whl`
+        echo ${WHEELNAME}
+        pip install ${WHEELNAME}
+        cd tests
+        python -c "from ansys.dpf import core; print(core.Report())"
+      displayName: Install ansys-dpf-core
+
+    - task: UniversalPackages@0
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(System.DefaultWorkingDirectory)'
+        feedsToUse: 'internal'
+        vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
+        vstsFeedPackage: 'dpf-linux' #TODO: update hash of packages
+        vstsPackageVersion: '21.2.5'
+        
+    - script : |
+        echo $0
+        if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+        then
+            pkill -f Ans.Dpf.Grpc.exe
+        fi
+      displayName: 'Kill all servers'
+      condition: always()
+      continueOnError: true
+      
+    - script: |
+        env
+      displayName: Display env
+      
+    - script: |
+        echo $0
+        export THISDIR=${SYSTEM_DEFAULTWORKINGDIRECTORY}
+        echo ${THISDIR}
+        export AWP_ROOT212=${THISDIR}/server/v212
+        cd ${THISDIR}/server/v212/aisol/bin/linx64
+        pwd
+        chmod 755 Ans.Dpf.Grpc.sh
+        chmod 755 Ans.Dpf.Grpc.exe        
+        ./Ans.Dpf.Grpc.sh --port 50054 & > log.txt
+        export DPF_IP=$(hostname -i)
+        python -c "from ansys.dpf import core; core.connect_to_server(ip= '${DPF_IP}', port=50054); print('Python Connected')"
+      displayName: Start DPF Server
+      
+    - script: |
+        pip install -r requirements_test.txt
+        pip install pytest-azurepipelines        
+        export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
+        cd tests
+        export DPF_IP=$(hostname -i)
+        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
+        export PATH=`pwd`
+        echo ${PATH} 
+      displayName: Test Core API
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-results.xml' 
+        testRunTitle: 'linuxTests'
+        publishRunAttachments: true
+        searchFolder: 'tests/'
+      condition: always()
+      
+      
+    - script : |
+        echo $0
+        if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+        then
+            pkill -f Ans.Dpf.Grpc.exe
+        fi
+      displayName: 'Kill all servers'
+      condition: always()
+      continueOnError: true
+
+
+- job: DocumentationWindows
+  variables:
+    python.version: '3.8'
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+    GH_DOC_BRANCH: 'gh-pages'
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:  
+    - template: templates\prepare-environment-windows.yml    
+   
+    - script: |
+          pip install -r requirements_docs.txt
+          cd .ci
+          dir 
+          set THISDIR=$(System.DefaultWorkingDirectory)
+          set AWP_ROOT212=%THISDIR%\server\v212
+          ECHO %AWP_ROOT212%
+          build_doc.bat
+      displayName: Build Documentation
+        
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)\docs\build' 
+        includeRootFolder: false 
+        archiveType: 'zip'
+        archiveFile: '$(System.DefaultWorkingDirectory)\docs\archive\doc-ansys-dpf-core.zip'
+        replaceExistingArchive: true 
+      displayName: 'DOCUMENTATION: zip artifacts'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'DOCUMENTATION: publish artifacts'
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)\docs\archive'
+        ArtifactName: doc-ansys-dpf-core
+      enabled: true      
+        
+    - powershell: |
+        git init
+        git checkout -b $(GH_DOC_BRANCH)
+        git config --global user.name "pyansys-ci-bot"
+        git config --global user.email "$(GH_EMAIL)"
+        New-Item -ItemType file .nojekyll
+        git add .
+        git commit -m "Documentation generated by $(Build.DefinitionName)"
+      displayName: "Init git and add docs"
+      workingDirectory: docs\build\html
+
+    - script: |
+        git remote add origin https://$(GH_PAT)@github.com/pyansys/DPF-Core-docs
+        git push -u origin $(GH_DOC_BRANCH) --force
+      displayName: "Publish GitHub Pages merge commit"
+      workingDirectory: docs\build\html
+      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+          
+    - template: templates\kill-servers-windows.yml    
+    
+      
