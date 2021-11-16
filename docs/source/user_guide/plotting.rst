@@ -54,15 +54,15 @@ using these values. This example extracts the nodal strain in the X direction:
 
     First, extract the X component strain
 
-    >>> strain = model.results.strain()
+    >>> strain = model.results.elastic_strain()
     >>> fields = strain.outputs.fields_container()
     >>> field = fields.select_component(0)[0]
     >>> print(field)
-    DPF elastic_strain_1.s Field
-        Location:   ElementalNodal
-        Unit:       
-        Num. id(s): 8640
-        Shape:      69120
+    DPF elastic_strain_1.s0 Field
+      Location: ElementalNodal
+      Unit:
+      8640 entities
+      Data:1 components and 69120 elementary data
 
     This ElementalNodal strain must be converted to nodal strain for
     it to be plotted.
