@@ -284,8 +284,8 @@ class Plotter:
 
         val_field = mesh_to_compute["result"][val_mask]
 
-        plotter.add_mesh(nan_grid, scalars = nan_field, 
-                         opacity = 0.3, nan_color = "w", 
+        plotter.add_mesh(nan_grid, scalars = nan_field,
+                         opacity = 0.3, nan_color = "w",
                          show_edges = False)
         plotter.add_mesh(val_grid, scalars = val_field, **kwargs)
 
