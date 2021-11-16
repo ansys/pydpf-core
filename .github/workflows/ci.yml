@@ -34,5 +34,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: tmp
-          path: tmp.png
+          name: windows_latest
+          path: windows_latest.png
