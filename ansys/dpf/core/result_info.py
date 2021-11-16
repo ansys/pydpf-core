@@ -283,7 +283,10 @@ class ResultInfo:
         return available_result.AvailableResult(res)
 
     def __len__(self):
-        return self._get_list().nresult
+        try:
+            return self._get_list().nresult
+        except:
+            return 0
 
     def __iter__(self):
         for i in range(len(self)):

@@ -1,5 +1,6 @@
 pypandoc>=1.5.0
 matplotlib
+vtk<9.1.0
 pyvista
 imageio>=2.5.0
 imageio-ffmpeg

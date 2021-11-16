@@ -404,13 +404,12 @@ class _LocalScoping(Scoping):
         self.__cache_data__()
 
     def __cache_data__(self):
-        self._scoping_ids_copy = self._owner_scoping._get_ids(True)
-        self._num_entities = len(self._scoping_ids_copy)
+        self._scoping_ids_copy = self._owner_scoping._get_ids(False)
         self._location = self._owner_scoping.location
         self.__init_map__()
 
     def __init_map__(self):
-        self._mapper = dict(zip(self._scoping_ids_copy, np.arange(self._num_entities)))
+        self._mapper = dict(zip(self._scoping_ids_copy, np.arange(self._count())))
 
     def _count(self):
         """
@@ -419,7 +418,7 @@ class _LocalScoping(Scoping):
         count : int
             Number of scoping IDs.
         """
-        return self._num_entities
+        return len(self._scoping_ids_copy)
 
     def _get_location(self):
         """Retrieve the location of the IDs.
@@ -455,11 +454,9 @@ class _LocalScoping(Scoping):
         """
         # must convert to a list for gRPC
         if isinstance(ids, range):
-            ids = np.array(list(ids), dtype=np.int32)
-        elif not isinstance(ids, (np.ndarray, np.generic)):
-            ids = np.array(ids, dtype=np.int32)
-        else:
-            ids = np.array(list(ids), dtype=np.int32)
+            ids = list(ids)
+        elif isinstance(ids, (np.ndarray, np.generic)):
+            ids = ids.tolist()
 
         self._scoping_ids_copy = ids
         self.__init_map__()
@@ -476,9 +473,9 @@ class _LocalScoping(Scoping):
         Print a progress bar.
         """
         if np_array:
-            return self._scoping_ids_copy
+            return np.ndarray(self._scoping_ids_copy, dtype=np.int32)
         else:
-            return self._scoping_ids_copy.tolist()
+            return self._scoping_ids_copy
 
     def set_id(self, index, scopingid):
         """Set the ID of a scoping's index.
@@ -490,8 +487,10 @@ class _LocalScoping(Scoping):
         scopingid : int
             ID of the scoping.
         """
-        if self._count() <= index:
-            self._scoping_ids_copy.resize(index+1)
+        init_size = self._count()
+        if init_size <= index:
+            for i in range(init_size, index+1):
+                self._scoping_ids_copy.append(-1)
         self._scoping_ids_copy[index] = scopingid
         self._mapper[scopingid] = index
 
@@ -531,7 +530,7 @@ class _LocalScoping(Scoping):
 
     def release_data(self):
         """Release the data."""
-        self.ids = self._scoping_ids_copy
+        super()._set_ids(self._scoping_ids_copy)
         super()._set_location(self._location)
 
     def __enter__(self):
@@ -539,11 +538,15 @@ class _LocalScoping(Scoping):
 
     def __exit__(self, type, value, tb):
         if tb is None:
+            self._is_exited = True
             self.release_data()
         else:
             print(tb)
 
     def __del__(self):
+        if not hasattr(self, "_is_exited") or not self._is_exited:
+            self._is_exited = True
+            self.release_data()
         pass
 
 

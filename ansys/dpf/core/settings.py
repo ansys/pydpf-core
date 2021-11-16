@@ -33,3 +33,22 @@ def disable_interpreter_properties_evaluation() -> bool:
 
 def set_upload_chunk_size(num_bytes = misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
     misc.DEFAULT_FILE_CHUNK_SIZE = num_bytes
+
+def set_dynamic_available_results_capability(value) -> None:
+    """Disables the evaluation of the available results and
+    the dynamic creation of the results properties when a ''Model'' is created.
+
+    Parameters
+    ----------
+    value :  bool
+        With ''True'', models will dynamically generate results properties
+
+    Examples
+    --------
+
+    >>> from ansys.dpf import core as dpf
+    >>> dpf.settings.set_dynamic_available_results_capability(False)
+    >>> dpf.settings.set_dynamic_available_results_capability(True)
+
+    """
+    misc.DYNAMIC_RESULTS = value
