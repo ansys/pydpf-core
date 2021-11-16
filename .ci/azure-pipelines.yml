@@ -25,7 +25,7 @@ pr:
 jobs:
 - job: TestPlotImage
   variables:
-    python.version: '3.8'
+    python.version: '3.7'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
     GH_DOC_BRANCH: 'gh-pages'
