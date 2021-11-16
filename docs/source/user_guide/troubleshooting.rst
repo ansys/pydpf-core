@@ -32,7 +32,7 @@ If while doing:
     from ansys.dpf import core as dpf
 
 missing modules are listed as an error, please refer to the compatibility paragraph of :ref:`_ref_getting_started`.
-The module `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>` should always be synchronized with its server
+The module `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ should always be synchronized with its server
 version.
 
 
@@ -49,7 +49,8 @@ An example of usage can be found in :ref:`_ref_use_local_data_example`.
 Slow autocompletion on notebooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Autocompletion in Jupyter notebook can sometimes be slow for large models. The interpreter might
-evaluate some properties getters when the tab key is pressed. To unable this capability please use:
+evaluate some properties getters when the tab key is pressed. To unable this capability please use
+:py:meth:`disable_interpreter_properties_evaluation()<ansys.dpf.core.settings.disable_interpreter_properties_evaluation>`:
 
 .. code-block:: default
 
