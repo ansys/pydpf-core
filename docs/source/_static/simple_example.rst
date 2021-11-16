@@ -18,32 +18,31 @@ extracting results from it is easy:
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        ENF Element nodal Forces :element nodal forces 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: Metric (m, kg, N, s, V, A)
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
-    DPF  Meshed Region: 
-      3751 nodes 
-      3000 elements 
-      Unit: m 
+    DPF  Meshed Region:
+      3751 nodes
+      3000 elements
+      Unit: m
       With solid (3D) elements
     ------------------------------
-    DPF  Time/Freq Support: 
-      Number of sets: 1 
-    Cumulative     Time (s)       LoadStep       Substep         
-    1              1.000000       1              1               
+    DPF  Time/Freq Support:
+      Number of sets: 1
+    Cumulative     Time (s)       LoadStep       Substep
+    1              1.000000       1              1
     
 
 .. code-block:: default

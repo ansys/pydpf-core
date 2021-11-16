@@ -22,7 +22,7 @@ def test_get_resultinfo_no_model(velocity_acceleration):
 
 def test_get_resultinfo(model):
     res = model.metadata.result_info
-    assert "Analysis: static" in str(res)
+    assert "Static analysis" in str(res)
     assert res.analysis_type == "static"
     assert res.n_results == 14
     assert res.unit_system == "Metric (m, kg, N, s, V, A)"
