@@ -57,7 +57,7 @@ def test_kinetic(static_model):
 
 
 def test_str_model(static_model):
-    assert "Physics Type: mecanic" in str(static_model)
+    assert "Static" in str(static_model)
     assert "81" in str(static_model)
     assert "Unit: m" in str(static_model)
 
