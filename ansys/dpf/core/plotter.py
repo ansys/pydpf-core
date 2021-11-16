@@ -271,9 +271,9 @@ class Plotter:
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
-        
+
         # plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
-        
+
         mesh.grid["result"] = overall_data
         mesh_to_compute = mesh.grid.extract_surface()
         nan_mask = np.isnan(mesh_to_compute["result"])
@@ -284,7 +284,9 @@ class Plotter:
 
         val_field = mesh_to_compute["result"][val_mask]
 
-        plotter.add_mesh(nan_grid, scalars = nan_field, opacity = 0.3, nan_color = "w", show_edges = False)
+        plotter.add_mesh(nan_grid, scalars = nan_field, 
+                         opacity = 0.3, nan_color = "w", 
+                         show_edges = False)
         plotter.add_mesh(val_grid, scalars = val_field, **kwargs)
 
         if background is not None:
