@@ -3,9 +3,8 @@
 ===============
 Troubleshooting
 ===============
-In this page, users can find ideas to resolve the most common issues encountered with pydpf-core.
-Ways to improve users codes will also be exposed.
-
+In this page, users can find ideas to resolve the most common issues encountered with ``pydpf-core``.
+This section also includes suggestions for how to improve your scripts.
 
 Using the Server
 ----------------
@@ -13,16 +12,16 @@ Using the Server
 Starting DPF Server
 ~~~~~~~~~~~~~~~~~~~
 While using the dpf python API to start the server with :py:meth:`start_local_server()
-<ansys.dpf.core.server.start_local_server>` or while starting the server manually (with ''Ans.Dpf.Grpc.sh''
-or ''Ans.Dpf.Grpc.bat'') an error (in python: "TimeoutError: Server did not start in 10 seconds") might occur.
+<ansys.dpf.core.server.start_local_server>` or while starting the server manually (with ``Ans.Dpf.Grpc.sh``
+or ``Ans.Dpf.Grpc.bat``) an error (in python: "TimeoutError: Server did not start in 10 seconds") might occur.
 This kind of error might mean that the server or its dependencies were not found. In that case, making sure that
-the environment variables `AWP_ROOT{VER}` with (VER=212, 221, ...) is set might help.
+the environment variables ``AWP_ROOT{VER}`` with (VER=212, 221, ...) is set might help.
 
 Connecting to DPF Server
 ~~~~~~~~~~~~~~~~~~~~~~~~
-If an issue appread while using the dpf python API to connect to a started server with :py:meth:`connect_to_server()
+If an issue appeared while using the dpf python API to connect to an initialized server with :py:meth:`connect_to_server()
 <ansys.dpf.core.server.connect_to_server>`, please make sure that the IP address and port number set as parameters
-belong to a DPF server started on the network.
+are applicable for a DPF server started on the network.
 
 Importing DPF python module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
