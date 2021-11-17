@@ -20,7 +20,7 @@ the environment variable ``AWP_ROOT{VER}`` is set, where VER=212, 221, ....
 Connecting to DPF Server
 ~~~~~~~~~~~~~~~~~~~~~~~~
 If an issue appeared while using the dpf python API to connect to an initialized server with :py:meth:`connect_to_server()
-<ansys.dpf.core.server.connect_to_server>`, please make sure that the IP address and port number set as parameters
+<ansys.dpf.core.server.connect_to_server>`, ensure that the IP address and port number that are set as parameters
 are applicable for a DPF server started on the network.
 
 Importing DPF python module
