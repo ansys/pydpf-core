@@ -11,7 +11,7 @@ Using the Server
 
 Starting DPF Server
 ~~~~~~~~~~~~~~~~~~~
-While using the dpf python API to start the server with :py:meth:`start_local_server()
+While using the DPF-Python API to start the server with :py:meth:`start_local_server()
 <ansys.dpf.core.server.start_local_server>` or while starting the server manually (with ``Ans.Dpf.Grpc.sh``
 or ``Ans.Dpf.Grpc.bat``) an error (in python: "TimeoutError: Server did not start in 10 seconds") might occur.
 This kind of error might mean that the server or its dependencies were not found. In that case, making sure that
