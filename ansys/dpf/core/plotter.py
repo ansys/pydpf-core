@@ -279,11 +279,11 @@ class Plotter:
         nan_mask = np.isnan(mesh_to_compute["result"])
         if len(nan_mask.shape) > 1:
             if (nan_mask.shape[1] > 1):
-                nan_mask = nan_mask[:,1]
+                nan_mask = nan_mask[:, 1]
         val_mask = ~np.isnan(mesh_to_compute["result"])
         if len(val_mask.shape) > 1:
             if (val_mask.shape[1] > 1):
-                val_mask = val_mask[:,1]
+                val_mask = val_mask[:, 1]
         nan_grid = mesh_to_compute.extract_points(nan_mask, adjacent_cells=False)
         val_grid = mesh_to_compute.extract_points(val_mask, adjacent_cells=False)
         nan_field = mesh_to_compute["result"][nan_mask]
