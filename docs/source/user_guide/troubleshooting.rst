@@ -39,7 +39,7 @@ version.
 Performance issues
 ------------------
 
-Getting and Setting Field's data
+Getting and Setting a Field's Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Accessing or modifying field data :py:class:`Field<ansys.dpf.core.field.Field>` entity by entity can
 be slow if the field's size is large or if the server is far from the Python client. To improve performance,
