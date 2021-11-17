@@ -183,7 +183,7 @@ def start_local_server(
             import warnings
             from ansys.dpf.core._version import __ansys_consumer_version__
             warnings.warn(f"The Ansys version at {ansys_path}"
-                          "is higher than {__ansys_consumer_version__}."
+                          f"is higher than {__ansys_consumer_version__}."
                           "There can be some incompatibility. In a such case, please "
                           "install a lower version of ansys-dpf-core module.")
     except ValueError:
