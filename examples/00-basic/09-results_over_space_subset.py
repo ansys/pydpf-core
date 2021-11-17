@@ -29,9 +29,12 @@ print(model)
 nodes_scoping = dpf.mesh_scoping_factory.nodal_scoping(range(400, 500))
 print(nodes_scoping)
 
+###############################################################################
 # or
 nodes_scoping = dpf.Scoping(ids=range(400, 500), location=dpf.locations.nodal)
 print(nodes_scoping)
+
+###############################################################################
 
 disp = model.results.displacement.on_mesh_scoping(nodes_scoping).eval()
 
@@ -53,11 +56,11 @@ disp = model.results.displacement(mesh_scoping=nodes_scoping).eval()
 # If some elements are specifically of interest, an elemental ``mesh_scoping``
 # can be connected.
 
-elements_scoping = dpf.mesh_scoping_factory.elemental_scoping(range(100, 500))
+elements_scoping = dpf.mesh_scoping_factory.elemental_scoping(range(500, 5000))
 print(elements_scoping)
 
 # or
-elements_scoping = dpf.Scoping(ids=range(100, 500), location=dpf.locations.elemental)
+elements_scoping = dpf.Scoping(ids=range(500, 5000), location=dpf.locations.elemental)
 print(elements_scoping)
 
 volume = model.results.elemental_volume.on_mesh_scoping(elements_scoping).eval()
@@ -78,7 +81,7 @@ volume = model.results.elemental_volume(mesh_scoping=elements_scoping).eval()
 # Choose specific named selections
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Named selections (also known as components) can be selected to create
-# a spatial domain for a result. A `mesh_scoping' can be created with a
+# a spatial domain for a result. A ``mesh_scoping`` can be created with a
 # named selection.
 # To know the available named selections in the result file, use:
 
@@ -118,7 +121,7 @@ volume = model.results.elemental_volume(mesh_scoping=ns_provider).eval()
 # For example, some application require to get results split by body, by material,
 # by element types. It might also be necessary to get results by element shape types
 # (shell, solid, beam) to average data properly...
-# Customer might also require split by entirely custom spatial domains.
+# Customers might also require split by entirely custom spatial domains.
 
 
 ###############################################################################
@@ -155,6 +158,7 @@ scopings_container.add_scoping(
     dpf.Scoping(ids=range(500, 5000), location=dpf.locations.elemental),
 )
 
+###############################################################################
 elemental_stress = model.results.stress.on_location(dpf.locations.elemental)(
     mesh_scoping=scopings_container)\
     .eval()
