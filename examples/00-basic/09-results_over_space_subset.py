@@ -155,7 +155,9 @@ scopings_container.add_scoping(
     dpf.Scoping(ids=range(500, 5000), location=dpf.locations.elemental),
 )
 
-elemental_stress = model.results.stress.on_location(dpf.locations.elemental)(mesh_scoping=scopings_container).eval()
+elemental_stress = model.results.stress.on_location(dpf.locations.elemental)(
+    mesh_scoping=scopings_container)\
+    .eval()
 print(elemental_stress)
 
 for field in elemental_stress:

@@ -6,7 +6,6 @@ Contains functions to simplify creating mesh scopings.
 """
 
 from ansys.dpf.core import Scoping
-from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.common import locations
 
 
