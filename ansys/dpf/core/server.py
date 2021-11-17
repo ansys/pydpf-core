@@ -175,8 +175,10 @@ def start_local_server(
     try:
         ver = int(ansys_path[-3:])
         if ver < 211:
-            raise errors.InvalidANSYSVersionError(f"ansys-dpf-core module does not support version older than 2021 R1."
-                                                  "Please upgrade your Ansys Inc. product version.")
+            raise errors.InvalidANSYSVersionError(f"ansys-dpf-core module does not support"
+                                                  "version older than 2021 R1. "
+                                                  "Please upgrade your Ansys Inc. "
+                                                  "product version.")
         if ver == 211 and is_ubuntu():
             raise OSError("DPF on v211 does not support Ubuntu")
         if ver > int(__ansys_version__):
@@ -215,10 +217,9 @@ def start_local_server(
             port += 1
 
     if server is None:
-        raise OSError(            f"Unable to launch the server after {n_attempts} attempts.  "
+        raise OSError(f"Unable to launch the server after {n_attempts} attempts.  "
             "Check the following path:\n{ansys_path}\n\n"
-            "or attempt to use a different port"
-        )
+            "or attempt to use a different port")
 
     dpf.core._server_instances.append(weakref.ref(server))
     return server
@@ -515,12 +516,12 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
-    try: 
+    try:
         # try to find the Ans.Dpf.Grpc.bat/.sh files
         process = subprocess.Popen(run_cmd,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
-    except: 
+    except:
         # if not found (version < 211)
         if (os.name == 'nt'):
             paths = [r'\tp\IntelMKL\2020.0.166\winx64\\',
@@ -545,7 +546,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
                                       'Please manually run the server using Ans.Dpf.Grpc.exe'
                                       'and use core.connect_to_server(ip=MY_IP, port=MY_PORT)'
                                       'method with the correct arguments.')
-            
+
     os.chdir(old_dir)
 
     # check to see if the service started
