@@ -1,11 +1,17 @@
 import logging
 
 
-def setup_logger(loglevel='INFO'):
-    """ Setup logger """
+def setup_logger(loglevel="INFO"):
+    """Set up the logger.
+
+    Parameters
+    ----------
+    loglevel : str, optional
+        The level of the logger to set up. The default is ``"INFO"``.
+    """
 
     # return existing log if this function has already been called
-    if hasattr(setup_logger, 'log'):
+    if hasattr(setup_logger, "log"):
         setup_logger.log.setLevel(loglevel)
         ch = setup_logger.log.handlers[0]
         ch.setLevel(loglevel)
@@ -20,7 +26,7 @@ def setup_logger(loglevel='INFO'):
     ch.setLevel(loglevel)
 
     # create formatter
-    formatstr = '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+    formatstr = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     formatter = logging.Formatter(formatstr)
 
     # add formatter to ch

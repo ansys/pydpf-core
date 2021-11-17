@@ -1,23 +1,25 @@
-
 from ansys.grpc.dpf import field_pb2, base_pb2, field_pb2_grpc
 from ansys.dpf.core import scoping
 from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import errors 
+from ansys.dpf.core import errors
 from ansys.dpf.core import server as serverlib
 
 import numpy as np
 
+
 class _FieldBase:
-    """Base APIs for all implementations that follow Dpf's
-    field concept."""
-    
-    
-    def __init__(self, nentities=0, nature=natures.vector,
-                 location=locations.nodal, is_property_field = False, 
-                 field=None, server=None):
-        """Initialize the field with either optional field message, or
-        by connecting to a stub.
-        """
+    """Contains base APIs for all implementations that follow DPF's field concept."""
+
+    def __init__(
+        self,
+        nentities=0,
+        nature=natures.vector,
+        location=locations.nodal,
+        is_property_field=False,
+        field=None,
+        server=None,
+    ):
+        """Initialize the field either with an optional field message or by connecting to a stub."""
         if server is None:
             server = serverlib._global_server()
 
@@ -26,26 +28,27 @@ class _FieldBase:
 
         if field is None:
             request = field_pb2.FieldRequest()
-            if hasattr(nature, 'name'):
+            if hasattr(nature, "name"):
                 snature = nature.name
             else:
                 snature = nature
             request.nature = base_pb2.Nature.Value(snature.upper())
             request.location.location = location
             request.size.scoping_size = nentities
-            if snature==natures.vector.name:
-                elem_data_size =3
-            elif snature==natures.symmatrix.name:
-                elem_data_size =6
+            if snature == natures.vector.name:
+                elem_data_size = 3
+            elif snature == natures.symmatrix.name:
+                elem_data_size = 6
             else:
-                elem_data_size=1
-            request.size.data_size = nentities*elem_data_size
+                elem_data_size = 1
+            request.size.data_size = nentities * elem_data_size
             if is_property_field:
-                request.datatype = u"int"
+                request.datatype = "int"
             self._message = self._stub.Create(request)
         else:
             from ansys.dpf.core import field as field_module
             from ansys.dpf.core import property_field
+
             if isinstance(field, field_module.Field):
                 self._message = field._message
             elif isinstance(field, property_field.PropertyField):
@@ -54,14 +57,16 @@ class _FieldBase:
                 self._message = field
             else:
                 raise TypeError(f'Cannot create a field from a "{type(field)}" object')
+
     @property
     def shape(self):
-        """Numpy-like shape of the field
-        
+        """Numpy-like shape of the field.
+
         Examples
         --------
-        Shape of a stress field
-        
+        tuple
+            Shape of a stress field.
+
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_transient_result())
@@ -70,70 +75,83 @@ class _FieldBase:
         >>> field = s_fc[0]
         >>> field.shape
         (5720, 6)
-        
+
         """
         if self.component_count != 1:
             return (self.elementary_data_count, self.component_count)
-        return self.elementary_data_count       
-                
+        return self.elementary_data_count
+
     @property
     def component_count(self):
-        """Number of components in an elementary data of the Field
-        
+        """Number of components in each elementary data of the field.
+
         Returns
         -------
-        ncomp : int
-            Number of component of the each elementary data
+        int
+            Number of components in each elementary data of the field.
         """
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_COMPONENT
         request.field.CopyFrom(self._message)
         return self._stub.Count(request).count
-    
+
     @property
     def elementary_data_count(self):
-        """Number of elementary data in the field"""
+        """Number of elementary data in the field.
+
+        Returns
+        -------
+        int
+            Number of elementary data in the field.
+
+        """
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_ELEMENTARY_DATA
         request.field.CopyFrom(self._message)
         return self._stub.Count(request).count
-    
+
     @property
     def size(self):
-        """The length of the data vector.
-        Also equals to the number of elementary data times the number of components.
-        
+        """Length of the data vector.
+
+        The length is equal to the number of elementary data times the number of components.
+
         Returns
         -------
-        size : int
+        int
+            Length of the data vector.
+
         """
-        return self.elementary_data_count*self.component_count
-    
+        return self.elementary_data_count * self.component_count
+
     @property
     def elementary_data_shape(self):
-        """Numpy-like shape of the field"""
+        """Numpy-like shape of the field."""
         if self.component_count != 1:
             return (1, self.component_count)
         else:
             return self.component_count
-        
+
     @property
     def ndim(self):
         return self.component_count
 
     def __str__(self):
-        """describe the entity
-        
+        """Describes the entity.
+
         Returns
         -------
-        description : str
-        """        
+        str
+            Description of the entity.
+
+        """
         from ansys.dpf.core.core import _description
+
         return _description(self._message, self._server)
 
     def __len__(self):
         return self.size
-    
+
     def _del_scoping(self, scope):
         scope.__del__()
 
@@ -144,40 +162,45 @@ class _FieldBase:
             pass
 
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return field_pb2_grpc.FieldServiceStub(self._server.channel)
-    
+
     def _set_scoping(self, scoping):
-        """
+        """Set the scoping.
+
         Parameters
         ----------
-        scoping : Scoping
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+
         """
         request = field_pb2.UpdateScopingRequest()
         request.scoping.CopyFrom(scoping._message)
         request.field.CopyFrom(self._message)
         self._stub.UpdateScoping(request)
-        
+
     def _get_scoping(self):
-        """
+        """Retrieve the scoping.
+
         Returns
         -------
-        scoping : Scoping
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+
         """
         request = field_pb2.GetRequest()
         request.field.CopyFrom(self._message)
         message = self._stub.GetScoping(request)
-        return scoping.Scoping(scoping=message.scoping, server = self._server)
+        return scoping.Scoping(scoping=message.scoping, server=self._server)
 
     @property
     def scoping(self):
-        """ The scoping allows to know where is the data.
-        Each entity data is on a given scoping id.
-        
+        """Scoping specifying where the data is.
+
+        Each entity data is on a given scoping ID.
+
         Returns
         -------
-        scoping : Scoping
-        
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -191,28 +214,23 @@ class _FieldBase:
         'Elemental'
         >>> scoping.id(3)
         586
-        >>> #The fourth elementary data of the field corresponds to 
+        >>> #The fourth elementary data of the field corresponds to
         >>> #the element id number 586 in the mesh
         """
+
         return self._get_scoping()
-    
+
     @scoping.setter
     def scoping(self, scoping):
-        """
-        Parameters
-        ----------
-        scoping : Scoping
-        """
         return self._set_scoping(scoping)
-               
-        
+
     def get_entity_data(self, index):
-        """Returns the elementary data of the scoping's index in parameter
-        
+        """Retrieves the elementary data of the scoping's index in an array.
+
         Returns
         --------
-        data : numpy.array
-        
+        numpy.ndarray
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -238,12 +256,14 @@ class _FieldBase:
                 -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],
                [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,
                 -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])
-        
+
         """
         request = field_pb2.GetElementaryDataRequest()
         request.field.CopyFrom(self._message)
         request.index = index
-        list_message = self._stub.GetElementaryData(request, metadata=[(b'float_or_double', b'double')])
+        list_message = self._stub.GetElementaryData(
+            request, metadata=[(b"float_or_double", b"double")]
+        )
         data = []
         if list_message.elemdata_containers.data.HasField("datadouble"):
             data = list_message.elemdata_containers.data.datadouble.rep_double
@@ -251,20 +271,20 @@ class _FieldBase:
             data = list_message.elemdata_containers.data.dataint.rep_int
 
         array = np.array(data)
-        if self.component_count !=1:
+        if self.component_count != 1:
             n_comp = self.component_count
-            array = array.reshape((len(data)//n_comp, n_comp))
+            array = array.reshape((len(data) // n_comp, n_comp))
 
         return array
 
     def get_entity_data_by_id(self, id):
-        """Return the data of the scoping's id in parameter of the field.
+        """Retrieve the data of the scoping's ID in the parameter of the field in an array.
 
         Returns
         -------
-        data : numpy.array
-            Data based on the scoping id.            
-                  
+        numpy.ndarray
+            Data based on the scoping ID.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -290,43 +310,43 @@ class _FieldBase:
                 -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],
                [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,
                 -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])
-        
+
         """
         index = self.scoping.index(id)
         if index < 0:
-            raise ValueError(f'The id {id} must be greater than 0')
+            raise ValueError(f"The ID {id} must be greater than 0.")
         return self.get_entity_data(index)
 
     def append(self, data, scopingid):
-        """add an entity data to the existing data
+        """Add an entity data to the existing data.
 
         Parameters
         ----------
-        data : list of int, double or array
-
+        data : list of int, double, or array
+          Data in the entity.
         scopingid : int
-            id of the scoping
-                
+            ID of the scoping.
+
         Examples
         --------
         >>> from ansys.dpf.core import fields_factory
         >>> field = fields_factory.create_3d_vector_field(2)
-        >>> field.append([1.,2.,3.],1)        
+        >>> field.append([1.,2.,3.],1)
         >>> field.append([1.,2.,3.],2)
         >>> field.data
         array([[1., 2., 3.],
                [1., 2., 3.]])
         >>> field.scoping.ids
         [1, 2]
-        
+
         """
         if isinstance(data, (np.ndarray, np.generic)):
             data = data.reshape(data.size).tolist()
-        elif len(data)>0 and isinstance(data[0], list):
+        elif len(data) > 0 and isinstance(data[0], list):
             data = np.array(data)
             data = data.reshape(data.size).tolist()
         request = field_pb2.AddDataRequest()
-        if self._message.datatype == u"int":
+        if self._message.datatype == "int":
             request.elemdata_containers.data.dataint.rep_int.extend(data)
         else:
             request.elemdata_containers.data.datadouble.rep_double.extend(data)
@@ -334,100 +354,92 @@ class _FieldBase:
 
         request.field.CopyFrom(self._message)
         self._stub.AddData(request)
-           
+
     @property
     def _data_pointer(self):
-        """Gives the first index of each entity data
+        """First index of each entity data.
 
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.    
-        
+        numpy.ndarray
+            Data in the field.
+
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
+
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
         service = self._stub.ListDataPointer(request)
         dtype = np.int32
         return scoping._data_get_chunk_(dtype, service)
-    
+
     @property
     def _data_pointer_as_list(self):
-        """Gives the first index of each entity data
+        """First index of each entity data.
 
         Returns
         -------
-        data : list of int
-            Data of this field.    
-        
+        list
+            List of first indexes of each data data.
+
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
+
         """
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
         service = self._stub.ListDataPointer(request)
         dtype = np.int32
         return scoping._data_get_chunk_(dtype, service, False)
-    
+
     @_data_pointer.setter
     def _data_pointer(self, data):
-        """Set the data pointer of the field.
-
-        Parameters
-        ----------
-        data : list of int or array    
-        
-        Notes
-        -----
-        Print a progress bar
-        """
         self._set_data_pointer(data)
-        
-           
-    def _set_data_pointer(self,data):
-        if isinstance(data,  (np.ndarray, np.generic)):
+
+    def _set_data_pointer(self, data):
+        if isinstance(data, (np.ndarray, np.generic)):
             data = np.array(data.reshape(data.size), dtype=np.int32)
         else:
             data = np.array(data, dtype=np.int32)
-        if data.size ==0:
+        if data.size == 0:
             return
-        metadata=[(u"size_int", f"{len(data)}")]
+        metadata = [("size_int", f"{len(data)}")]
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
-        self._stub.UpdateDataPointer(scoping._data_chunk_yielder(request, data), metadata=metadata)
-        
-        
+        self._stub.UpdateDataPointer(
+            scoping._data_chunk_yielder(request, data), metadata=metadata
+        )
+
     @property
     def data(self):
-        """Access the data of this field.    
-        
+        """Data in the field as an array.
+
         Notes
         -----
-        Print a progress bar
-        
-        Returns
-        -------
-        data : numpy.ndarray
-            Data of this field.
-        """
-        return self._get_data()
-    
-    @property
-    def data_as_list(self):
-        """The data of this field in a python list
+        Print a progress bar.
 
         Returns
         -------
-        data : list
-            Data of this field.    
-        
+        numpy.ndarray
+            Data in the field.
+        """
+        return self._get_data()
+
+    @property
+    def data_as_list(self):
+        """Data in the field as a Python list.
+
+        Returns
+        -------
+        List
+            List of the data in the field.
+
         Notes
         -----
-        Print a progress bar
+        Print a progress bar.
 
         Examples
         --------
@@ -439,110 +451,115 @@ class _FieldBase:
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
         >>> # field.data_as_list
-         
-         """
+
+        """
         return self._get_data(np_array=False)
-    
+
     def _get_data(self, np_array=True):
         request = field_pb2.ListRequest()
         request.field.CopyFrom(self._message)
-        if self._message.datatype == u"int":
-            data_type = u"int"
+        if self._message.datatype == "int":
+            data_type = "int"
             dtype = np.int32
         else:
-            data_type = u"double"
+            data_type = "double"
             dtype = np.float
-        service = self._stub.List(request, metadata=[(u"float_or_double", data_type)])
-        array= scoping._data_get_chunk_(dtype, service, np_array)
-        
+        service = self._stub.List(request, metadata=[("float_or_double", data_type)])
+        array = scoping._data_get_chunk_(dtype, service, np_array)
+
         ncomp = self.component_count
         if ncomp != 1 and np_array:
             array = array.reshape(self.shape)
-        
+
         return array
-    
-    
+
     @data.setter
     def data(self, data):
-        """Set the data of the field.    
-        
-        Notes
-        -----
-        Print a progress bar
-
-        Parameters
-        ----------
-        data : list of int (property field only), double or array
-        """
         self._set_data(data)
-    
-    def _set_data(self,data):
-        if self._message.datatype == u"int":
-            if not isinstance(data[0], int)and not isinstance(data[0], np.int32):
+
+    def _set_data(self, data):
+        if self._message.datatype == "int":
+            if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
             data = np.array(data, dtype=np.int32)
-            metadata=[(u"size_int", f"{len(data)}")]
+            metadata = [("size_int", f"{len(data)}")]
         else:
-            if isinstance(data,  (np.ndarray, np.generic)):
-                if 0 != self.size and self.component_count >1 and data.size//self.component_count != data.size/self.component_count:
-                    raise ValueError(f'An array of shape {self.shape} is expected and shape {data.shape} is in input')
+            if isinstance(data, (np.ndarray, np.generic)):
+                if (
+                    0 != self.size
+                    and self.component_count > 1
+                    and data.size // self.component_count
+                    != data.size / self.component_count
+                ):
+                    raise ValueError(
+                        f"An array of shape {self.shape} is expected and "
+                        f"shape {data.shape} was input"
+                    )
                 else:
                     data = np.array(data.reshape(data.size), dtype=float)
             else:
                 data = np.array(data, dtype=float)
-            metadata=[(u"float_or_double", u"double"), (u"size_double", f"{len(data)}")]
+            metadata = [("float_or_double", "double"), ("size_double", f"{len(data)}")]
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
-        self._stub.UpdateData(scoping._data_chunk_yielder(request, data), metadata=metadata)
-        
-    
-    
+        self._stub.UpdateData(
+            scoping._data_chunk_yielder(request, data), metadata=metadata
+        )
+
 
 class _LocalFieldBase(_FieldBase):
-    """Class only created by a field to cache the internal data of the field,
-    modify it locallly, and send a single update request to the server 
-    when the local field is deleted
-    
+    """Caches the internal data of the field so that it can be modified locally.
+
+    A single update request is sent to the server when the local field is deleted.
+
     Parameters
     ----------
     field : _FieldBase
-        field to copy
+        Field to copy locally.
+
     """
+
     def __init__(self, field):
         self._message = field._message
-        self._server =field._server
+        self._server = field._server
         self._stub = field._stub
-        self._is_property_field = field._message.datatype == u"int"
+        self._is_property_field = field._message.datatype == "int"
         self._owner_field = field
         self.__cache_data__()
-        
+
     def __cache_data__(self):
         self._ncomp = super().component_count
         self._data_copy = super().data_as_list
         self._num_entities_reserved = len(self._data_copy)
         self._data_pointer_copy = super()._data_pointer_as_list
-        self._scoping_ids_copy = super().scoping.ids
-        self._num_entities = len(self._scoping_ids_copy)
-        self._has_data_pointer = len(self._data_pointer_copy)>0
-    
+        self._scoping_copy = super().scoping.as_local_scoping()
+        self._has_data_pointer = len(self._data_pointer_copy) > 0
+
+    @property
+    def _num_entities(self):
+        return len(self._scoping_copy)
+
     @property
     def size(self):
-        """The length of the data vector.
-        Also equals to the number of elementary data times the number of components.
-        
-        Returns
-        -------
-        size : int
-        """
-        return len(self._data_copy)
-    
-    def get_entity_data(self, index):
-        """Returns the elementary data of the scoping's index in parameter
+        """Length of the data vector.
+
+        Length equals the number of elementary data times the number of components.
 
         Returns
         -------
-        data : numpy.array
-        
+        int
+            Length of the data vector.
+
+        """
+        return len(self._data_copy)
+
+    def get_entity_data(self, index):
+        """Retrieve the elementary data of the scoping's index as an array.
+
+        Returns
+        -------
+        numpy.ndarray
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -570,37 +587,42 @@ class _LocalFieldBase(_FieldBase):
            5.89250600e+07  2.05608920e+07]
          [ 6.70443680e+07  8.70343440e+07  2.73050464e+08 -2.48670150e+06
            1.52268930e+07  6.09583280e+07]]
-        
+
         """
         if index > self._num_entities:
-            raise ValueError(f"asked scoping {index} is greater than the number of available indices {len(self._scoping_ids_copy)}")
+            raise ValueError(
+                f"Requested scoping {index} is greater than the number of "
+                f"available indices {len(self._scoping_copy)}"
+            )
         if self._has_data_pointer:
             first_index = self._data_pointer_copy[index]
-            if index < len(self._data_pointer_copy) -1:
-                last_index =  self._data_pointer_copy[index+1]-1
+            if index < len(self._data_pointer_copy) - 1:
+                last_index = self._data_pointer_copy[index + 1] - 1
             else:
-                last_index = len(self._data_copy)-1
+                last_index = len(self._data_copy) - 1
         else:
             first_index = self._ncomp * index
-            last_index = self._ncomp * (index+1)-1
+            last_index = self._ncomp * (index + 1) - 1
         if self._is_property_field:
-            array = np.array(self._data_copy[first_index:last_index+1], dtype=np.int32)
+            array = np.array(
+                self._data_copy[first_index : last_index + 1], dtype=np.int32
+            )
         else:
-            array = np.array(self._data_copy[first_index:last_index+1])
-            
-        if self._ncomp>1:
-            return array.reshape((array.size//self._ncomp,self._ncomp))
+            array = np.array(self._data_copy[first_index : last_index + 1])
+
+        if self._ncomp > 1:
+            return array.reshape((array.size // self._ncomp, self._ncomp))
         else:
             return array
-    
+
     def get_entity_data_by_id(self, id):
-        """Return the data of the scoping's id in parameter of the field.
+        """Retrieve the data of the scoping's ID in the parameter of the field.
 
         Returns
         -------
-        data : numpy.array
-            Data based on the scoping id.
-            
+        numpy.ndarray
+            Data based on the scoping ID.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -630,62 +652,67 @@ class _LocalFieldBase(_FieldBase):
            7.69014221e+02  4.90502930e+02]]
 
         """
-        index = self._scoping_ids_copy.index(id)
+        index = self._scoping_copy.index(id)
         if index < 0:
             raise ValueError(f"The id {id} doesn't exist in the scoping")
         return self.get_entity_data(index)
-    
+
     def append(self, data, scopingid):
-        """Add an entity data to the existing data
+        """Add an entity data to the existing data.
 
         Parameters
         ----------
         data : list of int, double or array
-
+            Data for the entity.
         scopingid : int
-            id of the scoping
-            
+            ID of the scoping.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> num_entities=100
-        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(num_entities, location=dpf.locations.elemental_nodal)
-        >>> with field_to_local.as_local_field() as f:    
+        >>> field_to_local = dpf.fields_factory.create_3d_vector_field(
+        ...     num_entities, location=dpf.locations.elemental_nodal
+        ... )
+        >>> with field_to_local.as_local_field() as f:
         ...     for i in range(1,num_entities+1):
         ...         f.append([[0.1*i,0.2*i, 0.3*i],[0.1*i,0.2*i, 0.3*i]],i)
-                    
+
         """
         if self._is_property_field:
             if isinstance(data[0], np.int64):
                 data = np.array(data, dtype=np.int32)
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
-        if (len(data)>0 and isinstance(data, list)) or isinstance(data,  (np.ndarray, np.generic)):
-                data=np.array(data).flatten().tolist()
-            
-        data_size =len(self._data_copy)      
-        self._scoping_ids_copy.append(scopingid)
-        if len(self._data_pointer_copy)>0:
+        if (len(data) > 0 and isinstance(data, list)) or isinstance(
+            data, (np.ndarray, np.generic)
+        ):
+            data = np.array(data).flatten().tolist()
+
+        data_size = len(self._data_copy)
+        self._scoping_copy.append(scopingid)
+        if len(self._data_pointer_copy) > 0:
             self._data_pointer_copy.append(data_size)
 
         self._data_copy.extend(data)
-        self._num_entities+=1
-        if self._has_data_pointer==False:
-            if isinstance(data,  (np.ndarray, np.generic)):
+        if self._has_data_pointer == False:
+            if isinstance(data, (np.ndarray, np.generic)):
                 data_size = data.size
             else:
-                data_size=len(data)
-            if data_size>self._ncomp:
-                self._data_pointer_copy=[i*self._ncomp for i in range(0,self._num_entities) ]
-                self._has_data_pointer=True   
-                
+                data_size = len(data)
+            if data_size > self._ncomp:
+                self._data_pointer_copy = [
+                    i * self._ncomp for i in range(0, self._num_entities)
+                ]
+                self._has_data_pointer = True
+
     def data_as_list(self):
-        """The data of this field in a python list
+        """Retrieve the data in the field as a Python list.
 
         Returns
         -------
-        data : list
-            Data of this field.
+        list
+            List of the data in the field.
 
         Examples
         --------
@@ -698,19 +725,17 @@ class _LocalFieldBase(_FieldBase):
         >>> field = fields_container[0]
         >>> with field.as_local_field() as f:
         ...     my_data_list = f.data_as_list
-         
+
         """
-        return self._data_copy   
-    
-     
+        return self._data_copy
+
     @property
     def data(self):
-        """The data of this field.
+        """Data in the field.
 
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.
+        numpy.ndarray
 
         Examples
         --------
@@ -730,118 +755,142 @@ class _LocalFieldBase(_FieldBase):
          [-6.07730368e-03  3.22569017e-02  3.10184480e-04]
          [-3.51074714e-06  2.16872928e-08  6.40738989e-05]
          [ 1.03542516e-02 -3.53018374e-03 -3.98914380e-05]]
-        
+
         """
-        if self._ncomp>1:
-            return np.array(self._data_copy).reshape(len(self._data_copy)//self._ncomp,self._ncomp)
+
+        if self._ncomp > 1:
+            return np.array(self._data_copy).reshape(
+                len(self._data_copy) // self._ncomp, self._ncomp
+            )
         else:
             return np.array(self._data_copy)
-        
-    
+
     @data.setter
     def data(self, data):
         if self._is_property_field:
-            if not isinstance(data[0], int)and not isinstance(data[0], np.int32):
+            if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
         else:
-            if isinstance(data,  (np.ndarray, np.generic)):
-                if data.shape !=  self.shape and 0 != self.size:
-                    raise ValueError(f'An array of shape {self.shape} is expected and shape {data.shape} is in input')
-        if isinstance(data,  (np.ndarray, np.generic)):
+            if isinstance(data, (np.ndarray, np.generic)):
+                if data.shape != self.shape and 0 != self.size:
+                    raise ValueError(
+                        f"An array of shape {self.shape} is expected and "
+                        f"shape {data.shape} was input"
+                    )
+        if isinstance(data, (np.ndarray, np.generic)):
             self._data_copy = data.flatten().tolist()
-        elif len(data)>0 and isinstance(data, list):
-            self._data_copy=np.array(data).flatten().tolist()
+        elif len(data) > 0 and isinstance(data, list):
+            self._data_copy = np.array(data).flatten().tolist()
         else:
             self._data_copy = data
-        
-        
+
     @property
     def elementary_data_count(self):
-        """Number of elementary data in the field"""
-        if (hasattr(self, "_data_copy")):
+        """Number of elementary data in the field.
+
+        Returns
+        -------
+        int
+           Number of elementary data in the field.
+
+        """
+        if hasattr(self, "_data_copy"):
             return len(self._data_copy) / self._ncomp
         else:
             return super().elementary_data_count
-    
-    
+
     @property
     def component_count(self):
-        """
+        """Number of components in each elementary data of the field.
+
         Returns
         -------
-        ncomp : int
-            Number of component of the each elementary data
+        int
+            Number of components in each elementary data of the field.
         """
+
         return self._ncomp
-    
-        
+
     @property
     def _data_pointer(self):
-        """Gives the first index of each entity data
+        """First index of each entity data in an array.
 
         Returns
         -------
-        data : numpy.ndarray
-            Data of this field.
+        numpy.ndarray
+            Array of first indexes of each entity data.
         """
         return np.array(self._data_pointer_copy)
-    
+
     @property
     def _data_pointer_as_list(self):
-        """Gives the first index of each entity data
+        """First index of each entity data as a list.
 
         Returns
         -------
-        data : list of int
-            Data of this field.
+        List
+            List of first indexes of each entity data.
         """
         return self._data_pointer_copy
-    
-    
+
     @_data_pointer.setter
     def _data_pointer(self, data):
-        """Set the data pointer of the field.
-
-        Parameters
-        ----------
-        data : list of int or array
-        """
-        if isinstance(data,  (np.ndarray, np.generic)):
+        if isinstance(data, (np.ndarray, np.generic)):
             self._data_pointer_copy = data.tolist()
         else:
             self._data_pointer_copy = data
-        if self._has_data_pointer == False and len(data)>0:
-            self._has_data_pointer=True
-    
+        if self._has_data_pointer == False and len(data) > 0:
+            self._has_data_pointer = True
+
     @property
     def scoping_ids(self):
-        """List of int representing the scoping ids of the field.
+        """Scoping IDs of the field.
+
+        Returns
+        -------
+        list
+            List of integers representing the scoping IDs of the field.
         """
-        return self._scoping_ids_copy
-    
+        return self._scoping_copy.ids
+
     @scoping_ids.setter
     def scoping_ids(self, data):
-        self._scoping_ids_copy =data
-        self._num_entities =len(data)
-    
-        
+        self._scoping_copy.ids = data
+
+    @property
+    def scoping(self):
+        """Scoping specifying where the data is.
+
+        Each entity data is on a given scoping ID.
+
+        Returns
+        -------
+        scoping : :class:`ansys.dpf.core.scoping.Scoping`
+        """
+        return self._scoping_copy
+
+    @scoping.setter
+    def scoping(self, data):
+        self._scoping_copy = data
+
     def release_data(self):
+        """Release the data."""
         super()._set_data(self._data_copy)
         super()._set_data_pointer(self._data_pointer_copy)
-        super().scoping.ids = self._scoping_ids_copy
-        
+        self._scoping_copy.release_data()
+
     def __enter__(self):
         return self
-    
-    def __exit__(self,type, value, tb):
-        if tb is None:
-            self.release_data()
-        else :
-            print(tb)
-            
-    def __del__(self):
-        pass
-     
 
-            
-        
+    def __exit__(self, type, value, tb):
+        if tb is None:
+            self._is_exited = True
+            self.release_data()
+        else:
+            print(tb)
+
+    def __del__(self):
+        if not hasattr(self, "_is_exited") or not self._is_exited:
+            self._is_exited = True
+            self.release_data()
+        pass

@@ -31,7 +31,7 @@ print(model)
 ###############################################################################
 # Read the analysis domain support
 tf = model.metadata.time_freq_support
-print('Number of solution sets', tf.n_sets)
+print("Number of solution sets", tf.n_sets)
 
 
 ###############################################################################
@@ -43,7 +43,7 @@ print('Number of solution sets', tf.n_sets)
 # Create a total displacement operator and set its time scoping to
 # the entire time freq support and its nodes scoping into a user defined nodes.
 disp_op = ops.result.raw_displacement(data_sources=model)
-time_ids = list(range(1, model.metadata.time_freq_support.n_sets+1))
+time_ids = list(range(1, model.metadata.time_freq_support.n_sets + 1))
 
 # define nodal scoping
 nodes = dpf.Scoping()
@@ -78,8 +78,8 @@ field2 = fields[1]
 ###############################################################################
 # Plot the minimum and maximum displacements over time
 
-pyplot.plot(field1.data, 'r', label='Field 1')
-pyplot.plot(field2.data, 'b', label="Field 2")
+pyplot.plot(field1.data, "r", label="Field 1")
+pyplot.plot(field2.data, "b", label="Field 2")
 pyplot.xlabel("Frequency (Hz)")
 pyplot.ylabel("Displacement (m)")
 pyplot.legend()

@@ -1,7 +1,7 @@
 """
 Collection
 ===========
-Contains classes associated to the DPF Collection
+Contains classes associated with the DPF collection.
 
 """
 
@@ -19,18 +19,19 @@ from ansys.dpf.core.scoping import Scoping
 
 
 class Collection:
-    """A class used to represent a Collection which contains
-    entries ordered in labels and ids.
+    """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
     ----------
-    collection : ansys.grpc.dpf.collection_pb2.Collection, optional
-        Create a collection from a Collection message.
+    dpf_type :
 
+    collection : ansys.grpc.dpf.collection_pb2.Collection, optional
+        Collection to create from the collection message. The default is ``None``.
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
-        
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
     Examples
     --------
     >>> from ansys.dpf import core as dpf
@@ -38,7 +39,7 @@ class Collection:
 
     """
 
-    def __init__(self, dpf_type, collection=None, server: server.DpfServer=None ):
+    def __init__(self, dpf_type, collection=None, server: server.DpfServer = None):
         if server is None:
             server = dpf.core._global_server()
 
@@ -49,87 +50,89 @@ class Collection:
 
         if collection is None:
             request = collection_pb2.CollectionRequest()
-            if hasattr(dpf_type, 'name'):
+            if hasattr(dpf_type, "name"):
                 stype = dpf_type.name
             else:
                 stype = dpf_type
             request.type = base_pb2.Type.Value(stype.upper())
             self._message = self._stub.Create(request)
-        elif hasattr(collection, '_message'):
+        elif hasattr(collection, "_message"):
             self._message = collection._message
-            self._collection = collection #keep the base collection used for copy
+            self._collection = collection  # keep the base collection used for copy
         else:
             self._message = collection
 
     def set_labels(self, labels):
-        """set the requested labels to scope the collection
+        """Set labels for scoping the collection.
 
         Parameters
         ----------
         labels : list[str], optional
-            labels on which the entries will be scoped, for example:
-                ['time','complex']
+            Labels to scope entries to. For example, ``["time", "complex"]``.
 
         """
-        if len(self._info['labels'])!=0:
-            print("the collection has already labels :",self._info['labels'],'deleting existing labels is  not implemented yet')
+        if len(self._info["labels"]) != 0:
+            print(
+                "The collection already has labels :",
+                self._info["labels"],
+                "deleting existing labels is not implemented yet.",
+            )
             return
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
         request.labels.extend([collection_pb2.NewLabel(label=lab) for lab in labels])
         self._stub.UpdateLabels(request)
 
-    def add_label(self, label, default_value =None):
-        """Add the requested label to scope the collection
+    def add_label(self, label, default_value=None):
+        """Add the requested label to scope the collection.
 
         Parameters
         ----------
         label : str
-            Labels on which the entries will be scoped, for example ``'time'``.
-            
-        default_value : int , optional
-            default value set for existing fields in the collection
+            Labels to scope the etnries to. For example, ``"time"``.
+        default_value : int, optional
+            Default value for existing fields in the collection. The default
+            is ``None``.
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> coll = dpf.Collection(dpf.types.field)
         >>> coll.add_label('time')
-        
+
         """
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(self._message)
         new_label = collection_pb2.NewLabel(label=label)
         if default_value is not None:
-            new_label.default_value.default_value=default_value
+            new_label.default_value.default_value = default_value
         request.labels.extend([new_label])
         self._stub.UpdateLabels(request)
 
     def _get_labels(self):
-        """get the labels scoping the collection
+        """Retrieve labels scoping the collection.
 
         Returns
         -------
         labels: list[str]
-            labels on which the entries are scoped, for example:
-                ``['time', 'complex']``
+            List of labels that entries are scoped to. For example, ``["time", "complex"]``.
         """
-        return self._info['labels']
+        return self._info["labels"]
 
     labels = property(_get_labels, set_labels, "labels")
-    
+
     def has_label(self, label):
-        """Check if a collection has a specified label
+        """Check if a collection has a specified label.
 
         Parameters
         ----------
         label: str
-            Labels that must be searched, for example ``'time'``.
-            
+            Label to search for. For example, ``"time"``.
+
         Returns
         -------
         bool
-            ``True`` if the specified value has been found in the collection. 
+           ``True`` when successful, ``False`` when failed.
 
         Examples
         --------
@@ -138,26 +141,26 @@ class Collection:
         >>> coll.add_label('time')
         >>> coll.has_label('time')
         True
-        
+
         >>> coll.has_label('complex')
         False
-        
+
         """
         return label in self.labels
 
     def _get_entries(self, label_space_or_index):
-        """Returns the entries at a requested index or label space
+        """Retrieve the entries at a requested label space or index.
 
         Parameters
         ----------
         label_space_or_index : dict[str,int]
-            Label space of the requested entry, for example:
-            ``{"time": 1, "complex": 0}`` or index of the field.
+            Label space or index. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
 
         Returns
         -------
         entries : list[Scoping], list[Field], list[MeshedRegion]
-            entries corresponding to the request
+            Entries corresponding to the request.
         """
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(self._message)
@@ -167,10 +170,10 @@ class Collection:
                 request.label_space.label_space[key] = label_space_or_index[key]
         elif isinstance(label_space_or_index, int):
             request.index = label_space_or_index
-        
+
         out = self._stub.GetEntries(request)
-        list_out =[]
-        for obj in out.entries :
+        list_out = []
+        for obj in out.entries:
             if obj.HasField("dpf_type"):
                 if self._type == types.scoping:
                     unpacked_msg = scoping_pb2.Scoping()
@@ -183,74 +186,74 @@ class Collection:
                 elif self._type == types.meshed_region:
                     unpacked_msg = meshed_region_pb2.MeshedRegion()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(MeshedRegion(mesh=unpacked_msg, server=self._server))
-        if len(list_out)==0:
-            list_out=None
-        return list_out  
-    
-    
+                    list_out.append(
+                        MeshedRegion(mesh=unpacked_msg, server=self._server)
+                    )
+        if len(list_out) == 0:
+            list_out = None
+        return list_out
+
     def _get_entry(self, label_space_or_index):
-        """Returns the entry at a requested index or label space
+        """Retrieve the entry at a requested label space or index.
 
         Parameters
         ----------
         label_space_or_index : dict[str,int]
-            Label space of the requested entry, for example:
-            ``{"time": 1, "complex": 0}`` or index of the field.
+            Label space or index of the requested entry. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
 
         Returns
         -------
         entry : Scoping, Field, MeshedRegion
-            entry corresponding to the request
+            Entry at the requested label space or index.
         """
         entries = self._get_entries(label_space_or_index)
         if isinstance(entries, list):
-            if len(entries)==1:
+            if len(entries) == 1:
                 return entries[0]
-            else :
+            else:
                 raise KeyError(f"{label_space_or_index} has {len(entries)} entries")
         else:
             return entries
-        
-            
+
     def get_label_space(self, index):
-        """Returns the label space of an entry at a requested index
+        """Retrieve the label space of an entry at a requested index.
 
         Parameters
         ----------
-        index: int, optional
+        index: int
             Index of the entry.
 
         Returns
         -------
         label_space : dict(str:int)
-            Scoping of the requested entry, for example:
-            ``{"time": 1, "complex": 0}``
+            Scoping of the requested entry. For example,
+            ``{"time": 1, "complex": 0}``.
         """
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(self._message)
         request.index = index
         out = self._stub.GetEntries(request).entries
         out = out[0].label_space.label_space
-        dictOut ={}
+        dictOut = {}
         for key in out:
-            dictOut[key]=out[key]
+            dictOut[key] = out[key]
 
         return dictOut
 
     def get_available_ids_for_label(self, label="time"):
-        """Get the IDs corresponding to the input label.
+        """Retrieve the IDs assigned to an input label.
 
 
         Parameters
         ----------
         label : str
-            name of the requested ids
+            Name of the input label. The default is ``"time"``.
 
         Returns
         -------
         ids : list[int]
-            ids corresponding to the input label
+            List of IDs assigned to the input label.
         """
         ids = []
         for i in range(len(self)):
@@ -258,25 +261,24 @@ class Collection:
             if label in current_scop and current_scop[label] not in ids:
                 ids.append(current_scop[label])
         return ids
-    
-    def get_label_scoping(self, label = "time"):
-        """Get the scoping corresponding to the input label. This method
-        allows to get the list of available ids for a given label in the 
-        Collection. 
-        For example, if the label "el_type" is available in the collection,
-        the get_lable_scoping method, will return the list element type ids 
-        available in it. Those ids can then be used to request a given entity 
-        inside the collection.
-        
+
+    def get_label_scoping(self, label="time"):
+        """Retrieve the scoping for an input label.
+
+        This method allows you to retrieve a list of IDs for a given input label in the
+        collection. For example, if the label ``el_type`` exists in the collection, you
+        can use the `get_lable_scoping` method to retrieve a list of IDS with this label.
+        You can then use these IDs to request a given entity inside the collection.
+
         Parameters
         ----------
         label: str
-            name of the requested ids
-        
+            Name of the input label.
+
         Returns
         -------
         scoping: Scoping
-            scoping containing the ids of the input label
+            IDs scopped to the input label.
         """
         request = collection_pb2.LabelScopingRequest()
         request.collection.CopyFrom(self._message)
@@ -286,17 +288,17 @@ class Collection:
         return scoping
 
     def __getitem__(self, index):
-        """Returns the entry at a requested index
+        """Retrieves the entry at a requested index value.
 
         Parameters
         ----------
-        key : int
-            the index
+        index : int
+            Index value.
 
         Returns
         -------
         entry : Field , Scoping
-            Entry at the index corresponding to the request.
+            Entry at the index value.
         """
         self_len = len(self)
         if index < 0:
@@ -304,20 +306,19 @@ class Collection:
             index = self_len + index
 
         if not self_len:
-            raise IndexError('This collection contains no items')
+            raise IndexError("This collection contains no items")
         if index >= self_len:
-            raise IndexError(f'This collection contains only {self_len} entrie(s)')
+            raise IndexError(f"This collection contains only {self_len} entrie(s)")
 
         return self._get_entries(index)[0]
 
     def _add_entry(self, label_space, entry):
-        """Update or add the entry at a requested label space
+        """Update or add an entry at a requested label space.
 
         parameters
         ----------
         label_space : list[str,int]
-            label space of the requested fields, ex : {"time":1, "complex":0}
-
+            Label space of the requested fields. For example, ``{"time":1, "complex":0}``.
         entry : Field or Scoping
             DPF entry to add.
         """
@@ -327,9 +328,10 @@ class Collection:
         for key in label_space:
             request.label_space.label_space[key] = label_space[key]
         self._stub.UpdateEntry(request)
-        
+
     def _get_time_freq_support(self):
-        """
+        """Retrieve time frequency support.
+
         Returns
         -------
         time_freq_support : TimeFreqSupport
@@ -340,45 +342,43 @@ class Collection:
         message = self._stub.GetSupport(request)
         return TimeFreqSupport(time_freq_support=message)
 
-
     def _set_time_freq_support(self, time_freq_support):
-        """
-        Set the time_freq_support of a collection. 
-        """
+        """Set the time frequency support of the collection."""
         request = collection_pb2.UpdateSupportRequest()
         request.collection.CopyFrom(self._message)
         request.time_freq_support.CopyFrom(time_freq_support._message)
         request.label = "time"
         self._stub.UpdateSupport(request)
-    
 
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return collection_pb2_grpc.CollectionServiceStub(self._server.channel)
 
     @property
     @protect_grpc
     def _info(self):
-        """Length and labels of this container"""
+        """Length and labels of this container."""
         list_stub = self._stub.List(self._message)
         return {"len": list_stub.count_entries, "labels": list_stub.labels.labels}
-    
+
     def __str__(self):
-        """describe the entity
-        
+        """Describe the entity.
+
         Returns
         -------
         description : str
+            Description of the entity.
         """
         request = base_pb2.DescribeRequest()
         request.dpf_type_id = self._message.id
         return self._stub.Describe(request).description
 
     def __len__(self):
-        """Return number of entries"""
+        """Retrieve the number of entries."""
         return self._info["len"]
 
     def __del__(self):
+        """Delete the entry."""
         try:
             self._stub.Delete(self._message)
         except:

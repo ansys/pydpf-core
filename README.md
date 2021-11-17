@@ -24,6 +24,13 @@ the powerful DPF framework enabling rapid post-processing of a variety
 of Ansys file formats and physics solutions without ever leaving a
 Python environment.  
 
+## Documentation
+
+Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for a
+detailed description of the library, or see the [Examples
+Gallery](https://dpfdocs.pyansys.com/examples/index.html) for more
+detailed examples.
+
 ## Installation
 
 Install this repository with:
@@ -60,21 +67,20 @@ To open a result file and explore what's inside, do:
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        ENF Element nodal Forces :element nodal forces 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: Metric (m, kg, N, s, V, A)
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       3751 nodes 
@@ -85,8 +91,8 @@ To open a result file and explore what's inside, do:
     DPF  Time/Freq Support: 
       Number of sets: 1 
     Cumulative     Time (s)       LoadStep       Substep         
-    1              1.000000       1              1       
-    
+    1              1.000000       1              1               
+
 
 ```
 
