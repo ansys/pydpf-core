@@ -36,7 +36,7 @@ The module `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ should a
 version.
 
 
-Performance issues
+Performance Issues
 ------------------
 
 Getting and Setting a Field's Data
