@@ -43,7 +43,7 @@ Getting and Setting Field's data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Accessing or modifying field data :py:class:`Field<ansys.dpf.core.field.Field>` entity by entity can
 be slow if the field's size is large or if the server is far from the Python client. To improve performance,
-please use :py:meth:`as_local_field()<ansys.dpf.core.field.Field.as_local_field>` in a context manager.
+use :py:meth:`as_local_field()<ansys.dpf.core.field.Field.as_local_field>` in a context manager.
 An example of usage can be found in :ref:`_ref_use_local_data_example`.
 
 Slow autocompletion on notebooks
