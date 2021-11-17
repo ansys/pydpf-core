@@ -46,7 +46,7 @@ be slow if the field's size is large or if the server is far from the Python cli
 use :py:meth:`as_local_field()<ansys.dpf.core.field.Field.as_local_field>` in a context manager.
 An example of usage can be found in :ref:`_ref_use_local_data_example`.
 
-Slow autocompletion on notebooks
+Slow Autocompletion in Notebooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Autocompletion in Jupyter notebook can sometimes be slow for large models. The interpreter might
 evaluate some properties getters when the tab key is pressed. To unable this capability please use
