@@ -49,7 +49,7 @@ An example of usage can be found in :ref:`_ref_use_local_data_example`.
 Slow Autocompletion in Notebooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Autocompletion in Jupyter notebook can sometimes be slow for large models. The interpreter might
-evaluate some properties getters when the tab key is pressed. To unable this capability please use
+evaluate getters of some properties when the tab key is pressed. To disable this capability use
 :py:meth:`disable_interpreter_properties_evaluation()<ansys.dpf.core.settings.disable_interpreter_properties_evaluation>`:
 
 .. code-block:: default
