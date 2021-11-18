@@ -1,7 +1,15 @@
+
+"""
+settings
+========
+Customize the behavior of the module.
+"""
+
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
 
 def disable_off_screen_rendering() -> None:
+    """No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``"""
     # enable matplotlib off_screen plotting to avoid test interruption
     if module_exists("matplotlib"):
         import matplotlib as mpl
@@ -25,6 +33,16 @@ def set_default_pyvista_config():
         pv.rcParams["title"] = "DPF"
 
 def disable_interpreter_properties_evaluation() -> bool:
+    """If ``jedi`` module is installed (autocompletion module for most of IDEs), disables the
+    property evaluation when tab key is pressed.
+
+    To use in Jupyter Notebook if autocompletion becomes slow.
+
+    Returns
+    -------
+    bool
+        Whether disabling the capability has been possible.
+    """
     if module_exists("jedi"):
         import jedi
         jedi.Interpreter._allow_descriptor_getattr_default = False
