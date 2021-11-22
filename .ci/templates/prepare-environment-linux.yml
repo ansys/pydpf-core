@@ -1,0 +1,64 @@
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "$(python.version)"
+    displayName: "Use Python $(python.version)"
+
+  - task: PipAuthenticate@1
+    inputs:
+      artifactFeeds: "pyansys"
+      onlyAddExtraIndex: true
+
+  - script: |
+      sudo apt update
+      sudo apt install zip pandoc libgl1-mesa-glx xvfb
+    displayName: Install OS packages
+
+  - script: |
+      pip install -r .ci/requirements_test_xvfb.txt
+      xvfb-run python .ci/display_test.py
+    displayName: Test virtual framebuffer
+
+  - script: |
+      pip install -r requirements_build.txt
+      python setup.py bdist_wheel
+      export WHEELNAME=`ls dist/*.whl`
+      echo ${WHEELNAME}
+      pip install ${WHEELNAME}
+      cd tests
+      xvfb-run python -c "from ansys.dpf import core; print(core.Report())"
+    displayName: Install ansys-dpf-core
+
+  - task: UniversalPackages@0
+    inputs:
+      command: "download"
+      downloadDirectory: "$(System.DefaultWorkingDirectory)"
+      feedsToUse: "internal"
+      vstsFeed: "705e121a-9631-49f5-8aaf-c7142856f923"
+      vstsFeedPackage: "dpf-linux" #TODO: update hash of packages
+      vstsPackageVersion: "21.2.5"
+    displayName: Download DPF linux package
+
+  - script: |
+      echo $0
+      if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+      then
+          pkill -f Ans.Dpf.Grpc.exe
+      fi
+    displayName: "Kill all servers"
+    condition: always()
+    continueOnError: true
+
+  - script: |
+      env
+    displayName: Display env
+
+  - script: |
+      cd ${AWP_ROOT212}/aisol/bin/linx64
+      pwd
+      chmod 755 Ans.Dpf.Grpc.sh
+      chmod 755 Ans.Dpf.Grpc.exe
+      ./Ans.Dpf.Grpc.sh --port 50054 & > log.txt
+      export DPF_IP=$(hostname -i)
+      python -c "from ansys.dpf import core; core.connect_to_server(ip= '${DPF_IP}', port=50054); print('Python Connected')"
+    displayName: Start DPF Server
