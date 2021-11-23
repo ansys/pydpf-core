@@ -371,7 +371,7 @@ class DpfServer:
         Returns
         -------
         os : str
-            "os" or "posix"
+            "nt" or "posix"
         """
         return self._base_service.server_info["os"]
 
