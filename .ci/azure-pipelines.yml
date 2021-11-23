@@ -171,7 +171,7 @@ jobs:
       displayName: Install documentation packages for Python
 
     - script: |
-        echo root=${AWP_ROOT212}
+        sphinx-apidoc -o docs/source/api ansys ansys/dpf/core/aeneid.py -f --implicit-namespaces --separate --no-headings
         xvfb-run make -C docs html SPHINXOPTS="-w build_errors.txt -N"
       displayName: Build Documentation
 
