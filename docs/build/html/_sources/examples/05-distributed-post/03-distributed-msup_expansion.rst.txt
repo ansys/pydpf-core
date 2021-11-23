@@ -115,7 +115,32 @@ but we could get connected to any existing servers on the network.
 
 
 
+.. rst-class:: sphx-glr-script-out
 
+.. code-block:: pytb
+
+    Traceback (most recent call last):
+      File "D:\AnsysDev\dpf-python-core\examples\05-distributed-post\03-distributed-msup_expansion.py", line 49, in <module>
+        remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 178, in start_local_server
+        server = DpfServer(ansys_path, ip, port,as_global= as_global, load_operators = load_operators)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 310, in __init__
+        self._session = session.Session(self)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\session.py", line 31, in __init__
+        if server_meet_version("3.0", self._server):
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 28, in server_meet_version
+        version = get_server_version(server)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 114, in get_server_version
+        version = server.version
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 365, in version
+        return self._base_service.server_info["server_version"]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 316, in _base_service
+        self.__base_service = BaseService(self, timeout=1)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 287, in __init__
+        self._stub = self._connect(timeout)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 301, in _connect
+        raise IOError(f'Unable to connect to DPF instance at {self._server()._input_ip} {self._server()._input_port}')
+    OSError: Unable to connect to DPF instance at 10.110.2.65 50054
 
 
 
@@ -132,21 +157,6 @@ Print the ips and ports
     print("ports:", ports)
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50055, 50056]
-
-
-
-
 .. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Choose the file path
@@ -159,12 +169,6 @@ Choose the file path
     base_path=examples.distributed_msup_folder
     files = [base_path+r'\file0.mode',base_path+r'\file1.mode']
     files_aux = [base_path+r'\file0.rst',base_path+r'\file1.rst']
-
-
-
-
-
-
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 66-70
@@ -186,12 +190,6 @@ We also connect the data sources to those workflows
         remote_workflows[i].connect("data_sources", ds)
         
     
-
-
-
-
-
-
 
 .. GENERATED FROM PYTHON SOURCE LINES 79-83
 
@@ -226,18 +224,12 @@ and expand the modal response with the modal basis
     local_workflow.set_output_name("mesh", merge_mesh.outputs.merges_mesh)
     
 
-
-
-
-
-
-
 .. GENERATED FROM PYTHON SOURCE LINES 105-107
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-116
+.. GENERATED FROM PYTHON SOURCE LINES 107-117
 
 .. code-block:: default
 
@@ -252,63 +244,20 @@ Connect the workflows together and get the output
     print(fc)
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 118-120
 
-.. rst-class:: sphx-glr-horizontal
+Shutdown the servers
+~~~~~~~~~~~~~~~~~~~~~
 
+.. GENERATED FROM PYTHON SOURCE LINES 120-120
 
-    *
+.. code-block:: default
 
-      .. image:: /examples/05-distributed-post/images/sphx_glr_03-distributed-msup_expansion_001.png
-          :alt: 03 distributed msup expansion
-          :class: sphx-glr-multi-img
-
-    *
-
-      .. image:: /examples/05-distributed-post/images/sphx_glr_03-distributed-msup_expansion_002.png
-          :alt: 03 distributed msup expansion
-          :class: sphx-glr-multi-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    DPF  Fields Container
-      with 20 field(s)
-      defined on labels: complex time 
-
-      with:
-      - field 0 {complex:  0, time:  1} with Nodal location, 1 components and 1065 entities.
-      - field 1 {complex:  1, time:  1} with Nodal location, 1 components and 1065 entities.
-      - field 2 {complex:  0, time:  2} with Nodal location, 1 components and 1065 entities.
-      - field 3 {complex:  1, time:  2} with Nodal location, 1 components and 1065 entities.
-      - field 4 {complex:  0, time:  3} with Nodal location, 1 components and 1065 entities.
-      - field 5 {complex:  1, time:  3} with Nodal location, 1 components and 1065 entities.
-      - field 6 {complex:  0, time:  4} with Nodal location, 1 components and 1065 entities.
-      - field 7 {complex:  1, time:  4} with Nodal location, 1 components and 1065 entities.
-      - field 8 {complex:  0, time:  5} with Nodal location, 1 components and 1065 entities.
-      - field 9 {complex:  1, time:  5} with Nodal location, 1 components and 1065 entities.
-      - field 10 {complex:  0, time:  6} with Nodal location, 1 components and 1065 entities.
-      - field 11 {complex:  1, time:  6} with Nodal location, 1 components and 1065 entities.
-      - field 12 {complex:  0, time:  7} with Nodal location, 1 components and 1065 entities.
-      - field 13 {complex:  1, time:  7} with Nodal location, 1 components and 1065 entities.
-      - field 14 {complex:  0, time:  8} with Nodal location, 1 components and 1065 entities.
-      - field 15 {complex:  1, time:  8} with Nodal location, 1 components and 1065 entities.
-      - field 16 {complex:  0, time:  9} with Nodal location, 1 components and 1065 entities.
-      - field 17 {complex:  1, time:  9} with Nodal location, 1 components and 1065 entities.
-      - field 18 {complex:  0, time:  10} with Nodal location, 1 components and 1065 entities.
-      - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 1065 entities.
-
-
-
-
-
+    dpf.server.shutdown_all_session_servers()
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.465 seconds)
+   **Total running time of the script:** ( 0 minutes  3.336 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_03-distributed-msup_expansion.py:

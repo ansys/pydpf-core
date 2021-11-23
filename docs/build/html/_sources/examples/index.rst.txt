@@ -633,27 +633,6 @@ These demos show how to create worflows on different processes (possibly on diff
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp1_thumb.png
-     :alt: Distributed post without client connection to remote processes
-
-     :ref:`sphx_glr_examples_05-distributed-post_00-distributed_total_disp1.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/00-distributed_total_disp1
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Compute total displacement from distributed files with distributed post">
 
 .. only:: html
@@ -735,6 +714,27 @@ These demos show how to create worflows on different processes (possibly on diff
    :hidden:
 
    /examples/05-distributed-post/04-distributed-msup_expansion_steps
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes with Operators">
+
+.. only:: html
+
+ .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_05-distributed_total_disp_with_operators_thumb.png
+     :alt: Distributed post without client connection to remote processes with Operators
+
+     :ref:`sphx_glr_examples_05-distributed-post_05-distributed_total_disp_with_operators.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/05-distributed-post/05-distributed_total_disp_with_operators
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

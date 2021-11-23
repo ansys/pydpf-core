@@ -29,6 +29,7 @@ Submodules
    ansys.dpf.core.operators.result.contact_total_stress
    ansys.dpf.core.operators.result.coordinate_system
    ansys.dpf.core.operators.result.creep_strain_energy_density
+   ansys.dpf.core.operators.result.current_density
    ansys.dpf.core.operators.result.custom
    ansys.dpf.core.operators.result.cyclic_analytic_seqv_max
    ansys.dpf.core.operators.result.cyclic_analytic_usum_max
@@ -58,10 +59,12 @@ Submodules
    ansys.dpf.core.operators.result.elastic_strain_principal_3
    ansys.dpf.core.operators.result.elastic_strain_rotation_by_euler_nodes
    ansys.dpf.core.operators.result.electric_field
+   ansys.dpf.core.operators.result.electric_flux_density
    ansys.dpf.core.operators.result.electric_potential
    ansys.dpf.core.operators.result.element_centroids
    ansys.dpf.core.operators.result.element_nodal_forces
    ansys.dpf.core.operators.result.element_orientations
+   ansys.dpf.core.operators.result.elemental_heat_generation
    ansys.dpf.core.operators.result.elemental_mass
    ansys.dpf.core.operators.result.elemental_volume
    ansys.dpf.core.operators.result.enf_rotation_by_euler_nodes
@@ -147,9 +150,12 @@ Submodules
    ansys.dpf.core.operators.result.stress_rotation_by_euler_nodes
    ansys.dpf.core.operators.result.stress_von_mises
    ansys.dpf.core.operators.result.structural_temperature
+   ansys.dpf.core.operators.result.swelling_strains
    ansys.dpf.core.operators.result.temperature
+   ansys.dpf.core.operators.result.temperature_grad
    ansys.dpf.core.operators.result.thermal_dissipation_energy
    ansys.dpf.core.operators.result.thermal_strain
+   ansys.dpf.core.operators.result.thermal_strains_eqv
    ansys.dpf.core.operators.result.thickness
    ansys.dpf.core.operators.result.torque
    ansys.dpf.core.operators.result.velocity

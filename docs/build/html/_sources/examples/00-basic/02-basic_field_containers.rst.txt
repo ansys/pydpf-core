@@ -342,14 +342,12 @@ Note that the numpy array does not retain any information about the
 field it describes.  Using the DPF max operator of the field does
 retain this information.
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-89
+.. GENERATED FROM PYTHON SOURCE LINES 86-87
 
 .. code-block:: default
 
     max_field = field.max()
     print(max_field)
-
-
 
 
 
@@ -369,34 +367,10 @@ retain this information.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-91
-
-Including the Node IDs of the maximum displacements:
-
-.. GENERATED FROM PYTHON SOURCE LINES 91-92
-
-.. code-block:: default
-
-    print('Node IDs of maximum X, Y, and Z displacement:', max_field.scoping.ids)
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    Node IDs of maximum X, Y, and Z displacement: [75, 63, 40]
-
-
-
-
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.385 seconds)
+   **Total running time of the script:** ( 0 minutes  0.461 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_02-basic_field_containers.py:

@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
@@ -31,7 +31,7 @@
     
   <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,63 +57,87 @@
 
 <div class="container-xl">
 
-    <a class="navbar-brand" href="../index.html">
+  <div id="navbar-start">
     
-      <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo" />
     
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" >
-        <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
-      </span>
-    </button>
-    
-    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
-      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
-        
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../user_guide/index.html">User Guide</a>
-        </li>
-        
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">APIs</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../operator_reference.html">Operators</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../examples/index.html">Examples Gallery</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../contributing.html">Contributing</a>
-        </li>
-        
-        
-      </ul>
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
 
 
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
       
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
 
-      <ul class="navbar-nav">
-        
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/pyansys/DPF-Core" target="_blank" rel="noopener">
-              <span><i class="fab fa-github-square" style="font-size:24px"></i></span>
-            </a>
-          </li>
-        
-        
-        
-      </ul>
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
     </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
 </div>
     </nav>
     
@@ -587,8 +611,18 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.find_reduced_coordinates.html">
+         find_reduced_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_coordinates.html">
          on_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_reduced_coordinates.html">
+         on_reduced_coordinates
         </a>
        </li>
        <li class="toctree-l4">
@@ -986,11 +1020,6 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
-         acmo_mesh_provider
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
         </a>
@@ -1347,6 +1376,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.current_density.html">
+         current_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.custom.html">
          custom
         </a>
@@ -1492,6 +1526,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_flux_density.html">
+         electric_flux_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.electric_potential.html">
          electric_potential
         </a>
@@ -1509,6 +1548,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.element_orientations.html">
          element_orientations
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_heat_generation.html">
+         elemental_heat_generation
         </a>
        </li>
        <li class="toctree-l4">
@@ -1937,8 +1981,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.swelling_strains.html">
+         swelling_strains
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.temperature.html">
          temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.temperature_grad.html">
+         temperature_grad
         </a>
        </li>
        <li class="toctree-l4">
@@ -1949,6 +2003,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain.html">
          thermal_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strains_eqv.html">
+         thermal_strains_eqv
         </a>
        </li>
        <li class="toctree-l4">
@@ -2507,8 +2566,8 @@
   <span class="target" id="module-ansys.dpf.core.operators.metadata.cyclic_support_provider"></span><div class="section" id="cyclic-support-provider">
 <h1>cyclic_support_provider<a class="headerlink" href="#cyclic-support-provider" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.metadata.cyclic_support_provider.</span></span><span class="sig-name descname"><span class="pre">cyclic_support_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streams_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_meshed_region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expanded_meshed_region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors_to_expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.metadata.cyclic_support_provider.</span></code><code class="sig-name descname"><span class="pre">cyclic_support_provider</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streams_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_meshed_region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expanded_meshed_region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors_to_expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the cyclic support (DPF entity containing necessary information for expansions) and expands the mesh.</p>
 <dl class="simple">
 <dt>available inputs:</dt><dd><ul class="simple">
@@ -2556,11 +2615,13 @@
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.default_config">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.default_config" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.default_config">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">default_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.default_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the default config for a given operator.
 This config can then be changed to the user needs and be used to
-instantiate the given operator</p>
+instantiate the given operator.
+The Configuration allows to customize how the operation
+will be processed by the operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2572,9 +2633,9 @@ instantiate the given operator</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.inputs">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.inputs" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.inputs">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">inputs</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to connect inputs to the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2586,9 +2647,9 @@ instantiate the given operator</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.outputs">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.outputs" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.outputs">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">outputs</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.outputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to get outputs of the operator by evaluationg it</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2600,9 +2661,9 @@ instantiate the given operator</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.config">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.config" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.config">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">config</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a copy of the current config of the operator.
 To use the config that you modify, please use operator.config = new_config
 or create an operator with the new config as a parameter.</p>
@@ -2617,8 +2678,8 @@ or create an operator with the new config as a parameter.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.connect" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.connect">
+<code class="sig-name descname"><span class="pre">connect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect an input on the operator using a pin number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2648,8 +2709,8 @@ and <code class="docutils literal notranslate"><span class="pre">'min_max_fc'</s
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.get_output">
-<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.get_output" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.get_output">
+<code class="sig-name descname"><span class="pre">get_output</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.get_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the output of the operator on the pin number.
 To activate the progress bar for server version higher or equal to 3.0,
 use my_op.progress_bar = True</p>
@@ -2664,29 +2725,29 @@ use my_op.progress_bar = True</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.operator_specification">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.operator_specification" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.operator_specification">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">operator_specification</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.operator_specification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put the grpc spec message in self._spec</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.progress_bar">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.progress_bar">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">progress_bar</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.progress_bar" title="Permalink to this definition">¶</a></dt>
 <dd><p>With this property, the user can choose to print a progress bar when
 the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.run" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.run">
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.cyclic_support_provider.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate this operator</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.metadata.cyclic_support_provider.</span></span><span class="sig-name descname"><span class="pre">InputsCyclicSupportProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.metadata.cyclic_support_provider.</span></code><code class="sig-name descname"><span class="pre">InputsCyclicSupportProvider</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Intermediate class used to connect user inputs to cyclic_support_provider operator</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -2705,9 +2766,9 @@ the operator’s output is requested, default is False</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sectors_to_expand</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_sectors_to_expand</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.streams_container">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">streams_container</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.streams_container" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.streams_container">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">streams_container</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.streams_container" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to connect streams_container input to the operator</p>
 <ul class="simple">
 <li><p>pindoc: Streams containing the result file.</p></li>
@@ -2729,9 +2790,9 @@ the operator’s output is requested, default is False</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.data_sources">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data_sources</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.data_sources" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.data_sources">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">data_sources</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.data_sources" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to connect data_sources input to the operator</p>
 <ul class="simple">
 <li><p>pindoc: data sources containing the result file.</p></li>
@@ -2753,9 +2814,9 @@ the operator’s output is requested, default is False</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sector_meshed_region">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sector_meshed_region</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sector_meshed_region" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sector_meshed_region">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sector_meshed_region</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sector_meshed_region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to connect sector_meshed_region input to the operator</p>
 <ul class="simple">
 <li><p>pindoc: mesh of the first sector.</p></li>
@@ -2777,9 +2838,9 @@ the operator’s output is requested, default is False</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.expanded_meshed_region">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">expanded_meshed_region</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.expanded_meshed_region" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.expanded_meshed_region">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">expanded_meshed_region</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.expanded_meshed_region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to connect expanded_meshed_region input to the operator</p>
 <ul class="simple">
 <li><p>pindoc: if this pin is set, expanding the mesh is not necessary.</p></li>
@@ -2801,9 +2862,9 @@ the operator’s output is requested, default is False</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sectors_to_expand">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sectors_to_expand</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sectors_to_expand" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sectors_to_expand">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sectors_to_expand</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.sectors_to_expand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to connect sectors_to_expand input to the operator</p>
 <ul class="simple">
 <li><p>pindoc: sectors to expand (start at 0), for multistage: use scopings container with ‘stage’ label.</p></li>
@@ -2826,14 +2887,14 @@ the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.connect" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.connect">
+<code class="sig-name descname"><span class="pre">connect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.InputsCyclicSupportProvider.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows you to connect any input (an entity or an operator
 output) to any input pin of this operator.</p>
 <p>The matching input type corresponding to the output is looked for.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.data_sources.html#ansys.dpf.core.data_sources.DataSources" title="ansys.dpf.core.data_sources.DataSources"><em>DataSources</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><em>MeshedRegion</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scopings_container.html#ansys.dpf.core.scopings_container.ScopingsContainer" title="ansys.dpf.core.scopings_container.ScopingsContainer"><em>ScopingsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.cyclic_support.html#ansys.dpf.core.cyclic_support.CyclicSupport" title="ansys.dpf.core.cyclic_support.CyclicSupport"><em>CyclicSupport</em></a><em>, </em><em>...</em><em>, </em><em>Output</em><em>, </em><em>Outputs</em><em>, </em><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><em>Operator</em></a>) – input of the operator</p>
+<dd class="field-odd"><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.data_sources.html#ansys.dpf.core.data_sources.DataSources" title="ansys.dpf.core.data_sources.DataSources"><em>DataSources</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><em>MeshedRegion</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scopings_container.html#ansys.dpf.core.scopings_container.ScopingsContainer" title="ansys.dpf.core.scopings_container.ScopingsContainer"><em>ScopingsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.cyclic_support.html#ansys.dpf.core.cyclic_support.CyclicSupport" title="ansys.dpf.core.cyclic_support.CyclicSupport"><em>CyclicSupport</em></a><em>, </em><em>..</em><em>, </em><em>Output</em><em>, </em><em>Outputs</em><em>, </em><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><em>Operator</em></a>) – input of the operator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2841,8 +2902,8 @@ output) to any input pin of this operator.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.metadata.cyclic_support_provider.</span></span><span class="sig-name descname"><span class="pre">OutputsCyclicSupportProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.metadata.cyclic_support_provider.</span></code><code class="sig-name descname"><span class="pre">OutputsCyclicSupportProvider</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Intermediate class used to get outputs from cyclic_support_provider operator
 .. rubric:: Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -2854,9 +2915,9 @@ output) to any input pin of this operator.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result_sector_meshes</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">sector_meshes</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.cyclic_support">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cyclic_support</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.cyclic_support" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.cyclic_support">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cyclic_support</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.cyclic_support" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to get cyclic_support output of the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2877,9 +2938,9 @@ output) to any input pin of this operator.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.sector_meshes">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sector_meshes</span></span><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.sector_meshes" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.sector_meshes">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sector_meshes</span></code><a class="headerlink" href="#ansys.dpf.core.operators.metadata.cyclic_support_provider.OutputsCyclicSupportProvider.sector_meshes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to get sector_meshes output of the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2934,7 +2995,7 @@ output) to any input pin of this operator.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
 </p>
     </div>
     

@@ -64,7 +64,36 @@ Create the template workflow of total displacement
 
 
 
+.. rst-class:: sphx-glr-script-out
 
+.. code-block:: pytb
+
+    Traceback (most recent call last):
+      File "D:\AnsysDev\dpf-python-core\examples\05-distributed-post\01-distributed_delegate_to_server.py", line 25, in <module>
+        template_workflow = dpf.Workflow()
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\workflow.py", line 58, in __init__
+        server = dpf.core._global_server()
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 63, in _global_server
+        start_local_server()
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 178, in start_local_server
+        server = DpfServer(ansys_path, ip, port,as_global= as_global, load_operators = load_operators)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 310, in __init__
+        self._session = session.Session(self)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\session.py", line 31, in __init__
+        if server_meet_version("3.0", self._server):
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 28, in server_meet_version
+        version = get_server_version(server)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 114, in get_server_version
+        version = server.version
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 365, in version
+        return self._base_service.server_info["server_version"]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 316, in _base_service
+        self.__base_service = BaseService(self, timeout=1)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 287, in __init__
+        self._stub = self._connect(timeout)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 301, in _connect
+        raise IOError(f'Unable to connect to DPF instance at {self._server()._input_ip} {self._server()._input_port}')
+    OSError: Unable to connect to DPF instance at 10.110.2.65 50052
 
 
 
@@ -74,7 +103,7 @@ Create the template workflow of total displacement
 Add the operators to the template workflow and name its inputs and outputs
 Once workflow's inputs and outputs are named, they can be connected later on
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-37
+.. GENERATED FROM PYTHON SOURCE LINES 32-36
 
 .. code-block:: default
 
@@ -83,14 +112,7 @@ Once workflow's inputs and outputs are named, they can be connected later on
     template_workflow.set_output_name("out", norm.outputs.fields_container)
 
 
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 38-51
+.. GENERATED FROM PYTHON SOURCE LINES 37-50
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -106,27 +128,21 @@ awaik. The purpose of this example is to show that we can do distributed
 post processing without opening channels between this client and
 the remote processes
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-56
+.. GENERATED FROM PYTHON SOURCE LINES 50-55
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
 Print the ips and ports
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-61
+.. GENERATED FROM PYTHON SOURCE LINES 57-60
 
 .. code-block:: default
 
@@ -134,27 +150,12 @@ Print the ips and ports
     print("ports:", ports)
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50060, 50061]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 62-64
+.. GENERATED FROM PYTHON SOURCE LINES 61-63
 
 Here we show how we could send files in temporary directory if we were not
 in shared memory
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-69
+.. GENERATED FROM PYTHON SOURCE LINES 63-67
 
 .. code-block:: default
 
@@ -163,44 +164,30 @@ in shared memory
                          dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1])]
 
 
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-74
+.. GENERATED FROM PYTHON SOURCE LINES 68-72
 
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
 We also connect the data sources to those workflows 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-81
+.. GENERATED FROM PYTHON SOURCE LINES 72-78
 
 .. code-block:: default
 
-    remote_workflows =[]
-    for i,ip in enumerate(ips) :
-        remote_workflows.append(template_workflow.create_on_other_server(ip=ip, port = ports[i]))
+    remote_workflows = []
+    for i, ip in enumerate(ips):
+        remote_workflows.append(template_workflow.create_on_other_server(ip=ip, port=ports[i]))
         ds = dpf.DataSources(server_file_paths[i])
         remote_workflows[i].connect("data_sources", ds)
-        
-    
 
 
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 82-84
+.. GENERATED FROM PYTHON SOURCE LINES 79-81
 
 Create a local workflow able to merge the results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-92
+.. GENERATED FROM PYTHON SOURCE LINES 81-89
 
 .. code-block:: default
 
@@ -208,61 +195,45 @@ Create a local workflow able to merge the results
     local_workflow = dpf.Workflow()
     merge = ops.utility.merge_fields_containers()
     local_workflow.add_operator(merge)
-    local_workflow.set_input_name("in0", merge,0)
-    local_workflow.set_input_name("in1", merge,1)
+    local_workflow.set_input_name("in0", merge, 0)
+    local_workflow.set_input_name("in1", merge, 1)
     local_workflow.set_output_name("merged", merge.outputs.merged_fields_container)
-    
 
 
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 93-95
+.. GENERATED FROM PYTHON SOURCE LINES 90-92
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-103
+.. GENERATED FROM PYTHON SOURCE LINES 92-101
 
 .. code-block:: default
 
 
-    for i,ip in enumerate(ips) :
-        local_workflow.connect_with(remote_workflows[i],("out", "in"+str(i)))
-    
+    for i, ip in enumerate(ips):
+        local_workflow.connect_with(remote_workflows[i], ("out", "in" + str(i)))
+
     fc = local_workflow.get_output("merged", dpf.types.fields_container)
     print(fc)
     print(fc[0].min().data)
     print(fc[0].max().data)
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 102-104
 
+Shutdown the servers
+~~~~~~~~~~~~~~~~~~~~~
 
-.. rst-class:: sphx-glr-script-out
+.. GENERATED FROM PYTHON SOURCE LINES 104-105
 
- Out:
+.. code-block:: default
 
- .. code-block:: none
-
-    DPF  Fields Container
-      with 1 field(s)
-      defined on labels: time 
-
-      with:
-      - field 0 {time:  1} with Nodal location, 1 components and 432 entities.
-
-    [0.]
-    [10.03242272]
-
-
-
+    dpf.server.shutdown_all_session_servers()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.167 seconds)
+   **Total running time of the script:** ( 0 minutes  2.326 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_01-distributed_delegate_to_server.py:

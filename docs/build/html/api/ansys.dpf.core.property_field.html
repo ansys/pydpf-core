@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
@@ -31,7 +31,7 @@
     
   <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,63 +57,87 @@
 
 <div class="container-xl">
 
-    <a class="navbar-brand" href="../index.html">
+  <div id="navbar-start">
     
-      <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo" />
     
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" >
-        <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
-      </span>
-    </button>
-    
-    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
-      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
-        
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../user_guide/index.html">User Guide</a>
-        </li>
-        
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">APIs</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../operator_reference.html">Operators</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../examples/index.html">Examples Gallery</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../contributing.html">Contributing</a>
-        </li>
-        
-        
-      </ul>
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
 
 
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
       
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
 
-      <ul class="navbar-nav">
-        
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/pyansys/DPF-Core" target="_blank" rel="noopener">
-              <span><i class="fab fa-github-square" style="font-size:24px"></i></span>
-            </a>
-          </li>
-        
-        
-        
-      </ul>
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
     </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
 </div>
     </nav>
     
@@ -587,8 +611,18 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.find_reduced_coordinates.html">
+         find_reduced_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_coordinates.html">
          on_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_reduced_coordinates.html">
+         on_reduced_coordinates
         </a>
        </li>
        <li class="toctree-l4">
@@ -986,11 +1020,6 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
-         acmo_mesh_provider
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
         </a>
@@ -1347,6 +1376,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.current_density.html">
+         current_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.custom.html">
          custom
         </a>
@@ -1492,6 +1526,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_flux_density.html">
+         electric_flux_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.electric_potential.html">
          electric_potential
         </a>
@@ -1509,6 +1548,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.element_orientations.html">
          element_orientations
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_heat_generation.html">
+         elemental_heat_generation
         </a>
        </li>
        <li class="toctree-l4">
@@ -1937,8 +1981,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.swelling_strains.html">
+         swelling_strains
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.temperature.html">
          temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.temperature_grad.html">
+         temperature_grad
         </a>
        </li>
        <li class="toctree-l4">
@@ -1949,6 +2003,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain.html">
          thermal_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strains_eqv.html">
+         thermal_strains_eqv
         </a>
        </li>
        <li class="toctree-l4">
@@ -2507,8 +2566,8 @@
   <span class="target" id="module-ansys.dpf.core.property_field"></span><div class="section" id="propertyfield">
 <h1>PropertyField<a class="headerlink" href="#propertyfield" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.property_field.</span></span><span class="sig-name descname"><span class="pre">PropertyField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">nentities=0</span></em>, <em class="sig-param"><span class="pre">nature=&lt;natures.scalar:</span> <span class="pre">0&gt;</span></em>, <em class="sig-param"><span class="pre">location='Nodal'</span></em>, <em class="sig-param"><span class="pre">property_field=None</span></em>, <em class="sig-param"><span class="pre">server=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.property_field.PropertyField">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.property_field.</span></code><code class="sig-name descname"><span class="pre">PropertyField</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">nentities=0</span></em>, <em class="sig-param"><span class="pre">nature=&lt;natures.scalar:</span> <span class="pre">0&gt;</span></em>, <em class="sig-param"><span class="pre">location='Nodal'</span></em>, <em class="sig-param"><span class="pre">property_field=None</span></em>, <em class="sig-param"><span class="pre">server=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Property field class is a Field that describes properties such as connectivity.
 It is a Field with integer values instead of double values.</p>
 <dl class="field-list simple">
@@ -2535,9 +2594,9 @@ It is a Field with integer values instead of double values.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pfield</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">list_data</span>
 </pre></div>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.location">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.location" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.location">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">location</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the property field location. Property field contains a scoping and this
 is the location that is read. To update location, directly update the scoping
 location.</p>
@@ -2564,8 +2623,8 @@ location.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.as_local_field">
-<span class="sig-name descname"><span class="pre">as_local_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.as_local_field" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.property_field.PropertyField.as_local_field">
+<code class="sig-name descname"><span class="pre">as_local_field</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.as_local_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a deep copy of the field locally so that the user can access
 and modify it locally without any request sent to the server.
 This should be used in a with statement, so that the local field
@@ -2604,8 +2663,8 @@ the data will not be actually updated.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopingid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.append" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.property_field.PropertyField.append">
+<code class="sig-name descname"><span class="pre">append</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopingid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.append" title="Permalink to this definition">¶</a></dt>
 <dd><p>add an entity data to the existing data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2629,9 +2688,9 @@ the data will not be actually updated.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.component_count">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">component_count</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.component_count" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.component_count">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">component_count</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.component_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of components in an elementary data of the Field</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2643,9 +2702,9 @@ the data will not be actually updated.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.data">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.data" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.data">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">data</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Access the data of this field.</p>
 <p class="rubric">Notes</p>
 <p>Print a progress bar</p>
@@ -2659,9 +2718,9 @@ the data will not be actually updated.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.data_as_list">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data_as_list</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.data_as_list" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.data_as_list">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">data_as_list</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.data_as_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>The data of this field in a python list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2686,21 +2745,21 @@ the data will not be actually updated.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.elementary_data_count">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">elementary_data_count</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.elementary_data_count" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.elementary_data_count">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">elementary_data_count</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.elementary_data_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of elementary data in the field</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.elementary_data_shape">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">elementary_data_shape</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.elementary_data_shape" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.elementary_data_shape">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">elementary_data_shape</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.elementary_data_shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Numpy-like shape of the field</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.get_entity_data">
-<span class="sig-name descname"><span class="pre">get_entity_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.get_entity_data" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.property_field.PropertyField.get_entity_data">
+<code class="sig-name descname"><span class="pre">get_entity_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.get_entity_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the elementary data of the scoping’s index in parameter</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2739,8 +2798,8 @@ the data will not be actually updated.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.get_entity_data_by_id">
-<span class="sig-name descname"><span class="pre">get_entity_data_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.get_entity_data_by_id" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.property_field.PropertyField.get_entity_data_by_id">
+<code class="sig-name descname"><span class="pre">get_entity_data_by_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.get_entity_data_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the data of the scoping’s id in parameter of the field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2778,9 +2837,9 @@ the data will not be actually updated.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.scoping">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">scoping</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.scoping" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.scoping">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">scoping</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.scoping" title="Permalink to this definition">¶</a></dt>
 <dd><p>The scoping allows to know where is the data.
 Each entity data is on a given scoping id.</p>
 <dl class="field-list simple">
@@ -2809,9 +2868,9 @@ Each entity data is on a given scoping id.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.shape">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.shape" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.shape">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">shape</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Numpy-like shape of the field</p>
 <p class="rubric">Examples</p>
 <p>Shape of a stress field</p>
@@ -2827,9 +2886,9 @@ Each entity data is on a given scoping id.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.property_field.PropertyField.size">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.size" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.property_field.PropertyField.size">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">size</span></code><a class="headerlink" href="#ansys.dpf.core.property_field.PropertyField.size" title="Permalink to this definition">¶</a></dt>
 <dd><p>The length of the data vector.
 Also equals to the number of elementary data times the number of components.</p>
 <dl class="field-list simple">
@@ -2876,7 +2935,7 @@ Also equals to the number of elementary data times the number of components.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
 </p>
     </div>
     

@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
@@ -31,7 +31,7 @@
     
   <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,63 +57,87 @@
 
 <div class="container-xl">
 
-    <a class="navbar-brand" href="../index.html">
+  <div id="navbar-start">
     
-      <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo" />
     
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" >
-        <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
-      </span>
-    </button>
-    
-    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
-      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
-        
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../user_guide/index.html">User Guide</a>
-        </li>
-        
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">APIs</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../operator_reference.html">Operators</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../examples/index.html">Examples Gallery</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../contributing.html">Contributing</a>
-        </li>
-        
-        
-      </ul>
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
 
 
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
       
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
 
-      <ul class="navbar-nav">
-        
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/pyansys/DPF-Core" target="_blank" rel="noopener">
-              <span><i class="fab fa-github-square" style="font-size:24px"></i></span>
-            </a>
-          </li>
-        
-        
-        
-      </ul>
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
     </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
 </div>
     </nav>
     
@@ -587,8 +611,18 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.find_reduced_coordinates.html">
+         find_reduced_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_coordinates.html">
          on_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_reduced_coordinates.html">
+         on_reduced_coordinates
         </a>
        </li>
        <li class="toctree-l4">
@@ -986,11 +1020,6 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
-         acmo_mesh_provider
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
         </a>
@@ -1347,6 +1376,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.current_density.html">
+         current_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.custom.html">
          custom
         </a>
@@ -1492,6 +1526,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_flux_density.html">
+         electric_flux_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.electric_potential.html">
          electric_potential
         </a>
@@ -1509,6 +1548,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.element_orientations.html">
          element_orientations
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_heat_generation.html">
+         elemental_heat_generation
         </a>
        </li>
        <li class="toctree-l4">
@@ -1937,8 +1981,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.swelling_strains.html">
+         swelling_strains
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.temperature.html">
          temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.temperature_grad.html">
+         temperature_grad
         </a>
        </li>
        <li class="toctree-l4">
@@ -1949,6 +2003,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain.html">
          thermal_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strains_eqv.html">
+         thermal_strains_eqv
         </a>
        </li>
        <li class="toctree-l4">
@@ -2507,8 +2566,8 @@
   <span class="target" id="module-ansys.dpf.core.time_freq_support"></span><div class="section" id="timefreqsupport">
 <h1>TimeFreqSupport<a class="headerlink" href="#timefreqsupport" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.time_freq_support.</span></span><span class="sig-name descname"><span class="pre">TimeFreqSupport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_freq_support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.time_freq_support.</span></code><code class="sig-name descname"><span class="pre">TimeFreqSupport</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_freq_support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class used to represent a TimeFreqSupport which is a
 description of the temporal/frequency analysis.</p>
 <p>It stores values such as the frequencies (time/complex), the RPMs and the hamonic indices.
@@ -2533,9 +2592,9 @@ There is one set value for each step/substep combination.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">time_freq_support</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span> <span class="c1"># printable</span>
 </pre></div>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.time_frequencies">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">time_frequencies</span></span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.time_frequencies" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.time_frequencies">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">time_frequencies</span></code><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.time_frequencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Field of time frequencies or time values for the active result
 Frequencies field can have one value by set.</p>
 <p class="rubric">Examples</p>
@@ -2552,9 +2611,9 @@ Frequencies field can have one value by set.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.complex_frequencies">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">complex_frequencies</span></span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.complex_frequencies" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.complex_frequencies">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">complex_frequencies</span></code><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.complex_frequencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Field of complex frequencies for the active result.
 Complex frequencies field can have one value by set.</p>
 <p class="rubric">Examples</p>
@@ -2563,17 +2622,17 @@ Complex frequencies field can have one value by set.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.rpms">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">rpms</span></span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.rpms" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.rpms">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">rpms</span></code><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.rpms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Field of RPMs for the active result.
 RPM field has one value by load step.</p>
 <p>Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if result has no RPMs.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.get_harmonic_indices">
-<span class="sig-name descname"><span class="pre">get_harmonic_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.get_harmonic_indices" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.get_harmonic_indices">
+<code class="sig-name descname"><span class="pre">get_harmonic_indices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.get_harmonic_indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Field of harmonic indices for the active result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2589,8 +2648,8 @@ harmonic indices.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.set_harmonic_indices">
-<span class="sig-name descname"><span class="pre">set_harmonic_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">harmonic_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.set_harmonic_indices" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.set_harmonic_indices">
+<code class="sig-name descname"><span class="pre">set_harmonic_indices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">harmonic_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.set_harmonic_indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the harmonic indices values of the time_freq_support.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2602,9 +2661,9 @@ harmonic indices.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.n_sets">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">n_sets</span></span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.n_sets" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.n_sets">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_sets</span></code><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.n_sets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of result sets</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">n_sets</span>
@@ -2614,8 +2673,8 @@ harmonic indices.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.get_frequency">
-<span class="sig-name descname"><span class="pre">get_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumulative_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cplx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.get_frequency" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.get_frequency">
+<code class="sig-name descname"><span class="pre">get_frequency</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumulative_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cplx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.get_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the frequence corresponding to step/substep or
 cumulative index requested.</p>
 <dl class="field-list simple">
@@ -2637,8 +2696,8 @@ cumulative index requested.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.get_cumulative_index">
-<span class="sig-name descname"><span class="pre">get_cumulative_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cplx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.get_cumulative_index" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.get_cumulative_index">
+<code class="sig-name descname"><span class="pre">get_cumulative_index</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cplx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.get_cumulative_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the cumulative index corresponding to step/substep
 or frequency requested.</p>
 <dl class="field-list simple">
@@ -2661,8 +2720,8 @@ frequency.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.append_step">
-<span class="sig-name descname"><span class="pre">append_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_time_frequencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_complex_frequencies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rpm_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_harmonic_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.append_step" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.append_step">
+<code class="sig-name descname"><span class="pre">append_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_time_frequencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_complex_frequencies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rpm_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_harmonic_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.append_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append a step with all its field values in the time frequencies support.
 The rpm_value is step (or load_step) based value.
 The time_freqencies/complex_frequencies/harmonic_indices are set based values.
@@ -2706,8 +2765,8 @@ harmonic_indices are values related to the specified step.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.time_freq_support.TimeFreqSupport.deep_copy">
-<span class="sig-name descname"><span class="pre">deep_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.deep_copy" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.time_freq_support.TimeFreqSupport.deep_copy">
+<code class="sig-name descname"><span class="pre">deep_copy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.time_freq_support.TimeFreqSupport.deep_copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a deep copy of the time_freq_support’s data on a given server.
 This can be useful to pass data from one server instance to another.</p>
 <dl class="field-list simple">
@@ -2762,7 +2821,7 @@ This can be useful to pass data from one server instance to another.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
 </p>
     </div>
     

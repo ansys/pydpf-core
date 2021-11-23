@@ -32,7 +32,7 @@ together without having to care that they are on remote processes.
 
 Import dpf module and its examples files
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-21
+.. GENERATED FROM PYTHON SOURCE LINES 15-20
 
 .. code-block:: default
 
@@ -48,29 +48,53 @@ Import dpf module and its examples files
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 22-26
+.. GENERATED FROM PYTHON SOURCE LINES 21-25
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
 To make this example easier, we will start local servers here, 
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 25-28
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+.. code-block:: pytb
+
+    Traceback (most recent call last):
+      File "D:\AnsysDev\dpf-python-core\examples\05-distributed-post\02-distributed_workflows_on_remote.py", line 26, in <module>
+        remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 178, in start_local_server
+        server = DpfServer(ansys_path, ip, port,as_global= as_global, load_operators = load_operators)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 310, in __init__
+        self._session = session.Session(self)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\session.py", line 31, in __init__
+        if server_meet_version("3.0", self._server):
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 28, in server_meet_version
+        version = get_server_version(server)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 114, in get_server_version
+        version = server.version
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 365, in version
+        return self._base_service.server_info["server_version"]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 316, in _base_service
+        self.__base_service = BaseService(self, timeout=1)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 287, in __init__
+        self._stub = self._connect(timeout)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 301, in _connect
+        raise IOError(f'Unable to connect to DPF instance at {self._server()._input_ip} {self._server()._input_port}')
+    OSError: Unable to connect to DPF instance at 10.110.2.65 50053
 
 
 
 
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 30-35
+.. GENERATED FROM PYTHON SOURCE LINES 29-34
 
 Create template workflows on remote servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,7 +102,7 @@ For the purpose of this example, we will create 2 workflows computing
 elemental nodal stresses on different servers. The second workflow will 
 multiply by 2.0 the stresses. A last workflow will merge the outputs
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-39
+.. GENERATED FROM PYTHON SOURCE LINES 34-37
 
 .. code-block:: default
 
@@ -86,118 +110,85 @@ multiply by 2.0 the stresses. A last workflow will merge the outputs
     files = examples.download_distributed_files()
 
 
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 first workflow S
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-47
+.. GENERATED FROM PYTHON SOURCE LINES 39-45
 
 .. code-block:: default
 
     workflow1 = dpf.Workflow(server=remote_servers[0])
-    model = dpf.Model(files[0],server=remote_servers[0])
+    model = dpf.Model(files[0], server=remote_servers[0])
     stress1 = model.results.stress()
     workflow1.add_operator(stress1)
     workflow1.set_output_name("out1", stress1.outputs.fields_container)
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 46-47
 
 second workflow S*2.0
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-56
+.. GENERATED FROM PYTHON SOURCE LINES 47-54
 
 .. code-block:: default
 
     workflow2 = dpf.Workflow(server=remote_servers[1])
-    model = dpf.Model(files[1],server=remote_servers[1])
+    model = dpf.Model(files[1], server=remote_servers[1])
     stress2 = model.results.stress()
-    mul = stress2*2.0
+    mul = stress2 * 2.0
     workflow2.add_operator(mul)
     workflow2.set_output_name("out2", mul.outputs.fields_container)
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 third workflow merge
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-66
+.. GENERATED FROM PYTHON SOURCE LINES 56-64
 
 .. code-block:: default
 
     local_workflow = dpf.Workflow()
     merge = ops.utility.merge_fields_containers()
     nodal = ops.averaging.to_nodal_fc(merge)
-    local_workflow.add_operators([merge,nodal])
-    local_workflow.set_input_name("in1", merge,0)
-    local_workflow.set_input_name("in2", merge,1)
+    local_workflow.add_operators([merge, nodal])
+    local_workflow.set_input_name("in1", merge, 0)
+    local_workflow.set_input_name("in2", merge, 1)
     local_workflow.set_output_name("merged", nodal.outputs.fields_container)
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 67-69
+.. GENERATED FROM PYTHON SOURCE LINES 65-67
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-74
+.. GENERATED FROM PYTHON SOURCE LINES 67-73
 
 .. code-block:: default
 
-    local_workflow.connect_with(workflow1,("out1", "in1"))
-    local_workflow.connect_with(workflow2,("out2", "in2"))
-    
+    local_workflow.connect_with(workflow1, ("out1", "in1"))
+    local_workflow.connect_with(workflow2, ("out2", "in2"))
+
     fc = local_workflow.get_output("merged", dpf.types.fields_container)
     fc[0].meshed_region.plot(fc[0])
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 74-76
 
-.. image:: /examples/05-distributed-post/images/sphx_glr_02-distributed_workflows_on_remote_001.png
-    :alt: 02 distributed workflows on remote
-    :class: sphx-glr-single-img
+Shutdown the servers
+~~~~~~~~~~~~~~~~~~~~~
 
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
-.. rst-class:: sphx-glr-script-out
+.. code-block:: default
 
- Out:
-
- .. code-block:: none
-
-
-    [(0.03735419596763981, 0.06083919596763981, 0.03735419596763981),
-     (-0.006, 0.017485, -0.006),
-     (0.0, 0.0, 1.0)]
-
-
+    dpf.server.shutdown_all_session_servers()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.157 seconds)
+   **Total running time of the script:** ( 0 minutes  3.325 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_02-distributed_workflows_on_remote.py:

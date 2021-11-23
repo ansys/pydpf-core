@@ -74,7 +74,7 @@ this workflow will provide the modal basis and the mesh for each domain
 Add the operators to the template workflow and name its inputs and outputs
 Once workflow's inputs and outputs are named, they can be connected later on
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-39
+.. GENERATED FROM PYTHON SOURCE LINES 32-38
 
 .. code-block:: default
 
@@ -91,8 +91,7 @@ Once workflow's inputs and outputs are named, they can be connected later on
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 40-49
+.. GENERATED FROM PYTHON SOURCE LINES 39-48
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -104,27 +103,52 @@ we will consequently require 2 remote processes
 To make this example easier, we will start local servers here, 
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-54
+.. GENERATED FROM PYTHON SOURCE LINES 48-53
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+.. code-block:: pytb
+
+    Traceback (most recent call last):
+      File "D:\AnsysDev\dpf-python-core\examples\05-distributed-post\04-distributed-msup_expansion_steps.py", line 49, in <module>
+        remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 178, in start_local_server
+        server = DpfServer(ansys_path, ip, port,as_global= as_global, load_operators = load_operators)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 310, in __init__
+        self._session = session.Session(self)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\session.py", line 31, in __init__
+        if server_meet_version("3.0", self._server):
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 28, in server_meet_version
+        version = get_server_version(server)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 114, in get_server_version
+        version = server.version
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 365, in version
+        return self._base_service.server_info["server_version"]
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 316, in _base_service
+        self.__base_service = BaseService(self, timeout=1)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 287, in __init__
+        self._stub = self._connect(timeout)
+      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 301, in _connect
+        raise IOError(f'Unable to connect to DPF instance at {self._server()._input_ip} {self._server()._input_port}')
+    OSError: Unable to connect to DPF instance at 10.110.2.65 50055
 
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 Print the ips and ports
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-59
+.. GENERATED FROM PYTHON SOURCE LINES 55-58
 
 .. code-block:: default
 
@@ -132,75 +156,47 @@ Print the ips and ports
     print("ports:", ports)
 
 
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50074, 50075]
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 60-61
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Choose the file path
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-66
+.. GENERATED FROM PYTHON SOURCE LINES 60-65
 
 .. code-block:: default
 
 
-    base_path=examples.distributed_msup_folder
-    files = [base_path+r'\file0.mode',base_path+r'\file1.mode']
-    files_aux = [base_path+r'\file0.rst',base_path+r'\file1.rst']
+    base_path = examples.distributed_msup_folder
+    files = [base_path + r'\file0.mode', base_path + r'\file1.mode']
+    files_aux = [base_path + r'\file0.rst', base_path + r'\file1.rst']
 
 
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 67-71
+.. GENERATED FROM PYTHON SOURCE LINES 66-70
 
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
 We also connect the data sources to those workflows 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-79
+.. GENERATED FROM PYTHON SOURCE LINES 70-77
 
 .. code-block:: default
 
-    remote_workflows =[]
-    for i,server in enumerate(remote_servers) :
+    remote_workflows = []
+    for i, server in enumerate(remote_servers):
         remote_workflows.append(template_workflow.create_on_other_server(server))
         ds = dpf.DataSources(files[i])
         ds.add_file_path(files_aux[i])
         remote_workflows[i].connect("data_sources", ds)
-        
-    
 
 
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 80-84
+.. GENERATED FROM PYTHON SOURCE LINES 78-82
 
 Create a local workflow for expansion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this workflow we merge the modal basis, the meshes, read the modal response
 and expand the modal response with the modal basis
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-114
+.. GENERATED FROM PYTHON SOURCE LINES 82-112
 
 .. code-block:: default
 
@@ -209,135 +205,66 @@ and expand the modal response with the modal basis
     merge = ops.utility.merge_fields_containers()
     merge_mesh = ops.utility.merge_meshes()
 
-    ds = dpf.DataSources(base_path+r'\file_load_1.rfrq')
+    ds = dpf.DataSources(base_path + r'\file_load_1.rfrq')
     response = ops.result.displacement(data_sources=ds)
     response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-    ds = dpf.DataSources(base_path+r'\file_load_2.rfrq')
+    ds = dpf.DataSources(base_path + r'\file_load_2.rfrq')
     response2 = ops.result.displacement(data_sources=ds)
     response2fc = response2.outputs.fields_container()
-    response2fc.time_freq_support.time_frequencies.scoping.set_id(0,2)
+    response2fc.time_freq_support.time_frequencies.scoping.set_id(0, 2)
 
     merge_use_pass = ops.utility.merge_fields_containers()
-    merge_use_pass.inputs.fields_containers(response)
-    merge_use_pass.connect(1,response2fc)
+    merge_use_pass.inputs.fields_containers1(response)
+    merge_use_pass.inputs.fields_containers2(response2fc)
 
-    expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis = merge)
-    component = ops.logic.component_selector_fc(expansion,1)
+    expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis=merge)
+    component = ops.logic.component_selector_fc(expansion, 1)
 
-    local_workflow.add_operators([merge, merge_use_pass,expansion,merge_mesh,component])
-    local_workflow.set_input_name("in0", merge,0)
-    local_workflow.set_input_name("in1", merge,1)
-    local_workflow.set_input_name("inmesh0", merge_mesh,0)
-    local_workflow.set_input_name("inmesh1", merge_mesh,1)
+    local_workflow.add_operators([merge, merge_use_pass, expansion, merge_mesh, component])
+    local_workflow.set_input_name("in0", merge, 0)
+    local_workflow.set_input_name("in1", merge, 1)
+    local_workflow.set_input_name("inmesh0", merge_mesh, 0)
+    local_workflow.set_input_name("inmesh1", merge_mesh, 1)
 
     local_workflow.set_output_name("expanded", component.outputs.fields_container)
     local_workflow.set_output_name("mesh", merge_mesh.outputs.merges_mesh)
-    
 
 
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 115-117
+.. GENERATED FROM PYTHON SOURCE LINES 113-115
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-126
+.. GENERATED FROM PYTHON SOURCE LINES 115-125
 
 .. code-block:: default
 
 
-    for i,server in enumerate(remote_servers) :
-        local_workflow.connect_with(remote_workflows[i],{"out":"in"+str(i),"outmesh":"inmesh"+str(i)})
-    
+    for i, server in enumerate(remote_servers):
+        local_workflow.connect_with(remote_workflows[i], {"out": "in" + str(i), "outmesh": "inmesh" + str(i)})
+
     fc = local_workflow.get_output("expanded", dpf.types.fields_container)
-    merged_mesh = local_workflow.get_output("mesh",dpf.types.meshed_region)
-    merged_mesh.plot(fc.get_field_by_time_complex_ids(1,0))
-    merged_mesh.plot(fc.get_field_by_time_complex_ids(20,0))
+    merged_mesh = local_workflow.get_output("mesh", dpf.types.meshed_region)
+    merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
+    merged_mesh.plot(fc.get_field_by_time_complex_ids(20, 0))
     print(fc)
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 126-128
 
-.. rst-class:: sphx-glr-horizontal
+Shutdown the servers
+~~~~~~~~~~~~~~~~~~~~~
 
+.. GENERATED FROM PYTHON SOURCE LINES 128-128
 
-    *
+.. code-block:: default
 
-      .. image:: /examples/05-distributed-post/images/sphx_glr_04-distributed-msup_expansion_steps_001.png
-          :alt: 04 distributed msup expansion steps
-          :class: sphx-glr-multi-img
-
-    *
-
-      .. image:: /examples/05-distributed-post/images/sphx_glr_04-distributed-msup_expansion_steps_002.png
-          :alt: 04 distributed msup expansion steps
-          :class: sphx-glr-multi-img
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    DPF  Fields Container
-      with 40 field(s)
-      defined on labels: complex time 
-
-      with:
-      - field 0 {complex:  0, time:  1} with Nodal location, 1 components and 1065 entities.
-      - field 1 {complex:  1, time:  1} with Nodal location, 1 components and 1065 entities.
-      - field 2 {complex:  0, time:  2} with Nodal location, 1 components and 1065 entities.
-      - field 3 {complex:  1, time:  2} with Nodal location, 1 components and 1065 entities.
-      - field 4 {complex:  0, time:  3} with Nodal location, 1 components and 1065 entities.
-      - field 5 {complex:  1, time:  3} with Nodal location, 1 components and 1065 entities.
-      - field 6 {complex:  0, time:  4} with Nodal location, 1 components and 1065 entities.
-      - field 7 {complex:  1, time:  4} with Nodal location, 1 components and 1065 entities.
-      - field 8 {complex:  0, time:  5} with Nodal location, 1 components and 1065 entities.
-      - field 9 {complex:  1, time:  5} with Nodal location, 1 components and 1065 entities.
-      - field 10 {complex:  0, time:  6} with Nodal location, 1 components and 1065 entities.
-      - field 11 {complex:  1, time:  6} with Nodal location, 1 components and 1065 entities.
-      - field 12 {complex:  0, time:  7} with Nodal location, 1 components and 1065 entities.
-      - field 13 {complex:  1, time:  7} with Nodal location, 1 components and 1065 entities.
-      - field 14 {complex:  0, time:  8} with Nodal location, 1 components and 1065 entities.
-      - field 15 {complex:  1, time:  8} with Nodal location, 1 components and 1065 entities.
-      - field 16 {complex:  0, time:  9} with Nodal location, 1 components and 1065 entities.
-      - field 17 {complex:  1, time:  9} with Nodal location, 1 components and 1065 entities.
-      - field 18 {complex:  0, time:  10} with Nodal location, 1 components and 1065 entities.
-      - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 1065 entities.
-      - field 20 {complex:  0, time:  11} with Nodal location, 1 components and 1065 entities.
-      - field 21 {complex:  1, time:  11} with Nodal location, 1 components and 1065 entities.
-      - field 22 {complex:  0, time:  12} with Nodal location, 1 components and 1065 entities.
-      - field 23 {complex:  1, time:  12} with Nodal location, 1 components and 1065 entities.
-      - field 24 {complex:  0, time:  13} with Nodal location, 1 components and 1065 entities.
-      - field 25 {complex:  1, time:  13} with Nodal location, 1 components and 1065 entities.
-      - field 26 {complex:  0, time:  14} with Nodal location, 1 components and 1065 entities.
-      - field 27 {complex:  1, time:  14} with Nodal location, 1 components and 1065 entities.
-      - field 28 {complex:  0, time:  15} with Nodal location, 1 components and 1065 entities.
-      - field 29 {complex:  1, time:  15} with Nodal location, 1 components and 1065 entities.
-      - field 30 {complex:  0, time:  16} with Nodal location, 1 components and 1065 entities.
-      - field 31 {complex:  1, time:  16} with Nodal location, 1 components and 1065 entities.
-      - field 32 {complex:  0, time:  17} with Nodal location, 1 components and 1065 entities.
-      - field 33 {complex:  1, time:  17} with Nodal location, 1 components and 1065 entities.
-      - field 34 {complex:  0, time:  18} with Nodal location, 1 components and 1065 entities.
-      - field 35 {complex:  1, time:  18} with Nodal location, 1 components and 1065 entities.
-      - field 36 {complex:  0, time:  19} with Nodal location, 1 components and 1065 entities.
-      - field 37 {complex:  1, time:  19} with Nodal location, 1 components and 1065 entities.
-      - field 38 {complex:  0, time:  20} with Nodal location, 1 components and 1065 entities.
-      - field 39 {complex:  1, time:  20} with Nodal location, 1 components and 1065 entities.
-
-
-
-
-
+    dpf.server.shutdown_all_session_servers()
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  18.519 seconds)
+   **Total running time of the script:** ( 0 minutes  3.334 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_04-distributed-msup_expansion_steps.py:

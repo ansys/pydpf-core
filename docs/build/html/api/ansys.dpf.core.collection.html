@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
@@ -31,7 +31,7 @@
     
   <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,63 +57,87 @@
 
 <div class="container-xl">
 
-    <a class="navbar-brand" href="../index.html">
+  <div id="navbar-start">
     
-      <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo" />
     
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" >
-        <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
-      </span>
-    </button>
-    
-    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
-      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
-        
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../getting_started/index.html">Getting Started</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../user_guide/index.html">User Guide</a>
-        </li>
-        
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">APIs</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../operator_reference.html">Operators</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../examples/index.html">Examples Gallery</a>
-        </li>
-        
-        <li class="nav-item ">
-            <a class="nav-link" href="../contributing.html">Contributing</a>
-        </li>
-        
-        
-      </ul>
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
 
 
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
       
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
 
-      <ul class="navbar-nav">
-        
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/pyansys/DPF-Core" target="_blank" rel="noopener">
-              <span><i class="fab fa-github-square" style="font-size:24px"></i></span>
-            </a>
-          </li>
-        
-        
-        
-      </ul>
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
     </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
 </div>
     </nav>
     
@@ -587,8 +611,18 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.find_reduced_coordinates.html">
+         find_reduced_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_coordinates.html">
          on_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_reduced_coordinates.html">
+         on_reduced_coordinates
         </a>
        </li>
        <li class="toctree-l4">
@@ -986,11 +1020,6 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
-         acmo_mesh_provider
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
         </a>
@@ -1347,6 +1376,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.current_density.html">
+         current_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.custom.html">
          custom
         </a>
@@ -1492,6 +1526,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_flux_density.html">
+         electric_flux_density
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.electric_potential.html">
          electric_potential
         </a>
@@ -1509,6 +1548,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.element_orientations.html">
          element_orientations
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_heat_generation.html">
+         elemental_heat_generation
         </a>
        </li>
        <li class="toctree-l4">
@@ -1937,8 +1981,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.swelling_strains.html">
+         swelling_strains
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.temperature.html">
          temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.temperature_grad.html">
+         temperature_grad
         </a>
        </li>
        <li class="toctree-l4">
@@ -1949,6 +2003,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain.html">
          thermal_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strains_eqv.html">
+         thermal_strains_eqv
         </a>
        </li>
        <li class="toctree-l4">
@@ -2508,8 +2567,8 @@
 <h1>Collection<a class="headerlink" href="#collection" title="Permalink to this headline">¶</a></h1>
 <p>Contains classes associated to the DPF Collection</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.collection.</span></span><span class="sig-name descname"><span class="pre">Collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dpf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server.html#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer"><span class="pre">ansys.dpf.core.server.DpfServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ansys.dpf.core.collection.</span></code><code class="sig-name descname"><span class="pre">Collection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dpf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server.html#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer"><span class="pre">ansys.dpf.core.server.DpfServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class used to represent a Collection which contains
 entries ordered in labels and ids.</p>
 <dl class="field-list simple">
@@ -2527,8 +2586,8 @@ entries ordered in labels and ids.</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.integral_collection">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">integral_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server.html#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer"><span class="pre">ansys.dpf.core.server.DpfServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.integral_collection" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.integral_collection">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">integral_collection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server.html#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer"><span class="pre">ansys.dpf.core.server.DpfServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.integral_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a collection of integral type with a list.
 The collection of integral is the equivalent of an array of
 data sent server side. It can be used to efficiently stream
@@ -2550,8 +2609,8 @@ list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.set_labels">
-<span class="sig-name descname"><span class="pre">set_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.set_labels" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.set_labels">
+<code class="sig-name descname"><span class="pre">set_labels</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.set_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>set the requested labels to scope the collection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2565,8 +2624,8 @@ list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.add_label">
-<span class="sig-name descname"><span class="pre">add_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.add_label" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.add_label">
+<code class="sig-name descname"><span class="pre">add_label</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.add_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the requested label to scope the collection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2584,9 +2643,9 @@ list is connected or returned.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.labels">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">labels</span></span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.labels" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="ansys.dpf.core.collection.Collection.labels">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">labels</span></code><a class="headerlink" href="#ansys.dpf.core.collection.Collection.labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the labels scoping the collection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2604,8 +2663,8 @@ list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.has_label">
-<span class="sig-name descname"><span class="pre">has_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.has_label" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.has_label">
+<code class="sig-name descname"><span class="pre">has_label</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.has_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a collection has a specified label</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2633,8 +2692,8 @@ list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.get_label_space">
-<span class="sig-name descname"><span class="pre">get_label_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.get_label_space" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.get_label_space">
+<code class="sig-name descname"><span class="pre">get_label_space</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.get_label_space" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the label space of an entry at a requested index</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2651,8 +2710,8 @@ list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.get_available_ids_for_label">
-<span class="sig-name descname"><span class="pre">get_available_ids_for_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.get_available_ids_for_label" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.get_available_ids_for_label">
+<code class="sig-name descname"><span class="pre">get_available_ids_for_label</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.get_available_ids_for_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the IDs corresponding to the input label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2668,8 +2727,8 @@ list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.collection.Collection.get_label_scoping">
-<span class="sig-name descname"><span class="pre">get_label_scoping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.get_label_scoping" title="Permalink to this definition">¶</a></dt>
+<dt id="ansys.dpf.core.collection.Collection.get_label_scoping">
+<code class="sig-name descname"><span class="pre">get_label_scoping</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.collection.Collection.get_label_scoping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the scoping corresponding to the input label. This method
 allows to get the list of available ids for a given label in the
 Collection.
@@ -2724,7 +2783,7 @@ inside the collection.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
 </p>
     </div>
     

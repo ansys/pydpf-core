@@ -207,8 +207,8 @@ Comparison
 
  .. code-block:: none
 
-    size with float precision: 6702616 
-     size with double precision: 13111816
+    size with float precision: 6703264 
+     size with double precision: 13112464
 
 
 
@@ -216,7 +216,7 @@ Comparison
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.944 seconds)
+   **Total running time of the script:** ( 0 minutes  0.697 seconds)
 
 
 .. _sphx_glr_download_examples_04-specific-requests_00-hdf5_double_float_comparison.py:

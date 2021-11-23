@@ -23,6 +23,7 @@ class contact_status(Operator):
         - mesh (MeshedRegion, MeshesContainer) (optional)
         - requested_location (str) (optional)
         - read_cyclic (int) (optional)
+        - read_beams (bool)
 
       available outputs:
         - fields_container (FieldsContainer)
@@ -53,13 +54,15 @@ class contact_status(Operator):
       >>> op.inputs.requested_location.connect(my_requested_location)
       >>> my_read_cyclic = int()
       >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_read_beams = bool()
+      >>> op.inputs.read_beams.connect(my_read_beams)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.result.contact_status(time_scoping=my_time_scoping,mesh_scoping=my_mesh_scoping,data_sources=my_data_sources,requested_location=my_requested_location)
+      >>> op = dpf.operators.result.contact_status(time_scoping=my_time_scoping,mesh_scoping=my_mesh_scoping,data_sources=my_data_sources,requested_location=my_requested_location,read_beams=my_read_beams)
 
       >>> # Get output data
       >>> result_fields_container = op.outputs.fields_container()"""
-    def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, config=None, server=None):
+    def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, read_beams=None, config=None, server=None):
         super().__init__(name="ECT_STAT", config = config, server = server)
         self._inputs = InputsContactStatus(self)
         self._outputs = OutputsContactStatus(self)
@@ -71,6 +74,8 @@ class contact_status(Operator):
             self.inputs.data_sources.connect(data_sources)
         if requested_location !=None:
             self.inputs.requested_location.connect(requested_location)
+        if read_beams !=None:
+            self.inputs.read_beams.connect(read_beams)
 
     @staticmethod
     def _spec():
@@ -84,7 +89,8 @@ class contact_status(Operator):
                                  5 : PinSpecification(name = "bool_rotate_to_global", type_names=["bool"], optional=True, document="""if true the field is rotated to global coordinate system (default true)"""), 
                                  7 : PinSpecification(name = "mesh", type_names=["abstract_meshed_region","meshes_container"], optional=True, document="""prevents from reading the mesh in the result files"""), 
                                  9 : PinSpecification(name = "requested_location", type_names=["string"], optional=True, document="""requested location Nodal, Elemental or ElementalNodal"""), 
-                                 14 : PinSpecification(name = "read_cyclic", type_names=["int32"], optional=True, document="""if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)""")},
+                                 14 : PinSpecification(name = "read_cyclic", type_names=["int32"], optional=True, document="""if 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2 cyclic expansion is done, if 3 cyclic expansion is done and stages are merged (default is 1)"""), 
+                                 21 : PinSpecification(name = "read_beams", type_names=["bool"], optional=False, document="""elemental nodal beam results are read if this pin is set to true (default is false)""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document="""""")})
         return spec
@@ -144,6 +150,8 @@ class InputsContactStatus(_Inputs):
       >>> op.inputs.requested_location.connect(my_requested_location)
       >>> my_read_cyclic = int()
       >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+      >>> my_read_beams = bool()
+      >>> op.inputs.read_beams.connect(my_read_beams)
     """
     def __init__(self, op: Operator):
         super().__init__(contact_status._spec().inputs, op)
@@ -165,6 +173,8 @@ class InputsContactStatus(_Inputs):
         self._inputs.append(self._requested_location)
         self._read_cyclic = Input(contact_status._spec().input_pin(14), 14, op, -1) 
         self._inputs.append(self._read_cyclic)
+        self._read_beams = Input(contact_status._spec().input_pin(21), 21, op, -1) 
+        self._inputs.append(self._read_beams)
 
     @property
     def time_scoping(self):
@@ -363,6 +373,28 @@ class InputsContactStatus(_Inputs):
 
         """
         return self._read_cyclic
+
+    @property
+    def read_beams(self):
+        """Allows to connect read_beams input to the operator
+
+        - pindoc: elemental nodal beam results are read if this pin is set to true (default is false)
+
+        Parameters
+        ----------
+        my_read_beams : bool, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.result.contact_status()
+        >>> op.inputs.read_beams.connect(my_read_beams)
+        >>> #or
+        >>> op.inputs.read_beams(my_read_beams)
+
+        """
+        return self._read_beams
 
 class OutputsContactStatus(_Outputs):
     """Intermediate class used to get outputs from contact_status operator

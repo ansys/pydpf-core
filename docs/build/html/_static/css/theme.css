@@ -153,3 +153,7 @@
     color: #C89211;
     font-family: 'Source Sans Pro', sans-serif;
 }
+
+i.fa-github-square:before {
+    color: #ffffff !important;
+}
