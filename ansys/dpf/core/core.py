@@ -26,7 +26,6 @@ if "DPF_CONFIGURATION" in os.environ:
 else:
     CONFIGURATION = "release"
 
-
 def load_library(filename, name="", symbol="LoadOperators", server=None):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in

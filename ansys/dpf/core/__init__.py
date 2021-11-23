@@ -62,6 +62,7 @@ from ansys.dpf.core import (
 from ansys.dpf.core import server
 from ansys.dpf.core import check_version
 from ansys.dpf.core import settings
+from ansys.dpf.core import path_utilities
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
