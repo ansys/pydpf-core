@@ -1,4 +1,5 @@
 from .plastic_strain_principal_1 import plastic_strain_principal_1 
+from .current_density import current_density 
 from .rigid_transformation import rigid_transformation 
 from .num_surface_status_changes import num_surface_status_changes 
 from .joint_relative_angular_velocity import joint_relative_angular_velocity 
@@ -8,6 +9,7 @@ from .elemental_mass import elemental_mass
 from .heat_flux import heat_flux 
 from .co_energy import co_energy 
 from .plastic_strain_principal_3 import plastic_strain_principal_3 
+from .electric_flux_density import electric_flux_density 
 from .plastic_strain_principal_2 import plastic_strain_principal_2 
 from .elastic_strain_Z import elastic_strain_Z 
 from .stress import stress 
@@ -91,6 +93,8 @@ from .thickness import thickness
 from .equivalent_mass import equivalent_mass 
 from .element_orientations import element_orientations 
 from .custom import custom 
+from .elemental_heat_generation import elemental_heat_generation 
+from .temperature_grad import temperature_grad 
 from .joint_force_reaction import joint_force_reaction 
 from .joint_moment_reaction import joint_moment_reaction 
 from .joint_relative_displacement import joint_relative_displacement 
@@ -98,6 +102,8 @@ from .joint_relative_rotation import joint_relative_rotation
 from .joint_relative_velocity import joint_relative_velocity 
 from .joint_relative_acceleration import joint_relative_acceleration 
 from .joint_relative_angular_acceleration import joint_relative_angular_acceleration 
+from .thermal_strains_eqv import thermal_strains_eqv 
+from .swelling_strains import swelling_strains 
 from .stress_von_mises import stress_von_mises 
 from .members_in_compression_not_certified import members_in_compression_not_certified 
 from .members_in_bending_not_certified import members_in_bending_not_certified 
@@ -117,10 +123,10 @@ from .nodal_averaged_equivalent_elastic_strain import nodal_averaged_equivalent_
 from .run import run 
 from .cyclic_expanded_velocity import cyclic_expanded_velocity 
 from .cyclic_expanded_el_strain import cyclic_expanded_el_strain 
-from .nodal_averaged_thermal_swelling_strains import nodal_averaged_thermal_swelling_strains 
-from .nodal_averaged_stresses import nodal_averaged_stresses 
 from .nodal_averaged_thermal_strains import nodal_averaged_thermal_strains 
 from .nodal_averaged_plastic_strains import nodal_averaged_plastic_strains 
+from .nodal_averaged_thermal_swelling_strains import nodal_averaged_thermal_swelling_strains 
+from .nodal_averaged_stresses import nodal_averaged_stresses 
 from .nodal_averaged_creep_strains import nodal_averaged_creep_strains 
 from .nodal_averaged_equivalent_thermal_strains import nodal_averaged_equivalent_thermal_strains 
 from .nodal_averaged_equivalent_plastic_strain import nodal_averaged_equivalent_plastic_strain 

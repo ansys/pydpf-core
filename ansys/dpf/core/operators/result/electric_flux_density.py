@@ -1,6 +1,6 @@
 """
-elastic_strain
-==============
+electric_flux_density
+=====================
 """
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
@@ -10,8 +10,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 """Operators from Ans.Dpf.Native plugin, from "result" category
 """
 
-class elastic_strain(Operator):
-    """Read/compute element nodal component elastic strains by calling the readers defined by the datasources. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
+class electric_flux_density(Operator):
+    """Read/compute Electric flux density by calling the readers defined by the datasources. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.
 
       available inputs:
         - time_scoping (Scoping, int, listfloat, Field, list) (optional)
@@ -33,7 +33,7 @@ class elastic_strain(Operator):
       >>> from ansys.dpf import core as dpf
 
       >>> # Instantiate operator
-      >>> op = dpf.operators.result.elastic_strain()
+      >>> op = dpf.operators.result.electric_flux_density()
 
       >>> # Make input connections
       >>> my_time_scoping = dpf.Scoping()
@@ -58,14 +58,14 @@ class elastic_strain(Operator):
       >>> op.inputs.read_beams.connect(my_read_beams)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.result.elastic_strain(time_scoping=my_time_scoping,mesh_scoping=my_mesh_scoping,data_sources=my_data_sources,requested_location=my_requested_location,read_beams=my_read_beams)
+      >>> op = dpf.operators.result.electric_flux_density(time_scoping=my_time_scoping,mesh_scoping=my_mesh_scoping,data_sources=my_data_sources,requested_location=my_requested_location,read_beams=my_read_beams)
 
       >>> # Get output data
       >>> result_fields_container = op.outputs.fields_container()"""
     def __init__(self, time_scoping=None, mesh_scoping=None, data_sources=None, requested_location=None, read_beams=None, config=None, server=None):
-        super().__init__(name="EPEL", config = config, server = server)
-        self._inputs = InputsElasticStrain(self)
-        self._outputs = OutputsElasticStrain(self)
+        super().__init__(name="EFD", config = config, server = server)
+        self._inputs = InputsElectricFluxDensity(self)
+        self._outputs = OutputsElectricFluxDensity(self)
         if time_scoping !=None:
             self.inputs.time_scoping.connect(time_scoping)
         if mesh_scoping !=None:
@@ -79,7 +79,7 @@ class elastic_strain(Operator):
 
     @staticmethod
     def _spec():
-        spec = Specification(description="""Read/compute element nodal component elastic strains by calling the readers defined by the datasources. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.""",
+        spec = Specification(description="""Read/compute Electric flux density by calling the readers defined by the datasources. Regarding the requested location and the input mesh scoping, the result location can be Nodal/ElementalNodal/Elemental.""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "time_scoping", type_names=["scoping","int32","vector<int32>","double","field","vector<double>"], optional=True, document="""time/freq (use doubles or field), time/freq set ids (use ints or scoping) or time/freq step ids (use scoping with TimeFreq_steps location) required in output"""), 
                                  1 : PinSpecification(name = "mesh_scoping", type_names=["scopings_container","scoping"], optional=True, document="""nodes or elements scoping required in output. The scoping's location indicates whether nodes or elements are asked. Using scopings container enables to split the result fields container in domains"""), 
@@ -98,7 +98,7 @@ class elastic_strain(Operator):
 
     @staticmethod
     def default_config():
-        return Operator.default_config(name = "EPEL")
+        return Operator.default_config(name = "EFD")
 
     @property
     def inputs(self):
@@ -106,7 +106,7 @@ class elastic_strain(Operator):
 
         Returns
         --------
-        inputs : InputsElasticStrain 
+        inputs : InputsElectricFluxDensity 
         """
         return super().inputs
 
@@ -117,21 +117,21 @@ class elastic_strain(Operator):
 
         Returns
         --------
-        outputs : OutputsElasticStrain 
+        outputs : OutputsElectricFluxDensity 
         """
         return super().outputs
 
 
-#internal name: EPEL
-#scripting name: elastic_strain
-class InputsElasticStrain(_Inputs):
-    """Intermediate class used to connect user inputs to elastic_strain operator
+#internal name: EFD
+#scripting name: electric_flux_density
+class InputsElectricFluxDensity(_Inputs):
+    """Intermediate class used to connect user inputs to electric_flux_density operator
 
       Examples
       --------
       >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.result.elastic_strain()
+      >>> op = dpf.operators.result.electric_flux_density()
       >>> my_time_scoping = dpf.Scoping()
       >>> op.inputs.time_scoping.connect(my_time_scoping)
       >>> my_mesh_scoping = dpf.ScopingsContainer()
@@ -154,26 +154,26 @@ class InputsElasticStrain(_Inputs):
       >>> op.inputs.read_beams.connect(my_read_beams)
     """
     def __init__(self, op: Operator):
-        super().__init__(elastic_strain._spec().inputs, op)
-        self._time_scoping = Input(elastic_strain._spec().input_pin(0), 0, op, -1) 
+        super().__init__(electric_flux_density._spec().inputs, op)
+        self._time_scoping = Input(electric_flux_density._spec().input_pin(0), 0, op, -1) 
         self._inputs.append(self._time_scoping)
-        self._mesh_scoping = Input(elastic_strain._spec().input_pin(1), 1, op, -1) 
+        self._mesh_scoping = Input(electric_flux_density._spec().input_pin(1), 1, op, -1) 
         self._inputs.append(self._mesh_scoping)
-        self._fields_container = Input(elastic_strain._spec().input_pin(2), 2, op, -1) 
+        self._fields_container = Input(electric_flux_density._spec().input_pin(2), 2, op, -1) 
         self._inputs.append(self._fields_container)
-        self._streams_container = Input(elastic_strain._spec().input_pin(3), 3, op, -1) 
+        self._streams_container = Input(electric_flux_density._spec().input_pin(3), 3, op, -1) 
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(elastic_strain._spec().input_pin(4), 4, op, -1) 
+        self._data_sources = Input(electric_flux_density._spec().input_pin(4), 4, op, -1) 
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global = Input(elastic_strain._spec().input_pin(5), 5, op, -1) 
+        self._bool_rotate_to_global = Input(electric_flux_density._spec().input_pin(5), 5, op, -1) 
         self._inputs.append(self._bool_rotate_to_global)
-        self._mesh = Input(elastic_strain._spec().input_pin(7), 7, op, -1) 
+        self._mesh = Input(electric_flux_density._spec().input_pin(7), 7, op, -1) 
         self._inputs.append(self._mesh)
-        self._requested_location = Input(elastic_strain._spec().input_pin(9), 9, op, -1) 
+        self._requested_location = Input(electric_flux_density._spec().input_pin(9), 9, op, -1) 
         self._inputs.append(self._requested_location)
-        self._read_cyclic = Input(elastic_strain._spec().input_pin(14), 14, op, -1) 
+        self._read_cyclic = Input(electric_flux_density._spec().input_pin(14), 14, op, -1) 
         self._inputs.append(self._read_cyclic)
-        self._read_beams = Input(elastic_strain._spec().input_pin(21), 21, op, -1) 
+        self._read_beams = Input(electric_flux_density._spec().input_pin(21), 21, op, -1) 
         self._inputs.append(self._read_beams)
 
     @property
@@ -190,7 +190,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.time_scoping.connect(my_time_scoping)
         >>> #or
         >>> op.inputs.time_scoping(my_time_scoping)
@@ -212,7 +212,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
         >>> #or
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
@@ -234,7 +234,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.fields_container.connect(my_fields_container)
         >>> #or
         >>> op.inputs.fields_container(my_fields_container)
@@ -256,7 +256,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.streams_container.connect(my_streams_container)
         >>> #or
         >>> op.inputs.streams_container(my_streams_container)
@@ -278,7 +278,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.data_sources.connect(my_data_sources)
         >>> #or
         >>> op.inputs.data_sources(my_data_sources)
@@ -300,7 +300,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
         >>> #or
         >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
@@ -322,7 +322,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.mesh.connect(my_mesh)
         >>> #or
         >>> op.inputs.mesh(my_mesh)
@@ -344,7 +344,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.requested_location.connect(my_requested_location)
         >>> #or
         >>> op.inputs.requested_location(my_requested_location)
@@ -366,7 +366,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.read_cyclic.connect(my_read_cyclic)
         >>> #or
         >>> op.inputs.read_cyclic(my_read_cyclic)
@@ -388,7 +388,7 @@ class InputsElasticStrain(_Inputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> op.inputs.read_beams.connect(my_read_beams)
         >>> #or
         >>> op.inputs.read_beams(my_read_beams)
@@ -396,19 +396,19 @@ class InputsElasticStrain(_Inputs):
         """
         return self._read_beams
 
-class OutputsElasticStrain(_Outputs):
-    """Intermediate class used to get outputs from elastic_strain operator
+class OutputsElectricFluxDensity(_Outputs):
+    """Intermediate class used to get outputs from electric_flux_density operator
       Examples
       --------
       >>> from ansys.dpf import core as dpf
 
-      >>> op = dpf.operators.result.elastic_strain()
+      >>> op = dpf.operators.result.electric_flux_density()
       >>> # Connect inputs : op.inputs. ...
       >>> result_fields_container = op.outputs.fields_container()
     """
     def __init__(self, op: Operator):
-        super().__init__(elastic_strain._spec().outputs, op)
-        self._fields_container = Output(elastic_strain._spec().output_pin(0), 0, op) 
+        super().__init__(electric_flux_density._spec().outputs, op)
+        self._fields_container = Output(electric_flux_density._spec().output_pin(0), 0, op) 
         self._outputs.append(self._fields_container)
 
     @property
@@ -424,7 +424,7 @@ class OutputsElasticStrain(_Outputs):
         --------
         >>> from ansys.dpf import core as dpf
 
-        >>> op = dpf.operators.result.elastic_strain()
+        >>> op = dpf.operators.result.electric_flux_density()
         >>> # Connect inputs : op.inputs. ...
         >>> result_fields_container = op.outputs.fields_container() 
         """
