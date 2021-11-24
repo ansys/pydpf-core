@@ -19,9 +19,11 @@ if ansys_path is None or invalid_version or is_ubuntu():
 
 
 def test_start_local():
+    if not core.SERVER:
+        core.start_local_server()
     starting_server = id(core.SERVER)
     n_init = len(core._server_instances)
-    server = core.start_local_server(as_global=False, ansys_path =core.SERVER.ansys_path)
+    server = core.start_local_server(as_global=False, ansys_path=core.SERVER.ansys_path)
     assert len(core._server_instances) == n_init + 1
     core._server_instances[-1]().shutdown()
 
@@ -31,15 +33,15 @@ def test_start_local():
 
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
-        core.start_local_server(ansys_path='')
-        
+        core.start_local_server(ansys_path="")
+
+
 def test_server_ip():
     assert core.SERVER.ip != None
     assert core.SERVER.port != None
     assert core.SERVER.version != None
-    
+
     assert core.SERVER.info["server_process_id"] != None
     assert core.SERVER.info["server_ip"] != None
     assert core.SERVER.info["server_port"] != None
     assert core.SERVER.info["server_version"] != None
-    

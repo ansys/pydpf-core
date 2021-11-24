@@ -4,17 +4,15 @@
 Expand Harmonic Modal Superposition with DPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Different types of linear dynamics expansions are implemented in DPF.
-With modal superposition used in harmonic analysis, modal coefficients 
+With modal superposition used in harmonic analysis, modal coefficients
 are multiplied by mode shapes (of a previous modal analysis) to analyse
 a structure under given boundary conditions in a range of frequencies.
-Doing this expansion "on demand" in DPF instead of in the solver 
+Doing this expansion "on demand" in DPF instead of in the solver
 reduces the size of the result files.
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Create the data sources
@@ -44,5 +42,4 @@ disp = model.results.displacement.on_all_time_freqs.eval()
 
 freq_scoping = disp.get_time_scoping()
 for freq_set in freq_scoping:
-    model.metadata.meshed_region.plot(disp.get_field_by_time_complex_ids(freq_set,0))
-    
+    model.metadata.meshed_region.plot(disp.get_field_by_time_complex_ids(freq_set, 0))

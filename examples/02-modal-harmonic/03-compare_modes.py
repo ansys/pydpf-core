@@ -3,16 +3,14 @@
 
 Use Result Helpers to compare mode shapes for solids and then shells
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `Result` class which instances are created by the `Model` gives access to 
+The `Result` class which instances are created by the `Model` gives access to
 helpers to request results on specific mesh and time scopings.
-With those helpers, working on a custom spatial and temporal subset of the 
+With those helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 """
-import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # First, create a model object to establish a connection with an
@@ -25,7 +23,7 @@ print(model)
 # Visualize specific mode shapes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Choose the modes to visualize
-modes = [1,5,10,15]
+modes = [1, 5, 10, 15]
 
 
 ###############################################################################
@@ -35,7 +33,7 @@ disp = model.results.displacement
 for mode in modes:
     fc = disp.on_time_scoping(mode).split_by_shape.eval()
     model.metadata.meshed_region.plot(fc.shell_field())
-    
+
 
 ###############################################################################
 # Choose to split the displacement on solid/shell/beam to only focus on solid

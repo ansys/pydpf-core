@@ -1,71 +1,73 @@
 """
 .. _ref_operator:
-    
+
 Operator
-===============
-Interface to underlying gRPC Operator
+========
+Provides an interface to the underlying gRPC operator.
 """
-from textwrap import wrap
+
+import functools
 import logging
 import grpc
-import functools
+import logging
 from typing import NamedTuple
+from textwrap import wrap
 
+from ansys.dpf.core import server as serverlib
 from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2 
 from ansys.dpf.core.check_version import version_requires, server_meet_version
-from ansys.dpf.core.inputs import Inputs, _Inputs, Input
-from ansys.dpf.core.outputs import Outputs, _Outputs, Output
-from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.config import Config
+from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
-from ansys.dpf.core import server as serverlib
+from ansys.dpf.core.outputs import Output, Outputs, _Outputs
+from ansys.grpc.dpf import base_pb2, operator_pb2, operator_pb2_grpc
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel('DEBUG')
+LOG.setLevel("DEBUG")
+
 
 class Operator:
-    """A class used to represent an Operator which is an elementary
-    operation.The Operator is the only object used to create and 
-    transform the data. When the operator is evaluated, it will 
-    process the input information to compute its output with respect 
-    to its description.
+    """Represents an operator, which is an elementary operation.
 
-    A list of existing operators can be asked through the "html_doc"
-    operator.
+    The operator is the only object used to create and transform
+    data. When the operator is evaluated, it processes the
+    input information to compute its output with respect to its
+    description.
 
     Parameters
     ----------
     name : str
-        Name of the operator.  For example 'U'.
-        
+        Name of the operator. For example, ``"U"``. You can use the
+        ``"html_doc"`` operator to retrieve a list of existing operators.
+
     config : Config, optional
         The Configuration allows to customize how the operation
-        will be processed by the operator.
+        will be processed by the operator. The default is ``None``.
 
     server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
 
     Examples
     --------
-    Create an operator from the library of operators
+    Create an operator from the library of operators.
 
     >>> from ansys.dpf import core as dpf
     >>> disp_oper = dpf.operators.result.displacement()
 
-    Create an operator from a model
+    Create an operator from a model.
 
-    >>> from ansys.dpf.core import Model 
+    >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
     >>> model = Model(examples.static_rst)
     >>> disp_oper = model.results.displacement()
-    
+
     """
 
-    def __init__(self, name, config = None, server=None):
-        """Initialize the operator with its name by connecting to a
-        stub.
-        """
+    def __init__(self, name, config=None, server=None):
+        """Initialize the operator with its name by connecting to a stub."""
         if server is None:
             server = serverlib._global_server()
 
@@ -80,34 +82,39 @@ class Operator:
         self._outputs = None
 
         self.__send_init_request(config)
-        
+
         self.__fill_spec()
         
         # add dynamic inputs
-        if len(self._spec.inputs) > 0 and self._inputs==None:
+        if len(self._spec.inputs) > 0 and self._inputs == None:
             self._inputs = Inputs(self._spec.inputs, self)
-        if len(self._spec.outputs) != 0 and self._outputs==None:
+        if len(self._spec.outputs) != 0 and self._outputs == None:
             self._outputs = Outputs(self._spec.outputs, self)
-        
+
         self._description = self._spec.description
         self._progress_bar=False
 
     def _add_sub_res_operators(self, sub_results):
-        """Dynamically add operators instantiating for sub-results.
+        """Dynamically add operators for instantiating subresults.
 
-        The new operators subresults are connected to the parent
-        operator's inputs when created, but are, then, completely
-        independent of the parent operators.
+        Subresults for new operators are connected to the parent
+        operator's inputs when created but are then completely
+        independent of them.
 
         Examples
         --------
+        >>> from ansys.dpf.core import Model
+        >>> from ansys.dpf.core import examples
+        >>> model = Model(examples.static_rst)
+        >>> disp_oper = model.results.displacement()
         >>> disp_oper = model.results.displacement()
         >>> disp_x = model.results.displacement().X()
         >>> disp_y = model.results.displacement().Y()
         >>> disp_z = model.results.displacement().Z()
-        
+
         """
-        for result_type in sub_results:             
+
+        for result_type in sub_results:
             bound_method = self._sub_result_op.__get__(self, self.__class__)
             method2 = functools.partial(bound_method, name=result_type["operator name"])
             setattr(self, result_type["name"], method2)
@@ -122,7 +129,6 @@ class Operator:
     @progress_bar.setter
     def progress_bar(self, value)->bool:
         self._progress_bar = value
-        
     @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
         """Connect an input on the operator using a pin number.
@@ -131,18 +137,18 @@ class Operator:
         ----------
         pin : int
             Number of the input pin.
-
-        inpt :  str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, Operator
-            Object you wish to connect.
-
+        inpt : str, int, double, bool, list of int, list of doubles,
+               Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion,
+               MeshesContainer, DataSources, Operator
+            Object to connect to.
         pin_out : int, optional
-            In case of the input is an Operator, this is the output
-            pin of the input Operator.  Defaults to 0.
+            If the input is an operator, the output pin of the input operator. The
+            default is ``0``.
 
         Examples
         --------
-        Compute the minimum of displacement by chaining the ``'U'``
-        and ``'min_max_fc'`` operators.
+        Compute the minimum of displacement by chaining the ``"U"``
+        and ``"min_max_fc"`` operators.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -154,34 +160,40 @@ class Operator:
         >>> max_field = max_fc_op.outputs.field_max()
         >>> max_field.data
         array([[0.59428386, 0.00201751, 0.0006032 ]])
-        
+
         """
+
         request = operator_pb2.UpdateRequest()
-        request.op.CopyFrom(self._message)        
+        request.op.CopyFrom(self._message)
         request.pin = pin
         tmp = _fillConnectionRequestMessage(request, inpt, self._server, pin_out)
         if inpt is self:
-            raise ValueError('Cannot connect to itself')
+            raise ValueError("Cannot connect to itself.")
         self._stub.Update(request)
-    
-        
+
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
-        """Returns the output of the operator on the pin number.
+        """Retrieve the output of the operator on the pin number.
         To activate the progress bar for server version higher or equal to 3.0,
         use my_op.progress_bar = True
 
         Parameters
         ----------
         pin : int, optional
-            Number of the output pin.
+            Number of the output pin. The default is ``0``.
+        output_type : :class:`ansys.dpf.core.common.types`, optional
+            Requested type of the output. The default is ``None``.
 
-        output_type : core.type enum, optional
-            The requested type of the output.
+        Returns
+        -------
+        type
+            Output of the operator.
         """
+
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
+
         if output_type :
             _write_output_type_to_proto_style(output_type, request)   
             if server_meet_version("3.0", self._server) and self._progress_bar:
@@ -195,31 +207,34 @@ class Operator:
                 out = self._stub.Get(request) 
             return _convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
-            request.type = base_pb2.Type.Value('RUN')
+            request.type = base_pb2.Type.Value("RUN")
             out_future = self._stub.Get.future(request)   
             out_future.result()
-            
-    
+
     @property
     def config(self):
-        """Returns a copy of the current config of the operator.
-        To use the config that you modify, please use operator.config = new_config
-        or create an operator with the new config as a parameter.
-        
+        """Copy of the operator's current configuration.
+
+        You can modify the copy of the configuration and then use ``operator.config = new_config``
+        or create an operator with the new configuration as a parameter.
+
         Returns
         ----------
-        config : Config        
+        :class:`ansys.dpf.core.config.Config`
+            Copy of the operator's current configuration.
         """
+
         out = self._stub.List(self._message)
         config = out.config
-        return Config(config =config, server = self._server)
-    
-    
+        return Config(config=config, server=self._server)
+
     @config.setter
-    def config(self,value):
-        """Change the configuration of the operator 
-        (if the operator is up to date, changing the config doesn't make it not up to date)
-         
+    def config(self, value):
+        """Change the configuration of the operator.
+
+        If the operator is up to date, changing the configuration
+        doesn't make it not up to date.
+
         Parameters
         ----------
         value : Config
@@ -228,39 +243,42 @@ class Operator:
         request.op.CopyFrom(self._message)
         request.config.CopyFrom(value._message)
         self._stub.UpdateConfig(request)
-        
+
     @property
     def inputs(self):
-        """Enables to connect inputs to the operator 
-        
+        """Inputs connected to the operator.
+
         Returns
         --------
-        inputs : Inputs
-        
+        :class:`ansys.dpf.core.inputs`
+            Inputs connected to the operator.
+
         Examples
         --------
-        Use the displacement operator
+        Use the displacement operator.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
-        
+
         """
+
         return self._inputs
-    
+
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
-        
+        """Outputs from the operator's evaluation.
+
         Returns
         --------
-        outputs : Output
-        
+        :class:`ansys.dpf.core.outputs`
+            Outputs from the operator's evaluation.
+
         Examples
         --------
-        Use the displacement operator
+        Use the displacement operator.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -268,33 +286,40 @@ class Operator:
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> disp_fc = disp_op.outputs.fields_container()
-        
+
         """
         return self._outputs
-        
-      
+
     @staticmethod
     def default_config(name, server=None):
-        """Returns the default config for a given operator.
-        This config can then be changed to the user needs and be used to
-        instantiate the given operator.
+        """Retrieve the default configuration for an operator.
+
+        You can change the copy of the default configuration to meet your needs
+        before instantiating the operator.
         The Configuration allows to customize how the operation
         will be processed by the operator.
-        
+
         Parameters
         ----------
         name : str
-            Name of the operator.  For example 'U'.
-    
+            Name of the operator.  For example ``"U"``. You can use the
+            ``"html_doc"`` operator to retrieve a list of existing operators.
         server : server.DPFServer, optional
-            Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            Server with the channel connected to the remote or local instance. The
+            default is ``None``, in which case an attempt is made to use the global
+            server.
+
+        Returns
+        -------
+        :class"`ansys.dpf.core.config.Config`
+            Default configuration for the operator.
+
         """
-        return Config(operator_name = name, server =server)
+        return Config(operator_name=name, server=server)
 
         
     def _connect(self):
-        """Connect to the grpc service"""
+        """Connect to the gRPC service."""
         return operator_pb2_grpc.OperatorServiceStub(self._server.channel)
 
     def __del__(self):
@@ -304,35 +329,78 @@ class Operator:
             pass
 
     def __str__(self):
-        """describe the entity
-        
+        """Describe the entity.
+
         Returns
         -------
-        description : str
+        str
+            Description of the entity.
         """
         from ansys.dpf.core.core import _description
+
         return _description(self._message, self._server)
 
     def run(self):
-        """Evaluate this operator"""
+        """Evaluate this operator."""
         self.get_output()
 
-    def _find_outputs_corresponding_pins(self, type_names, inpt, pin,
-                                         corresponding_pins):
+    def eval(self, pin=None):
+        """Evaluate this operator.
+
+        Parameters
+        ----------
+        pin : int
+            Number of the output pin. The default is ``None``.
+
+        Returns
+        -------
+        output : FieldsContainer, Field, MeshedRegion, Scoping
+            Returns the first output of the operator by default and the output of a
+            given pin when specified. Or, it only evaluates the operator without output.
+
+        Examples
+        --------
+        Use the ``eval`` method.
+
+        >>> from ansys.dpf import core as dpf
+        >>> import ansys.dpf.core.operators.math as math
+        >>> from ansys.dpf.core import examples
+        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> disp_op.inputs.data_sources(data_src)
+        >>> normfc = math.norm_fc(disp_op).eval()
+
+        """
+
+        if not pin:
+            if self.outputs != None and len(self.outputs._outputs) > 0:
+                return self.outputs._outputs[0]()
+            else:
+                self.run()
+        else:
+            for output in self.outputs._outputs:
+                if output._pin == pin:
+                    return output()
+
+    def _find_outputs_corresponding_pins(
+        self, type_names, inpt, pin, corresponding_pins
+    ):
+        from ansys.dpf.core.results import Result
         for python_name in type_names:
             # appears to be an issue on Linux.  This check is here
             # because cpp mappings are a single type mapping and
             # sometimes the spec contains 'B' instead of 'bool'
-            if python_name == 'B':
-                python_name = 'bool'
+            if python_name == "B":
+                python_name = "bool"
 
-            if  type(inpt).__name__ == python_name:
+            if type(inpt).__name__ == python_name:
                 corresponding_pins.append(pin)
-            elif isinstance(inpt, _Outputs) or isinstance(inpt,Operator):
-                if isinstance(inpt,Operator):
+            elif isinstance(inpt, (_Outputs, Operator, Result)):
+                if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
+                elif isinstance(inpt, Result):
+                    output_pin_available = inpt().outputs._get_given_output([python_name])
                 else:
-                    
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
                     corresponding_pins.append((pin, outputpin))
@@ -351,15 +419,15 @@ class Operator:
         if self.inputs is not None:
             for key in self.inputs._connected_inputs:
                 inpt = self.inputs._connected_inputs[key]
-                if type(inpt).__name__ == 'dict':
+                if type(inpt).__name__ == "dict":
                     for keyout in inpt:
-                        op.connect(key,inpt[keyout],keyout)
+                        op.connect(key, inpt[keyout], keyout)
                 else:
-                    op.connect(key,inpt)
+                    op.connect(key, inpt)
         return op
 
     @protect_grpc
-    def __send_init_request(self, config = None):
+    def __send_init_request(self, config=None):
         request = operator_pb2.CreateOperatorRequest()
         request.name = self.name
         if config:
@@ -367,71 +435,73 @@ class Operator:
         self._message = self._stub.Create(request)
 
     def __add__(self, fields_b):
-        """Adds two fields or fields containers together
-                
+        """Add two fields or two fields containers.
+
         Returns
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
-        if hasattr(operators, "math") and  hasattr(operators.math, "add_fc") :
-            op= operators.math.add_fc(self, fields_b, server=self._server)
-        else :
-            op= dpf_operator.Operator("add_fc",server=self._server)
-            op.connect(0,self)        
+        from ansys.dpf.core import dpf_operator, operators
+
+        if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
+            op = operators.math.add_fc(self, fields_b, server=self._server)
+        else:
+            op = dpf_operator.Operator("add_fc", server=self._server)
+            op.connect(0, self)
             op.connect(1, fields_b)
         return op
-    
-    
+
     def __sub__(self, fields_b):
-        """Subtract two fields or fields containers together
-                
+        """Subtract two fields or two fields containers.
+
         Returns
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
-        if hasattr(operators, "math") and  hasattr(operators.math, "minus_fc") :
-            op= operators.math.minus_fc(server=self._server)
-        else :
-            op= dpf_operator.Operator("minus_fc", server=self._server)
-        op.connect(0,self)        
+        from ansys.dpf.core import dpf_operator, operators
+
+        if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
+            op = operators.math.minus_fc(server=self._server)
+        else:
+            op = dpf_operator.Operator("minus_fc", server=self._server)
+        op.connect(0, self)
         op.connect(1, fields_b)
         return op
-    
 
     def __pow__(self, value):
         if value != 2:
-            raise ValueError('DPF only the value is "2" suppported')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
-        if hasattr(operators, "math") and  hasattr(operators.math, "sqr_fc") :
-            op= operators.math.sqr_fc(server=self._server)
-        else :
-            op= dpf_operator.Operator("sqr_fc", server=self._server)
-        op.connect(0,self)        
+            raise ValueError('Only the value "2" is suppported.')
+        from ansys.dpf.core import dpf_operator, operators
+
+        if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
+            op = operators.math.sqr_fc(server=self._server)
+        else:
+            op = dpf_operator.Operator("sqr_fc", server=self._server)
+        op.connect(0, self)
         op.connect(1, value)
         return op
-    
+
     def __mul__(self, value):
-        """Multiplies two fields or fields containers together
-        
+        """Multiply two fields or two fields containers.
+
         Returns
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
-        if hasattr(operators, "math") and  hasattr(operators.math, "generalized_inner_product_fc") :
-            op= operators.math.generalized_inner_product_fc(server=self._server)
-        else :
-            op= dpf_operator.Operator("generalized_inner_product_fc", server=self._server)
-        op.connect(0,self)        
+        from ansys.dpf.core import dpf_operator, operators
+
+        if hasattr(operators, "math") and hasattr(
+            operators.math, "generalized_inner_product_fc"
+        ):
+            op = operators.math.generalized_inner_product_fc(server=self._server)
+        else:
+            op = dpf_operator.Operator(
+                "generalized_inner_product_fc", server=self._server
+            )
+        op.connect(0, self)
         op.connect(1, value)
         return op
-    
+
     def __fill_spec(self):
         """Put the grpc spec message in self._spec"""
         if hasattr(self._message, "spec"):
@@ -449,8 +519,6 @@ class Operator:
         request.name=op_name
         out = operator_pb2_grpc.OperatorServiceStub(server.channel).List(request)
         return OperatorSpecification._fill_from_message(op_name, out.spec)
-    
-
     def __truediv__(self, inpt):
         if isinstance(inpt, Operator):
             op = Operator("div")
@@ -459,9 +527,8 @@ class Operator:
         elif isinstance(inpt, float):
             op = Operator("scale")
             op.connect(0, self, 0)
-            op.connect(1, 1.0/inpt)
+            op.connect(1, 1.0 / inpt)
         return op
-    
 
 
 class PinSpecification(NamedTuple):
@@ -530,62 +597,81 @@ def available_operator_names(server=None):
     return arr       
 
 def _write_output_type_to_proto_style(output_type, request):
-    subtype=''
-    stype=''
-    if hasattr(output_type, 'name'):
+    subtype = ""
+    stype = ""
+    if hasattr(output_type, "name"):
         if output_type == types.fields_container:
-            stype='collection'
-            subtype = 'field'
-        elif output_type== types.scopings_container:
-            stype='collection'
-            subtype = 'scoping'
-        elif output_type== types.meshes_container:
-            stype='collection'
-            subtype = 'meshed_region'
+            stype = "collection"
+            subtype = "field"
+        elif output_type == types.scopings_container:
+            stype = "collection"
+            subtype = "scoping"
+        elif output_type == types.meshes_container:
+            stype = "collection"
+            subtype = "meshed_region"
         elif hasattr(types, "vec_int") and output_type == types.vec_int:
             stype='collection'
             subtype = 'int'
         elif hasattr(types, "vec_double") and output_type == types.vec_double:
             stype='collection'
             subtype = 'double'
-        else :
+        else:
             stype = output_type.name
-    elif isinstance(output_type,list):
-        stype=output_type[0]
+    elif isinstance(output_type, list):
+        stype = output_type[0]
         subtype = output_type[1]
     else:
         stype = output_type
     request.type = base_pb2.Type.Value(stype.upper())
-    if subtype !="":
+    if subtype != "":
         request.subtype = base_pb2.Type.Value(subtype.upper())
-            
+
 
 def _convertOutputMessageToPythonInstance(out, output_type, server):
-    from ansys.dpf.core import (fields_container, field, property_field, field_base, scopings_container, scoping,
-                            meshes_container, meshed_region, result_info, time_freq_support, collection, data_sources,
-                            collection, data_sources, cyclic_support, workflow)
+    from ansys.dpf.core import (
+        cyclic_support,
+        data_sources,
+        field,
+        fields_container,
+        collection,
+        meshed_region,
+        meshes_container,
+        property_field,
+        result_info,
+        scoping,
+        scopings_container,
+        time_freq_support,
+        workflow,
+    )
+
     if out.HasField("str"):
         return out.str
     elif out.HasField("int"):
         return out.int
     elif out.HasField("double"):
-        return out.double 
+        return out.double
     elif out.HasField("bool"):
         return out.bool
     elif out.HasField("field"):
         toconvert = out.field
-        if toconvert.datatype == u"int":
-            return property_field.PropertyField(server=server,property_field=toconvert)
-        else:   
-            return field.Field(server=server,field=toconvert)
+        if toconvert.datatype == "int":
+            return property_field.PropertyField(server=server, property_field=toconvert)
+        else:
+            return field.Field(server=server, field=toconvert)
     elif out.HasField("collection"):
         toconvert = out.collection
         if output_type == types.fields_container:
-            return fields_container.FieldsContainer(server=server,fields_container=toconvert)
+            return fields_container.FieldsContainer(
+                server=server, fields_container=toconvert
+            )
         elif output_type == types.scopings_container:
-            return scopings_container.ScopingsContainer(server=server,scopings_container=toconvert)
+            return scopings_container.ScopingsContainer(
+                server=server, scopings_container=toconvert
+            )
         elif output_type == types.meshes_container:
-            return meshes_container.MeshesContainer(server=server,meshes_container=toconvert)
+            return meshes_container.MeshesContainer(
+                server=server, meshes_container=toconvert
+            )
         elif output_type == types.vec_int or output_type == types.vec_double:
             return collection.Collection(server=server,collection=toconvert)._get_integral_entries()
     elif out.HasField("scoping"):
@@ -599,21 +685,32 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return result_info.ResultInfo(result_info=toconvert, server=server)
     elif out.HasField("time_freq_support"):
         toconvert = out.time_freq_support
-        return time_freq_support.TimeFreqSupport(server=server, time_freq_support=toconvert)
+        return time_freq_support.TimeFreqSupport(
+            server=server, time_freq_support=toconvert
+        )
     elif out.HasField("data_sources"):
         toconvert = out.data_sources
-        return data_sources.DataSources(server=server,data_sources=toconvert)  
+        return data_sources.DataSources(server=server, data_sources=toconvert)
     elif out.HasField("cyc_support"):
         toconvert = out.cyc_support
-        return cyclic_support.CyclicSupport(server=server,cyclic_support=toconvert)
+        return cyclic_support.CyclicSupport(server=server, cyclic_support=toconvert)
     elif out.HasField("workflow"):
         toconvert = out.workflow
         return workflow.Workflow(server=server,workflow=toconvert)
-    
+
+
 def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
-    from ansys.dpf.core import (fields_container, field, property_field, field_base, scopings_container, scoping,
-                            meshes_container, meshed_region, result_info, time_freq_support, collection, data_sources,
-                            collection, data_sources, cyclic_support, model, workflow, collection)
+    from ansys.dpf.core import (
+        collection,
+        cyclic_support,
+        data_sources,
+        field_base,
+        meshed_region,
+        model,
+        scoping,
+        workflow,
+    )
+
     if isinstance(inpt, str):
         request.str = inpt
     elif isinstance(inpt, bool):
@@ -647,7 +744,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     elif isinstance(inpt, scoping.Scoping):
         request.scoping.CopyFrom(inpt._message)
     elif isinstance(inpt, data_sources.DataSources):
-        request.data_sources.CopyFrom(inpt._message)      
+        request.data_sources.CopyFrom(inpt._message)
     elif isinstance(inpt, model.Model):
         request.data_sources.CopyFrom(inpt.metadata.data_sources._message)
     elif isinstance(inpt, meshed_region.MeshedRegion):
@@ -665,5 +762,3 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     else:
         errormsg = f"input type {inpt.__class__} cannot be connected"
         raise TypeError(errormsg)
-        
-    
