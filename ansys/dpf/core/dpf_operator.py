@@ -8,7 +8,9 @@ Provides an interface to the underlying gRPC operator.
 
 import functools
 import logging
+import logging
 from typing import NamedTuple
+from textwrap import wrap
 
 from ansys.dpf.core import server as serverlib
 from ansys.dpf.core.check_version import version_requires, server_meet_version
@@ -36,9 +38,10 @@ class Operator:
     name : str
         Name of the operator. For example, ``"U"``. You can use the
         ``"html_doc"`` operator to retrieve a list of existing operators.
+
     config : Config, optional
         The Configuration allows to customize how the operation
-        will be processed by the operator.
+        will be processed by the operator. The default is ``None``.
 
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
@@ -188,6 +191,7 @@ class Operator:
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
+
         if output_type :
             _write_output_type_to_proto_style(output_type, request)   
             if server_meet_version("3.0", self._server) and self._progress_bar:
@@ -525,7 +529,6 @@ class Operator:
         return op
 
 
-
 class PinSpecification(NamedTuple):
     name: str
     type_names: list
@@ -627,6 +630,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         data_sources,
         field,
         fields_container,
+        collection,
         meshed_region,
         meshes_container,
         property_field,
@@ -702,8 +706,8 @@ def _fillConnectionRequestMessage(request, inpt, pin_out=0):
         model,
         scoping,
         workflow,
-        collection,
     )
+
 
     if isinstance(inpt, str):
         request.str = inpt

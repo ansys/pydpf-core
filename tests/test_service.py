@@ -232,11 +232,11 @@ def test_load_plugin_correctly():
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_dpf_join(): 
-    core.Operator("U") # start server
+    dpf.core.Operator("U") # start server
     left = "temp"
     right = "file.rst"
-    conc = core.path_utilities.join(left, right)
-    os_server = core.SERVER.os
+    conc = dpf.core.path_utilities.join(left, right)
+    os_server = dpf.core.SERVER.os
     if os_server == 'posix':
         assert conc == "temp/file.rst"
     elif os_server == 'nt':

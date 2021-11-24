@@ -51,7 +51,7 @@ model = dpf.Model(data_integration_points)
 mesh = model.metadata.meshed_region
 
 # operator instantiation scoping
-op_scoping = dpf.operators.scoping.split_on_property_type() # operator instantiation
+op_scoping = dpf.operators.scoping.split_on_property_type()  # operator instantiation
 op_scoping.inputs.mesh.connect(mesh)
 op_scoping.inputs.requested_location.connect("Elemental")
 mesh_scoping = op_scoping.outputs.mesh_scoping()

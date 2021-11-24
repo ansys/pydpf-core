@@ -124,7 +124,8 @@ class Collection:
         Parameters
         ----------
         label : str
-            Labels to scope the etnries to. For example, ``"time"``.
+            Labels to scope the entries to. For example, ``"time"``.
+
         default_value : int, optional
             Default value for existing fields in the collection. The default
             is ``None``.
@@ -414,8 +415,8 @@ class Collection:
             data_type = u"double"
             dtype = np.float
         service = self._stub.GetAllData(request, metadata=[(u"float_or_double", data_type)])
-        return scoping._data_get_chunk_(dtype, service)
-        
+        return scoping._data_get_chunk_(dtype, service) 
+
     def _connect(self):
         """Connect to the gRPC service."""
         return collection_pb2_grpc.CollectionServiceStub(self._server.channel)

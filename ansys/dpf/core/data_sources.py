@@ -213,14 +213,15 @@ class DataSources:
         self._stub.UpdateUpstream(request)
         
     def add_upstream_for_domain(self, upstream_data_sources, domain_id):
-        """Add an upstream datasources.
+        """Add an upstream data sources for a given domain.
 
         This is used to add a set of path creating an upstream for
-        recursive workflows.
+        recursive workflows in a distributed solve.
 
         Parameters
         ----------
         upstream_data_sources : DataSources
+            Set of paths creating an upstream for recursive workflows.
         
         domain_id: int
             Domain id for distributed files.

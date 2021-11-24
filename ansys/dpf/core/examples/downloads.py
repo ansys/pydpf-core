@@ -308,8 +308,8 @@ def download_fluent_files() -> dict:
     >>> from ansys.dpf.core import examples
     >>> paths = examples.download_fluent_files()
     >>> paths
-    {'cas': 'C:\\Users\\cbellot\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.cas.h5',
-     'dat': 'C:\\Users\\cbellot\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.dat.h5'} # noqa: E501
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.cas.h5',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.dat.h5'} # noqa: E501
 
     """
     return {

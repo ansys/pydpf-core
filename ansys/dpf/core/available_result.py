@@ -50,7 +50,6 @@ class AvailableResult:
                 + "Number of components: %d\n" % self.n_components
                 + "Dimensionality: %s\n" % self.dimensionality
                 + "Homogeneity: %s\n" % self.homogeneity
-                + "Location: %s\n" % self.location
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit

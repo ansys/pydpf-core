@@ -4,6 +4,7 @@ MeshedRegion
 """
 from ansys import dpf
 from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes

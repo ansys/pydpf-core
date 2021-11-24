@@ -63,10 +63,13 @@ class _FieldBase:
     def shape(self):
         """Numpy-like shape of the field.
 
+        Returns
+        -------
+        tuple
+
         Examples
         --------
-        tuple
-            Shape of a stress field.
+        Shape of a stress field.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -872,6 +875,7 @@ class _LocalFieldBase(_FieldBase):
         scoping : :class:`ansys.dpf.core.scoping.Scoping`
         """
         return self._scoping_copy
+
 
     @scoping.setter
     @_setter

@@ -47,3 +47,6 @@ ansys/dpf/core/examples/_cache/
 
 # Virtual environment
 venv/
+
+#pyCharm
+.idea/*
