@@ -7,6 +7,7 @@ Contains classes associated with the DPF MeshesContainer.
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
+from ansys.dpf.core.plotter import Plotter as _DpfPlotter
 
 
 class MeshesContainer(Collection):
@@ -36,6 +37,19 @@ class MeshesContainer(Collection):
         Collection.__init__(
             self, types.meshed_region, collection=meshes_container, server=self._server
         )
+        
+
+    def plot(self, fields_container, **kwargs):
+        pl = _DpfPlotter()
+        size = len(fields_container)
+        i = 0
+        while i < size: 
+            label_space = fields_container.get_label_space(i)
+            mesh_to_send = self.get_mesh(label_space)
+            field = fields_container[i]
+            pl.add_field(mesh_to_send, field, **kwargs)
+            i += 1
+        pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.

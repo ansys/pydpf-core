@@ -50,8 +50,54 @@ class Plotter:
 
     """
 
-    def __init__(self, mesh):
+    def __init__(self, mesh = None, **kwargs):
         self._mesh = mesh
+        
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        self._plotter = plotter = pv.Plotter(kwargs)
+        
+    def add_field(self, meshed_region, field, **kwargs):
+        name = field.name.split("_")[0]
+        kwargs.setdefault("stitle", name)
+        kwargs.setdefault("show_edges", True)
+        kwargs.setdefault("nan_color", "grey")
+        
+        location = field.location   
+        if location == locations.nodal:
+            mesh_location = meshed_region.nodes
+        elif location == locations.elemental:
+            mesh_location = meshed_region.elements
+        else:
+            raise ValueError(
+                "Only elemental or nodal location are supported for plotting."
+            )
+            
+        component_count = field.component_count   
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
+        ind, mask = mesh_location.map_scoping(field.scoping)
+        overall_data[ind] = field.data[mask]
+
+        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
+    
+    def show_figure(self, **kwargs):
+        background = kwargs.pop("background", None)
+        if background is not None:
+            self._plotter.set_background(background)
+
+        # show result
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._plotter.add_axes()
+        return self._plotter.show()
 
     def plot_mesh(self, **kwargs):
         """Plot the mesh using PyVista.
