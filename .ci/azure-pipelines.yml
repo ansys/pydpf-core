@@ -70,7 +70,7 @@ jobs:
         echo "is in $(Build.BinariesDirectory)"
         echo "------------------"
         dir
-        git clone -n --depth=1 -b master https://github.com/pyansys/pydpf-post
+        git clone https://github.com/pyansys/pydpf-post
         cd pydpf-post
         echo "is in pydpf-post"
         echo "------------------"
@@ -240,7 +240,7 @@ jobs:
         echo "is in ${BUILD_BINARIESDIRECTORY}"
         echo "------------------"
         ls
-        git clone -n --depth=1 -b master https://github.com/pyansys/pydpf-post
+        git clone https://github.com/pyansys/pydpf-post
         cd pydpf-post
         echo "path of pydpf-post"
         echo "------------------"
