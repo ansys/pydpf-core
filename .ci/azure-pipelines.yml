@@ -67,8 +67,14 @@ jobs:
         set THISDIR=$(System.DefaultWorkingDirectory)
         set AWP_ROOT212=%THISDIR%\server\v212
         cd $(Build.BinariesDirectory)
+        echo "is in $(Build.BinariesDirectory)"
+        echo "------------------"
+        dir
         git clone -n --depth=1 -b master https://github.com/pyansys/pydpf-post
         cd pydpf-post
+        echo "is in pydpf-post"
+        echo "------------------"
+        dir
         pip install .
         cd tests
         pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.post --cov-report=xml --reruns 3
@@ -228,8 +234,20 @@ jobs:
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         export DPF_IP=$(hostname -i)
         cd ${BUILD_BINARIESDIRECTORY}
+        echo "path of ${BUILD_BINARIESDIRECTORY}"
+        echo "------------------"
+        pwd -P
+        echo "is in ${BUILD_BINARIESDIRECTORY}"
+        echo "------------------"
+        ls
         git clone -n --depth=1 -b master https://github.com/pyansys/pydpf-post
         cd pydpf-post
+        echo "path of pydpf-post"
+        echo "------------------"
+        pwd -P
+        echo "is in pydpf-post"
+        echo "------------------"
+        ls
         pip install .
         cd tests
         pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
