@@ -101,7 +101,10 @@ jobs:
         dir
         
         set branch_name=$(Build.SourceBranch)
-        set subbranch_cut=%branch_name:refs/heads/=%
+        IF DEFINED SYSTEM_PULLREQUEST_SOURCEBRANCH (SET subbranch_cut=%SYSTEM_PULLREQUEST_SOURCEBRANCH%) ELSE (SET subbranch_cut=%branch_name:refs/heads/=%)
+        echo -----------------------  
+        echo "subbranch_cut is %subbranch_cut%"
+        echo -----------------------  
         set subbranch=origin/%subbranch_cut%
         git branch -r > branch_output.txt
         find /c %subbranch% branch_output.txt >NUL
@@ -273,7 +276,13 @@ jobs:
         ls
       
         export prefix="refs/heads/"
-        export subbranch=${BUILD_SOURCEBRANCH#"$prefix"}
+        export var_to_check=${BUILD_SOURCEBRANCH}
+        if [ -z ${SYSTEM_PULLREQUEST_SOURCEBRANCH} ]; then 
+        export var_to_check=${SYSTEM_PULLREQUEST_SOURCEBRANCH}
+        export subbranch=${var_to_check}
+        else 
+        export subbranch=${var_to_check#"$prefix"}
+        fi
         export branch_to_check="origin/"${subbranch}
         git branch -r > branch_output.txt
         if grep -q $branch_to_check ./branch_output.txt; then 
