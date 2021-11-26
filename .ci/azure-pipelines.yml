@@ -67,8 +67,8 @@ jobs:
         if %errorlevel% equ 1 goto notfound
             echo -----------------------
             echo "subbranch %subbranch% will be fetched"
-            git fetch origin %subbranch%
-            git checkout %subbranch%
+            git fetch origin %subbranch_cut%
+            git checkout %subbranch_cut%
             echo "subbranch is now set to %subbranch%"
             echo -----------------------            
         goto done
