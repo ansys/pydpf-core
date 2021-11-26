@@ -155,7 +155,6 @@ jobs:
       
 
 - job: Linux
-  condition: eq(1, 2)
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     DISPLAY: ':99.0'
@@ -319,7 +318,6 @@ jobs:
 
 
 - job: DocumentationWindows
-  condition: eq(1, 2)
   variables:
     python.version: '3.8'
     DISPLAY: ':99.0'
