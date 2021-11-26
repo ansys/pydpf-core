@@ -299,7 +299,7 @@ jobs:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '$(Build.BinariesDirectory)/pydpf-post/junit/test-results-post.xml' 
+        testResultsFiles: '$(Build.BinariesDirectory)/pydpf-post/tests/junit/test-results-post.xml' 
         testRunTitle: 'linuxTestsPost'
         publishRunAttachments: true
         searchFolder: 'tests/'
