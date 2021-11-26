@@ -59,7 +59,27 @@ jobs:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'tests/junit/test-results.xml'
-        testRunTitle: 'windowsTests'
+        testRunTitle: 'windowsTestsCore'
+        publishRunAttachments: true
+      condition: always()
+      
+    - script: |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        cd $(Build.BinariesDirectory)
+        git clone -n --depth=1 -b master https://github.com/pyansys/pydpf-post
+        cd pydpf-post
+        pip install .
+        cd tests
+        pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.post --cov-report=xml --reruns 3
+        echo %PATH%
+      displayName: Test Post API
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'tests/junit/test-results-post.xml'
+        testRunTitle: 'windowsTestsPost'
         publishRunAttachments: true
       condition: always()
 
@@ -183,7 +203,10 @@ jobs:
       
     - script: |
         pip install -r requirements_test.txt
-        pip install pytest-azurepipelines        
+        pip install pytest-azurepipelines
+      displayName: Install Test Environment
+      
+    - script: |    
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         cd tests
         export DPF_IP=$(hostname -i)
@@ -196,7 +219,29 @@ jobs:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'junit/test-results.xml' 
-        testRunTitle: 'linuxTests'
+        testRunTitle: 'linuxTestsCore'
+        publishRunAttachments: true
+        searchFolder: 'tests/'
+      condition: always()
+      
+    - script: |    
+        export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
+        export DPF_IP=$(hostname -i)
+        cd ${BUILD_BINARIESDIRECTORY}
+        git clone -n --depth=1 -b master https://github.com/pyansys/pydpf-post
+        cd pydpf-post
+        pip install .
+        cd tests
+        pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
+        export PATH=`pwd`
+        echo ${PATH} 
+      displayName: Test Post API
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-results-post.xml' 
+        testRunTitle: 'linuxTestsPost'
         publishRunAttachments: true
         searchFolder: 'tests/'
       condition: always()
