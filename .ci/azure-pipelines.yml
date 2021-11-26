@@ -107,7 +107,7 @@ jobs:
         echo -----------------------  
         set subbranch=origin/%subbranch_cut%
         git branch -r > branch_output.txt
-        find /c %subbranch% branch_output.txt >NUL
+        find /c "%subbranch%" branch_output.txt >NUL
         if %errorlevel% equ 1 goto notfound
             echo -----------------------
             echo "subbranch %subbranch% will be fetched"
