@@ -79,6 +79,13 @@ jobs:
         testRunTitle: 'docTestsTests'
         publishRunAttachments: true
       condition: always()
+
+    - script:  |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        python .ci/run_examples.py
+      displayName: 'Run example scripts'
+      timeoutInMinutes: 5
       
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
@@ -105,13 +112,6 @@ jobs:
         testRunTitle: 'windowsTestsPost'
         publishRunAttachments: true
       condition: always()
-
-    - script:  |
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
-        python .ci/run_examples.py
-      displayName: 'Run example scripts'
-      timeoutInMinutes: 5
 
     - script: |
         pip install twine
@@ -250,17 +250,17 @@ jobs:
         echo "is in pydpf-post"
         echo "------------------"
         ls
-        
+      
         export prefix="refs/heads/"
         export subbranch=${BUILD_SOURCEBRANCH#"$prefix"}
         export branch_to_check="origin/"${subbranch}
         git branch -r > branch_output.txt
         if grep -q $branch_to_check ./branch_output.txt; then 
         echo -----------------------
-        echo "subbranch will be fetched"
+        echo "subbranch $subbranch will be fetched"
         git fetch origin $subbranch
         git checkout $subbranch
-        echo "subbranch is now set"
+        echo "subbranch is now set to $subbranch"
         echo -----------------------
         else 
         echo -----------------------
