@@ -99,6 +99,27 @@ jobs:
         echo "is in pydpf-post"
         echo "------------------"
         dir
+        
+        set branch_name=$(Build.SourceBranch)
+        set subbranch_cut=%branch_name:refs/heads/=%
+        set subbranch=origin/%subbranch_cut%
+        git branch -r > branch_output.txt
+        find /c %subbranch% branch_output.txt >NUL
+        if %errorlevel% equ 1 goto notfound
+            echo -----------------------
+            echo "subbranch %subbranch% will be fetched"
+            git fetch origin %subbranch%
+            git checkout %subbranch%
+            echo "subbranch is now set to %subbranch%"
+            echo -----------------------            
+        goto done
+        :notfound
+            echo -----------------------
+            echo "master branch is now set"
+            echo -----------------------
+        goto done
+        :done
+        
         pip install . --no-deps
         cd tests
         pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.post --cov-report=xml --reruns 3
