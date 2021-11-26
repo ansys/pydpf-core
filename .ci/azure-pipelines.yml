@@ -62,6 +62,23 @@ jobs:
         testRunTitle: 'windowsTestsCore'
         publishRunAttachments: true
       condition: always()
+
+    - script: |
+        set THISDIR=$(System.DefaultWorkingDirectory)
+        cd $(System.DefaultWorkingDirectory)
+        set AWP_ROOT212=%THISDIR%\server\v212
+        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
+      condition: always()
+      displayName: Test API Docstrings
+      timeoutInMinutes: 5
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit/test-doctests-results.xml'
+        testRunTitle: 'docTestsTests'
+        publishRunAttachments: true
+      condition: always()
       
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
@@ -86,23 +103,6 @@ jobs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'tests/junit/test-results-post.xml'
         testRunTitle: 'windowsTestsPost'
-        publishRunAttachments: true
-      condition: always()
-
-    - script: |
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        cd $(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
-        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
-      condition: always()
-      displayName: Test API Docstrings
-      timeoutInMinutes: 5
-
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-doctests-results.xml'
-        testRunTitle: 'docTestsTests'
         publishRunAttachments: true
       condition: always()
 
@@ -229,7 +229,9 @@ jobs:
         publishRunAttachments: true
         searchFolder: 'tests/'
       condition: always()
-      
+     
+    # to run tests on pydpf-post specific branch, the 
+    # branch name must be the same as the pydpf-core one
     - script: |    
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         export DPF_IP=$(hostname -i)
@@ -248,6 +250,24 @@ jobs:
         echo "is in pydpf-post"
         echo "------------------"
         ls
+        
+        export prefix="refs/heads/"
+        export subbranch=${BUILD_SOURCEBRANCH#"$prefix"}
+        export branch_to_check="origin/"${subbranch}
+        git branch -r > branch_output.txt
+        if grep -q $branch_to_check ./branch_output.txt; then 
+        echo -----------------------
+        echo "subbranch will be fetched"
+        git fetch origin $subbranch
+        git checkout $subbranch
+        echo "subbranch is now set"
+        echo -----------------------
+        else 
+        echo -----------------------
+        echo "master branch is now set"
+        echo -----------------------
+        fi
+        
         pip install .
         cd tests
         pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
