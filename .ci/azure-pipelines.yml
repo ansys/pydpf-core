@@ -278,13 +278,13 @@ jobs:
         export prefix="refs/heads/"
         export var_to_check=${BUILD_SOURCEBRANCH}
         if [ -z ${SYSTEM_PULLREQUEST_SOURCEBRANCH} ]; then 
+        export subbranch=${var_to_check#"$prefix"}
+        echo "subbranch is now set to $subbranch"
+        echo ----------------------- 
+        else 
         export var_to_check=${SYSTEM_PULLREQUEST_SOURCEBRANCH}
         export subbranch=${var_to_check}
         echo "subbranch is now set to $subbranch using pr_branch $SYSTEM_PULLREQUEST_SOURCEBRANCH"
-        echo ----------------------- 
-        else 
-        export subbranch=${var_to_check#"$prefix"}
-        echo "subbranch is now set to $subbranch"
         echo ----------------------- 
         fi
         export branch_to_check="origin/"${subbranch}
