@@ -99,7 +99,7 @@ jobs:
         echo "is in pydpf-post"
         echo "------------------"
         dir
-        pip install .
+        pip install . --no-deps
         cd tests
         pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.post --cov-report=xml --reruns 3
         echo %PATH%
@@ -268,7 +268,7 @@ jobs:
         echo -----------------------
         fi
         
-        pip install .
+        pip install . --no-deps
         cd tests
         pytest -v --junitxml=junit/test-results-post.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
         export PATH=`pwd`
