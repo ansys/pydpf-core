@@ -62,6 +62,33 @@ class Plotter:
             )
         self._plotter = plotter = pv.Plotter(kwargs)
         
+    def add_mesh(self, meshed_region, **kwargs):
+        """Add a mesh to plot.
+
+        Parameters
+        ----------
+        meshed_region : MeshedRegion
+            MeshedRegion to plot.
+    
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_mesh(mesh)
+        
+        """
+        kwargs.setdefault("stitle", "Mesh")
+        kwargs.setdefault("show_edges", True)
+        kwargs.setdefault("nan_color", "grey")
+        # mesh_location = meshed_region.nodes
+        # overall_data = np.full(len(mesh_location), np.nan)
+        self._plotter.add_mesh(meshed_region.grid, **kwargs)
+        
+        
     def add_field(self, field, meshed_region=None, **kwargs):
         """Add a field containing data to the plotter. 
         A meshed_region to plot on can be added.
@@ -86,6 +113,7 @@ class Plotter:
         >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
         >>> pl = DpfPlotter()
         >>> pl.add_field(mesh, field)
+        
         """
         name = field.name.split("_")[0]
         kwargs.setdefault("stitle", name)
@@ -129,6 +157,7 @@ class Plotter:
         >>> pl = DpfPlotter()
         >>> pl.add_field(mesh, field)
         >>> pl.show_figure()
+        
         """
         background = kwargs.pop("background", None)
         if background is not None:

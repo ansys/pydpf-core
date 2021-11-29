@@ -282,6 +282,32 @@ def test_plot_meshes_container_2(multishells):
         i += 1
     meshes_cont_2.plot(disp_fc_2)
     
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_meshes_container_only(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    split_mesh_op = core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont.plot()
+    
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_add_mesh(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    split_mesh_op = core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    pl = DpfPlotter()
+    i = 0
+    while i < (len(meshes_cont) - 10):
+        pl.add_mesh(meshes_cont[i])
+        i += 1
+    pl.show_figure()
+    
 def create_mesh_and_field_mapped(multishells):
     # get metadata
     model = core.Model(multishells)
