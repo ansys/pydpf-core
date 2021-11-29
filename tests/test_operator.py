@@ -421,7 +421,7 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     op = dpf.core.Operator("split_mesh")
     op.inputs.mesh.connect(model.metadata.meshed_region)
     op.inputs.property("elshape")
-    mc = op.outputs.mesh_controller()
+    mc = op.get_output(0, dpf.core.types.meshes_container)
     assert len(mc) == 4
     assert mc.labels == ["body", "elshape"]
     mesh = mc.get_mesh({"elshape": 1})
@@ -442,8 +442,11 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
     assert len(fc) == 4
+    if hasattr(op.outputs, "mesh_controller"):
+        stress.inputs.connect(op.outputs.mesh_controller)
+    else:
+        stress.inputs.connect(op.outputs.meshes)
 
-    stress.inputs.connect(op.outputs.mesh_controller)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
     assert len(fc) == 4
@@ -1117,7 +1120,7 @@ def test_list_operators():
     assert len(l)>400
     assert 'merge::result_info' in l    
     assert 'unit_convert' in l
-    assert 'MeshProvider' in l
+    assert 'stream_provider' in l
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
 def test_get_static_spec_operator():
