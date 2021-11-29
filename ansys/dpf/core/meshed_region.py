@@ -496,7 +496,8 @@ class MeshedRegion:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.static_rst)
         >>> meshed_region = model.metadata.meshed_region
-        >>> connectivity = meshed_region.field_of_properties(dpf.common.elemental_properties.connectivity)
+        >>> connectivity = meshed_region.field_of_properties(
+        ...     dpf.common.elemental_properties.connectivity)
         >>> coordinates = meshed_region.field_of_properties(dpf.common.nodal_properties.coordinates)
         """
         request = meshed_region_pb2.ListPropertyRequest()
@@ -525,5 +526,3 @@ class MeshedRegion:
         _get_available_named_selections: None,
         named_selection: None
     }
-
-

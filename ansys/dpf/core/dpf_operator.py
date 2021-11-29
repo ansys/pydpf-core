@@ -8,13 +8,9 @@ Provides an interface to the underlying gRPC operator.
 
 import functools
 import logging
-import grpc
-import logging
 from typing import NamedTuple
-from textwrap import wrap
 
 from ansys.dpf.core import server as serverlib
-from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc, base_pb2 
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import protect_grpc
@@ -84,7 +80,7 @@ class Operator:
         self.__send_init_request(config)
 
         self.__fill_spec()
-        
+
         # add dynamic inputs
         if len(self._spec.inputs) > 0 and self._inputs == None:
             self._inputs = Inputs(self._spec.inputs, self)
@@ -92,7 +88,7 @@ class Operator:
             self._outputs = Outputs(self._spec.outputs, self)
 
         self._description = self._spec.description
-        self._progress_bar=False
+        self._progress_bar = False
 
     def _add_sub_res_operators(self, sub_results):
         """Dynamically add operators for instantiating subresults.
@@ -121,14 +117,15 @@ class Operator:
 
     @property
     @version_requires("3.0")
-    def progress_bar(self)->bool:
+    def progress_bar(self) -> bool:
         """With this property, the user can choose to print a progress bar when
-        the operator's output is requested, default is False"""        
+        the operator's output is requested, default is False"""
         return self._progress_bar
-    
+
     @progress_bar.setter
-    def progress_bar(self, value)->bool:
+    def progress_bar(self, value) -> bool:
         self._progress_bar = value
+
     @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
         """Connect an input on the operator using a pin number.
@@ -194,21 +191,21 @@ class Operator:
         request.op.CopyFrom(self._message)
         request.pin = pin
 
-        if output_type :
-            _write_output_type_to_proto_style(output_type, request)   
+        if output_type:
+            _write_output_type_to_proto_style(output_type, request)
             if server_meet_version("3.0", self._server) and self._progress_bar:
-                self._server._session.add_operator(self,pin, "workflow")
-                out_future = self._stub.Get.future(request)            
+                self._server._session.add_operator(self, pin, "workflow")
+                out_future = self._stub.Get.future(request)
                 while out_future.is_active():
                     if self._progress_bar:
                         self._server._session.listen_to_progress()
                 out = out_future.result()
             else:
-                out = self._stub.Get(request) 
+                out = self._stub.Get(request)
             return _convertOutputMessageToPythonInstance(out, output_type, self._server)
         else:
             request.type = base_pb2.Type.Value("RUN")
-            out_future = self._stub.Get.future(request)   
+            out_future = self._stub.Get.future(request)
             out_future.result()
 
     @property
@@ -317,7 +314,6 @@ class Operator:
         """
         return Config(operator_name=name, server=server)
 
-        
     def _connect(self):
         """Connect to the gRPC service."""
         return operator_pb2_grpc.OperatorServiceStub(self._server.channel)
@@ -383,7 +379,7 @@ class Operator:
                     return output()
 
     def _find_outputs_corresponding_pins(
-        self, type_names, inpt, pin, corresponding_pins
+            self, type_names, inpt, pin, corresponding_pins
     ):
         from ansys.dpf.core.results import Result
         for python_name in type_names:
@@ -491,7 +487,7 @@ class Operator:
         from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(
-            operators.math, "generalized_inner_product_fc"
+                operators.math, "generalized_inner_product_fc"
         ):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
@@ -505,20 +501,21 @@ class Operator:
     def __fill_spec(self):
         """Put the grpc spec message in self._spec"""
         if hasattr(self._message, "spec"):
-            self._spec = OperatorSpecification._fill_from_message(self.name, self._message.spec)  
+            self._spec = OperatorSpecification._fill_from_message(self.name, self._message.spec)
         else:
             out = self._stub.List(self._message)
-            self._spec = OperatorSpecification._fill_from_message(self.name, out.spec)    
-    
+            self._spec = OperatorSpecification._fill_from_message(self.name, out.spec)
+
     @staticmethod
-    def operator_specification(op_name, server = None):
+    def operator_specification(op_name, server=None):
         """Put the grpc spec message in self._spec"""
         if server is None:
             server = serverlib._global_server()
         request = operator_pb2.Operator()
-        request.name=op_name
+        request.name = op_name
         out = operator_pb2_grpc.OperatorServiceStub(server.channel).List(request)
         return OperatorSpecification._fill_from_message(op_name, out.spec)
+
     def __truediv__(self, inpt):
         if isinstance(inpt, Operator):
             op = Operator("div")
@@ -537,64 +534,82 @@ class PinSpecification(NamedTuple):
     optional: bool
     document: str
     ellipsis: bool
-    
+
     @staticmethod
     def _get_copy(other, changed_types):
-        return PinSpecification(other.name,changed_types,other.optional,other.document,other.ellipsis)
-    
+        return PinSpecification(other.name,
+                                changed_types,
+                                other.optional,
+                                other.document,
+                                other.ellipsis)
+
 
 class OperatorSpecification(NamedTuple):
     operator_name: str
     description: str
     properties: dict
     inputs: dict
-    outputs: dict    
-    
+    outputs: dict
+
     @staticmethod
     def _fill_from_message(op_name, message: operator_pb2.Specification):
-        tmpinputs={}
-        for key,inp in message.map_input_pin_spec.items():
-            tmpinputs[key]=PinSpecification(inp.name, inp.type_names,inp.optional, inp.document, inp.ellipsis)
-            
-        tmpoutputs={}
-        for key,inp in message.map_output_pin_spec.items():
-            tmpoutputs[key]=PinSpecification(inp.name, inp.type_names,inp.optional, inp.document, inp.ellipsis)
-        
+        tmpinputs = {}
+        for key, inp in message.map_input_pin_spec.items():
+            tmpinputs[key] = PinSpecification(inp.name,
+                                              inp.type_names,
+                                              inp.optional,
+                                              inp.document,
+                                              inp.ellipsis)
+
+        tmpoutputs = {}
+        for key, inp in message.map_output_pin_spec.items():
+            tmpoutputs[key] = PinSpecification(inp.name,
+                                               inp.type_names,
+                                               inp.optional,
+                                               inp.document,
+                                               inp.ellipsis)
+
         if hasattr(message, "properties"):
             properties = dict(message.properties)
         else:
             properties = dict()
-        return OperatorSpecification(op_name, message.description, properties, tmpinputs, tmpoutputs)
-     
-       
+        return OperatorSpecification(op_name,
+                                     message.description,
+                                     properties,
+                                     tmpinputs,
+                                     tmpoutputs)
+
     def __str__(self):
-        out=""
-        for key,i in self._asdict().items(): 
-            out += key +": "+ str(i)+"\n\n"
+        out = ""
+        for key, i in self._asdict().items():
+            out += key + ": " + str(i) + "\n\n"
         return out
-        
+
+
 def available_operator_names(server=None):
     """Returns the list of operators name available in the server
-    
+
     Parameters
     ----------
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
-        
+
     Returns
     -------
     list
-    
+
     """
     if server is None:
         server = serverlib._global_server()
-    service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(operator_pb2.ListAllOperatorsRequest())
-    arr=[]        
+    service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
+        operator_pb2.ListAllOperatorsRequest())
+    arr = []
     import re
-    for chunk in service:        
+    for chunk in service:
         arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
-    return arr       
+    return arr
+
 
 def _write_output_type_to_proto_style(output_type, request):
     subtype = ""
@@ -610,10 +625,10 @@ def _write_output_type_to_proto_style(output_type, request):
             stype = "collection"
             subtype = "meshed_region"
         elif hasattr(types, "vec_int") and output_type == types.vec_int:
-            stype='collection'
+            stype = 'collection'
             subtype = 'int'
         elif hasattr(types, "vec_double") and output_type == types.vec_double:
-            stype='collection'
+            stype = 'collection'
             subtype = 'double'
         else:
             stype = output_type.name
@@ -673,7 +688,9 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
                 server=server, meshes_container=toconvert
             )
         elif output_type == types.vec_int or output_type == types.vec_double:
-            return collection.Collection(server=server,collection=toconvert)._get_integral_entries()
+            return collection.Collection(server=server,
+                                         collection=toconvert
+                                         )._get_integral_entries()
     elif out.HasField("scoping"):
         toconvert = out.scoping
         return scoping.Scoping(scoping=toconvert, server=server)
@@ -696,7 +713,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return cyclic_support.CyclicSupport(server=server, cyclic_support=toconvert)
     elif out.HasField("workflow"):
         toconvert = out.workflow
-        return workflow.Workflow(server=server,workflow=toconvert)
+        return workflow.Workflow(server=server, workflow=toconvert)
 
 
 def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
@@ -721,19 +738,19 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         request.double = inpt
     elif isinstance(inpt, list):
         if all(isinstance(x, int) for x in inpt):
-            if server_meet_version("3.0", server) :
+            if server_meet_version("3.0", server):
                 inpt = collection.Collection.integral_collection(inpt, server)
                 request.collection.CopyFrom(inpt._message)
                 return inpt
             else:
                 request.vint.rep_int.extend(inpt)
         elif all(isinstance(x, float) for x in inpt):
-            if server_meet_version("3.0", server) :
+            if server_meet_version("3.0", server):
                 inpt = collection.Collection.integral_collection(inpt, server)
                 request.collection.CopyFrom(inpt._message)
                 return inpt
             else:
-                request.vdouble.rep_double.extend(inpt) 
+                request.vdouble.rep_double.extend(inpt)
         else:
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
