@@ -649,7 +649,7 @@ class CommonResults(Results):
         >>> stress = stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = stress.eval()
         """
-        return super().__result__("elastic_strain")
+        return super().__result__("stress")
 
     @property
     def structural_temperature(self):
