@@ -62,7 +62,30 @@ class Plotter:
             )
         self._plotter = plotter = pv.Plotter(kwargs)
         
-    def add_field(self, meshed_region, field, **kwargs):
+    def add_field(self, field, meshed_region=None, **kwargs):
+        """Add a field containing data to the plotter. 
+        A meshed_region to plot on can be added.
+        If no meshed_region is mentionned, the field 
+        support will be used. 
+
+        Parameters
+        ----------
+        field : Field
+            Field data to plot
+        meshed_region : MeshedRegion, optional
+            MeshedRegion to plot the field on. 
+    
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> field = model.results.displacement().outputs.fields_container()[0]
+        >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_field(mesh, field)
+        """
         name = field.name.split("_")[0]
         kwargs.setdefault("stitle", name)
         kwargs.setdefault("show_edges", True)
@@ -89,6 +112,20 @@ class Plotter:
         self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
     
     def show_figure(self, **kwargs):
+        """Plot the figure built by the plotter object.
+    
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> field = model.results.displacement().outputs.fields_container()[0]
+        >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_field(mesh, field)
+        >>> pl.show_figure()
+        """
         background = kwargs.pop("background", None)
         if background is not None:
             self._plotter.set_background(background)
