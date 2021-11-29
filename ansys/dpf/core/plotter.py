@@ -81,11 +81,10 @@ class Plotter:
         >>> pl.add_mesh(mesh)
         
         """
-        kwargs.setdefault("stitle", "Mesh")
-        kwargs.setdefault("show_edges", True)
-        kwargs.setdefault("nan_color", "grey")
-        # mesh_location = meshed_region.nodes
-        # overall_data = np.full(len(mesh_location), np.nan)
+        if self._plotter.mesh is None: 
+            kwargs.setdefault("stitle", "Mesh")
+            kwargs.setdefault("show_edges", True)
+            kwargs.setdefault("nan_color", "grey")
         self._plotter.add_mesh(meshed_region.grid, **kwargs)
         
         
@@ -115,10 +114,11 @@ class Plotter:
         >>> pl.add_field(mesh, field)
         
         """
-        name = field.name.split("_")[0]
-        kwargs.setdefault("stitle", name)
-        kwargs.setdefault("show_edges", True)
-        kwargs.setdefault("nan_color", "grey")
+        if self._plotter.mesh is None:
+            name = field.name.split("_")[0]
+            kwargs.setdefault("stitle", name)
+            kwargs.setdefault("show_edges", True)
+            kwargs.setdefault("nan_color", "grey")
         
         if meshed_region is None:
             meshed_region = field.meshed_region

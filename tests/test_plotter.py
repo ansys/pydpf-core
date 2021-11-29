@@ -355,9 +355,9 @@ def create_mesh_and_field_mapped_2(multishells):
         coord_copy[0] = coord_copy[0] + i * 0.0003
         coordinates.append(coord_copy)
     i = 0
-    ref = [-0.0155, 0.00600634, -0.000981759]
+    ref = [-0.0155, 0.00600634, -0.0025]
     coordinates.append(ref)
-    while i < 30:
+    while i < 100:
         i += 1
         coord_copy = []
         coord_copy.append(ref[0])
