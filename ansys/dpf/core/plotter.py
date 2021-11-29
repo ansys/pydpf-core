@@ -66,7 +66,8 @@ class Plotter:
         """Add a field containing data to the plotter. 
         A meshed_region to plot on can be added.
         If no meshed_region is mentionned, the field 
-        support will be used. 
+        support will be used. Please ensure that the field 
+        support is a meshed_region to proceed this way.
 
         Parameters
         ----------
@@ -90,6 +91,9 @@ class Plotter:
         kwargs.setdefault("stitle", name)
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
+        
+        if meshed_region is None:
+            meshed_region = field.meshed_region
         
         location = field.location   
         if location == locations.nodal:
