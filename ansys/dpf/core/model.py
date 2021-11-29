@@ -51,7 +51,6 @@ class Model:
         self._metadata = None
         self._results = None
 
-
     @property
     def metadata(self):
         """Model metadata.
