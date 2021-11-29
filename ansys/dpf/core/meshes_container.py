@@ -40,20 +40,54 @@ class MeshesContainer(Collection):
         )
         
 
-    def plot(self, fields_container, **kwargs):
+    def plot(self, fields_container=None, **kwargs):
+        """
+        
+
+        Parameters
+        ----------
+        fields_container : TYPE, optional
+            DESCRIPTION. The default is None.
+        **kwargs : TYPE
+            DESCRIPTION.
+            
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh)
+        >>> split_mesh_op.connect(13, "mat")
+        >>> meshes_cont = split_mesh_op.outputs.mesh_controller()
+        >>> disp_op = dpf.Operator("U")
+        >>> disp_op.connect(7, meshes_cont)
+        >>> ds = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op.connect(4, ds)
+        >>> disp_fc = disp_op.outputs.fields_container()
+        >>> meshes_cont.plot(disp_fc)
+        
+        """
         pl = _DpfPlotter()
-        size = len(fields_container)
-        i = 0
-        while i < size: 
-            label_space = fields_container.get_label_space(i)
-            mesh_to_send = self.get_mesh(label_space)
-            if mesh_to_send == None:
-                raise dpf_errors.DpfValueError("Meshes container and result fields "
-                                               "container does not have the same scope. "
-                                               "Plotting can not be proceeded. ")
-            field = fields_container[i]
-            pl.add_field(mesh_to_send, field, **kwargs)
-            i += 1
+        
+        if fields_container is not None: 
+            size = len(fields_container)
+            i = 0
+            while i < size: 
+                label_space = fields_container.get_label_space(i)
+                mesh_to_send = self.get_mesh(label_space)
+                if mesh_to_send == None:
+                    raise dpf_errors.DpfValueError("Meshes container and result fields "
+                                                   "container does not have the same scope. "
+                                                   "Plotting can not be proceeded. ")
+                field = fields_container[i]
+                pl.add_field(mesh_to_send, field, **kwargs)
+                i += 1
+        else:
+            for mesh in self:
+                pl.add_mesh(mesh, **kwargs)
+                
         pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
