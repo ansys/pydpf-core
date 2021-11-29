@@ -251,7 +251,7 @@ def test_plot_meshes_container_1(multishells):
     meshes_cont = split_mesh_op.outputs.mesh_controller()
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
-    ds = core.DataSources(mutlishells)
+    ds = core.DataSources(multishells)
     disp_op.connect(4, ds)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc)
@@ -290,11 +290,11 @@ def create_mesh_and_field_mapped(multishells):
     field = disp_fc[0]
     # coordinates field to map
     coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012], [-0.018, 0.006, 0.012], [-0.018, 0.006, 0.014]]
-    field_coord = Field()
-    field_coord.location = locations.nodal
+    field_coord = core.Field()
+    field_coord.location = core.locations.nodal
     field_coord.data = coordinates
-    scoping = Scoping()
-    scoping.location = locations.nodal
+    scoping = core.Scoping()
+    scoping.location = core.locations.nodal
     scoping.ids = list(range(1, len(coordinates) + 1))
     field_coord.scoping = scoping
     # mapping operator
