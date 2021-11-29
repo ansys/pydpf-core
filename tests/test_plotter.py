@@ -327,7 +327,57 @@ def create_mesh_and_field_mapped(multishells):
     mapping_operator = core.Operator("mapping")
     mapping_operator.inputs.fields_container.connect(disp_fc)
     mapping_operator.inputs.coordinates.connect(field_coord)
-    mapping_operator.inputd.create_support.connect(True)
+    mapping_operator.inputs.mesh.connect(mesh)
+    mapping_operator.inputs.create_support.connect(True)
+    fields_mapped = mapping_operator.outputs.fields_container()
+    # mesh path
+    assert len(fields_mapped) == 1
+    field_m = fields_mapped[0]
+    mesh_m = field_m.meshed_region
+    # return 
+    return field, field_m, mesh, mesh_m
+
+def create_mesh_and_field_mapped_2(multishells):
+    # get metadata
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    disp_fc = model.results.displacement().outputs.fields_container()
+    field = disp_fc[0]
+    # coordinates field to map
+    i = 0
+    coordinates = [[-0.0195, 0.006, -0.0025]]
+    while i < 100:
+        i += 1
+        coord_copy = []
+        coord_copy.append(coordinates[0][0])
+        coord_copy.append(coordinates[0][1])
+        coord_copy.append(coordinates[0][2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    i = 0
+    ref = [-0.0155, 0.00600634, -0.000981759]
+    coordinates.append(ref)
+    while i < 30:
+        i += 1
+        coord_copy = []
+        coord_copy.append(ref[0])
+        coord_copy.append(ref[1])
+        coord_copy.append(ref[2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    field_coord = core.Field()
+    field_coord.location = core.locations.nodal
+    field_coord.data = coordinates
+    scoping = core.Scoping()
+    scoping.location = core.locations.nodal
+    scoping.ids = list(range(1, len(coordinates) + 1))
+    field_coord.scoping = scoping
+    # mapping operator
+    mapping_operator = core.Operator("mapping")
+    mapping_operator.inputs.fields_container.connect(disp_fc)
+    mapping_operator.inputs.coordinates.connect(field_coord)
+    mapping_operator.inputs.mesh.connect(mesh)
+    mapping_operator.inputs.create_support.connect(True)
     fields_mapped = mapping_operator.outputs.fields_container()
     # mesh path
     assert len(fields_mapped) == 1
@@ -356,7 +406,9 @@ def test_plot_path_2(multishells):
     # create plotter, add fields and plot
     from ansys.dpf.core.plotter import Plotter as DpfPlotter
     pl = DpfPlotter()
-    pl.add_field(mesh, field)
-    pl.add_field(mesh_m, field_m)
+    # to use outside of the window:
+    # pl = DpfPlotter(notebook=False)
+    pl.add_field(field, mesh, style="wireframe", color="w", opacity=0.3)
+    pl.add_field(field_m, mesh_m)
     pl.show_figure()
     

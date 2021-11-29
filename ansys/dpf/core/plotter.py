@@ -60,7 +60,7 @@ class Plotter:
                 "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
-        self._plotter = plotter = pv.Plotter(kwargs)
+        self._plotter = plotter = pv.Plotter(**kwargs)
         
     def add_mesh(self, meshed_region, **kwargs):
         """Add a mesh to plot.
