@@ -267,8 +267,8 @@ class Field(_FieldBase):
             Enum used to set the shell layers if the model to plot
             contains shell elements. The default is ``None``.
         """
-        pl = Plotter(self.meshed_region)
-        pl.plot_contour(self, notebook, shell_layers)
+        pl = Plotter()
+        pl.plot_contour(self.meshed_region, self, notebook, shell_layers)
 
     def resize(self, nentities, datasize):
         """Allocate memory.

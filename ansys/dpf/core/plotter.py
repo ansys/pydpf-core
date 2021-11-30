@@ -50,9 +50,7 @@ class Plotter:
 
     """
 
-    def __init__(self, mesh = None, **kwargs):
-        self._mesh = mesh
-        
+    def __init__(self, **kwargs):
         try:
             import pyvista as pv
         except ModuleNotFoundError:
@@ -169,7 +167,7 @@ class Plotter:
             self._plotter.add_axes()
         return self._plotter.show()
 
-    def plot_mesh(self, **kwargs):
+    def plot_mesh(self, meshed_region, **kwargs):
         """Plot the mesh using PyVista.
 
         Parameters
@@ -186,7 +184,7 @@ class Plotter:
         """
         kwargs.setdefault("color", "w")
         kwargs.setdefault("show_edges", True)
-        return self._mesh.grid.plot(**kwargs)
+        return meshed_region.grid.plot(**kwargs)
 
     def plot_chart(self, fields_container):
         """Plot the minimum/maximum result values over time.
@@ -250,6 +248,7 @@ class Plotter:
 
     def plot_contour(
         self,
+        meshed_region,
         field_or_fields_container,
         notebook=None,
         shell_layers=None,
@@ -317,7 +316,7 @@ class Plotter:
                 if label[DefinitionLabels.time] != first_time:
                     raise dpf_errors.FieldContainerPlottingError
 
-        mesh = self._mesh
+        mesh = meshed_region
 
         # get mesh scoping
         location = None
@@ -397,7 +396,7 @@ class Plotter:
             plotter.add_axes()
         return plotter.show()
 
-    def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
+    def _plot_contour_using_vtk_file(self, meshed_region, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
 
         The resulting figure depends on the support, which can be a meshed region
@@ -422,7 +421,7 @@ class Plotter:
         path = os.path.join(tempfile.gettempdir(), "dpf_temp_hokflb2j9s.vtk")
 
         vtk_export = dpf.core.Operator("vtk_export")
-        vtk_export.inputs.mesh.connect(self._mesh)
+        vtk_export.inputs.mesh.connect(meshed_region)
         vtk_export.inputs.fields1.connect(fields_container)
         vtk_export.inputs.file_path.connect(path)
         vtk_export.run()
