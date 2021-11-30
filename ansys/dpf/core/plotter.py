@@ -118,9 +118,9 @@ class Plotter:
             kwargs.setdefault("show_edges", True)
             kwargs.setdefault("nan_color", "grey")
 
+        # get the meshed region location
         if meshed_region is None:
             meshed_region = field.meshed_region
-
         location = field.location
         if location == locations.nodal:
             mesh_location = meshed_region.nodes
@@ -130,7 +130,6 @@ class Plotter:
             raise ValueError(
                 "Only elemental or nodal location are supported for plotting."
             )
-
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -139,6 +138,7 @@ class Plotter:
         ind, mask = mesh_location.map_scoping(field.scoping)
         overall_data[ind] = field.data[mask]
 
+        # plot
         self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
 
     def show_figure(self, **kwargs):

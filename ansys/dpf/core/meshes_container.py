@@ -68,7 +68,6 @@ class MeshesContainer(Collection):
 
         """
         pl = _DpfPlotter()
-
         if fields_container is not None:
             size = len(fields_container)
             i = 0
@@ -85,7 +84,6 @@ class MeshesContainer(Collection):
         else:
             for mesh in self:
                 pl.add_mesh(mesh, **kwargs)
-
         pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
