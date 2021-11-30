@@ -82,7 +82,7 @@ class MeshesContainer(Collection):
                                                    "container does not have the same scope. "
                                                    "Plotting can not be proceeded. ")
                 field = fields_container[i]
-                pl.add_field(mesh_to_send, field, **kwargs)
+                pl.add_field(field, mesh_to_send, **kwargs)
                 i += 1
         else:
             for mesh in self:

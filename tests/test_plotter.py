@@ -365,6 +365,28 @@ def create_mesh_and_field_mapped_2(multishells):
         coord_copy.append(ref[2])
         coord_copy[0] = coord_copy[0] + i * 0.0003
         coordinates.append(coord_copy)
+    i = 0
+    ref = [-0.0125, 0.00600507, -0.0025]
+    coordinates.append(ref)
+    while i < 100:
+        i += 1
+        coord_copy = []
+        coord_copy.append(ref[0])
+        coord_copy.append(ref[1])
+        coord_copy.append(ref[2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    i = 0
+    ref = [-0.0125, 0.00600444, -0.0025]
+    coordinates.append(ref)
+    while i < 100:
+        i += 1
+        coord_copy = []
+        coord_copy.append(ref[0])
+        coord_copy.append(ref[1])
+        coord_copy.append(ref[2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
     field_coord = core.Field()
     field_coord.location = core.locations.nodal
     field_coord.data = coordinates
@@ -394,10 +416,10 @@ def test_plot_path_1(multishells):
     meshes_cont.labels = ["path"]
     meshes_cont.add_mesh({"path" : 0}, mesh)
     meshes_cont.add_mesh({"path" : 1}, mesh_m)
-    fields_cont = core.MeshesContainer()
+    fields_cont = core.FieldsContainer()
     fields_cont.labels = ["path"]
-    fields_cont.add_mesh({"path" : 0}, field)
-    fields_cont.add_mesh({"path" : 1}, field_m)
+    fields_cont.add_field({"path" : 0}, field)
+    fields_cont.add_field({"path" : 1}, field_m)
     meshes_cont.plot(fields_cont)
     
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -408,7 +430,21 @@ def test_plot_path_2(multishells):
     pl = DpfPlotter()
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
-    pl.add_field(field, mesh, style="wireframe", color="w", opacity=0.3)
     pl.add_field(field_m, mesh_m)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, 
+                 color="w", opacity=0.3)
+    pl.show_figure()
+    
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_path_3(multishells):
+    field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
+    # create plotter, add fields and plot
+    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    pl = DpfPlotter()
+    # to use outside of the window:
+    # pl = DpfPlotter(notebook=False)
+    pl.add_field(field_m, mesh_m)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, 
+                 color="w", opacity=0.3)
     pl.show_figure()
     
