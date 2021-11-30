@@ -109,7 +109,7 @@ class Plotter:
         >>> field = model.results.displacement().outputs.fields_container()[0]
         >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
         >>> pl = DpfPlotter()
-        >>> pl.add_field(mesh, field)
+        >>> pl.add_field(field, mesh)
 
         """
         if self._plotter.mesh is None:
@@ -153,7 +153,7 @@ class Plotter:
         >>> field = model.results.displacement().outputs.fields_container()[0]
         >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
         >>> pl = DpfPlotter()
-        >>> pl.add_field(mesh, field)
+        >>> pl.add_field(field, mesh)
         >>> pl.show_figure()
 
         """
@@ -208,7 +208,7 @@ class Plotter:
         >>> scoping.ids = range(1, len(model.metadata.time_freq_support.time_frequencies) + 1)
         >>> disp.inputs.time_scoping.connect(scoping)
         >>> fc = disp.outputs.fields_container()
-        >>> plotter = dpf.plotter.Plotter(model.metadata.meshed_region)
+        >>> plotter = dpf.plotter.Plotter()
         >>> pl = plotter.plot_chart(fc)
 
         """
