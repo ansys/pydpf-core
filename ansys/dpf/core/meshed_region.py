@@ -412,7 +412,7 @@ class MeshedRegion:
 
         # otherwise, simply plot self
         kwargs["notebook"] = notebook
-        return pl.plot_mesh(**kwargs)
+        return pl.plot_mesh(self, **kwargs)
 
     def deep_copy(self, server=None):
         """Create a deep copy of the meshed region's data on a given server.
