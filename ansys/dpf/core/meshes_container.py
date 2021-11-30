@@ -39,7 +39,6 @@ class MeshesContainer(Collection):
             self, types.meshed_region, collection=meshes_container, server=self._server
         )
 
-
     def plot(self, fields_container=None, **kwargs):
         """Plot the meshes container with a specific result if
         fields_container is specified.
@@ -75,9 +74,11 @@ class MeshesContainer(Collection):
                 label_space = fields_container.get_label_space(i)
                 mesh_to_send = self.get_mesh(label_space)
                 if mesh_to_send == None:
-                    raise dpf_errors.DpfValueError("Meshes container and result fields "
-                                                   "container does not have the same scope. "
-                                                   "Plotting can not be proceeded. ")
+                    raise dpf_errors.DpfValueError(
+                        "Meshes container and result fields "
+                        "container does not have the same scope. "
+                        "Plotting can not be proceeded. "
+                    )
                 field = fields_container[i]
                 pl.add_field(field, mesh_to_send, **kwargs)
                 i += 1

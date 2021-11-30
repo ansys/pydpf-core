@@ -85,7 +85,6 @@ class Plotter:
             kwargs.setdefault("nan_color", "grey")
         self._plotter.add_mesh(meshed_region.grid, **kwargs)
 
-
     def add_field(self, field, meshed_region=None, **kwargs):
         """Add a field containing data to the plotter.
         A meshed_region to plot on can be added.
@@ -396,7 +395,9 @@ class Plotter:
             plotter.add_axes()
         return plotter.show()
 
-    def _plot_contour_using_vtk_file(self, meshed_region, fields_container, notebook=None):
+    def _plot_contour_using_vtk_file(
+        self, meshed_region, fields_container, notebook=None
+    ):
         """Plot the contour result on its mesh support.
 
         The resulting figure depends on the support, which can be a meshed region
