@@ -1,6 +1,8 @@
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 from functools import wraps
 
+from twisted.python.log import err
+
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
 or the result at a defined sweeping phase before plotting.
@@ -112,6 +114,27 @@ def protect_grpc(func):
             if "object is null in the dataBase" in details:
                 raise DPFServerNullObject(details) from None
             raise DPFServerException(details) from None
+
+        return out
+
+    return wrapper
+
+def protect_source_op_not_found(func):
+    """Capture gRPC server exceptions when a source operator is not found
+    and return a more succinct error message.
+    """
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        """Capture gRPC exceptions."""
+        # Capture gRPC exceptions
+        try:
+            out = func(*args, **kwargs)
+        except DPFServerException as error:
+            details = str(error)
+            if "source operator not found" in details:
+                return None
+            raise DPFServerException(details)
 
         return out
 
