@@ -315,7 +315,7 @@ def create_mesh_and_field_mapped(multishells):
     disp_fc = model.results.displacement().outputs.fields_container()
     field = disp_fc[0]
     # coordinates field to map
-    coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012], 
+    coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012],
                    [-0.018, 0.006, 0.012], [-0.018, 0.006, 0.014]]
     field_coord = core.Field()
     field_coord.location = core.locations.nodal

@@ -401,7 +401,7 @@ class MeshedRegion:
         pl = _DpfPlotter()
         if field_or_fields_container is not None:
             return pl.plot_contour(
-                self, 
+                self,
                 field_or_fields_container,
                 notebook,
                 shell_layers,

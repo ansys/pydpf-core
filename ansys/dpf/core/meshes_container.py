@@ -41,15 +41,13 @@ class MeshesContainer(Collection):
 
 
     def plot(self, fields_container=None, **kwargs):
-        """Plot the meshes container with a specific result if 
-        fields_container is specified. 
+        """Plot the meshes container with a specific result if
+        fields_container is specified.
 
         Parameters
         ----------
-        fields_container : TYPE, optional
-            DESCRIPTION. The default is None.
-        **kwargs : TYPE
-            DESCRIPTION.
+        fields_container : FieldsContainer, optional
+            Data to plot. The default is None.
 
         Examples
         --------
