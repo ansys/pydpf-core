@@ -38,11 +38,11 @@ class MeshesContainer(Collection):
         Collection.__init__(
             self, types.meshed_region, collection=meshes_container, server=self._server
         )
-        
+
 
     def plot(self, fields_container=None, **kwargs):
-        """
-        
+        """Plot the meshes container with a specific result if 
+        fields_container is specified. 
 
         Parameters
         ----------
@@ -50,7 +50,7 @@ class MeshesContainer(Collection):
             DESCRIPTION. The default is None.
         **kwargs : TYPE
             DESCRIPTION.
-            
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -67,14 +67,14 @@ class MeshesContainer(Collection):
         >>> disp_op.connect(4, ds)
         >>> disp_fc = disp_op.outputs.fields_container()
         >>> meshes_cont.plot(disp_fc)
-        
+
         """
         pl = _DpfPlotter()
-        
-        if fields_container is not None: 
+
+        if fields_container is not None:
             size = len(fields_container)
             i = 0
-            while i < size: 
+            while i < size:
                 label_space = fields_container.get_label_space(i)
                 mesh_to_send = self.get_mesh(label_space)
                 if mesh_to_send == None:
@@ -87,7 +87,7 @@ class MeshesContainer(Collection):
         else:
             for mesh in self:
                 pl.add_mesh(mesh, **kwargs)
-                
+
         pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):

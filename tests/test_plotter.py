@@ -239,8 +239,8 @@ def test_plot_contour_using_vtk_file(complex_model):
     fc = stress.outputs.fields_container()
     pl = DpfPlotter()
     pl._plot_contour_using_vtk_file(model.metadata.meshed_region, fc)
-    
-    
+
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_meshes_container_1(multishells):
     model = core.Model(multishells)
@@ -255,7 +255,7 @@ def test_plot_meshes_container_1(multishells):
     disp_op.connect(4, ds)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc)
-    
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_meshes_container_2(multishells):
     from ansys.dpf import core
@@ -281,7 +281,7 @@ def test_plot_meshes_container_2(multishells):
         disp_fc_2.add_field(lab, disp_fc.get_field(lab))
         i += 1
     meshes_cont_2.plot(disp_fc_2)
-    
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_meshes_container_only(multishells):
     model = core.Model(multishells)
@@ -291,7 +291,7 @@ def test_plot_meshes_container_only(multishells):
     split_mesh_op.connect(13, "mat")
     meshes_cont = split_mesh_op.outputs.mesh_controller()
     meshes_cont.plot()
-    
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_add_mesh(multishells):
     model = core.Model(multishells)
@@ -307,7 +307,7 @@ def test_plotter_add_mesh(multishells):
         pl.add_mesh(meshes_cont[i])
         i += 1
     pl.show_figure()
-    
+
 def create_mesh_and_field_mapped(multishells):
     # get metadata
     model = core.Model(multishells)
@@ -315,7 +315,8 @@ def create_mesh_and_field_mapped(multishells):
     disp_fc = model.results.displacement().outputs.fields_container()
     field = disp_fc[0]
     # coordinates field to map
-    coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012], [-0.018, 0.006, 0.012], [-0.018, 0.006, 0.014]]
+    coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012], 
+                   [-0.018, 0.006, 0.012], [-0.018, 0.006, 0.014]]
     field_coord = core.Field()
     field_coord.location = core.locations.nodal
     field_coord.data = coordinates
@@ -334,7 +335,7 @@ def create_mesh_and_field_mapped(multishells):
     assert len(fields_mapped) == 1
     field_m = fields_mapped[0]
     mesh_m = field_m.meshed_region
-    # return 
+    # return
     return field, field_m, mesh, mesh_m
 
 def create_mesh_and_field_mapped_2(multishells):
@@ -405,7 +406,7 @@ def create_mesh_and_field_mapped_2(multishells):
     assert len(fields_mapped) == 1
     field_m = fields_mapped[0]
     mesh_m = field_m.meshed_region
-    # return 
+    # return
     return field, field_m, mesh, mesh_m
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -421,7 +422,7 @@ def test_plot_path_1(multishells):
     fields_cont.add_field({"path" : 0}, field)
     fields_cont.add_field({"path" : 1}, field_m)
     meshes_cont.plot(fields_cont)
-    
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_path_2(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped(multishells)
@@ -431,10 +432,10 @@ def test_plot_path_2(multishells):
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m)
-    pl.add_field(field, mesh, style="wireframe", show_edges=True, 
+    pl.add_field(field, mesh, style="wireframe", show_edges=True,
                  color="w", opacity=0.3)
     pl.show_figure()
-    
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_path_3(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
@@ -444,7 +445,6 @@ def test_plot_path_3(multishells):
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m)
-    pl.add_field(field, mesh, style="wireframe", show_edges=True, 
+    pl.add_field(field, mesh, style="wireframe", show_edges=True,
                  color="w", opacity=0.3)
     pl.show_figure()
-    

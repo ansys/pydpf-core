@@ -59,7 +59,7 @@ class Plotter:
                 "with :\n pip install pyvista>=0.24.0"
             )
         self._plotter = plotter = pv.Plotter(**kwargs)
-        
+
     def add_mesh(self, meshed_region, **kwargs):
         """Add a mesh to plot.
 
@@ -67,7 +67,7 @@ class Plotter:
         ----------
         meshed_region : MeshedRegion
             MeshedRegion to plot.
-    
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -77,20 +77,20 @@ class Plotter:
         >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
         >>> pl = DpfPlotter()
         >>> pl.add_mesh(mesh)
-        
+
         """
-        if self._plotter.mesh is None: 
+        if self._plotter.mesh is None:
             kwargs.setdefault("stitle", "Mesh")
             kwargs.setdefault("show_edges", True)
             kwargs.setdefault("nan_color", "grey")
         self._plotter.add_mesh(meshed_region.grid, **kwargs)
-        
-        
+
+
     def add_field(self, field, meshed_region=None, **kwargs):
-        """Add a field containing data to the plotter. 
+        """Add a field containing data to the plotter.
         A meshed_region to plot on can be added.
-        If no meshed_region is mentionned, the field 
-        support will be used. Please ensure that the field 
+        If no meshed_region is mentionned, the field
+        support will be used. Please ensure that the field
         support is a meshed_region to proceed this way.
 
         Parameters
@@ -98,8 +98,8 @@ class Plotter:
         field : Field
             Field data to plot
         meshed_region : MeshedRegion, optional
-            MeshedRegion to plot the field on. 
-    
+            MeshedRegion to plot the field on.
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -110,18 +110,18 @@ class Plotter:
         >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
         >>> pl = DpfPlotter()
         >>> pl.add_field(mesh, field)
-        
+
         """
         if self._plotter.mesh is None:
             name = field.name.split("_")[0]
             kwargs.setdefault("stitle", name)
             kwargs.setdefault("show_edges", True)
             kwargs.setdefault("nan_color", "grey")
-        
+
         if meshed_region is None:
             meshed_region = field.meshed_region
-        
-        location = field.location   
+
+        location = field.location
         if location == locations.nodal:
             mesh_location = meshed_region.nodes
         elif location == locations.elemental:
@@ -130,8 +130,8 @@ class Plotter:
             raise ValueError(
                 "Only elemental or nodal location are supported for plotting."
             )
-            
-        component_count = field.component_count   
+
+        component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
         else:
@@ -140,10 +140,10 @@ class Plotter:
         overall_data[ind] = field.data[mask]
 
         self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
-    
+
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
-    
+
         Examples
         --------
         >>> from ansys.dpf import core as dpf
@@ -155,7 +155,7 @@ class Plotter:
         >>> pl = DpfPlotter()
         >>> pl.add_field(mesh, field)
         >>> pl.show_figure()
-        
+
         """
         background = kwargs.pop("background", None)
         if background is not None:
