@@ -28,7 +28,7 @@ class MeshesContainer(Collection):
 
     def __init__(self, meshes_container=None, server=None):
         """Initialize the scoping with either an optional scoping
-        message or by connecting to a stub."""
+        message or by connecting to a stub. """
         if server is None:
             server = dpf.core._global_server()
 
