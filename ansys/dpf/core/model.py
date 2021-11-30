@@ -46,16 +46,10 @@ class Model:
         if server is None:
             server = dpf.core._global_server()
 
+        self._data_sources = data_sources
         self._server = server
-        self._metadata = Metadata(data_sources, self._server)
-        if misc.DYNAMIC_RESULTS:
-            try:
-                self._results = Results(self)
-            except Exception as e:
-                self._results = CommonResults(self)
-                LOG.debug(str(e))
-        else:
-            self._results = CommonResults(self)
+        self._metadata = None
+        self._results = None
 
     @property
     def metadata(self):
@@ -104,6 +98,8 @@ class Model:
         'Metric (m, kg, N, s, V, A)'
 
         """
+        if not self._metadata:
+            self._metadata = Metadata(self._data_sources, self._server)
         return self._metadata
 
     @property
@@ -155,7 +151,14 @@ class Model:
 
         """
         if not self._results:
-            return CommonResults(self)
+            if misc.DYNAMIC_RESULTS:
+                try:
+                    self._results = Results(self)
+                except Exception as e:
+                    self._results = CommonResults(self)
+                    LOG.debug(str(e))
+            else:
+                self._results = CommonResults(self)
         return self._results
 
     def __connect_op__(self, op):

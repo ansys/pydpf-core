@@ -429,9 +429,12 @@ class BaseService:
         -------
            description : str
         """
-        request = base_pb2.DescribeRequest()
-        request.dpf_type_id = dpf_entity_message.id
-        return self._stub.Describe(request).description
+        try:
+            request = base_pb2.DescribeRequest()
+            request.dpf_type_id = dpf_entity_message.id
+            return self._stub.Describe(request).description
+        except:
+            return ""
 
     def _get_separator(self, path):
         s1 = len(path.split("\\"))
