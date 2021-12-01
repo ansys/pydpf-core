@@ -102,7 +102,7 @@ class Model:
 
         >>> rinfo = model.metadata.result_info
         >>> rinfo.unit_system
-        'Metric (m, kg, N, s, V, A)'
+        'MKS: m, kg, N, s, V, A, degC'
 
         """
         return self._metadata
