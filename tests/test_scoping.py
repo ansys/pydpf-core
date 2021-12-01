@@ -202,6 +202,8 @@ def test_as_local_scoping():
             loc.append(i + 1)
             assert loc.id(i) == i + 1
             assert loc.index(i + 1) == i
+        assert hasattr(loc, "_is_set") is True
+        assert loc._is_set is True
     assert scop.ids == list(range(1, 101))
     assert scop.location == "Nodal"
     with scop.as_local_scoping() as loc:
@@ -209,6 +211,8 @@ def test_as_local_scoping():
         for i in range(0, 100):
             assert loc.id(i) == i + 1
             assert loc.index(i + 1) == i
+        assert hasattr(loc, "_is_set") is False
+
 
 def test_as_local_scoping2():
     scop = Scoping()
@@ -218,6 +222,8 @@ def test_as_local_scoping2():
         for i in range(0, 100):
             assert loc.id(i) == i + 1
             assert loc.index(i + 1) == i
+        assert hasattr(loc, "_is_set") is True
+        assert loc._is_set is True
     assert scop.ids == list(range(1, 101))
     assert scop.location == "Nodal"
     with scop.as_local_scoping() as loc:
@@ -225,6 +231,7 @@ def test_as_local_scoping2():
         for i in range(0, 100):
             assert loc.id(i) == i + 1
             assert loc.index(i + 1) == i
+        assert hasattr(loc, "_is_set") is False
 
 
 def test_auto_delete_scoping_local():

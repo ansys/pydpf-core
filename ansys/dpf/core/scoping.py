@@ -13,6 +13,7 @@ from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import _common_progress_bar, locations
 from ansys.dpf.core import misc
 from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
+from ansys.dpf.core.cache import _setter
 
 
 class Scoping:
@@ -430,6 +431,7 @@ class _LocalScoping(Scoping):
         """
         return self._location
 
+    @_setter
     def _set_location(self, loc=locations.nodal):
         """
         Parameters
@@ -440,6 +442,7 @@ class _LocalScoping(Scoping):
         """
         self._location = loc
 
+    @_setter
     @version_requires("2.1")
     def _set_ids(self, ids):
         """
@@ -477,6 +480,7 @@ class _LocalScoping(Scoping):
         else:
             return self._scoping_ids_copy
 
+    @_setter
     def set_id(self, index, scopingid):
         """Set the ID of a scoping's index.
 
@@ -494,6 +498,7 @@ class _LocalScoping(Scoping):
         self._scoping_ids_copy[index] = scopingid
         self._mapper[scopingid] = index
 
+    @_setter
     def append(self, id):
         self._scoping_ids_copy.append(id)
         self._mapper[id] = len(self)-1
@@ -530,8 +535,9 @@ class _LocalScoping(Scoping):
 
     def release_data(self):
         """Release the data."""
-        super()._set_ids(self._scoping_ids_copy)
-        super()._set_location(self._location)
+        if hasattr(self, "_is_set") and self._is_set:
+            super()._set_ids(self._scoping_ids_copy)
+            super()._set_location(self._location)
 
     def __enter__(self):
         return self
