@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import os
 
 from ansys import dpf
 from ansys.dpf.core import examples
@@ -126,8 +127,8 @@ def test_result_displacement_model():
     assert len(results.displacement.split_by_body.eval()) == 32
     assert len(results.displacement.split_by_shape.eval()) == 4
     assert (
-        len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
-        == 222
+            len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
+            == 222
     )
     all_time_ns = results.displacement.on_named_selection(
         "_FIXEDSU"
@@ -166,8 +167,8 @@ def test_result_stress_location_model(plate_msup):
         stress.on_mesh_scoping(
             dpf.core.Scoping(ids=[1, 2], location=dpf.core.locations.elemental)
         )
-        .on_location(dpf.core.locations.nodal)
-        .eval()
+            .on_location(dpf.core.locations.nodal)
+            .eval()
     )
     assert fc[0].location == "Nodal"
 
@@ -209,6 +210,24 @@ def test_result_not_dynamic(plate_msup):
     assert fc[0].unit == "Pa"
     dis = model.results.displacement().eval()
     dpf.core.settings.set_dynamic_available_results_capability(True)
+
+
+def test_vtk_model(plate_msup, tmpdir):
+    model = dpf.core.Model(plate_msup)
+    vtk = dpf.core.operators.serialization.vtk_export(
+        os.path.join(tmpdir, r'plate_msup.vtk'),
+        model.metadata.mesh_provider
+    )
+    i = 2
+    for res in model.results:
+        vtk.connect(i, res.on_all_time_freqs())
+        i += 1
+    vtk.run()
+    modelvtk = dpf.core.Model(os.path.join(tmpdir, r'plate_msup.vtk'))
+    assert "nodes" in str(modelvtk)
+    assert "displacement" in str(modelvtk)
+    for res in modelvtk.results:
+        assert isinstance(res.eval(), dpf.core.FieldsContainer)
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):

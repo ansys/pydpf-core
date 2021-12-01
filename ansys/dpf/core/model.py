@@ -329,7 +329,6 @@ class Metadata:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
             else:
                 timeProvider.inputs.connect(self.data_sources)
-                
             self._time_freq_support = timeProvider.get_output(
                 0, types.time_freq_support
             )

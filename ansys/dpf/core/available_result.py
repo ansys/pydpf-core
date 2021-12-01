@@ -5,7 +5,7 @@ AvailableResult
 
 from warnings import warn
 from ansys.grpc.dpf import available_result_pb2, base_pb2
-from ansys.dpf.core.common import _remove_spaces
+from ansys.dpf.core.common import _remove_spaces, _make_as_function_name
 
 
 class AvailableResult:
@@ -59,11 +59,12 @@ class AvailableResult:
     def name(self):
         """Result operator."""
         if hasattr(self._message, "properties") and "scripting_name" in self._message.properties:
-            return self._message.properties["scripting_name"]
+            name = self._message.properties["scripting_name"]
         elif self.operator_name in _result_properties:
-            return _result_properties[self.operator_name]["scripting_name"]
+            name = _result_properties[self.operator_name]["scripting_name"]
         else:
-            return _remove_spaces(self._message.physicsname)
+            name = _remove_spaces(self._message.physicsname)
+        return _make_as_function_name(name)
 
     @property
     def n_components(self):
