@@ -1,4 +1,5 @@
 from ansys.dpf import core as dpf
+from ansys.dpf.core.check_version import server_meet_version
 
 def test_unit_mesh_cache(simple_bar):
     model = dpf.Model(simple_bar)
@@ -43,7 +44,10 @@ def test_available_results_cache(simple_bar):
     res_info = model.metadata.result_info
     for res in res_info:
         pass
-    assert len(res_info._cache.cached) == len(res_info) + len(dpf.ResultInfo._to_cache)-1
+    if server_meet_version("3.0", model._server):
+        assert len(res_info._cache.cached) == len(res_info) +1
+    else:
+        assert len(res_info._cache.cached) == len(res_info) + len(dpf.ResultInfo._to_cache)-1
 
 def test_physics_type_cache(simple_bar):
     ds = dpf.DataSources(simple_bar)
@@ -53,4 +57,7 @@ def test_physics_type_cache(simple_bar):
     res_info.unit_system
     assert len(res_info._cache.cached) == 1
     res_info.physics_type
-    assert len(res_info._cache.cached) == 1
+    if server_meet_version("3.0", ds._server):
+        assert len(res_info._cache.cached) == 2
+    else:
+        assert len(res_info._cache.cached) == 1
