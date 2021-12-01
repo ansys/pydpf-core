@@ -54,3 +54,11 @@ def test_physics_type_cache(simple_bar):
     assert len(res_info._cache.cached) == 1
     res_info.physics_type
     assert len(res_info._cache.cached) == 1
+
+
+def test_server_info_cache():
+    if not dpf.SERVER:
+        dpf.start_local_server()
+    dpf.SERVER.info
+    identifier = dpf.cache.MethodIdentifier("_get_server_info", (), {})
+    assert identifier in dpf.SERVER._base_service._cache.cached
