@@ -3,6 +3,7 @@ from ansys.dpf.core import scoping
 from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import errors
 from ansys.dpf.core import server as serverlib
+from ansys.dpf.core.cache import _setter
 
 import numpy as np
 
@@ -657,6 +658,7 @@ class _LocalFieldBase(_FieldBase):
             raise ValueError(f"The id {id} doesn't exist in the scoping")
         return self.get_entity_data(index)
 
+    @_setter
     def append(self, data, scopingid):
         """Add an entity data to the existing data.
 
@@ -766,6 +768,7 @@ class _LocalFieldBase(_FieldBase):
             return np.array(self._data_copy)
 
     @data.setter
+    @_setter
     def data(self, data):
         if self._is_property_field:
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
@@ -834,6 +837,7 @@ class _LocalFieldBase(_FieldBase):
         return self._data_pointer_copy
 
     @_data_pointer.setter
+    @_setter
     def _data_pointer(self, data):
         if isinstance(data, (np.ndarray, np.generic)):
             self._data_pointer_copy = data.tolist()
@@ -870,14 +874,20 @@ class _LocalFieldBase(_FieldBase):
         return self._scoping_copy
 
     @scoping.setter
+    @_setter
     def scoping(self, data):
-        self._scoping_copy = data
+        if not isinstance(data, scoping._LocalScoping):
+            self._scoping_copy = data.as_local_scoping()
+        else:
+            self._scoping_copy = data
 
     def release_data(self):
         """Release the data."""
-        super()._set_data(self._data_copy)
-        super()._set_data_pointer(self._data_pointer_copy)
-        self._scoping_copy.release_data()
+        if hasattr(self, "_is_set") and self._is_set:
+            super()._set_data(self._data_copy)
+            super()._set_data_pointer(self._data_pointer_copy)
+            super()._set_scoping(self._scoping_copy._owner_scoping)
+            self._scoping_copy.release_data()
 
     def __enter__(self):
         return self
