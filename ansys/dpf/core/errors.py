@@ -1,8 +1,6 @@
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 from functools import wraps
 
-from twisted.python.log import err
-
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
 or the result at a defined sweeping phase before plotting.
