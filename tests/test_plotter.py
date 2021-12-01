@@ -207,7 +207,7 @@ def test_plot_fields_on_mesh_scoping(multishells):
     s = stress.outputs.fields_container()
     mesh.plot(s[0])
 
-    
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_fields_on_mesh_scoping_title(multishells):
     model = core.Model(multishells)
