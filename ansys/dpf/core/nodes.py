@@ -4,13 +4,11 @@ Nodes
 """
 
 import numpy as np
-
+from ansys.grpc.dpf import meshed_region_pb2
 
 from ansys import dpf
-from ansys.dpf.core import field, property_field
-from ansys.grpc.dpf import meshed_region_pb2
-from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.common import nodal_properties
+from ansys.dpf.core.errors import protect_grpc
 
 
 class Node:

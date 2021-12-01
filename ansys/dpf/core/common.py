@@ -35,7 +35,6 @@ class _smart_dict_unit_system(dict):
         return "unknown"
 
 
-
 def __write_enum_doc__(enum, intro=None):
     str = ""
     if intro:
@@ -130,24 +129,24 @@ class locations:
 
 class elemental_properties:
     """Contains strings to define elemental property fields.
-    
+
     Attributes
     ----------
     element_shape = "elshape"
         element shape property data is provided
-        
+
     element_type = "eltype"
         element type property data is provided
-    
+
     connectivity = "connectivity"
         connectivity property data is provided
-        
-    material = "mat" 
+
+    material = "mat"
         material property data is provided
-        
-    element_properties = "elprops" 
+
+    element_properties = "elprops"
         element properties data is provided
-        
+
     apdl_element_type = "apdl_element_type"
         apdl element type property data is provided
     """
@@ -168,12 +167,12 @@ class elemental_properties:
 
 class nodal_properties:
     """Contains strings to define nodal property fields.
-    
+
     Attributes
     ----------
     coordinates = "coordinates"
         coordinates data is provided
-        
+
     nodal_connectivity = "reverse_connectivity"
         nodal connectivity property data is provided
     """
@@ -191,7 +190,6 @@ class DefinitionLabels:
 
     time = "time"
     complex = "complex"
-
 
 
 def _common_progress_bar(text, unit, tot_size=None):

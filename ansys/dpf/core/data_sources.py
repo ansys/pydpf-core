@@ -200,7 +200,7 @@ class DataSources:
         ----------
         upstream_data_sources : DataSources
             Set of paths creating an upstream for recursive workflows.
-        
+
         result_key: str, optional
             Extension of the result file group with which this upstream belongs
 
@@ -211,7 +211,7 @@ class DataSources:
         if hasattr(request, "result_key"):
             request.result_key = result_key
         self._stub.UpdateUpstream(request)
-        
+
     def add_upstream_for_domain(self, upstream_data_sources, domain_id):
         """Add an upstream data sources for a given domain.
 
@@ -222,7 +222,7 @@ class DataSources:
         ----------
         upstream_data_sources : DataSources
             Set of paths creating an upstream for recursive workflows.
-        
+
         domain_id: int
             Domain id for distributed files.
 

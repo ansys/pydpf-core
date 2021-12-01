@@ -4,7 +4,6 @@ Collection
 Contains classes associated with the DPF collection.
 
 """
-import sys
 import numpy as np
 from ansys import dpf
 from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
@@ -17,6 +16,7 @@ from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import server
 from ansys.dpf.core import scoping
+
 
 class Collection:
     """Represents a collection of entries ordered by labels and IDs.
@@ -59,44 +59,43 @@ class Collection:
         elif hasattr(collection, "_message"):
             self._message = collection._message
             self._collection = collection  # keep the base collection used for copy
-            
+
         else:
             self._message = collection
-            
+
         if self._type == None:
-            self._type = types(int(self._message.type)+1)
-       
-    
+            self._type = types(int(self._message.type) + 1)
+
     @staticmethod
-    def integral_collection(inpt, server: server.DpfServer=None):
+    def integral_collection(inpt, server: server.DpfServer = None):
         """Creates a collection of integral type with a list.
-        The collection of integral is the equivalent of an array of 
-        data sent server side. It can be used to efficiently stream 
+        The collection of integral is the equivalent of an array of
+        data sent server side. It can be used to efficiently stream
         large data to the server.
-        
+
         Notes
         -----
         Used by default by the ``'Operator'`` and the``'Workflow'`` when a
-        list is connected or returned. 
-        
+        list is connected or returned.
+
         Parameters
         ----------
         inpt : list[float], list[int], numpy.array
             list to transfert server side
-        
+
         Returns
         -------
         Collection
 
         """
         if all(isinstance(x, int) for x in inpt):
-               dpf_type = types.int
+            dpf_type = types.int
         elif all(isinstance(x, float) for x in inpt):
-               dpf_type = types.double
-        out = Collection(dpf_type = dpf_type, server=server)
+            dpf_type = types.double
+        out = Collection(dpf_type=dpf_type, server=server)
         out._set_integral_entries(inpt)
         return out
-        
+
     def set_labels(self, labels):
         """Set labels for scoping the collection.
 
@@ -386,25 +385,25 @@ class Collection:
         request.label = "time"
         self._stub.UpdateSupport(request)
 
-    def _set_integral_entries(self, inpt):
+    def _set_integral_entries(self, input):
         if self._type == types.int:
             dtype = np.int32
         else:
             dtype = np.float
-        
-        if isinstance(inpt, range):
-            inpt = np.array(list(inpt), dtype=dtype)
-        elif not isinstance(inpt,(np.ndarray, np.generic)):            
-            inpt= np.array(inpt, dtype=dtype)
+
+        if isinstance(input, range):
+            input = np.array(list(input), dtype=dtype)
+        elif not isinstance(input, (np.ndarray, np.generic)):
+            input = np.array(input, dtype=dtype)
         else:
-            inpt = np.array(list(inpt), dtype=dtype)
-        
-        metadata=[(u"size_bytes", f"{inpt.size*inpt.itemsize}")]
+            input = np.array(list(input), dtype=dtype)
+
+        metadata = [(u"size_bytes", f"{input.size * input.itemsize}")]
         request = collection_pb2.UpdateAllDataRequest()
         request.collection.CopyFrom(self._message)
-        
-        self._stub.UpdateAllData(scoping._data_chunk_yielder(request, inpt), metadata=metadata)
-      
+
+        self._stub.UpdateAllData(scoping._data_chunk_yielder(request, input), metadata=metadata)
+
     def _get_integral_entries(self):
         request = collection_pb2.GetAllDataRequest()
         request.collection.CopyFrom(self._message)
@@ -415,7 +414,7 @@ class Collection:
             data_type = u"double"
             dtype = np.float
         service = self._stub.GetAllData(request, metadata=[(u"float_or_double", data_type)])
-        return scoping._data_get_chunk_(dtype, service) 
+        return scoping._data_get_chunk_(dtype, service)
 
     def _connect(self):
         """Connect to the gRPC service."""

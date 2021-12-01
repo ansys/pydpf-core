@@ -851,10 +851,10 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
     field = stress.outputs.fields_container()[0]
     copy = field.deep_copy()
     iden = dpf.core.operators.logic.identical_fields(field, copy)
-    
-    try :
+
+    try:
         assert iden.outputs.boolean()
-    except AssertionError as e :
+    except AssertionError as e:
         print(iden.outputs.message())
         raise e
 
@@ -901,6 +901,7 @@ def test_deep_copy_over_time_field(velocity_acceleration):
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
+
 def test_deep_copy_spec_ncomp_field():
     field = dpf.core.fields_factory.create_vector_field(100, 6, dpf.core.locations.elemental)
     arr = np.arange(600).reshape(100, 6)
@@ -908,6 +909,7 @@ def test_deep_copy_spec_ncomp_field():
     copy = field.deep_copy()
     assert copy.component_count == 6
     assert copy.location == dpf.core.locations.elemental
+
 
 def test_add_operator_field():
     field = dpf.core.fields_factory.create_3d_vector_field(2)
