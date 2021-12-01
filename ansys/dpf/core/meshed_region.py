@@ -398,10 +398,9 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        pl = _DpfPlotter()
+        pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
             return pl.plot_contour(
-                self,
                 field_or_fields_container,
                 notebook,
                 shell_layers,
@@ -412,7 +411,7 @@ class MeshedRegion:
 
         # otherwise, simply plot self
         kwargs["notebook"] = notebook
-        return pl.plot_mesh(self, **kwargs)
+        return pl.plot_mesh(**kwargs)
 
     def deep_copy(self, server=None):
         """Create a deep copy of the meshed region's data on a given server.
