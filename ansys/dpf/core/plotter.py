@@ -36,7 +36,7 @@ def plot_chart(fields_container):
     >>> plotter = dpf.plotter.plot_chart(fc)
 
     """
-    p = Plotter(None)
+    p = Plotter(mesh=None)
     return p.plot_chart(fields_container)
 
 
@@ -50,9 +50,7 @@ class Plotter:
 
     """
 
-    def __init__(self, mesh = None, **kwargs):
-        self._mesh = mesh
-        
+    def __init__(self, **kwargs):
         try:
             import pyvista as pv
         except ModuleNotFoundError:
@@ -60,7 +58,12 @@ class Plotter:
                 "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
-        self._plotter = plotter = pv.Plotter(**kwargs)
+        mesh = kwargs.pop("mesh", None)
+        self._plotter = pv.Plotter(**kwargs)
+        if mesh is not None:
+            self._plotter.add_mesh(mesh.grid)
+        # keep mesh to allow compatibility with post<=0.2.2
+        self._mesh = mesh
 
     def add_mesh(self, meshed_region, **kwargs):
         """Add a mesh to plot.
@@ -250,6 +253,7 @@ class Plotter:
     def plot_contour(
         self,
         field_or_fields_container,
+        meshed_region=None,
         notebook=None,
         shell_layers=None,
         off_screen=None,
@@ -316,7 +320,10 @@ class Plotter:
                 if label[DefinitionLabels.time] != first_time:
                     raise dpf_errors.FieldContainerPlottingError
 
-        mesh = self._mesh
+        if meshed_region is not None:
+            mesh = meshed_region
+        else:
+            mesh = self._mesh
 
         # get mesh scoping
         location = None
@@ -380,21 +387,25 @@ class Plotter:
                 "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
-        plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
+        # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
+        if notebook is not None:
+            self._plotter.notebook = notebook
+        if off_screen is not None:
+            self._plotter.off_screen = off_screen
 
         # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
-        plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
+        self._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
         if background is not None:
-            plotter.set_background(background)
+            self._plotter.set_background(background)
 
         # show result
         if show_axes:
-            plotter.add_axes()
-        return plotter.show()
+            self._plotter.add_axes()
+        return self._plotter.show()
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
