@@ -119,3 +119,21 @@ def _handle_cache(func):
             func(self, *args, **kwargs)
 
     return wrapper
+
+def _setter(func):
+    """Add a private attribute to the class (``self._is_set = True``)
+    when a method with this decorator is used.
+
+    .. note::
+       The method must be used as a decorator.
+    """
+
+    def wrapper(self, *args, **kwargs):
+        """Call the original function"""
+        if hasattr(self, "_is_set"):
+            self._is_set = True
+        else:
+            setattr(self, "_is_set", True)
+        func(self, *args, **kwargs)
+
+    return wrapper
