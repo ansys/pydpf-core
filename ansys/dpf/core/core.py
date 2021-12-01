@@ -16,6 +16,7 @@ from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import server as serverlib
 from ansys.dpf.core import misc
 from ansys.dpf.core.common import _common_progress_bar
+from ansys.dpf.core.cache import class_handling_cache
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -262,6 +263,7 @@ def _description(dpf_entity_message, server=None):
     return BaseService(server, load_operators=False)._description(dpf_entity_message)
 
 
+@class_handling_cache
 class BaseService:
     """The Base Service class allows to make generic requests to dpf's server.
     For example, information about the server can be requested,
@@ -401,6 +403,9 @@ class BaseService:
             dictionary with "server_ip", "server_port", "server_process_id"
             "server_version" keys
         """
+        return self._get_server_info()
+
+    def _get_server_info(self):
         request = base_pb2.ServerInfoRequest()
         try:
             response = self._stub.GetServerInfo(request)
@@ -755,3 +760,7 @@ class BaseService:
                 bar.finish()
             except:
                 pass
+
+    _to_cache = {
+        _get_server_info: None
+    }

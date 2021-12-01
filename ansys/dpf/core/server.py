@@ -340,15 +340,16 @@ class DpfServer:
         self._input_ip = ip
         self._input_port = port
         self._own_process = launch_server
+        self._base_service_instance = None
         self._session = session.Session(self)
 
     @property
     def _base_service(self):
-        if not hasattr(self, "__base_service"):
+        if not self._base_service_instance:
             from ansys.dpf.core.core import BaseService
 
-            self.__base_service = BaseService(self, timeout=1)
-        return self.__base_service
+            self._base_service_instance = BaseService(self, timeout=1)
+        return self._base_service_instance
 
     @property
     def info(self):
