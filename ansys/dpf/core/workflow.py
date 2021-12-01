@@ -62,7 +62,8 @@ class Workflow:
 
         self._message = workflow
 
-        remote_copy_needed =  server_meet_version("3.0",self._server) and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
+        remote_copy_needed = server_meet_version("3.0", self._server) \
+                             and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
         if isinstance(workflow, str):
             self.__create_from_stream(workflow)
         elif workflow is None or remote_copy_needed:
@@ -133,8 +134,8 @@ class Workflow:
         if output_type is not None:
             dpf_operator._write_output_type_to_proto_style(output_type, request)
             if server_meet_version("3.0", self._server):
-                #handle progress bar
-                self._server._session.add_workflow(self,"workflow")
+                # handle progress bar
+                self._server._session.add_workflow(self, "workflow")
                 out_future = self._stub.Get.future(request)
                 while out_future.is_active():
                     self._server._session.listen_to_progress()
@@ -418,9 +419,9 @@ class Workflow:
             |                                                                                                 |
             |input_output_names = ("output","field" )                                                         |
             |                      _____________                                  ____________                |
-    	    |  "data_sources"  -> |left_workflow| ->  "stuff"        "field" -> |     this   | -> "contour"   |
-    	    |"time_scoping"    -> |             |             "mesh_scoping" -> |            |                |
-    	    |                     |_____________| ->  "output"                  |____________|                |
+            |  "data_sources"  -> |left_workflow| ->  "stuff"        "field" -> |     this   | -> "contour"   |
+            |"time_scoping"    -> |             |             "mesh_scoping" -> |            |                |
+            |                     |_____________| ->  "output"                  |____________|                |
             |  OUTPUT                                                                                         |
             |                    ____                                                                         |
             |"data_sources"  -> |this| ->  "stuff"                                                            |
@@ -435,20 +436,27 @@ class Workflow:
         request.left_wf.CopyFrom(left_workflow._message)
         if output_input_names:
             if isinstance(output_input_names, tuple):
-                request.input_to_output.append(workflow_pb2.InputToOutputChainRequest(output_name=output_input_names[0], input_name =output_input_names[1]))
-            elif isinstance(output_input_names,dict):
+                request.input_to_output.append(
+                    workflow_pb2.InputToOutputChainRequest(
+                        output_name=output_input_names[0],
+                        input_name=output_input_names[1]))
+            elif isinstance(output_input_names, dict):
                 for key in output_input_names:
-                    request.input_to_output.append(workflow_pb2.InputToOutputChainRequest(output_name=key, input_name =output_input_names[key]))
+                    request.input_to_output.append(
+                        workflow_pb2.InputToOutputChainRequest(
+                            output_name=key,
+                            input_name=output_input_names[key]))
             else:
-                raise TypeError("output_input_names argument is expect to be either a str tuple or a str dict")
+                raise TypeError("output_input_names argument is expect"
+                                "to be either a str tuple or a str dict")
 
-        self._stub.Connect(request)            
-    
+        self._stub.Connect(request)
+
     @version_requires("3.0")
-    def create_on_other_server(self,*args,**kwargs):
+    def create_on_other_server(self, *args, **kwargs):
         """Create a new instance of a workflow on another server. The new
-        Workflow has the same operators, exposed inputs and output pins as 
-        this workflow. Connections between operators and between data and 
+        Workflow has the same operators, exposed inputs and output pins as
+        this workflow. Connections between operators and between data and
         operators are kept (except for exposed pins).
 
         Parameters
@@ -456,25 +464,25 @@ class Workflow:
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
-        
+
         ip : str, optional
             ip address on which the new instance should be created (always put
             a port in args as well)
-        
+
         port : str, int , optional
-        
+
         address: str, optional
             address on which the new instance should be created ("ip:port")
-            
+
         Returns
         -------
         Workflow
-    
+
         Examples
         --------
         Create a generic Workflow computing the minimum of displacement by chaining the ``'U'``
         and ``'min_max_fc'`` operators.
-        
+
         >>> from ansys.dpf import core as dpf
         >>> disp_op = dpf.operators.result.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
@@ -486,33 +494,34 @@ class Workflow:
         >>> #other_server = dpf.start_local_server(as_global=False)
         >>> #new_workflow = workflow.create_on_other_server(server=other_server)
         >>> #assert 'data_sources' in new_workflow.input_names
-        
+
         """
-        server =None
+        server = None
         address = None
-        for arg in args :
+        for arg in args:
             if isinstance(arg, dpf.core.server.DpfServer):
                 server = arg
             elif isinstance(arg, str):
-                address =arg
-        
+                address = arg
+
         if "ip" in kwargs:
-            address =  kwargs["ip"] +":"+str(kwargs["port"])
-        if "address"in kwargs:
-            address =  kwargs["address"]
+            address = kwargs["ip"] + ":" + str(kwargs["port"])
+        if "address" in kwargs:
+            address = kwargs["address"]
         if "server" in kwargs:
             server = kwargs["server"]
-        if server :
+        if server:
             text_stream = self._stub.WriteToStream(self._message)
-            return Workflow(workflow=text_stream.stream,server=server)  
+            return Workflow(workflow=text_stream.stream, server=server)
         elif address:
             request = workflow_pb2.RemoteCopyRequest()
             request.wf.CopyFrom(self._message)
             request.address = address
-            return Workflow(workflow=request,server=self._server)  
+            return Workflow(workflow=request, server=self._server)
         else:
-            raise ValueError("a connection address (either with adddress input" 
+            raise ValueError("a connection address (either with adddress input"
                              "or both ip and port inputs) or a server is required")
+
     def _connect(self):
         """Connect to the gRPC service."""
         return workflow_pb2_grpc.WorkflowServiceStub(self._server.channel)
@@ -536,7 +545,8 @@ class Workflow:
 
     @protect_grpc
     def __send_init_request(self, workflow):
-        if server_meet_version("3.0", self._server) and  isinstance(workflow,workflow_pb2.RemoteCopyRequest):
+        if server_meet_version("3.0", self._server) \
+                and isinstance(workflow, workflow_pb2.RemoteCopyRequest):
             request = workflow_pb2.CreateRequest()
             request.remote_copy.CopyFrom(workflow)
         else:
@@ -544,7 +554,7 @@ class Workflow:
             if hasattr(workflow_pb2, "CreateRequest"):
                 request = workflow_pb2.CreateRequest(empty=request)
         self._message = self._stub.Create(request)
-        
+
     @protect_grpc
     def __create_from_stream(self, string):
         request = workflow_pb2.TextStream(stream=string)

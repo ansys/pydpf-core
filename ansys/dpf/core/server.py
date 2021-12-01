@@ -398,11 +398,11 @@ class DpfServer:
         version : str
         """
         return self._base_service.server_info["server_version"]
-    
-    @property 
+
+    @property
     def os(self):
         """Get the operating system of the server
-        
+
         Returns
         -------
         os : str
