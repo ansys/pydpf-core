@@ -339,6 +339,7 @@ class DpfServer:
         self._input_ip = ip
         self._input_port = port
         self._own_process = launch_server
+        self._base_service_instance = None
         self._session = session.Session(self)
 
     @property
