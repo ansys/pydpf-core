@@ -15,6 +15,7 @@ from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.results import Results, CommonResults
 from ansys.dpf.core.server import LOG
 from ansys.dpf.core import misc
+from ansys.dpf.core.errors import protect_source_op_not_found
 from grpc._channel import _InactiveRpcError
 
 
@@ -280,6 +281,7 @@ class Metadata:
             self._stream_provider = None
 
     @property
+    @protect_source_op_not_found
     def time_freq_support(self):
         """Time frequency support.
 
@@ -319,8 +321,8 @@ class Metadata:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
             else:
                 timeProvider.inputs.connect(self.data_sources)
-
             self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
+
         return self._time_freq_support
 
     @property
@@ -401,6 +403,7 @@ class Metadata:
         return result_info
 
     @property
+    @protect_source_op_not_found
     def meshed_region(self):
         """Meshed region instance.
 
@@ -445,6 +448,7 @@ class Metadata:
         return mesh_provider
 
     @property
+    @protect_source_op_not_found
     def result_info(self):
         """Result Info instance.
 

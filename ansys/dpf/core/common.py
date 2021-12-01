@@ -20,6 +20,20 @@ def _remove_spaces(name):
     return out
 
 
+def _make_as_function_name(name):
+    out = name.lower()
+    out = out.replace(" ", "_").\
+        replace("-", "_").\
+        replace("/", "_").\
+        replace(".", "_").\
+        replace(":", "_").\
+        replace(";", "_").\
+        replace(",", "_").\
+        replace("(", "").\
+        replace(")", "")
+    return out
+
+
 def _snake_to_camel_case(name):
     return "".join(word.title() for word in name.split("_"))
 

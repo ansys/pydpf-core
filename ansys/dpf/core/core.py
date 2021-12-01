@@ -260,7 +260,10 @@ def _description(dpf_entity_message, server=None):
     -------
        description : str
     """
-    return BaseService(server, load_operators=False)._description(dpf_entity_message)
+    try:
+        return BaseService(server, load_operators=False)._description(dpf_entity_message)
+    except:
+        return ""
 
 
 @class_handling_cache
