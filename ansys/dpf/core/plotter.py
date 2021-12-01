@@ -380,13 +380,6 @@ class Plotter:
         # create the plotter and add the meshes
         background = kwargs.pop("background", None)
 
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
         # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
         if notebook is not None:
             self._plotter.notebook = notebook
