@@ -103,7 +103,7 @@ class Model:
 
         >>> rinfo = model.metadata.result_info
         >>> rinfo.unit_system
-        'Metric (m, kg, N, s, V, A)'
+        'MKS: m, kg, N, s, V, A, degC'
 
         """
         return self._metadata
@@ -162,11 +162,11 @@ class Model:
         if self.metadata._stream_provider is not None and hasattr(op.inputs, "streams"):
             op.inputs.streams.connect(self.metadata._stream_provider.outputs)
         elif self.metadata._data_sources is not None and hasattr(
-            op.inputs, "data_sources"
+                op.inputs, "data_sources"
         ):
             op.inputs.data_sources.connect(self.metadata._data_sources)
-            
-        if self.mesh_by_default and self.metadata.mesh_provider and hasattr(op.inputs,"mesh"):
+
+        if self.mesh_by_default and self.metadata.mesh_provider and hasattr(op.inputs, "mesh"):
             op.inputs.mesh.connect(self.metadata.mesh_provider)
 
     def operator(self, name):
@@ -230,11 +230,12 @@ class Model:
         supporting the mesh input
         """
         return self._mesh_by_default
+
     @mesh_by_default.setter
     def mesh_by_default(self, value):
         self._mesh_by_default = value
-        
-        
+
+
 class Metadata:
     """Contains the metadata of a data source.
 
@@ -266,7 +267,7 @@ class Metadata:
         from ansys.dpf.core import operators
 
         if hasattr(operators, "metadata") and hasattr(
-            operators.metadata, "stream_provider"
+                operators.metadata, "stream_provider"
         ):
             self._stream_provider = operators.metadata.streams_provider(
                 data_sources=self._data_sources, server=self._server
@@ -318,7 +319,7 @@ class Metadata:
             timeProvider = Operator("TimeFreqSupportProvider", server=self._server)
             if self._stream_provider:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
-            else: 
+            else:
                 timeProvider.inputs.connect(self.data_sources)
             self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
 
@@ -442,7 +443,7 @@ class Metadata:
         mesh_provider = Operator("MeshProvider", server=self._server)
         if self._stream_provider:
             mesh_provider.inputs.connect(self._stream_provider.outputs)
-        else: 
+        else:
             mesh_provider.inputs.connect(self.data_sources)
         return mesh_provider
 

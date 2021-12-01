@@ -162,7 +162,7 @@ def version_requires(min_version):
     .. note::
        The method must be used as a decorator.
     """
-   
+
     def decorator(func):
         # first arg *must* be a tuple containing the version
         if not isinstance(min_version, str):
@@ -188,7 +188,7 @@ def version_requires(min_version):
                         server.check_version(min_version, " called from " + func.__name__)
             # default case, just check the compatibility
             else:
-                server.check_version(min_version, " called from " +func.__name__)
+                server.check_version(min_version, " called from " + func.__name__)
 
             return func(self, *args, **kwargs)
 

@@ -56,7 +56,7 @@ class TimeFreqSupport:
             if isinstance(self._message.id, int):
                 self._message.id = time_freq_support.id
             else:
-                self._message.id.id =  time_freq_support.id.id
+                self._message.id.id = time_freq_support.id.id
         else:
             request = base_pb2.Empty()
             self._message = self._stub.Create(request)
@@ -339,12 +339,12 @@ class TimeFreqSupport:
         request.time_freq_support.CopyFrom(self._message)
         request.entity = base_pb2.NUM_SETS
         return self._stub.Count(request).count
-    
-    def __check_if_field_id(self,field):
+
+    def __check_if_field_id(self, field):
         if isinstance(field.id, int):
-            return field.id!=0
+            return field.id != 0
         else:
-            return field.id.id!=0
+            return field.id.id != 0
 
     @protect_grpc
     def _get_frequencies(self, cplx=False):
@@ -412,12 +412,12 @@ class TimeFreqSupport:
         return None
 
     def append_step(
-        self,
-        step_id,
-        step_time_frequencies,
-        step_complex_frequencies=None,
-        rpm_value=None,
-        step_harmonic_indices=None,
+            self,
+            step_id,
+            step_time_frequencies,
+            step_complex_frequencies=None,
+            rpm_value=None,
+            step_harmonic_indices=None,
     ):
         """Append a step with all its field values in the time frequencies support.
         The RPM value is a step (or load step)-based value.

@@ -6,12 +6,13 @@ Elements
 from enum import Enum
 
 import numpy as np
-from ansys.dpf.core import field, nodes, property_field, scoping
-from ansys.dpf.core.common import __write_enum_doc__, locations
+from ansys.grpc.dpf import meshed_region_pb2
+
+from ansys.dpf.core import nodes, scoping
+from ansys.dpf.core.common import __write_enum_doc__
 from ansys.dpf.core.common import locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.errors import protect_grpc
-from ansys.grpc.dpf import meshed_region_pb2
 
 
 class Element:

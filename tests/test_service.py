@@ -230,8 +230,9 @@ def test_load_plugin_correctly():
     )
     assert num_lines >= 11
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
-def test_dpf_join(): 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_dpf_join():
     dpf.core.Operator("U") # start server
     left = "temp"
     right = "file.rst"
@@ -241,6 +242,7 @@ def test_dpf_join():
         assert conc == "temp/file.rst"
     elif os_server == 'nt':
         assert conc == "temp\\file.rst"
-        
+
+
 if __name__ == "__main__":
     test_dpf_join()

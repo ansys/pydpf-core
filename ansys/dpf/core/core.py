@@ -443,7 +443,7 @@ class BaseService:
             request.dpf_type_id = dpf_entity_message.id
         else:
             request.dpf_type_id = dpf_entity_message.id.id
-            
+
         return self._stub.Describe(request).description
 
     def _get_separator(self, path):

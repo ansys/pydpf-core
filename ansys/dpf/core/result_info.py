@@ -11,6 +11,7 @@ from ansys.dpf.core.mapping_types import map_unit_system
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.common import __write_enum_doc__
 from ansys.dpf.core.cache import class_handling_cache
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 
 
 names = [m for m in result_info_pb2.PhysicsType.keys()]
@@ -116,8 +117,18 @@ class ResultInfo:
         'static'
 
         """
+        if server_meet_version("3.0", self._server):
+            return self._get_property("analysis_type")
+
         intOut = self._get_list().analysis_type
         return result_info_pb2.AnalysisType.Name(intOut).lower()
+
+    @version_requires("3.0")
+    def _get_property(self, property_name):
+        request = result_info_pb2.GetStringPropertiesRequest()
+        request.result_info.CopyFrom(self._message)
+        request.property_names.extend([property_name])
+        return self._stub.GetStringProperties(request).properties[property_name]
 
     @property
     def physics_type(self):
@@ -145,6 +156,8 @@ class ResultInfo:
         physics_type : str
             Type of the physics, such as mechanical or electric.
         """
+        if server_meet_version("3.0", self._server):
+            return self._get_property("physics_type")
         intOut = self._get_list().physics_type
         return result_info_pb2.PhysicsType.Name(intOut).lower()
 
@@ -152,11 +165,16 @@ class ResultInfo:
     @property
     def n_results(self):
         """Number of results."""
+        if server_meet_version("3.0", self._server):
+            str_num = self._get_property("results_count")
+            return int(str_num)
         return self._get_list().nresult
 
     @property
     def unit_system(self):
         """Unit system of the result."""
+        if server_meet_version("3.0", self._server):
+            return self._get_property("unit_system_name")
         val = self._get_list().unit_system
         return map_unit_system[val]
 
@@ -209,44 +227,61 @@ class ResultInfo:
     @property
     def unit_system_name(self):
         """Name of the unit system."""
+        if server_meet_version("3.0", self._server):
+            return self._get_property("unit_system_name")
         return self._get_list().unit_system_name
 
     @property
     def solver_version(self):
         """Version of the solver."""
-        major = self._stub.List(self._message).solver_major_version
-        minor = self._stub.List(self._message).solver_minor_version
+        if server_meet_version("3.0", self._server):
+            return self._get_property("solver_version")
+        list = self._get_list()
+        major = list.solver_major_version
+        minor = list.solver_minor_version
         version = str(major) + "." + str(minor)
         return version
 
     @property
     def solver_date(self):
         """Date of the solver."""
+        if server_meet_version("3.0", self._server):
+            return int(self._get_property("solver_date"))
         return self._get_list().solver_date
 
     @property
     def solver_time(self):
         """Time of the solver."""
+        if server_meet_version("3.0", self._server):
+            return int(self._get_property("solver_time"))
         return self._get_list().solver_time
 
     @property
     def user_name(self):
         """Name of the user."""
+        if server_meet_version("3.0", self._server):
+            return self._get_property("user_name")
         return self._get_list().user_name
 
     @property
     def job_name(self):
         """Name of the job."""
+        if server_meet_version("3.0", self._server):
+            return self._get_property("job_name")
         return self._get_list().job_name
 
     @property
     def product_name(self):
         """Name of the product."""
+        if server_meet_version("3.0", self._server):
+            return self._get_property("product_name")
         return self._get_list().product_name
 
     @property
     def main_title(self):
         """Main title."""
+        if server_meet_version("3.0", self._server):
+            return self._get_property("main_title")
         return self._get_list().main_title
 
     @property
@@ -288,7 +323,7 @@ class ResultInfo:
 
     def __len__(self):
         try:
-            return self._get_list().nresult
+            return self.n_results
         except:
             return 0
 
@@ -321,4 +356,4 @@ class ResultInfo:
     def _get_list(self):
         return self._stub.List(self._message)
 
-    _to_cache = {_get_list: None, _get_result: None}
+    _to_cache = {_get_list: None, _get_result: None, _get_property: None}
