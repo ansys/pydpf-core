@@ -153,6 +153,8 @@ class Model:
             if misc.DYNAMIC_RESULTS:
                 try:
                     self._results = Results(self)
+                    if len(self._results) == 0:
+                        self._results = CommonResults(self)
                 except Exception as e:
                     self._results = CommonResults(self)
                     LOG.debug(str(e))
