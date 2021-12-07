@@ -27,7 +27,7 @@ def test_chart_plotter(plate_msup):
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
-    pl = DpfPlotter(mesh=model.metadata.meshed_region)
+    pl = DpfPlotter(model.metadata.meshed_region)
     ret = pl.plot_chart(new_fields_container)
     assert ret
 
@@ -35,7 +35,7 @@ def test_chart_plotter(plate_msup):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    pl = DpfPlotter(mesh=model.metadata.meshed_region)
+    pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_mesh()
 
 
@@ -48,7 +48,7 @@ def test_plotter_on_field(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     field = fc[1]
-    pl = DpfPlotter(mesh=model.metadata.meshed_region)
+    pl = DpfPlotter(model.metadata.meshed_region)
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
@@ -63,7 +63,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op = Operator("to_elemental_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = DpfPlotter(mesh=model.metadata.meshed_region)
+    pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
 
@@ -75,7 +75,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op = Operator("to_nodal_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = DpfPlotter(mesh=model.metadata.meshed_region)
+    pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
 
@@ -254,7 +254,7 @@ def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
     fc = stress.outputs.fields_container()
-    pl = DpfPlotter(mesh=model.metadata.meshed_region)
+    pl = DpfPlotter(model.metadata.meshed_region)
     pl._plot_contour_using_vtk_file(fc)
 
 

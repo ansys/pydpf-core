@@ -36,7 +36,7 @@ def plot_chart(fields_container):
     >>> plotter = dpf.plotter.plot_chart(fc)
 
     """
-    p = Plotter(mesh=None)
+    p = Plotter(None)
     return p.plot_chart(fields_container)
 
 

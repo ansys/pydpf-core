@@ -398,7 +398,7 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        pl = _DpfPlotter(mesh=self)
+        pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
             return pl.plot_contour(
                 field_or_fields_container,
