@@ -15,7 +15,7 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 class _InternalPlotter:
-    def __init__(self, **kwargs): 
+    def __init__(self, **kwargs):
         try:
             import pyvista as pv
         except ModuleNotFoundError:
@@ -78,7 +78,7 @@ class _InternalPlotter:
 
 
 class DpfPlotter:
-    def __init__(self, **kwargs): 
+    def __init__(self, **kwargs):
         self._internal_plotter = _InternalPlotter(**kwargs)
 
     def add_mesh(self, meshed_region, **kwargs):
@@ -231,7 +231,7 @@ class Plotter:
         >>> scoping.ids = range(1, len(model.metadata.time_freq_support.time_frequencies) + 1)
         >>> disp.inputs.time_scoping.connect(scoping)
         >>> fc = disp.outputs.fields_container()
-        >>> plotter = dpf.plotter.Plotter()
+        >>> plotter = dpf.plotter.Plotter(model.metadata.meshed_region)
         >>> pl = plotter.plot_chart(fc)
 
         """
