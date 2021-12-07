@@ -66,7 +66,8 @@ class MeshesContainer(Collection):
         >>> meshes_cont.plot(disp_fc)
 
         """
-        pl = DpfPlotter()
+        notebook = kwargs.pop("notebook", None)
+        pl = DpfPlotter(notebook=notebook)
         if fields_container is not None:
             size = len(fields_container)
             i = 0
@@ -83,8 +84,17 @@ class MeshesContainer(Collection):
                 pl.add_field(field, mesh_to_send, show_edges=True, **kwargs)
                 i += 1
         else:
+            import numpy as np
+            import random
+            pl._internal_plotter._plotter.remove_legend()
             for mesh in self:
-                pl.add_mesh(mesh, show_edges=True, **kwargs)
+                r = random.random()
+                g = random.random()
+                b = random.random()
+                pl.add_mesh(mesh,
+                            show_edges=True,
+                            color=np.array([r, g, b, 1]),
+                            **kwargs)
         pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
