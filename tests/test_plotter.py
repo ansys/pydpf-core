@@ -317,7 +317,7 @@ def test_plotter_add_mesh(multishells):
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
     meshes_cont = split_mesh_op.outputs.mesh_controller()
-    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
     i = 0
     while i < (len(meshes_cont) - 10):
@@ -444,7 +444,7 @@ def test_plot_path_1(multishells):
 def test_plot_path_2(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped(multishells)
     # create plotter, add fields and plot
-    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
@@ -457,7 +457,7 @@ def test_plot_path_2(multishells):
 def test_plot_path_3(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
     # create plotter, add fields and plot
-    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
