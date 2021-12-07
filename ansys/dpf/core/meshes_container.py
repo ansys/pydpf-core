@@ -80,11 +80,11 @@ class MeshesContainer(Collection):
                         "Plotting can not be proceeded. "
                     )
                 field = fields_container[i]
-                pl.add_field(field, mesh_to_send, **kwargs)
+                pl.add_field(field, mesh_to_send, show_edges=True, **kwargs)
                 i += 1
         else:
             for mesh in self:
-                pl.add_mesh(mesh, **kwargs)
+                pl.add_mesh(mesh, show_edges=True, **kwargs)
         pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
