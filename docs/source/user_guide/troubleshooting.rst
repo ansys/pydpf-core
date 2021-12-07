@@ -52,6 +52,16 @@ This will prevent the model to be accessed. To avoid a such inconvenience, pleas
 a version higher than 0.3.2 of the ansys-dpf-core module: a warning will still be raised, but it should not 
 prevent to use the Model anymore. 
 
+Then, with result files reproducing this issue, to avoid the warning to pop up, you can use:
+
+.. code-block:: default
+
+    from ansys.dpf import core as dpf
+    dpf.settings.set_dynamic_available_results_capability(False)
+	
+However, this will disable the reading and generation of the available results of the model: static prewritten 
+available results will be used instead.
+
 
 
 Performance Issues
