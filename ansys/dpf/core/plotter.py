@@ -393,7 +393,7 @@ class Plotter:
         text = kwargs.pop('text', None)
         if text is not None:
             self._plotter.add_text(text, position='lower_edge')
-	self._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
+        self._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
         if background is not None:
             self._plotter.set_background(background)
