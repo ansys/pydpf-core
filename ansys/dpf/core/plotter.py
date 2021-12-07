@@ -253,11 +253,11 @@ class Plotter:
     def plot_contour(
         self,
         field_or_fields_container,
-        meshed_region=None,
         notebook=None,
         shell_layers=None,
         off_screen=None,
         show_axes=True,
+        meshed_region=None,
         **kwargs
     ):
         """Plot the contour result on its mesh support.
