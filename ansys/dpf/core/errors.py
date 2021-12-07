@@ -117,6 +117,7 @@ def protect_grpc(func):
 
     return wrapper
 
+
 def protect_source_op_not_found(func):
     """Capture gRPC server exceptions when a source operator is not found
     and return a more succinct error message.

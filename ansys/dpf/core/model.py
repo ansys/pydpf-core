@@ -47,17 +47,11 @@ class Model:
         if server is None:
             server = dpf.core._global_server()
 
+        self._data_sources = data_sources
         self._server = server
-        self._metadata = Metadata(data_sources, self._server)
+        self._metadata = None
         self._mesh_by_default = True
-        if misc.DYNAMIC_RESULTS:
-            try:
-                self._results = Results(self)
-            except Exception as e:
-                self._results = CommonResults(self)
-                LOG.debug(str(e))
-        else:
-            self._results = CommonResults(self)
+        self._results = None
 
     @property
     def metadata(self):
@@ -106,6 +100,8 @@ class Model:
         'MKS: m, kg, N, s, V, A, degC'
 
         """
+        if not self._metadata:
+            self._metadata = Metadata(self._data_sources, self._server)
         return self._metadata
 
     @property
@@ -154,7 +150,16 @@ class Model:
 
         """
         if not self._results:
-            return CommonResults(self)
+            if misc.DYNAMIC_RESULTS:
+                try:
+                    self._results = Results(self)
+                    if len(self._results) == 0:
+                        self._results = CommonResults(self)
+                except Exception as e:
+                    self._results = CommonResults(self)
+                    LOG.debug(str(e))
+            else:
+                self._results = CommonResults(self)
         return self._results
 
     def __connect_op__(self, op):
@@ -359,7 +364,7 @@ class Metadata:
 
         Returns
         -------
-        streams_provider : operators.metadata.streams_provider
+        streams_provider : :class:`ansys.dpf.core.operators.metadata.streams_provider`
 
         Examples
         --------
@@ -409,7 +414,7 @@ class Metadata:
 
         Returns
         -------
-        mesh : :class:`ansys.dpf.core.meshed_region`
+        mesh : :class:`ansys.dpf.core.meshed_region.MeshedRegion`
             Mesh
         """
         # NOTE: this uses the cached mesh and we might consider
@@ -430,7 +435,7 @@ class Metadata:
 
         Returns
         -------
-        mesh_provider : class:`ansys.dpf.core.operators.mesh.mesh_provider`
+        mesh_provider : :class:`ansys.dpf.core.operators.mesh.mesh_provider`
             Mesh provider operator.
 
         """
@@ -454,7 +459,7 @@ class Metadata:
 
         Returns
         -------
-        result_info : :class:`ansys.dpf.core.ResultInfo`
+        result_info : :class:`ansys.dpf.core.result_info.ResultInfo`
         """
         self._cache_result_info()
 
@@ -480,6 +485,6 @@ class Metadata:
 
         Returns
         -------
-        named_selection : :class:`ansys.dpf.core.scoping`
+        named_selection : :class:`ansys.dpf.core.scoping.Scoping`
         """
         return self.meshed_region.named_selection(named_selection)

@@ -24,3 +24,4 @@ Additionally, :ref:`user_guide_plotting` describes how to plot results via PyVis
    operators
    fields_container
    plotting
+   troubleshooting

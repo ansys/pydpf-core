@@ -37,7 +37,7 @@ LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 def shutdown_global_server():
     try:
         if dpf.core.SERVER != None:
-            del dpf.core.SERVER
+            dpf.core.SERVER.__del__()
     except:
         pass
 

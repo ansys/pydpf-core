@@ -271,6 +271,9 @@ class Plotter:
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
+        text = kwargs.pop('text', None)
+        if text is not None:
+            plotter.add_text(text, position='lower_edge')
         plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
         if background is not None:
