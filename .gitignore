@@ -53,8 +53,8 @@ test-output.xml
 # downloaded files
 ansys/dpf/core/examples/_cache/
 
-# Virtual environment
-venv/
+*.orig
+venv/*
 
-#pyCharm
-.idea/*
+# Visual studio code settings
+.vscode

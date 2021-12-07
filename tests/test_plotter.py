@@ -78,7 +78,6 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     pl = DpfPlotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
-
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
