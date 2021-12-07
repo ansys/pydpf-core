@@ -14,6 +14,142 @@ from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
 
 
+class _InternalPlotter:
+    def __init__(self, **kwargs): 
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        mesh = kwargs.pop("mesh", None)
+        self._plotter = pv.Plotter(**kwargs)
+        if mesh is not None:
+            self._plotter.add_mesh(mesh.grid)
+
+    def add_mesh(self, meshed_region, **kwargs):
+        if self._plotter.mesh is None:
+            kwargs.setdefault("stitle", "Mesh")
+            kwargs.setdefault("show_edges", True)
+            kwargs.setdefault("nan_color", "grey")
+        self._plotter.add_mesh(meshed_region.grid, **kwargs)
+
+    def add_field(self, field, meshed_region=None, **kwargs):
+        if self._plotter.mesh is None:
+            name = field.name.split("_")[0]
+            kwargs.setdefault("stitle", name)
+            kwargs.setdefault("show_edges", True)
+            kwargs.setdefault("nan_color", "grey")
+
+        # get the meshed region location
+        if meshed_region is None:
+            meshed_region = field.meshed_region
+        location = field.location
+        if location == locations.nodal:
+            mesh_location = meshed_region.nodes
+        elif location == locations.elemental:
+            mesh_location = meshed_region.elements
+        else:
+            raise ValueError(
+                "Only elemental or nodal location are supported for plotting."
+            )
+        component_count = field.component_count
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
+        ind, mask = mesh_location.map_scoping(field.scoping)
+        overall_data[ind] = field.data[mask]
+
+        # plot
+        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
+
+    def show_figure(self, **kwargs):
+        background = kwargs.pop("background", None)
+        if background is not None:
+            self._plotter.set_background(background)
+
+        # show result
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._plotter.add_axes()
+        return self._plotter.show()
+
+
+class DpfPlotter:
+    def __init__(self, **kwargs): 
+        self._internal_plotter = _InternalPlotter(**kwargs)
+
+    def add_mesh(self, meshed_region, **kwargs):
+        """Add a mesh to plot.
+
+        Parameters
+        ----------
+        meshed_region : MeshedRegion
+            MeshedRegion to plot.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_mesh(mesh)
+
+        """
+        self._internal_plotter.add_mesh(meshed_region=meshed_region, **kwargs)
+
+    def add_field(self, field, meshed_region=None, **kwargs):
+        """Add a field containing data to the plotter.
+        A meshed_region to plot on can be added.
+        If no meshed_region is mentionned, the field
+        support will be used. Please ensure that the field
+        support is a meshed_region to proceed this way.
+
+        Parameters
+        ----------
+        field : Field
+            Field data to plot
+        meshed_region : MeshedRegion, optional
+            MeshedRegion to plot the field on.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> field = model.results.displacement().outputs.fields_container()[0]
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_field(field, mesh)
+
+        """
+        self._internal_plotter.add_field(field=field,
+                                         meshed_region=meshed_region,
+                                         **kwargs)
+
+    def show_figure(self, **kwargs):
+        """Plot the figure built by the plotter object.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> field = model.results.displacement().outputs.fields_container()[0]
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_field(field, mesh)
+        >>> pl.show_figure()
+
+        """
+        self._internal_plotter.show_figure(**kwargs)
+
 def plot_chart(fields_container):
     """Plot the minimum/maximum result values over time.
 
@@ -50,126 +186,9 @@ class Plotter:
 
     """
 
-    def __init__(self, **kwargs):
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
-        mesh = kwargs.pop("mesh", None)
-        self._plotter = pv.Plotter(**kwargs)
-        if mesh is not None:
-            self._plotter.add_mesh(mesh.grid)
-        # keep mesh to allow compatibility with post<=0.2.2
+    def __init__(self, mesh, **kwargs):
+        self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
         self._mesh = mesh
-
-    def add_mesh(self, meshed_region, **kwargs):
-        """Add a mesh to plot.
-
-        Parameters
-        ----------
-        meshed_region : MeshedRegion
-            MeshedRegion to plot.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
-        >>> mesh = model.metadata.meshed_region
-        >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
-        >>> pl = DpfPlotter()
-        >>> pl.add_mesh(mesh)
-
-        """
-        if self._plotter.mesh is None:
-            kwargs.setdefault("stitle", "Mesh")
-            kwargs.setdefault("show_edges", True)
-            kwargs.setdefault("nan_color", "grey")
-        self._plotter.add_mesh(meshed_region.grid, **kwargs)
-
-    def add_field(self, field, meshed_region=None, **kwargs):
-        """Add a field containing data to the plotter.
-        A meshed_region to plot on can be added.
-        If no meshed_region is mentionned, the field
-        support will be used. Please ensure that the field
-        support is a meshed_region to proceed this way.
-
-        Parameters
-        ----------
-        field : Field
-            Field data to plot
-        meshed_region : MeshedRegion, optional
-            MeshedRegion to plot the field on.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
-        >>> mesh = model.metadata.meshed_region
-        >>> field = model.results.displacement().outputs.fields_container()[0]
-        >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
-        >>> pl = DpfPlotter()
-        >>> pl.add_field(field, mesh)
-
-        """
-        if self._plotter.mesh is None:
-            name = field.name.split("_")[0]
-            kwargs.setdefault("stitle", name)
-            kwargs.setdefault("show_edges", True)
-            kwargs.setdefault("nan_color", "grey")
-
-        # get the meshed region location
-        if meshed_region is None:
-            meshed_region = field.meshed_region
-        location = field.location
-        if location == locations.nodal:
-            mesh_location = meshed_region.nodes
-        elif location == locations.elemental:
-            mesh_location = meshed_region.elements
-        else:
-            raise ValueError(
-                "Only elemental or nodal location are supported for plotting."
-            )
-        component_count = field.component_count
-        if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
-        else:
-            overall_data = np.full(len(mesh_location), np.nan)
-        ind, mask = mesh_location.map_scoping(field.scoping)
-        overall_data[ind] = field.data[mask]
-
-        # plot
-        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
-
-    def show_figure(self, **kwargs):
-        """Plot the figure built by the plotter object.
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
-        >>> mesh = model.metadata.meshed_region
-        >>> field = model.results.displacement().outputs.fields_container()[0]
-        >>> from ansys.dpf.core.plotter import Plotter as DpfPlotter
-        >>> pl = DpfPlotter()
-        >>> pl.add_field(field, mesh)
-        >>> pl.show_figure()
-
-        """
-        background = kwargs.pop("background", None)
-        if background is not None:
-            self._plotter.set_background(background)
-
-        # show result
-        show_axes = kwargs.pop("show_axes", None)
-        if show_axes:
-            self._plotter.add_axes()
-        return self._plotter.show()
 
     def plot_mesh(self, **kwargs):
         """Plot the mesh using PyVista.
@@ -382,9 +401,9 @@ class Plotter:
 
         # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
         if notebook is not None:
-            self._plotter.notebook = notebook
+            self._internal_plotter._plotter.notebook = notebook
         if off_screen is not None:
-            self._plotter.off_screen = off_screen
+            self._internal_plotter._plotter.off_screen = off_screen
 
         # add meshes
         kwargs.setdefault("show_edges", True)
@@ -392,16 +411,16 @@ class Plotter:
         kwargs.setdefault("stitle", name)
         text = kwargs.pop('text', None)
         if text is not None:
-            self._plotter.add_text(text, position='lower_edge')
-        self._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
+            self._internal_plotter._plotter.add_text(text, position='lower_edge')
+        self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
         if background is not None:
-            self._plotter.set_background(background)
+            self._internal_plotter._plotter.set_background(background)
 
         # show result
         if show_axes:
-            self._plotter.add_axes()
-        return self._plotter.show()
+            self._internal_plotter._plotter.add_axes()
+        return self._internal_plotter._plotter.show()
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
