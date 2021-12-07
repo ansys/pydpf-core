@@ -48,8 +48,8 @@ An error similar to the following one can be raised trying to access the py:clas
     String field 'ansys.api.dpf.result_info.v0.ResultInfoResponse.user_name' contains invalid UTF-8 
     data when serializing a protocol buffer. Use the 'bytes' type if you intend to send raw bytes.
 
-This will prevent the model to be accessed. To avoid a such inconvenience, please ensure to work with a
-ansys-dpf-core module with a version higher than 0.3.2: a warning will still be raised, but it should not 
+This will prevent the model to be accessed. To avoid a such inconvenience, please ensure to work with 
+a version higher than 0.3.2 of the ansys-dpf-core module: a warning will still be raised, but it should not 
 prevent to use the Model anymore. 
 
 
