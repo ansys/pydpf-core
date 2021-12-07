@@ -35,12 +35,30 @@ If an error lists missing modules, see the compatibility paragraph of :ref:`_ref
 The module `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ should always be synchronized with its server
 version.
 
+Using the Model
+---------------
+
+Invalid UTF-8 warning/issue 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+An error similar to the following one can be raised trying to access the py:class:`Model<ansys.dpf.core.model.Model>`:
+
+.. code-block:: default
+
+    [libprotobuf ERROR C:\.conan\897de8\1\protobuf\src\google\protobuf\wire_format_lite.cc:578] 
+    String field 'ansys.api.dpf.result_info.v0.ResultInfoResponse.user_name' contains invalid UTF-8 
+    data when serializing a protocol buffer. Use the 'bytes' type if you intend to send raw bytes.
+
+This will prevent the model to be accessed. To avoid a such inconvenience, please ensure to work with a
+ansys-dpf-core module with a version higher than 0.3.2: a warning will still be raised, but it should not 
+prevent to use the Model anymore. 
+
+
 
 Performance Issues
 ------------------
 
 Getting and Setting a Field's Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Accessing or modifying field data :py:class:`Field<ansys.dpf.core.field.Field>` entity by entity can
 be slow if the field's size is large or if the server is far from the Python client. To improve performance,
 use :py:meth:`as_local_field()<ansys.dpf.core.field.Field.as_local_field>` in a context manager.
