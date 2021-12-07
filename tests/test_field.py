@@ -488,6 +488,7 @@ def test_local_field_append():
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i], i)
+        assert f._is_set == True
     field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
     for i in range(1, num_entities + 1):
         field.append([0.1 * i, 0.2 * i, 0.3 * i], i)
@@ -520,7 +521,7 @@ def test_local_elemental_nodal_field_append():
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i, 0.1 * i, 0.2 * i, 0.3 * i], i)
-
+        assert f._is_set == True
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
     assert len(field_to_local._data_pointer) == num_entities
@@ -532,6 +533,7 @@ def test_local_array_field_append():
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append(np.array([0.1 * i, 0.2 * i, 0.3 * i]), i)
+        assert f._is_set is True
     field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
     for i in range(1, num_entities + 1):
         field.append(np.array([0.1 * i, 0.2 * i, 0.3 * i]), i)
@@ -588,6 +590,7 @@ def test_local_get_entity_data():
             assert np.allclose(
                 f.get_entity_data_by_id(i), [[0.1 * i, 0.2 * i, 0.3 * i]]
             )
+        assert hasattr(f, "_is_set") is True
 
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
@@ -595,6 +598,8 @@ def test_local_get_entity_data():
             assert np.allclose(
                 f.get_entity_data_by_id(i), [[0.1 * i, 0.2 * i, 0.3 * i]]
             )
+
+        assert hasattr(f, "_is_set") is False
 
 
 def test_local_elemental_nodal_get_entity_data():
@@ -615,6 +620,8 @@ def test_local_elemental_nodal_get_entity_data():
                 f.get_entity_data_by_id(i),
                 [[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]],
             )
+        assert hasattr(f, "_is_set") is True
+        assert f._is_set is True
 
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
@@ -626,6 +633,7 @@ def test_local_elemental_nodal_get_entity_data():
                 f.get_entity_data_by_id(i),
                 [[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]],
             )
+        assert hasattr(f, "_is_set") is False
 
 
 def test_auto_delete_field_local():
@@ -689,6 +697,8 @@ def test_get_set_data_elemental_nodal_local_field():
         assert np.allclose(f._data_pointer, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
+        assert hasattr(f, "_is_set") is True
+        assert f._is_set is True
 
     assert np.allclose(
         field_to_local.data,
@@ -712,6 +722,8 @@ def test_get_set_data_elemental_nodal_local_field():
         assert np.allclose(f._data_pointer, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
+        assert hasattr(f, "_is_set") is True
+        assert f._is_set is True
 
     assert np.allclose(
         field_to_local.data,
@@ -737,6 +749,8 @@ def test_get_set_data_elemental_nodal_local_field():
         assert np.allclose(f._data_pointer, [0, 6])
         assert np.allclose(f.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
+        assert hasattr(f, "_is_set") is True
+        assert f._is_set is True
 
     assert np.allclose(
         field_to_local.data,
@@ -749,6 +763,20 @@ def test_get_set_data_elemental_nodal_local_field():
     assert np.allclose(
         field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
     )
+
+
+def test_get_set_scoping_local_field():
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(
+        2, location=dpf.core.locations.elemental_nodal
+    )
+    with field_to_local.as_local_field() as f:
+        f.data = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]
+        f.scoping = dpf.core.Scoping(ids=[3, 4])
+        assert np.allclose(f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+        assert np.allclose(f.scoping_ids, [3, 4])
+        assert np.allclose(f.scoping.ids, [3, 4])
+    assert np.allclose(field_to_local.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+    assert np.allclose(field_to_local.scoping.ids, [3, 4])
 
 
 def test_empty_data_field():

@@ -15,6 +15,7 @@ from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.results import Results, CommonResults
 from ansys.dpf.core.server import LOG
 from ansys.dpf.core import misc
+from ansys.dpf.core.errors import protect_source_op_not_found
 from grpc._channel import _InactiveRpcError
 
 
@@ -46,16 +47,10 @@ class Model:
         if server is None:
             server = dpf.core._global_server()
 
+        self._data_sources = data_sources
         self._server = server
-        self._metadata = Metadata(data_sources, self._server)
-        if misc.DYNAMIC_RESULTS:
-            try:
-                self._results = Results(self)
-            except Exception as e:
-                self._results = CommonResults(self)
-                LOG.debug(str(e))
-        else:
-            self._results = CommonResults(self)
+        self._metadata = None
+        self._results = None
 
     @property
     def metadata(self):
@@ -104,6 +99,8 @@ class Model:
         'Metric (m, kg, N, s, V, A)'
 
         """
+        if not self._metadata:
+            self._metadata = Metadata(self._data_sources, self._server)
         return self._metadata
 
     @property
@@ -155,7 +152,16 @@ class Model:
 
         """
         if not self._results:
-            return CommonResults(self)
+            if misc.DYNAMIC_RESULTS:
+                try:
+                    self._results = Results(self)
+                    if len(self._results) == 0:
+                        self._results = CommonResults(self)
+                except Exception as e:
+                    self._results = CommonResults(self)
+                    LOG.debug(str(e))
+            else:
+                self._results = CommonResults(self)
         return self._results
 
     def __connect_op__(self, op):
@@ -264,6 +270,7 @@ class Metadata:
             self._stream_provider.inputs.connect(self._data_sources)
 
     @property
+    @protect_source_op_not_found
     def time_freq_support(self):
         """Time frequency support.
 
@@ -339,7 +346,7 @@ class Metadata:
 
         Returns
         -------
-        streams_provider : operators.metadata.streams_provider
+        streams_provider : :class:`ansys.dpf.core.operators.metadata.streams_provider`
 
         Examples
         --------
@@ -381,12 +388,13 @@ class Metadata:
         return result_info
 
     @property
+    @protect_source_op_not_found
     def meshed_region(self):
         """Meshed region instance.
 
         Returns
         -------
-        mesh : :class:`ansys.dpf.core.meshed_region`
+        mesh : :class:`ansys.dpf.core.meshed_region.MeshedRegion`
             Mesh
         """
         # NOTE: this uses the cached mesh and we might consider
@@ -407,7 +415,7 @@ class Metadata:
 
         Returns
         -------
-        mesh_provider : class:`ansys.dpf.core.operators.mesh.mesh_provider`
+        mesh_provider : :class:`ansys.dpf.core.operators.mesh.mesh_provider`
             Mesh provider operator.
 
         """
@@ -422,12 +430,13 @@ class Metadata:
         return mesh_provider
 
     @property
+    @protect_source_op_not_found
     def result_info(self):
         """Result Info instance.
 
         Returns
         -------
-        result_info : :class:`ansys.dpf.core.ResultInfo`
+        result_info : :class:`ansys.dpf.core.result_info.ResultInfo`
         """
         self._cache_result_info()
 
@@ -453,6 +462,6 @@ class Metadata:
 
         Returns
         -------
-        named_selection : :class:`ansys.dpf.core.scoping`
+        named_selection : :class:`ansys.dpf.core.scoping.Scoping`
         """
         return self.meshed_region.named_selection(named_selection)

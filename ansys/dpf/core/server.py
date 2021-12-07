@@ -36,7 +36,7 @@ LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 def shutdown_global_server():
     try:
         if dpf.core.SERVER != None:
-            del dpf.core.SERVER
+            dpf.core.SERVER.__del__()
     except:
         pass
 
@@ -339,14 +339,15 @@ class DpfServer:
         self._input_ip = ip
         self._input_port = port
         self._own_process = launch_server
+        self._base_service_instance = None
 
     @property
     def _base_service(self):
-        if not hasattr(self, "__base_service"):
+        if not self._base_service_instance:
             from ansys.dpf.core.core import BaseService
 
-            self.__base_service = BaseService(self, timeout=1)
-        return self.__base_service
+            self._base_service_instance = BaseService(self, timeout=1)
+        return self._base_service_instance
 
     @property
     def info(self):
