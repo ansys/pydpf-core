@@ -29,7 +29,13 @@ class _InternalPlotter:
             self._plotter.add_mesh(mesh.grid)
 
     def add_mesh(self, meshed_region, **kwargs):
-        if not hasattr(self._plotter, 'scalar_bar'):
+        has_attribute_scalar_bar = False
+        try:
+            has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
+        except:
+            has_attribute_scalar_bar = False
+
+        if not has_attribute_scalar_bar:
             kwargs.setdefault("stitle", "Mesh")
         else:
             if self._plotter.scalar_bar.GetTitle() is None:
