@@ -4,7 +4,7 @@
 Plot results on a specific path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to get a result mapped over a specific path,
-and how to plot it. 
+and how to plot it.
 
 """
 
@@ -17,7 +17,7 @@ from ansys.dpf.core import examples
 # We will use a DpfPlotter to plot a mapped result over a defined path of
 # coordinates.
 
-# First, we need to create the model, request its mesh and its 
+# First, we need to create the model, request its mesh and its
 # displacement data
 model = dpf.Model(examples.static_rst)
 mesh = model.metadata.meshed_region
