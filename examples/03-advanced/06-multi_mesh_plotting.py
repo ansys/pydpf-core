@@ -3,7 +3,7 @@
 
 Advanced plotting
 ~~~~~~~~~~~~~~~~~
-This example shows how to plot several meshes from a meshes container, 
+This example shows how to plot several meshes from a meshes container,
 or directly using the DpfPlotter.
 
 """
@@ -14,7 +14,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Multi-mesh plotting
 # ~~~~~~~~~~~~~~~~~~~
-# In this example we will use a DpfPlotter to plot several meshes. 
+# In this example we will use a DpfPlotter to plot several meshes.
 
 # Create the model and get its mesh
 model = dpf.Model(examples.multishells_rst)
