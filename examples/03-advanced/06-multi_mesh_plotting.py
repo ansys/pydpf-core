@@ -110,3 +110,39 @@ pl.add_mesh(mesh, style="surface", show_edges=True,
 
 # plot the result
 pl.show_figure()
+
+###############################################################################
+# Compare two results
+# ~~~~~~~~~~~~~~~~~~~
+# Now we will use a DpfPlotter to plot two different results over the same mesh
+# and make a comparison.
+
+# Create a Model and request its mesh
+model = dpf.Model(examples.msup_transient)
+mesh_set2 = model.metadata.meshed_region
+
+# Request the displacement for two different time steps
+displacement_operator = model.results.displacement()
+displacement_operator.inputs.time_scoping.connect([2, 15])
+displacement_set2 = displacement_operator.outputs.fields_container()[0]
+displacement_set15 = displacement_operator.outputs.fields_container()[1]
+
+# Create a DpfPlotter and add the first mesh and the first result
+from ansys.dpf.core.plotter import DpfPlotter
+pl = DpfPlotter()
+pl.add_field(displacement_set2, mesh_set2)
+
+# Create a new mesh and translate it along x axis
+mesh_set15 = mesh_set2.deep_copy()
+overall_field = dpf.fields_factory.create_3d_vector_field(1, dpf.locations.overall)
+overall_field.append([0.2, 0.0, 0.0], 1)
+coordinates_to_update = mesh_set15.nodes.coordinates_field
+add_operator = dpf.operators.math.add(coordinates_to_update, overall_field)
+coordinates_updated = add_operator.outputs.field()
+coordinates_to_update.data = coordinates_updated.data
+
+# Feed the DpfPlotter with the second mesh and the second result
+pl.add_field(displacement_set15, mesh_set15)
+
+# Plot the result
+pl.show_figure(show_axes=True)
