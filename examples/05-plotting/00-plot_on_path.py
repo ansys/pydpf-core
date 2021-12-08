@@ -19,7 +19,7 @@ from ansys.dpf.core import examples
 
 # First, we need to create the model, request its mesh and its 
 # displacement data
-model = dpf.Model(examples.multishells_rst)
+model = dpf.Model(examples.static_rst)
 mesh = model.metadata.meshed_region
 disp_fc = model.results.displacement().outputs.fields_container()
 field = disp_fc[0]
@@ -27,12 +27,12 @@ field = disp_fc[0]
 # Then, we create a coordinates field to map on
 i = 0
 coordinates = []
-ref = [-0.0155, 0.00600634, -0.0025]
+ref = [0.024, 0.03, 0.003]
 coordinates.append(ref)
-while i < 20:
+while i < 50:
     i += 1
     coord_copy = ref.copy()
-    coord_copy[0] = coord_copy[0] + i * 0.0003
+    coord_copy[1] = coord_copy[0] + i * 0.001
     coordinates.append(coord_copy)
 field_coord = dpf.fields_factory.create_3d_vector_field(len(coordinates))
 field_coord.data = coordinates
@@ -59,4 +59,4 @@ pl.add_mesh(mesh, style="surface", show_edges=True,
              color="w", opacity=0.3)
 
 # Finally we plot the result
-pl.show_figure()
+pl.show_figure(show_axes=True)
