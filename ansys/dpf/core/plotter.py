@@ -257,6 +257,8 @@ class Plotter:
 
         # create the plotter and add the meshes
         background = kwargs.pop("background", None)
+        cpos = kwargs.pop("cpos", None)
+        return_cpos = kwargs.pop("return_cpos", None)
 
         try:
             import pyvista as pv
@@ -282,7 +284,7 @@ class Plotter:
         # show result
         if show_axes:
             plotter.add_axes()
-        return plotter.show()
+        return plotter.show(return_cpos=return_cpos, cpos=cpos)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
