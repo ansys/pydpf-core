@@ -86,7 +86,6 @@ class MeshesContainer(Collection):
         else:
             import numpy as np
             import random
-            pl._internal_plotter._plotter.remove_legend()
             for mesh in self:
                 r = random.random()
                 g = random.random()

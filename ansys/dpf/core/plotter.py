@@ -29,18 +29,20 @@ class _InternalPlotter:
             self._plotter.add_mesh(mesh.grid)
 
     def add_mesh(self, meshed_region, **kwargs):
-        if self._plotter.mesh is None:
+        if not hasattr(self._plotter, 'scalar_bar'):
             kwargs.setdefault("stitle", "Mesh")
-            kwargs.setdefault("show_edges", True)
-            kwargs.setdefault("nan_color", "grey")
+        else:
+            if self._plotter.scalar_bar.GetTitle() is None:
+                kwargs.setdefault("stitle", "Mesh")
+        kwargs.setdefault("show_edges", True)
+        kwargs.setdefault("nan_color", "grey")
         self._plotter.add_mesh(meshed_region.grid, **kwargs)
 
     def add_field(self, field, meshed_region=None, **kwargs):
-        if self._plotter.mesh is None:
-            name = field.name.split("_")[0]
-            kwargs.setdefault("stitle", name)
-            kwargs.setdefault("show_edges", True)
-            kwargs.setdefault("nan_color", "grey")
+        name = field.name.split("_")[0]
+        kwargs.setdefault("stitle", name)
+        kwargs.setdefault("show_edges", True)
+        kwargs.setdefault("nan_color", "grey")
 
         # get the meshed region location
         if meshed_region is None:
