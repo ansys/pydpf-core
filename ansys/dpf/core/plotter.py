@@ -280,11 +280,14 @@ class Plotter:
 
         if background is not None:
             plotter.set_background(background)
+            
+        if cpos is not None:
+            plotter.camera_position = cpos
 
         # show result
         if show_axes:
             plotter.add_axes()
-        return plotter.show(return_cpos=return_cpos, cpos=cpos)
+        return plotter.show(return_cpos=return_cpos)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
