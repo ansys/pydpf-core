@@ -297,7 +297,7 @@ class Plotter:
             if meet_ver:
                 return plotter.show(return_cpos=return_cpos)
             else:
-                txt = """To use the return_cpos option, please upgrade 
+                txt = """To use the return_cpos option, please upgrade
                 your pyvista module with a version higher than """
                 txt += version_to_reach
                 raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
