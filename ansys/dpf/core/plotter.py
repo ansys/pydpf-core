@@ -280,7 +280,7 @@ class Plotter:
 
         if background is not None:
             plotter.set_background(background)
-            
+
         if cpos is not None:
             plotter.camera_position = cpos
 
