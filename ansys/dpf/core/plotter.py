@@ -115,7 +115,7 @@ class DpfPlotter:
 
         A meshed_region to plot on can be added.
         If no ``meshed_region`` is specified, the field
-        support will be used. Please ensure that the field
+        support will be used. Ensure that the field
         support is a ``meshed_region``.
 
         Parameters
