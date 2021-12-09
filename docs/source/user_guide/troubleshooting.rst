@@ -3,7 +3,7 @@
 ===============
 Troubleshooting
 ===============
-This section explains how to resolve the most common issues encountered with ``pydpf-core``.
+This section explains how to resolve the most common issues encountered with PyDPF-Core.
 It also includes suggestions for improving scripts.
 
 Using the Server
@@ -19,13 +19,13 @@ the environment variable ``AWP_ROOT{VER}`` is set, where VER=212, 221, ....
 
 Connecting to DPF Server
 ~~~~~~~~~~~~~~~~~~~~~~~~
-If an issue appears while using the pydpf-core API to connect to an initialized server with :py:meth:`connect_to_server()
+If an issue appears while using the ``pydpf-core`` API to connect to an initialized server with :py:meth:`connect_to_server()
 <ansys.dpf.core.server.connect_to_server>`, ensure that the IP address and port number that are set as parameters
 are applicable for a DPF server started on the network.
 
 Importing pydpf-core module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Assume that you are importing the pydpf-core module:
+Assume that you are importing the ``pydpf-core`` module:
 
 .. code-block:: default
 
@@ -38,9 +38,10 @@ version.
 Using the Model
 ---------------
 
-Invalid UTF-8 warning/issue 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-An error similar to the following one can be raised trying to access the py:class:`Model<ansys.dpf.core.model.Model>`:
+Invalid UTF-8 Error
+~~~~~~~~~~~~~~~~~~~
+Assume that you are trying to access the py:class:`Model<ansys.dpf.core.model.Model>`.
+The following error can be raised:
 
 .. code-block:: default
 
@@ -48,9 +49,9 @@ An error similar to the following one can be raised trying to access the py:clas
     String field 'ansys.api.dpf.result_info.v0.ResultInfoResponse.user_name' contains invalid UTF-8 
     data when serializing a protocol buffer. Use the 'bytes' type if you intend to send raw bytes.
 
-This will prevent the model to be accessed. To avoid a such inconvenience, please ensure to work with 
-a version higher than 0.3.2 of the ansys-dpf-core module: a warning will still be raised, but it should not 
-prevent to use the Model anymore. 
+This will prevent the model from being accessed. To avoid a this error, ensure that you are using
+a PyDPF-Core version higher than 0.3.2. In this case, a warning will still be raised, but it should not 
+prevent the use of the Model. 
 
 Then, with result files reproducing this issue, to avoid the warning to pop up, you can use:
 
