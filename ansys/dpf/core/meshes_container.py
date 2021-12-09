@@ -7,6 +7,8 @@ Contains classes associated with the DPF MeshesContainer.
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
+from ansys.dpf.core.plotter import DpfPlotter
+from ansys.dpf.core import errors as dpf_errors
 
 
 class MeshesContainer(Collection):
@@ -26,7 +28,7 @@ class MeshesContainer(Collection):
 
     def __init__(self, meshes_container=None, server=None):
         """Initialize the scoping with either an optional scoping
-        message or by connecting to a stub."""
+        message or by connecting to a stub. """
         if server is None:
             server = dpf.core._global_server()
 
@@ -36,6 +38,57 @@ class MeshesContainer(Collection):
         Collection.__init__(
             self, types.meshed_region, collection=meshes_container, server=self._server
         )
+
+    def plot(self, fields_container=None, **kwargs):
+        """Plot the meshes container with a specific result if
+        fields_container is specified.
+
+        Parameters
+        ----------
+        fields_container : FieldsContainer, optional
+            Data to plot. The default is ``None``.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> mesh = model.metadata.meshed_region
+        >>> split_mesh_op = dpf.Operator("split_mesh")
+        >>> split_mesh_op.connect(7, mesh)
+        >>> split_mesh_op.connect(13, "mat")
+        >>> meshes_cont = split_mesh_op.outputs.mesh_controller()
+        >>> disp_op = dpf.Operator("U")
+        >>> disp_op.connect(7, meshes_cont)
+        >>> ds = dpf.DataSources(examples.multishells_rst)
+        >>> disp_op.connect(4, ds)
+        >>> disp_fc = disp_op.outputs.fields_container()
+        >>> meshes_cont.plot(disp_fc)
+
+        """
+        kwargs.setdefault("show_edges", True)
+        notebook = kwargs.pop("notebook", None)
+        pl = DpfPlotter(notebook=notebook)
+        if fields_container is not None:
+            for i in range(len(fields_container)):
+                label_space = fields_container.get_label_space(i)
+                mesh_to_send = self.get_mesh(label_space)
+                if mesh_to_send is None:
+                    raise dpf_errors.DpfValueError(
+                        "Meshes container and result fields "
+                        "container do not have the same scope. "
+                        "Plotting can not proceed. "
+                    )
+                field = fields_container[i]
+                pl.add_field(field, mesh_to_send, **kwargs)
+        else:
+            from random import random
+            random_color = "color" not in kwargs
+            for mesh in self:
+                if random_color:
+                    kwargs["color"] = [random(), random(), random()]
+                pl.add_mesh(mesh, **kwargs)
+        pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.
