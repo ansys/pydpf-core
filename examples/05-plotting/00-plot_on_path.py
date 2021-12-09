@@ -21,8 +21,7 @@ from ansys.dpf.core import examples
 # displacement data
 model = dpf.Model(examples.static_rst)
 mesh = model.metadata.meshed_region
-disp_fc = model.results.displacement().outputs.fields_container()
-field = disp_fc[0]
+stress_fc = model.results.stress().eqv().outputs.fields_container()
 
 ###############################################################################
 # Then, we create a coordinates field to map on
@@ -40,7 +39,7 @@ field_coord.scoping.ids = list(range(1, len(coordinates) + 1))
 ###############################################################################
 # Let's now compute the mapped data using the mapping operator
 mapping_operator = dpf.Operator("mapping")
-mapping_operator.inputs.fields_container.connect(disp_fc)
+mapping_operator.inputs.fields_container.connect(stress_fc)
 mapping_operator.inputs.coordinates.connect(field_coord)
 mapping_operator.inputs.mesh.connect(mesh)
 mapping_operator.inputs.create_support.connect(True)
