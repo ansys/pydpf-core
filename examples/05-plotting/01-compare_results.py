@@ -15,8 +15,8 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Compare two results
 # ~~~~~~~~~~~~~~~~~~~
-# Now we will use a DpfPlotter to plot two different results over the same mesh
-# and make a comparison.
+# Now we will use an :class:`ansys.dpf.core.plotter.DpfPlotter` to plot two different
+# results over the same mesh and make a comparison.
 
 # Here we create a Model and request its mesh
 model = dpf.Model(examples.msup_transient)
@@ -29,7 +29,8 @@ displacement_set2 = displacement_operator.outputs.fields_container()[0]
 displacement_set15 = displacement_operator.outputs.fields_container()[1]
 
 ###############################################################################
-# Now we create a DpfPlotter and add the first mesh and the first result
+# Now we create an :class:`ansys.dpf.core.plotter.DpfPlotter` and add the
+# first mesh and the first result
 from ansys.dpf.core.plotter import DpfPlotter
 pl = DpfPlotter()
 pl.add_field(displacement_set2, mesh_set2)
