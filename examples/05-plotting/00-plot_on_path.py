@@ -14,7 +14,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Path plotting
 # ~~~~~~~~~~~~~
-# We will use a DpfPlotter to plot a mapped result over a defined path of
+# We will use a :class:`ansys.dpf.core.plotter.DpfPlotter` to plot a mapped result over a defined path of
 # coordinates.
 
 # First, we need to create the model, request its mesh and its

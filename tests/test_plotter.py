@@ -357,43 +357,35 @@ def create_mesh_and_field_mapped_2(multishells):
     disp_fc = model.results.displacement().outputs.fields_container()
     field = disp_fc[0]
     # coordinates field to map
-    i = 0
     coordinates = [[-0.0195, 0.006, -0.0025]]
-    while i < 100:
-        i += 1
+    for i in range(1, 101):
         coord_copy = []
         coord_copy.append(coordinates[0][0])
         coord_copy.append(coordinates[0][1])
         coord_copy.append(coordinates[0][2])
         coord_copy[0] = coord_copy[0] + i * 0.0003
         coordinates.append(coord_copy)
-    i = 0
     ref = [-0.0155, 0.00600634, -0.0025]
     coordinates.append(ref)
-    while i < 100:
-        i += 1
+    for i in range(1, 101):
         coord_copy = []
         coord_copy.append(ref[0])
         coord_copy.append(ref[1])
         coord_copy.append(ref[2])
         coord_copy[0] = coord_copy[0] + i * 0.0003
         coordinates.append(coord_copy)
-    i = 0
     ref = [-0.0125, 0.00600507, -0.0025]
     coordinates.append(ref)
-    while i < 100:
-        i += 1
+    for i in range(1, 101):
         coord_copy = []
         coord_copy.append(ref[0])
         coord_copy.append(ref[1])
         coord_copy.append(ref[2])
         coord_copy[0] = coord_copy[0] + i * 0.0003
         coordinates.append(coord_copy)
-    i = 0
     ref = [-0.0125, 0.00600444, -0.0025]
     coordinates.append(ref)
-    while i < 100:
-        i += 1
+    for i in range(1, 101):
         coord_copy = []
         coord_copy.append(ref[0])
         coord_copy.append(ref[1])
