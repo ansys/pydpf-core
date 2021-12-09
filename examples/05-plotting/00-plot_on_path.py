@@ -10,6 +10,7 @@ and how to plot it.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Path plotting
@@ -52,7 +53,6 @@ mesh_m = field_m.meshed_region
 
 ###############################################################################
 # Now we create the plotter and add fields and meshes
-from ansys.dpf.core.plotter import DpfPlotter
 pl = DpfPlotter()
 
 pl.add_field(field_m, mesh_m)

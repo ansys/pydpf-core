@@ -11,6 +11,7 @@ to compare results at different time steps.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Compare two results
@@ -31,7 +32,6 @@ displacement_set15 = displacement_operator.outputs.fields_container()[1]
 ###############################################################################
 # Now we create an :class:`ansys.dpf.core.plotter.DpfPlotter` and add the
 # first mesh and the first result
-from ansys.dpf.core.plotter import DpfPlotter
 pl = DpfPlotter()
 pl.add_field(displacement_set2, mesh_set2)
 
