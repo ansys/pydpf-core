@@ -46,7 +46,7 @@ class MeshesContainer(Collection):
         Parameters
         ----------
         fields_container : FieldsContainer, optional
-            Data to plot. The default is None.
+            Data to plot. The default is ``None``.
 
         Examples
         --------
