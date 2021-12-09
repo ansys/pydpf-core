@@ -112,17 +112,18 @@ class DpfPlotter:
 
     def add_field(self, field, meshed_region=None, **kwargs):
         """Add a field containing data to the plotter.
+
         A meshed_region to plot on can be added.
-        If no meshed_region is mentionned, the field
+        If no ``meshed_region`` is specified, the field
         support will be used. Please ensure that the field
-        support is a meshed_region to proceed this way.
+        support is a ``meshed_region``.
 
         Parameters
         ----------
         field : Field
             Field data to plot
         meshed_region : MeshedRegion, optional
-            MeshedRegion to plot the field on.
+            ``MeshedRegion`` to plot the field on.
 
         Examples
         --------

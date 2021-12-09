@@ -1,7 +1,7 @@
 """
 .. _compare_results:
 
-Compare results using the plotter
+Compare Results Using the Plotter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to plot several meshes/results combination
 over the same plotter, in order to compare them. The usecase will be
@@ -28,6 +28,7 @@ displacement_operator.inputs.time_scoping.connect([2, 15])
 displacement_set2 = displacement_operator.outputs.fields_container()[0]
 displacement_set15 = displacement_operator.outputs.fields_container()[1]
 
+###############################################################################
 # Now we create a DpfPlotter and add the first mesh and the first result
 from ansys.dpf.core.plotter import DpfPlotter
 pl = DpfPlotter()

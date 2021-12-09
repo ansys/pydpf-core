@@ -66,34 +66,28 @@ class MeshesContainer(Collection):
         >>> meshes_cont.plot(disp_fc)
 
         """
+        kwargs.setdefault("show_edges", True)
         notebook = kwargs.pop("notebook", None)
         pl = DpfPlotter(notebook=notebook)
         if fields_container is not None:
-            size = len(fields_container)
-            i = 0
-            while i < size:
+            for i in range(len(fields_container)):
                 label_space = fields_container.get_label_space(i)
                 mesh_to_send = self.get_mesh(label_space)
-                if mesh_to_send == None:
+                if mesh_to_send is None:
                     raise dpf_errors.DpfValueError(
                         "Meshes container and result fields "
-                        "container does not have the same scope. "
-                        "Plotting can not be proceeded. "
+                        "container do not have the same scope. "
+                        "Plotting can not proceed. "
                     )
                 field = fields_container[i]
-                pl.add_field(field, mesh_to_send, show_edges=True, **kwargs)
-                i += 1
+                pl.add_field(field, mesh_to_send, **kwargs)
         else:
-            import numpy as np
-            import random
+            from random import random
+            random_color = "color" not in kwargs
             for mesh in self:
-                r = random.random()
-                g = random.random()
-                b = random.random()
-                pl.add_mesh(mesh,
-                            show_edges=True,
-                            color=np.array([r, g, b, 1]),
-                            **kwargs)
+                if random_color:
+                    kwargs["color"] = [random(), random(), random()]
+                pl.add_mesh(mesh, **kwargs)
         pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):

@@ -1,5 +1,5 @@
 .. _plotting_examples
 
-Plotting examples
+Plotting Examples
 =================
 These demos show how to use the DpfPlotter.

@@ -289,14 +289,12 @@ def test_plot_meshes_container_2(multishells):
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont_2 = core.MeshesContainer()
     meshes_cont_2.labels = meshes_cont.labels
-    i = 0
     disp_fc_2 = core.FieldsContainer()
     disp_fc_2.labels = meshes_cont.labels
-    while i < (len(meshes_cont) - 10):
+    for i in range(len(meshes_cont) - 10):
         lab = meshes_cont.get_label_space(i)
         meshes_cont_2.add_mesh(lab, meshes_cont.get_mesh(lab))
         disp_fc_2.add_field(lab, disp_fc.get_field(lab))
-        i += 1
     meshes_cont_2.plot(disp_fc_2)
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -319,10 +317,8 @@ def test_plotter_add_mesh(multishells):
     meshes_cont = split_mesh_op.outputs.mesh_controller()
     from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
-    i = 0
-    while i < (len(meshes_cont) - 10):
+    for i in range(len(meshes_cont) - 10):
         pl.add_mesh(meshes_cont[i])
-        i += 1
     pl.show_figure()
 
 def create_mesh_and_field_mapped(multishells):
