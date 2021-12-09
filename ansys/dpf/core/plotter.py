@@ -12,6 +12,7 @@ from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.check_version import meets_version
 
 
 def plot_chart(fields_container):
@@ -257,6 +258,8 @@ class Plotter:
 
         # create the plotter and add the meshes
         background = kwargs.pop("background", None)
+        cpos = kwargs.pop("cpos", None)
+        return_cpos = kwargs.pop("return_cpos", None)
 
         try:
             import pyvista as pv
@@ -279,10 +282,25 @@ class Plotter:
         if background is not None:
             plotter.set_background(background)
 
+        if cpos is not None:
+            plotter.camera_position = cpos
+
         # show result
         if show_axes:
             plotter.add_axes()
-        return plotter.show()
+        if return_cpos is None:
+            return plotter.show()
+        else:
+            pv_version = pv.__version__
+            version_to_reach = '0.32.0'
+            meet_ver = meets_version(pv_version, version_to_reach)
+            if meet_ver:
+                return plotter.show(return_cpos=return_cpos)
+            else:
+                txt = """To use the return_cpos option, please upgrade
+                your pyvista module with a version higher than """
+                txt += version_to_reach
+                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
