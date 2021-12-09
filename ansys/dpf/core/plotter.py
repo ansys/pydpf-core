@@ -430,19 +430,20 @@ class Plotter:
             self._internal_plotter._plotter.set_background(background)
 
         if cpos is not None:
-            plotter.camera_position = cpos
+            self._internal_plotter._plotter.camera_position = cpos
 
         # show result
         if show_axes:
             self._internal_plotter._plotter.add_axes()
         if return_cpos is None:
-            return self._internal_plotter.show()
+            return self._internal_plotter._plotter.show()
         else:
+            import pyvista as pv
             pv_version = pv.__version__
             version_to_reach = '0.32.0'
             meet_ver = meets_version(pv_version, version_to_reach)
             if meet_ver:
-                return self._internal_plotter.show(return_cpos=return_cpos)
+                return self._internal_plotter._plotter.show(return_cpos=return_cpos)
             else:
                 txt = """To use the return_cpos option, please upgrade
                 your pyvista module with a version higher than """
