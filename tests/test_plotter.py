@@ -352,7 +352,6 @@ def create_mesh_and_field_mapped(multishells):
     assert len(fields_mapped) == 1
     field_m = fields_mapped[0]
     mesh_m = field_m.meshed_region
-    # return
     return field, field_m, mesh, mesh_m
 
 def create_mesh_and_field_mapped_2(multishells):
