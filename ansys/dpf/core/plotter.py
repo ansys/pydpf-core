@@ -88,6 +88,23 @@ class _InternalPlotter:
 
 class DpfPlotter:
     def __init__(self, **kwargs):
+        """Create a DpfPlotter object.
+
+        Parameters
+        ----------
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For more information,
+            ee ``help(pyvista.plot)``.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> pl = DpfPlotter(notebook=False)
+
+        """
         self._internal_plotter = _InternalPlotter(**kwargs)
 
     def add_mesh(self, meshed_region, **kwargs):
@@ -97,6 +114,9 @@ class DpfPlotter:
         ----------
         meshed_region : MeshedRegion
             MeshedRegion to plot.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For more information,
+            ee ``help(pyvista.plot)``.
 
         Examples
         --------
@@ -125,6 +145,9 @@ class DpfPlotter:
             Field data to plot
         meshed_region : MeshedRegion, optional
             ``MeshedRegion`` to plot the field on.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For more information,
+            ee ``help(pyvista.plot)``.
 
         Examples
         --------
@@ -144,6 +167,12 @@ class DpfPlotter:
 
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
+
+        Parameters
+        ----------
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For more information,
+            ee ``help(pyvista.plot)``.
 
         Examples
         --------
