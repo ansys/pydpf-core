@@ -49,7 +49,15 @@ extensions = [
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
     "nbsphinx",
+    "sphinx.ext.intersphinx",
 ]
+
+# Intersphinx mapping
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/dev", None),
+    "numpy": ("https://numpy.org/devdocs", None),
+    "pyvista": ("https://docs.pyvista.org/", None),
+}
 
 autosummary_generate = True
 

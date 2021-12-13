@@ -93,8 +93,8 @@ class DpfPlotter:
         Parameters
         ----------
         **kwargs : optional
-            Additional keyword arguments for the plotter. For more information,
-            ee ``help(pyvista.plot)``.
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------
@@ -112,8 +112,8 @@ class DpfPlotter:
         meshed_region : MeshedRegion
             MeshedRegion to plot.
         **kwargs : optional
-            Additional keyword arguments for the plotter. For more information,
-            ee ``help(pyvista.plot)``.
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------
@@ -143,8 +143,8 @@ class DpfPlotter:
         meshed_region : MeshedRegion, optional
             ``MeshedRegion`` to plot the field on.
         **kwargs : optional
-            Additional keyword arguments for the plotter. For more information,
-            ee ``help(pyvista.plot)``.
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------
@@ -168,8 +168,8 @@ class DpfPlotter:
         Parameters
         ----------
         **kwargs : optional
-            Additional keyword arguments for the plotter. For more information,
-            ee ``help(pyvista.plot)``.
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------
@@ -237,8 +237,8 @@ class Plotter:
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
         **kwargs : optional
-            Additional keyword arguments for the plotter. For more information,
-            ee ``help(pyvista.plot)``.
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         """
         kwargs.setdefault("color", "w")
