@@ -83,7 +83,7 @@ class _InternalPlotter:
         show_axes = kwargs.pop("show_axes", None)
         if show_axes:
             self._plotter.add_axes()
-        return self._plotter.show()
+        return self._plotter.show(**kwargs)
 
 
 class DpfPlotter:
