@@ -98,9 +98,6 @@ class DpfPlotter:
 
         Examples
         --------
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> pl = DpfPlotter(notebook=False)
 
