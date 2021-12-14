@@ -59,7 +59,7 @@ norm_op.inputs.connect(disp_op.outputs)
 mm_op = dpf.Operator("min_max_fc")
 mm_op.inputs.connect(norm_op.outputs)
 
-# Finally, get the value of the maximum displacement
+# Finally, get the value of the maximum displacement.
 field_max = mm_op.outputs.field_max()
 print(field_max)
 print(field_max.data)
@@ -78,8 +78,8 @@ print(model.results)
 # Create the displacement operator directly from the ``results`` property:
 disp_op = model.results.displacement()
 
-# Out of convenience, the operators module contains available operators
-# Those operators can be created in chain to create a workflow in one line
+# Out of convenience, the ``operators`` module contains available operators.
+# Operators can be chained to create a workflow in one line.
 from ansys.dpf.core import operators
 
 mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))
@@ -103,7 +103,7 @@ print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 
 ###############################################################################
 # Instead of using a ``model`` class instance, use a
-# datasources object directly. The ``DataSources`` constructor input is a path.
+# ``DataSources`` object directly. The ``DataSources`` constructor input is a path.
 ds = dpf.DataSources(examples.static_rst)
 print(examples.static_rst)
 
