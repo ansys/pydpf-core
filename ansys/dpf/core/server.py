@@ -14,7 +14,6 @@ import subprocess
 import grpc
 import psutil
 import weakref
-import atexit
 import copy
 
 from ansys import dpf
