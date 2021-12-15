@@ -41,7 +41,7 @@ def shutdown_global_server():
         pass
 
 
-atexit.register(shutdown_global_server)
+#atexit.register(shutdown_global_server)
 
 
 def has_local_server():
