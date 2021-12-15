@@ -36,8 +36,6 @@ def cyc_models():
 
 @pytest.fixture()
 def all_kind_of_complexity_models():
-    local_server = dpf.start_local_server(as_global=False)
-    dpf.start_local_server()
     otherfile = dpf.upload_file_in_tmp_folder(
         examples.download_all_kinds_of_complexity(), server=local_server
     )
