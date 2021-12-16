@@ -83,6 +83,9 @@ class {{class_name}}(Operator):
                     {{#has_types}}
                     type_names={{{types}}},
                     {{/has_types}}
+                    {{^has_types}}
+                    type_names=["any"],
+                    {{/has_types}}
                     optional={{optional}},
                     document="""{{{document}}}""",
                 ),
