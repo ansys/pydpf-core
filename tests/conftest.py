@@ -157,17 +157,3 @@ local_servers = [core.start_local_server(as_global=False),
                  core.start_local_server(as_global=False),
                  core.start_local_server(as_global=False)]
 local_server = local_servers[0]
-
-
-@pytest.fixture(scope="session", autouse=True)
-def cleanup(request):
-    """Cleanup a testing directory once we are finished."""
-
-    def close_servers():
-        core.server.shutdown_all_session_servers()
-        try:
-            local_server.shutdown()
-        except:
-            pass
-
-    request.addfinalizer(close_servers)
