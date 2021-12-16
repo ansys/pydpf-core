@@ -10,6 +10,7 @@ and how to plot it.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
@@ -26,11 +27,9 @@ stress_fc = model.results.stress().eqv().outputs.fields_container()
 
 ###############################################################################
 # Then, we create a coordinates field to map on
-coordinates = []
-ref = [0.024, 0.03, 0.003]
-coordinates.append(ref)
+coordinates = [ [0.024, 0.03, 0.003]]
 for i in range(1, 51):
-    coord_copy = ref.copy()
+    coord_copy = coordinates[0].copy()
     coord_copy[1] = coord_copy[0] + i * 0.001
     coordinates.append(coord_copy)
 field_coord = dpf.fields_factory.create_3d_vector_field(len(coordinates))
@@ -39,11 +38,11 @@ field_coord.scoping.ids = list(range(1, len(coordinates) + 1))
 
 ###############################################################################
 # Let's now compute the mapped data using the mapping operator
-mapping_operator = dpf.Operator("mapping")
-mapping_operator.inputs.fields_container.connect(stress_fc)
-mapping_operator.inputs.coordinates.connect(field_coord)
-mapping_operator.inputs.mesh.connect(mesh)
-mapping_operator.inputs.create_support.connect(True)
+mapping_operator = ops.mapping.on_coordinates(
+    fields_container=stress_fc,
+    coordinates=field_coord,
+    create_support=True,
+    mesh=mesh)
 fields_mapped = mapping_operator.outputs.fields_container()
 
 ###############################################################################
