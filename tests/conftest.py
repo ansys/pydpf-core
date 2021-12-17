@@ -157,4 +157,3 @@ local_servers = [core.start_local_server(as_global=False),
                  core.start_local_server(as_global=False),
                  core.start_local_server(as_global=False)]
 local_server = local_servers[0]
-
