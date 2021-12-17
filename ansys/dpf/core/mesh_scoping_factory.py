@@ -14,16 +14,16 @@ def nodal_scoping(node_ids, server=None):
 
     Parameters
     ----------
-    node_ids : List of int
+    node_ids : list[int]
         List of IDs for the nodes.
-    server : ansys.dpf.core.server, optional
+    server : DpfServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    scoping : ansys.dpf.core.Scoping
+    scoping : Scoping
     """
     scoping = Scoping(server=server, ids=node_ids, location=locations.nodal)
     return scoping
@@ -34,16 +34,16 @@ def elemental_scoping(element_ids, server=None):
 
     Parameters
     ----------
-    element_ids : List of int
+    element_ids : list[int]
         List of IDs for the elements.
-    server : ansys.dpf.core.server, optional
+    server : DpfServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    scoping : ansys.dpf.core.Scoping
+    scoping : Scoping
     """
     scoping = Scoping(server=server, ids=element_ids, location=locations.elemental)
     return scoping
@@ -56,13 +56,13 @@ def named_selection_scoping(named_selection_name, model, server=None):
     ----------
     named_selection_name : str
         Name of the named selection.
-    server : ansys.dpf.core.server, optional
+    server : DpfServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
     Returns
     -------
-    scoping : ansys.dpf.core.Scoping
+    scoping : Scoping
     """
     return model.metadata.named_selection(named_selection_name)
