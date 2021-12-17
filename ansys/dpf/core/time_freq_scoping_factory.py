@@ -132,7 +132,10 @@ def scoping_by_step_and_substep(
         Scoping based on a given step and substep of a time frequency support.
     """
     set_index = time_freq_support.get_cumulative_index(load_step_id - 1, subset_id - 1)
-    scoping = Scoping(ids=[set_index + 1], location=locations.time_freq, server=time_freq_support._server)
+    scoping = Scoping(
+        ids=[set_index + 1],
+        location=locations.time_freq,
+        server=time_freq_support._server)
     return scoping
 
 
