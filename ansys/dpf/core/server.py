@@ -14,7 +14,6 @@ import subprocess
 import grpc
 import psutil
 import weakref
-import atexit
 import copy
 
 from ansys import dpf
@@ -41,7 +40,7 @@ def shutdown_global_server():
         pass
 
 
-atexit.register(shutdown_global_server)
+#atexit.register(shutdown_global_server)
 
 
 def has_local_server():

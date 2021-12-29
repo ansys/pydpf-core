@@ -242,6 +242,16 @@ def test_scoping_by_step_and_substep_from_model(plate_msup):
     assert scop.location == locations.time_freq
 
 
+def test_scoping_on_all_freqs(plate_msup):
+    model = Model(plate_msup)
+    scop = time_freq_scoping_factory.scoping_on_all_time_freqs(model)
+    assert scop is not None
+    assert np.allclose(scop.ids, range(1, 21))
+    scop = time_freq_scoping_factory.scoping_on_all_time_freqs(model.metadata.time_freq_support)
+    assert scop is not None
+    assert np.allclose(scop.ids, range(1, 21))
+
+
 def test_nodal_scoping():
     scop = mesh_scoping_factory.nodal_scoping([2, 5, 10])
     assert scop is not None
