@@ -87,8 +87,26 @@ class _InternalPlotter:
 
 
 class DpfPlotter:
+    """DpfPlotter class. Must be used in order to plot
+    results over a mesh.
+
+    The DpfPlotter is a PyVista dependant object.
+
+    That means that PyVista must be installed, and that
+    it supports **kwargs as parameter (the argument
+    must be supported by the installed PyVista version).
+    More information about the available arguments are
+    available at :func:`pyvista.plot`.
+    """
     def __init__(self, **kwargs):
         """Create a DpfPlotter object.
+
+        The DpfPlotter is a PyVista dependant object.
+        That means that PyVista must be installed, and that
+        it supports **kwargs as parameter (the argument
+        must be supported by the installed PyVista version).
+        More information about the available arguments are
+        available at :func:`pyvista.plot`.
 
         Parameters
         ----------
@@ -237,8 +255,8 @@ class Plotter:
             external to the notebook with an interactive window.  When
             ``True``, always plot within a notebook.
         **kwargs : optional
-            Additional keyword arguments for the plotter. More information
-            are available at :func:`pyvista.plot`.
+            Additional keyword arguments for the plotter. For more information,
+            ee ``help(pyvista.plot)``.
 
         """
         kwargs.setdefault("color", "w")
