@@ -6,6 +6,7 @@ import tempfile
 import os
 import sys
 import numpy as np
+import inspect
 
 from ansys import dpf
 from ansys.dpf import core
@@ -16,6 +17,7 @@ from ansys.dpf.core.check_version import meets_version
 
 
 class _InternalPlotter:
+    """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
         try:
             import pyvista as pv
@@ -28,6 +30,22 @@ class _InternalPlotter:
         self._plotter = pv.Plotter(**kwargs)
         if mesh is not None:
             self._plotter.add_mesh(mesh.grid)
+
+    def _sort_supported_kwargs(self, bound_method, **kwargs):
+        supported_args = inspect.getargspec(bound_method).args
+        kwargs_in = {}
+        kwargs_not_avail = {}
+        for key, item in kwargs.items():
+            if key in supported_args:
+                kwargs_in[key] = item
+            else:
+                kwargs_not_avail[key] = item
+
+        if len(kwargs_not_avail) > 0:
+            txt = "The following arguments are not supported: "
+            txt += str(kwargs_not_avail)
+
+        return kwargs_in
 
     def add_mesh(self, meshed_region, **kwargs):
         has_attribute_scalar_bar = False
@@ -43,7 +61,12 @@ class _InternalPlotter:
                 kwargs.setdefault("stitle", "Mesh")
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
-        self._plotter.add_mesh(meshed_region.grid, **kwargs)
+
+        kwargs_in = self._sort_supported_kwargs(
+            bound_method=self._plotter.add_mesh,
+            **kwargs
+            )
+        self._plotter.add_mesh(meshed_region.grid, **kwargs_in)
 
     def add_field(self, field, meshed_region=None, **kwargs):
         name = field.name.split("_")[0]
@@ -72,7 +95,11 @@ class _InternalPlotter:
         overall_data[ind] = field.data[mask]
 
         # plot
-        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
+        kwargs_in = self._sort_supported_kwargs(
+            bound_method=self._plotter.add_mesh,
+            **kwargs
+            )
+        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs_in)
 
     def show_figure(self, **kwargs):
         background = kwargs.pop("background", None)
@@ -83,7 +110,11 @@ class _InternalPlotter:
         show_axes = kwargs.pop("show_axes", None)
         if show_axes:
             self._plotter.add_axes()
-        return self._plotter.show(**kwargs)
+        kwargs_in = self._sort_supported_kwargs(
+            bound_method=self._plotter.show,
+            **kwargs
+            )
+        return self._plotter.show(**kwargs_in)
 
 
 class DpfPlotter:
