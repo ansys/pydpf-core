@@ -21,9 +21,8 @@ Installation
 .. include:: install.rst
 
 
-.. toctree::
-   :hidden:
-   :maxdepth: 2
+.. autosummary::
+   :toctree: _autosummary
 
    docker
    
@@ -133,4 +132,4 @@ Future development will try to ensure backward compatibilty from the client to t
 
 
 To start a server with Ans.Dpf.Grpc.bat or Ans.Dpf.Grpc.sh (used in the `start_local_server`  function),
-please make sure that the environment variable `AWP_ROOT{VER}` with (VER=212, 221, ...) is set.
+ensure that the environment variable `AWP_ROOT{VER}` with (VER=212, 221, ...) is set.

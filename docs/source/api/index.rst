@@ -1,8 +1,7 @@
 ================
 APIs
 ================
-.. toctree::
-   :maxdepth: 1
-   :caption: APIs
+.. autosummary::
+   :toctree: _autosummary
    
    ansys.dpf.core

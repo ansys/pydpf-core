@@ -1,13 +1,21 @@
-================
-PyAnsys DPF-Core
-================
+==========
+PyDPF-Core
+==========
 
-DPF (Data Processing Framework) provides numerical
-simulation engineers with a toolbox for accessing and
-transforming simulation data. DPF can access data from solver result
-files as well as several neutral formats, such as CSV, HDF5, and VTK. 
-Various operators provide for the manipulation and transformation 
-of the data.
+PyDPF-Core is part of the larger `PyAnsys <https://docs.pyansys.com>`_
+effort to facilitate the use of Ansys technologies directly from
+Python. Its primary package, ``ansys.dpf.core``, provides a Python
+interface to the powerful Data Processing Framework (DPF), enabling
+rapid postprocessing of a variety of Ansys file formats and physics
+solutions without ever leaving the Python environment.
+
+Background
+~~~~~~~~~~
+DPF provides numerical simulation engineers with a toolbox for
+accessing and transforming simulation data. DPF can access data from
+solver result files as well as several neutral formats, such as CSV,
+HDF5, and VTK. Various operators provide for the manipulation and
+transformation of the data.
 
 DPF is a workflow-based framework that allows simple and complex
 evaluations by chaining operators. The data in DPF is defined based on
@@ -15,12 +23,6 @@ physics-agnostic mathematical quantities described in self-sufficient
 entities called fields. This allows DPF to be a modular and easy-to-use 
 tool with a large range of capabilities. It is designed to handle 
 large amounts of data.
-
-The module `ansys.dpf.core` provides a Python interface to
-the powerful DPF framework, enabling rapid postprocessing of a variety
-of Ansys file formats and physics solutions without ever leaving the
-Python environment.  
-
 
 Brief Demo
 ~~~~~~~~~~
@@ -55,10 +57,8 @@ componentization of the framework. Because DPF is plugin-based, new
 features or formats can be easily added.
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Getting Started
-   :hidden:
+.. autosummary::
+   :toctree: _autosummary
 
    getting_started/index
    user_guide/index

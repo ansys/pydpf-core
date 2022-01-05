@@ -3,6 +3,7 @@ from datetime import datetime
 
 import numpy as np
 import pyvista
+from pyansys_sphinx_theme import pyansys_logo_black
 from ansys.dpf.core import __version__
 
 # Manage errors
@@ -39,19 +40,65 @@ release = __version__
 #
 # needs_sphinx = '1.0'
 
-# Add any Sphinx extension module names here, as strings. They can be
+# Add any Sphinx extension module names here as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.intersphinx",
     "sphinx.ext.autodoc",
-    "sphinx_gallery.gen_gallery",
     "sphinx.ext.todo",
-    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.coverage",
+    "sphinx_copybutton",
+    "recommonmark",
+    "sphinx.ext.graphviz",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.inheritance_diagram",
+    "sphinx_gallery.gen_gallery",
+    "numpydoc",
     "pydata_sphinx_theme",
     "nbsphinx",
 ]
 
-autosummary_generate = True
+
+# Intersphinx mapping
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/dev", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
+    "numpy": ("https://numpy.org/devdocs", None),
+    "matplotlib": ("https://matplotlib.org/stable", None),
+    "imageio": ("https://imageio.readthedocs.io/en/stable", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
+    "pytest": ("https://docs.pytest.org/en/stable", None),
+}
+
+# numpydoc configuration
+numpydoc_use_plots = True
+numpydoc_show_class_members = False
+numpydoc_xref_param_type = True
+numpydoc_validate = True
+numpydoc_validation_checks = {
+    # general
+    "GL06",  # Found unknown section
+    "GL07",  # Sections are in the wrong order.
+    "GL08",  # The object does not have a docstring
+    "GL09",  # Deprecation warning should precede extended summary
+    "GL10",  # reST directives {directives} must be followed by two colons
+    # Summary
+    "SS01",  # No summary found
+    "SS02",  # Summary does not start with a capital letter
+    "SS03",  # Summary does not end with a period
+    "SS04",  # Summary contains heading whitespaces
+    "SS05",  # Summary must start with infinitive verb, not third person
+    # Parameters
+    "PR10",  # Parameter "{param_name}" requires a space before the colon '
+    # separating the parameter name and type",
+}
+
+numpydoc_validation_exclude = {  # set of regex
+    r"\.AEDTMessageManager.add_message$",  # bad SS05
+}
 
 
 # Add any paths that contain templates here, relative to this directory.
@@ -92,7 +139,7 @@ sphinx_gallery_conf = {
     "examples_dirs": ["../../examples/"],
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
-    # Patter to search for example files
+    # Pattern to search for example files
     "filename_pattern": r"\.py",
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
@@ -111,11 +158,10 @@ autodoc_member_order = "bysource"
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "pyansys_sphinx_theme"
-html_logo = os.path.join("_static", "pyansys-logo-black-cropped.png")
+html_logo = pyansys_logo_black
 html_theme_options = {
-    "github_url": "https://github.com/pyansys/DPF-Core",
+    "github_url": "https://github.com/pyansys/pydpf-core",
     "show_prev_next": False,
-    "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
 }
 
 

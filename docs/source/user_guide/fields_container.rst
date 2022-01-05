@@ -3,9 +3,9 @@
 ===========================
 Fields Container and Fields
 ===========================
-Where DPF uses operators to load and operate on data, it uses the 
+DPF uses operators to load and operate on data, and it uses 
 field container and fields to store and return data. In other words, 
-operators are like verbs, acting on the data, while the field container 
+operators are like verbs, acting on the data, while field containers 
 and fields are like nouns, objects that hold data.  
 
 
@@ -186,8 +186,8 @@ time complex IDs are available in the fields container:
     19             0.190000       1              19              
     20             0.200000       1              20              
 
-Note that the time set IDs used are 1 based.  When indexing from Pythonic 
-indexing via ``fields[0]``, you can use zero-based indexing.  When requesting the
+Note that the time set IDs used are 1-based.  When indexing from Pythonic 
+indexing via ``fields[0]``, you can use zero-based indexing. When requesting the
 results using the ``get_fields`` method, the request is based on the time scoping 
 set IDs.
 
