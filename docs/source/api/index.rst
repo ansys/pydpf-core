@@ -1,7 +1,7 @@
 ====
 APIs
 ====
-.. toctree:::
+.. toctree::
    :maxdepth: 1
    :caption: APIs
    
