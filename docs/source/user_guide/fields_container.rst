@@ -4,8 +4,8 @@
 Fields Container and Fields
 ===========================
 DPF uses operators to load and operate on data, and it uses 
-field container and fields to store and return data. In other words, 
-operators are like verbs, acting on the data, while field containers 
+field container and fields to store and return data. 
+Operators are like verbs, acting on the data, and field containers 
 and fields are like nouns, objects that hold data.  
 
 
