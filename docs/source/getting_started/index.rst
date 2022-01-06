@@ -21,8 +21,9 @@ Installation
 .. include:: install.rst
 
 
-.. autosummary::
-   :toctree: _autosummary
+.. toctree::
+   :hidden:
+   :maxdepth: 2
 
    docker
    

@@ -121,7 +121,7 @@ Finally, take a look at our `Code of Conduct <https://github.com/pyansys/pydpf-c
 
 Contributing to DPF-Core through GitHub
 ---------------------------------------
-To submit new code to Py DPF-Core, first fork the ``pydpf-core`` repo on
+To submit new code to PyDPF-Core, first fork the ``pydpf-core`` repo on
 `GitHub <https://github.com/pyansys/pydpf-core>`_ and then clone the forked
 repository to your computer.  Next, create a new branch based on the
 `Branch Naming Conventions Section <#branch-naming-conventions>`__ in
@@ -227,7 +227,7 @@ with:
 
    make
 
-Any misspelled words will be reported. You can add words to be
+Misspelled words will be reported. You can add words to be
 ignored to ``ignore_words.txt``
 
 

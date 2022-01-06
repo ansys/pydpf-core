@@ -57,8 +57,10 @@ componentization of the framework. Because DPF is plugin-based, new
 features or formats can be easily added.
 
 
-.. autosummary::
-   :toctree: _autosummary
+.. toctree::
+   :maxdepth: 2
+   :caption: Getting Started
+   :hidden:
 
    getting_started/index
    user_guide/index

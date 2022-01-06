@@ -51,10 +51,6 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.coverage",
     "sphinx_copybutton",
-    "recommonmark",
-    "sphinx.ext.graphviz",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.inheritance_diagram",
     "sphinx_gallery.gen_gallery",
     "numpydoc",
     "pydata_sphinx_theme",
@@ -97,7 +93,6 @@ numpydoc_validation_checks = {
 }
 
 numpydoc_validation_exclude = {  # set of regex
-    r"\.AEDTMessageManager.add_message$",  # bad SS05
 }
 
 

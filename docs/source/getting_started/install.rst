@@ -1,7 +1,7 @@
 .. _installation:
 
 *********************
-Installation with PIP
+Installation with Pip
 *********************
 Once Ansys 2021 R1 or later is installed, you can install 
 PyDPF-Core with:

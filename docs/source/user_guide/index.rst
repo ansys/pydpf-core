@@ -16,8 +16,9 @@ These sections describe the most common DPF entities:
 
 Additionally, :ref:`user_guide_plotting` describes how to plot results via PyVista.
 
-.. autosummary::
-   :toctree: _autosummary
+.. toctree::
+   :maxdepth: 2
+   :hidden:
 
    model
    operators
