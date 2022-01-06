@@ -264,7 +264,7 @@ def test_plot_meshes_container_1(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
     ds = core.DataSources(multishells)
@@ -280,7 +280,7 @@ def test_plot_meshes_container_2(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
     ds = core.DataSources(multishells)
@@ -303,7 +303,7 @@ def test_plot_meshes_container_only(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     meshes_cont.plot()
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -313,7 +313,7 @@ def test_plotter_add_mesh(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
     for i in range(len(meshes_cont) - 10):
