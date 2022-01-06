@@ -54,14 +54,11 @@ class MeshesContainer(Collection):
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.multishells_rst)
         >>> mesh = model.metadata.meshed_region
-        >>> split_mesh_op = dpf.Operator("split_mesh")
-        >>> split_mesh_op.connect(7, mesh)
-        >>> split_mesh_op.connect(13, "mat")
-        >>> meshes_cont = split_mesh_op.outputs.mesh_controller()
-        >>> disp_op = dpf.Operator("U")
-        >>> disp_op.connect(7, meshes_cont)
-        >>> ds = dpf.DataSources(examples.multishells_rst)
-        >>> disp_op.connect(4, ds)
+        >>> split_mesh_op = dpf.operators.mesh.split_mesh(mesh = mesh, property = "mat")
+        >>> meshes_cont = split_mesh_op.eval()
+        >>> disp_op = dpf.operators.result.displacement(
+        ...     data_sources = dpf.DataSources(examples.multishells_rst),
+        ...     mesh = meshes_cont)
         >>> disp_fc = disp_op.outputs.fields_container()
         >>> meshes_cont.plot(disp_fc)
 
