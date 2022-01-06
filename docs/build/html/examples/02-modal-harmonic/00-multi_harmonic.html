@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Multi-Harmonic Response Example &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Multi-Harmonic Response Example &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Modal Cyclic symmetry Example" href="01-modal_cyclic.html" />
-    <link rel="prev" title="Go Easily over Times Transient Analysis" href="../01-static-transient/01-transient_easy_time_scoping.html" />
+    <link rel="prev" title="Choose a Time Scoping for a Transient Analysis" href="../01-static-transient/01-transient_easy_time_scoping.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -443,13 +471,12 @@ each rpm has several frequencies.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
-DPF Result Info
-  Analysis: harmonic
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    BFE Temperature :element structural nodal temperatures
+Harmonic analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  structural_temperature: ElementalNodal Temperature
 ------------------------------
 DPF  Meshed Region:
   88 nodes
@@ -1466,7 +1493,7 @@ Cumulative     Frequency (Hz) LoadStep       Substep        RPM
 </div>
 <p>Read the analysis domain support</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of solution sets&#39;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">n_sets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of solution sets&quot;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">n_sets</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -1481,7 +1508,7 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a total displacement operator and set its time scoping to</span>
 <span class="c1"># the entire time freq support and its nodes scoping into a user defined nodes.</span>
 <span class="n">disp_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">raw_displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
-<span class="n">time_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">n_sets</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">time_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">n_sets</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># define nodal scoping</span>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
@@ -1515,8 +1542,8 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 </pre></div>
 </div>
 <p>Plot the minimum and maximum displacements over time</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field1</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Field 1&#39;</span><span class="p">)</span>
-<span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field2</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Field 2&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field1</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Field 1&quot;</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field2</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Field 2&quot;</span><span class="p">)</span>
 <span class="n">pyplot</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency (Hz)&quot;</span><span class="p">)</span>
 <span class="n">pyplot</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
 <span class="n">pyplot</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -1524,7 +1551,7 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 </pre></div>
 </div>
 <img alt="00 multi harmonic" class="sphx-glr-single-img" src="../../_images/sphx_glr_00-multi_harmonic_001.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.746 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.807 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-00-multi-harmonic-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/706507128639cba5b2223bd939ceeeb2/00-multi_harmonic.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-multi_harmonic.py</span></code></a></p>
@@ -1540,13 +1567,6 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="../01-static-transient/01-transient_easy_time_scoping.html" title="previous page">Go Easily over Times Transient Analysis</a>
-    <a class='right-next' id="next-link" href="01-modal_cyclic.html" title="next page">Modal Cyclic symmetry Example</a>
-
-              </div>
-              
           </main>
           
 
@@ -1560,7 +1580,7 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

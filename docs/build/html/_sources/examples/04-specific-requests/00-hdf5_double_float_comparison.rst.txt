@@ -22,14 +22,14 @@
 
 Hdf5 export and compare precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to use hdf5 format to export and 
-make a comparison between simple/double precision. 
+This example shows how to use hdf5 format to export and
+make a comparison between simple/double precision.
 
 .. GENERATED FROM PYTHON SOURCE LINES 12-13
 
 Import dpf module and its examples files, and create a temporary directory
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-22
+.. GENERATED FROM PYTHON SOURCE LINES 13-23
 
 .. code-block:: default
 
@@ -40,6 +40,7 @@ Import dpf module and its examples files, and create a temporary directory
     import os
 
     import tempfile
+
     tmpdir = tempfile.mkdtemp()
 
 
@@ -49,11 +50,11 @@ Import dpf module and its examples files, and create a temporary directory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 Create the model and get stresses, displacements and mesh.
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-32
+.. GENERATED FROM PYTHON SOURCE LINES 25-33
 
 .. code-block:: default
 
@@ -72,11 +73,11 @@ Create the model and get stresses, displacements and mesh.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 34-35
 
-Create the hdf5 export operator. Hdf5 module should already be loaded. 
+Create the hdf5 export operator. Hdf5 module should already be loaded.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-38
+.. GENERATED FROM PYTHON SOURCE LINES 35-39
 
 .. code-block:: default
 
@@ -107,17 +108,17 @@ Create the hdf5 export operator. Hdf5 module should already be loaded.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
-Connect the correct time scoping to the results operators (stress 
+Connect the correct time scoping to the results operators (stress
 and displacement).
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-48
+.. GENERATED FROM PYTHON SOURCE LINES 42-49
 
 .. code-block:: default
 
 
-    timeIds = list(range(1, model.metadata.time_freq_support.n_sets+1))
+    timeIds = list(range(1, model.metadata.time_freq_support.n_sets + 1))
     timeIds
 
     stress.inputs.time_scoping.connect(timeIds)
@@ -130,11 +131,11 @@ and displacement).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
-Connect inputs of the hdf5 export operator. 
+Connect inputs of the hdf5 export operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-55
+.. GENERATED FROM PYTHON SOURCE LINES 51-56
 
 .. code-block:: default
 
@@ -150,16 +151,20 @@ Connect inputs of the hdf5 export operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 Export with simple precision
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-61
+.. GENERATED FROM PYTHON SOURCE LINES 58-66
 
 .. code-block:: default
 
 
-    h5op.inputs.file_path.connect(os.path.join(tmpdir,'dpf_float.h5'))
+    directory = "c:/temp/"
+    if os.name == "posix":
+        directory = "/tmp/"
+
+    h5op.inputs.file_path.connect(os.path.join(tmpdir, directory, "dpf_float.h5"))
     h5op.run()
 
 
@@ -169,17 +174,17 @@ Export with simple precision
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
 Export with simple precision
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-68
+.. GENERATED FROM PYTHON SOURCE LINES 68-73
 
 .. code-block:: default
 
 
     h5op.inputs.export_floats.connect(False)
-    h5op.inputs.file_path.connect(os.path.join(tmpdir,'dpf_double.h5'))
+    h5op.inputs.file_path.connect(os.path.join(tmpdir, directory, "dpf_double.h5"))
     h5op.run()
 
 
@@ -189,15 +194,21 @@ Export with simple precision
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 Comparison
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-70
+.. GENERATED FROM PYTHON SOURCE LINES 75-81
 
 .. code-block:: default
 
-    print(f"size with float precision: {os.stat(os.path.join(tmpdir,'dpf_float.h5')).st_size} \n size with double precision: {os.stat(os.path.join(tmpdir,'dpf_double.h5')).st_size}")
+    float_precision = os.stat(os.path.join(tmpdir, directory, "dpf_float.h5")).st_size
+    double_precision = os.stat(os.path.join(tmpdir, directory, "dpf_double.h5")).st_size
+    print(
+        f"size with float precision: {float_precision}\n"
+        f"size with double precision: {double_precision}"
+    )
+
 
 
 
@@ -207,8 +218,8 @@ Comparison
 
  .. code-block:: none
 
-    size with float precision: 6703264 
-     size with double precision: 13112464
+    size with float precision: 6703264
+    size with double precision: 13112464
 
 
 
@@ -216,7 +227,7 @@ Comparison
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.697 seconds)
+   **Total running time of the script:** ( 0 minutes  0.638 seconds)
 
 
 .. _sphx_glr_download_examples_04-specific-requests_00-hdf5_double_float_comparison.py:

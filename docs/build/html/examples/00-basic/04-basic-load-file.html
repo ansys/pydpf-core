@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Write/load and upload/download a result file &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Write/Load and Upload/Download a Result File &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -38,8 +38,8 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Bring Field’s data locally to improve performances" href="05-use_local_data.html" />
-    <link rel="prev" title="Create your own entities to use dpf’s operators" href="03-create_entities.html" />
+    <link rel="next" title="Bring a Field’s Data Locally to Improve Performance" href="05-use_local_data.html" />
+    <link rel="prev" title="Create Your Own Entities Use DPF Operators" href="03-create_entities.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -383,37 +411,37 @@
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-the-result">
-   Get the result
+  <a class="reference internal nav-link" href="#get-and-plot-the-fields-container-for-the-result">
+   Get and Plot the Fields Container for the Result
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#export-result">
-   Export result
+   Export Result
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#upload-csv-result-file">
-   Upload .csv result file
+   Upload CSV Result File
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#download-csv-result-file">
-   Download .csv result file
+   Download CSV Result File
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-csv-result-file-as-operators-input">
-   Load .csv result file as operators input
+  <a class="reference internal nav-link" href="#load-csv-result-file-as-operator-input">
+   Load CSV Result File as Operator Input
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#make-operations-over-the-imported-fields-container">
-   Make operations over the imported fields container
+   Make Operations Over the Imported Fields Container
   </a>
  </li>
 </ul>
@@ -443,15 +471,12 @@
 to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="write-load-and-upload-download-a-result-file">
-<span id="ref-basic-load-file-example"></span><span id="sphx-glr-examples-00-basic-04-basic-load-file-py"></span><h1>Write/load and upload/download a result file<a class="headerlink" href="#write-load-and-upload-download-a-result-file" title="Permalink to this headline">¶</a></h1>
-<p>ansys.dpf.core module is able to upload files to
-the server machine, and download files from there.</p>
-<p>This example shows how to write and upload files
-on the server machine, then how to download it back
-on the cient side.</p>
-<p>The result fields container will be exported under
-.csv format.</p>
-<p>Let’s first load a <code class="docutils literal notranslate"><span class="pre">Model</span></code> from the <code class="docutils literal notranslate"><span class="pre">Examples</span></code> provided by
+<span id="ref-basic-load-file-example"></span><span id="sphx-glr-examples-00-basic-04-basic-load-file-py"></span><h1>Write/Load and Upload/Download a Result File<a class="headerlink" href="#write-load-and-upload-download-a-result-file" title="Permalink to this headline">¶</a></h1>
+<p>DPF-Core can upload files to and download files from the server machine.</p>
+<p>This example shows how to write and upload files on the server machine and then
+download them back on the client side. The resulting fields container is exported
+in CSV format.</p>
+<p>Load a model from the DPF-Core examples:
 <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
@@ -461,28 +486,22 @@ on the cient side.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="get-the-result">
-<h1>Get the result<a class="headerlink" href="#get-the-result" title="Permalink to this headline">¶</a></h1>
-<p>Get the result fields container and plot (in order to compare later)</p>
+<div class="section" id="get-and-plot-the-fields-container-for-the-result">
+<h1>Get and Plot the Fields Container for the Result<a class="headerlink" href="#get-and-plot-the-fields-container-for-the-result" title="Permalink to this headline">¶</a></h1>
+<p>Get the fields container for the result and plot it so you can compare it later:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">displacement_operator</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 <span class="n">fc_out</span> <span class="o">=</span> <span class="n">displacement_operator</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_out</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="04 basic load file" class="sphx-glr-single-img" src="../../_images/sphx_glr_04-basic-load-file_001.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(4.199214280684376, 5.199214280684376, 4.199214280684376),
- (0.5, 1.5, 0.5),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
 </div>
 <div class="section" id="export-result">
-<h1>Export result<a class="headerlink" href="#export-result" title="Permalink to this headline">¶</a></h1>
-<p>Let’s get the result fields container and export
-it using .csv format.</p>
+<h1>Export Result<a class="headerlink" href="#export-result" title="Permalink to this headline">¶</a></h1>
+<p>Get the fields container for the result and export it in the CSV format:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">simple_bar_fc.csv&#39;</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">simple_bar_fc.csv&quot;</span>
 
 <span class="n">export_csv_operator</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">field_to_csv</span><span class="p">()</span>
 <span class="n">export_csv_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field_or_fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fc_out</span><span class="p">)</span>
@@ -492,53 +511,50 @@ it using .csv format.</p>
 </div>
 </div>
 <div class="section" id="upload-csv-result-file">
-<h1>Upload .csv result file<a class="headerlink" href="#upload-csv-result-file" title="Permalink to this headline">¶</a></h1>
-<p>Let’s upload the simple_bar_fc.csv file
-on the server side. The upload_file_in_tmp_folder()
-method will be used here, because we assume we don’t
-know the server machine architecture. However, the
-upload_file() method can be used the same way will a
-know “server file path”.</p>
+<h1>Upload CSV Result File<a class="headerlink" href="#upload-csv-result-file" title="Permalink to this headline">¶</a></h1>
+<p>Upload the file <code class="docutils literal notranslate"><span class="pre">simple_bar_fc.csv</span></code> on the server side.
+Here, <code class="xref py py-func docutils literal notranslate"><span class="pre">upload_file_in_tmp_folder()</span></code> is used because
+it is assumed that the server machine architecture is unknown.
+However, when the server file path is known, <code class="xref py py-func docutils literal notranslate"><span class="pre">upload_file()</span></code>
+can be used.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">server_file_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">upload_file_in_tmp_folder</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">server_file_path</span><span class="p">)</span>
 
-<span class="c1"># remove file to avoid polluting</span>
+<span class="c1"># Remove file to avoid polluting.</span>
 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\lparadis\AppData\Local\Temp\dataProcessingTemp25612\simple_bar_fc.csv
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\lparadis\AppData\Local\Temp\dataProcessingTemp57740\simple_bar_fc.csv
 </pre></div>
 </div>
 </div>
 <div class="section" id="download-csv-result-file">
-<h1>Download .csv result file<a class="headerlink" href="#download-csv-result-file" title="Permalink to this headline">¶</a></h1>
-<p>Let’s now download the simple_bar_fc.csv file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">downloaded_client_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">simple_bar_fc_downloaded.csv&#39;</span>
+<h1>Download CSV Result File<a class="headerlink" href="#download-csv-result-file" title="Permalink to this headline">¶</a></h1>
+<p>Download the file <code class="docutils literal notranslate"><span class="pre">simple_bar_fc.csv</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">downloaded_client_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">simple_bar_fc_downloaded.csv&quot;</span>
 <span class="n">core</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">server_file_path</span><span class="p">,</span> <span class="n">downloaded_client_file_path</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="load-csv-result-file-as-operators-input">
-<h1>Load .csv result file as operators input<a class="headerlink" href="#load-csv-result-file-as-operators-input" title="Permalink to this headline">¶</a></h1>
-<p>Let’s now load the fields container contained in
-the .csv file.</p>
+<div class="section" id="load-csv-result-file-as-operator-input">
+<h1>Load CSV Result File as Operator Input<a class="headerlink" href="#load-csv-result-file-as-operator-input" title="Permalink to this headline">¶</a></h1>
+<p>Load the fields container contained in the CSV file as an operator input:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">downloaded_client_file_path</span><span class="p">)</span>
 <span class="n">import_csv_operator</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">csv_to_field</span><span class="p">()</span>
 <span class="n">import_csv_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
 <span class="n">downloaded_fc_out</span> <span class="o">=</span> <span class="n">import_csv_operator</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">downloaded_fc_out</span><span class="p">)</span>
 
-<span class="c1"># remove file to avoid polluting</span>
+<span class="c1"># Remove file to avoid polluting.</span>
 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">downloaded_client_file_path</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="04 basic load file" class="sphx-glr-single-img" src="../../_images/sphx_glr_04-basic-load-file_002.png" />
 </div>
 <div class="section" id="make-operations-over-the-imported-fields-container">
-<h1>Make operations over the imported fields container<a class="headerlink" href="#make-operations-over-the-imported-fields-container" title="Permalink to this headline">¶</a></h1>
-<p>This fields container can be used as it was introduced
-in the basics examples.</p>
+<h1>Make Operations Over the Imported Fields Container<a class="headerlink" href="#make-operations-over-the-imported-fields-container" title="Permalink to this headline">¶</a></h1>
+<p>Use this fields container:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">min_max_op</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
 <span class="n">min_max_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">downloaded_fc_out</span><span class="p">)</span>
 <span class="n">min_field</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">()</span>
@@ -549,7 +565,7 @@ in the basics examples.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>array([[-8.202171e-07, -6.265107e-06, -2.444680e-05]])
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.383 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.793 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-04-basic-load-file-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e2a3f240367621e4d45a2f1dfebde925/04-basic-load-file.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">04-basic-load-file.py</span></code></a></p>
@@ -565,13 +581,6 @@ in the basics examples.</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="03-create_entities.html" title="previous page">Create your own entities to use dpf’s operators</a>
-    <a class='right-next' id="next-link" href="05-use_local_data.html" title="next page">Bring Field’s data locally to improve performances</a>
-
-              </div>
-              
           </main>
           
 
@@ -585,7 +594,7 @@ in the basics examples.</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

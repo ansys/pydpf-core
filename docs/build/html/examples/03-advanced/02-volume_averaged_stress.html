@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Average Elemental Stress on a given volume &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Average Elemental Stress on a given volume &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -471,7 +499,7 @@ total volume</p>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">scoping</span>
 <span class="n">nodes_ids</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">ids</span>
 <span class="n">nodes_ids_to_compute</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">400</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">):</span>
     <span class="n">nodes_ids_to_compute</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes_ids</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 <span class="n">elements</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">scoping</span>
 <span class="n">elements_ids</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="n">ids</span>
@@ -493,35 +521,40 @@ total volume</p>
 <span class="n">nodal_connectivity_field</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">nodal_connectivity_field</span>
 
 <span class="n">node_index_to_el_ids</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">node_index_to_found_volume</span> <span class="o">=</span><span class="p">{}</span>
+<span class="n">node_index_to_found_volume</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="c1"># using the with statement with as_local_field allows to bring the server&#39;s</span>
 <span class="c1"># data locally and to work only on the local process before sending the data</span>
 <span class="c1"># updates to the server as the end of the with statement</span>
 <span class="c1"># the performances are a lot better using this syntax</span>
-<span class="k">with</span> <span class="n">connectivity_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">connectivity</span> <span class="p">:</span>
+<span class="k">with</span> <span class="n">connectivity_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">connectivity</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">nodal_connectivity_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">nodal_connectivity</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">vol_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">vol</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes_ids_to_compute</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes_ids_to_compute</span><span class="p">):</span>
 
                 <span class="n">current_node_indexes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">volume</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="c1"># Loop through recursively selecting elements attached to nodes until specified volume is reached</span>
-                <span class="k">while</span> <span class="p">(</span><span class="n">volume_check</span> <span class="o">&gt;</span> <span class="n">volume</span><span class="p">):</span>
+                <span class="c1"># Loop through recursively selecting elements attached</span>
+                <span class="c1"># to nodes until specified volume is reached</span>
+                <span class="k">while</span> <span class="n">volume_check</span> <span class="o">&gt;</span> <span class="n">volume</span><span class="p">:</span>
                     <span class="n">volume</span> <span class="o">=</span> <span class="mf">0.0</span>
                     <span class="n">elements_indexes</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="c1"># get elements attached to nodes</span>
                     <span class="k">for</span> <span class="n">current_node_index</span> <span class="ow">in</span> <span class="n">current_node_indexes</span><span class="p">:</span>
-                        <span class="n">elements_indexes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nodal_connectivity</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+                        <span class="n">elements_indexes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                            <span class="n">nodal_connectivity</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                        <span class="p">)</span>
 
-
-                    <span class="n">current_node_indexes</span> <span class="o">=</span><span class="p">[]</span>
+                    <span class="n">current_node_indexes</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">elements_indexes</span><span class="p">:</span>
-                        <span class="c1">#sum up the volume on those elements</span>
+                        <span class="c1"># sum up the volume on those elements</span>
                         <span class="n">volume</span> <span class="o">+=</span> <span class="n">vol</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="n">index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-                        <span class="c1">#get all nodes of the current elements for next iteration</span>
+                        <span class="c1"># get all nodes of the current elements for next iteration</span>
                         <span class="n">current_node_indexes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
-                <span class="n">node_index_to_el_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">elements_ids</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">elements_indexes</span><span class="p">],</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="p">()</span><span class="o">.</span><span class="n">elemental</span><span class="p">)</span>
+                <span class="n">node_index_to_el_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span>
+                    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="n">elements_ids</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">elements_indexes</span><span class="p">],</span>
+                    <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="p">()</span><span class="o">.</span><span class="n">elemental</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="n">node_index_to_found_volume</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">volume</span>
 </pre></div>
 </div>
@@ -539,28 +572,31 @@ divide this sum by the total volume on those elements</p>
 <span class="n">values_to_sum_field</span> <span class="o">=</span> <span class="n">eqv</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># sum up the seqv by list of elements and create a Field</span>
-<span class="n">seqvsum</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="n">seqvsum</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="n">dataseqvsum</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">volsum</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
-<span class="n">datavolsum</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">volsum</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="n">datavolsum</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">with</span> <span class="n">values_to_sum_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">values_to_sum</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">vol_field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">vol</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">node_index_to_el_ids</span><span class="p">:</span>
             <span class="n">ssum</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">node_index_to_el_ids</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-                <span class="n">ssum</span><span class="o">+=</span> <span class="n">values_to_sum</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">vol</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">ssum</span> <span class="o">+=</span> <span class="p">(</span>
+                    <span class="n">values_to_sum</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="o">*</span> <span class="n">vol</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
             <span class="n">dataseqvsum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ssum</span><span class="p">)</span>
             <span class="n">datavolsum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_index_to_found_volume</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
 <span class="n">seqvsum</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataseqvsum</span>
-<span class="n">seqvsum</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span><span class="n">nodes_ids_to_compute</span>
+<span class="n">seqvsum</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">nodes_ids_to_compute</span>
 
-<span class="n">volsum</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">datavolsum</span>
-<span class="n">volsum</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span><span class="n">nodes_ids_to_compute</span>
+<span class="n">volsum</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">datavolsum</span>
+<span class="n">volsum</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">nodes_ids_to_compute</span>
 
 <span class="c1"># use component wise divide to averaged the stress by the volume</span>
-<span class="n">divide</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">component_wise_divide</span><span class="p">(</span><span class="n">seqvsum</span><span class="p">,</span><span class="n">volsum</span><span class="p">)</span>
+<span class="n">divide</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">component_wise_divide</span><span class="p">(</span><span class="n">seqvsum</span><span class="p">,</span> <span class="n">volsum</span><span class="p">)</span>
 <span class="n">divide</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -577,39 +613,31 @@ divide this sum by the total volume on those elements</p>
 <li><img alt="02 volume averaged stress" class="sphx-glr-multi-img" src="../../_images/sphx_glr_02-volume_averaged_stress_002.png" />
 </li>
 </ul>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.01577507996330582, 0.01577507996330582, 0.01587507996330582),
- (0.0, 0.0, 0.0001),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
 </div>
 <div class="section" id="use-the-operator-instead">
 <h1>Use the Operator instead<a class="headerlink" href="#use-the-operator-instead" title="Permalink to this headline">¶</a></h1>
 <p>An operator with the same algorithm has been implemented</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s_fc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
-<span class="n">single_field_vol_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">([</span><span class="n">vol_field</span><span class="p">])</span>
+<span class="n">single_field_vol_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">vol_field</span><span class="p">]</span>
+<span class="p">)</span>
 
-<span class="n">single_field_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">([</span><span class="n">values_to_sum_field</span><span class="p">])</span>
+<span class="n">single_field_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_fields_container</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">values_to_sum_field</span><span class="p">]</span>
+<span class="p">)</span>
 
 <span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;volume_stress&quot;</span><span class="p">)</span>
 <span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
 <span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">stress_fields</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">single_field_fc</span><span class="p">)</span>
 <span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">volume_fields</span><span class="p">(</span><span class="n">single_field_vol_fc</span><span class="p">)</span>
-<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">volume_check</span><span class="o">*</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">volume_check</span> <span class="o">*</span> <span class="mf">10.0</span><span class="p">)</span>
 
-<span class="n">out</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="02 volume averaged stress" class="sphx-glr-single-img" src="../../_images/sphx_glr_02-volume_averaged_stress_003.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.01577507996330582, 0.01577507996330582, 0.01587507996330582),
- (0.0, 0.0, 0.0001),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  15.177 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.928 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-02-volume-averaged-stress-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/388fe850b3668978aa3b5c880754eed3/02-volume_averaged_stress.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-volume_averaged_stress.py</span></code></a></p>
@@ -625,13 +653,6 @@ divide this sum by the total volume on those elements</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="01-solve_harmonic_problem.html" title="previous page">Solve Harmonic Problem (with damping) Using Matrix Inverse</a>
-    <a class='right-next' id="next-link" href="03-exchange_data_between_servers.html" title="next page">Exchange Data Between Servers</a>
-
-              </div>
-              
           </main>
           
 
@@ -645,7 +666,7 @@ divide this sum by the total volume on those elements</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

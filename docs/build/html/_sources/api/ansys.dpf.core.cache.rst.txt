@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.cache
+   :inherited-members:

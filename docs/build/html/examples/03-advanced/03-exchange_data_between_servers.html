@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exchange Data Between Servers &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Exchange Data Between Servers &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -463,14 +491,14 @@ the network via: connect_to_server</p>
 <span class="c1"># by the module and used by default</span>
 <span class="c1"># Here, we choose the 1st server to be the default</span>
 <span class="n">server1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">server2</span> <span class="o">=</span>  <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">server2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Check that the 2 servers are on different ports</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">server1</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">server2</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>50052 50053
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>50053 50054
 </pre></div>
 </div>
 </div>
@@ -500,13 +528,13 @@ This file upload is useless in our case, since the 2 servers are locals</p>
 <span class="n">coordinates</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">rotate_in_cylindrical_cs_fc</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
 
 <span class="c1"># Create the cartesian coordinate cs</span>
-<span class="n">cs</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
-<span class="n">cs</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_scalar_field</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
+<span class="n">cs</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
 <span class="n">coordinates</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coordinate_system</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
 
 <span class="c1"># choose the radial component to plot</span>
-<span class="n">comp</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -517,9 +545,9 @@ This file upload is useless in our case, since the 2 servers are locals</p>
 
 
 <span class="n">mesh_copy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
-<span class="c1">#give a mesh to the field</span>
-<span class="n">fc_copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh_copy</span>
-<span class="n">fc_copy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh_copy</span>
+<span class="c1"># give a mesh to the field</span>
+<span class="n">fc_copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span> <span class="o">=</span> <span class="n">mesh_copy</span>
+<span class="n">fc_copy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span> <span class="o">=</span> <span class="n">mesh_copy</span>
 
 <span class="n">coordinates</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">fc_copy</span><span class="p">)</span>
 </pre></div>
@@ -529,11 +557,11 @@ This file upload is useless in our case, since the 2 servers are locals</p>
 <h1>Plot the output<a class="headerlink" href="#plot-the-output" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
-<span class="c1">#real part</span>
-<span class="n">mesh_copy</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;complex&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}))</span>
+<span class="c1"># real part</span>
+<span class="n">mesh_copy</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;complex&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}))</span>
 
-<span class="c1">#imaginary part</span>
-<span class="n">mesh_copy</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;complex&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}))</span>
+<span class="c1"># imaginary part</span>
+<span class="n">mesh_copy</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;complex&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}))</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
@@ -542,13 +570,7 @@ This file upload is useless in our case, since the 2 servers are locals</p>
 <li><img alt="03 exchange data between servers" class="sphx-glr-multi-img" src="../../_images/sphx_glr_03-exchange_data_between_servers_002.png" />
 </li>
 </ul>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.01577507996330582, 0.01577507996330582, 0.01587507996330582),
- (0.0, 0.0, 0.0001),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.292 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.389 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-03-exchange-data-between-servers-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a9a7452a6e24e8dbb7d55f9f7eb6adcf/03-exchange_data_between_servers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-exchange_data_between_servers.py</span></code></a></p>
@@ -564,13 +586,6 @@ This file upload is useless in our case, since the 2 servers are locals</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="02-volume_averaged_stress.html" title="previous page">Average Elemental Stress on a given volume</a>
-    <a class='right-next' id="next-link" href="04-extrapolation_stress_3d.html" title="next page">Extrapolation Method for stress result of 3D-element</a>
-
-              </div>
-              
           </main>
           
 
@@ -584,7 +599,7 @@ This file upload is useless in our case, since the 2 servers are locals</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

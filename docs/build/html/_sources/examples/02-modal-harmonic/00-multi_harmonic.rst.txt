@@ -75,13 +75,12 @@ each rpm has several frequencies.
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: harmonic 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        BFE Temperature :element structural nodal temperatures 
+    Harmonic analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       88 nodes 
@@ -1108,7 +1107,7 @@ Read the analysis domain support
 .. code-block:: default
 
     tf = model.metadata.time_freq_support
-    print('Number of solution sets', tf.n_sets)
+    print("Number of solution sets", tf.n_sets)
 
 
 
@@ -1141,7 +1140,7 @@ a selected nodes and a set of EOs (multiple engine orders).
     # Create a total displacement operator and set its time scoping to
     # the entire time freq support and its nodes scoping into a user defined nodes.
     disp_op = ops.result.raw_displacement(data_sources=model)
-    time_ids = list(range(1, model.metadata.time_freq_support.n_sets+1))
+    time_ids = list(range(1, model.metadata.time_freq_support.n_sets + 1))
 
     # define nodal scoping
     nodes = dpf.Scoping()
@@ -1189,8 +1188,8 @@ Plot the minimum and maximum displacements over time
 .. code-block:: default
 
 
-    pyplot.plot(field1.data, 'r', label='Field 1')
-    pyplot.plot(field2.data, 'b', label="Field 2")
+    pyplot.plot(field1.data, "r", label="Field 1")
+    pyplot.plot(field2.data, "b", label="Field 2")
     pyplot.xlabel("Frequency (Hz)")
     pyplot.ylabel("Displacement (m)")
     pyplot.legend()
@@ -1209,7 +1208,7 @@ Plot the minimum and maximum displacements over time
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.746 seconds)
+   **Total running time of the script:** ( 0 minutes  0.807 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_00-multi_harmonic.py:

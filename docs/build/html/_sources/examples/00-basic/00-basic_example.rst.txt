@@ -22,14 +22,14 @@
 
 Basic DPF-Core Usage
 ~~~~~~~~~~~~~~~~~~~~
-This example shows how to open an example result file and do some
-basic post-processing.
+This example shows how to open a result file and do some
+basic postprocessing.
 
-If you have ANSYS 2021R1 installed, getting running DPF is quite easy
-as `ansys.dpf.core` takes care of launching all the services required
-to start post-processing ANSYS files.
+If you have Ansys 2021 R1 installed, starting DPF is quite easy
+as DPF-Core takes care of launching all the services that
+are required for postprocessing Ansys files.
 
-First, import the DPF-Core module as `dpf_core` and also import the
+First, import the DPF-Core module as ``dpf_core`` and import the
 included examples file.
 
 .. GENERATED FROM PYTHON SOURCE LINES 18-22
@@ -47,25 +47,26 @@ included examples file.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-38
+.. GENERATED FROM PYTHON SOURCE LINES 23-39
 
-Next, open an example and then print out the ``model`` object.  The
+Next, open an example and print out the ``model`` object.  The
 ``Model`` class helps to organize access methods for the result by
 keeping track of the operators and data sources used by the result
 file.
 
 Printing the model displays:
+
 - Analysis type
 - Available results
 - Size of the mesh
 - Number of results
 
-Also, note that the first time you create a DPF object, Python will
-automatically attempt to start the server in the background.  If you
-wish to connect to an existing server (either local or remote), use
-``dpf.connect_to_server()``
+Also, note that the first time you create a DPF object, Python
+automatically attempts to start the server in the background.  If you
+want to connect to an existing server (either local or remote), use
+:func:`dpf.connect_to_server`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-43
+.. GENERATED FROM PYTHON SOURCE LINES 39-44
 
 .. code-block:: default
 
@@ -86,21 +87,20 @@ wish to connect to an existing server (either local or remote), use
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        ENF Element nodal Forces :element nodal forces 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       3751 nodes 
@@ -117,15 +117,15 @@ wish to connect to an existing server (either local or remote), use
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-49
+.. GENERATED FROM PYTHON SOURCE LINES 45-50
 
 Model Metadata
 ~~~~~~~~~~~~~~
 Specific metadata can be extracted from the model by referencing the
-``metadata`` property of the model.  For example, just the
-result_info can be printed with:
+model's ``metadata`` property.  For example, to print only the
+``result_info``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-54
+.. GENERATED FROM PYTHON SOURCE LINES 50-55
 
 .. code-block:: default
 
@@ -144,31 +144,30 @@ result_info can be printed with:
 
  .. code-block:: none
 
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        ENF Element nodal Forces :element nodal forces 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-56
+.. GENERATED FROM PYTHON SOURCE LINES 56-57
 
-The mesh region can be printed with
+To print the mesh region:
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-60
+.. GENERATED FROM PYTHON SOURCE LINES 57-61
 
 .. code-block:: default
 
@@ -195,11 +194,11 @@ The mesh region can be printed with
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 62-63
 
-and the time or frequency of the results can be printed with:
+To print the time or frequency of the results:
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-66
+.. GENERATED FROM PYTHON SOURCE LINES 63-67
 
 .. code-block:: default
 
@@ -226,20 +225,22 @@ and the time or frequency of the results can be printed with:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-77
+.. GENERATED FROM PYTHON SOURCE LINES 68-80
 
 Extracting Displacement Results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 All results of the model can be accessed through the ``results``
-property, which returns the ``Results`` class.  This class contains
-the DPF result operators available to a specific result file, which
-are listed when printing the object with ``print(results)``
+property, which returns the :class:`ansys.dpf.core.results.Results`
+class. This class contains the DPF result operators available to a
+specific result file, which are listed when printing the object with
+``print(results)``.
 
-Here, we connect the ``'U'`` operator with the data_sources, which
+Here, the ``'U'`` operator is connected with ``data_sources``, which
 takes place automatically when running ``results.displacement()``.
-By default, this is connected to the first result set, which for this static result is the only result.
+By default, the ``'U'`` operator is connected to the first result set,
+which for this static result is the only result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-85
+.. GENERATED FROM PYTHON SOURCE LINES 80-88
 
 .. code-block:: default
 
@@ -247,7 +248,7 @@ By default, this is connected to the first result set, which for this static res
     displacements = results.displacement()
     fields = displacements.outputs.fields_container()
 
-    # finally, extract the data of the displacement field
+    # Finally, extract the data of the displacement field:
     disp = fields[0].data
     disp
 
@@ -272,7 +273,7 @@ By default, this is connected to the first result set, which for this static res
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-87
+.. GENERATED FROM PYTHON SOURCE LINES 89-90
 
 .. code-block:: default
 
@@ -285,23 +286,13 @@ By default, this is connected to the first result set, which for this static res
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(4.199214280684376, 5.199214280684376, 4.199214280684376),
-     (0.5, 1.5, 0.5),
-     (0.0, 0.0, 1.0)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.761 seconds)
+   **Total running time of the script:** ( 0 minutes  1.962 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_00-basic_example.py:

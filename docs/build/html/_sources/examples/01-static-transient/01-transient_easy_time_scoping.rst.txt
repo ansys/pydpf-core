@@ -20,16 +20,15 @@
 
 .. _ref_transient_easy_time_scoping:
 
-Go Easily over Times Transient Analysis
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to use model's results to easily
-choose time scoping
+Choose a Time Scoping for a Transient Analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to use a model's results to easily
+choose a time scoping.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-18
+.. GENERATED FROM PYTHON SOURCE LINES 10-17
 
 .. code-block:: default
 
-    import numpy as np
     import matplotlib.pyplot as plt
 
     from ansys.dpf import core as dpf
@@ -44,13 +43,12 @@ choose time scoping
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-22
+.. GENERATED FROM PYTHON SOURCE LINES 18-20
 
-Create the model and display the state of the result.  Note
-that this transient result file contains several individual results,
-each at a different times.
+Create the model and display the state of the result. This transient result
+file contains several individual results, each at a different times.
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-28
+.. GENERATED FROM PYTHON SOURCE LINES 20-26
 
 .. code-block:: default
 
@@ -72,24 +70,23 @@ each at a different times.
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: unknown 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        V Velocity :nodal velocities 
-        A Acceleration :nodal accelerations 
-        RF Force :nodal reaction forces 
-        S Stress :element nodal component stresses 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        EPEL Strain :element nodal component elastic strains 
+    Transient analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  velocity: Nodal Velocity      
+         -  acceleration: Nodal Acceleration
+         -  reaction_force: Nodal Force   
+         -  stress: ElementalNodal Stress 
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  elastic_strain: ElementalNodal Strain
     ------------------------------
     DPF  Meshed Region: 
       393 nodes 
@@ -125,22 +122,22 @@ each at a different times.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-33
+.. GENERATED FROM PYTHON SOURCE LINES 27-31
 
-Obtain Minimum and Maximum Displacements at all times
+Obtain Minimum and Maximum Displacements at All Times
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create a displacement operator and set its time scoping request to
-the entire time freq support.
+the entire time frequency support:
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-43
+.. GENERATED FROM PYTHON SOURCE LINES 31-41
 
 .. code-block:: default
 
     disp = model.results.displacement
     disp_op = disp.on_all_time_freqs()
 
-    # Then chain the displacement operator with norm and min_max operators
-    min_max_op =ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
+    # Chain the displacement operator with norm and min_max operators.
+    min_max_op = ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
 
     min_disp = min_max_op.outputs.field_min()
     max_disp = min_max_op.outputs.field_max()
@@ -164,18 +161,18 @@ the entire time freq support.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
-Plot the minimum and maximum displacements over time
+Plot the minimum and maximum displacements over time:
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-55
+.. GENERATED FROM PYTHON SOURCE LINES 43-53
 
 .. code-block:: default
 
 
     tdata = model.metadata.time_freq_support.time_frequencies.data
-    plt.plot(tdata, max_disp.data, 'r', label='Max')
-    plt.plot(tdata, min_disp.data, 'b', label="Min")
+    plt.plot(tdata, max_disp.data, "r", label="Max")
+    plt.plot(tdata, min_disp.data, "b", label="Min")
     plt.xlabel("Time (s)")
     plt.ylabel("Displacement (m)")
     plt.legend()
@@ -193,21 +190,21 @@ Plot the minimum and maximum displacements over time
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-61
+.. GENERATED FROM PYTHON SOURCE LINES 54-59
 
-Use time extrapolation
+Use Time Extrapolation
 ~~~~~~~~~~~~~~~~~~~~~~~
-A local maximum can be seen on the plot between 0.05 and 0.075 s
+A local maximum can be seen on the plot between 0.05 and 0.075 seconds.
 Displacement will be evaluated every 0.0005s in this range
-to draw a nicer plot on this range
+to draw a nicer plot on this range.
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-66
+.. GENERATED FROM PYTHON SOURCE LINES 59-64
 
 .. code-block:: default
 
 
     offset = 0.0005
-    time_scoping = [0.05+offset*i for i in range(0, int((0.08-0.05)/offset))]
+    time_scoping = [0.05 + offset * i for i in range(0, int((0.08 - 0.05) / offset))]
     print(time_scoping)
 
 
@@ -225,19 +222,19 @@ to draw a nicer plot on this range
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-68
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
-Create a displacement operator and set its time scoping request
+Create a displacement operator and set its time scoping request:
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-78
+.. GENERATED FROM PYTHON SOURCE LINES 66-76
 
 .. code-block:: default
 
     disp = model.results.displacement
     disp_op = disp.on_time_scoping(time_scoping)()
 
-    # Then chain the displacement operator with norm and min_max operators
-    min_max_op =ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
+    # Chain the displacement operator with norm and min_max operators.
+    min_max_op = ops.min_max.min_max_fc(ops.math.norm_fc(disp_op))
 
     min_disp = min_max_op.outputs.field_min()
     max_disp = min_max_op.outputs.field_max()
@@ -267,16 +264,16 @@ Create a displacement operator and set its time scoping request
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 77-78
 
-Plot the minimum and maximum displacements over time
+Plot the minimum and maximum displacements over time:
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-86
+.. GENERATED FROM PYTHON SOURCE LINES 78-84
 
 .. code-block:: default
 
 
-    plt.plot(time_scoping, max_disp.data, 'rx', label='Max')
+    plt.plot(time_scoping, max_disp.data, "rx", label="Max")
     plt.xlabel("Time (s)")
     plt.ylabel("Displacement (m)")
     plt.legend()
@@ -295,7 +292,7 @@ Plot the minimum and maximum displacements over time
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.336 seconds)
+   **Total running time of the script:** ( 0 minutes  0.500 seconds)
 
 
 .. _sphx_glr_download_examples_01-static-transient_01-transient_easy_time_scoping.py:

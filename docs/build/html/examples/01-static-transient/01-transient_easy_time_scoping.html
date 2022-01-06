@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Go Easily over Times Transient Analysis &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Choose a Time Scoping for a Transient Analysis &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -383,17 +411,17 @@
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#obtain-minimum-and-maximum-displacements-at-all-times">
-   Obtain Minimum and Maximum Displacements at all times
+   Obtain Minimum and Maximum Displacements at All Times
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#use-time-extrapolation">
-   Use time extrapolation
+   Use Time Extrapolation
   </a>
  </li>
 </ul>
@@ -422,21 +450,19 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-examples-01-static-transient-01-transient-easy-time-scoping-py"><span class="std std-ref">here</span></a>
 to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="go-easily-over-times-transient-analysis">
-<span id="ref-transient-easy-time-scoping"></span><span id="sphx-glr-examples-01-static-transient-01-transient-easy-time-scoping-py"></span><h1>Go Easily over Times Transient Analysis<a class="headerlink" href="#go-easily-over-times-transient-analysis" title="Permalink to this headline">¶</a></h1>
-<p>This example shows how to use model’s results to easily
-choose time scoping</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="sphx-glr-example-title section" id="choose-a-time-scoping-for-a-transient-analysis">
+<span id="ref-transient-easy-time-scoping"></span><span id="sphx-glr-examples-01-static-transient-01-transient-easy-time-scoping-py"></span><h1>Choose a Time Scoping for a Transient Analysis<a class="headerlink" href="#choose-a-time-scoping-for-a-transient-analysis" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to use a model’s results to easily
+choose a time scoping.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 </pre></div>
 </div>
-<p>Create the model and display the state of the result.  Note
-that this transient result file contains several individual results,
-each at a different times.</p>
+<p>Create the model and display the state of the result. This transient result
+file contains several individual results, each at a different times.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">msup_transient</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -445,24 +471,23 @@ each at a different times.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
-DPF Result Info
-  Analysis: unknown
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    V Velocity :nodal velocities
-    A Acceleration :nodal accelerations
-    RF Force :nodal reaction forces
-    S Stress :element nodal component stresses
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    EPEL Strain :element nodal component elastic strains
+Transient analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  velocity: Nodal Velocity
+     -  acceleration: Nodal Acceleration
+     -  reaction_force: Nodal Force
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  elastic_strain: ElementalNodal Strain
 ------------------------------
 DPF  Meshed Region:
   393 nodes
@@ -497,14 +522,14 @@ Cumulative     Time (s)       LoadStep       Substep
 </div>
 </div>
 <div class="section" id="obtain-minimum-and-maximum-displacements-at-all-times">
-<h1>Obtain Minimum and Maximum Displacements at all times<a class="headerlink" href="#obtain-minimum-and-maximum-displacements-at-all-times" title="Permalink to this headline">¶</a></h1>
+<h1>Obtain Minimum and Maximum Displacements at All Times<a class="headerlink" href="#obtain-minimum-and-maximum-displacements-at-all-times" title="Permalink to this headline">¶</a></h1>
 <p>Create a displacement operator and set its time scoping request to
-the entire time freq support.</p>
+the entire time frequency support:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span>
 <span class="n">disp_op</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="p">()</span>
 
-<span class="c1"># Then chain the displacement operator with norm and min_max operators</span>
-<span class="n">min_max_op</span> <span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
+<span class="c1"># Chain the displacement operator with norm and min_max operators.</span>
+<span class="n">min_max_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
 
 <span class="n">min_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">()</span>
 <span class="n">max_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
@@ -518,10 +543,10 @@ the entire time freq support.</p>
  0.0113754  0.01074555]
 </pre></div>
 </div>
-<p>Plot the minimum and maximum displacements over time</p>
+<p>Plot the minimum and maximum displacements over time:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tdata</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tdata</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Max&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tdata</span><span class="p">,</span> <span class="n">min_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Min&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tdata</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tdata</span><span class="p">,</span> <span class="n">min_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Min&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -531,12 +556,12 @@ the entire time freq support.</p>
 <img alt="01 transient easy time scoping" class="sphx-glr-single-img" src="../../_images/sphx_glr_01-transient_easy_time_scoping_001.png" />
 </div>
 <div class="section" id="use-time-extrapolation">
-<h1>Use time extrapolation<a class="headerlink" href="#use-time-extrapolation" title="Permalink to this headline">¶</a></h1>
-<p>A local maximum can be seen on the plot between 0.05 and 0.075 s
+<h1>Use Time Extrapolation<a class="headerlink" href="#use-time-extrapolation" title="Permalink to this headline">¶</a></h1>
+<p>A local maximum can be seen on the plot between 0.05 and 0.075 seconds.
 Displacement will be evaluated every 0.0005s in this range
-to draw a nicer plot on this range</p>
+to draw a nicer plot on this range.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">offset</span> <span class="o">=</span> <span class="mf">0.0005</span>
-<span class="n">time_scoping</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="o">+</span><span class="n">offset</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="mf">0.08</span><span class="o">-</span><span class="mf">0.05</span><span class="p">)</span><span class="o">/</span><span class="n">offset</span><span class="p">))]</span>
+<span class="n">time_scoping</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="mf">0.08</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">)</span> <span class="o">/</span> <span class="n">offset</span><span class="p">))]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -544,12 +569,12 @@ to draw a nicer plot on this range</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.05, 0.0505, 0.051000000000000004, 0.051500000000000004, 0.052000000000000005, 0.052500000000000005, 0.053000000000000005, 0.053500000000000006, 0.054000000000000006, 0.05450000000000001, 0.055, 0.0555, 0.056, 0.0565, 0.057, 0.0575, 0.058, 0.0585, 0.059000000000000004, 0.059500000000000004, 0.060000000000000005, 0.060500000000000005, 0.061, 0.0615, 0.062, 0.0625, 0.063, 0.0635, 0.064, 0.0645, 0.065, 0.0655, 0.066, 0.0665, 0.067, 0.0675, 0.068, 0.0685, 0.069, 0.0695, 0.07, 0.07050000000000001, 0.07100000000000001, 0.07150000000000001, 0.07200000000000001, 0.07250000000000001, 0.07300000000000001, 0.07350000000000001, 0.07400000000000001, 0.07450000000000001, 0.07500000000000001, 0.07550000000000001, 0.07600000000000001, 0.0765, 0.077, 0.0775, 0.078, 0.0785, 0.079, 0.0795]
 </pre></div>
 </div>
-<p>Create a displacement operator and set its time scoping request</p>
+<p>Create a displacement operator and set its time scoping request:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span>
 <span class="n">disp_op</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">)()</span>
 
-<span class="c1"># Then chain the displacement operator with norm and min_max operators</span>
-<span class="n">min_max_op</span> <span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
+<span class="c1"># Chain the displacement operator with norm and min_max operators.</span>
+<span class="n">min_max_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
 
 <span class="n">min_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">()</span>
 <span class="n">max_disp</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
@@ -569,8 +594,8 @@ to draw a nicer plot on this range</p>
  0.01051868 0.01045913 0.01039958 0.01034003 0.01028049 0.01022094]
 </pre></div>
 </div>
-<p>Plot the minimum and maximum displacements over time</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Max&#39;</span><span class="p">)</span>
+<p>Plot the minimum and maximum displacements over time:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;rx&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement (m)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -578,7 +603,7 @@ to draw a nicer plot on this range</p>
 </pre></div>
 </div>
 <img alt="01 transient easy time scoping" class="sphx-glr-single-img" src="../../_images/sphx_glr_01-transient_easy_time_scoping_002.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.336 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.500 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-01-static-transient-01-transient-easy-time-scoping-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a5308710e4448734a778a417b4f83983/01-transient_easy_time_scoping.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-transient_easy_time_scoping.py</span></code></a></p>
@@ -594,13 +619,6 @@ to draw a nicer plot on this range</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="00-basic_transient.html" title="previous page">Transient Analysis Result Example</a>
-    <a class='right-next' id="next-link" href="../02-modal-harmonic/00-multi_harmonic.html" title="next page">Multi-Harmonic Response Example</a>
-
-              </div>
-              
           </main>
           
 
@@ -614,7 +632,7 @@ to draw a nicer plot on this range</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

@@ -255,3 +255,198 @@ def test_plot_contour_using_vtk_file(complex_model):
     fc = stress.outputs.fields_container()
     pl = DpfPlotter(model.metadata.meshed_region)
     pl._plot_contour_using_vtk_file(fc)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_meshes_container_1(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    split_mesh_op = core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    disp_op = core.Operator("U")
+    disp_op.connect(7, meshes_cont)
+    ds = core.DataSources(multishells)
+    disp_op.connect(4, ds)
+    disp_fc = disp_op.outputs.fields_container()
+    meshes_cont.plot(disp_fc)
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_meshes_container_2(multishells):
+    from ansys.dpf import core
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    split_mesh_op = core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    disp_op = core.Operator("U")
+    disp_op.connect(7, meshes_cont)
+    ds = core.DataSources(multishells)
+    disp_op.connect(4, ds)
+    disp_fc = disp_op.outputs.fields_container()
+    meshes_cont_2 = core.MeshesContainer()
+    meshes_cont_2.labels = meshes_cont.labels
+    disp_fc_2 = core.FieldsContainer()
+    disp_fc_2.labels = meshes_cont.labels
+    for i in range(len(meshes_cont) - 10):
+        lab = meshes_cont.get_label_space(i)
+        meshes_cont_2.add_mesh(lab, meshes_cont.get_mesh(lab))
+        disp_fc_2.add_field(lab, disp_fc.get_field(lab))
+    meshes_cont_2.plot(disp_fc_2)
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_meshes_container_only(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    split_mesh_op = core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont.plot()
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_add_mesh(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    split_mesh_op = core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    from ansys.dpf.core.plotter import DpfPlotter
+    pl = DpfPlotter()
+    for i in range(len(meshes_cont) - 10):
+        pl.add_mesh(meshes_cont[i])
+    pl.show_figure()
+
+def create_mesh_and_field_mapped(multishells):
+    # get metadata
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    disp_fc = model.results.displacement().outputs.fields_container()
+    field = disp_fc[0]
+    # coordinates field to map
+    coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012],
+                   [-0.018, 0.006, 0.012], [-0.018, 0.006, 0.014]]
+    field_coord = core.Field()
+    field_coord.location = core.locations.nodal
+    field_coord.data = coordinates
+    scoping = core.Scoping()
+    scoping.location = core.locations.nodal
+    scoping.ids = list(range(1, len(coordinates) + 1))
+    field_coord.scoping = scoping
+    # mapping operator
+    mapping_operator = core.Operator("mapping")
+    mapping_operator.inputs.fields_container.connect(disp_fc)
+    mapping_operator.inputs.coordinates.connect(field_coord)
+    mapping_operator.inputs.mesh.connect(mesh)
+    mapping_operator.inputs.create_support.connect(True)
+    fields_mapped = mapping_operator.outputs.fields_container()
+    # mesh path
+    assert len(fields_mapped) == 1
+    field_m = fields_mapped[0]
+    mesh_m = field_m.meshed_region
+    return field, field_m, mesh, mesh_m
+
+def create_mesh_and_field_mapped_2(multishells):
+    # get metadata
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    disp_fc = model.results.displacement().outputs.fields_container()
+    field = disp_fc[0]
+    # coordinates field to map
+    coordinates = [[-0.0195, 0.006, -0.0025]]
+    for i in range(1, 101):
+        coord_copy = []
+        coord_copy.append(coordinates[0][0])
+        coord_copy.append(coordinates[0][1])
+        coord_copy.append(coordinates[0][2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    ref = [-0.0155, 0.00600634, -0.0025]
+    coordinates.append(ref)
+    for i in range(1, 101):
+        coord_copy = []
+        coord_copy.append(ref[0])
+        coord_copy.append(ref[1])
+        coord_copy.append(ref[2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    ref = [-0.0125, 0.00600507, -0.0025]
+    coordinates.append(ref)
+    for i in range(1, 101):
+        coord_copy = []
+        coord_copy.append(ref[0])
+        coord_copy.append(ref[1])
+        coord_copy.append(ref[2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    ref = [-0.0125, 0.00600444, -0.0025]
+    coordinates.append(ref)
+    for i in range(1, 101):
+        coord_copy = []
+        coord_copy.append(ref[0])
+        coord_copy.append(ref[1])
+        coord_copy.append(ref[2])
+        coord_copy[0] = coord_copy[0] + i * 0.0003
+        coordinates.append(coord_copy)
+    field_coord = core.Field()
+    field_coord.location = core.locations.nodal
+    field_coord.data = coordinates
+    scoping = core.Scoping()
+    scoping.location = core.locations.nodal
+    scoping.ids = list(range(1, len(coordinates) + 1))
+    field_coord.scoping = scoping
+    # mapping operator
+    mapping_operator = core.Operator("mapping")
+    mapping_operator.inputs.fields_container.connect(disp_fc)
+    mapping_operator.inputs.coordinates.connect(field_coord)
+    mapping_operator.inputs.mesh.connect(mesh)
+    mapping_operator.inputs.create_support.connect(True)
+    fields_mapped = mapping_operator.outputs.fields_container()
+    # mesh path
+    assert len(fields_mapped) == 1
+    field_m = fields_mapped[0]
+    mesh_m = field_m.meshed_region
+    return field, field_m, mesh, mesh_m
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_path_1(multishells):
+    field, field_m, mesh, mesh_m = create_mesh_and_field_mapped(multishells)
+    # create meshes container, fields container and plot
+    meshes_cont = core.MeshesContainer()
+    meshes_cont.labels = ["path"]
+    meshes_cont.add_mesh({"path" : 0}, mesh)
+    meshes_cont.add_mesh({"path" : 1}, mesh_m)
+    fields_cont = core.FieldsContainer()
+    fields_cont.labels = ["path"]
+    fields_cont.add_field({"path" : 0}, field)
+    fields_cont.add_field({"path" : 1}, field_m)
+    meshes_cont.plot(fields_cont)
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_path_2(multishells):
+    field, field_m, mesh, mesh_m = create_mesh_and_field_mapped(multishells)
+    # create plotter, add fields and plot
+    from ansys.dpf.core.plotter import DpfPlotter
+    pl = DpfPlotter()
+    # to use outside of the window:
+    # pl = DpfPlotter(notebook=False)
+    pl.add_field(field_m, mesh_m)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True,
+                 color="w", opacity=0.3)
+    pl.show_figure()
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_path_3(multishells):
+    field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
+    # create plotter, add fields and plot
+    from ansys.dpf.core.plotter import DpfPlotter
+    pl = DpfPlotter()
+    # to use outside of the window:
+    # pl = DpfPlotter(notebook=False)
+    pl.add_field(field_m, mesh_m)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True,
+                 color="w", opacity=0.3)
+    pl.show_figure()

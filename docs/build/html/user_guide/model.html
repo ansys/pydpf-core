@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The DPF Model &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>DPF Model &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../examples/index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -155,7 +155,7 @@
     <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   The DPF Model
+   DPF Model
   </a>
  </li>
  <li class="toctree-l1">
@@ -171,6 +171,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="plotting.html">
    Plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="troubleshooting.html">
+   Troubleshooting
   </a>
  </li>
 </ul>
@@ -231,11 +236,11 @@
               
               <div>
                 
-  <div class="section" id="the-dpf-model">
-<span id="user-guide-model"></span><h1>The DPF Model<a class="headerlink" href="#the-dpf-model" title="Permalink to this headline">¶</a></h1>
-<p>The DPF model is the basic starting point for opening a file through
-DPF.  From here you can connect various operators and display results
-and data from the result file.</p>
+  <div class="section" id="dpf-model">
+<span id="user-guide-model"></span><h1>DPF Model<a class="headerlink" href="#dpf-model" title="Permalink to this headline">¶</a></h1>
+<p>The DPF model provides the starting point for opening a result file.
+From here you can connect various operators and display results
+and data.</p>
 <p>To create a <code class="docutils literal notranslate"><span class="pre">Model</span></code> instance, import <code class="docutils literal notranslate"><span class="pre">dpf</span></code> and load a file.  The
 path provided must be an absolute path or a path relative to the DPF
 server.</p>
@@ -246,29 +251,28 @@ server.</p>
 <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Printing the model (or any other instance) ca be useful to understand what
-is available in the result file</p>
+<p>To undestand what is available in the result file, you can print the model
+(or any other instance).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
-DPF Result Info
-  Analysis: static
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    ENF Element nodal Forces :element nodal forces
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    BFE Temperature :element structural nodal temperatures
+Static analysis
+Unit system: Metric (m, kg, N, s, V, A)
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  structural_temperature: ElementalNodal Temperature
 ------------------------------
 DPF  Meshed Region:
   3751 nodes
@@ -282,18 +286,18 @@ Cumulative     Time (s)       LoadStep       Substep
 1              1.000000       1              1
 </pre></div>
 </div>
-<p>For a full example using the model, see <a class="reference internal" href="../examples/00-basic/00-basic_example.html#ref-basic-example"><span class="std std-ref">Basic DPF-Core Usage</span></a>.</p>
-<p>For a full description of the Model object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>.</p>
+<p>For an example using the model, see <a class="reference internal" href="../examples/00-basic/00-basic_example.html#ref-basic-example"><span class="std std-ref">Basic DPF-Core Usage</span></a>.</p>
+<p>For a description of the <cite>Model</cite> object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>.</p>
 <div class="section" id="model-metadata">
 <h2>Model Metadata<a class="headerlink" href="#model-metadata" title="Permalink to this headline">¶</a></h2>
-<p>The metadata of the model can be used to access all the information about an analysis:</p>
+<p>You can use model metadata to access all information about an analysis:</p>
 <ul class="simple">
-<li><p>the type of analysis</p></li>
-<li><p>the time or frequencies description</p></li>
-<li><p>the mesh</p></li>
-<li><p>the available results</p></li>
+<li><p>Type of analysis</p></li>
+<li><p>Time or frequency descriptions</p></li>
+<li><p>Mesh</p></li>
+<li><p>Available results</p></li>
 </ul>
-<p>For example, you can get the analysis type with:</p>
+<p>For example, you can get the analysis type:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span><span class="o">.</span><span class="n">analysis_type</span>
 </pre></div>
 </div>
@@ -317,7 +321,7 @@ DPF Element 1
     Shape:        Solid
 </pre></div>
 </div>
-<p>You can the time sets with:</p>
+<p>You can get time sets:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">time_freq_support</span> <span class="o">=</span>  <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
@@ -326,66 +330,58 @@ DPF Element 1
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.]
 </pre></div>
 </div>
-<p>For a full description of the Metadata object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>.</p>
+<p>For a description of the <cite>Metadata</cite> object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>.</p>
 </div>
 <div class="section" id="model-results">
 <h2>Model Results<a class="headerlink" href="#model-results" title="Permalink to this headline">¶</a></h2>
 <p>The model contains the <code class="docutils literal notranslate"><span class="pre">results</span></code> attribute, which you can use to
-create operators to access certain results.  To view the available
-results, print them with:</p>
+create operators to access certain results.</p>
+<p>To view available results, print them:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Static analysis
+Unit system: Metric (m, kg, N, s, V, A)
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  structural_temperature: ElementalNodal Temperature
 </pre></div>
 </div>
-<dl class="sphx-glr-script-out">
-<dt>DPF Result Info</dt><dd><p>Analysis: static
-Physics Type: mecanic
-Unit system: MKS: m, kg, N, s, V, A, degC
-Available results:</p>
-<blockquote>
-<div><p>U Displacement :nodal displacements
-ENF Element nodal Forces :element nodal forces
-ENG_VOL Volume :element volume
-ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-ENG_AHO Hourglass Energy :artificial hourglass energy
-ENG_TH thermal dissipation energy :thermal dissipation energy
-ENG_KE Kinetic Energy :kinetic energy
-ENG_CO co-energy :co-energy (magnetics)
-ENG_INC incremental energy :incremental energy (magnetics)
-BFE Temperature :element structural nodal temperatures</p>
-</div></blockquote>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt>
 <code class="sig-prename descclassname"><span class="pre">Model.</span></code><code class="sig-name descname"><span class="pre">results</span></code></dt>
-<dd><p>Available results of the model.
-Organize the results from DPF into accessible methods. All the available
-results are dynamically created depending on the model’s ‘ResultInfo’</p>
+<dd><p>Available results of the model.</p>
+<p>Organizes the results from DPF into accessible methods. All the available
+results are dynamically created depending on the model’s class:<cite>ansys.dpf.core.result_info</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Available results of the model</p>
+<dd class="field-odd"><p><strong>results</strong> – Available results of the model if possible, else
+returns common results.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../api/ansys.dpf.core.results.html#ansys.dpf.core.results.Results" title="ansys.dpf.core.results.Results">Results</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../api/ansys.dpf.core.results.html#ansys.dpf.core.results.Results" title="ansys.dpf.core.results.Results">Results</a>, <a class="reference internal" href="../api/ansys.dpf.core.results.html#ansys.dpf.core.results.CommonResults" title="ansys.dpf.core.results.CommonResults">CommonResults</a></p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt>
 <code class="sig-name descname"><span class="pre">all</span> <span class="pre">types</span> <span class="pre">of</span> <span class="pre">results</span></code></dt>
 <dd><p>Result provider helper wrapping all types of provider available for a
-given result file</p>
+given result file.</p>
 <p class="rubric">Examples</p>
-<p>Create a stress result from the model
-and choose its time and mesh scopings</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">electric_therm</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">electric_potential</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rf</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">reaction_force</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dissip</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">thermal_dissipation_energy</span>
 </pre></div>
 </div>
@@ -404,7 +400,7 @@ and choose its time and mesh scopings</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span> <span class="c1"># printable object</span>
 </pre></div>
 </div>
-<p>Access the displacement at all times</p>
+<p>Access the displacement at all times.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
@@ -414,17 +410,17 @@ and choose its time and mesh scopings</p>
 </div>
 </dd></dl>
 
-<p>Choosing the time or frequencies or the spatial subset on which to get a given result
-is straightforward with this <code class="docutils literal notranslate"><span class="pre">results</span></code> attribute:</p>
+<p>Choosing the time, frequencies, or spatial subset on which to get a given result
+is straightforward with the <code class="docutils literal notranslate"><span class="pre">results</span></code> attribute:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span>
 <span class="n">disp_at_all_times_on_node_1</span> <span class="o">=</span>  <span class="n">disp_result</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">on_mesh_scoping</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>For a full example using the Result API, see <a class="reference internal" href="../examples/01-static-transient/01-transient_easy_time_scoping.html#ref-transient-easy-time-scoping"><span class="std std-ref">Go Easily over Times Transient Analysis</span></a>.</p>
-<p>For a full description of the Model object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.results.html#ref-results"><span class="std std-ref">Results</span></a>.</p>
+<p>For an example using the <cite>Result</cite> API, see <a class="reference internal" href="../examples/01-static-transient/01-transient_easy_time_scoping.html#ref-transient-easy-time-scoping"><span class="std std-ref">Choose a Time Scoping for a Transient Analysis</span></a>.</p>
+<p>For a <cite>description of the `Model</cite> object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.results.html#ref-results"><span class="std std-ref">Results</span></a>.</p>
 <div class="section" id="api-reference">
 <h3>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h3>
-<p>See <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a> or <a class="reference internal" href="../api/ansys.dpf.core.results.html#ref-results"><span class="std std-ref">Results</span></a> for more information.</p>
+<p>For more information, see <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a> or <a class="reference internal" href="../api/ansys.dpf.core.results.html#ref-results"><span class="std std-ref">Results</span></a>.</p>
 </div>
 </div>
 </div>
@@ -432,13 +428,6 @@ is straightforward with this <code class="docutils literal notranslate"><span cl
 
               </div>
               
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="index.html" title="previous page">User Guide</a>
-    <a class='right-next' id="next-link" href="operators.html" title="next page">Operators</a>
-
-              </div>
               
           </main>
           
@@ -453,7 +442,7 @@ is straightforward with this <code class="docutils literal notranslate"><span cl
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

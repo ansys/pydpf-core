@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Field and Field Containers Overview &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Field and Field Containers Overview &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Create your own entities to use dpf’s operators" href="03-create_entities.html" />
+    <link rel="next" title="Create Your Own Entities Use DPF Operators" href="03-create_entities.html" />
     <link rel="prev" title="Operators Overview" href="01-basic_operators.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -388,7 +416,7 @@
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#extracting-data-from-a-field">
-   Extracting data from a field
+   Extracting Data from a Field
   </a>
  </li>
 </ul>
@@ -419,33 +447,32 @@ to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="field-and-field-containers-overview">
 <span id="ref-basic-field-example"></span><span id="sphx-glr-examples-00-basic-02-basic-field-containers-py"></span><h1>Field and Field Containers Overview<a class="headerlink" href="#field-and-field-containers-overview" title="Permalink to this headline">¶</a></h1>
-<p>Overview of the usage of fields and field containers in DPF.</p>
-<p>The field is the main simulation data container. In numerical
-simulations, results data are defined by values associated to entities
-(scoping), and these entities are a subset of a model (support).</p>
-<p>In DPF, field data is always associated to its scoping and support,
-making the field a self-describing piece of data. A field is also
-defined by its dimensionnality, unit, location, etc.  A field can for
-example, describe a displacement vector or norm, stresses and strains
-tensors, stresses and strains equivalent, or the minimum and maximum
-over time of any result.  It can be defined on a complete model or
-just on certain entities of the model based on its scoping. The data
-is stored as a vector of double values and each elementary entity has
-a number of components.  For example, displacement will have 3
-components, a symmetrical stress matrix will have 6.</p>
-<p>A fields container is simply a collection of fields that can be
-indexed just like a Python list.  Operators applied to a fields
-container will have each individual field operated on.  Fields
-containers are output from operators.</p>
+<p>In DPF, the field is the main simulation data container. During a numerical
+simulation, result data is defined by values associated to entities
+(scoping). These entities are a subset of a model (support).</p>
+<p>Because field data is always associated to its scoping and support,
+the field is a self-describing piece of data. A field is also
+defined by its parameters, such as dimensionality, unit, and location.
+For example, a field can describe a displacement vector or norm, stress or strain
+tensor, stress or strain equivalent, or minimum or maximum
+over time of any result. A field can be defined on a complete model or
+on only certain entities of the model based on its scoping. The data
+is stored as a vector of double values, and each elementary entity has
+a number of components. For example, a displacement will have three
+components, and a symmetrical stress matrix will have six components.</p>
+<p>In DPF, a fields container is simply a collection of fields that can be
+indexed, just like a Python list. Operators applied to a fields
+container will have each individual field operated on. Fields
+containers are outputs from operators.</p>
+<p>First, import necessary modules:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span>
 </pre></div>
 </div>
-<p>First, create a model object to establish a connection with an
-example result file and then extract</p>
+<p>Create a model object to establish a connection with an
+example result file and then extract:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
@@ -453,23 +480,22 @@ example result file and then extract</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
-DPF Result Info
-  Analysis: static
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    RF Force :nodal reaction forces
-    S Stress :element nodal component stresses
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    EPEL Strain :element nodal component elastic strains
-    BFE Temperature :element structural nodal temperatures
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  reaction_force: Nodal Force
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  elastic_strain: ElementalNodal Strain
+     -  structural_temperature: ElementalNodal Temperature
 ------------------------------
 DPF  Meshed Region:
   81 nodes
@@ -484,7 +510,7 @@ Cumulative     Time (s)       LoadStep       Substep
 </pre></div>
 </div>
 <p>Create the displacement operator directly from the <code class="docutils literal notranslate"><span class="pre">results</span></code>
-property and extract the displacement fields container.</p>
+property and extract the displacement fields container:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 <span class="n">fields</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
@@ -500,7 +526,7 @@ property and extract the displacement fields container.</p>
 </pre></div>
 </div>
 <p>A field can be extracted from a fields container by simply indexing
-the requested field</p>
+the requested field:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
 </pre></div>
@@ -515,7 +541,7 @@ the requested field</p>
 </div>
 </div>
 <div class="section" id="extracting-data-from-a-field">
-<h1>Extracting data from a field<a class="headerlink" href="#extracting-data-from-a-field" title="Permalink to this headline">¶</a></h1>
+<h1>Extracting Data from a Field<a class="headerlink" href="#extracting-data-from-a-field" title="Permalink to this headline">¶</a></h1>
 <p>You can extract all the data from a given field using the <code class="docutils literal notranslate"><span class="pre">data</span></code>
 property.  This returns a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -606,11 +632,11 @@ property.  This returns a <code class="docutils literal notranslate"><span class
 </pre></div>
 </div>
 <p>While it might seem preferable to work entirely within <code class="docutils literal notranslate"><span class="pre">numpy</span></code>,
-realize that DPF runs outside of Python and potentially even on a
+DPF runs outside of Python and potentially even on a
 remote machine.  Therefore, the transfer of unnecessary data between
-the DPF instance and the Python client will lead to inefficient
-operations on large models.  Instead, use DPF operators to assemble
-the necessary data before recalling the data from DPF.</p>
+the DPF instance and the Python client leads to inefficient
+operations on large models. Instead, you should use DPF operators to
+assemble the necessary data before recalling the data from DPF.</p>
 <p>For example, if you want the maximum displacement for a given
 result, use the min/max operator:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">min_max_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
@@ -619,7 +645,7 @@ result, use the min/max operator:</p>
 <span class="c1"># Out of conveience, you can simply take the max of the field with:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># Which all yield an identical result as:</span>
+<span class="c1"># The above yields a result idential to:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -630,10 +656,11 @@ result, use the min/max operator:</p>
 </pre></div>
 </div>
 <p>Note that the numpy array does not retain any information about the
-field it describes.  Using the DPF max operator of the field does
+field it describes.  Using the DPF <code class="docutils literal notranslate"><span class="pre">max</span></code> operator of the field does
 retain this information.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">max_field</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">max_field</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node IDs of maximum X, Y, and Z displacement:&quot;</span><span class="p">,</span> <span class="n">max_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -642,9 +669,11 @@ retain this information.</p>
   Unit: m
   3 entities
   Data:1 components and 3 elementary data
+
+Node IDs of maximum X, Y, and Z displacement: [75, 14, 40]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.461 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.343 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-02-basic-field-containers-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a8e77fe1835096ace5bc3553cf6f57ae/02-basic_field_containers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-basic_field_containers.py</span></code></a></p>
@@ -660,13 +689,6 @@ retain this information.</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="01-basic_operators.html" title="previous page">Operators Overview</a>
-    <a class='right-next' id="next-link" href="03-create_entities.html" title="next page">Create your own entities to use dpf’s operators</a>
-
-              </div>
-              
           </main>
           
 
@@ -680,7 +702,7 @@ retain this information.</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

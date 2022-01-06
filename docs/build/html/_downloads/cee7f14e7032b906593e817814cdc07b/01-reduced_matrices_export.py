@@ -3,8 +3,8 @@
 
 Get reduced matrices and make export
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to get reduced matrices and 
-export them to hdf5 and csv format. 
+This example shows how to get reduced matrices and
+export them to hdf5 and csv format.
 
 """
 
@@ -17,6 +17,7 @@ from ansys.dpf.core import operators as ops
 
 import os
 import tempfile
+
 tmpdir = tempfile.mkdtemp()
 
 ###############################################################################
@@ -41,7 +42,7 @@ fields[0].data
 
 h5_op = ops.serialization.serialize_to_hdf5()
 h5_op.inputs.data1.connect(matrices_provider.outputs)
-h5_op.inputs.file_path.connect(os.path.join(tmpdir, 'matrices.h5'))
+h5_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.h5"))
 h5_op.run()
 
 ###############################################################################
@@ -49,5 +50,5 @@ h5_op.run()
 
 csv_op = ops.serialization.field_to_csv()
 csv_op.inputs.field_or_fields_container.connect(matrices_provider.outputs)
-csv_op.inputs.file_path.connect(os.path.join(tmpdir, 'matrices.csv'))
+csv_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.csv"))
 csv_op.run()

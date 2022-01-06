@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Extrapolation Method for strain result of 2D-element &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Extrapolation Method for strain result of 2D-element &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -441,26 +469,39 @@ to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="extrapolation-method-for-strain-result-of-2d-element">
 <span id="extrapolation-test-strain-2delement"></span><span id="sphx-glr-examples-03-advanced-05-extrapolation-strain-2d-py"></span><h1>Extrapolation Method for strain result of 2D-element<a class="headerlink" href="#extrapolation-method-for-strain-result-of-2d-element" title="Permalink to this headline">¶</a></h1>
-<p>This example shows how to compute the nodal components elastic strain from Gaussian points (integration points) for 2D-element by using the method of extrapolation.
-Extrapolating results available at Gauss or quadrature points to nodal points for a field or fields container. The available elements are : linear quadrangle, parabolic quadrangle, linear hexagonal, quadratic hexagonal, linear tetrahedral, quadratic tetrahedral.</p>
-<p>1st step : get the data source’s analyse of integration points(this file was add the commands APDL “EREXS, NO”).</p>
+<p>This example shows how to compute the nodal component elastic strain
+from Gaussian points (integration points) for 2D-element by using the
+method of extrapolation.</p>
+<p>Extrapolating results available at Gauss or quadrature points to nodal
+points for a field or fields container. The available elements are:</p>
+<ul class="simple">
+<li><p>Linear quadrangle</p></li>
+<li><p>Parabolic quadrangle</p></li>
+<li><p>Linear hexagonal</p></li>
+<li><p>Quadratic hexagonal</p></li>
+<li><p>Linear tetrahedral</p></li>
+<li><p>Quadratic tetrahedral</p></li>
+</ul>
+<p>1st step : Get the values at the data source’s of integration points (this result
+file was generated from MAPDL with <code class="docutils literal notranslate"><span class="pre">EREXS,</span> <span class="pre">NO</span></code>).</p>
 <p>2nd step: using operator of extrapolation to compute the nodal elastic strain.</p>
-<p>3rd step: get nodal elastic strain result from data source’s analyse reference. The analyse was computed by ANSYS Mechanical APDL.</p>
-<p>4th step: compare the results between nodal elastic strain from data source ref and nodal strain computed by Extrapolation Method.</p>
+<p>3rd step: Get the nodal elastic strain result from the data source.
+The analysis was computed by Ansys Mechanical APDL.</p>
+<p>4th step: Compare the results between nodal elastic strain from the data
+source and nodal strain computed by extrapolation method.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span>
 </pre></div>
 </div>
 <p>Get the data source’s analyse of integration points and data source’s analyse reference</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span><span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_extrapolation_2d_result</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">datafile</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_extrapolation_2d_result</span><span class="p">()</span>
 
 <span class="c1"># integration points (Gaussian points)</span>
-<span class="n">data_integration_points</span><span class="o">=</span><span class="n">datafile</span><span class="p">[</span><span class="s1">&#39;file_integrated&#39;</span><span class="p">]</span>
+<span class="n">data_integration_points</span> <span class="o">=</span> <span class="n">datafile</span><span class="p">[</span><span class="s2">&quot;file_integrated&quot;</span><span class="p">]</span>
 <span class="n">data_sources_integration_points</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">data_integration_points</span><span class="p">)</span>
 
 <span class="c1"># reference</span>
-<span class="n">dataSourceref</span><span class="o">=</span><span class="n">datafile</span><span class="p">[</span><span class="s1">&#39;file_ref&#39;</span><span class="p">]</span>
+<span class="n">dataSourceref</span> <span class="o">=</span> <span class="n">datafile</span><span class="p">[</span><span class="s2">&quot;file_ref&quot;</span><span class="p">]</span>
 <span class="n">data_sources_ref</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">dataSourceref</span><span class="p">)</span>
 
 <span class="c1"># get the mesh</span>
@@ -471,18 +512,25 @@ Extrapolating results available at Gauss or quadrature points to nodal points fo
 </div>
 <div class="section" id="extrapolation-from-integration-points-for-elastic-strain-result">
 <h1>Extrapolation from integration points for elastic strain result<a class="headerlink" href="#extrapolation-from-integration-points-for-elastic-strain-result" title="Permalink to this headline">¶</a></h1>
-<p>In this example we compute nodal component elastic strain results from integration points’s elastic strain by using operator gauss_to_node_fc</p>
+<p>In this example we compute nodal component elastic strain results from
+the elastic strain at the integration points  by using the <code class="docutils literal notranslate"><span class="pre">gauss_to_node_fc</span></code>
+operator.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create elastic strain operator to get strain result of integration points</span>
-<span class="n">strainop</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">elastic_strain</span><span class="p">()</span>
+<span class="n">strainop</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">elastic_strain</span><span class="p">()</span>
 <span class="n">strainop</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">data_sources_integration_points</span><span class="p">)</span>
-<span class="n">strain</span><span class="o">=</span><span class="n">strainop</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="n">strain</span> <span class="o">=</span> <span class="n">strainop</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="section" id="nodal-elastic-strain-result-of-integration-points">
 <h2>Nodal elastic strain result of integration points:<a class="headerlink" href="#nodal-elastic-strain-result-of-integration-points" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>The command “ERESX,NO” in Mechanical APDL is used to copy directly the gaussian (integration) points results to the nodes, instead of the results at nodes or elements (which are interpolation of results at a few gauss points).
-The following plot shows the nodal values which are the averaged values of elastic strain at each node. The value shown at the node is the average of the elastic strains from the gaussian points of each element that it belongs to.</p>
+<div><p>The command <code class="docutils literal notranslate"><span class="pre">ERESX,NO</span></code> in Mechanical APDL is used to copy directly the
+gaussian (integration) points results to the nodes, instead of the results
+at nodes or elements (which are interpolation of results at a few gauss points).
+The following plot shows the nodal values which are the averaged values
+of elastic strain at each node. The value shown at the node is the
+average of the elastic strains from the gaussian points of each element
+that it belongs to.</p>
 </div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
 <span class="n">strain_nodal_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">elemental_nodal_to_nodal_fc</span><span class="p">()</span>
@@ -491,20 +539,15 @@ The following plot shows the nodal values which are the averaged values of elast
 </pre></div>
 </div>
 <img alt="05 extrapolation strain 2d" class="sphx-glr-single-img" src="../../_images/sphx_glr_05-extrapolation_strain_2d_001.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.07886751356629113, 0.07886751375129113, 0.07886751375129113),
- (-1.8499999969445735e-10, 0.0, 0.0),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
-<p>Create operator gauss_to_node_fc and compute nodal component elastic strain by applying Extrapolation Method</p>
+<p>Create the <code class="docutils literal notranslate"><span class="pre">gauss_to_node_fc</span></code> operator and compute nodal component
+elastic strain by applying the extrapolation method.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ex_strain</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">gauss_to_node_fc</span><span class="p">()</span>
 <span class="c1"># connect mesh</span>
 <span class="n">ex_strain</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
 <span class="c1"># connect fields container elastic strain</span>
 <span class="n">ex_strain</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">strain</span><span class="p">)</span>
 <span class="c1"># get output</span>
-<span class="n">fex</span><span class="o">=</span><span class="n">ex_strain</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="n">fex</span> <span class="o">=</span> <span class="n">ex_strain</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -512,9 +555,9 @@ The following plot shows the nodal values which are the averaged values of elast
 <div class="section" id="elastic-strain-result-of-reference-ansys-workbench">
 <h1>Elastic strain result of reference ANSYS Workbench<a class="headerlink" href="#elastic-strain-result-of-reference-ansys-workbench" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Strain from file dataSourceref</span>
-<span class="n">strainop_ref</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">elastic_strain</span><span class="p">()</span>
+<span class="n">strainop_ref</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">elastic_strain</span><span class="p">()</span>
 <span class="n">strainop_ref</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">data_sources_ref</span><span class="p">)</span>
-<span class="n">strain_ref</span><span class="o">=</span><span class="n">strainop_ref</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="n">strain_ref</span> <span class="o">=</span> <span class="n">strainop_ref</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -537,19 +580,14 @@ The following plot shows the nodal values which are the averaged values of elast
 <li><img alt="05 extrapolation strain 2d" class="sphx-glr-multi-img" src="../../_images/sphx_glr_05-extrapolation_strain_2d_003.png" />
 </li>
 </ul>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.07886751356629113, 0.07886751375129113, 0.07886751375129113),
- (-1.8499999969445735e-10, 0.0, 0.0),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
 </div>
 <div class="section" id="comparison">
 <h1>Comparison<a class="headerlink" href="#comparison" title="Permalink to this headline">¶</a></h1>
 <p>Compare the elastic strain result computed by extrapolation and reference’s result.
 Check if two fields container are identical.
 Maximum tolerance gap between to compared values: 1e-3.
-Smallest value which will be considered during the comparison step : all the abs(values) in field less than 1e-14 is considered as null</p>
+Smallest value which will be considered during the comparison
+step : all the <code class="docutils literal notranslate"><span class="pre">abs(values)</span></code> in the field less than 1e-14 are considered null</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># operator AreFieldsIdentical_fc</span>
 <span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">identical_fc</span><span class="p">()</span>
 <span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_containerA</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fex</span><span class="p">)</span>
@@ -563,7 +601,7 @@ Smallest value which will be considered during the comparison step : all the abs
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>True
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.940 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.157 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-05-extrapolation-strain-2d-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d5b7a76ff8906cb82b31d4ace4b1dae2/05-extrapolation_strain_2d.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">05-extrapolation_strain_2d.py</span></code></a></p>
@@ -579,13 +617,6 @@ Smallest value which will be considered during the comparison step : all the abs
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="04-extrapolation_stress_3d.html" title="previous page">Extrapolation Method for stress result of 3D-element</a>
-    <a class='right-next' id="next-link" href="../04-specific-requests/00-hdf5_double_float_comparison.html" title="next page">Hdf5 export and compare precision</a>
-
-              </div>
-              
           </main>
           
 
@@ -599,7 +630,7 @@ Smallest value which will be considered during the comparison step : all the abs
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

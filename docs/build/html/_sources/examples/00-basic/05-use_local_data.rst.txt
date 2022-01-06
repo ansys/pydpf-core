@@ -20,19 +20,20 @@
 
 .. _ref_use_local_data_example:
 
-Bring Field's data locally to improve performances
+Bring a Field's Data Locally to Improve Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Using the as_local_field option allows to bring the server's
-data locally and to work only on the local process before sending the data
-updates to the server on one shot at the end.
-Reducing the number of calls to the server is key to improve
-performances.
+Reducing the number of calls to the server is key to improving
+performance. Using the ``as_local_field`` option brings the data
+from the server to your local machine where you can work on it.
+When finished, you send the updated data back to the server
+in one transaction.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-18
+Import necessary modules:
+
+.. GENERATED FROM PYTHON SOURCE LINES 14-19
 
 .. code-block:: default
 
-    import numpy as np
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
@@ -45,18 +46,17 @@ performances.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-21
+.. GENERATED FROM PYTHON SOURCE LINES 20-22
 
-First, create a model object to establish a connection with an
-example result file and then extract
+Create a model object to establish a connection with an
+example result file and then extract:
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-26
+.. GENERATED FROM PYTHON SOURCE LINES 22-26
 
 .. code-block:: default
 
     model = dpf.Model(examples.download_multi_stage_cyclic_result())
     print(model)
-
 
 
 
@@ -71,16 +71,14 @@ example result file and then extract
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: modal 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        S Stress :element nodal component stresses 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
-      With multi_stage cyclic symmetry on 2 stages
+    Modal analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  stress: ElementalNodal Stress 
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       3595 nodes 
@@ -102,18 +100,20 @@ example result file and then extract
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-32
+.. GENERATED FROM PYTHON SOURCE LINES 27-31
 
 Create the Workflow
 ~~~~~~~~~~~~~~~~~~~~
-Create a simple workflow computing the principal stress on the skin
-of the model. Principal stress maximul usually occurs on the skin of the 
-model, computing results only on this skin allows to reduce data sizes
+Maximum principal stress usually occurs on the skin of the
+model. Computing results only on this skin reduces the data size.
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-36
+.. GENERATED FROM PYTHON SOURCE LINES 31-38
 
 .. code-block:: default
 
+
+    # Create a simple workflow computing the principal stress on the skin
+    # of the model.
 
     skin_op = ops.mesh.external_layer(model.metadata.meshed_region)
     skin_mesh = skin_op.outputs.mesh()
@@ -125,11 +125,11 @@ model, computing results only on this skin allows to reduce data sizes
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-38
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
-Plot the mesh skin
+Plot the mesh skin:
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-43
 
 .. code-block:: default
 
@@ -139,29 +139,30 @@ Plot the mesh skin
 
 
 
-.. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_001.png
-    :alt: 05 use local data
-    :class: sphx-glr-single-img
+.. rst-class:: sphx-glr-horizontal
 
 
-.. rst-class:: sphx-glr-script-out
+    *
 
- Out:
+      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_001.png
+          :alt: 05 use local data
+          :class: sphx-glr-multi-img
 
- .. code-block:: none
+    *
+
+      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_002.png
+          :alt: 05 use local data
+          :class: sphx-glr-multi-img
 
 
-    [(1.219394790046167, 1.289764203596167, 1.147514203596167),
-     (0.07188058645000002, 0.14225, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 44-45
 
-Compute the stress principal inveriants on the skin nodes only
+Compute the stress principal inveriants on the skin nodes only:
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-55
+.. GENERATED FROM PYTHON SOURCE LINES 45-56
 
 .. code-block:: default
 
@@ -183,38 +184,39 @@ Compute the stress principal inveriants on the skin nodes only
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 57-59
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
-
-Manipulate data locally
+Manipulate Data Locally
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-64
+.. GENERATED FROM PYTHON SOURCE LINES 62-65
 
-As an example, we will go over the fields, keep the largest invariant value
-by node if the averaged value of invariants is large enough
-Exploring data allows the user add his own custom needs easily
+This example goes over the fields, keeping the largest invariant value
+by node if the averaged value of invariants is large enough.
+Exploring data allows you to customize it to meet your needs.
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-83
+.. GENERATED FROM PYTHON SOURCE LINES 65-86
 
 .. code-block:: default
 
 
     node_scoping_ids = principal_stress_1.scoping.ids
-    threshold = 300000.
+    threshold = 300000.0
 
-    field_to_keep = dpf.fields_factory.create_scalar_field(len(node_scoping_ids), location=dpf.locations.nodal)
+    field_to_keep = dpf.fields_factory.create_scalar_field(
+        len(node_scoping_ids), location=dpf.locations.nodal
+    )
 
     with field_to_keep.as_local_field() as f:
         with principal_stress_1.as_local_field() as s1:
             with principal_stress_2.as_local_field() as s2:
                 with principal_stress_3.as_local_field() as s3:
-                    for i,id in enumerate(node_scoping_ids):
+                    for i, id in enumerate(node_scoping_ids):
                         d1 = abs(s1.get_entity_data_by_id(id))
                         d2 = abs(s2.get_entity_data_by_id(id))
                         d3 = abs(s3.get_entity_data_by_id(id))
-                        if (d1+d2+d3)/3. > threshold :
-                            d = max(d1,d2,d3)
+                        if (d1 + d2 + d3) / 3.0 > threshold:
+                            d = max(d1, d2, d3)
                             f.append(d, id)
 
 
@@ -225,16 +227,16 @@ Exploring data allows the user add his own custom needs easily
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-86
+.. GENERATED FROM PYTHON SOURCE LINES 87-89
 
-Plot the result field
-~~~~~~~~~~~~~~~~~~~~~~~
+Plot Result Field
+~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-90
+.. GENERATED FROM PYTHON SOURCE LINES 92-93
 
-Plot the result field on the skin mesh
+Plot the result field on the skin mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-93
+.. GENERATED FROM PYTHON SOURCE LINES 93-96
 
 .. code-block:: default
 
@@ -244,30 +246,24 @@ Plot the result field on the skin mesh
 
 
 
-.. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_002.png
+.. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_003.png
     :alt: 05 use local data
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(1.219394790046167, 1.289764203596167, 1.147514203596167),
-     (0.07188058645000002, 0.14225, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-96
+.. GENERATED FROM PYTHON SOURCE LINES 97-99
 
-Plot the initial invariants
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Plot Initial Invariants
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-103
+.. GENERATED FROM PYTHON SOURCE LINES 102-103
+
+Plot the initial invariants on the skin mesh:
+
+.. GENERATED FROM PYTHON SOURCE LINES 103-107
 
 .. code-block:: default
 
@@ -275,20 +271,11 @@ Plot the initial invariants
     skin_mesh.plot(principal_stress_1)
     skin_mesh.plot(principal_stress_2)
     skin_mesh.plot(principal_stress_3)
-                    
-                    
-
 
 
 
 .. rst-class:: sphx-glr-horizontal
 
-
-    *
-
-      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_003.png
-          :alt: 05 use local data
-          :class: sphx-glr-multi-img
 
     *
 
@@ -302,24 +289,20 @@ Plot the initial invariants
           :alt: 05 use local data
           :class: sphx-glr-multi-img
 
+    *
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
+      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_006.png
+          :alt: 05 use local data
+          :class: sphx-glr-multi-img
 
 
-    [(1.219394790046167, 1.289764203596167, 1.147514203596167),
-     (0.07188058645000002, 0.14225, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.952 seconds)
+   **Total running time of the script:** ( 0 minutes  4.281 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_05-use_local_data.py:

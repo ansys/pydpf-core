@@ -69,8 +69,3 @@ local_workflow.connect_with(workflow2, ("out2", "in2"))
 
 fc = local_workflow.get_output("merged", dpf.types.fields_container)
 fc[0].meshed_region.plot(fc[0])
-
-###############################################################################
-# Shutdown the servers
-# ~~~~~~~~~~~~~~~~~~~~~
-dpf.server.shutdown_all_session_servers()

@@ -21,10 +21,10 @@
 .. _ref_use_result_helpers:
 
 Use Result Helpers to Load Custom Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `Result` class which instances are created by the `Model` gives access to 
-helpers to request results on specific mesh and time scopings.
-With those helpers, working on a custom spatial and temporal subset of the 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The ``Result`` class, which is an instance created by the ``Model``, gives
+access to helpers for requesting results on specific mesh and time scopings.
+With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 
 .. GENERATED FROM PYTHON SOURCE LINES 11-17
@@ -69,16 +69,14 @@ example result file
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: modal 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        S Stress :element nodal component stresses 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
-      With multi_stage cyclic symmetry on 2 stages
+    Modal analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  stress: ElementalNodal Stress 
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       3595 nodes 
@@ -251,7 +249,7 @@ Specify to the result that we work on specific nodes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.914 seconds)
+   **Total running time of the script:** ( 0 minutes  3.814 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_07-use_result_helpers.py:

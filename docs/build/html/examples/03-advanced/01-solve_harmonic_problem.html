@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solve Harmonic Problem (with damping) Using Matrix Inverse &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Solve Harmonic Problem (with damping) Using Matrix Inverse &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -413,64 +441,67 @@ solve the problem Ma+Dv+Ku =F by inversing the matrix</p>
 </pre></div>
 </div>
 <p>Create 2D (x,y) matrix fields for inertia, damping and stiffness</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
-<span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1">#dimension of matrix</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># dimension of matrix</span>
 
 
-<span class="n">fM0</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">)</span>
-<span class="n">fM0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">fK0</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">)</span>
-<span class="n">fK0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">fC0</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">)</span>
-<span class="n">fC0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">7.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fM0</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+<span class="n">fM0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fK0</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+<span class="n">fK0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fC0</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_factory</span><span class="o">.</span><span class="n">create_matrix_field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+<span class="n">fC0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Create a fields container for real and imaginary parts
 for each frequency</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reals</span><span class="o">=</span><span class="p">{}</span>
-<span class="n">ims</span><span class="o">=</span><span class="p">{}</span>
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reals</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">ims</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span>
-    <span class="n">omega2</span><span class="o">=</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span>
-    <span class="n">real</span> <span class="o">=</span> <span class="n">fK0</span> <span class="o">+</span><span class="n">fM0</span><span class="o">*</span><span class="n">omega2</span>
-    <span class="n">imag</span> <span class="o">=</span> <span class="n">fC0</span><span class="o">*</span><span class="n">omega</span>
-    <span class="n">reals</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">=</span><span class="n">real</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-    <span class="n">ims</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">omega2</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">fK0</span> <span class="o">+</span> <span class="n">fM0</span> <span class="o">*</span> <span class="n">omega2</span>
+    <span class="n">imag</span> <span class="o">=</span> <span class="n">fC0</span> <span class="o">*</span> <span class="n">omega</span>
+    <span class="n">reals</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">ims</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 
-<span class="n">cplx_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_complex_fields_container</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">ims</span><span class="p">,</span><span class="n">time_freq_unit</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">)</span>
+<span class="n">cplx_fc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">fields_container_factory</span><span class="o">.</span><span class="n">over_time_freq_complex_fields_container</span><span class="p">(</span>
+    <span class="n">reals</span><span class="p">,</span> <span class="n">ims</span><span class="p">,</span> <span class="n">time_freq_unit</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>Use dpf’s operators to inverse the matrix, compute the amplitude
 and the phase</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">inverse</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">matrix_inverse</span><span class="p">(</span><span class="n">cplx_fc</span><span class="p">)</span>
-<span class="n">component</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">amp</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">amplitude_fc</span><span class="p">(</span><span class="n">component</span><span class="p">);</span>
-<span class="n">phase</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">phase_fc</span><span class="p">(</span><span class="n">component</span><span class="p">);</span>
+<span class="n">component</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">amp</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">amplitude_fc</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">phase_fc</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Get the phase and amplitude and plot it over frequencies</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">amp_over_frequency</span> <span class="o">=</span> <span class="n">amp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="n">phase_over_frequency</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
-<span class="n">time_freq_support</span> <span class="o">=</span><span class="n">amp_over_frequency</span><span class="o">.</span><span class="n">time_freq_support</span>
+<span class="n">time_freq_support</span> <span class="o">=</span> <span class="n">amp_over_frequency</span><span class="o">.</span><span class="n">time_freq_support</span>
 
-<span class="n">amp_array</span><span class="o">=</span><span class="p">[]</span>
-<span class="n">phase_array</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">amp_array</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">phase_array</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">amp_over_frequency</span><span class="p">:</span>
     <span class="n">amp_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">phase_over_frequency</span><span class="p">:</span>
-    <span class="n">phase_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">180.0</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">phase_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">amp_array</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;amplitude&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">amp_array</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;amplitude&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency (Hz)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement ampliude (m)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">phase_array</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;phase&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">phase_array</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;phase&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency (Hz)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Displacement phase (deg)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -483,7 +514,7 @@ and the phase</p>
 <li><img alt="01 solve harmonic problem" class="sphx-glr-multi-img" src="../../_images/sphx_glr_01-solve_harmonic_problem_002.png" />
 </li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.028 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.221 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-01-solve-harmonic-problem-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/31f635c63841677d6ac3ad26a2e1ef6a/01-solve_harmonic_problem.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-solve_harmonic_problem.py</span></code></a></p>
@@ -499,13 +530,6 @@ and the phase</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="00-multistage_advanced_options.html" title="previous page">Multi-stage Cyclic Symmetry Use Advanced Customization</a>
-    <a class='right-next' id="next-link" href="02-volume_averaged_stress.html" title="next page">Average Elemental Stress on a given volume</a>
-
-              </div>
-              
           </main>
           
 
@@ -519,7 +543,7 @@ and the phase</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

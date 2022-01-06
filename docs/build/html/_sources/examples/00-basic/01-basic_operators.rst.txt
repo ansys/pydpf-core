@@ -22,20 +22,20 @@
 
 Operators Overview
 ~~~~~~~~~~~~~~~~~~
-Overview of the usage of operators in DPF.
 
-Operators are primary method for interacting with and extracting
-results.  Within DPF-Core, these operators are directly exposed with
-the `Operators` class as well as wrapped within several other
+In DPF, operators provide the primary method for interacting with and extracting
+results.  Within DPF-Core, operators are directly exposed with
+the ``Operators`` class as well as wrapped within several other
 convenience classes.
 
+For a list of all operators, see :ref:`ref_dpf_operators_reference`.
+
 This example demonstrates how to work directly with operators and
-compares it to wrapped approach.
+compares this method to a wrapped approach.
 
-For a full listing of all available operators, please see
-:ref:`ref_dpf_operators_reference`.
+Import the necessary modules:
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-24
+.. GENERATED FROM PYTHON SOURCE LINES 19-23
 
 .. code-block:: default
 
@@ -50,12 +50,12 @@ For a full listing of all available operators, please see
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-27
+.. GENERATED FROM PYTHON SOURCE LINES 24-26
 
-First, create a model object to establish a connection with an
-example result file.
+Create a model object to establish a connection with an
+example result file:
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-30
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
 
 .. code-block:: default
 
@@ -74,23 +74,22 @@ example result file.
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        RF Force :nodal reaction forces 
-        S Stress :element nodal component stresses 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  reaction_force: Nodal Force   
+         -  stress: ElementalNodal Stress 
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       81 nodes 
@@ -107,21 +106,21 @@ example result file.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-38
+.. GENERATED FROM PYTHON SOURCE LINES 30-37
 
 Next, create a raw displacement operator ``"U"``.  Each operator
 contains ``input`` and ``output`` pins that can be connected to
-various sources, to include other operators.  This allows operators
+various sources to include other operators.  This allows operators
 to be "chained" to allow for highly efficient operations.
 
-Here, we print out the available inputs and outputs of the
-displacement operator.
+To print out the available inputs and outputs of the
+displacement operator:
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-43
+.. GENERATED FROM PYTHON SOURCE LINES 37-42
 
 .. code-block:: default
 
-    disp_op = dpf.Operator('U')
+    disp_op = dpf.Operator("U")
     print(disp_op.inputs)
     print(disp_op.outputs)
 
@@ -137,6 +136,17 @@ displacement operator.
  .. code-block:: none
 
     Available inputs:
+         -   mesh : MeshedRegion, MeshesContainer, optional
+             Prevents from reading the mesh in the result files
+                             
+         -   streams_container : StreamsContainer, optional
+             Result file container allowed to be kept open to cache data
+                             
+         -   time_scoping : Scoping, int, list, float, Field, optional
+             Time/freq (use doubles or field), time/freq set ids (use ints or
+             scoping) or time/freq step ids (use scoping with timefreq_steps
+             location) required in output
+                             
          -   mesh_scoping : ScopingsContainer, Scoping, optional
              Nodes or elements scoping required in output. the scoping's location
              indicates whether nodes or elements are asked. using scopings
@@ -145,16 +155,9 @@ displacement operator.
          -   data_sources : DataSources
              Result file path container, used if no streams are set
                              
-         -   streams_container : StreamsContainer, optional
-             Result file container allowed to be kept open to cache data
-                             
-         -   mesh : MeshedRegion, MeshesContainer, optional
-             Prevents from reading the mesh in the result files
-                             
-         -   time_scoping : Scoping, int, list, float, Field, optional
-             Time/freq (use doubles or field), time/freq set ids (use ints or
-             scoping) or time/freq step ids (use scoping with timefreq_steps
-             location) required in output
+         -   bool_rotate_to_global : bool, optional
+             If true the field is rotated to global coordinate system (default
+             true)               
                              
          -   fields_container : FieldsContainer, optional
              Fields container already allocated modified inplace
@@ -164,10 +167,6 @@ displacement operator.
              cyclic expansion is done, if 3 cyclic expansion is done and stages are
              merged (default is 1)
                              
-         -   bool_rotate_to_global : bool, optional
-             If true the field is rotated to global coordinate system (default
-             true)               
-                             
 
     Available outputs:
          -   fields_container    
@@ -176,33 +175,33 @@ displacement operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-49
+.. GENERATED FROM PYTHON SOURCE LINES 43-48
 
 Compute the Maximum Normalized Displacement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Here, connect the input of the operator to the data sources
-contained within the ``model`` object and then the maximum of the
-norm of the operator to demonstrate how to chain various operators.
+This example demonstrate how to chain various operators. It connects the input
+of the operator to the data sources contained within the ``model`` object and
+then the maximum of the norm of the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-68
+.. GENERATED FROM PYTHON SOURCE LINES 48-67
 
 .. code-block:: default
 
 
-    # connect to the data sources of the model
+    # Connect to the data sources of the model.
     disp_op.inputs.data_sources.connect(model.metadata.data_sources)
 
     # Create a field container norm operator and connect it to the
     # displacement operator to chain the operators.
-    norm_op = dpf.Operator('norm_fc')
+    norm_op = dpf.Operator("norm_fc")
     norm_op.inputs.connect(disp_op.outputs)
 
-    # create a field container min/max operator and connect it to the
-    # output of the norm operator
-    mm_op = dpf.Operator('min_max_fc')
+    # Create a field container min/max operator and connect it to the
+    # output of the norm operator.
+    mm_op = dpf.Operator("min_max_fc")
     mm_op.inputs.connect(norm_op.outputs)
 
-    # Finally, get the value of the maximum displacement
+    # Finally, get the value of the maximum displacement.
     field_max = mm_op.outputs.field_max()
     print(field_max)
     print(field_max.data)
@@ -228,16 +227,16 @@ norm of the operator to demonstrate how to chain various operators.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-75
+.. GENERATED FROM PYTHON SOURCE LINES 68-74
 
 Wrapped Operators
 ~~~~~~~~~~~~~~~~~
 The ``model.results`` property contains all the wrapped operators
 available for a given result.  This is provided out of convenience
-as not all operators may be available for a given result and it is
-much easier to reference available operators by first running:
+because all operators may not be available for a given result. Consequently,
+it is much easier to reference available operators by first running:
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-78
+.. GENERATED FROM PYTHON SOURCE LINES 74-77
 
 .. code-block:: default
 
@@ -254,41 +253,41 @@ much easier to reference available operators by first running:
 
  .. code-block:: none
 
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        RF Force :nodal reaction forces 
-        S Stress :element nodal component stresses 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  reaction_force: Nodal Force   
+         -  stress: ElementalNodal Stress 
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
-Create the displacement operator directly from the ``results`` property
+Create the displacement operator directly from the ``results`` property:
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-92
+.. GENERATED FROM PYTHON SOURCE LINES 79-92
 
 .. code-block:: default
 
     disp_op = model.results.displacement()
 
-    # Out of convenience, the operators module contains available operators
-    # Those operators can be created in chain to create a workflow in one line
+    # Out of convenience, the ``operators`` module contains available operators.
+    # These operators can be chained to create a workflow in one line.
     from ansys.dpf.core import operators
+
     mm_op = operators.min_max.min_max_fc(operators.math.norm_fc(disp_op))
 
     # Finally, get the value of the maximum displacement.
@@ -319,7 +318,7 @@ Create the displacement operator directly from the ``results`` property
 
 .. GENERATED FROM PYTHON SOURCE LINES 93-94
 
-Plot the displacement
+Plot the displacement:
 
 .. GENERATED FROM PYTHON SOURCE LINES 94-96
 
@@ -341,27 +340,26 @@ Plot the displacement
 
  .. code-block:: none
 
-    [(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),
-     (0.015, 0.045, 0.015),
-     (0.0, 0.0, 1.0)]
+    None
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-102
+.. GENERATED FROM PYTHON SOURCE LINES 97-103
 
-Scripting operators syntax
+Scripting Operator Syntax
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-DPF is also providing a scripting syntax where knowing 
-the operator "string name" is not mandatory. 
-Here is a similar script as above using this syntax. 
+Because DPF provides a scripting syntax, knowing
+an operator's "string name" is not mandatory.
+While this example is similar to the above script, it uses the DPF
+scripting syntax.
 
-.. GENERATED FROM PYTHON SOURCE LINES 104-106
+.. GENERATED FROM PYTHON SOURCE LINES 105-107
 
-Instead of using a model class instance, let's directly use a 
-datasources object. The DataSources constructor input is a path. 
+Instead of using a ``model`` class instance, use a
+``DdataSources`` object directly. The ``DataSources`` constructor input is a path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-109
+.. GENERATED FROM PYTHON SOURCE LINES 107-110
 
 .. code-block:: default
 
@@ -383,11 +381,11 @@ datasources object. The DataSources constructor input is a path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 110-111
+.. GENERATED FROM PYTHON SOURCE LINES 111-112
 
-Let's instantiate the operators and connect them together. 
+Instantiate the operators and connect them:
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-119
+.. GENERATED FROM PYTHON SOURCE LINES 112-120
 
 .. code-block:: default
 
@@ -406,17 +404,18 @@ Let's instantiate the operators and connect them together.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-121
+.. GENERATED FROM PYTHON SOURCE LINES 121-122
 
-Let's get the output and print the result data. 
+Get the output and print the result data:
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-123
+.. GENERATED FROM PYTHON SOURCE LINES 122-125
 
 .. code-block:: default
 
 
     field_max = mm_op.outputs.field_max()
     print(field_max.data)
+
 
 
 
@@ -434,7 +433,7 @@ Let's get the output and print the result data.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.180 seconds)
+   **Total running time of the script:** ( 0 minutes  0.975 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_01-basic_operators.py:

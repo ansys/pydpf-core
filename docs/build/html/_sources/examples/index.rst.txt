@@ -6,11 +6,10 @@
 
 .. _gallery:
 
-================
-Examples Gallery
-================
-These examples demonstrate the behavior and usage of the
-`ansys.dpf.core` module.
+========
+Examples
+========
+These examples demonstrate the behavior and usage of DPF-Core.
 
 
 .. raw:: html
@@ -31,7 +30,7 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="If you have ANSYS 2021R1 installed, getting running DPF is quite easy as ansys.dpf.core takes c...">
+    <div class="sphx-glr-thumbcontainer" tooltip="If you have Ansys 2021 R1 installed, starting DPF is quite easy as DPF-Core takes care of launc...">
 
 .. only:: html
 
@@ -52,7 +51,7 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Operators are primary method for interacting with and extracting results.  Within DPF-Core, the...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In DPF, operators provide the primary method for interacting with and extracting results.  With...">
 
 .. only:: html
 
@@ -73,7 +72,7 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The field is the main simulation data container. In numerical simulations, results data are def...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Because field data is always associated to its scoping and support, the field is a self-describ...">
 
 .. only:: html
 
@@ -94,12 +93,12 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Create your own entities to use dpf&#x27;s operators">
+    <div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:">
 
 .. only:: html
 
  .. figure:: /examples/00-basic/images/thumb/sphx_glr_03-create_entities_thumb.png
-     :alt: Create your own entities to use dpf's operators
+     :alt: Create Your Own Entities Use DPF Operators
 
      :ref:`sphx_glr_examples_00-basic_03-create_entities.py`
 
@@ -115,12 +114,12 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to write and upload files  on the server machine, then how to download i...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to write and upload files on the server machine and then download them b...">
 
 .. only:: html
 
  .. figure:: /examples/00-basic/images/thumb/sphx_glr_04-basic-load-file_thumb.png
-     :alt: Write/load and upload/download a result file
+     :alt: Write/Load and Upload/Download a Result File
 
      :ref:`sphx_glr_examples_00-basic_04-basic-load-file.py`
 
@@ -136,12 +135,12 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Bring Field&#x27;s data locally to improve performances">
+    <div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:">
 
 .. only:: html
 
  .. figure:: /examples/00-basic/images/thumb/sphx_glr_05-use_local_data_thumb.png
-     :alt: Bring Field's data locally to improve performances
+     :alt: Bring a Field's Data Locally to Improve Performance
 
      :ref:`sphx_glr_examples_00-basic_05-use_local_data.py`
 
@@ -157,12 +156,12 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Load plugin">
+    <div class="sphx-glr-thumbcontainer" tooltip="Load Plugin">
 
 .. only:: html
 
  .. figure:: /examples/00-basic/images/thumb/sphx_glr_06-load_plugin_thumb.png
-     :alt: Load plugin
+     :alt: Load Plugin
 
      :ref:`sphx_glr_examples_00-basic_06-load_plugin.py`
 
@@ -196,6 +195,48 @@ These examples explain the basic concepts of DPF.
    :hidden:
 
    /examples/00-basic/07-use_result_helpers
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:">
+
+.. only:: html
+
+ .. figure:: /examples/00-basic/images/thumb/sphx_glr_08-results_over_time_subset_thumb.png
+     :alt: Scope results over custom time domains
+
+     :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/00-basic/08-results_over_time_subset
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:">
+
+.. only:: html
+
+ .. figure:: /examples/00-basic/images/thumb/sphx_glr_09-results_over_space_subset_thumb.png
+     :alt: Scope results over custom space domains
+
+     :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/00-basic/09-results_over_space_subset
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
@@ -215,7 +256,7 @@ stresses, and strains from a transient static analysis.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Transient Analysis Result Example">
+    <div class="sphx-glr-thumbcontainer" tooltip="Import the necessary modules:">
 
 .. only:: html
 
@@ -236,12 +277,12 @@ stresses, and strains from a transient static analysis.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Go Easily over Times Transient Analysis">
+    <div class="sphx-glr-thumbcontainer" tooltip="Choose a Time Scoping for a Transient Analysis">
 
 .. only:: html
 
  .. figure:: /examples/01-static-transient/images/thumb/sphx_glr_01-transient_easy_time_scoping_thumb.png
-     :alt: Go Easily over Times Transient Analysis
+     :alt: Choose a Time Scoping for a Transient Analysis
 
      :ref:`sphx_glr_examples_01-static-transient_01-transient_easy_time_scoping.py`
 
@@ -498,7 +539,7 @@ These demos show advanced use cases demonstrating high level of workflow customi
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="1st step : get the data source&#x27;s analyse of integration points(this file was add the commands A...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Extrapolating results available at Gauss or quadrature points to nodal points for a field or fi...">
 
 .. only:: html
 
@@ -519,7 +560,7 @@ These demos show advanced use cases demonstrating high level of workflow customi
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="1st step : get the data source&#x27;s analyse of integration points(this file was add the commands A...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Extrapolating results available at Gauss or quadrature points to nodal points for a field or fi...">
 
 .. only:: html
 
@@ -735,6 +776,62 @@ These demos show how to create worflows on different processes (possibly on diff
    :hidden:
 
    /examples/05-distributed-post/05-distributed_total_disp_with_operators
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_examples_05-plotting:
+
+.. _plotting_examples
+
+Plotting Examples
+=================
+These demos show how to use the DpfPlotter.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot results on a specific path">
+
+.. only:: html
+
+ .. figure:: /examples/05-plotting/images/thumb/sphx_glr_00-plot_on_path_thumb.png
+     :alt: Plot results on a specific path
+
+     :ref:`sphx_glr_examples_05-plotting_00-plot_on_path.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/05-plotting/00-plot_on_path
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Compare Results Using the Plotter">
+
+.. only:: html
+
+ .. figure:: /examples/05-plotting/images/thumb/sphx_glr_01-compare_results_thumb.png
+     :alt: Compare Results Using the Plotter
+
+     :ref:`sphx_glr_examples_05-plotting_01-compare_results.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/05-plotting/01-compare_results
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

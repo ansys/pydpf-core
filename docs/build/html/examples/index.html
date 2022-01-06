@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Examples Gallery &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Examples &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="current reference internal nav-link" href="#">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -423,6 +451,13 @@
   <ul class="nav section-nav flex-column">
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-examples">
+   Plotting Examples
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
 </ul>
 
 </nav>
@@ -444,52 +479,51 @@
               
               <div>
                 
-  <div class="section" id="examples-gallery">
-<span id="gallery"></span><span id="sphx-glr-examples"></span><h1>Examples Gallery<a class="headerlink" href="#examples-gallery" title="Permalink to this headline">¶</a></h1>
-<p>These examples demonstrate the behavior and usage of the
-<cite>ansys.dpf.core</cite> module.</p>
+  <div class="section" id="examples">
+<span id="gallery"></span><span id="sphx-glr-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>These examples demonstrate the behavior and usage of DPF-Core.</p>
 <div class="sphx-glr-clear"></div><div class="section" id="basic-dpf-examples">
 <span id="basic-gallery"></span><span id="sphx-glr-examples-00-basic"></span><h2>Basic DPF Examples<a class="headerlink" href="#basic-dpf-examples" title="Permalink to this headline">¶</a></h2>
 <p>These examples explain the basic concepts of DPF.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="If you have ANSYS 2021R1 installed, getting running DPF is quite easy as ansys.dpf.core takes c..."><div class="figure align-default" id="id1">
+<div class="sphx-glr-thumbcontainer" tooltip="If you have Ansys 2021 R1 installed, starting DPF is quite easy as DPF-Core takes care of launc..."><div class="figure align-default" id="id1">
 <img alt="Basic DPF-Core Usage" src="../_images/sphx_glr_00-basic_example_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/00-basic_example.html#sphx-glr-examples-00-basic-00-basic-example-py"><span class="std std-ref">Basic DPF-Core Usage</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Operators are primary method for interacting with and extracting results.  Within DPF-Core, the..."><div class="figure align-default" id="id2">
+<div class="sphx-glr-thumbcontainer" tooltip="In DPF, operators provide the primary method for interacting with and extracting results.  With..."><div class="figure align-default" id="id2">
 <img alt="Operators Overview" src="../_images/sphx_glr_01-basic_operators_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/01-basic_operators.html#sphx-glr-examples-00-basic-01-basic-operators-py"><span class="std std-ref">Operators Overview</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="The field is the main simulation data container. In numerical simulations, results data are def..."><div class="figure align-default" id="id3">
+<div class="sphx-glr-thumbcontainer" tooltip="Because field data is always associated to its scoping and support, the field is a self-describ..."><div class="figure align-default" id="id3">
 <img alt="Field and Field Containers Overview" src="../_images/sphx_glr_02-basic_field_containers_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/02-basic_field_containers.html#sphx-glr-examples-00-basic-02-basic-field-containers-py"><span class="std std-ref">Field and Field Containers Overview</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Create your own entities to use dpf&#x27;s operators"><div class="figure align-default" id="id4">
-<img alt="Create your own entities to use dpf's operators" src="../_images/sphx_glr_03-create_entities_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/03-create_entities.html#sphx-glr-examples-00-basic-03-create-entities-py"><span class="std std-ref">Create your own entities to use dpf’s operators</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:"><div class="figure align-default" id="id4">
+<img alt="Create Your Own Entities Use DPF Operators" src="../_images/sphx_glr_03-create_entities_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/03-create_entities.html#sphx-glr-examples-00-basic-03-create-entities-py"><span class="std std-ref">Create Your Own Entities Use DPF Operators</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to write and upload files  on the server machine, then how to download i..."><div class="figure align-default" id="id5">
-<img alt="Write/load and upload/download a result file" src="../_images/sphx_glr_04-basic-load-file_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/04-basic-load-file.html#sphx-glr-examples-00-basic-04-basic-load-file-py"><span class="std std-ref">Write/load and upload/download a result file</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to write and upload files on the server machine and then download them b..."><div class="figure align-default" id="id5">
+<img alt="Write/Load and Upload/Download a Result File" src="../_images/sphx_glr_04-basic-load-file_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/04-basic-load-file.html#sphx-glr-examples-00-basic-04-basic-load-file-py"><span class="std std-ref">Write/Load and Upload/Download a Result File</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Bring Field&#x27;s data locally to improve performances"><div class="figure align-default" id="id6">
-<img alt="Bring Field's data locally to improve performances" src="../_images/sphx_glr_05-use_local_data_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/05-use_local_data.html#sphx-glr-examples-00-basic-05-use-local-data-py"><span class="std std-ref">Bring Field’s data locally to improve performances</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:"><div class="figure align-default" id="id6">
+<img alt="Bring a Field's Data Locally to Improve Performance" src="../_images/sphx_glr_05-use_local_data_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/05-use_local_data.html#sphx-glr-examples-00-basic-05-use-local-data-py"><span class="std std-ref">Bring a Field’s Data Locally to Improve Performance</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Load plugin"><div class="figure align-default" id="id7">
-<img alt="Load plugin" src="../_images/sphx_glr_06-load_plugin_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/06-load_plugin.html#sphx-glr-examples-00-basic-06-load-plugin-py"><span class="std std-ref">Load plugin</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="Load Plugin"><div class="figure align-default" id="id7">
+<img alt="Load Plugin" src="../_images/sphx_glr_06-load_plugin_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/06-load_plugin.html#sphx-glr-examples-00-basic-06-load-plugin-py"><span class="std std-ref">Load Plugin</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -499,20 +533,32 @@
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
+<div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:"><div class="figure align-default" id="id9">
+<img alt="Scope results over custom time domains" src="../_images/sphx_glr_08-results_over_time_subset_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/08-results_over_time_subset.html#sphx-glr-examples-00-basic-08-results-over-time-subset-py"><span class="std std-ref">Scope results over custom time domains</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:"><div class="figure align-default" id="id10">
+<img alt="Scope results over custom space domains" src="../_images/sphx_glr_09-results_over_space_subset_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="00-basic/09-results_over_space_subset.html#sphx-glr-examples-00-basic-09-results-over-space-subset-py"><span class="std std-ref">Scope results over custom space domains</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
 <div class="sphx-glr-clear"></div></div>
 <div class="section" id="transient-analysis-examples">
 <span id="static-transient-examples"></span><span id="sphx-glr-examples-01-static-transient"></span><h2>Transient Analysis Examples<a class="headerlink" href="#transient-analysis-examples" title="Permalink to this headline">¶</a></h2>
 <p>These examples show how to use DPF to extract and plot displacements,
 stresses, and strains from a transient static analysis.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="Transient Analysis Result Example"><div class="figure align-default" id="id9">
+<div class="sphx-glr-thumbcontainer" tooltip="Import the necessary modules:"><div class="figure align-default" id="id11">
 <img alt="Transient Analysis Result Example" src="../_images/sphx_glr_00-basic_transient_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="01-static-transient/00-basic_transient.html#sphx-glr-examples-01-static-transient-00-basic-transient-py"><span class="std std-ref">Transient Analysis Result Example</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="01-static-transient/00-basic_transient.html#sphx-glr-examples-01-static-transient-00-basic-transient-py"><span class="std std-ref">Transient Analysis Result Example</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Go Easily over Times Transient Analysis"><div class="figure align-default" id="id10">
-<img alt="Go Easily over Times Transient Analysis" src="../_images/sphx_glr_01-transient_easy_time_scoping_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="01-static-transient/01-transient_easy_time_scoping.html#sphx-glr-examples-01-static-transient-01-transient-easy-time-scoping-py"><span class="std std-ref">Go Easily over Times Transient Analysis</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="Choose a Time Scoping for a Transient Analysis"><div class="figure align-default" id="id12">
+<img alt="Choose a Time Scoping for a Transient Analysis" src="../_images/sphx_glr_01-transient_easy_time_scoping_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="01-static-transient/01-transient_easy_time_scoping.html#sphx-glr-examples-01-static-transient-01-transient-easy-time-scoping-py"><span class="std std-ref">Choose a Time Scoping for a Transient Analysis</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -521,39 +567,39 @@ stresses, and strains from a transient static analysis.</p>
 <span id="modal-harmonic-examples"></span><span id="sphx-glr-examples-02-modal-harmonic"></span><h2>Harmonic Analysis Examples<a class="headerlink" href="#harmonic-analysis-examples" title="Permalink to this headline">¶</a></h2>
 <p>These examples show how to use DPF to extract and manipulate,
 results from harmonic or modal analyses.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="Multi-Harmonic Response Example"><div class="figure align-default" id="id11">
+<div class="sphx-glr-thumbcontainer" tooltip="Multi-Harmonic Response Example"><div class="figure align-default" id="id13">
 <img alt="Multi-Harmonic Response Example" src="../_images/sphx_glr_00-multi_harmonic_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/00-multi_harmonic.html#sphx-glr-examples-02-modal-harmonic-00-multi-harmonic-py"><span class="std std-ref">Multi-Harmonic Response Example</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/00-multi_harmonic.html#sphx-glr-examples-02-modal-harmonic-00-multi-harmonic-py"><span class="std std-ref">Multi-Harmonic Response Example</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Modal Cyclic symmetry Example"><div class="figure align-default" id="id12">
+<div class="sphx-glr-thumbcontainer" tooltip="Modal Cyclic symmetry Example"><div class="figure align-default" id="id14">
 <img alt="Modal Cyclic symmetry Example" src="../_images/sphx_glr_01-modal_cyclic_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/01-modal_cyclic.html#sphx-glr-examples-02-modal-harmonic-01-modal-cyclic-py"><span class="std std-ref">Modal Cyclic symmetry Example</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/01-modal_cyclic.html#sphx-glr-examples-02-modal-harmonic-01-modal-cyclic-py"><span class="std std-ref">Modal Cyclic symmetry Example</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Multi-stage Cyclic Symmetry Example"><div class="figure align-default" id="id13">
+<div class="sphx-glr-thumbcontainer" tooltip="Multi-stage Cyclic Symmetry Example"><div class="figure align-default" id="id15">
 <img alt="Multi-stage Cyclic Symmetry Example" src="../_images/sphx_glr_02-cyclic_multi_stage_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/02-cyclic_multi_stage.html#sphx-glr-examples-02-modal-harmonic-02-cyclic-multi-stage-py"><span class="std std-ref">Multi-stage Cyclic Symmetry Example</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/02-cyclic_multi_stage.html#sphx-glr-examples-02-modal-harmonic-02-cyclic-multi-stage-py"><span class="std std-ref">Multi-stage Cyclic Symmetry Example</span></a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to compare mode shapes for solids and then shells"><div class="figure align-default" id="id14">
+<div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to compare mode shapes for solids and then shells"><div class="figure align-default" id="id16">
 <img alt="Use Result Helpers to compare mode shapes for solids and then shells" src="../_images/sphx_glr_03-compare_modes_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/03-compare_modes.html#sphx-glr-examples-02-modal-harmonic-03-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/03-compare_modes.html#sphx-glr-examples-02-modal-harmonic-03-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a></span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Expand Harmonic Modal Superposition with DPF"><div class="figure align-default" id="id15">
+<div class="sphx-glr-thumbcontainer" tooltip="Expand Harmonic Modal Superposition with DPF"><div class="figure align-default" id="id17">
 <img alt="Expand Harmonic Modal Superposition with DPF" src="../_images/sphx_glr_04-modal_superposition_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/04-modal_superposition.html#sphx-glr-examples-02-modal-harmonic-04-modal-superposition-py"><span class="std std-ref">Expand Harmonic Modal Superposition with DPF</span></a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/04-modal_superposition.html#sphx-glr-examples-02-modal-harmonic-04-modal-superposition-py"><span class="std std-ref">Expand Harmonic Modal Superposition with DPF</span></a></span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Read results from distributed files"><div class="figure align-default" id="id16">
+<div class="sphx-glr-thumbcontainer" tooltip="Read results from distributed files"><div class="figure align-default" id="id18">
 <img alt="Read results from distributed files" src="../_images/sphx_glr_05-read_distributed_files_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/05-read_distributed_files.html#sphx-glr-examples-02-modal-harmonic-05-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a></span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="02-modal-harmonic/05-read_distributed_files.html#sphx-glr-examples-02-modal-harmonic-05-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a></span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -561,39 +607,39 @@ results from harmonic or modal analyses.</p>
 <div class="section" id="advanced-and-miscellaneous-examples">
 <span id="advanced-examples"></span><span id="sphx-glr-examples-03-advanced"></span><h2>Advanced and Miscellaneous Examples<a class="headerlink" href="#advanced-and-miscellaneous-examples" title="Permalink to this headline">¶</a></h2>
 <p>These demos show advanced use cases demonstrating high level of workflow customization</p>
-<div class="sphx-glr-thumbcontainer" tooltip="Multi-stage Cyclic Symmetry Use Advanced Customization"><div class="figure align-default" id="id17">
+<div class="sphx-glr-thumbcontainer" tooltip="Multi-stage Cyclic Symmetry Use Advanced Customization"><div class="figure align-default" id="id19">
 <img alt="Multi-stage Cyclic Symmetry Use Advanced Customization" src="../_images/sphx_glr_00-multistage_advanced_options_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/00-multistage_advanced_options.html#sphx-glr-examples-03-advanced-00-multistage-advanced-options-py"><span class="std std-ref">Multi-stage Cyclic Symmetry Use Advanced Customization</span></a></span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/00-multistage_advanced_options.html#sphx-glr-examples-03-advanced-00-multistage-advanced-options-py"><span class="std std-ref">Multi-stage Cyclic Symmetry Use Advanced Customization</span></a></span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Solve Harmonic Problem (with damping) Using Matrix Inverse"><div class="figure align-default" id="id18">
+<div class="sphx-glr-thumbcontainer" tooltip="Solve Harmonic Problem (with damping) Using Matrix Inverse"><div class="figure align-default" id="id20">
 <img alt="Solve Harmonic Problem (with damping) Using Matrix Inverse" src="../_images/sphx_glr_01-solve_harmonic_problem_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/01-solve_harmonic_problem.html#sphx-glr-examples-03-advanced-01-solve-harmonic-problem-py"><span class="std std-ref">Solve Harmonic Problem (with damping) Using Matrix Inverse</span></a></span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/01-solve_harmonic_problem.html#sphx-glr-examples-03-advanced-01-solve-harmonic-problem-py"><span class="std std-ref">Solve Harmonic Problem (with damping) Using Matrix Inverse</span></a></span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Average Elemental Stress on a given volume"><div class="figure align-default" id="id19">
+<div class="sphx-glr-thumbcontainer" tooltip="Average Elemental Stress on a given volume"><div class="figure align-default" id="id21">
 <img alt="Average Elemental Stress on a given volume" src="../_images/sphx_glr_02-volume_averaged_stress_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/02-volume_averaged_stress.html#sphx-glr-examples-03-advanced-02-volume-averaged-stress-py"><span class="std std-ref">Average Elemental Stress on a given volume</span></a></span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/02-volume_averaged_stress.html#sphx-glr-examples-03-advanced-02-volume-averaged-stress-py"><span class="std std-ref">Average Elemental Stress on a given volume</span></a></span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Exchange Data Between Servers"><div class="figure align-default" id="id20">
+<div class="sphx-glr-thumbcontainer" tooltip="Exchange Data Between Servers"><div class="figure align-default" id="id22">
 <img alt="Exchange Data Between Servers" src="../_images/sphx_glr_03-exchange_data_between_servers_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/03-exchange_data_between_servers.html#sphx-glr-examples-03-advanced-03-exchange-data-between-servers-py"><span class="std std-ref">Exchange Data Between Servers</span></a></span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/03-exchange_data_between_servers.html#sphx-glr-examples-03-advanced-03-exchange-data-between-servers-py"><span class="std std-ref">Exchange Data Between Servers</span></a></span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="1st step : get the data source&#x27;s analyse of integration points(this file was add the commands A..."><div class="figure align-default" id="id21">
+<div class="sphx-glr-thumbcontainer" tooltip="Extrapolating results available at Gauss or quadrature points to nodal points for a field or fi..."><div class="figure align-default" id="id23">
 <img alt="Extrapolation Method for stress result of 3D-element" src="../_images/sphx_glr_04-extrapolation_stress_3d_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/04-extrapolation_stress_3d.html#sphx-glr-examples-03-advanced-04-extrapolation-stress-3d-py"><span class="std std-ref">Extrapolation Method for stress result of 3D-element</span></a></span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/04-extrapolation_stress_3d.html#sphx-glr-examples-03-advanced-04-extrapolation-stress-3d-py"><span class="std std-ref">Extrapolation Method for stress result of 3D-element</span></a></span><a class="headerlink" href="#id23" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="1st step : get the data source&#x27;s analyse of integration points(this file was add the commands A..."><div class="figure align-default" id="id22">
+<div class="sphx-glr-thumbcontainer" tooltip="Extrapolating results available at Gauss or quadrature points to nodal points for a field or fi..."><div class="figure align-default" id="id24">
 <img alt="Extrapolation Method for strain result of 2D-element" src="../_images/sphx_glr_05-extrapolation_strain_2d_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/05-extrapolation_strain_2d.html#sphx-glr-examples-03-advanced-05-extrapolation-strain-2d-py"><span class="std std-ref">Extrapolation Method for strain result of 2D-element</span></a></span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="03-advanced/05-extrapolation_strain_2d.html#sphx-glr-examples-03-advanced-05-extrapolation-strain-2d-py"><span class="std std-ref">Extrapolation Method for strain result of 2D-element</span></a></span><a class="headerlink" href="#id24" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -601,15 +647,15 @@ results from harmonic or modal analyses.</p>
 <div class="section" id="examples-that-targets-specific-requests">
 <h2>Examples that targets specific requests<a class="headerlink" href="#examples-that-targets-specific-requests" title="Permalink to this headline">¶</a></h2>
 <p>These demos show how to solve specific requests.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="Hdf5 export and compare precision"><div class="figure align-default" id="id23">
+<div class="sphx-glr-thumbcontainer" tooltip="Hdf5 export and compare precision"><div class="figure align-default" id="id25">
 <img alt="Hdf5 export and compare precision" src="../_images/sphx_glr_00-hdf5_double_float_comparison_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="04-specific-requests/00-hdf5_double_float_comparison.html#sphx-glr-examples-04-specific-requests-00-hdf5-double-float-comparison-py"><span class="std std-ref">Hdf5 export and compare precision</span></a></span><a class="headerlink" href="#id23" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="04-specific-requests/00-hdf5_double_float_comparison.html#sphx-glr-examples-04-specific-requests-00-hdf5-double-float-comparison-py"><span class="std std-ref">Hdf5 export and compare precision</span></a></span><a class="headerlink" href="#id25" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Get reduced matrices and make export"><div class="figure align-default" id="id24">
+<div class="sphx-glr-thumbcontainer" tooltip="Get reduced matrices and make export"><div class="figure align-default" id="id26">
 <img alt="Get reduced matrices and make export" src="../_images/sphx_glr_01-reduced_matrices_export_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="04-specific-requests/01-reduced_matrices_export.html#sphx-glr-examples-04-specific-requests-01-reduced-matrices-export-py"><span class="std std-ref">Get reduced matrices and make export</span></a></span><a class="headerlink" href="#id24" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="04-specific-requests/01-reduced_matrices_export.html#sphx-glr-examples-04-specific-requests-01-reduced-matrices-export-py"><span class="std std-ref">Get reduced matrices and make export</span></a></span><a class="headerlink" href="#id26" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -617,39 +663,55 @@ results from harmonic or modal analyses.</p>
 <div class="section" id="examples-for-post-processing-on-distributed-process">
 <h2>Examples for post processing on distributed process<a class="headerlink" href="#examples-for-post-processing-on-distributed-process" title="Permalink to this headline">¶</a></h2>
 <p>These demos show how to create worflows on different processes (possibly on different machine) and how to connect those together.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes"><div class="figure align-default" id="id25">
+<div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes"><div class="figure align-default" id="id27">
 <img alt="Distributed post without client connection to remote processes" src="../_images/sphx_glr_00-distributed_total_disp_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/00-distributed_total_disp.html#sphx-glr-examples-05-distributed-post-00-distributed-total-disp-py"><span class="std std-ref">Distributed post without client connection to remote processes</span></a></span><a class="headerlink" href="#id25" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/00-distributed_total_disp.html#sphx-glr-examples-05-distributed-post-00-distributed-total-disp-py"><span class="std std-ref">Distributed post without client connection to remote processes</span></a></span><a class="headerlink" href="#id27" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Compute total displacement from distributed files with distributed post"><div class="figure align-default" id="id26">
+<div class="sphx-glr-thumbcontainer" tooltip="Compute total displacement from distributed files with distributed post"><div class="figure align-default" id="id28">
 <img alt="Compute total displacement from distributed files with distributed post" src="../_images/sphx_glr_01-distributed_delegate_to_server_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/01-distributed_delegate_to_server.html#sphx-glr-examples-05-distributed-post-01-distributed-delegate-to-server-py"><span class="std std-ref">Compute total displacement from distributed files with distributed post</span></a></span><a class="headerlink" href="#id26" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/01-distributed_delegate_to_server.html#sphx-glr-examples-05-distributed-post-01-distributed-delegate-to-server-py"><span class="std std-ref">Compute total displacement from distributed files with distributed post</span></a></span><a class="headerlink" href="#id28" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Connect workflows on different processes implicitly"><div class="figure align-default" id="id27">
+<div class="sphx-glr-thumbcontainer" tooltip="Connect workflows on different processes implicitly"><div class="figure align-default" id="id29">
 <img alt="Connect workflows on different processes implicitly" src="../_images/sphx_glr_02-distributed_workflows_on_remote_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/02-distributed_workflows_on_remote.html#sphx-glr-examples-05-distributed-post-02-distributed-workflows-on-remote-py"><span class="std std-ref">Connect workflows on different processes implicitly</span></a></span><a class="headerlink" href="#id27" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/02-distributed_workflows_on_remote.html#sphx-glr-examples-05-distributed-post-02-distributed-workflows-on-remote-py"><span class="std std-ref">Connect workflows on different processes implicitly</span></a></span><a class="headerlink" href="#id29" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Distributed modal superposition"><div class="figure align-default" id="id28">
+<div class="sphx-glr-thumbcontainer" tooltip="Distributed modal superposition"><div class="figure align-default" id="id30">
 <img alt="Distributed modal superposition" src="../_images/sphx_glr_03-distributed-msup_expansion_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/03-distributed-msup_expansion.html#sphx-glr-examples-05-distributed-post-03-distributed-msup-expansion-py"><span class="std std-ref">Distributed modal superposition</span></a></span><a class="headerlink" href="#id28" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/03-distributed-msup_expansion.html#sphx-glr-examples-05-distributed-post-03-distributed-msup-expansion-py"><span class="std std-ref">Distributed modal superposition</span></a></span><a class="headerlink" href="#id30" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Distributed msup distributed modal response"><div class="figure align-default" id="id29">
+<div class="sphx-glr-thumbcontainer" tooltip="Distributed msup distributed modal response"><div class="figure align-default" id="id31">
 <img alt="Distributed msup distributed modal response" src="../_images/sphx_glr_04-distributed-msup_expansion_steps_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/04-distributed-msup_expansion_steps.html#sphx-glr-examples-05-distributed-post-04-distributed-msup-expansion-steps-py"><span class="std std-ref">Distributed msup distributed modal response</span></a></span><a class="headerlink" href="#id29" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/04-distributed-msup_expansion_steps.html#sphx-glr-examples-05-distributed-post-04-distributed-msup-expansion-steps-py"><span class="std std-ref">Distributed msup distributed modal response</span></a></span><a class="headerlink" href="#id31" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes with Operators"><div class="figure align-default" id="id30">
+<div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes with Operators"><div class="figure align-default" id="id32">
 <img alt="Distributed post without client connection to remote processes with Operators" src="../_images/sphx_glr_05-distributed_total_disp_with_operators_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/05-distributed_total_disp_with_operators.html#sphx-glr-examples-05-distributed-post-05-distributed-total-disp-with-operators-py"><span class="std std-ref">Distributed post without client connection to remote processes with Operators</span></a></span><a class="headerlink" href="#id30" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-distributed-post/05-distributed_total_disp_with_operators.html#sphx-glr-examples-05-distributed-post-05-distributed-total-disp-with-operators-py"><span class="std std-ref">Distributed post without client connection to remote processes with Operators</span></a></span><a class="headerlink" href="#id32" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div><span class="target" id="sphx-glr-examples-05-plotting"></span></div>
+<div class="section" id="plotting-examples">
+<h2>Plotting Examples<a class="headerlink" href="#plotting-examples" title="Permalink to this headline">¶</a></h2>
+<p>These demos show how to use the DpfPlotter.</p>
+<div class="sphx-glr-thumbcontainer" tooltip="Plot results on a specific path"><div class="figure align-default" id="id33">
+<img alt="Plot results on a specific path" src="../_images/sphx_glr_00-plot_on_path_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-plotting/00-plot_on_path.html#sphx-glr-examples-05-plotting-00-plot-on-path-py"><span class="std std-ref">Plot results on a specific path</span></a></span><a class="headerlink" href="#id33" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Compare Results Using the Plotter"><div class="figure align-default" id="id34">
+<img alt="Compare Results Using the Plotter" src="../_images/sphx_glr_01-compare_results_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="05-plotting/01-compare_results.html#sphx-glr-examples-05-plotting-01-compare-results-py"><span class="std std-ref">Compare Results Using the Plotter</span></a></span><a class="headerlink" href="#id34" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -660,13 +722,6 @@ results from harmonic or modal analyses.</p>
 
               </div>
               
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="../operator_reference.html" title="previous page">Operators</a>
-    <a class='right-next' id="next-link" href="00-basic/00-basic_example.html" title="next page">Basic DPF-Core Usage</a>
-
-              </div>
               
           </main>
           
@@ -681,7 +736,7 @@ results from harmonic or modal analyses.</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

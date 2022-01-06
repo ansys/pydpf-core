@@ -1,12 +1,12 @@
 .. _user_guide_model:
 
-==============
-The DPF Model
-==============
+=========
+DPF Model
+=========
 
-The DPF model is the basic starting point for opening a file through
-DPF.  From here you can connect various operators and display results
-and data from the result file.
+The DPF model provides the starting point for opening a result file. 
+From here you can connect various operators and display results
+and data.
 
 To create a ``Model`` instance, import ``dpf`` and load a file.  The
 path provided must be an absolute path or a path relative to the DPF
@@ -20,8 +20,8 @@ server.
     path = examples.simple_bar
     model = dpf.Model(path)
 
-Printing the model (or any other instance) ca be useful to understand what 
-is available in the result file 
+To undestand what is available in the result file, you can print the model 
+(or any other instance). 
 
 .. code-block:: default
 
@@ -37,50 +37,49 @@ is available in the result file
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: static 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        ENF Element nodal Forces :element nodal forces 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        BFE Temperature :element structural nodal temperatures 
+    Static analysis
+    Unit system: Metric (m, kg, N, s, V, A)
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
-    DPF  Meshed Region: 
-      3751 nodes 
-      3000 elements 
-      Unit: m 
+    DPF  Meshed Region:
+      3751 nodes
+      3000 elements
+      Unit: m
       With solid (3D) elements
     ------------------------------
-    DPF  Time/Freq Support: 
-      Number of sets: 1 
-    Cumulative     Time (s)       LoadStep       Substep         
-    1              1.000000       1              1               
+    DPF  Time/Freq Support:
+      Number of sets: 1
+    Cumulative     Time (s)       LoadStep       Substep
+    1              1.000000       1              1
     
 
 
-For a full example using the model, see :ref:`ref_basic_example`.
+For an example using the model, see :ref:`ref_basic_example`.
 
-For a full description of the Model object, see the APIs section :ref:`ref_model`.
+For a description of the `Model` object, see the APIs section :ref:`ref_model`.
 
 
 Model Metadata
 --------------
-The metadata of the model can be used to access all the information about an analysis:
+You can use model metadata to access all information about an analysis:
 
-- the type of analysis
-- the time or frequencies description
-- the mesh
-- the available results
+- Type of analysis
+- Time or frequency descriptions
+- Mesh
+- Available results
 
-For example, you can get the analysis type with:
+For example, you can get the analysis type:
 
 
 .. code-block:: default
@@ -119,7 +118,7 @@ You can get information about the mesh:
     	Shape:        Solid
 
 
-You can the time sets with:
+You can get time sets:
 
 
 .. code-block:: default
@@ -136,14 +135,15 @@ You can the time sets with:
     [1.]
 
 
-For a full description of the Metadata object, see the APIs section :ref:`ref_model`.
+For a description of the `Metadata` object, see the APIs section :ref:`ref_model`.
 
 
 Model Results
 -------------
 The model contains the ``results`` attribute, which you can use to
-create operators to access certain results.  To view the available
-results, print them with:
+create operators to access certain results.
+
+To view available results, print them:
 
 
 .. code-block:: default
@@ -156,28 +156,27 @@ results, print them with:
 
  .. code-block:: none
  
- DPF Result Info 
-  Analysis: static 
-  Physics Type: mecanic 
-  Unit system: MKS: m, kg, N, s, V, A, degC 
-  Available results: 
-    U Displacement :nodal displacements 
-    ENF Element nodal Forces :element nodal forces 
-    ENG_VOL Volume :element volume 
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-    ENG_AHO Hourglass Energy :artificial hourglass energy 
-    ENG_TH thermal dissipation energy :thermal dissipation energy 
-    ENG_KE Kinetic Energy :kinetic energy 
-    ENG_CO co-energy :co-energy (magnetics) 
-    ENG_INC incremental energy :incremental energy (magnetics) 
-    BFE Temperature :element structural nodal temperatures 
-    
+    Static analysis
+    Unit system: Metric (m, kg, N, s, V, A)
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
+
 
 .. autoattribute:: ansys.dpf.core.model.Model.results
   :noindex:
     
-Choosing the time or frequencies or the spatial subset on which to get a given result
-is straightforward with this ``results`` attribute:
+Choosing the time, frequencies, or spatial subset on which to get a given result
+is straightforward with the ``results`` attribute:
 
 
 .. code-block:: default
@@ -186,13 +185,13 @@ is straightforward with this ``results`` attribute:
     disp_at_all_times_on_node_1 =  disp_result.on_all_time_freqs.on_mesh_scoping([1])
     
 
-For a full example using the Result API, see :ref:`ref_transient_easy_time_scoping`.
+For an example using the `Result` API, see :ref:`ref_transient_easy_time_scoping`.
 
-For a full description of the Model object, see the APIs section :ref:`ref_results`.
+For a `description of the `Model` object, see the APIs section :ref:`ref_results`.
 
 
 
 API Reference
 ~~~~~~~~~~~~~
 
-See :ref:`ref_model` or :ref:`ref_results` for more information.
+For more information, see :ref:`ref_model` or :ref:`ref_results`.

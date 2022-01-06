@@ -101,7 +101,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['10.110.2.65', '10.110.2.65']
-    ports: [50056, 50057]
+    ports: [50054, 50055]
 
 
 
@@ -211,34 +211,10 @@ Connect the workflows together and get the output
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-83
-
-Shutdown the servers
-~~~~~~~~~~~~~~~~~~~~~
-
-.. GENERATED FROM PYTHON SOURCE LINES 83-83
-
-.. code-block:: default
-
-    dpf.server.shutdown_all_session_servers()
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    ("'NoneType' object has no attribute 'shutdown'",)
-
-
-
-
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.017 seconds)
+   **Total running time of the script:** ( 0 minutes  0.664 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_05-distributed_total_disp_with_operators.py:

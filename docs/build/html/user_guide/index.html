@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Guide &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>User Guide &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="The DPF Model" href="model.html" />
+    <link rel="next" title="DPF Model" href="model.html" />
     <link rel="prev" title="Using DPF Through Docker" href="../getting_started/docker.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../examples/index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -155,7 +155,7 @@
     <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="model.html">
-   The DPF Model
+   DPF Model
   </a>
  </li>
  <li class="toctree-l1">
@@ -171,6 +171,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="plotting.html">
    Plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="troubleshooting.html">
+   Troubleshooting
   </a>
  </li>
 </ul>
@@ -211,17 +216,16 @@
                 
   <div class="section" id="user-guide">
 <span id="ref-user-guide"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
-<p>The ansys.dpf.core package is a python client API giving an easy access to
-Data Processing Framework (DPF) post processing capabilities. Highly efficient computation, customization and remote post processing
-is made accessible in python with this package.</p>
-<p>This guide provides a general overview of the basics and usage of DPF.
-The most common entities are presented :</p>
+<p>DPF-Core is a Python client API for easily accessing DPF (Data Processing Framework)
+postprocessing capabilities. The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> package makes highly efficient
+computation, customization, and remote postprocessing accessible in Python.</p>
+<p>These sections describe the most common DPF entities:</p>
 <ul class="simple">
-<li><p>the Model in <a class="reference internal" href="model.html#user-guide-model"><span class="std std-ref">The DPF Model</span></a> helps to access results and metadata from result files</p></li>
-<li><p>the Operator in <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> is the only object used to create and transform the data</p></li>
-<li><p>the Field (contained in the Fields Container) <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields Container and Fields</span></a> is the main simulation data container.</p></li>
+<li><p><a class="reference internal" href="model.html#user-guide-model"><span class="std std-ref">DPF Model</span></a> provides the model for accessing results and metadata from result files.</p></li>
+<li><p><a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> provide the objects for creating and transforming data.</p></li>
+<li><p><a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields Container and Fields</span></a> provide the main simulation data container with fields.</p></li>
 </ul>
-<p>A quick explaination on how to plot results via pyVista is also provided in <a class="reference internal" href="plotting.html#user-guide-plotting"><span class="std std-ref">Plotting</span></a>.</p>
+<p>Additionally, <a class="reference internal" href="plotting.html#user-guide-plotting"><span class="std std-ref">Plotting</span></a> describes how to plot results via PyVista.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -229,13 +233,6 @@ The most common entities are presented :</p>
 
               </div>
               
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="../getting_started/docker.html" title="previous page">Using DPF Through Docker</a>
-    <a class='right-next' id="next-link" href="model.html" title="next page">The DPF Model</a>
-
-              </div>
               
           </main>
           
@@ -250,7 +247,7 @@ The most common entities are presented :</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

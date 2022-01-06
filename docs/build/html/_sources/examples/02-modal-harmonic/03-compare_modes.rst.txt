@@ -22,20 +22,18 @@
 
 Use Result Helpers to compare mode shapes for solids and then shells
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `Result` class which instances are created by the `Model` gives access to 
+The `Result` class which instances are created by the `Model` gives access to
 helpers to request results on specific mesh and time scopings.
-With those helpers, working on a custom spatial and temporal subset of the 
+With those helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-17
+.. GENERATED FROM PYTHON SOURCE LINES 11-15
 
 .. code-block:: default
 
-    import numpy as np
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
 
 
 
@@ -44,12 +42,12 @@ model is straightforward.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-20
+.. GENERATED FROM PYTHON SOURCE LINES 16-18
 
 First, create a model object to establish a connection with an
 example result file
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-24
+.. GENERATED FROM PYTHON SOURCE LINES 18-22
 
 .. code-block:: default
 
@@ -69,24 +67,23 @@ example result file
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: modal 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        RF Force :nodal reaction forces 
-        ENF Element nodal Forces :element nodal forces 
-        S Stress :element nodal component stresses 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
+    Modal analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  reaction_force: Nodal Force   
+         -  element_nodal_forces: ElementalNodal Element nodal Forces
+         -  stress: ElementalNodal Stress 
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       2388 nodes 
@@ -147,17 +144,17 @@ example result file
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-28
+.. GENERATED FROM PYTHON SOURCE LINES 23-26
 
 Visualize specific mode shapes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Choose the modes to visualize
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-31
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
 
 .. code-block:: default
 
-    modes = [1,5,10,15]
+    modes = [1, 5, 10, 15]
 
 
 
@@ -167,12 +164,12 @@ Choose the modes to visualize
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-34
+.. GENERATED FROM PYTHON SOURCE LINES 30-32
 
 Choose to split the displacement on solid/shell/beam to only focus on shell
 elements
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-40
+.. GENERATED FROM PYTHON SOURCE LINES 32-38
 
 .. code-block:: default
 
@@ -180,7 +177,7 @@ elements
     for mode in modes:
         fc = disp.on_time_scoping(mode).split_by_shape.eval()
         model.metadata.meshed_region.plot(fc.shell_field())
-    
+
 
 
 
@@ -216,12 +213,12 @@ elements
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-43
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
 
 Choose to split the displacement on solid/shell/beam to only focus on solid
 elements
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-46
+.. GENERATED FROM PYTHON SOURCE LINES 41-45
 
 .. code-block:: default
 
@@ -229,6 +226,7 @@ elements
     for mode in modes:
         fc = disp.on_time_scoping(mode).split_by_shape.eval()
         model.metadata.meshed_region.plot(fc.solid_field())
+
 
 
 .. rst-class:: sphx-glr-horizontal
@@ -265,7 +263,7 @@ elements
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.183 seconds)
+   **Total running time of the script:** ( 0 minutes  5.281 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_03-compare_modes.py:

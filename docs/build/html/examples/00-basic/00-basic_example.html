@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Basic DPF-Core Usage &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Basic DPF-Core Usage &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Operators Overview" href="01-basic_operators.html" />
-    <link rel="prev" title="Examples Gallery" href="../index.html" />
+    <link rel="prev" title="Examples" href="../index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -424,30 +452,32 @@ to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="basic-dpf-core-usage">
 <span id="ref-basic-example"></span><span id="sphx-glr-examples-00-basic-00-basic-example-py"></span><h1>Basic DPF-Core Usage<a class="headerlink" href="#basic-dpf-core-usage" title="Permalink to this headline">¶</a></h1>
-<p>This example shows how to open an example result file and do some
-basic post-processing.</p>
-<p>If you have ANSYS 2021R1 installed, getting running DPF is quite easy
-as <cite>ansys.dpf.core</cite> takes care of launching all the services required
-to start post-processing ANSYS files.</p>
-<p>First, import the DPF-Core module as <cite>dpf_core</cite> and also import the
+<p>This example shows how to open a result file and do some
+basic postprocessing.</p>
+<p>If you have Ansys 2021 R1 installed, starting DPF is quite easy
+as DPF-Core takes care of launching all the services that
+are required for postprocessing Ansys files.</p>
+<p>First, import the DPF-Core module as <code class="docutils literal notranslate"><span class="pre">dpf_core</span></code> and import the
 included examples file.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 </pre></div>
 </div>
-<p>Next, open an example and then print out the <code class="docutils literal notranslate"><span class="pre">model</span></code> object.  The
+<p>Next, open an example and print out the <code class="docutils literal notranslate"><span class="pre">model</span></code> object.  The
 <code class="docutils literal notranslate"><span class="pre">Model</span></code> class helps to organize access methods for the result by
 keeping track of the operators and data sources used by the result
 file.</p>
-<p>Printing the model displays:
-- Analysis type
-- Available results
-- Size of the mesh
-- Number of results</p>
-<p>Also, note that the first time you create a DPF object, Python will
-automatically attempt to start the server in the background.  If you
-wish to connect to an existing server (either local or remote), use
-<code class="docutils literal notranslate"><span class="pre">dpf.connect_to_server()</span></code></p>
+<p>Printing the model displays:</p>
+<ul class="simple">
+<li><p>Analysis type</p></li>
+<li><p>Available results</p></li>
+<li><p>Size of the mesh</p></li>
+<li><p>Number of results</p></li>
+</ul>
+<p>Also, note that the first time you create a DPF object, Python
+automatically attempts to start the server in the background.  If you
+want to connect to an existing server (either local or remote), use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">dpf.connect_to_server()</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">simple_bar</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
@@ -455,21 +485,20 @@ wish to connect to an existing server (either local or remote), use
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
-DPF Result Info
-  Analysis: static
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    ENF Element nodal Forces :element nodal forces
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    BFE Temperature :element structural nodal temperatures
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  structural_temperature: ElementalNodal Temperature
 ------------------------------
 DPF  Meshed Region:
   3751 nodes
@@ -487,31 +516,30 @@ Cumulative     Time (s)       LoadStep       Substep
 <div class="section" id="model-metadata">
 <h1>Model Metadata<a class="headerlink" href="#model-metadata" title="Permalink to this headline">¶</a></h1>
 <p>Specific metadata can be extracted from the model by referencing the
-<code class="docutils literal notranslate"><span class="pre">metadata</span></code> property of the model.  For example, just the
-result_info can be printed with:</p>
+model’s <code class="docutils literal notranslate"><span class="pre">metadata</span></code> property.  For example, to print only the
+<code class="docutils literal notranslate"><span class="pre">result_info</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Result Info
-  Analysis: static
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    ENF Element nodal Forces :element nodal forces
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    BFE Temperature :element structural nodal temperatures
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  structural_temperature: ElementalNodal Temperature
 </pre></div>
 </div>
-<p>The mesh region can be printed with</p>
+<p>To print the mesh region:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -523,7 +551,7 @@ result_info can be printed with:</p>
   With solid (3D) elements
 </pre></div>
 </div>
-<p>and the time or frequency of the results can be printed with:</p>
+<p>To print the time or frequency of the results:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -538,17 +566,19 @@ Cumulative     Time (s)       LoadStep       Substep
 <div class="section" id="extracting-displacement-results">
 <h1>Extracting Displacement Results<a class="headerlink" href="#extracting-displacement-results" title="Permalink to this headline">¶</a></h1>
 <p>All results of the model can be accessed through the <code class="docutils literal notranslate"><span class="pre">results</span></code>
-property, which returns the <code class="docutils literal notranslate"><span class="pre">Results</span></code> class.  This class contains
-the DPF result operators available to a specific result file, which
-are listed when printing the object with <code class="docutils literal notranslate"><span class="pre">print(results)</span></code></p>
-<p>Here, we connect the <code class="docutils literal notranslate"><span class="pre">'U'</span></code> operator with the data_sources, which
+property, which returns the <a class="reference internal" href="../../api/ansys.dpf.core.results.html#ansys.dpf.core.results.Results" title="ansys.dpf.core.results.Results"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.results.Results</span></code></a>
+class. This class contains the DPF result operators available to a
+specific result file, which are listed when printing the object with
+<code class="docutils literal notranslate"><span class="pre">print(results)</span></code>.</p>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">'U'</span></code> operator is connected with <code class="docutils literal notranslate"><span class="pre">data_sources</span></code>, which
 takes place automatically when running <code class="docutils literal notranslate"><span class="pre">results.displacement()</span></code>.
-By default, this is connected to the first result set, which for this static result is the only result.</p>
+By default, the <code class="docutils literal notranslate"><span class="pre">'U'</span></code> operator is connected to the first result set,
+which for this static result is the only result.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span>
 <span class="n">displacements</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 <span class="n">fields</span> <span class="o">=</span> <span class="n">displacements</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
-<span class="c1"># finally, extract the data of the displacement field</span>
+<span class="c1"># Finally, extract the data of the displacement field:</span>
 <span class="n">disp</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
 <span class="n">disp</span>
 </pre></div>
@@ -567,13 +597,7 @@ By default, this is connected to the first result set, which for this static res
 </pre></div>
 </div>
 <img alt="00 basic example" class="sphx-glr-single-img" src="../../_images/sphx_glr_00-basic_example_001.png" />
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(4.199214280684376, 5.199214280684376, 4.199214280684376),
- (0.5, 1.5, 0.5),
- (0.0, 0.0, 1.0)]
-</pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.761 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.962 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-00-basic-example-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/10361ee91d55c14598718da56ad8d485/00-basic_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-basic_example.py</span></code></a></p>
@@ -589,13 +613,6 @@ By default, this is connected to the first result set, which for this static res
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">Examples Gallery</a>
-    <a class='right-next' id="next-link" href="01-basic_operators.html" title="next page">Operators Overview</a>
-
-              </div>
-              
           </main>
           
 
@@ -609,7 +626,7 @@ By default, this is connected to the first result set, which for this static res
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

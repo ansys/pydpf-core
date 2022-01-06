@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Installation with PIP &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Installation with PIP &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -59,7 +59,7 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -105,7 +105,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../examples/index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -175,8 +175,8 @@
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#editable-install-development-mode">
-   Editable Install (Development Mode)
+  <a class="reference internal nav-link" href="#editable-installation-development-mode">
+   Editable Installation (Development Mode)
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
@@ -207,22 +207,23 @@
                 
   <div class="section" id="installation-with-pip">
 <span id="installation"></span><h1>Installation with PIP<a class="headerlink" href="#installation-with-pip" title="Permalink to this headline">¶</a></h1>
-<p>Once you’ve installed Ansys 2021R1 or newer, you can install DPF with:</p>
+<p>Once Ansys 2021 R1 or later is installed, you can install the
+DPF-Core module with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span>
 </pre></div>
 </div>
-<p>This will install the latest version of <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> and all the
-necessary dependencies.</p>
-<p>If you are unable to install the module on the host machine due to
+<p>This installs the latest version of DPF-Core and all necessary
+dependencies.</p>
+<p>If you are unable to install this module on the host machine due to
 network isolation, download the latest release wheel at <a class="reference external" href="https://https://github.com/pyansys/DPF-Core">DPF-Core
 GitHub</a> or from PyPi at
 <a class="reference external" href="https://pypi.org/project/ansys-dpf-core/">DPF-Core PyPi</a></p>
 </div>
-<div class="section" id="editable-install-development-mode">
-<h1>Editable Install (Development Mode)<a class="headerlink" href="#editable-install-development-mode" title="Permalink to this headline">¶</a></h1>
-<p>If you wish to edit and potentially contribute to the DPF-Core python
+<div class="section" id="editable-installation-development-mode">
+<h1>Editable Installation (Development Mode)<a class="headerlink" href="#editable-installation-development-mode" title="Permalink to this headline">¶</a></h1>
+<p>If you want to edit and potentially contribute to the DPF-Core
 module, clone the repository and install it using pip with the <code class="docutils literal notranslate"><span class="pre">-e</span></code>
-development flag.</p>
+development flag:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">tfs</span><span class="o">.</span><span class="n">ansys</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">8443</span><span class="o">/</span><span class="n">tfs</span><span class="o">/</span><span class="n">ANSYS_Development</span><span class="o">/</span><span class="n">DPF</span><span class="o">/</span><span class="n">_git</span><span class="o">/</span><span class="n">dpf</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">core</span>
 <span class="n">cd</span> <span class="n">dpf</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">core</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">canartifactory</span><span class="o">.</span><span class="n">ansys</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">simple</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span> <span class="n">canartifactory</span><span class="o">.</span><span class="n">ansys</span><span class="o">.</span><span class="n">com</span>
@@ -241,11 +242,6 @@ development flag.</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-
-              </div>
-              
           </main>
           
 
@@ -259,7 +255,7 @@ development flag.</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

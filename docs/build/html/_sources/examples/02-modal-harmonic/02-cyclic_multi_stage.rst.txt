@@ -64,16 +64,14 @@ Create the model and display the state of the result.
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: modal 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        S Stress :element nodal component stresses 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
-      With multi_stage cyclic symmetry on 2 stages
+    Modal analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  stress: ElementalNodal Stress 
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       3595 nodes 
@@ -132,16 +130,6 @@ nodes and the first time step.
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(1.3824076534342138, 1.3824076534342138, 1.3824076534342138),
-     (0.0, -4.163336342344337e-17, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
@@ -182,23 +170,13 @@ Expand stresses at a given time step
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(1.3824076534342138, 1.3824076534342138, 1.3824076534342138),
-     (0.0, -4.163336342344337e-17, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.678 seconds)
+   **Total running time of the script:** ( 0 minutes  1.507 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_02-cyclic_multi_stage.py:

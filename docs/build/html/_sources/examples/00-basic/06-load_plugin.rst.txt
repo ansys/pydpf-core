@@ -20,20 +20,17 @@
 
 .. _ref_load_plugin:
 
-Load plugin 
+Load Plugin
 ~~~~~~~~~~~
-This example shows how to load a plugin that is 
-not automatically loaded. 
+This example shows how to load a plugin that is not loaded automatically.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-13
-
-Import dpf module 
-
-.. GENERATED FROM PYTHON SOURCE LINES 13-16
+.. GENERATED FROM PYTHON SOURCE LINES 11-16
 
 .. code-block:: default
 
+    import os
 
+    # Import DPF-Core:
     from ansys.dpf import core as dpf
 
 
@@ -45,40 +42,35 @@ Import dpf module
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-18
 
-Create a base service that allows to load a plugin
+Create a base service for loading a plugin:
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-21
+.. GENERATED FROM PYTHON SOURCE LINES 18-23
 
 .. code-block:: default
 
-
-    dpf.core.load_library('Ans.Dpf.Math.dll', 'math_operators')
-
-
-
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    'math_operators successfully loaded'
+    if os.name == "posix":
+        dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
+    else:
+        dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
-Math operators are now loaded and accessible in ansys.dpf.core.operators
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-26
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
+
+Math operators are now loaded and accessible in ``ansys.dpf.core.operators``:
+
+.. GENERATED FROM PYTHON SOURCE LINES 25-29
 
 .. code-block:: default
 
 
     from ansys.dpf.core import operators as ops
+
     math_op = ops.math.fft_eval()
 
 
@@ -90,7 +82,7 @@ Math operators are now loaded and accessible in ansys.dpf.core.operators
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.863 seconds)
+   **Total running time of the script:** ( 0 minutes  1.015 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_06-load_plugin.py:

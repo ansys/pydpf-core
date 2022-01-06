@@ -2,10 +2,10 @@
 .. _ref_use_result_helpers:
 
 Use Result Helpers to Load Custom Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `Result` class which instances are created by the `Model` gives access to 
-helpers to request results on specific mesh and time scopings.
-With those helpers, working on a custom spatial and temporal subset of the 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The ``Result`` class, which is an instance created by the ``Model``, gives
+access to helpers for requesting results on specific mesh and time scopings.
+With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 """
 import numpy as np

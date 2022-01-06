@@ -22,25 +22,38 @@
 
 Extrapolation Method for strain result of 2D-element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to compute the nodal components elastic strain from Gaussian points (integration points) for 2D-element by using the method of extrapolation.
-Extrapolating results available at Gauss or quadrature points to nodal points for a field or fields container. The available elements are : linear quadrangle, parabolic quadrangle, linear hexagonal, quadratic hexagonal, linear tetrahedral, quadratic tetrahedral. 
+This example shows how to compute the nodal component elastic strain
+from Gaussian points (integration points) for 2D-element by using the
+method of extrapolation.
 
-1st step : get the data source's analyse of integration points(this file was add the commands APDL "EREXS, NO").
+Extrapolating results available at Gauss or quadrature points to nodal
+points for a field or fields container. The available elements are:
+
+* Linear quadrangle
+* Parabolic quadrangle
+* Linear hexagonal
+* Quadratic hexagonal
+* Linear tetrahedral
+* Quadratic tetrahedral
+
+1st step : Get the values at the data source's of integration points (this result
+file was generated from MAPDL with ``EREXS, NO``).
 
 2nd step: using operator of extrapolation to compute the nodal elastic strain.
 
-3rd step: get nodal elastic strain result from data source's analyse reference. The analyse was computed by ANSYS Mechanical APDL.
+3rd step: Get the nodal elastic strain result from the data source.
+The analysis was computed by Ansys Mechanical APDL.
 
-4th step: compare the results between nodal elastic strain from data source ref and nodal strain computed by Extrapolation Method.
+4th step: Compare the results between nodal elastic strain from the data
+source and nodal strain computed by extrapolation method.
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-24
+.. GENERATED FROM PYTHON SOURCE LINES 32-37
 
 .. code-block:: default
 
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-    from ansys.dpf.core import operators 
 
 
 
@@ -50,25 +63,25 @@ Extrapolating results available at Gauss or quadrature points to nodal points fo
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-26
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 Get the data source's analyse of integration points and data source's analyse reference
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-40
+.. GENERATED FROM PYTHON SOURCE LINES 39-53
 
 .. code-block:: default
 
-    datafile= examples.download_extrapolation_2d_result()
+    datafile = examples.download_extrapolation_2d_result()
 
     # integration points (Gaussian points)
-    data_integration_points=datafile['file_integrated']
+    data_integration_points = datafile["file_integrated"]
     data_sources_integration_points = dpf.DataSources(data_integration_points)
 
     # reference
-    dataSourceref=datafile['file_ref']
+    dataSourceref = datafile["file_ref"]
     data_sources_ref = dpf.DataSources(dataSourceref)
 
-    # get the mesh 
+    # get the mesh
     model = dpf.Model(data_integration_points)
     mesh = model.metadata.meshed_region
 
@@ -79,21 +92,23 @@ Get the data source's analyse of integration points and data source's analyse re
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-44
+.. GENERATED FROM PYTHON SOURCE LINES 54-59
 
 Extrapolation from integration points for elastic strain result
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In this example we compute nodal component elastic strain results from integration points's elastic strain by using operator gauss_to_node_fc
+In this example we compute nodal component elastic strain results from
+the elastic strain at the integration points  by using the ``gauss_to_node_fc``
+operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-50
+.. GENERATED FROM PYTHON SOURCE LINES 59-65
 
 .. code-block:: default
 
 
     # Create elastic strain operator to get strain result of integration points
-    strainop=dpf.operators.result.elastic_strain()
+    strainop = dpf.operators.result.elastic_strain()
     strainop.inputs.data_sources.connect(data_sources_integration_points)
-    strain=strainop.outputs.fields_container()
+    strain = strainop.outputs.fields_container()
 
 
 
@@ -102,14 +117,19 @@ In this example we compute nodal component elastic strain results from integrati
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-55
+.. GENERATED FROM PYTHON SOURCE LINES 66-75
 
-Nodal elastic strain result of integration points: 
+Nodal elastic strain result of integration points:
 ##############################################################################
- The command "ERESX,NO" in Mechanical APDL is used to copy directly the gaussian (integration) points results to the nodes, instead of the results at nodes or elements (which are interpolation of results at a few gauss points).
- The following plot shows the nodal values which are the averaged values of elastic strain at each node. The value shown at the node is the average of the elastic strains from the gaussian points of each element that it belongs to. 
+ The command ``ERESX,NO`` in Mechanical APDL is used to copy directly the
+ gaussian (integration) points results to the nodes, instead of the results
+ at nodes or elements (which are interpolation of results at a few gauss points).
+ The following plot shows the nodal values which are the averaged values
+ of elastic strain at each node. The value shown at the node is the
+ average of the elastic strains from the gaussian points of each element
+ that it belongs to.
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-62
+.. GENERATED FROM PYTHON SOURCE LINES 75-82
 
 .. code-block:: default
 
@@ -128,24 +148,15 @@ Nodal elastic strain result of integration points:
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(0.07886751356629113, 0.07886751375129113, 0.07886751375129113),
-     (-1.8499999969445735e-10, 0.0, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 83-85
 
-Create operator gauss_to_node_fc and compute nodal component elastic strain by applying Extrapolation Method
+Create the ``gauss_to_node_fc`` operator and compute nodal component
+elastic strain by applying the extrapolation method.
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-73
+.. GENERATED FROM PYTHON SOURCE LINES 85-94
 
 .. code-block:: default
 
@@ -156,7 +167,7 @@ Create operator gauss_to_node_fc and compute nodal component elastic strain by a
     # connect fields container elastic strain
     ex_strain.inputs.fields_container.connect(strain)
     # get output
-    fex=ex_strain.outputs.fields_container()
+    fex = ex_strain.outputs.fields_container()
 
 
 
@@ -165,20 +176,20 @@ Create operator gauss_to_node_fc and compute nodal component elastic strain by a
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-76
+.. GENERATED FROM PYTHON SOURCE LINES 95-97
 
 Elastic strain result of reference ANSYS Workbench
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-82
+.. GENERATED FROM PYTHON SOURCE LINES 97-103
 
 .. code-block:: default
 
 
     # Strain from file dataSourceref
-    strainop_ref=dpf.operators.result.elastic_strain()
+    strainop_ref = dpf.operators.result.elastic_strain()
     strainop_ref.inputs.data_sources.connect(data_sources_ref)
-    strain_ref=strainop_ref.outputs.fields_container()
+    strain_ref = strainop_ref.outputs.fields_container()
 
 
 
@@ -187,13 +198,13 @@ Elastic strain result of reference ANSYS Workbench
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-86
+.. GENERATED FROM PYTHON SOURCE LINES 104-107
 
 Plot
 ~~~~~~~~~~
 Showing plots of Extrapolation's elastic strain result and reference's elastic strain result
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-96
+.. GENERATED FROM PYTHON SOURCE LINES 107-117
 
 .. code-block:: default
 
@@ -226,29 +237,20 @@ Showing plots of Extrapolation's elastic strain result and reference's elastic s
           :class: sphx-glr-multi-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(0.07886751356629113, 0.07886751375129113, 0.07886751375129113),
-     (-1.8499999969445735e-10, 0.0, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-103
+.. GENERATED FROM PYTHON SOURCE LINES 118-125
 
 Comparison
 ~~~~~~~~~~~~
 Compare the elastic strain result computed by extrapolation and reference's result.
-Check if two fields container are identical. 
+Check if two fields container are identical.
 Maximum tolerance gap between to compared values: 1e-3.
-Smallest value which will be considered during the comparison step : all the abs(values) in field less than 1e-14 is considered as null
+Smallest value which will be considered during the comparison
+step : all the ``abs(values)`` in the field less than 1e-14 are considered null
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-110
+.. GENERATED FROM PYTHON SOURCE LINES 125-133
 
 .. code-block:: default
 
@@ -260,6 +262,7 @@ Smallest value which will be considered during the comparison step : all the abs
     op.inputs.tolerance.connect(1.0e-14)
     op.inputs.small_value.connect(0.001)
     op.outputs.boolean()
+
 
 
 
@@ -277,7 +280,7 @@ Smallest value which will be considered during the comparison step : all the abs
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.940 seconds)
+   **Total running time of the script:** ( 0 minutes  2.157 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_05-extrapolation_strain_2d.py:

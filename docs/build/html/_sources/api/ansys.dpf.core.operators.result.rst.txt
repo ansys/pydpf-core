@@ -18,6 +18,27 @@ Submodules
    ansys.dpf.core.operators.result.artificial_hourglass_energy
    ansys.dpf.core.operators.result.cms_matrices_provider
    ansys.dpf.core.operators.result.co_energy
+   ansys.dpf.core.operators.result.compute_elastic_strain
+   ansys.dpf.core.operators.result.compute_elastic_strain_1
+   ansys.dpf.core.operators.result.compute_elastic_strain_2
+   ansys.dpf.core.operators.result.compute_elastic_strain_3
+   ansys.dpf.core.operators.result.compute_elastic_strain_X
+   ansys.dpf.core.operators.result.compute_elastic_strain_XY
+   ansys.dpf.core.operators.result.compute_elastic_strain_XZ
+   ansys.dpf.core.operators.result.compute_elastic_strain_Y
+   ansys.dpf.core.operators.result.compute_elastic_strain_YZ
+   ansys.dpf.core.operators.result.compute_elastic_strain_Z
+   ansys.dpf.core.operators.result.compute_stress
+   ansys.dpf.core.operators.result.compute_stress_1
+   ansys.dpf.core.operators.result.compute_stress_2
+   ansys.dpf.core.operators.result.compute_stress_3
+   ansys.dpf.core.operators.result.compute_stress_X
+   ansys.dpf.core.operators.result.compute_stress_XY
+   ansys.dpf.core.operators.result.compute_stress_XZ
+   ansys.dpf.core.operators.result.compute_stress_Y
+   ansys.dpf.core.operators.result.compute_stress_YZ
+   ansys.dpf.core.operators.result.compute_stress_Z
+   ansys.dpf.core.operators.result.compute_stress_von_mises
    ansys.dpf.core.operators.result.contact_fluid_penetration_pressure
    ansys.dpf.core.operators.result.contact_friction_stress
    ansys.dpf.core.operators.result.contact_gap_distance

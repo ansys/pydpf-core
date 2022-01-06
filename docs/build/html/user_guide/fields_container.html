@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fields Container and Fields &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Fields Container and Fields &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../examples/index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -155,7 +155,7 @@
     <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="model.html">
-   The DPF Model
+   DPF Model
   </a>
  </li>
  <li class="toctree-l1">
@@ -171,6 +171,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="plotting.html">
    Plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="troubleshooting.html">
+   Troubleshooting
   </a>
  </li>
 </ul>
@@ -194,13 +199,13 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#obtaining-fields-and-fieldscontainer">
-   Obtaining Fields and FieldsContainer
+  <a class="reference internal nav-link" href="#obtaining-the-fields-container-or-fields">
+   Obtaining the Fields Container or Fields
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#accessing-fields-within-a-fields-container">
-     Accessing Fields within a Fields Container
+     Accessing Fields Within a Fields Container
     </a>
    </li>
   </ul>
@@ -262,19 +267,18 @@
                 
   <div class="section" id="fields-container-and-fields">
 <span id="ref-user-guide-fields-container"></span><h1>Fields Container and Fields<a class="headerlink" href="#fields-container-and-fields" title="Permalink to this headline">¶</a></h1>
-<p>Where DPF uses <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> to load operate and operate
-on the data, DPF uses <code class="docutils literal notranslate"><span class="pre">Field</span></code> and <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> to store
-the data and return it to the user.  In other words, if <code class="docutils literal notranslate"><span class="pre">Operators</span></code>
-was a verb, the DPF <code class="docutils literal notranslate"><span class="pre">Field</span></code> would be the noun.  <code class="docutils literal notranslate"><span class="pre">Operators</span></code> acts
-on the data, and <code class="docutils literal notranslate"><span class="pre">Field</span></code> and <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> hold the data.</p>
-<div class="section" id="obtaining-fields-and-fieldscontainer">
-<h2>Obtaining Fields and FieldsContainer<a class="headerlink" href="#obtaining-fields-and-fieldscontainer" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">outputs</span></code> from <code class="docutils literal notranslate"><span class="pre">Operators</span></code> can be either a
-<a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> or
-<a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a>.  A Fields
-Container is the DPF equivalent of a <code class="docutils literal notranslate"><span class="pre">list</span></code> of <code class="docutils literal notranslate"><span class="pre">Field</span></code>, and is
-used to hold a vector of fields within DPF.  In the following the
-example, the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> is returned from the elastic_strain operator:</p>
+<p>Where DPF uses operators to load and operate on data, it uses the
+field container and fields to store and return data. In other words,
+operators are like verbs, acting on the data, while the field container
+and fields are like nouns, objects that hold data.</p>
+<div class="section" id="obtaining-the-fields-container-or-fields">
+<h2>Obtaining the Fields Container or Fields<a class="headerlink" href="#obtaining-the-fields-container-or-fields" title="Permalink to this headline">¶</a></h2>
+<p>The outputs from operators can be either a
+<a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a> or a
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a>. A fields container is the DPF
+equivalent of a list of fields. It is holds a vector of fields.</p>
+<p>In this example, the fields container is returned from the
+<code class="docutils literal notranslate"><span class="pre">elastic_strain</span></code> operator:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">msup_transient</span><span class="p">)</span>
@@ -312,10 +316,10 @@ example, the <code class="docutils literal notranslate"><span class="pre">Fields
 </pre></div>
 </div>
 <div class="section" id="accessing-fields-within-a-fields-container">
-<h3>Accessing Fields within a Fields Container<a class="headerlink" href="#accessing-fields-within-a-fields-container" title="Permalink to this headline">¶</a></h3>
-<p>Since this result contains a transient result, the
-<code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> has one Field by time set.  Access the fields
-from the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code> using the following methods:</p>
+<h3>Accessing Fields Within a Fields Container<a class="headerlink" href="#accessing-fields-within-a-fields-container" title="Permalink to this headline">¶</a></h3>
+<p>Because the result above contains a transient result, the
+fields container has one field by time set.</p>
+<p>Access the fields from the fields contains using these methods:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -323,18 +327,17 @@ from the <code class="docutils literal notranslate"><span class="pre">FieldsCont
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>20
 </pre></div>
 </div>
-<p>Return a field based on its index</p>
+<p>Return a field based on its index:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field_first_time</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">field_last_time</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Return a field based on its time set id:</p>
+<p>Return a field based on its time set ID:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field_by_time_id</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Alternatively, use <code class="docutils literal notranslate"><span class="pre">get_field</span></code> with the identifier of
-the requested field. This API allows to access fields for more complex
-requests. To use <code class="docutils literal notranslate"><span class="pre">get_field</span></code> in the same context:</p>
+<p>Alternatively, to access fields for more complex requests, use the
+<code class="docutils literal notranslate"><span class="pre">get_field</span></code> method with the identifier of the requested field:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
 </pre></div>
@@ -347,8 +350,7 @@ requests. To use <code class="docutils literal notranslate"><span class="pre">ge
  Data:6 components and 320 elementary data
 </pre></div>
 </div>
-<p>Or in a more complex context, where the <code class="docutils literal notranslate"><span class="pre">get_field</span></code> method has a real use compared
-to the <code class="docutils literal notranslate"><span class="pre">get_field_by_time_id</span></code> method:</p>
+<p>Or in a more real-word example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_all_kinds_of_complexity</span><span class="p">())</span>
 <span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">split_by_shape</span>
 <span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
@@ -374,7 +376,7 @@ DPF elastic_strain_1.s_elshape:1 Field
 </pre></div>
 </div>
 <p>Reference the available time frequency support to determine which
-<code class="docutils literal notranslate"><span class="pre">time_complex_ids</span></code> are available to in the <code class="docutils literal notranslate"><span class="pre">FieldsContainer</span></code></p>
+time complex IDs are available in the fields container:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">msup_transient</span><span class="p">)</span>
 <span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span>
 <span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
@@ -407,18 +409,21 @@ Cumulative     Time (s)       LoadStep       Substep
 20             0.200000       1              20
 </pre></div>
 </div>
-<p>Note that the time set ids used are 1 based.  When indexing from pythonic indexing via
-<code class="docutils literal notranslate"><span class="pre">fields[0]</span></code>, you can use zero based indexing.  When requesting the
-results via <code class="docutils literal notranslate"><span class="pre">get_fields</span></code>, the request is based on the time scoping set ids.</p>
+<p>Note that the time set IDs used are 1 based.  When indexing from Pythonic
+indexing via <code class="docutils literal notranslate"><span class="pre">fields[0]</span></code>, you can use zero-based indexing.  When requesting the
+results using the <code class="docutils literal notranslate"><span class="pre">get_fields</span></code> method, the request is based on the time scoping
+set IDs.</p>
 </div>
 </div>
 <div class="section" id="field">
 <h2>Field<a class="headerlink" href="#field" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> is the fundamental unit of data within DPF.
-It contains the actual data and its metadata:
-results data are defined by values associated to entities (scoping), and these entities are a subset of a model (support).
-In DPF, field data is always associated to its scoping and support, making the field a self-describing piece of data.
-A field is also defined by its dimensionnality, unit, location…</p>
+<p>The class <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> is the fundamental unit of data within DPF.
+It contains the actual data and its metadata, which is results data defined by values
+associated with entities (scoping). These entities are a subset of a model (support).</p>
+<p>In DPF, field data is always associated with its scoping and support, making the field
+a self-describing piece of data. A field is also defined by its dimensionnality, unit,
+location, and more.</p>
+<p>You can get an overview of a field’s metadata by printing the field:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
 </pre></div>
@@ -431,14 +436,13 @@ A field is also defined by its dimensionnality, unit, location…</p>
    Data:6 components and 320 elementary data
 </pre></div>
 </div>
-<p>Note that by printing the field you can get an overview of the field’s
-metadata.  The next section provides an overview of the metadata associated with the field itself.</p>
+<p>The next section provides an overview of the metadata associated with the field itself.</p>
 <div class="section" id="field-metadata">
 <h3>Field Metadata<a class="headerlink" href="#field-metadata" title="Permalink to this headline">¶</a></h3>
-<p>The field contains the metadata associated with the result it is
-associated with, including the location (either <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>,
-<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>, …) and IDs associated with that location.  To access the
-scoping of the field, use the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> attribute:</p>
+<p>The field contains the metadata for the result it is associated with. The metadata
+includes the location (such as <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>) and IDs associated with the location.</p>
+<p>To access the scoping of the field, use the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> attribute:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.scoping.ids:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.location:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
@@ -460,14 +464,14 @@ field.scoping.ids: [21,
   field.location:&#39;ElementalNodal&#39;
 </pre></div>
 </div>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> denotes one value (multiplied by the number of
-components) of data per element, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> is per node, and
+<p>The location <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> denotes one value (multiplied by the number of
+components) of data per element, while <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> is per node, and
 <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> is one value per node per element.  For example,
-strain is a <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> value as the strain is evaluated at
+strain is an <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> value as the strain is evaluated at
 each node for each element.</p>
 <p>The field also contains additional metadata such as the <code class="docutils literal notranslate"><span class="pre">shape</span></code> of
 the data stored, the location of the field, number of components, and
-the units of the data,</p>
+the units of the data:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -499,16 +503,16 @@ the units of the data,</p>
 <h2>Field Data<a class="headerlink" href="#field-data" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="accessing-field-data">
 <h3>Accessing Field Data<a class="headerlink" href="#accessing-field-data" title="Permalink to this headline">¶</a></h3>
-<p>When DPF-Core returns a <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a>, what
-Python actually has is a client side representation of the Field, but
-not the entirety of the field itself.  This means that all the data of
-the field is stored within the DPF service.  This is important because
-when building your post-processing workflows, keep in mind that the
-most efficient way of interacting with the result data is to minimize
-the exchange of data between Python and DPF, either by using operators
-or by accessing only the data that is needed.</p>
-<p>Should you need to access the entire array of data, you can request
-the data be returned as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array with:</p>
+<p>When DPF-Core returns the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class,
+what Python actually has is a client-side representation of the field,
+but not the entirety of the field itself. This means that all the data of
+the field is stored within the DPF service. This is important because
+when building your postprocessing workflows, the most efficient way of
+interacting with result data is to minimize the exchange of data between
+Python and DPF, either by using operators or by accessing only the data
+that is needed.</p>
+<p>If you need to access the entire array of data, request
+that the data be returned as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array</span>
 <span class="go">array([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,</span>
@@ -532,9 +536,9 @@ the data be returned as a <code class="docutils literal notranslate"><span class
 <span class="go">numpy.ndarray</span>
 </pre></div>
 </div>
-<p>Should you need to request data individual node or element, you can
-request it using either <code class="docutils literal notranslate"><span class="pre">get_entity_data</span></code> or
-<code class="docutils literal notranslate"><span class="pre">get_entity_data_by_id</span></code>.</p>
+<p>If you need to request an individual node or element,
+request it using either the <code class="docutils literal notranslate"><span class="pre">get_entity_data</span></code> or
+<code class="docutils literal notranslate"><span class="pre">get_entity_data_by_id</span></code> methods:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>Get the data from the first element in the field.
 
 &gt;&gt;&gt; field.get_entity_data(0)
@@ -577,10 +581,10 @@ array([[8.06571808e-14, 4.03580652e-04, 2.61804706e-05]])
 One 3D vector (X,Y,Z) displacement
 </pre></div>
 </div>
-<p>These methods are acceptable when requesting data for a few elements
-or nodes, but should not be used when looping over the entire array.
-Field’s data can be recovered locally before sending a large number of requests
-for efficiency purpose:</p>
+<p>While these methods are acceptable when requesting data for a few elements
+or nodes, they should not be used when looping over the entire array. For efficiency,
+a field’s data can be recovered locally before sending a large number of requests:
+:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
         <span class="n">f</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -590,15 +594,14 @@ for efficiency purpose:</p>
 <div class="section" id="operating-on-field-data">
 <h3>Operating on Field Data<a class="headerlink" href="#operating-on-field-data" title="Permalink to this headline">¶</a></h3>
 <p>Often times, it’s not necessary to directly act upon the data of an
-array within Python.  For example, if you want to know the maximum of
+array within Python. For example, if you want to know the maximum of
 the data, you could potentially compute the maximum of the array from
-<code class="docutils literal notranslate"><span class="pre">numpy</span></code> with <code class="docutils literal notranslate"><span class="pre">array.max()</span></code>, but that requires sending the entire
-array to Python and then computing the maximum there.  Rather than
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> with <code class="docutils literal notranslate"><span class="pre">array.max()</span></code>. However, that requires sending the entire
+array to Python and then computing the maximum there. Rather than
 copying the array over and then computing the maximum in Python, you
-can instead compute the maximum directly from the field itself.  The
-<code class="docutils literal notranslate"><span class="pre">min</span></code> and <code class="docutils literal notranslate"><span class="pre">max</span></code> methods of <code class="docutils literal notranslate"><span class="pre">Field</span></code> use the <code class="docutils literal notranslate"><span class="pre">'min_max'</span></code>
-Operator was used to compute the maximum of the field while returning
-the field.</p>
+can instead compute the maximum directly from the field itself.</p>
+<p>This example uses the <a href="#id1"><span class="problematic" id="id2">``</span></a>’min_max’<a href="#id3"><span class="problematic" id="id4">``</span></a>operator to compute the maximum of
+the field while returning the field:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span> <span class="n">within</span> <span class="n">DPF</span> <span class="ow">and</span> <span class="k">return</span> <span class="n">the</span> <span class="n">result</span>
 <span class="n">a</span> <span class="n">numpy</span> <span class="n">array</span>
 
@@ -613,11 +616,8 @@ the field.</p>
 <span class="p">[</span><span class="mi">369</span><span class="p">,</span> <span class="mi">1073</span><span class="p">,</span> <span class="mi">1031</span><span class="p">,</span> <span class="mi">1040</span><span class="p">,</span> <span class="mi">2909</span><span class="p">,</span> <span class="mi">2909</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Note that is a convenience method.  For more advanced operator
-chaining, please see the <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a> section in
-the user guide.  Here is a quick example of connecting the
-<code class="docutils literal notranslate"><span class="pre">'elemental_mean'</span></code> operator to the field data:</p>
-<p>Compute the average of a field using the ‘elemental_mean’ operator:</p>
+<p>Here is an example of using the <code class="docutils literal notranslate"><span class="pre">elemental_mean</span></code> operator to compute the
+average of a field:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 <span class="n">avg_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">elemental_mean</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
 <span class="n">avg_field</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
@@ -631,6 +631,7 @@ the user guide.  Here is a quick example of connecting the
 Elemental
 </pre></div>
 </div>
+<p>For more advanced information on operator chaining, see the <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a>.</p>
 </div>
 <div class="section" id="api-reference">
 <h3>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h3>
@@ -643,13 +644,6 @@ Elemental
 
               </div>
               
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="operators.html" title="previous page">Operators</a>
-    <a class='right-next' id="next-link" href="plotting.html" title="next page">Plotting</a>
-
-              </div>
               
           </main>
           
@@ -664,7 +658,7 @@ Elemental
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

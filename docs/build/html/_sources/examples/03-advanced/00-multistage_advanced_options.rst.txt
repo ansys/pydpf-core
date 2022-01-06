@@ -66,16 +66,14 @@ Create the model and display the state of the result.
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: modal 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        S Stress :element nodal component stresses 
-        EPEL Strain :element nodal component elastic strains 
-        BFE Temperature :element structural nodal temperatures 
-      With multi_stage cyclic symmetry on 2 stages
+    Modal analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  stress: ElementalNodal Stress 
+         -  elastic_strain: ElementalNodal Strain
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       3595 nodes 
@@ -128,9 +126,9 @@ Check the result info to verify that it's a multistage model
 
 .. GENERATED FROM PYTHON SOURCE LINES 29-30
 
-Go over the cyclic support 
+Go over the cyclic support
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-37
+.. GENERATED FROM PYTHON SOURCE LINES 30-40
 
 .. code-block:: default
 
@@ -138,7 +136,10 @@ Go over the cyclic support
     print("num stages:", cyc_support.num_stages)
     print("num_sectors stage 0:", cyc_support.num_sectors(0))
     print("num_sectors stage 1:", cyc_support.num_sectors(1))
-    print("num nodes in the first stage's base sector: ", len(cyc_support.base_nodes_scoping(0)))
+    print(
+        "num nodes in the first stage's base sector: ",
+        len(cyc_support.base_nodes_scoping(0)),
+    )
 
 
 
@@ -159,13 +160,13 @@ Go over the cyclic support
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-44
 
 Expand displacement results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we expand displacement results, on chosen sectors
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-67
+.. GENERATED FROM PYTHON SOURCE LINES 44-70
 
 .. code-block:: default
 
@@ -175,12 +176,12 @@ In this example we expand displacement results, on chosen sectors
     UCyc = dpf.operators.result.cyclic_expanded_displacement()
     UCyc.inputs.data_sources(model.metadata.data_sources)
     # Select the sectors to expand on the first stage
-    UCyc.inputs.sectors_to_expand([0,1,2])
+    UCyc.inputs.sectors_to_expand([0, 1, 2])
     # Or select the sectors to expand stage by stage
     sectors_scopings = dpf.ScopingsContainer()
     sectors_scopings.labels = ["stage"]
-    sectors_scopings.add_scoping({"stage":0}, dpf.Scoping(ids=[0,1,2]))
-    sectors_scopings.add_scoping({"stage":1}, dpf.Scoping(ids=[0,1,2,3,4,5,6]))
+    sectors_scopings.add_scoping({"stage": 0}, dpf.Scoping(ids=[0, 1, 2]))
+    sectors_scopings.add_scoping({"stage": 1}, dpf.Scoping(ids=[0, 1, 2, 3, 4, 5, 6]))
     UCyc.inputs.sectors_to_expand(sectors_scopings)
 
 
@@ -202,12 +203,12 @@ In this example we expand displacement results, on chosen sectors
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-70
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
 
 plot the expanded result on the expanded mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-72
+.. GENERATED FROM PYTHON SOURCE LINES 73-75
 
 .. code-block:: default
 
@@ -221,29 +222,21 @@ plot the expanded result on the expanded mesh
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(1.3824076534342138, 1.3824076534342138, 1.3824076534342138),
-     (0.0, -4.163336342344337e-17, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-75
+.. GENERATED FROM PYTHON SOURCE LINES 76-78
 
 Choose to expand only some sectors for the mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-84
+.. GENERATED FROM PYTHON SOURCE LINES 78-89
 
 .. code-block:: default
 
-    cyc_support_provider = ops.metadata.cyclic_support_provider(data_sources=model.metadata.data_sources)
+    cyc_support_provider = ops.metadata.cyclic_support_provider(
+        data_sources=model.metadata.data_sources
+    )
     cyc_support_provider.inputs.sectors_to_expand(sectors_scopings)
     mesh_exp = ops.metadata.cyclic_mesh_expansion(cyclic_support=cyc_support_provider)
     selected_sectors_mesh = mesh_exp.outputs.meshed_region()
@@ -260,30 +253,20 @@ Choose to expand only some sectors for the mesh
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(1.229438517906226, 1.328929545589036, 1.2950397032844125),
-     (-0.06560118537818653, 0.033889842304623496, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-87
+.. GENERATED FROM PYTHON SOURCE LINES 90-92
 
 Check results precisely
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-105
+.. GENERATED FROM PYTHON SOURCE LINES 92-109
 
 .. code-block:: default
 
 
-    # print the time_freq_support to see the harmonic index 
+    # print the time_freq_support to see the harmonic index
     print(model.metadata.time_freq_support)
     print(model.metadata.time_freq_support.get_harmonic_indices(stage_num=1).data)
 
@@ -293,13 +276,12 @@ Check results precisely
     print(node_id)
 
     # check what are the expanded ids of this node
-    expanded_ids = cyc_support.expand_node_id(node_id,[0,1,2], 0)
+    expanded_ids = cyc_support.expand_node_id(node_id, [0, 1, 2], 0)
     print(expanded_ids.ids)
 
     # verify that the displacement values are the same on all those nodes
     for node in expanded_ids.ids:
         print(fields[0].get_entity_data_by_id(node))
-
 
 
 
@@ -333,7 +315,7 @@ Check results precisely
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.714 seconds)
+   **Total running time of the script:** ( 0 minutes  1.430 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_00-multistage_advanced_options.py:

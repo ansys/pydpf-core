@@ -1,0 +1,790 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scope results over custom space domains &#8212; PyDPF-Core 0.4.0 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Transient Analysis Result Example" href="../01-static-transient/00-basic_transient.html" />
+    <link rel="prev" title="Scope results over custom time domains" href="08-results_over_time_subset.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><style>
+    .navbar-light {
+        background-color: black !important;
+    }
+</style>
+
+<div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
+  <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-basic_example.html">
+   Basic DPF-Core Usage
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-basic_operators.html">
+   Operators Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-basic_field_containers.html">
+   Field and Field Containers Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-create_entities.html">
+   Create Your Own Entities Use DPF Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-basic-load-file.html">
+   Write/Load and Upload/Download a Result File
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-use_local_data.html">
+   Bring a Field’s Data Locally to Improve Performance
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-load_plugin.html">
+   Load Plugin
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-use_result_helpers.html">
+   Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Scope results over custom space domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/00-basic_transient.html">
+   Transient Analysis Result Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
+   Choose a Time Scoping for a Transient Analysis
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/00-multi_harmonic.html">
+   Multi-Harmonic Response Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/01-modal_cyclic.html">
+   Modal Cyclic symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
+   Multi-stage Cyclic Symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+   Use Result Helpers to compare mode shapes for solids and then shells
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/04-modal_superposition.html">
+   Expand Harmonic Modal Superposition with DPF
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/05-read_distributed_files.html">
+   Read results from distributed files
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/00-multistage_advanced_options.html">
+   Multi-stage Cyclic Symmetry Use Advanced Customization
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/01-solve_harmonic_problem.html">
+   Solve Harmonic Problem (with damping) Using Matrix Inverse
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/02-volume_averaged_stress.html">
+   Average Elemental Stress on a given volume
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+   Exchange Data Between Servers
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/04-extrapolation_stress_3d.html">
+   Extrapolation Method for stress result of 3D-element
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/05-extrapolation_strain_2d.html">
+   Extrapolation Method for strain result of 2D-element
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-specific-requests/00-hdf5_double_float_comparison.html">
+   Hdf5 export and compare precision
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-specific-requests/01-reduced_matrices_export.html">
+   Get reduced matrices and make export
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-distributed-post/00-distributed_total_disp.html">
+   Distributed post without client connection to remote processes
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-distributed-post/01-distributed_delegate_to_server.html">
+   Compute total displacement from distributed files with distributed post
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-distributed-post/02-distributed_workflows_on_remote.html">
+   Connect workflows on different processes implicitly
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-distributed-post/03-distributed-msup_expansion.html">
+   Distributed modal superposition
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-distributed-post/04-distributed-msup_expansion_steps.html">
+   Distributed msup distributed modal response
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-distributed-post/05-distributed_total_disp_with_operators.html">
+   Distributed post without client connection to remote processes with Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Scope results over custom space domains
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choose-specific-nodes">
+   Choose specific nodes
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choose-specific-elements">
+   Choose specific elements
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#choose-specific-named-selections">
+   Choose specific named selections
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#split-results-depending-on-spatial-properties">
+   Split results depending on spatial properties
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-00-basic-09-results-over-space-subset-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="scope-results-over-custom-space-domains">
+<span id="ref-results-over-space"></span><span id="sphx-glr-examples-00-basic-09-results-over-space-subset-py"></span><h1>Scope results over custom space domains<a class="headerlink" href="#scope-results-over-custom-space-domains" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">Result</span></code> class, which are instances created by the <code class="docutils literal notranslate"><span class="pre">Model</span></code>, give
+access to helpers for requesting results on specific mesh and time scopings.
+With these helpers, working on a spatial subset of the model is straightforward.
+In this example, different ways to choose the spatial subset to
+evaluate a result are exposed</p>
+<p>Import necessary modules:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<p>Create a model object to establish a connection with an example result file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_all_kinds_of_complexity</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  reaction_force: Nodal Force
+     -  element_nodal_forces: ElementalNodal Element nodal Forces
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  elastic_strain: ElementalNodal Strain
+     -  thermal_strain: ElementalNodal Thermal Strains
+     -  thermal_strains_eqv: ElementalNodal Thermal Strains eqv
+     -  swelling_strains: ElementalNodal Swelling Strains
+     -  structural_temperature: ElementalNodal Temperature
+------------------------------
+DPF  Meshed Region:
+  15129 nodes
+  10292 elements
+  Unit: m
+  With solid (3D) elements, shell (2D) elements, shell (3D) elements, beam (1D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 1
+Cumulative     Time (s)       LoadStep       Substep
+1              1.000000       1              1
+</pre></div>
+</div>
+</div>
+<div class="section" id="choose-specific-nodes">
+<h1>Choose specific nodes<a class="headerlink" href="#choose-specific-nodes" title="Permalink to this headline">¶</a></h1>
+<p>If some nodes or elements are specifically of interest, a nodal <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code>
+can be connected.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodes_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">nodal_scoping</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nodes_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping:
+  with Nodal location and 100 entities
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodes_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nodes_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping:
+  with Nodal location and 100 entities
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_mesh_scoping</span><span class="p">(</span><span class="n">nodes_scoping</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="09 results over space subset" class="sphx-glr-single-img" src="../../_images/sphx_glr_09-results_over_space_subset_001.png" />
+<p>Equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">nodes_scoping</span><span class="p">)</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="o">=</span><span class="n">nodes_scoping</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="choose-specific-elements">
+<h1>Choose specific elements<a class="headerlink" href="#choose-specific-elements" title="Permalink to this headline">¶</a></h1>
+<p>If some elements are specifically of interest, an elemental <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code>
+can be connected.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elements_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">elemental_scoping</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">elements_scoping</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="n">elements_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">),</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">elements_scoping</span><span class="p">)</span>
+
+<span class="n">volume</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="o">.</span><span class="n">on_mesh_scoping</span><span class="p">(</span><span class="n">elements_scoping</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="09 results over space subset" class="sphx-glr-single-img" src="../../_images/sphx_glr_09-results_over_space_subset_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping:
+  with Elemental location and 4500 entities
+
+DPF  Scoping:
+  with Elemental location and 4500 entities
+</pre></div>
+</div>
+<p>Equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">volume_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="p">()</span>
+<span class="n">volume_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">elements_scoping</span><span class="p">)</span>
+<span class="n">volume</span> <span class="o">=</span> <span class="n">volume_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">volume</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="o">=</span><span class="n">elements_scoping</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="choose-specific-named-selections">
+<h1>Choose specific named selections<a class="headerlink" href="#choose-specific-named-selections" title="Permalink to this headline">¶</a></h1>
+<p>Named selections (also known as components) can be selected to create
+a spatial domain for a result. A <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> can be created with a
+named selection.
+To know the available named selections in the result file, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">available_named_selections</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;_CM82&#39;, &#39;_CM86UX_XP&#39;, &#39;_DISPNONZEROUX&#39;, &#39;_DISPZEROUZ&#39;, &#39;_ELMISC&#39;, &#39;_FIXEDSU&#39;]
+</pre></div>
+</div>
+<p>Get the <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> of a named selection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_scoping</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">named_selection</span><span class="p">(</span><span class="s1">&#39;_CM82&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping:
+  with Elemental location and 8709 entities
+</pre></div>
+</div>
+<p>Connect this <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> to the result provider</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">volume</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="o">=</span><span class="n">mesh_scoping</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="09 results over space subset" class="sphx-glr-single-img" src="../../_images/sphx_glr_09-results_over_space_subset_003.png" />
+<p>Equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">volume</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="o">.</span><span class="n">on_named_selection</span><span class="p">(</span><span class="s1">&#39;_CM82&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ns_provider</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">on_named_selection</span><span class="p">(</span>
+    <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">,</span>
+    <span class="n">named_selection_name</span><span class="o">=</span><span class="s1">&#39;_CM82&#39;</span><span class="p">,</span>
+    <span class="n">data_sources</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">volume</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elemental_volume</span><span class="p">(</span><span class="n">mesh_scoping</span><span class="o">=</span><span class="n">ns_provider</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="split-results-depending-on-spatial-properties">
+<h1>Split results depending on spatial properties<a class="headerlink" href="#split-results-depending-on-spatial-properties" title="Permalink to this headline">¶</a></h1>
+<p>For many applications, it can be useful to request results on different subsets
+of the model. The <code class="docutils literal notranslate"><span class="pre">ScopingsContainer</span></code> entity contains different <code class="docutils literal notranslate"><span class="pre">Scopings</span></code>
+and can be connected to any result provider to get results split with the
+same partition as the input <code class="docutils literal notranslate"><span class="pre">ScopingsContainer</span></code>.
+For example, some application require to get results split by body, by material,
+by element types. It might also be necessary to get results by element shape types
+(shell, solid, beam) to average data properly…
+Customers might also require split by entirely custom spatial domains.</p>
+<p>Split results by element shapes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">split_by_shape</span><span class="o">.</span><span class="n">on_location</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stress</span><span class="p">)</span>
+
+<span class="n">shell_stresses</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">shell_fields</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">shell_stresses</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">solid_stresses</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">solid_fields</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">solid_stresses</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img alt="09 results over space subset" class="sphx-glr-multi-img" src="../../_images/sphx_glr_09-results_over_space_subset_004.png" />
+</li>
+<li><img alt="09 results over space subset" class="sphx-glr-multi-img" src="../../_images/sphx_glr_09-results_over_space_subset_005.png" />
+</li>
+</ul>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF stress(s)Fields Container
+  with 4 field(s)
+  defined on labels: elshape time
+
+  with:
+  - field 0 {elshape:  0, time:  1} with Nodal location, 6 components and 240 entities.
+  - field 1 {elshape:  1, time:  1} with Nodal location, 6 components and 14826 entities.
+  - field 2 {elshape:  2, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 3 {elshape:  3, time:  1} with Nodal location, 6 components and 0 entities.
+</pre></div>
+</div>
+<p>Split results by bodies</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">split_by_body</span><span class="o">.</span><span class="n">on_location</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stress</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">body_id</span> <span class="ow">in</span> <span class="n">stress</span><span class="o">.</span><span class="n">get_mat_scoping</span><span class="p">()</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">get_field_by_mat_id</span><span class="p">(</span><span class="n">body_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">elementary_data_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img alt="09 results over space subset" class="sphx-glr-multi-img" src="../../_images/sphx_glr_09-results_over_space_subset_006.png" />
+</li>
+<li><img alt="09 results over space subset" class="sphx-glr-multi-img" src="../../_images/sphx_glr_09-results_over_space_subset_007.png" />
+</li>
+</ul>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF stress(s)Fields Container
+  with 11 field(s)
+  defined on labels: mat time
+
+  with:
+  - field 0 {mat:  5, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 1 {mat:  1, time:  1} with Nodal location, 6 components and 2096 entities.
+  - field 2 {mat:  10, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 3 {mat:  4, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 4 {mat:  13, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 5 {mat:  2, time:  1} with Nodal location, 6 components and 12970 entities.
+  - field 6 {mat:  6, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 7 {mat:  12, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 8 {mat:  15, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 9 {mat:  7, time:  1} with Nodal location, 6 components and 0 entities.
+  - field 10 {mat:  8, time:  1} with Nodal location, 6 components and 0 entities.
+</pre></div>
+</div>
+<p>Create a custom spatial split</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scopings_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;custom_split&quot;</span><span class="p">)</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;custom_split&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">scopings_container</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;custom_split&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">),</span> <span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elemental_stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">on_location</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental</span><span class="p">)(</span>
+    <span class="n">mesh_scoping</span><span class="o">=</span><span class="n">scopings_container</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">elemental_stress</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">elemental_stress</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img alt="09 results over space subset" class="sphx-glr-multi-img" src="../../_images/sphx_glr_09-results_over_space_subset_008.png" />
+</li>
+<li><img alt="09 results over space subset" class="sphx-glr-multi-img" src="../../_images/sphx_glr_09-results_over_space_subset_009.png" />
+</li>
+</ul>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF stress(s)Fields Container
+  with 2 field(s)
+  defined on labels: custom_split time
+
+  with:
+  - field 0 {custom_split:  1, time:  1} with Elemental location, 6 components and 400 entities.
+  - field 1 {custom_split:  2, time:  1} with Elemental location, 6 components and 4500 entities.
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.022 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-09-results-over-space-subset-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/3f5b339fabf8c4e578964e18e3ede332/09-results_over_space_subset.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">09-results_over_space_subset.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/dba2582bc36dffda83de446171984f89/09-results_over_space_subset.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">09-results_over_space_subset.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

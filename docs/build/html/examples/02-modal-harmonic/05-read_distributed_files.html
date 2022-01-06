@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Read results from distributed files &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Read results from distributed files &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -434,18 +462,15 @@ case one file is written by spatial or temporal domains. The capability of
 reading one result in distributed files has been implemented in DPF. This
 allows to skip the merging of files solver side which is time consuming and often
 duplicates the memory used.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="create-the-data-sources">
 <h1>Create the data sources<a class="headerlink" href="#create-the-data-sources" title="Permalink to this headline">¶</a></h1>
 <p>First create a data sources with one result file by domain</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">distributed_file_path</span> <span class="o">=</span>  <span class="n">examples</span><span class="o">.</span><span class="n">download_distributed_files</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">distributed_file_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_distributed_files</span><span class="p">()</span>
 <span class="n">data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
 <span class="n">data_sources</span><span class="o">.</span><span class="n">set_domain_result_file_path</span><span class="p">(</span><span class="n">distributed_file_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">data_sources</span><span class="o">.</span><span class="n">set_domain_result_file_path</span><span class="p">(</span><span class="n">distributed_file_path</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
@@ -464,7 +489,7 @@ or distributed files</p>
 
 <span class="n">freq_scoping</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">get_time_scoping</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">freq_set</span> <span class="ow">in</span> <span class="n">freq_scoping</span><span class="p">:</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="n">freq_set</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="n">freq_set</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
@@ -491,7 +516,7 @@ or distributed files</p>
 
 <span class="n">freq_scoping</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">get_time_scoping</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">freq_set</span> <span class="ow">in</span> <span class="n">freq_scoping</span><span class="p">:</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stress</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="n">freq_set</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stress</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="n">freq_set</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
@@ -508,7 +533,7 @@ or distributed files</p>
 <li><img alt="05 read distributed files" class="sphx-glr-multi-img" src="../../_images/sphx_glr_05-read_distributed_files_012.png" />
 </li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.915 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.246 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-05-read-distributed-files-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e1da3173f91ca7d365a357bc322d70d1/05-read_distributed_files.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">05-read_distributed_files.py</span></code></a></p>
@@ -524,13 +549,6 @@ or distributed files</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="04-modal_superposition.html" title="previous page">Expand Harmonic Modal Superposition with DPF</a>
-    <a class='right-next' id="next-link" href="../03-advanced/00-multistage_advanced_options.html" title="next page">Multi-stage Cyclic Symmetry Use Advanced Customization</a>
-
-              </div>
-              
           </main>
           
 
@@ -544,7 +562,7 @@ or distributed files</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

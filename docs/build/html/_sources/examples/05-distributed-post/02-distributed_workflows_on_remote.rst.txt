@@ -64,32 +64,7 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. rst-class:: sphx-glr-script-out
 
-.. code-block:: pytb
-
-    Traceback (most recent call last):
-      File "D:\AnsysDev\dpf-python-core\examples\05-distributed-post\02-distributed_workflows_on_remote.py", line 26, in <module>
-        remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 178, in start_local_server
-        server = DpfServer(ansys_path, ip, port,as_global= as_global, load_operators = load_operators)
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 310, in __init__
-        self._session = session.Session(self)
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\session.py", line 31, in __init__
-        if server_meet_version("3.0", self._server):
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 28, in server_meet_version
-        version = get_server_version(server)
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\check_version.py", line 114, in get_server_version
-        version = server.version
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 365, in version
-        return self._base_service.server_info["server_version"]
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\server.py", line 316, in _base_service
-        self.__base_service = BaseService(self, timeout=1)
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 287, in __init__
-        self._stub = self._connect(timeout)
-      File "d:\ansysdev\dpf-python-core\ansys\dpf\core\core.py", line 301, in _connect
-        raise IOError(f'Unable to connect to DPF instance at {self._server()._input_ip} {self._server()._input_port}')
-    OSError: Unable to connect to DPF instance at 10.110.2.65 50053
 
 
 
@@ -110,6 +85,12 @@ multiply by 2.0 the stresses. A last workflow will merge the outputs
     files = examples.download_distributed_files()
 
 
+
+
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 first workflow S
@@ -123,6 +104,12 @@ first workflow S
     stress1 = model.results.stress()
     workflow1.add_operator(stress1)
     workflow1.set_output_name("out1", stress1.outputs.fields_container)
+
+
+
+
+
+
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 46-47
@@ -139,6 +126,12 @@ second workflow S*2.0
     mul = stress2 * 2.0
     workflow2.add_operator(mul)
     workflow2.set_output_name("out2", mul.outputs.fields_container)
+
+
+
+
+
+
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 55-56
@@ -158,12 +151,18 @@ third workflow merge
     local_workflow.set_output_name("merged", nodal.outputs.fields_container)
 
 
+
+
+
+
+
+
 .. GENERATED FROM PYTHON SOURCE LINES 65-67
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-73
+.. GENERATED FROM PYTHON SOURCE LINES 67-72
 
 .. code-block:: default
 
@@ -174,21 +173,19 @@ Connect the workflows together and get the output
     fc[0].meshed_region.plot(fc[0])
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-76
 
-Shutdown the servers
-~~~~~~~~~~~~~~~~~~~~~
+.. image:: /examples/05-distributed-post/images/sphx_glr_02-distributed_workflows_on_remote_001.png
+    :alt: 02 distributed workflows on remote
+    :class: sphx-glr-single-img
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
-.. code-block:: default
 
-    dpf.server.shutdown_all_session_servers()
+
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.325 seconds)
+   **Total running time of the script:** ( 0 minutes  2.399 seconds)
 
 
 .. _sphx_glr_download_examples_05-distributed-post_02-distributed_workflows_on_remote.py:

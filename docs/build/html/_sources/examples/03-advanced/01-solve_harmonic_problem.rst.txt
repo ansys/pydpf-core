@@ -22,9 +22,9 @@
 
 Solve Harmonic Problem (with damping) Using Matrix Inverse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to create an harmonic (over frequencies) fields 
-container for an analysis with damping. This fields container is then used to 
-solve the problem Ma+Dv+Ku =F by inversing the matrix 
+This example shows how to create an harmonic (over frequencies) fields
+container for an analysis with damping. This fields container is then used to
+solve the problem Ma+Dv+Ku =F by inversing the matrix
 
 .. GENERATED FROM PYTHON SOURCE LINES 10-15
 
@@ -51,16 +51,16 @@ Create 2D (x,y) matrix fields for inertia, damping and stiffness
 .. code-block:: default
 
 
-    freq = [25, 50,100, 200, 400]
-    dim = 2 #dimension of matrix
+    freq = [25, 50, 100, 200, 400]
+    dim = 2  # dimension of matrix
 
 
-    fM0 = dpf.fields_factory.create_matrix_field(1,dim,dim)
-    fM0.append([0., 1.,2., 3.],1)
-    fK0 = dpf.fields_factory.create_matrix_field(1,dim,dim)
-    fK0.append([4., 8.,0., 1.],1)
-    fC0 = dpf.fields_factory.create_matrix_field(1,dim,dim)
-    fC0.append([7., 5., 9., 1.],1)
+    fM0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
+    fM0.append([0.0, 1.0, 2.0, 3.0], 1)
+    fK0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
+    fK0.append([4.0, 8.0, 0.0, 1.0], 1)
+    fC0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
+    fC0.append([7.0, 5.0, 9.0, 1.0], 1)
 
 
 
@@ -75,23 +75,24 @@ Create 2D (x,y) matrix fields for inertia, damping and stiffness
 Create a fields container for real and imaginary parts
 for each frequency
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-48
+.. GENERATED FROM PYTHON SOURCE LINES 33-49
 
 .. code-block:: default
 
 
-    reals={}
-    ims={}
-    for k,f in enumerate(freq):
+    reals = {}
+    ims = {}
+    for k, f in enumerate(freq):
         omega = 2.0 * math.pi * f
-        omega2=omega**2
-        real = fK0 +fM0*omega2
-        imag = fC0*omega
-        reals[f]=real.outputs.field()
-        ims[f]= imag.outputs.field()
-    
-    cplx_fc = dpf.fields_container_factory.over_time_freq_complex_fields_container(reals, ims,time_freq_unit="Hz")   
- 
+        omega2 = omega ** 2
+        real = fK0 + fM0 * omega2
+        imag = fC0 * omega
+        reals[f] = real.outputs.field()
+        ims[f] = imag.outputs.field()
+
+    cplx_fc = dpf.fields_container_factory.over_time_freq_complex_fields_container(
+        reals, ims, time_freq_unit="Hz"
+    )
 
 
 
@@ -101,20 +102,20 @@ for each frequency
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-51
+.. GENERATED FROM PYTHON SOURCE LINES 50-52
 
 Use dpf's operators to inverse the matrix, compute the amplitude
 and the phase
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-58
+.. GENERATED FROM PYTHON SOURCE LINES 52-59
 
 .. code-block:: default
 
 
     inverse = ops.math.matrix_inverse(cplx_fc)
-    component = ops.logic.component_selector_fc(inverse,0)
-    amp = ops.math.amplitude_fc(component);
-    phase = ops.math.phase_fc(component);
+    component = ops.logic.component_selector_fc(inverse, 0)
+    amp = ops.math.amplitude_fc(component)
+    phase = ops.math.phase_fc(component)
 
 
 
@@ -124,40 +125,42 @@ and the phase
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Get the phase and amplitude and plot it over frequencies
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-85
+.. GENERATED FROM PYTHON SOURCE LINES 61-88
 
 .. code-block:: default
 
     amp_over_frequency = amp.outputs.fields_container()
     phase_over_frequency = phase.outputs.fields_container()
-    time_freq_support =amp_over_frequency.time_freq_support
+    time_freq_support = amp_over_frequency.time_freq_support
 
-    amp_array=[]
-    phase_array=[]
+    amp_array = []
+    phase_array = []
     for f in amp_over_frequency:
         amp_array.append(f.data)
-    
+
     for f in phase_over_frequency:
-        phase_array.append(f.data*180.0/math.pi)
+        phase_array.append(f.data * 180.0 / math.pi)
 
     import matplotlib.pyplot as plt
+
     plt.figure()
-    plt.plot(time_freq_support.time_frequencies.data, amp_array, 'r', label='amplitude')
+    plt.plot(time_freq_support.time_frequencies.data, amp_array, "r", label="amplitude")
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Displacement ampliude (m)")
     plt.legend()
     plt.show()
 
     plt.figure()
-    plt.plot(time_freq_support.time_frequencies.data, phase_array, 'r', label='phase')
+    plt.plot(time_freq_support.time_frequencies.data, phase_array, "r", label="phase")
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Displacement phase (deg)")
     plt.legend()
     plt.show()
+
 
 
 .. rst-class:: sphx-glr-horizontal
@@ -182,7 +185,7 @@ Get the phase and amplitude and plot it over frequencies
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.028 seconds)
+   **Total running time of the script:** ( 0 minutes  0.221 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_01-solve_harmonic_problem.py:

@@ -20,6 +20,7 @@ Subpackages
    ansys.dpf.core.operators.result
    ansys.dpf.core.operators.scoping
    ansys.dpf.core.operators.serialization
+   ansys.dpf.core.operators.server
    ansys.dpf.core.operators.utility
 
 Submodules
@@ -28,6 +29,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   ansys.dpf.core.operators.build
    ansys.dpf.core.operators.specification
 
 Module contents

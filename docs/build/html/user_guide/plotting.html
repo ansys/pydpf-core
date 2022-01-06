@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plotting &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Plotting &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="APIs" href="../api/index.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
     <link rel="prev" title="Fields Container and Fields" href="fields_container.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../examples/index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -155,7 +155,7 @@
     <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="model.html">
-   The DPF Model
+   DPF Model
   </a>
  </li>
  <li class="toctree-l1">
@@ -171,6 +171,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="troubleshooting.html">
+   Troubleshooting
   </a>
  </li>
 </ul>
@@ -199,8 +204,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plotting-using-the-meshedregion">
-   Plotting using the MeshedRegion
+  <a class="reference internal nav-link" href="#plotting-using-the-meshed-region">
+   Plotting Using the Meshed Region
   </a>
  </li>
 </ul>
@@ -226,16 +231,16 @@
                 
   <div class="section" id="plotting">
 <span id="user-guide-plotting"></span><h1>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h1>
-<p>DPF-Core has a variety of plotting methods to generate 3D plots of
-ANSYS models directly from Python.  These methods use VTK and leverage
-the <a class="reference external" href="https://github.com/pyvista/pyvista">pyvista</a> Python library to
-simplify plotting.  Please see the <a class="reference external" href="https://docs.pyvista.org">pyvista Documentation</a> for additional details.</p>
+<p>DPF-Core has a variety of plotting methods for generating 3D plots of
+Ansys models directly from Python. These methods use VTK and leverage
+the <a class="reference external" href="https://github.com/pyvista/pyvista">PyVista</a> library to
+simplify plotting. For more information, see the <a class="reference external" href="https://docs.pyvista.org">PyVista Documentation</a>.</p>
 <div class="section" id="plotting-the-mesh-from-the-model-object">
 <h2>Plotting the Mesh from the Model Object<a class="headerlink" href="#plotting-the-mesh-from-the-model-object" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model.plot" title="ansys.dpf.core.model.Model.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Model.plot()</span></code></a> method can be used to
-immediately plot the mesh of the model after loading it.  In the
-following example, a simple pontoon mesh is downloaded from the
-internet and loaded using the <code class="docutils literal notranslate"><span class="pre">Model</span></code> class.</p>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model.plot" title="ansys.dpf.core.model.Model.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Model.plot()</span></code></a> method can
+be used to plot the mesh of the model immediately after loading it. In
+this example, a simple pontoon mesh is downloaded from the
+internet and loaded using the :class:ansys.dpf.core.model` class:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_pontoon</span><span class="p">()</span>
@@ -244,34 +249,34 @@ internet and loaded using the <code class="docutils literal notranslate"><span c
 </pre></div>
 </div>
 <img alt="../_images/pontoon.png" src="../_images/pontoon.png" />
-<p>The default plotter settings display the mesh with edges shown with
-lighting enabled.  For a full listing of all the keyword arguments, please see <a class="reference external" href="https://docs.pyvista.org/plotting/plotting.html?highlight=plot#pyvista.plot">plot</a>.</p>
+<p>The default plotter settings display the mesh with edges shown and
+lighting enabled. For a list of all keyword arguments, see
+<a class="reference external" href="https://docs.pyvista.org/plotting/plotting.html?highlight=plot#pyvista.plot">plot</a>.</p>
 </div>
-<div class="section" id="plotting-using-the-meshedregion">
-<h2>Plotting using the MeshedRegion<a class="headerlink" href="#plotting-using-the-meshedregion" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="../api/ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion.plot" title="ansys.dpf.core.meshed_region.MeshedRegion.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MeshedRegion.plot()</span></code></a> method plots the meshed
-region.  If the <code class="docutils literal notranslate"><span class="pre">MeshedRegion</span></code> is generated from the model’s
-metadata, it will generate an identical plot as in the
-<code class="docutils literal notranslate"><span class="pre">Model.plot()</span></code>:</p>
+<div class="section" id="plotting-using-the-meshed-region">
+<h2>Plotting Using the Meshed Region<a class="headerlink" href="#plotting-using-the-meshed-region" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion.plot" title="ansys.dpf.core.meshed_region.MeshedRegion.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MeshedRegion.plot()</span></code></a>
+method plots the meshed region. If the meshed region is generated from the model’s
+metadata, the plot generated is identical to the plot generated by <code class="docutils literal notranslate"><span class="pre">Model.plot()</span></code>.</p>
+<p>Plot the meshed region:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="../_images/pontoon.png" src="../_images/pontoon.png" />
-<p>However, when provided with a field as the first argument, it will
-plot the mesh using those values.  In the following example, we will
-extract the nodal strain in the X direction.</p>
+<p>When a field is provided as the first argument, the mesh is plotted
+using these values. This example extracts the nodal strain in the X direction:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">First</span><span class="p">,</span> <span class="n">extract</span> <span class="n">the</span> <span class="n">X</span> <span class="n">component</span> <span class="n">strain</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">strain</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">strain</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">strain</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">strain</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
-<span class="n">DPF</span> <span class="n">elastic_strain_1</span><span class="o">.</span><span class="n">s</span> <span class="n">Field</span>
-    <span class="n">Location</span><span class="p">:</span>   <span class="n">ElementalNodal</span>
-    <span class="n">Unit</span><span class="p">:</span>
-    <span class="n">Num</span><span class="o">.</span> <span class="nb">id</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="mi">8640</span>
-    <span class="n">Shape</span><span class="p">:</span>      <span class="mi">69120</span>
+<span class="n">DPF</span> <span class="n">elastic_strain_1</span><span class="o">.</span><span class="n">s0</span> <span class="n">Field</span>
+  <span class="n">Location</span><span class="p">:</span> <span class="n">ElementalNodal</span>
+  <span class="n">Unit</span><span class="p">:</span>
+  <span class="mi">8640</span> <span class="n">entities</span>
+  <span class="n">Data</span><span class="p">:</span><span class="mi">1</span> <span class="n">components</span> <span class="ow">and</span> <span class="mi">69120</span> <span class="n">elementary</span> <span class="n">data</span>
 
 <span class="n">This</span> <span class="n">ElementalNodal</span> <span class="n">strain</span> <span class="n">must</span> <span class="n">be</span> <span class="n">converted</span> <span class="n">to</span> <span class="n">nodal</span> <span class="n">strain</span> <span class="k">for</span>
 <span class="n">it</span> <span class="n">to</span> <span class="n">be</span> <span class="n">plotted</span><span class="o">.</span>
@@ -283,9 +288,10 @@ extract the nodal strain in the X direction.</p>
 <img alt="../_images/pontoon_strain.png" src="../_images/pontoon_strain.png" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>At the moment, only fields with Elemental and Nodal locations are
-supported.  Use the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field.to_nodal" title="ansys.dpf.core.field.Field.to_nodal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_nodal</span></code></a> to convert to nodal or the
-<code class="docutils literal notranslate"><span class="pre">'nodal_to_elemental'</span></code> operator to convert to elemental.</p>
+<p>Only fields with <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> and <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> locations are
+supported currently.  Use the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field.to_nodal" title="ansys.dpf.core.field.Field.to_nodal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_nodal</span></code></a> operator to
+convert to nodal or the <a class="reference internal" href="../api/ansys.dpf.core.operators.averaging.nodal_to_elemental.html#module-ansys.dpf.core.operators.averaging.nodal_to_elemental" title="ansys.dpf.core.operators.averaging.nodal_to_elemental"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.averaging.nodal_to_elemental</span></code></a>
+class to convert to elemental.</p>
 </div>
 </div>
 </div>
@@ -293,13 +299,6 @@ supported.  Use the <a class="reference internal" href="../api/ansys.dpf.core.fi
 
               </div>
               
-              
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="fields_container.html" title="previous page">Fields Container and Fields</a>
-    <a class='right-next' id="next-link" href="../api/index.html" title="next page">APIs</a>
-
-              </div>
               
           </main>
           
@@ -314,7 +313,7 @@ supported.  Use the <a class="reference internal" href="../api/ansys.dpf.core.fi
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     

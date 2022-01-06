@@ -22,8 +22,8 @@
 
 Exchange Data Between Servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In this example, 2 dpf's servers will be started and a workflow will be 
-created with a part on both servers. This example opens the possibility for a 
+In this example, 2 dpf's servers will be started and a workflow will be
+created with a part on both servers. This example opens the possibility for a
 user to read data from a given machine and transform this data on another
 without any more difficulties than working on a local computer
 
@@ -48,19 +48,19 @@ without any more difficulties than working on a local computer
 Create 2 servers
 ~~~~~~~~~~~~~~~~~
 Here the 2 servers are started on the local machine with start_local_server
-but, if the user has another server, he can connect on any dpf's server on 
-the network via: connect_to_server 
+but, if the user has another server, he can connect on any dpf's server on
+the network via: connect_to_server
 
 .. GENERATED FROM PYTHON SOURCE LINES 22-32
 
 .. code-block:: default
 
 
-    # the as_global attributes allows to choose whether a server will be stored 
+    # the as_global attributes allows to choose whether a server will be stored
     # by the module and used by default
     # Here, we choose the 1st server to be the default
     server1 = dpf.start_local_server(as_global=True)
-    server2 =  dpf.start_local_server(as_global=False)
+    server2 = dpf.start_local_server(as_global=False)
 
     # Check that the 2 servers are on different ports
     print(server1.port, server2.port)
@@ -75,14 +75,14 @@ the network via: connect_to_server
 
  .. code-block:: none
 
-    50052 50053
+    50053 50054
 
 
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 33-37
 
-Send the result file 
+Send the result file
 ~~~~~~~~~~~~~~~~~~~~~
 Here, the result file is sent in a temporary dir of the first server
 This file upload is useless in our case, since the 2 servers are locals
@@ -107,13 +107,13 @@ Create a workflow on the first server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create the model
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-52
+.. GENERATED FROM PYTHON SOURCE LINES 44-51
 
 .. code-block:: default
 
     model = dpf.Model(file_path_in_tmp)
 
-    # Read displacement 
+    # Read displacement
     disp = model.results.displacement()
     disp.inputs.time_scoping(len(model.metadata.time_freq_support.time_frequencies))
 
@@ -125,13 +125,12 @@ Create the model
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 53-55
+.. GENERATED FROM PYTHON SOURCE LINES 52-54
 
 Create a workflow on the second server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-68
+.. GENERATED FROM PYTHON SOURCE LINES 54-67
 
 .. code-block:: default
 
@@ -140,13 +139,13 @@ Create a workflow on the second server
     coordinates = ops.geo.rotate_in_cylindrical_cs_fc(server=server2)
 
     # Create the cartesian coordinate cs
-    cs = dpf.fields_factory.create_scalar_field(12,server=server2)
-    cs.data =[1,0,0,0,1,0,0,0,1,0,0,0]
+    cs = dpf.fields_factory.create_scalar_field(12, server=server2)
+    cs.data = [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
 
     coordinates.inputs.coordinate_system(cs)
 
     # choose the radial component to plot
-    comp = dpf.operators.logic.component_selector_fc(coordinates,0,server=server2)
+    comp = dpf.operators.logic.component_selector_fc(coordinates, 0, server=server2)
 
 
 
@@ -155,12 +154,12 @@ Create a workflow on the second server
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-71
+.. GENERATED FROM PYTHON SOURCE LINES 68-70
 
 Pass data from on server to another
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-84
+.. GENERATED FROM PYTHON SOURCE LINES 70-82
 
 .. code-block:: default
 
@@ -169,10 +168,10 @@ Pass data from on server to another
 
 
     mesh_copy = model.metadata.meshed_region.deep_copy(server=server2)
-    #give a mesh to the field
-    fc_copy[0].meshed_region=mesh_copy
-    fc_copy[1].meshed_region=mesh_copy
-    
+    # give a mesh to the field
+    fc_copy[0].meshed_region = mesh_copy
+    fc_copy[1].meshed_region = mesh_copy
+
     coordinates.inputs.field(fc_copy)
 
 
@@ -183,24 +182,22 @@ Pass data from on server to another
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 85-87
+.. GENERATED FROM PYTHON SOURCE LINES 83-85
 
 Plot the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-95
+.. GENERATED FROM PYTHON SOURCE LINES 85-92
 
 .. code-block:: default
 
     out = comp.outputs.fields_container()
 
-    #real part
-    mesh_copy.plot(out.get_field({"complex":0}))
+    # real part
+    mesh_copy.plot(out.get_field({"complex": 0}))
 
-    #imaginary part
-    mesh_copy.plot(out.get_field({"complex":1}))
-
+    # imaginary part
+    mesh_copy.plot(out.get_field({"complex": 1}))
 
 
 
@@ -220,23 +217,13 @@ Plot the output
           :class: sphx-glr-multi-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(0.01577507996330582, 0.01577507996330582, 0.01587507996330582),
-     (0.0, 0.0, 0.0001),
-     (0.0, 0.0, 1.0)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.292 seconds)
+   **Total running time of the script:** ( 0 minutes  2.389 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_03-exchange_data_between_servers.py:

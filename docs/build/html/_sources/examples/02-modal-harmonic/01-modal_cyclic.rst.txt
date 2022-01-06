@@ -24,11 +24,10 @@ Modal Cyclic symmetry Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to expand a cyclic mesh and its results.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-14
+.. GENERATED FROM PYTHON SOURCE LINES 9-13
 
 .. code-block:: default
 
-    import numpy as np
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
@@ -40,11 +39,11 @@ This example shows how to expand a cyclic mesh and its results.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-16
+.. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Create the model and display the state of the result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-20
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
 
 .. code-block:: default
 
@@ -64,22 +63,20 @@ Create the model and display the state of the result.
 
     DPF Model
     ------------------------------
-    DPF Result Info 
-      Analysis: modal 
-      Physics Type: mecanic 
-      Unit system: MKS: m, kg, N, s, V, A, degC 
-      Available results: 
-        U Displacement :nodal displacements 
-        S Stress :element nodal component stresses 
-        ENG_VOL Volume :element volume 
-        ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix 
-        ENG_AHO Hourglass Energy :artificial hourglass energy 
-        ENG_TH thermal dissipation energy :thermal dissipation energy 
-        ENG_KE Kinetic Energy :kinetic energy 
-        ENG_CO co-energy :co-energy (magnetics) 
-        ENG_INC incremental energy :incremental energy (magnetics) 
-        BFE Temperature :element structural nodal temperatures 
-      With single_stage cyclic symmetry
+    Modal analysis
+    Unit system: MKS: m, kg, N, s, V, A, degC
+    Physics Type: Mecanic
+    Available results:
+         -  displacement: Nodal Displacement
+         -  stress: ElementalNodal Stress 
+         -  elemental_volume: Elemental Volume
+         -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+         -  artificial_hourglass_energy: Elemental Hourglass Energy
+         -  thermal_dissipation_energy: Elemental thermal dissipation energy
+         -  kinetic_energy: Elemental Kinetic Energy
+         -  co_energy: Elemental co-energy
+         -  incremental_energy: Elemental incremental energy
+         -  structural_temperature: ElementalNodal Temperature
     ------------------------------
     DPF  Meshed Region: 
       51 nodes 
@@ -125,14 +122,14 @@ Create the model and display the state of the result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 20-24
 
 Expand displacement results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we expand displacement results, by default on all
 nodes and the first time step.
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-40
+.. GENERATED FROM PYTHON SOURCE LINES 24-39
 
 .. code-block:: default
 
@@ -159,25 +156,15 @@ nodes and the first time step.
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(0.012822295764404478, 0.013842295764404478, 0.012822295764404478),
-     (0.0, 0.0010200000000000005, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-43
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 Expand stresses at a given time step
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-67
+.. GENERATED FROM PYTHON SOURCE LINES 42-66
 
 .. code-block:: default
 
@@ -212,12 +199,12 @@ Expand stresses at a given time step
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-70
+.. GENERATED FROM PYTHON SOURCE LINES 67-69
 
 Expand stresses at given sectors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-98
+.. GENERATED FROM PYTHON SOURCE LINES 69-97
 
 .. code-block:: default
 
@@ -256,12 +243,12 @@ Expand stresses at given sectors
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-101
+.. GENERATED FROM PYTHON SOURCE LINES 98-100
 
 Expand stresses and average to elemental location
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-128
+.. GENERATED FROM PYTHON SOURCE LINES 100-127
 
 .. code-block:: default
 
@@ -300,23 +287,13 @@ Expand stresses and average to elemental location
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    [(0.012822295764404478, 0.013842295764404478, 0.012822295764404478),
-     (0.0, 0.0010200000000000005, 0.0),
-     (0.0, 0.0, 1.0)]
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.270 seconds)
+   **Total running time of the script:** ( 0 minutes  1.413 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_01-modal_cyclic.py:

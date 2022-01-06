@@ -22,14 +22,14 @@
 
 Get reduced matrices and make export
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to get reduced matrices and 
-export them to hdf5 and csv format. 
+This example shows how to get reduced matrices and
+export them to hdf5 and csv format.
 
 .. GENERATED FROM PYTHON SOURCE LINES 12-13
 
 Import dpf module and its examples files, and create a temporary directory
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-22
+.. GENERATED FROM PYTHON SOURCE LINES 13-23
 
 .. code-block:: default
 
@@ -40,6 +40,7 @@ Import dpf module and its examples files, and create a temporary directory
 
     import os
     import tempfile
+
     tmpdir = tempfile.mkdtemp()
 
 
@@ -49,11 +50,11 @@ Import dpf module and its examples files, and create a temporary directory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-24
+.. GENERATED FROM PYTHON SOURCE LINES 24-25
 
 Create the operator and connect dataSources
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-30
+.. GENERATED FROM PYTHON SOURCE LINES 25-31
 
 .. code-block:: default
 
@@ -70,11 +71,11 @@ Create the operator and connect dataSources
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 Get result fields container that contains the reduced matrices
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-39
+.. GENERATED FROM PYTHON SOURCE LINES 33-40
 
 .. code-block:: default
 
@@ -101,18 +102,18 @@ Get result fields container that contains the reduced matrices
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Export the result fields container in hdf5 format
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-47
+.. GENERATED FROM PYTHON SOURCE LINES 42-48
 
 .. code-block:: default
 
 
     h5_op = ops.serialization.serialize_to_hdf5()
     h5_op.inputs.data1.connect(matrices_provider.outputs)
-    h5_op.inputs.file_path.connect(os.path.join(tmpdir, 'matrices.h5'))
+    h5_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.h5"))
     h5_op.run()
 
 
@@ -122,18 +123,18 @@ Export the result fields container in hdf5 format
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-49
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 Export the result fields container in csv format
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-54
+.. GENERATED FROM PYTHON SOURCE LINES 50-55
 
 .. code-block:: default
 
 
     csv_op = ops.serialization.field_to_csv()
     csv_op.inputs.field_or_fields_container.connect(matrices_provider.outputs)
-    csv_op.inputs.file_path.connect(os.path.join(tmpdir, 'matrices.csv'))
+    csv_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.csv"))
     csv_op.run()
 
 
@@ -145,7 +146,7 @@ Export the result fields container in csv format
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.118 seconds)
+   **Total running time of the script:** ( 0 minutes  0.106 seconds)
 
 
 .. _sphx_glr_download_examples_04-specific-requests_01-reduced_matrices_export.py:

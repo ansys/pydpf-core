@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Operators Overview &#8212; PyANSYS DPF 0.4.dev0 documentation</title>
+    <title>Operators Overview &#8212; PyDPF-Core 0.4.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -61,7 +61,7 @@
     
     
 
-<a class="navbar-brand" href="../../index.html">
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
   <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
 </a>
 
@@ -107,7 +107,7 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="../index.html">
-  Examples Gallery
+  Examples
  </a>
 </li>
 
@@ -176,28 +176,28 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="03-create_entities.html">
-   Create your own entities to use dpf’s operators
+   Create Your Own Entities Use DPF Operators
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="04-basic-load-file.html">
-   Write/load and upload/download a result file
+   Write/Load and Upload/Download a Result File
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="05-use_local_data.html">
-   Bring Field’s data locally to improve performances
+   Bring a Field’s Data Locally to Improve Performance
   </a>
  </li>
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-load_plugin.html">
-   Load plugin
+   Load Plugin
   </a>
  </li>
 </ul>
@@ -205,6 +205,20 @@
  <li class="toctree-l1">
   <a class="reference internal" href="07-use_result_helpers.html">
    Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-results_over_space_subset.html">
+   Scope results over custom space domains
   </a>
  </li>
 </ul>
@@ -218,7 +232,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
-   Go Easily over Times Transient Analysis
+   Choose a Time Scoping for a Transient Analysis
   </a>
  </li>
 </ul>
@@ -362,6 +376,20 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -397,8 +425,8 @@
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#scripting-operators-syntax">
-   Scripting operators syntax
+  <a class="reference internal nav-link" href="#scripting-operator-syntax">
+   Scripting Operator Syntax
   </a>
  </li>
 </ul>
@@ -429,21 +457,20 @@ to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="operators-overview">
 <span id="ref-basic-operators-example"></span><span id="sphx-glr-examples-00-basic-01-basic-operators-py"></span><h1>Operators Overview<a class="headerlink" href="#operators-overview" title="Permalink to this headline">¶</a></h1>
-<p>Overview of the usage of operators in DPF.</p>
-<p>Operators are primary method for interacting with and extracting
-results.  Within DPF-Core, these operators are directly exposed with
-the <cite>Operators</cite> class as well as wrapped within several other
+<p>In DPF, operators provide the primary method for interacting with and extracting
+results.  Within DPF-Core, operators are directly exposed with
+the <code class="docutils literal notranslate"><span class="pre">Operators</span></code> class as well as wrapped within several other
 convenience classes.</p>
+<p>For a list of all operators, see <a class="reference internal" href="../../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
 <p>This example demonstrates how to work directly with operators and
-compares it to wrapped approach.</p>
-<p>For a full listing of all available operators, please see
-<a class="reference internal" href="../../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
+compares this method to a wrapped approach.</p>
+<p>Import the necessary modules:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 </pre></div>
 </div>
-<p>First, create a model object to establish a connection with an
-example result file.</p>
+<p>Create a model object to establish a connection with an
+example result file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
@@ -451,23 +478,22 @@ example result file.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
-DPF Result Info
-  Analysis: static
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    RF Force :nodal reaction forces
-    S Stress :element nodal component stresses
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    EPEL Strain :element nodal component elastic strains
-    BFE Temperature :element structural nodal temperatures
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  reaction_force: Nodal Force
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  elastic_strain: ElementalNodal Strain
+     -  structural_temperature: ElementalNodal Temperature
 ------------------------------
 DPF  Meshed Region:
   81 nodes
@@ -483,17 +509,28 @@ Cumulative     Time (s)       LoadStep       Substep
 </div>
 <p>Next, create a raw displacement operator <code class="docutils literal notranslate"><span class="pre">&quot;U&quot;</span></code>.  Each operator
 contains <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> pins that can be connected to
-various sources, to include other operators.  This allows operators
+various sources to include other operators.  This allows operators
 to be “chained” to allow for highly efficient operations.</p>
-<p>Here, we print out the available inputs and outputs of the
-displacement operator.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+<p>To print out the available inputs and outputs of the
+displacement operator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Available inputs:
+     -   mesh : MeshedRegion, MeshesContainer, optional
+         Prevents from reading the mesh in the result files
+
+     -   streams_container : StreamsContainer, optional
+         Result file container allowed to be kept open to cache data
+
+     -   time_scoping : Scoping, int, list, float, Field, optional
+         Time/freq (use doubles or field), time/freq set ids (use ints or
+         scoping) or time/freq step ids (use scoping with timefreq_steps
+         location) required in output
+
      -   mesh_scoping : ScopingsContainer, Scoping, optional
          Nodes or elements scoping required in output. the scoping&#39;s location
          indicates whether nodes or elements are asked. using scopings
@@ -502,16 +539,9 @@ displacement operator.</p>
      -   data_sources : DataSources
          Result file path container, used if no streams are set
 
-     -   streams_container : StreamsContainer, optional
-         Result file container allowed to be kept open to cache data
-
-     -   mesh : MeshedRegion, MeshesContainer, optional
-         Prevents from reading the mesh in the result files
-
-     -   time_scoping : Scoping, int, list, float, Field, optional
-         Time/freq (use doubles or field), time/freq set ids (use ints or
-         scoping) or time/freq step ids (use scoping with timefreq_steps
-         location) required in output
+     -   bool_rotate_to_global : bool, optional
+         If true the field is rotated to global coordinate system (default
+         true)
 
      -   fields_container : FieldsContainer, optional
          Fields container already allocated modified inplace
@@ -521,10 +551,6 @@ displacement operator.</p>
          cyclic expansion is done, if 3 cyclic expansion is done and stages are
          merged (default is 1)
 
-     -   bool_rotate_to_global : bool, optional
-         If true the field is rotated to global coordinate system (default
-         true)
-
 
 Available outputs:
      -   fields_container
@@ -533,23 +559,23 @@ Available outputs:
 </div>
 <div class="section" id="compute-the-maximum-normalized-displacement">
 <h1>Compute the Maximum Normalized Displacement<a class="headerlink" href="#compute-the-maximum-normalized-displacement" title="Permalink to this headline">¶</a></h1>
-<p>Here, connect the input of the operator to the data sources
-contained within the <code class="docutils literal notranslate"><span class="pre">model</span></code> object and then the maximum of the
-norm of the operator to demonstrate how to chain various operators.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># connect to the data sources of the model</span>
+<p>This example demonstrate how to chain various operators. It connects the input
+of the operator to the data sources contained within the <code class="docutils literal notranslate"><span class="pre">model</span></code> object and
+then the maximum of the norm of the operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Connect to the data sources of the model.</span>
 <span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">data_sources</span><span class="p">)</span>
 
 <span class="c1"># Create a field container norm operator and connect it to the</span>
 <span class="c1"># displacement operator to chain the operators.</span>
-<span class="n">norm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;norm_fc&#39;</span><span class="p">)</span>
+<span class="n">norm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;norm_fc&quot;</span><span class="p">)</span>
 <span class="n">norm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 
-<span class="c1"># create a field container min/max operator and connect it to the</span>
-<span class="c1"># output of the norm operator</span>
-<span class="n">mm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s1">&#39;min_max_fc&#39;</span><span class="p">)</span>
+<span class="c1"># Create a field container min/max operator and connect it to the</span>
+<span class="c1"># output of the norm operator.</span>
+<span class="n">mm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;min_max_fc&quot;</span><span class="p">)</span>
 <span class="n">mm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">norm_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 
-<span class="c1"># Finally, get the value of the maximum displacement</span>
+<span class="c1"># Finally, get the value of the maximum displacement.</span>
 <span class="n">field_max</span> <span class="o">=</span> <span class="n">mm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field_max</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field_max</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -570,37 +596,37 @@ norm of the operator to demonstrate how to chain various operators.</p>
 <h1>Wrapped Operators<a class="headerlink" href="#wrapped-operators" title="Permalink to this headline">¶</a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">model.results</span></code> property contains all the wrapped operators
 available for a given result.  This is provided out of convenience
-as not all operators may be available for a given result and it is
-much easier to reference available operators by first running:</p>
+because all operators may not be available for a given result. Consequently,
+it is much easier to reference available operators by first running:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Result Info
-  Analysis: static
-  Physics Type: mecanic
-  Unit system: MKS: m, kg, N, s, V, A, degC
-  Available results:
-    U Displacement :nodal displacements
-    RF Force :nodal reaction forces
-    S Stress :element nodal component stresses
-    ENG_VOL Volume :element volume
-    ENG_SE Energy-stiffness matrix :element energy associated with the stiffness matrix
-    ENG_AHO Hourglass Energy :artificial hourglass energy
-    ENG_TH thermal dissipation energy :thermal dissipation energy
-    ENG_KE Kinetic Energy :kinetic energy
-    ENG_CO co-energy :co-energy (magnetics)
-    ENG_INC incremental energy :incremental energy (magnetics)
-    EPEL Strain :element nodal component elastic strains
-    BFE Temperature :element structural nodal temperatures
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mecanic
+Available results:
+     -  displacement: Nodal Displacement
+     -  reaction_force: Nodal Force
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  elastic_strain: ElementalNodal Strain
+     -  structural_temperature: ElementalNodal Temperature
 </pre></div>
 </div>
-<p>Create the displacement operator directly from the <code class="docutils literal notranslate"><span class="pre">results</span></code> property</p>
+<p>Create the displacement operator directly from the <code class="docutils literal notranslate"><span class="pre">results</span></code> property:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 
-<span class="c1"># Out of convenience, the operators module contains available operators</span>
-<span class="c1"># Those operators can be created in chain to create a workflow in one line</span>
+<span class="c1"># Out of convenience, the ``operators`` module contains available operators.</span>
+<span class="c1"># These operators can be chained to create a workflow in one line.</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span>
+
 <span class="n">mm_op</span> <span class="o">=</span> <span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">(</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">))</span>
 
 <span class="c1"># Finally, get the value of the maximum displacement.</span>
@@ -619,25 +645,24 @@ much easier to reference available operators by first running:</p>
 [1.48153706e-08]
 </pre></div>
 </div>
-<p>Plot the displacement</p>
+<p>Plot the displacement:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()))</span>
 </pre></div>
 </div>
 <img alt="01 basic operators" class="sphx-glr-single-img" src="../../_images/sphx_glr_01-basic_operators_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.0729555495773441, 0.1029555495773441, 0.0729555495773441),
- (0.015, 0.045, 0.015),
- (0.0, 0.0, 1.0)]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>None
 </pre></div>
 </div>
 </div>
-<div class="section" id="scripting-operators-syntax">
-<h1>Scripting operators syntax<a class="headerlink" href="#scripting-operators-syntax" title="Permalink to this headline">¶</a></h1>
-<p>DPF is also providing a scripting syntax where knowing
-the operator “string name” is not mandatory.
-Here is a similar script as above using this syntax.</p>
-<p>Instead of using a model class instance, let’s directly use a
-datasources object. The DataSources constructor input is a path.</p>
+<div class="section" id="scripting-operator-syntax">
+<h1>Scripting Operator Syntax<a class="headerlink" href="#scripting-operator-syntax" title="Permalink to this headline">¶</a></h1>
+<p>Because DPF provides a scripting syntax, knowing
+an operator’s “string name” is not mandatory.
+While this example is similar to the above script, it uses the DPF
+scripting syntax.</p>
+<p>Instead of using a <code class="docutils literal notranslate"><span class="pre">model</span></code> class instance, use a
+<code class="docutils literal notranslate"><span class="pre">DdataSources</span></code> object directly. The <code class="docutils literal notranslate"><span class="pre">DataSources</span></code> constructor input is a path.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 </pre></div>
@@ -646,7 +671,7 @@ datasources object. The DataSources constructor input is a path.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>d:\ansysdev\dpf-python-core\ansys\dpf\core\examples\static.rst
 </pre></div>
 </div>
-<p>Let’s instantiate the operators and connect them together.</p>
+<p>Instantiate the operators and connect them:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 <span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 <span class="n">norm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">()</span>
@@ -655,7 +680,7 @@ datasources object. The DataSources constructor input is a path.</p>
 <span class="n">mm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">norm_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Let’s get the output and print the result data.</p>
+<p>Get the output and print the result data:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field_max</span> <span class="o">=</span> <span class="n">mm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field_max</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
@@ -664,7 +689,7 @@ datasources object. The DataSources constructor input is a path.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.48153706e-08]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.180 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.975 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-01-basic-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9aa372dff2fc2ef917214ce9663244c9/01-basic_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-basic_operators.py</span></code></a></p>
@@ -680,13 +705,6 @@ datasources object. The DataSources constructor input is a path.</p>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="00-basic_example.html" title="previous page">Basic DPF-Core Usage</a>
-    <a class='right-next' id="next-link" href="02-basic_field_containers.html" title="next page">Field and Field Containers Overview</a>
-
-              </div>
-              
           </main>
           
 
@@ -700,7 +718,7 @@ datasources object. The DataSources constructor input is a path.</p>
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, ANSYS.<br/>
+    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
 </p>
     </div>
     
