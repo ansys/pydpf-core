@@ -212,23 +212,6 @@ def test_result_not_dynamic(plate_msup):
     dpf.core.settings.set_dynamic_available_results_capability(True)
 
 
-def test_vtk_model(plate_msup, tmpdir):
-    model = dpf.core.Model(plate_msup)
-    vtk = dpf.core.operators.serialization.vtk_export(
-        os.path.join(tmpdir, r'plate_msup.vtk'),
-        model.metadata.mesh_provider
-    )
-    i = 2
-    for res in model.results:
-        vtk.connect(i, res.on_all_time_freqs())
-        i += 1
-    vtk.run()
-    modelvtk = dpf.core.Model(os.path.join(tmpdir, r'plate_msup.vtk'))
-    assert "nodes" in str(modelvtk)
-    assert "displacement" in str(modelvtk)
-    for res in modelvtk.results:
-        assert isinstance(res.eval(), dpf.core.FieldsContainer)
-
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):
 #     from pyvista import CameraPosition
