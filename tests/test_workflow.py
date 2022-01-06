@@ -695,6 +695,21 @@ def test_create_on_other_server_with_address2_workflow():
     assert new_workflow.output_names == ['max', 'min']
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+def test_create_on_other_server_and_connect_workflow(allkindofcomplexity):
+    disp_op = op.result.displacement()
+    max_fc_op = op.min_max.min_max_fc(disp_op)
+    workflow = dpf.core.Workflow()
+    workflow.add_operators([disp_op,max_fc_op])
+    workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+    workflow.set_output_name("min", max_fc_op.outputs.field_min)
+    workflow.set_output_name("max", max_fc_op.outputs.field_max)
+    new_workflow = workflow.create_on_other_server(conftest.local_server)
+    new_workflow.connect("data_sources", dpf.core.DataSources(allkindofcomplexity))
+    max = new_workflow.get_output("max", dpf.core.types.field)
+    assert np.allclose(max.data, [[8.50619058e+04, 1.04659292e+01, 3.73620870e+05]])
+
+
 def main():
     test_connect_field_workflow()
     velocity_acceleration = conftest.resolve_test_file(
