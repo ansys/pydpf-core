@@ -45,10 +45,7 @@ def test_available_results_cache(simple_bar):
     res_info = model.metadata.result_info
     for res in res_info:
         pass
-    if server_meet_version("3.0", model._server):
-        assert len(res_info._cache.cached) == len(res_info) + 1
-    else:
-        assert len(res_info._cache.cached) == len(res_info) + len(dpf.ResultInfo._to_cache) - 1
+    assert len(res_info._cache.cached) == len(res_info) + 1
 
 
 def test_physics_type_cache(simple_bar):
