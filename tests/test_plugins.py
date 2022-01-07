@@ -43,7 +43,6 @@ def test_lsdyna(d3plot):
     u = dpf.operators.result.displacement()
     u.inputs.streams_container(streams)
     fc = u.outputs.fields_container()
-    assert len(fc) == 22
     assert len(fc[0]) == 3195
 
 
