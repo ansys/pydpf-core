@@ -45,7 +45,7 @@ class _InternalPlotter:
         kwargs.setdefault("nan_color", "grey")
         self._plotter.add_mesh(meshed_region.grid, **kwargs)
 
-    def add_field(self, field, meshed_region=None, **kwargs):
+    def add_field(self, field, meshed_region=None, show_max=False, show_min=False, **kwargs):
         name = field.name.split("_")[0]
         kwargs.setdefault("stitle", name)
         kwargs.setdefault("show_edges", True)
@@ -73,6 +73,32 @@ class _InternalPlotter:
 
         # plot
         self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
+
+        # Add Min and Max Labels
+        _labels = []
+        _grid_points = []
+        if show_max:
+            max_value = max(overall_data)
+            # Get max value index
+            max_value_index = np.where(overall_data == max_value)[0][0]
+            # Get node ID at max value
+            _node_id_at_max = meshed_region.nodes.node_by_index(max_value_index).id
+            _labels.append("Max: %s, NodeID: %s" % (round(max_value, 2), _node_id_at_max))
+            _grid_points.append(meshed_region.grid.points[max_value_index])
+
+        if show_min:
+            min_value = min(overall_data)
+            # Get max value index
+            min_value_index = np.where(overall_data == min_value)[0][0]
+            # Get node ID at min value
+            _node_id_at_min = meshed_region.nodes.node_by_index(min_value_index).id
+            _labels.append("Max: %s, NodeID: %s" % (round(min_value, 2), _node_id_at_min))
+            _grid_points.append(meshed_region.grid.points[min_value_index])
+
+        # Plot labels:
+        for index, grid_point in enumerate(_grid_points):
+            self._plotter.add_point_labels(grid_point, [_labels[index]], point_size=20,
+                                           font_size=36)
 
     def show_figure(self, **kwargs):
         background = kwargs.pop("background", None)
@@ -111,7 +137,7 @@ class DpfPlotter:
         """
         self._internal_plotter.add_mesh(meshed_region=meshed_region, **kwargs)
 
-    def add_field(self, field, meshed_region=None, **kwargs):
+    def add_field(self, field, meshed_region=None, show_max=False, show_min=False, **kwargs):
         """Add a field containing data to the plotter.
 
         A meshed_region to plot on can be added.
@@ -125,6 +151,10 @@ class DpfPlotter:
             Field data to plot
         meshed_region : MeshedRegion, optional
             ``MeshedRegion`` to plot the field on.
+        show_max : Boolean
+            To show Max. value label.
+        show_min : Boolean
+            To show Min. value label.
 
         Examples
         --------
@@ -140,6 +170,8 @@ class DpfPlotter:
         """
         self._internal_plotter.add_field(field=field,
                                          meshed_region=meshed_region,
+                                         show_max=show_max,
+                                         show_min=show_min,
                                          **kwargs)
 
     def show_figure(self, **kwargs):
@@ -159,6 +191,7 @@ class DpfPlotter:
 
         """
         self._internal_plotter.show_figure(**kwargs)
+
 
 def plot_chart(fields_container):
     """Plot the minimum/maximum result values over time.
@@ -280,14 +313,14 @@ class Plotter:
         return pyplot.legend()
 
     def plot_contour(
-        self,
-        field_or_fields_container,
-        notebook=None,
-        shell_layers=None,
-        off_screen=None,
-        show_axes=True,
-        meshed_region=None,
-        **kwargs
+            self,
+            field_or_fields_container,
+            notebook=None,
+            shell_layers=None,
+            off_screen=None,
+            show_axes=True,
+            meshed_region=None,
+            **kwargs
     ):
         """Plot the contour result on its mesh support.
 
@@ -322,7 +355,7 @@ class Plotter:
             warnings.simplefilter("ignore")
 
         if isinstance(
-            field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)
+                field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)
         ):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
