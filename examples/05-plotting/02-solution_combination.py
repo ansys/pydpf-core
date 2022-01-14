@@ -22,7 +22,7 @@ LC2: stress_tensor.outputs.fields_container.get_data()[1]
 
 # Scale LC2 to -1
 field_lc2 = stress_tensor.outputs.fields_container.get_data()[1]
-stress_tensor_lc2_sc = dpf.operators.math.scale(field=stress_tensor.outputs.fields_container.get_data()[1],
+stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2,
                                                 ponderation=-1.0)
 # Add load cases
 field_lc1 = stress_tensor.outputs.fields_container.get_data()[0]
