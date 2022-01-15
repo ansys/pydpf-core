@@ -74,6 +74,15 @@ class _InternalPlotter:
         # plot
         self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
 
+    def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
+        _label_actors = []
+        _node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node.id) for node in nodes]
+        _grid_points = [meshed_region.grid.points[_node_index] for _node_index in _node_indexes]
+
+        for index, _grid_point in enumerate(_grid_points):
+            _label_actors.append(self._plotter.add_point_labels(_grid_point, labels[index], **kwargs))
+        return _label_actors
+
     def show_figure(self, **kwargs):
         background = kwargs.pop("background", None)
         if background is not None:
@@ -89,6 +98,36 @@ class _InternalPlotter:
 class DpfPlotter:
     def __init__(self, **kwargs):
         self._internal_plotter = _InternalPlotter(**kwargs)
+        self._labels = []
+
+    @property
+    def labels(self):
+        """"
+        Read only labels.
+        :return: `list.`
+            List of Label(s). Each list member / member group
+            will share same properties.
+        """
+        return self._labels
+
+    def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
+        """
+        Add point labels to the PyVista Plot.
+        nodes : `list.`
+            Nodes where the labels should be added
+        :param meshed_region: MeshedRegion
+            MeshedRegion to plot.
+        :param labels: : list of str. or str., optional
+            List of labels.  Must be the same length as points.
+            If labels are not mentioned, scalar value at that point is shown.
+        :param kwargs: keyword arguments
+            Refer all the keyword arguments of the
+            PyVista function => BasePlotter.add_point_labels()
+        """
+        self._labels.append(self._internal_plotter.add_point_labels(nodes=nodes,
+                                                                    meshed_region=meshed_region,
+                                                                    labels=labels,
+                                                                    **kwargs))
 
     def add_mesh(self, meshed_region, **kwargs):
         """Add a mesh to plot.
@@ -159,6 +198,7 @@ class DpfPlotter:
 
         """
         self._internal_plotter.show_figure(**kwargs)
+
 
 def plot_chart(fields_container):
     """Plot the minimum/maximum result values over time.
@@ -280,14 +320,14 @@ class Plotter:
         return pyplot.legend()
 
     def plot_contour(
-        self,
-        field_or_fields_container,
-        notebook=None,
-        shell_layers=None,
-        off_screen=None,
-        show_axes=True,
-        meshed_region=None,
-        **kwargs
+            self,
+            field_or_fields_container,
+            notebook=None,
+            shell_layers=None,
+            off_screen=None,
+            show_axes=True,
+            meshed_region=None,
+            **kwargs
     ):
         """Plot the contour result on its mesh support.
 
@@ -322,7 +362,7 @@ class Plotter:
             warnings.simplefilter("ignore")
 
         if isinstance(
-            field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)
+                field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)
         ):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
