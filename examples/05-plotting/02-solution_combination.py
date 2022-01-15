@@ -41,5 +41,5 @@ mesh_set = model.metadata.meshed_region
 
 # Plot the results on the mesh.
 plot = DpfPlotter()
-plot.add_field(p_inv.outputs.field_eig_1(), meshed_region=mesh_set, show_max=True, show_min=False)
+plot.add_field(p_inv.outputs.field_eig_1(), meshed_region=mesh_set, show_max=False, show_min=True)
 plot.show_figure(show_axes=True)
