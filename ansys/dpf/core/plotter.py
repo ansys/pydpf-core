@@ -74,24 +74,29 @@ class _InternalPlotter:
         # plot
         self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
 
+        if show_max or show_min:
+            # Get Min-Max for the field
+            min_max = core.operators.min_max.min_max()
+            min_max.inputs.connect(field)
+
         # Add Min and Max Labels
         _labels = []
         _grid_points = []
         if show_max:
-            max_value = max(overall_data)
+            max_value = min_max.outputs.field_max().data[0]
             # Get max value index
             max_value_index = np.where(overall_data == max_value)[0][0]
             # Get node ID at max value
-            _node_id_at_max = meshed_region.nodes.node_by_index(max_value_index).id
+            _node_id_at_max = min_max.outputs.field_max().scoping.ids[0]
             _labels.append("Max: %s, NodeID: %s" % (round(max_value, 2), _node_id_at_max))
             _grid_points.append(meshed_region.grid.points[max_value_index])
 
         if show_min:
-            min_value = min(overall_data)
+            min_value = min_max.outputs.field_min().data[0]
             # Get max value index
             min_value_index = np.where(overall_data == min_value)[0][0]
             # Get node ID at min value
-            _node_id_at_min = meshed_region.nodes.node_by_index(min_value_index).id
+            _node_id_at_min = min_max.outputs.field_min().scoping.ids[0]
             _labels.append("Max: %s, NodeID: %s" % (round(min_value, 2), _node_id_at_min))
             _grid_points.append(meshed_region.grid.points[min_value_index])
 
