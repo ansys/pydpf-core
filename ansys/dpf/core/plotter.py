@@ -80,7 +80,11 @@ class _InternalPlotter:
         _grid_points = [meshed_region.grid.points[_node_index] for _node_index in _node_indexes]
 
         for index, _grid_point in enumerate(_grid_points):
-            _label_actors.append(self._plotter.add_point_labels(_grid_point, labels[index], **kwargs))
+            if labels:
+                _label_actors.append(self._plotter.add_point_labels(_grid_point, labels[index], **kwargs))
+            else:
+                scalar_at_grid_point = str(round(meshed_region.grid.active_scalars[index], 2))
+                _label_actors.append(self._plotter.add_point_labels(_grid_point, [scalar_at_grid_point], **kwargs))
         return _label_actors
 
     def show_figure(self, **kwargs):
