@@ -260,30 +260,31 @@ class DpfPlotter:
         """
         self._internal_plotter.show_figure(**kwargs)
 
-    def plot_chart(fields_container):
-        """Plot the minimum/maximum result values over time.
 
-        This is a valid method if ``time_freq_support`` contains
-        several time_steps, such as in a transient analysis.
+def plot_chart(fields_container):
+    """Plot the minimum/maximum result values over time.
 
-        Parameters
-        ----------
-        field_container : dpf.core.FieldsContainer
-            Fields container that must contains a result for each
-            time step of ``time_freq_support``.
+    This is a valid method if ``time_freq_support`` contains
+    several time_steps, such as in a transient analysis.
 
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.transient_therm)
-        >>> t = model.results.temperature.on_all_time_freqs()
-        >>> fc = t.outputs.fields_container()
-        >>> plotter = dpf.plotter.plot_chart(fc)
+    Parameters
+    ----------
+    field_container : dpf.core.FieldsContainer
+        Fields container that must contains a result for each
+        time step of ``time_freq_support``.
 
-        """
-        p = Plotter(None)
-        return p.plot_chart(fields_container)
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.transient_therm)
+    >>> t = model.results.temperature.on_all_time_freqs()
+    >>> fc = t.outputs.fields_container()
+    >>> plotter = dpf.plotter.plot_chart(fc)
+
+    """
+    p = Plotter(None)
+    return p.plot_chart(fields_container)
 
 
 class Plotter:
