@@ -45,7 +45,34 @@ class _InternalPlotter:
         kwargs.setdefault("nan_color", "grey")
         self._plotter.add_mesh(meshed_region.grid, **kwargs)
 
-    def add_field(self, field, meshed_region=None, show_max=False, show_min=False, **kwargs):
+    def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
+        label_actors = []
+        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node.id) for node in nodes]
+        grid_points = [meshed_region.grid.points[node_index] for node_index in node_indexes]
+
+        def get_label_at_grid_point(index):
+            try:
+                label = labels[index]
+            except:
+                label = None
+            return label
+
+        for index, grid_point in enumerate(grid_points):
+            label_at_grid_point = get_label_at_grid_point(index)
+            if label_at_grid_point:
+                label_actors.append(self._plotter.add_point_labels(grid_point,
+                                                                   [labels[index]],
+                                                                   **kwargs))
+            else:
+                scalar_at_index = meshed_region.grid.active_scalars[index]
+                scalar_at_grid_point = f"{scalar_at_index:.2f}"
+                label_actors.append(self._plotter.add_point_labels(grid_point,
+                                                                   [scalar_at_grid_point],
+                                                                   **kwargs))
+        return label_actors
+
+    def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
+                  label_text_size=30, label_point_size=20, **kwargs):
         name = field.name.split("_")[0]
         kwargs.setdefault("stitle", name)
         kwargs.setdefault("show_edges", True)
@@ -88,7 +115,7 @@ class _InternalPlotter:
             max_value_index = np.where(overall_data == max_value)[0][0]
             # Get node ID at max value
             node_id_at_max = min_max.outputs.field_max().scoping.ids[0]
-            labels.append(f"Max: {min_value:.2f}, NodeID: {node_id_at_min}")
+            labels.append(f"Max: {max_value:.2f}\nNodeID: {node_id_at_max}")
             grid_points.append(meshed_region.grid.points[max_value_index])
 
         if show_min:
@@ -97,13 +124,13 @@ class _InternalPlotter:
             min_value_index = np.where(overall_data == min_value)[0][0]
             # Get node ID at min value
             node_id_at_min = min_max.outputs.field_min().scoping.ids[0]
-            labels.append(f"Min: {min_value:.2f}, NodeID: {node_id_at_min}")
+            labels.append(f"Min: {min_value:.2f}\nNodeID: {node_id_at_min}")
             grid_points.append(meshed_region.grid.points[min_value_index])
 
         # Plot labels:
         for index, grid_point in enumerate(grid_points):
-            self._plotter.add_point_labels(grid_point, [labels[index]], point_size=20,
-                                           font_size=36)
+            self._plotter.add_point_labels(grid_point, [labels[index]],
+                                           font_size=label_text_size, point_size=label_point_size)
 
     def show_figure(self, **kwargs):
         background = kwargs.pop("background", None)
@@ -120,6 +147,39 @@ class _InternalPlotter:
 class DpfPlotter:
     def __init__(self, **kwargs):
         self._internal_plotter = _InternalPlotter(**kwargs)
+        self._labels = []
+
+    @property
+    def labels(self):
+        """"
+        Read only labels.
+        :return: list
+            List of Label(s). Each list member / member group
+            will share same properties.
+        """
+        return self._labels
+
+    def add_node_labels(self, nodes, meshed_region, labels=None, **kwargs):
+        """
+        Add labels at the nodal locations.
+
+        Parameters
+        ----------
+        nodes : list
+            Nodes where the labels should be added.
+        meshed_region: MeshedRegion
+            MeshedRegion to plot.
+        labels: : list of str. or str., optional
+            If label for grid point is not defined,
+            scalar value at that point is shown.
+        kwargs: dict., optional
+                Refers to all the keyword arguments controlling label properties
+                PyVista function => BasePlotter.add_point_labels()
+        """
+        self._labels.append(self._internal_plotter.add_point_labels(nodes=nodes,
+                                                                    meshed_region=meshed_region,
+                                                                    labels=labels,
+                                                                    **kwargs))
 
     def add_mesh(self, meshed_region, **kwargs):
         """Add a mesh to plot.
@@ -142,7 +202,8 @@ class DpfPlotter:
         """
         self._internal_plotter.add_mesh(meshed_region=meshed_region, **kwargs)
 
-    def add_field(self, field, meshed_region=None, show_max=False, show_min=False, **kwargs):
+    def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
+                  label_text_size=30, label_point_size=20, **kwargs):
         """Add a field containing data to the plotter.
 
         A meshed_region to plot on can be added.
@@ -177,6 +238,8 @@ class DpfPlotter:
                                          meshed_region=meshed_region,
                                          show_max=show_max,
                                          show_min=show_min,
+                                         label_text_size=label_text_size,
+                                         label_point_size=label_point_size,
                                          **kwargs)
 
     def show_figure(self, **kwargs):
@@ -197,31 +260,30 @@ class DpfPlotter:
         """
         self._internal_plotter.show_figure(**kwargs)
 
+    def plot_chart(fields_container):
+        """Plot the minimum/maximum result values over time.
 
-def plot_chart(fields_container):
-    """Plot the minimum/maximum result values over time.
+        This is a valid method if ``time_freq_support`` contains
+        several time_steps, such as in a transient analysis.
 
-    This is a valid method if ``time_freq_support`` contains
-    several time_steps, such as in a transient analysis.
+        Parameters
+        ----------
+        field_container : dpf.core.FieldsContainer
+            Fields container that must contains a result for each
+            time step of ``time_freq_support``.
 
-    Parameters
-    ----------
-    field_container : dpf.core.FieldsContainer
-        Fields container that must contains a result for each
-        time step of ``time_freq_support``.
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.transient_therm)
+        >>> t = model.results.temperature.on_all_time_freqs()
+        >>> fc = t.outputs.fields_container()
+        >>> plotter = dpf.plotter.plot_chart(fc)
 
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.transient_therm)
-    >>> t = model.results.temperature.on_all_time_freqs()
-    >>> fc = t.outputs.fields_container()
-    >>> plotter = dpf.plotter.plot_chart(fc)
-
-    """
-    p = Plotter(None)
-    return p.plot_chart(fields_container)
+        """
+        p = Plotter(None)
+        return p.plot_chart(fields_container)
 
 
 class Plotter:
