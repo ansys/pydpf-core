@@ -1,7 +1,7 @@
 """
 .. _labels:
 
-This example shows how to use nodal labels.
+Add Nodal Labels on Plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 One can custom labels to specific nodes with specific label properties.
 If label for a node is missing, by default nodal scalar value is shown.
