@@ -6,6 +6,7 @@ import tempfile
 import os
 import sys
 import numpy as np
+import warnings
 
 from ansys import dpf
 from ansys.dpf import core
@@ -86,6 +87,10 @@ class _InternalPlotter:
             mesh_location = meshed_region.nodes
         elif location == locations.elemental:
             mesh_location = meshed_region.elements
+            if show_max or show_min:
+                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
+                show_max = False
+                show_min = False
         else:
             raise ValueError(
                 "Only elemental or nodal location are supported for plotting."
@@ -110,22 +115,24 @@ class _InternalPlotter:
         labels = []
         grid_points = []
         if show_max:
-            max_value = min_max.outputs.field_max().data[0]
-            # Get max value index
-            max_value_index = np.where(overall_data == max_value)[0][0]
-            # Get node ID at max value
-            node_id_at_max = min_max.outputs.field_max().scoping.ids[0]
-            labels.append(f"Max: {max_value:.2f}\nNodeID: {node_id_at_max}")
-            grid_points.append(meshed_region.grid.points[max_value_index])
+            max_field = min_max.outputs.field_max()
+            # Get Node ID at max.
+            node_id_at_max = max_field.scoping.id(0)
+            labels.append(f"Max: {max_field.data[0]:.2f}\nNodeID: {node_id_at_max}")
+            # Get Node index at max value.
+            node_index_at_max = meshed_region.nodes.scoping.index(node_id_at_max)
+            # Append the corresponding Grid Point.
+            grid_points.append(meshed_region.grid.points[node_index_at_max])
 
         if show_min:
-            min_value = min_max.outputs.field_min().data[0]
-            # Get max value index
-            min_value_index = np.where(overall_data == min_value)[0][0]
-            # Get node ID at min value
-            node_id_at_min = min_max.outputs.field_min().scoping.ids[0]
-            labels.append(f"Min: {min_value:.2f}\nNodeID: {node_id_at_min}")
-            grid_points.append(meshed_region.grid.points[min_value_index])
+            min_field = min_max.outputs.field_min()
+            # Get Node ID at min.
+            node_id_at_min = min_field.scoping.id(0)
+            labels.append(f"Min: {min_field.data[0]:.2f}\nNodeID: {node_id_at_min}")
+            # Get Node index at min. value.
+            node_index_at_min = meshed_region.nodes.scoping.index(node_id_at_min)
+            # Append the corresponding Grid Point.
+            grid_points.append(meshed_region.grid.points[node_index_at_min])
 
         # Plot labels:
         for index, grid_point in enumerate(grid_points):

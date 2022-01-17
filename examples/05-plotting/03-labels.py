@@ -1,8 +1,8 @@
 """
 .. _labels:
 
-Add Nodal Labels on Plots
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add Nodal Labels on Plots.
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 One can custom labels to specific nodes with specific label properties.
 If label for a node is missing, by default nodal scalar value is shown.
 """
@@ -25,7 +25,8 @@ mesh_set = model.metadata.meshed_region
 
 # Plot the results on the mesh, show Min and Max
 plot = DpfPlotter()
-plot.add_field(stress_tensor.outputs.fields_container.get_data()[1], meshed_region=mesh_set,
+plot.add_field(stress_tensor.outputs.fields_container.get_data()[1],
+               meshed_region=mesh_set,
                show_max=True, show_min=True,
                label_text_size=15,
                label_point_size=5,
@@ -38,7 +39,8 @@ If label for a node is missing, by default nodal value is shown.
 
 my_nodes_1 = [mesh_set.nodes[0], mesh_set.nodes[10]]
 my_labels_1 = ["MyNode1", "MyNode2"]
-plot.add_node_labels(my_nodes_1, mesh_set, my_labels_1, italic=True, bold=True,
+plot.add_node_labels(my_nodes_1, mesh_set, my_labels_1,
+                     italic=True, bold=True,
                      font_size=26, text_color="white",
                      font_family="courier", shadow=True,
                      point_color="grey", point_size=20)

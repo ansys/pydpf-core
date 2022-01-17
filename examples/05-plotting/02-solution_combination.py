@@ -53,7 +53,8 @@ mesh_set = model.metadata.meshed_region
 plot = DpfPlotter()
 plot.add_field(p_inv.outputs.field_eig_1(),
                meshed_region=mesh_set,
-               show_min=True,
+               show_min=False,
+               show_max=True,
                label_text_size=40,
                label_point_size=15,
                )
