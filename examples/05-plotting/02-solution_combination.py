@@ -1,3 +1,13 @@
+"""
+.. _solution_combination:
+
+Loadcase combination for principal stress and show max/min label.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to get a principal stress loadcase combination using DPF
+And highlight min/max values in the plot.
+
+"""
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.plotter import DpfPlotter

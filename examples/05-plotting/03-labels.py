@@ -1,3 +1,12 @@
+"""
+.. _labels:
+
+This example shows how to use nodal labels.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+One can custom labels to specific nodes with specific label properties.
+If label for a node is missing, by default nodal scalar value is shown.
+"""
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.plotter import DpfPlotter
