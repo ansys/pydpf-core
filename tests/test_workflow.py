@@ -695,12 +695,13 @@ def test_create_on_other_server_with_address2_workflow():
     assert new_workflow.output_names == ['max', 'min']
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0, reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_create_on_other_server_and_connect_workflow(allkindofcomplexity):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
-    workflow.add_operators([disp_op,max_fc_op])
+    workflow.add_operators([disp_op, max_fc_op])
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)

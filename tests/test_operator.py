@@ -299,7 +299,7 @@ def test_outputs_bool_operator():
 def find_mapdl():
     try:
         path = dpf.core.misc.find_ansys()
-        if os.name == "nt":
+        if dpf.core.SERVER.os == "nt":
             exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
             return os.path.isfile(exe)
         else:

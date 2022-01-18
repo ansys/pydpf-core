@@ -8,11 +8,11 @@ import os
 import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples
+from ansys.dpf.core import path_utilities
 
 core.settings.disable_off_screen_rendering()
-
 # currently running dpf on docker.  Used for testing on CI
-running_docker = os.environ.get("DPF_DOCKER", False)
+running_docker = core.server.RUNNING_DOCKER["use_docker"]
 
 local_test_repo = False
 
@@ -21,6 +21,11 @@ if os.name == "posix":
 
     ssl._create_default_https_context = ssl._create_unverified_context
 
+if running_docker:
+    if local_test_repo:
+        core.server.RUNNING_DOCKER["args"] += ' -v "' \
+                                              f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
+                                              ':/tmp/test_files"'
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
@@ -29,11 +34,7 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     Normally returns local path unless server is running on docker and
     this repository has been mapped to the docker image at /dpf.
     """
-    if running_docker:
-        # assumes repository root is mounted at '/dpf'
-        test_files_path = "/dpf/tests/testfiles"
-        return os.path.join(test_files_path, additional_path, basename)
-    elif local_test_repo is False:
+    if local_test_repo is False:
         if is_in_examples:
             return getattr(examples, is_in_examples)
         else:
@@ -47,6 +48,8 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
                 )
             return filename
     elif os.environ.get("AWP_UNIT_TEST_FILES", False):
+        if running_docker:
+            return path_utilities.join("/tmp/test_files", "python", additional_path, basename)
         test_files_path = os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
         filename = os.path.join(
             test_files_path, os.path.join(additional_path, basename)

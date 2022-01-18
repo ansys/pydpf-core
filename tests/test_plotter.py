@@ -1,11 +1,10 @@
-import os
-
 import pytest
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
+from conftest import running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -13,9 +12,6 @@ if misc.module_exists("pyvista"):
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
-
-# currently running dpf on docker.  Used for testing on CI
-RUNNING_DOCKER = os.environ.get("DPF_DOCKER", False)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -248,7 +244,7 @@ def test_throw_complex_file(complex_model):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-@pytest.mark.skipif(RUNNING_DOCKER, reason="Path hidden within docker container")
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
