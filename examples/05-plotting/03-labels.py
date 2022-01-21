@@ -66,7 +66,7 @@ plot.add_node_labels(my_nodes_1, mesh_set, my_labels_1,
 my_nodes_2 = [mesh_set.nodes[20], mesh_set.nodes[30]]
 my_labels_2 = ["MyNode3"]
 plot.add_node_labels(my_nodes_2, mesh_set, my_labels_2,
-                     font_size=30, text_color="yellow",
+                     font_size=30, text_color="black",
                      font_family="arial", shadow=False,
                      point_color="white", point_size=30)
 ###############################################################################
