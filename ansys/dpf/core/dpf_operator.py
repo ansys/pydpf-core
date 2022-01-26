@@ -656,6 +656,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         scoping,
         scopings_container,
         time_freq_support,
+        data_tree,
         workflow,
     )
 
@@ -714,6 +715,9 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
     elif out.HasField("workflow"):
         toconvert = out.workflow
         return workflow.Workflow(server=server, workflow=toconvert)
+    elif out.HasField("data_tree"):
+        toconvert = out.data_tree
+        return data_tree.DataTree(server=server, data_tree=toconvert)
 
 
 def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
@@ -726,6 +730,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         model,
         scoping,
         workflow,
+        data_tree,
     )
 
     if isinstance(inpt, str):
@@ -770,6 +775,8 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         request.cyc_support.CopyFrom(inpt._message)
     elif isinstance(inpt, workflow.Workflow):
         request.workflow.CopyFrom(inpt._message)
+    elif isinstance(inpt, data_tree.DataTree):
+        request.data_tree.CopyFrom(inpt._message)
     elif isinstance(inpt, Operator):
         request.inputop.inputop.CopyFrom(inpt._message)
         request.inputop.pinOut = pin_out

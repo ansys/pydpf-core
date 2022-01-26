@@ -16,6 +16,7 @@ from conftest import local_server
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf.core._global_server()), "4.0")
 
 
 def test_create_operator():
@@ -732,6 +733,15 @@ def test_connect_get_output_double_list_operator():
     op = dpf.core.operators.utility.forward(d)
     dout = op.get_output(0, dpf.core.types.vec_double)
     assert np.allclose(d, dout)
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
+def test_connect_get_output_data_tree_operator():
+    d = dpf.core.DataTree({"name":"Paul"})
+    op = dpf.core.operators.utility.forward(d)
+    dout = op.get_output(0, dpf.core.types.data_tree)
+    assert dout.get_as("name") == "Paul"
 
 
 def test_operator_several_output_types(plate_msup):

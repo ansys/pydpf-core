@@ -51,6 +51,7 @@ from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor
+from ansys.dpf.core.data_tree import DataTree
 from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core import (

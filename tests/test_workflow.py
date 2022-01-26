@@ -7,6 +7,7 @@ import conftest
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf.core._global_server()), "4.0")
 
 
 def test_create_workflow():
@@ -373,6 +374,19 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
     out = wf.get_output("a", dpf.core.types.meshes_container)
 
     assert len(out) == len(mc)
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
+def test_connect_get_output_data_tree_operator():
+    d = dpf.core.DataTree({"name":"Paul"})
+    wf = dpf.core.Workflow()
+    op = dpf.core.operators.utility.forward()
+    wf.set_input_name("in", op.inputs.any)
+    wf.set_output_name("out", op.outputs.any)
+    wf.connect("in", d)
+    dout = wf.get_output("out", dpf.core.types.data_tree)
+    assert dout.get_as("name") == "Paul"
 
 
 def test_record_workflow(allkindofcomplexity):
