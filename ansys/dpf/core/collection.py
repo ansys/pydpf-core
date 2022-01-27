@@ -5,6 +5,8 @@ Contains classes associated with the DPF collection.
 
 """
 import numpy as np
+from typing import NamedTuple
+
 from ansys import dpf
 from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
 from ansys.dpf.core.core import base_pb2
@@ -197,6 +199,26 @@ class Collection:
         entries : list[Scoping], list[Field], list[MeshedRegion]
             Entries corresponding to the request.
         """
+        entries = self._get_entries_tuple(label_space_or_index)
+        if isinstance(entries, list):
+            return [entry.entry for entry in entries]
+        else:
+            return entries
+
+    def _get_entries_tuple(self, label_space_or_index):
+        """Retrieve the entries at a requested label space or index.
+
+        Parameters
+        ----------
+        label_space_or_index : dict[str,int]
+            Label space or index. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
+
+        Returns
+        -------
+        entries : list[_CollectionEntry]
+            Entries corresponding to the request.
+        """
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(self._message)
 
@@ -209,21 +231,34 @@ class Collection:
         out = self._stub.GetEntries(request)
         list_out = []
         for obj in out.entries:
+            label_space = {}
+            if obj.HasField("label_space"):
+                for key in obj.label_space.label_space:
+                    label_space[key] = obj.label_space.label_space[key]
             if obj.HasField("dpf_type"):
                 if self._type == types.scoping:
                     unpacked_msg = scoping_pb2.Scoping()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(Scoping(scoping=unpacked_msg, server=self._server))
+                    list_out.append(
+                        _CollectionEntry(
+                            label_space=label_space,
+                            entry=Scoping(scoping=unpacked_msg, server=self._server)))
                 elif self._type == types.field:
                     unpacked_msg = field_pb2.Field()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(Field(field=unpacked_msg, server=self._server))
+                    list_out.append(
+                        _CollectionEntry(
+                            label_space=label_space,
+                            entry=Field(field=unpacked_msg, server=self._server)))
                 elif self._type == types.meshed_region:
                     unpacked_msg = meshed_region_pb2.MeshedRegion()
                     obj.dpf_type.Unpack(unpacked_msg)
                     list_out.append(
-                        MeshedRegion(mesh=unpacked_msg, server=self._server)
+                        _CollectionEntry(
+                            label_space=label_space,
+                            entry=MeshedRegion(mesh=unpacked_msg, server=self._server))
                     )
+
         if len(list_out) == 0:
             list_out = None
         return list_out
@@ -265,16 +300,8 @@ class Collection:
             Scoping of the requested entry. For example,
             ``{"time": 1, "complex": 0}``.
         """
-        request = collection_pb2.EntryRequest()
-        request.collection.CopyFrom(self._message)
-        request.index = index
-        out = self._stub.GetEntries(request).entries
-        out = out[0].label_space.label_space
-        dictOut = {}
-        for key in out:
-            dictOut[key] = out[key]
-
-        return dictOut
+        entries = self._get_entries_tuple(index)
+        return entries[0].label_space
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
@@ -456,3 +483,7 @@ class Collection:
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]
+
+class _CollectionEntry(NamedTuple):
+    label_space: dict
+    entry: object
