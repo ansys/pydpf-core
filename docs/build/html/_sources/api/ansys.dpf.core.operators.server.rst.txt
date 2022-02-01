@@ -1,6 +1,8 @@
 ansys.dpf.core.operators.server namespace
 =========================================
 
+.. py:module:: ansys.dpf.core.operators.server
+
 Submodules
 ----------
 

@@ -641,147 +641,6 @@ These demos show how to solve specific requests.
 
 
 
-.. _sphx_glr_examples_05-distributed-post:
-
-.. _distributed_post
-
-Examples for post processing on distributed process
-===================================================
-These demos show how to create worflows on different processes (possibly on different machine) and how to connect those together.
-
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp_thumb.png
-     :alt: Distributed post without client connection to remote processes
-
-     :ref:`sphx_glr_examples_05-distributed-post_00-distributed_total_disp.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/00-distributed_total_disp
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Compute total displacement from distributed files with distributed post">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_01-distributed_delegate_to_server_thumb.png
-     :alt: Compute total displacement from distributed files with distributed post
-
-     :ref:`sphx_glr_examples_05-distributed-post_01-distributed_delegate_to_server.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/01-distributed_delegate_to_server
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Connect workflows on different processes implicitly">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_02-distributed_workflows_on_remote_thumb.png
-     :alt: Connect workflows on different processes implicitly
-
-     :ref:`sphx_glr_examples_05-distributed-post_02-distributed_workflows_on_remote.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/02-distributed_workflows_on_remote
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Distributed modal superposition">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_03-distributed-msup_expansion_thumb.png
-     :alt: Distributed modal superposition
-
-     :ref:`sphx_glr_examples_05-distributed-post_03-distributed-msup_expansion.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/03-distributed-msup_expansion
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Distributed msup distributed modal response">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_04-distributed-msup_expansion_steps_thumb.png
-     :alt: Distributed msup distributed modal response
-
-     :ref:`sphx_glr_examples_05-distributed-post_04-distributed-msup_expansion_steps.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/04-distributed-msup_expansion_steps
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes with Operators">
-
-.. only:: html
-
- .. figure:: /examples/05-distributed-post/images/thumb/sphx_glr_05-distributed_total_disp_with_operators_thumb.png
-     :alt: Distributed post without client connection to remote processes with Operators
-
-     :ref:`sphx_glr_examples_05-distributed-post_05-distributed_total_disp_with_operators.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /examples/05-distributed-post/05-distributed_total_disp_with_operators
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
-
-
-
 .. _sphx_glr_examples_05-plotting:
 
 .. _plotting_examples
@@ -832,6 +691,147 @@ These demos show how to use the DpfPlotter.
    :hidden:
 
    /examples/05-plotting/01-compare_results
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_examples_06-distributed-post:
+
+.. _distributed_post
+
+Examples for post processing on distributed process
+===================================================
+These demos show how to create worflows on different processes (possibly on different machine) and how to connect those together.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes">
+
+.. only:: html
+
+ .. figure:: /examples/06-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp_thumb.png
+     :alt: Distributed post without client connection to remote processes
+
+     :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/00-distributed_total_disp
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Compute total displacement from distributed files with distributed post">
+
+.. only:: html
+
+ .. figure:: /examples/06-distributed-post/images/thumb/sphx_glr_01-distributed_delegate_to_server_thumb.png
+     :alt: Compute total displacement from distributed files with distributed post
+
+     :ref:`sphx_glr_examples_06-distributed-post_01-distributed_delegate_to_server.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/01-distributed_delegate_to_server
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Connect workflows on different processes implicitly">
+
+.. only:: html
+
+ .. figure:: /examples/06-distributed-post/images/thumb/sphx_glr_02-distributed_workflows_on_remote_thumb.png
+     :alt: Connect workflows on different processes implicitly
+
+     :ref:`sphx_glr_examples_06-distributed-post_02-distributed_workflows_on_remote.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/02-distributed_workflows_on_remote
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Distributed modal superposition">
+
+.. only:: html
+
+ .. figure:: /examples/06-distributed-post/images/thumb/sphx_glr_03-distributed-msup_expansion_thumb.png
+     :alt: Distributed modal superposition
+
+     :ref:`sphx_glr_examples_06-distributed-post_03-distributed-msup_expansion.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/03-distributed-msup_expansion
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Distributed msup distributed modal response">
+
+.. only:: html
+
+ .. figure:: /examples/06-distributed-post/images/thumb/sphx_glr_04-distributed-msup_expansion_steps_thumb.png
+     :alt: Distributed msup distributed modal response
+
+     :ref:`sphx_glr_examples_06-distributed-post_04-distributed-msup_expansion_steps.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/04-distributed-msup_expansion_steps
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Distributed post without client connection to remote processes with Operators">
+
+.. only:: html
+
+ .. figure:: /examples/06-distributed-post/images/thumb/sphx_glr_05-distributed_total_disp_with_operators_thumb.png
+     :alt: Distributed post without client connection to remote processes with Operators
+
+     :ref:`sphx_glr_examples_06-distributed-post_05-distributed_total_disp_with_operators.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/06-distributed-post/05-distributed_total_disp_with_operators
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

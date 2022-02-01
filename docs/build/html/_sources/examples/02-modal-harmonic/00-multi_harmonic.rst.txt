@@ -1197,9 +1197,10 @@ Plot the minimum and maximum displacements over time
 
 
 
-.. image:: /examples/02-modal-harmonic/images/sphx_glr_00-multi_harmonic_001.png
-    :alt: 00 multi harmonic
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_00-multi_harmonic_001.png
+   :alt: 00 multi harmonic
+   :srcset: /examples/02-modal-harmonic/images/sphx_glr_00-multi_harmonic_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -1208,7 +1209,7 @@ Plot the minimum and maximum displacements over time
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.807 seconds)
+   **Total running time of the script:** ( 0 minutes  0.812 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_00-multi_harmonic.py:

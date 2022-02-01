@@ -75,7 +75,7 @@ the network via: connect_to_server
 
  .. code-block:: none
 
-    50053 50054
+    50055 50054
 
 
 
@@ -206,14 +206,16 @@ Plot the output
 
     *
 
-      .. image:: /examples/03-advanced/images/sphx_glr_03-exchange_data_between_servers_001.png
+      .. image-sg:: /examples/03-advanced/images/sphx_glr_03-exchange_data_between_servers_001.png
           :alt: 03 exchange data between servers
+          :srcset: /examples/03-advanced/images/sphx_glr_03-exchange_data_between_servers_001.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/03-advanced/images/sphx_glr_03-exchange_data_between_servers_002.png
+      .. image-sg:: /examples/03-advanced/images/sphx_glr_03-exchange_data_between_servers_002.png
           :alt: 03 exchange data between servers
+          :srcset: /examples/03-advanced/images/sphx_glr_03-exchange_data_between_servers_002.png
           :class: sphx-glr-multi-img
 
 
@@ -223,7 +225,7 @@ Plot the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.389 seconds)
+   **Total running time of the script:** ( 0 minutes  2.969 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_03-exchange_data_between_servers.py:

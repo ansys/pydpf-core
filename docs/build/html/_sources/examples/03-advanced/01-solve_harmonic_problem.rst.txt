@@ -168,15 +168,17 @@ Get the phase and amplitude and plot it over frequencies
 
     *
 
-      .. image:: /examples/03-advanced/images/sphx_glr_01-solve_harmonic_problem_001.png
-          :alt: 01 solve harmonic problem
-          :class: sphx-glr-multi-img
+      .. image-sg:: /examples/03-advanced/images/sphx_glr_01-solve_harmonic_problem_001.png
+         :alt: 01 solve harmonic problem
+         :srcset: /examples/03-advanced/images/sphx_glr_01-solve_harmonic_problem_001.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/03-advanced/images/sphx_glr_01-solve_harmonic_problem_002.png
-          :alt: 01 solve harmonic problem
-          :class: sphx-glr-multi-img
+      .. image-sg:: /examples/03-advanced/images/sphx_glr_01-solve_harmonic_problem_002.png
+         :alt: 01 solve harmonic problem
+         :srcset: /examples/03-advanced/images/sphx_glr_01-solve_harmonic_problem_002.png
+         :class: sphx-glr-multi-img
 
 
 
@@ -185,7 +187,7 @@ Get the phase and amplitude and plot it over frequencies
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.221 seconds)
+   **Total running time of the script:** ( 0 minutes  1.132 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_01-solve_harmonic_problem.py:

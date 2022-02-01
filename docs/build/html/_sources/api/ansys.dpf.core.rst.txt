@@ -26,6 +26,7 @@ Submodules
    ansys.dpf.core.custom_fields_container
    ansys.dpf.core.cyclic_support
    ansys.dpf.core.data_sources
+   ansys.dpf.core.data_tree
    ansys.dpf.core.dimensionality
    ansys.dpf.core.dpf_operator
    ansys.dpf.core.element_descriptor

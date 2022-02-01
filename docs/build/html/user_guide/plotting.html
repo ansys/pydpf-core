@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plotting &#8212; PyDPF-Core 0.4.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Plotting &#8212; PyDPF-Core 0.5.dev0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -22,16 +23,16 @@
       
 
     
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -41,7 +42,10 @@
     <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
     <link rel="prev" title="Fields Container and Fields" href="fields_container.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -229,13 +233,13 @@
               
               <div>
                 
-  <div class="section" id="plotting">
+  <section id="plotting">
 <span id="user-guide-plotting"></span><h1>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h1>
 <p>DPF-Core has a variety of plotting methods for generating 3D plots of
 Ansys models directly from Python. These methods use VTK and leverage
 the <a class="reference external" href="https://github.com/pyvista/pyvista">PyVista</a> library to
 simplify plotting. For more information, see the <a class="reference external" href="https://docs.pyvista.org">PyVista Documentation</a>.</p>
-<div class="section" id="plotting-the-mesh-from-the-model-object">
+<section id="plotting-the-mesh-from-the-model-object">
 <h2>Plotting the Mesh from the Model Object<a class="headerlink" href="#plotting-the-mesh-from-the-model-object" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model.plot" title="ansys.dpf.core.model.Model.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Model.plot()</span></code></a> method can
 be used to plot the mesh of the model immediately after loading it. In
@@ -252,8 +256,8 @@ internet and loaded using the :class:ansys.dpf.core.model` class:</p>
 <p>The default plotter settings display the mesh with edges shown and
 lighting enabled. For a list of all keyword arguments, see
 <a class="reference external" href="https://docs.pyvista.org/plotting/plotting.html?highlight=plot#pyvista.plot">plot</a>.</p>
-</div>
-<div class="section" id="plotting-using-the-meshed-region">
+</section>
+<section id="plotting-using-the-meshed-region">
 <h2>Plotting Using the Meshed Region<a class="headerlink" href="#plotting-using-the-meshed-region" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="../api/ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion.plot" title="ansys.dpf.core.meshed_region.MeshedRegion.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MeshedRegion.plot()</span></code></a>
 method plots the meshed region. If the meshed region is generated from the model’s
@@ -293,8 +297,8 @@ supported currently.  Use the <a class="reference internal" href="../api/ansys.d
 convert to nodal or the <a class="reference internal" href="../api/ansys.dpf.core.operators.averaging.nodal_to_elemental.html#module-ansys.dpf.core.operators.averaging.nodal_to_elemental" title="ansys.dpf.core.operators.averaging.nodal_to_elemental"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.averaging.nodal_to_elemental</span></code></a>
 class to convert to elemental.</p>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
               </div>
@@ -306,20 +310,19 @@ class to convert to elemental.</p>
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     

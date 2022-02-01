@@ -22,3 +22,4 @@ from .to_elemental_fc import to_elemental_fc
 from .gauss_to_node_fc import gauss_to_node_fc 
 from .nodal_to_elemental import nodal_to_elemental 
 from .nodal_to_elemental_fc import nodal_to_elemental_fc 
+from .to_elemental_nodal_fc import to_elemental_nodal_fc 

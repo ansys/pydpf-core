@@ -211,14 +211,16 @@ Add solid elements (linear hexa with eight nodes):
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_03-create_entities_001.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_03-create_entities_001.png
           :alt: 03 create entities
+          :srcset: /examples/00-basic/images/sphx_glr_03-create_entities_001.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_03-create_entities_002.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_03-create_entities_002.png
           :alt: 03 create entities
+          :srcset: /examples/00-basic/images/sphx_glr_03-create_entities_002.png
           :class: sphx-glr-multi-img
 
 
@@ -341,20 +343,23 @@ Plot the norm over time of the fields container:
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_03-create_entities_003.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_03-create_entities_003.png
           :alt: 03 create entities
+          :srcset: /examples/00-basic/images/sphx_glr_03-create_entities_003.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_03-create_entities_004.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_03-create_entities_004.png
           :alt: 03 create entities
+          :srcset: /examples/00-basic/images/sphx_glr_03-create_entities_004.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_03-create_entities_005.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_03-create_entities_005.png
           :alt: 03 create entities
+          :srcset: /examples/00-basic/images/sphx_glr_03-create_entities_005.png
           :class: sphx-glr-multi-img
 
 
@@ -364,7 +369,7 @@ Plot the norm over time of the fields container:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.067 seconds)
+   **Total running time of the script:** ( 0 minutes  6.174 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_03-create_entities.py:

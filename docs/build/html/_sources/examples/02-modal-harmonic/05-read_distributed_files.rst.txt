@@ -97,38 +97,44 @@ or distributed files
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_001.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_001.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_001.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_002.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_002.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_002.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_003.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_003.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_003.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_004.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_004.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_004.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_005.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_005.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_005.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_006.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_006.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_006.png
           :class: sphx-glr-multi-img
 
 
@@ -160,38 +166,44 @@ Compute stress eqv
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_007.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_007.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_007.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_008.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_008.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_008.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_009.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_009.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_009.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_010.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_010.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_010.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_011.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_011.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_011.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_012.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_012.png
           :alt: 05 read distributed files
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_05-read_distributed_files_012.png
           :class: sphx-glr-multi-img
 
 
@@ -201,7 +213,7 @@ Compute stress eqv
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.246 seconds)
+   **Total running time of the script:** ( 0 minutes  8.132 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_05-read_distributed_files.py:

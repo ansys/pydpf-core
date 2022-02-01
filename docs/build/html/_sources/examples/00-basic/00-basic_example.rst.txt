@@ -281,9 +281,10 @@ which for this static result is the only result.
 
 
 
-.. image:: /examples/00-basic/images/sphx_glr_00-basic_example_001.png
-    :alt: 00 basic example
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/00-basic/images/sphx_glr_00-basic_example_001.png
+   :alt: 00 basic example
+   :srcset: /examples/00-basic/images/sphx_glr_00-basic_example_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -292,7 +293,7 @@ which for this static result is the only result.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.962 seconds)
+   **Total running time of the script:** ( 0 minutes  2.586 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_00-basic_example.py:

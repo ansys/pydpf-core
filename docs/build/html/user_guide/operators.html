@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Operators &#8212; PyDPF-Core 0.4.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Operators &#8212; PyDPF-Core 0.5.dev0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -22,16 +23,16 @@
       
 
     
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -41,7 +42,10 @@
     <link rel="next" title="Fields Container and Fields" href="fields_container.html" />
     <link rel="prev" title="DPF Model" href="model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -266,7 +270,7 @@
               
               <div>
                 
-  <div class="section" id="operators">
+  <section id="operators">
 <span id="ref-user-guide-operators"></span><h1>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h1>
 <p>An operator is the only object that is used to create and transform
 data. It is the fundamental method by which DPF loads, operates on, and
@@ -274,8 +278,8 @@ outputs data. Each operator contains the <code class="docutils literal notransla
 attributed, which allow you to make various input and output connections.</p>
 <p>When the operator is evaluated, it processes the input information to
 compute its output with respect to its description:</p>
-<div class="figure align-default">
-<img alt="../_images/operator_drawing.svg" src="../_images/operator_drawing.svg" /></div>
+<figure class="align-default">
+<img alt="../_images/operator_drawing.svg" src="../_images/operator_drawing.svg" /></figure>
 <p>By attaching one operator’s outputs to another operator’s inputs,
 you can chain together operators to create workflows for conducting
 simple or complex data processing.  Through lazy evaluation, DPF
@@ -283,9 +287,9 @@ approaches data processing in an efficient manner, evaluating each operator
 only when the final operator is evaluated and the data is requested.</p>
 <p>For example, if you desire the maximum normalized displacement of a
 result, you construct operators in this order:</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/max_u_norm.png" src="../_images/max_u_norm.png" />
-</div>
+</figure>
 <p>To achieve this, you an use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
@@ -304,7 +308,7 @@ solution data that you want.</p>
 <p>DPF’s library of operators is large and includes file readers and mathematical,
 geometrical, and logical transformations. This library, found in
 <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>, is progressively enhanced.</p>
-<div class="section" id="creating-operators">
+<section id="creating-operators">
 <h2>Creating Operators<a class="headerlink" href="#creating-operators" title="Permalink to this headline">¶</a></h2>
 <p>Each operator is of type <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>. You can create an instance
 in Python with any of the derived classes available in the
@@ -349,8 +353,8 @@ available results for your result files:</p>
 <span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="connecting-operators">
+</section>
+<section id="connecting-operators">
 <h2>Connecting Operators<a class="headerlink" href="#connecting-operators" title="Permalink to this headline">¶</a></h2>
 <p>The only required input for the displacement operator is <code class="docutils literal notranslate"><span class="pre">data_sources</span></code> (see above).
 Providing file paths for results to the operator is necessary to compute
@@ -385,8 +389,8 @@ can also be connected to work on a temporal subset:</p>
 <span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="evaluating-operators">
+</section>
+<section id="evaluating-operators">
 <h2>Evaluating Operators<a class="headerlink" href="#evaluating-operators" title="Permalink to this headline">¶</a></h2>
 <p>With all the required inputs assigned, the :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>ansys.dpf.core.fields_container`can be
 outputted from the operator:</p>
@@ -415,8 +419,8 @@ like this one:</p>
 </pre></div>
 </div>
 <p>For information on using the field container, see <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields Container and Fields</span></a>.</p>
-</div>
-<div class="section" id="chaining-operators">
+</section>
+<section id="chaining-operators">
 <h2>Chaining Operators<a class="headerlink" href="#chaining-operators" title="Permalink to this headline">¶</a></h2>
 <p>To create more complex operations and customizable results, operators can be
 chained together to create workflows.</p>
@@ -481,8 +485,8 @@ the outputs of one operator to the inputs of another operator:</p>
 </div>
 <p>While this last approach is more verbose, it can be useful for operators
 having several matching inputs or outputs.</p>
-</div>
-<div class="section" id="types-of-operators">
+</section>
+<section id="types-of-operators">
 <h2>Types of Operators<a class="headerlink" href="#types-of-operators" title="Permalink to this headline">¶</a></h2>
 <p>DPF provides three main types of operators:</p>
 <ul class="simple">
@@ -490,7 +494,7 @@ having several matching inputs or outputs.</p>
 <li><p>Operators for transforming data</p></li>
 <li><p>Operators for exporting data</p></li>
 </ul>
-<div class="section" id="operators-for-importing-or-reading-data">
+<section id="operators-for-importing-or-reading-data">
 <h3>Operators for Importing or Reading Data<a class="headerlink" href="#operators-for-importing-or-reading-data" title="Permalink to this headline">¶</a></h3>
 <p>These operators provide for reading data from solver files or from standard file types:</p>
 <ul class="simple">
@@ -514,8 +518,8 @@ File readers can be used generically thanks to DPF’s result providers, which m
 <p>Standard file format readers are also supported to import custom data.
 Fields can be imported from CSV, VTK, and HDF5 files.</p>
 <p>For an example of importing and exporting a CSV file, see <a class="reference internal" href="../examples/00-basic/04-basic-load-file.html#ref-basic-load-file-example"><span class="std std-ref">Write/Load and Upload/Download a Result File</span></a>.</p>
-</div>
-<div class="section" id="operators-for-transforming-data">
+</section>
+<section id="operators-for-transforming-data">
 <h3>Operators for Transforming Data<a class="headerlink" href="#operators-for-transforming-data" title="Permalink to this headline">¶</a></h3>
 <p>A field is the main data container in DPF. Most of the operators that transform
 data take a field or a fields container as input and return a transformed
@@ -558,8 +562,8 @@ operators:</p>
   [7., 8., 9.]])
 </pre></div>
 </div>
-</div>
-<div class="section" id="operators-for-exporting-data">
+</section>
+<section id="operators-for-exporting-data">
 <h3>Operators for Exporting Data<a class="headerlink" href="#operators-for-exporting-data" title="Permalink to this headline">¶</a></h3>
 <p>After using DPF to read or transform simulation data, you might want
 to export the results in a given format to either use it in another
@@ -599,15 +603,15 @@ Python client is not on the same machine as the server:</p>
 Downloading...: 759 KB|
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="api-reference">
+</section>
+</section>
+<section id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
 <p>For a list of all operators in DPF, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
 or <span class="xref std std-ref">ref_operators_package</span>.  For more information about the
 class itself, see <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
               </div>
@@ -619,20 +623,19 @@ class itself, see <a class="reference internal" href="../api/ansys.dpf.core.dpf_
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     

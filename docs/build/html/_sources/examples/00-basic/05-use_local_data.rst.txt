@@ -144,14 +144,16 @@ Plot the mesh skin:
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_001.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_05-use_local_data_001.png
           :alt: 05 use local data
+          :srcset: /examples/00-basic/images/sphx_glr_05-use_local_data_001.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_002.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_05-use_local_data_002.png
           :alt: 05 use local data
+          :srcset: /examples/00-basic/images/sphx_glr_05-use_local_data_002.png
           :class: sphx-glr-multi-img
 
 
@@ -246,9 +248,10 @@ Plot the result field on the skin mesh:
 
 
 
-.. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_003.png
-    :alt: 05 use local data
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/00-basic/images/sphx_glr_05-use_local_data_003.png
+   :alt: 05 use local data
+   :srcset: /examples/00-basic/images/sphx_glr_05-use_local_data_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -279,20 +282,23 @@ Plot the initial invariants on the skin mesh:
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_004.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_05-use_local_data_004.png
           :alt: 05 use local data
+          :srcset: /examples/00-basic/images/sphx_glr_05-use_local_data_004.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_005.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_05-use_local_data_005.png
           :alt: 05 use local data
+          :srcset: /examples/00-basic/images/sphx_glr_05-use_local_data_005.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/00-basic/images/sphx_glr_05-use_local_data_006.png
+      .. image-sg:: /examples/00-basic/images/sphx_glr_05-use_local_data_006.png
           :alt: 05 use local data
+          :srcset: /examples/00-basic/images/sphx_glr_05-use_local_data_006.png
           :class: sphx-glr-multi-img
 
 
@@ -302,7 +308,7 @@ Plot the initial invariants on the skin mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.281 seconds)
+   **Total running time of the script:** ( 0 minutes  3.314 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_05-use_local_data.py:

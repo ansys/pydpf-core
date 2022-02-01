@@ -149,9 +149,10 @@ Now we create the plotter and add fields and meshes
     pl.show_figure(show_axes=True)
 
 
-.. image:: /examples/05-plotting/images/sphx_glr_00-plot_on_path_001.png
-    :alt: 00 plot on path
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/05-plotting/images/sphx_glr_00-plot_on_path_001.png
+   :alt: 00 plot on path
+   :srcset: /examples/05-plotting/images/sphx_glr_00-plot_on_path_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -160,7 +161,7 @@ Now we create the plotter and add fields and meshes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.828 seconds)
+   **Total running time of the script:** ( 0 minutes  0.740 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_00-plot_on_path.py:

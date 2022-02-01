@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DPF Model &#8212; PyDPF-Core 0.4.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>DPF Model &#8212; PyDPF-Core 0.5.dev0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -22,16 +23,16 @@
       
 
     
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -41,7 +42,10 @@
     <link rel="next" title="Operators" href="operators.html" />
     <link rel="prev" title="User Guide" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -236,7 +240,7 @@
               
               <div>
                 
-  <div class="section" id="dpf-model">
+  <section id="dpf-model">
 <span id="user-guide-model"></span><h1>DPF Model<a class="headerlink" href="#dpf-model" title="Permalink to this headline">¶</a></h1>
 <p>The DPF model provides the starting point for opening a result file.
 From here you can connect various operators and display results
@@ -288,7 +292,7 @@ Cumulative     Time (s)       LoadStep       Substep
 </div>
 <p>For an example using the model, see <a class="reference internal" href="../examples/00-basic/00-basic_example.html#ref-basic-example"><span class="std std-ref">Basic DPF-Core Usage</span></a>.</p>
 <p>For a description of the <cite>Model</cite> object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>.</p>
-<div class="section" id="model-metadata">
+<section id="model-metadata">
 <h2>Model Metadata<a class="headerlink" href="#model-metadata" title="Permalink to this headline">¶</a></h2>
 <p>You can use model metadata to access all information about an analysis:</p>
 <ul class="simple">
@@ -331,8 +335,8 @@ DPF Element 1
 </pre></div>
 </div>
 <p>For a description of the <cite>Metadata</cite> object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a>.</p>
-</div>
-<div class="section" id="model-results">
+</section>
+<section id="model-results">
 <h2>Model Results<a class="headerlink" href="#model-results" title="Permalink to this headline">¶</a></h2>
 <p>The model contains the <code class="docutils literal notranslate"><span class="pre">results</span></code> attribute, which you can use to
 create operators to access certain results.</p>
@@ -358,8 +362,8 @@ Available results:
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt>
-<code class="sig-prename descclassname"><span class="pre">Model.</span></code><code class="sig-name descname"><span class="pre">results</span></code></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">Model.</span></span><span class="sig-name descname"><span class="pre">results</span></span></dt>
 <dd><p>Available results of the model.</p>
 <p>Organizes the results from DPF into accessible methods. All the available
 results are dynamically created depending on the model’s class:<cite>ansys.dpf.core.result_info</cite>.</p>
@@ -373,8 +377,8 @@ returns common results.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt>
-<code class="sig-name descname"><span class="pre">all</span> <span class="pre">types</span> <span class="pre">of</span> <span class="pre">results</span></code></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">all</span> <span class="pre">types</span> <span class="pre">of</span> <span class="pre">results</span></span></dt>
 <dd><p>Result provider helper wrapping all types of provider available for a
 given result file.</p>
 <p class="rubric">Examples</p>
@@ -418,12 +422,12 @@ is straightforward with the <code class="docutils literal notranslate"><span cla
 </div>
 <p>For an example using the <cite>Result</cite> API, see <a class="reference internal" href="../examples/01-static-transient/01-transient_easy_time_scoping.html#ref-transient-easy-time-scoping"><span class="std std-ref">Choose a Time Scoping for a Transient Analysis</span></a>.</p>
 <p>For a <cite>description of the `Model</cite> object, see the APIs section <a class="reference internal" href="../api/ansys.dpf.core.results.html#ref-results"><span class="std std-ref">Results</span></a>.</p>
-<div class="section" id="api-reference">
+<section id="api-reference">
 <h3>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h3>
 <p>For more information, see <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a> or <a class="reference internal" href="../api/ansys.dpf.core.results.html#ref-results"><span class="std std-ref">Results</span></a>.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
               </div>
@@ -435,20 +439,19 @@ is straightforward with the <code class="docutils literal notranslate"><span cla
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     

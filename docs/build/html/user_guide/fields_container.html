@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fields Container and Fields &#8212; PyDPF-Core 0.4.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Fields Container and Fields &#8212; PyDPF-Core 0.5.dev0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -22,16 +23,16 @@
       
 
     
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -41,7 +42,10 @@
     <link rel="next" title="Plotting" href="plotting.html" />
     <link rel="prev" title="Operators" href="operators.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -265,13 +269,13 @@
               
               <div>
                 
-  <div class="section" id="fields-container-and-fields">
+  <section id="fields-container-and-fields">
 <span id="ref-user-guide-fields-container"></span><h1>Fields Container and Fields<a class="headerlink" href="#fields-container-and-fields" title="Permalink to this headline">¶</a></h1>
 <p>Where DPF uses operators to load and operate on data, it uses the
 field container and fields to store and return data. In other words,
 operators are like verbs, acting on the data, while the field container
 and fields are like nouns, objects that hold data.</p>
-<div class="section" id="obtaining-the-fields-container-or-fields">
+<section id="obtaining-the-fields-container-or-fields">
 <h2>Obtaining the Fields Container or Fields<a class="headerlink" href="#obtaining-the-fields-container-or-fields" title="Permalink to this headline">¶</a></h2>
 <p>The outputs from operators can be either a
 <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a> or a
@@ -315,7 +319,7 @@ equivalent of a list of fields. It is holds a vector of fields.</p>
   - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
 </pre></div>
 </div>
-<div class="section" id="accessing-fields-within-a-fields-container">
+<section id="accessing-fields-within-a-fields-container">
 <h3>Accessing Fields Within a Fields Container<a class="headerlink" href="#accessing-fields-within-a-fields-container" title="Permalink to this headline">¶</a></h3>
 <p>Because the result above contains a transient result, the
 fields container has one field by time set.</p>
@@ -413,9 +417,9 @@ Cumulative     Time (s)       LoadStep       Substep
 indexing via <code class="docutils literal notranslate"><span class="pre">fields[0]</span></code>, you can use zero-based indexing.  When requesting the
 results using the <code class="docutils literal notranslate"><span class="pre">get_fields</span></code> method, the request is based on the time scoping
 set IDs.</p>
-</div>
-</div>
-<div class="section" id="field">
+</section>
+</section>
+<section id="field">
 <h2>Field<a class="headerlink" href="#field" title="Permalink to this headline">¶</a></h2>
 <p>The class <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> is the fundamental unit of data within DPF.
 It contains the actual data and its metadata, which is results data defined by values
@@ -437,7 +441,7 @@ location, and more.</p>
 </pre></div>
 </div>
 <p>The next section provides an overview of the metadata associated with the field itself.</p>
-<div class="section" id="field-metadata">
+<section id="field-metadata">
 <h3>Field Metadata<a class="headerlink" href="#field-metadata" title="Permalink to this headline">¶</a></h3>
 <p>The field contains the metadata for the result it is associated with. The metadata
 includes the location (such as <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>, or
@@ -497,11 +501,11 @@ the units of the data:</p>
 6
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="field-data">
+</section>
+</section>
+<section id="field-data">
 <h2>Field Data<a class="headerlink" href="#field-data" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="accessing-field-data">
+<section id="accessing-field-data">
 <h3>Accessing Field Data<a class="headerlink" href="#accessing-field-data" title="Permalink to this headline">¶</a></h3>
 <p>When DPF-Core returns the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class,
 what Python actually has is a client-side representation of the field,
@@ -590,8 +594,8 @@ a field’s data can be recovered locally before sending a large number of reque
         <span class="n">f</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="operating-on-field-data">
+</section>
+<section id="operating-on-field-data">
 <h3>Operating on Field Data<a class="headerlink" href="#operating-on-field-data" title="Permalink to this headline">¶</a></h3>
 <p>Often times, it’s not necessary to directly act upon the data of an
 array within Python. For example, if you want to know the maximum of
@@ -632,14 +636,14 @@ Elemental
 </pre></div>
 </div>
 <p>For more advanced information on operator chaining, see the <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a>.</p>
-</div>
-<div class="section" id="api-reference">
+</section>
+<section id="api-reference">
 <h3>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h3>
 <p>See the API reference at <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ref-fields-container"><span class="std std-ref">FieldsContainer</span></a> and
 <a class="reference internal" href="../api/ansys.dpf.core.field.html#ref-field"><span class="std std-ref">Field</span></a>.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
               </div>
@@ -651,20 +655,19 @@ Elemental
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright (c) 2021 ANSYS, Inc. All rights reserved.<br/>
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     

@@ -1,6 +1,8 @@
 ansys namespace
 ===============
 
+.. py:module:: ansys
+
 Subpackages
 -----------
 

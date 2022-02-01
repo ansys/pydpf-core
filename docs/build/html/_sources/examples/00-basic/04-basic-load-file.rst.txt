@@ -69,9 +69,10 @@ Get the fields container for the result and plot it so you can compare it later:
 
 
 
-.. image:: /examples/00-basic/images/sphx_glr_04-basic-load-file_001.png
-    :alt: 04 basic load file
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/00-basic/images/sphx_glr_04-basic-load-file_001.png
+   :alt: 04 basic load file
+   :srcset: /examples/00-basic/images/sphx_glr_04-basic-load-file_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -135,7 +136,7 @@ can be used.
 
  .. code-block:: none
 
-    C:\Users\lparadis\AppData\Local\Temp\dataProcessingTemp57740\simple_bar_fc.csv
+    C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp5960\simple_bar_fc.csv
 
 
 
@@ -184,9 +185,10 @@ Load the fields container contained in the CSV file as an operator input:
 
 
 
-.. image:: /examples/00-basic/images/sphx_glr_04-basic-load-file_002.png
-    :alt: 04 basic load file
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/00-basic/images/sphx_glr_04-basic-load-file_002.png
+   :alt: 04 basic load file
+   :srcset: /examples/00-basic/images/sphx_glr_04-basic-load-file_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -225,7 +227,7 @@ Use this fields container:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.793 seconds)
+   **Total running time of the script:** ( 0 minutes  1.593 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_04-basic-load-file.py:

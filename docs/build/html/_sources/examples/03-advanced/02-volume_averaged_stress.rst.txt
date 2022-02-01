@@ -233,14 +233,16 @@ Plot elemental seqv and volume averaged elemental seqv
 
     *
 
-      .. image:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_001.png
+      .. image-sg:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_001.png
           :alt: 02 volume averaged stress
+          :srcset: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_001.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_002.png
+      .. image-sg:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_002.png
           :alt: 02 volume averaged stress
+          :srcset: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_002.png
           :class: sphx-glr-multi-img
 
 
@@ -277,9 +279,10 @@ An operator with the same algorithm has been implemented
 
 
 
-.. image:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_003.png
-    :alt: 02 volume averaged stress
-    :class: sphx-glr-single-img
+.. image-sg:: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_003.png
+   :alt: 02 volume averaged stress
+   :srcset: /examples/03-advanced/images/sphx_glr_02-volume_averaged_stress_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -288,7 +291,7 @@ An operator with the same algorithm has been implemented
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.928 seconds)
+   **Total running time of the script:** ( 0 minutes  3.358 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_02-volume_averaged_stress.py:

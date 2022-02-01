@@ -29,6 +29,7 @@ Submodules
    ansys.dpf.core.operators.averaging.nodal_to_elemental
    ansys.dpf.core.operators.averaging.nodal_to_elemental_fc
    ansys.dpf.core.operators.averaging.to_elemental_fc
+   ansys.dpf.core.operators.averaging.to_elemental_nodal_fc
    ansys.dpf.core.operators.averaging.to_nodal
    ansys.dpf.core.operators.averaging.to_nodal_fc
 

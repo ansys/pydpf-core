@@ -187,26 +187,30 @@ elements
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_001.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_001.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_001.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_002.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_002.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_002.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_003.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_003.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_003.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_004.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_004.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_004.png
           :class: sphx-glr-multi-img
 
 
@@ -234,26 +238,30 @@ elements
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_005.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_005.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_005.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_006.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_006.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_006.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_007.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_007.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_007.png
           :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_008.png
+      .. image-sg:: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_008.png
           :alt: 03 compare modes
+          :srcset: /examples/02-modal-harmonic/images/sphx_glr_03-compare_modes_008.png
           :class: sphx-glr-multi-img
 
 
@@ -263,7 +271,7 @@ elements
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.281 seconds)
+   **Total running time of the script:** ( 0 minutes  5.223 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_03-compare_modes.py:

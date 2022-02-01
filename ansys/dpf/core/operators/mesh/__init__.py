@@ -1,6 +1,7 @@
 from .node_coordinates import node_coordinates 
 from .from_field import from_field 
 from .mesh_provider import mesh_provider 
+from .meshes_provider import meshes_provider 
 from .beam_properties import beam_properties 
 from .split_mesh import split_mesh 
 from .from_scoping import from_scoping 
