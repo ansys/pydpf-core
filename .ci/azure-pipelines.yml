@@ -91,28 +91,28 @@ jobs:
 
 
 - job: WindowsAnsys2021R2
-    variables:
-      python.version: '3.8'
-      ANSYS_VERSION: 212
-      DISPLAY: ':99.0'
-      PYANSYS_OFF_SCREEN: True
-      DPF_PORT: 32772
-      vstsPackageVersion: '21.2.3'
-    pool:
-      vmImage: 'windows-2019'
+  variables:
+    python.version: '3.8'
+    ANSYS_VERSION: 212
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+    vstsPackageVersion: '21.2.3'
+  pool:
+    vmImage: 'windows-2019'
 
-    steps:
-      - template: templates\prepare-environment-windows.yml
+  steps:
+    - template: templates\prepare-environment-windows.yml
 
-      - script: |
-              pip install ansys-grpc-dpf==0.3.0
-        displayName: Install proper version of ansys-grpc-dpf
+    - script: |
+            pip install ansys-grpc-dpf==0.3.0
+      displayName: Install proper version of ansys-grpc-dpf
 
-      - script: |
-          rmdir /s /q .\ansys\
-        displayName: Remote local copy of ansys-dpf-core
+    - script: |
+        rmdir /s /q .\ansys\
+      displayName: Remote local copy of ansys-dpf-core
 
-      - template: templates\run-unit-tests-windows.yml
+    - template: templates\run-unit-tests-windows.yml
 
 
 - job: Linux
