@@ -23,13 +23,6 @@ steps:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
 
-    - task: PythonScript@0
-      inputs:
-        scriptSource: 'filePath'
-        scriptPath: ".ci/edit_ansys_version.py"
-        arguments: "--version $(ANSYS_VERSION)"
-      displayName: "Set ansys version"
-
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
@@ -40,6 +33,13 @@ steps:
         python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
       
       displayName: Install ansys-dpf-core
+
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: ".ci/edit_ansys_version.py"
+        arguments: "--version $(ANSYS_VERSION)"
+      displayName: "Set ansys version"
 
     - task: UniversalPackages@0
       inputs:
