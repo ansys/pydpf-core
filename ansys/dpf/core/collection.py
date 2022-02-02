@@ -83,7 +83,7 @@ class Collection:
         Parameters
         ----------
         inpt : list[float], list[int], numpy.array
-            list to transfert server side
+            list to transfer server side
 
         Returns
         -------

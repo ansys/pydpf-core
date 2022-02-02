@@ -466,7 +466,7 @@ class Operator:
 
     def __pow__(self, value):
         if value != 2:
-            raise ValueError('Only the value "2" is suppported.')
+            raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):

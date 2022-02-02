@@ -6,7 +6,7 @@ Compute total displacement from distributed files with distributed post
 This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing of total displacement,
 results a merged on the local process. In this example, the client is only
-connected to the coordinator server. Connections to remote proceses are only
+connected to the coordinator server. Connections to remote processes are only
 done implicitly through the coordinator.
 
 """

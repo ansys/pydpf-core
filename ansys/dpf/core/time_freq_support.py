@@ -19,7 +19,7 @@ class TimeFreqSupport:
 
     This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
     The RPM value is a step (or load step)-based value.
-    The time freqencies, complex frequencies, and harmonic indices are set-based values.
+    The time frequencies, complex frequencies, and harmonic indices are set-based values.
     There is one set value for each step/substep combination.
 
     Parameters
@@ -303,7 +303,7 @@ class TimeFreqSupport:
         freq  : double, optional
             Frequency in Hz.
         cplx : False, optional
-            Whehter to return a complex frequency. The default is ``False``.
+            Whether to return a complex frequency. The default is ``False``.
 
         Returns
         -------
@@ -430,7 +430,7 @@ class TimeFreqSupport:
     ):
         """Append a step with all its field values in the time frequencies support.
         The RPM value is a step (or load step)-based value.
-        The values for time freqencies, complex frequencies, and harmonic indices are set-based.
+        The values for time frequencies, complex frequencies, and harmonic indices are set-based.
         There is one set value for each step/substep combination.
 
         It is necessary that each call of my_time_freq_support.append_step(kwargs**) contains
@@ -520,7 +520,7 @@ class TimeFreqSupport:
     def deep_copy(self, server=None):
         """Create a deep copy of the data for a time frequency support on a given server.
 
-        This methos is useful for passing data from one server instance to another.
+        This method is useful for passing data from one server instance to another.
 
         Parameters
         ----------

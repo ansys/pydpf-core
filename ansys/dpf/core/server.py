@@ -240,7 +240,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     """Connect to an existing DPF server.
 
     This method sets the global default channel that is then used for the
-    duration of the DPF sesssion.
+    duration of the DPF session.
 
     Parameters
     ----------
@@ -255,7 +255,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
         module. All DPF objects created in this Python session will
         use this IP and port. The default is ``True``.
     timeout : float, optional
-        Maximum number of seconds for the initalization attempt.
+        Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
 
@@ -297,7 +297,7 @@ class DpfServer:
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
     timeout : float, optional
-        Maximum number of seconds for the initalization attempt.
+        Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
     as_global : bool, optional
@@ -584,7 +584,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
     timeout : float, optional
-        Maximum number of seconds for the initalization attempt.
+        Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
     docker_name : str, optional

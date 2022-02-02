@@ -75,7 +75,7 @@ print(min_max_op.outputs.field_max().data)
 # Out of conveience, you can simply take the max of the field with:
 print(field.max().data)
 
-# The above yields a result idential to:
+# The above yields a result identical to:
 print(np.max(field.data, axis=0))
 
 ###############################################################################

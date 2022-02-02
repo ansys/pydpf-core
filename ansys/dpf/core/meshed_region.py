@@ -337,7 +337,7 @@ class MeshedRegion:
 
     @property
     def grid(self):
-        """Unstructured grid in VTK fromat from PyVista.
+        """Unstructured grid in VTK format from PyVista.
 
         Returns
         -------

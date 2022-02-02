@@ -189,7 +189,7 @@ if __name__ == "__main__":
         if "." in scripting_name:
             scripting_name = scripting_name.split(".")[-1]
 
-        # Get python class name fron scripting name
+        # Get python class name from scripting name
         capital_class_name = common._snake_to_camel_case(scripting_name)
 
         # Write to operator file

@@ -477,7 +477,7 @@ class BaseService:
         Parameters
         ----------
         server_file_path : str
-            file path to dowload on the server side
+            file path to download on the server side
 
         to_client_file_path: str
             file path target where the file will be located client side

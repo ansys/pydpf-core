@@ -48,7 +48,7 @@ class Session:
         self._message = self._stub.Create(request)
 
     @version_requires("3.0")
-    def add_workflow(self, worflow, identifier):
+    def add_workflow(self, workflow, identifier):
         """Add a workflow to the session. It allows to follow the workflow's
         events while it's running.
         This method is automatically called when a workflow's output
@@ -56,7 +56,7 @@ class Session:
 
         Parameters
         ----------
-        worflow : Workflow
+        workflow : Workflow
 
         identifier : str
             name given to the workflow
@@ -64,7 +64,7 @@ class Session:
         from ansys.grpc.dpf import session_pb2
         request = session_pb2.AddRequest()
         request.session.CopyFrom(self._message)
-        request.wf.CopyFrom(worflow._message)
+        request.wf.CopyFrom(workflow._message)
         request.identifier = identifier
         self._stub.Add(request)
 
@@ -96,7 +96,7 @@ class Session:
 
     @version_requires("3.0")
     def listen_to_progress(self):
-        """Starts a progress bar and update it everytime an operator is
+        """Starts a progress bar and update it every time an operator is
         finished.
         """
         service = self._stub.ListenToProgress(self._message)

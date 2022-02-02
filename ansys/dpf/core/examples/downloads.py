@@ -317,7 +317,7 @@ def download_fluent_files() -> dict:
 
 def download_extrapolation_3d_result() -> dict:
     """Download example static results of reference and integrated points
-    for extrapolation of 3d-element and return return the dictionary of 2 download paths.
+    for extrapolation of 3d-element and return return the dictionnary of 2 download paths.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -330,7 +330,7 @@ def download_extrapolation_3d_result() -> dict:
 
     Examples
     --------
-    Download 2 example result files and return the dictionary containing 2 files
+    Download 2 example result files and return the dictionnary containing 2 files
 
     >>> from ansys.dpf.core import examples
     >>> dict = examples.download_extrapolation_ref_result
@@ -351,7 +351,7 @@ def download_extrapolation_3d_result() -> dict:
 
 def download_extrapolation_2d_result() -> dict:
     """Download example static results of reference and integrated points
-    for extrapolation of 2d-element and return the dictionary of 2 download paths.
+    for extrapolation of 2d-element and return the dictionnary of 2 download paths.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -364,7 +364,7 @@ def download_extrapolation_2d_result() -> dict:
 
      Examples
     --------
-    Download 2 example result files and return the dictionary containing 2 files
+    Download 2 example result files and return the dictionnary containing 2 files
 
     >>> from ansys.dpf.core import examples
     >>> dict = examples.download_extrapolation_ref_result

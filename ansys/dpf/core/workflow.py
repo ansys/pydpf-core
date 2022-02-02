@@ -117,7 +117,7 @@ class Workflow:
     @protect_grpc
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
-        A progress bar following the worflow state is printed.
+        A progress bar following the workflow state is printed.
 
         Parameters
         ----------
@@ -522,7 +522,7 @@ class Workflow:
             request.address = address
             return Workflow(workflow=request, server=self._server)
         else:
-            raise ValueError("a connection address (either with adddress input"
+            raise ValueError("a connection address (either with address input"
                              "or both ip and port inputs) or a server is required")
 
     def _connect(self):
