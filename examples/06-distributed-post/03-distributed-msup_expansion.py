@@ -4,8 +4,8 @@
 Distributed modal superposition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and expanded
-on distributed processes. The modal basis (2 distributed files) is read 
-on 2 remote servers and the modal response reading and the expansion is 
+on distributed processes. The modal basis (2 distributed files) is read
+on 2 remote servers and the modal response reading and the expansion is
 done on a third server.
 """
 
@@ -17,7 +17,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Create the template workflow 
+# Create the template workflow
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # this workflow will provide the modal basis and the mesh for each domain
 
@@ -37,12 +37,12 @@ template_workflow.set_output_name("outmesh", mesh.outputs.mesh)
 ###############################################################################
 # Configure the servers
 # ~~~~~~~~~~~~~~~~~~~~~~
-# Make a list of ip addresses an port numbers on which dpf servers are 
-# started. Workflows instances will be created on each of those servers to 
+# Make a list of ip addresses an port numbers on which dpf servers are
+# started. Workflows instances will be created on each of those servers to
 # address each a different result file.
 # In this example, we will post process an analysis distributed in 2 files,
 # we will consequently require 2 remote processes
-# To make this example easier, we will start local servers here, 
+# To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
 remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
@@ -65,7 +65,7 @@ files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
 # Send workflows on servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Here we create new instances on the server by copies of the template workflow
-# We also connect the data sources to those workflows 
+# We also connect the data sources to those workflows
 remote_workflows = []
 for i, server in enumerate(remote_servers):
     remote_workflows.append(template_workflow.create_on_other_server(server))
@@ -104,7 +104,8 @@ local_workflow.set_output_name("mesh", merge_mesh.outputs.merges_mesh)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 for i, server in enumerate(remote_servers):
-    local_workflow.connect_with(remote_workflows[i], {"out": "in" + str(i), "outmesh": "inmesh" + str(i)})
+    local_workflow.connect_with(remote_workflows[i],
+                                {"out": "in" + str(i), "outmesh": "inmesh" + str(i)})
 
 fc = local_workflow.get_output("expanded", dpf.types.fields_container)
 merged_mesh = local_workflow.get_output("mesh", dpf.types.meshed_region)
