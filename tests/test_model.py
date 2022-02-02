@@ -1,10 +1,11 @@
+import functools
+
 import numpy as np
 import pytest
 
 from ansys import dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import misc
-import functools
 
 NO_PLOTTING = True
 
@@ -209,7 +210,6 @@ def test_result_not_dynamic(plate_msup):
     assert fc[0].unit == "Pa"
     dis = model.results.displacement().eval()
     dpf.core.settings.set_dynamic_available_results_capability(True)
-
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):

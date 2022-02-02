@@ -68,8 +68,7 @@ class Workflow:
             self.__create_from_stream(workflow)
         elif workflow is None or remote_copy_needed:
             self.__send_init_request(workflow)
-        
-            
+
     @protect_grpc
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
@@ -144,7 +143,11 @@ class Workflow:
                 out = out_future.result()
             else:
                 out = self._stub.Get(request)
-            return dpf_operator._convertOutputMessageToPythonInstance(out, output_type, self._server)
+            return dpf_operator._convertOutputMessageToPythonInstance(
+                out,
+                output_type,
+                self._server
+            )
         else:
             raise ValueError(
                 "please specify an output type to get the workflow's output"

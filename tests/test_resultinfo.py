@@ -1,4 +1,5 @@
 import pytest
+
 from ansys import dpf
 from ansys.dpf.core import Model
 

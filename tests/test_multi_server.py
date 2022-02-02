@@ -48,8 +48,8 @@ def test_different_multi_server(static_models):
     assert not static_models[0]._server == static_models[1]._server
     assert static_models[0]._server.port != static_models[1]._server.port
     assert (
-        static_models[0].metadata.data_sources.result_files[0]
-        != static_models[1].metadata.data_sources.result_files[0]
+            static_models[0].metadata.data_sources.result_files[0]
+            != static_models[1].metadata.data_sources.result_files[0]
     )
 
 
@@ -74,8 +74,8 @@ def test_different_multi_server2(static_models):
     assert not static_models[0]._server == static_models[1]._server
     assert static_models[0]._server.port != static_models[1]._server.port
     assert (
-        static_models[0].metadata.data_sources.result_files[0]
-        != static_models[1].metadata.data_sources.result_files[0]
+            static_models[0].metadata.data_sources.result_files[0]
+            != static_models[1].metadata.data_sources.result_files[0]
     )
 
 
@@ -141,24 +141,24 @@ def test_model_cyc_support_multi_server(cyc_models):
     assert cyc_support.num_sectors() == cyc_support2.num_sectors()
     assert cyc_support.base_nodes_scoping().ids == cyc_support2.base_nodes_scoping().ids
     assert (
-        cyc_support.base_elements_scoping().ids
-        == cyc_support2.base_elements_scoping().ids
+            cyc_support.base_elements_scoping().ids
+            == cyc_support2.base_elements_scoping().ids
     )
     assert (
-        cyc_support.sectors_set_for_expansion().ids
-        == cyc_support2.sectors_set_for_expansion().ids
+            cyc_support.sectors_set_for_expansion().ids
+            == cyc_support2.sectors_set_for_expansion().ids
     )
     assert cyc_support.expand_node_id(1).ids == cyc_support2.expand_node_id(1).ids
     assert cyc_support.expand_element_id(1).ids == cyc_support2.expand_element_id(1).ids
     assert (
-        cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
-        == cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
+            cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
+            == cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
     )
     assert (
-        cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion()).ids
-        == cyc_support2.expand_element_id(
-            1, cyc_support2.sectors_set_for_expansion()
-        ).ids
+            cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
+            .ids == cyc_support2.expand_element_id(1,
+                                                   cyc_support2.sectors_set_for_expansion()
+                                                   ).ids
     )
 
 

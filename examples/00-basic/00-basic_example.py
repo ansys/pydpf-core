@@ -40,7 +40,6 @@ from ansys.dpf.core import examples
 model = dpf.Model(examples.simple_bar)
 print(model)
 
-
 ###############################################################################
 # Model Metadata
 # ~~~~~~~~~~~~~~
@@ -51,18 +50,15 @@ print(model)
 metadata = model.metadata
 print(metadata.result_info)
 
-
 ###############################################################################
 # To print the mesh region:
 
 print(metadata.meshed_region)
 
-
 ###############################################################################
 # To print the time or frequency of the results:
 
 print(metadata.time_freq_support)
-
 
 ###############################################################################
 # Extracting Displacement Results

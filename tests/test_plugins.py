@@ -1,6 +1,8 @@
-from ansys.dpf import core as dpf
-import pytest
 import os
+
+import pytest
+
+from ansys.dpf import core as dpf
 
 
 def try_load_cff_operators():

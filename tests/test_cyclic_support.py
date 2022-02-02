@@ -2,6 +2,7 @@ import gc
 import weakref
 
 import pytest
+
 from ansys import dpf
 from ansys.dpf import core as dpf
 

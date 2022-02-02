@@ -12,13 +12,13 @@ class _FieldBase:
     """Contains base APIs for all implementations that follow DPF's field concept."""
 
     def __init__(
-        self,
-        nentities=0,
-        nature=natures.vector,
-        location=locations.nodal,
-        is_property_field=False,
-        field=None,
-        server=None,
+            self,
+            nentities=0,
+            nature=natures.vector,
+            location=locations.nodal,
+            is_property_field=False,
+            field=None,
+            server=None,
     ):
         """Initialize the field either with an optional field message or by connecting to a stub."""
         if server is None:
@@ -490,10 +490,10 @@ class _FieldBase:
         else:
             if isinstance(data, (np.ndarray, np.generic)):
                 if (
-                    0 != self.size
-                    and self.component_count > 1
-                    and data.size // self.component_count
-                    != data.size / self.component_count
+                        0 != self.size
+                        and self.component_count > 1
+                        and data.size // self.component_count
+                        != data.size / self.component_count
                 ):
                     raise ValueError(
                         f"An array of shape {self.shape} is expected and "
@@ -609,10 +609,10 @@ class _LocalFieldBase(_FieldBase):
             last_index = self._ncomp * (index + 1) - 1
         if self._is_property_field:
             array = np.array(
-                self._data_copy[first_index : last_index + 1], dtype=np.int32
+                self._data_copy[first_index: last_index + 1], dtype=np.int32
             )
         else:
-            array = np.array(self._data_copy[first_index : last_index + 1])
+            array = np.array(self._data_copy[first_index: last_index + 1])
 
         if self._ncomp > 1:
             return array.reshape((array.size // self._ncomp, self._ncomp))
@@ -690,7 +690,7 @@ class _LocalFieldBase(_FieldBase):
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
         if (len(data) > 0 and isinstance(data, list)) or isinstance(
-            data, (np.ndarray, np.generic)
+                data, (np.ndarray, np.generic)
         ):
             data = np.array(data).flatten().tolist()
 
@@ -875,7 +875,6 @@ class _LocalFieldBase(_FieldBase):
         scoping : :class:`ansys.dpf.core.scoping.Scoping`
         """
         return self._scoping_copy
-
 
     @scoping.setter
     @_setter

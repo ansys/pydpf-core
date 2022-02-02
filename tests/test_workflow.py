@@ -1,8 +1,9 @@
 import numpy as np
 import pytest
-from ansys import dpf
 
+import ansys.dpf.core.operators as op
 import conftest
+from ansys import dpf
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
@@ -496,28 +497,27 @@ def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds):
     model = dpf.core.Model(data_sources)
     support = model.operator("mapdl::rst::support_provider_cyclic")
     mesh = model.operator("cyclic_expansion_mesh")
-    
+
     wf = dpf.core.Workflow()
     wf.add_operators([support, mesh])
-    wf.set_input_name("support",mesh.inputs.cyclic_support)
+    wf.set_input_name("support", mesh.inputs.cyclic_support)
     wf.connect("support", support.outputs.cyclic_support)
     wf.set_output_name("mesh_expand", mesh, 0)
     wf.set_output_name("support1", mesh, 1)
-    
+
     op = model.operator("mapdl::rst::U")
-    expand =model.operator("cyclic_expansion")
+    expand = model.operator("cyclic_expansion")
     expand.connect(0, op, 0)
-    
+
     wf2 = dpf.core.Workflow()
-    wf2.add_operators([op, expand]) 
+    wf2.add_operators([op, expand])
     wf2.set_input_name("support2", expand.inputs.cyclic_support)
     wf2.set_output_name("u", op, 0)
-    
+
     wf2.connect_with(wf, {"support1": "support2"})
     meshed_region = wf2.get_output("mesh_expand", dpf.core.types.meshed_region)
     fc = wf2.get_output("u", dpf.core.types.fields_container)
-   
-    
+
 
 def test_info_workflow(allkindofcomplexity):
     data_sources = dpf.core.DataSources(allkindofcomplexity)
@@ -562,7 +562,7 @@ def test_print_workflow():
     assert "fieldB" in str(wf)
     assert "output pins" in str(wf)
     assert "bool" in str(wf)
-    
+
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')

@@ -9,7 +9,6 @@ import progressbar
 from ansys.grpc.dpf import base_pb2, field_definition_pb2
 
 
-
 def _camel_to_snake_case(name):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
 

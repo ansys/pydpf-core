@@ -26,6 +26,7 @@ if "DPF_CONFIGURATION" in os.environ:
 else:
     CONFIGURATION = "release"
 
+
 def load_library(filename, name="", symbol="LoadOperators", server=None):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in
@@ -95,7 +96,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
 
 def upload_files_in_folder(
-    to_server_folder_path, client_folder_path, specific_extension=None, server=None
+        to_server_folder_path, client_folder_path, specific_extension=None, server=None
 ):
     """Upload all the files from a folder of the client
     to the target server folder path.
@@ -160,7 +161,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
 
 def download_files_in_folder(
-    server_folder_path, to_client_folder_path, specific_extension=None, server=None
+        server_folder_path, to_client_folder_path, specific_extension=None, server=None
 ):
     """Download all the files from a folder of the server
     to the target client folder path
@@ -376,7 +377,7 @@ class BaseService:
         # TODO: fix code generation upload posix
         import os
 
-        if self._server().os != 'posix' or (not self._server().os and os.name!= 'posix'):
+        if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
             local_dir = os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
 
@@ -419,8 +420,8 @@ class BaseService:
             "server_port": response.port,
             "server_process_id": response.processId,
             "server_version": str(response.majorVersion)
-            + "."
-            + str(response.minorVersion),
+                              + "."
+                              + str(response.minorVersion),
         }
         if hasattr(response, "properties"):
             for key in response.properties:
@@ -487,28 +488,28 @@ class BaseService:
         bar = None
         tot_size = sys.float_info.max
         for i in range(0, len(chunks.initial_metadata())):
-            if chunks.initial_metadata()[i].key == u"size_tot" :
-                tot_size = int(chunks.initial_metadata()[i].value)*1E-3
+            if chunks.initial_metadata()[i].key == u"size_tot":
+                tot_size = int(chunks.initial_metadata()[i].value) * 1E-3
                 bar = _common_progress_bar("Downloading...",
                                            unit="KB",
                                            tot_size=tot_size)
         if not bar:
-        bar = _common_progress_bar("Downloading...", unit="KB")
-        bar.start()
+            bar = _common_progress_bar("Downloading...", unit="KB")
+            bar.start()
         i = 0
         with open(to_client_file_path, "wb") as f:
             for chunk in chunks:
                 f.write(chunk.data.data)
                 i += len(chunk.data.data) * 1e-3
                 try:
-                    bar.update(min(i,tot_size))
-                except :
+                    bar.update(min(i, tot_size))
+                except:
                     pass
         bar.finish()
 
     @protect_grpc
     def download_files_in_folder(
-        self, server_folder_path, to_client_folder_path, specific_extension=None
+            self, server_folder_path, to_client_folder_path, specific_extension=None
     ):
         """Download all the files from a folder of the server
         to the target client folder path
@@ -555,8 +556,8 @@ class BaseService:
             if chunk.data.server_file_path != server_path:
                 server_path = chunk.data.server_file_path
                 if (
-                    specific_extension == None
-                    or pathlib.Path(server_path).suffix == "." + specific_extension
+                        specific_extension == None
+                        or pathlib.Path(server_path).suffix == "." + specific_extension
                 ):
                     separator = self._get_separator(server_path)
                     server_subpath = server_path.replace(
@@ -598,7 +599,7 @@ class BaseService:
 
     @protect_grpc
     def upload_files_in_folder(
-        self, to_server_folder_path, client_folder_path, specific_extension=None
+            self, to_server_folder_path, client_folder_path, specific_extension=None
     ):
         """Upload all the files from a folder of the client
         to the target server folder path.
@@ -643,24 +644,24 @@ class BaseService:
         return server_paths
 
     def _upload_and_get_server_path(
-        self,
-        specific_extension,
-        f,
-        filename,
-        server_paths,
-        to_server_folder_path,
-        subdirectory=None,
+            self,
+            specific_extension,
+            f,
+            filename,
+            server_paths,
+            to_server_folder_path,
+            subdirectory=None,
     ):
         separator = self._get_separator(to_server_folder_path)
 
         if subdirectory is not None:
             to_server_file_path = (
-                to_server_folder_path + separator + subdirectory + separator + filename
+                    to_server_folder_path + separator + subdirectory + separator + filename
             )
         else:
             to_server_file_path = to_server_folder_path + separator + filename
         if ((specific_extension is not None) and (f.endswith(specific_extension))) or (
-            specific_extension is None
+                specific_extension is None
         ):
             server_path = self._stub.UploadFile(
                 self.__file_chunk_yielder(

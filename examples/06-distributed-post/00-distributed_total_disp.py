@@ -32,7 +32,6 @@ template_workflow.add_operators([displacement, norm])
 template_workflow.set_input_name("data_sources", displacement.inputs.data_sources)
 template_workflow.set_output_name("out", norm.outputs.fields_container)
 
-
 ###############################################################################
 # Configure the servers
 # ~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +43,7 @@ template_workflow.set_output_name("out", norm.outputs.fields_container)
 # To make this example easier, we will start local servers here, 
 # but we could get connected to any existing servers on the network.
 
-remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
@@ -60,19 +59,17 @@ files = examples.download_distributed_files()
 server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
                      dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1])]
 
-
 ###############################################################################
 # Send workflows on servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Here we create new instances on the server by copies of the template workflow
 # We also connect the data sources to those workflows 
-remote_workflows =[]
-for i,server in enumerate(remote_servers) :
+remote_workflows = []
+for i, server in enumerate(remote_servers):
     remote_workflows.append(template_workflow.create_on_other_server(server))
     ds = dpf.DataSources(server_file_paths[i])
     remote_workflows[i].connect("data_sources", ds)
-        
-    
+
 ###############################################################################
 # Create a local workflow able to merge the results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,17 +77,17 @@ for i,server in enumerate(remote_servers) :
 local_workflow = dpf.Workflow()
 merge = ops.utility.merge_fields_containers()
 local_workflow.add_operator(merge)
-local_workflow.set_input_name("in0", merge,0)
-local_workflow.set_input_name("in1", merge,1)
+local_workflow.set_input_name("in0", merge, 0)
+local_workflow.set_input_name("in1", merge, 1)
 local_workflow.set_output_name("merged", merge.outputs.merged_fields_container)
-    
+
 ###############################################################################
 # Connect the workflows together and get the output
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-for i,server in enumerate(remote_servers) :
-    local_workflow.connect_with(remote_workflows[i],("out", "in"+str(i)))
-    
+for i, server in enumerate(remote_servers):
+    local_workflow.connect_with(remote_workflows[i], ("out", "in" + str(i)))
+
 fc = local_workflow.get_output("merged", dpf.types.fields_container)
 print(fc)
 print(fc[0].min().data)

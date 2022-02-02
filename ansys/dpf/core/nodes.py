@@ -245,7 +245,6 @@ class Nodes:
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
-
     @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""

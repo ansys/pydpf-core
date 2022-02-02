@@ -1,12 +1,14 @@
 import numpy as np
 import pytest
-from conftest import local_server, local_servers
+
 from ansys.dpf import core
-from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
+from ansys.dpf.core import operators as ops
 from ansys.dpf.core.check_version import meets_version, get_server_version
+from conftest import local_server, local_servers
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
+
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')

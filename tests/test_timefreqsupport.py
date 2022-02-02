@@ -1,11 +1,11 @@
-import pytest
 import numpy as np
+import pytest
 
 from ansys import dpf
 from ansys.dpf.core import TimeFreqSupport, Model
+from ansys.dpf.core import examples
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
-from ansys.dpf.core import examples
 
 
 @pytest.fixture()
@@ -259,15 +259,15 @@ def test_deep_copy_time_freq_support_multi_stage():
         tf.get_harmonic_indices(0).data, copy.get_harmonic_indices(0).data
     )
     assert (
-        tf.get_harmonic_indices(0).scoping.ids
-        == copy.get_harmonic_indices(0).scoping.ids
+            tf.get_harmonic_indices(0).scoping.ids
+            == copy.get_harmonic_indices(0).scoping.ids
     )
     assert np.allclose(
         tf.get_harmonic_indices(1).data, copy.get_harmonic_indices(1).data
     )
     assert (
-        tf.get_harmonic_indices(1).scoping.ids
-        == copy.get_harmonic_indices(1).scoping.ids
+            tf.get_harmonic_indices(1).scoping.ids
+            == copy.get_harmonic_indices(1).scoping.ids
     )
 
     assert len(tf.get_harmonic_indices(0).data) == 6

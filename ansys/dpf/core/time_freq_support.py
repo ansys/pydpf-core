@@ -364,7 +364,7 @@ class TimeFreqSupport:
         attributes_list = self._get_attributes_list()
         if cplx and "freq_complex" in attributes_list:
             return attributes_list["freq_complex"]
-        elif cplx!=True and "freq_real" in attributes_list:
+        elif cplx != True and "freq_real" in attributes_list:
             return attributes_list["freq_real"]
 
     def _get_rpms(self):

@@ -18,13 +18,11 @@ from ansys.dpf.core import examples
 model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
 print(model)
 
-
 ###############################################################################
 # Visualize specific mode shapes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Choose the modes to visualize
 modes = [1, 5, 10, 15]
-
 
 ###############################################################################
 # Choose to split the displacement on solid/shell/beam to only focus on shell
@@ -33,7 +31,6 @@ disp = model.results.displacement
 for mode in modes:
     fc = disp.on_time_scoping(mode).split_by_shape.eval()
     model.metadata.meshed_region.plot(fc.shell_field())
-
 
 ###############################################################################
 # Choose to split the displacement on solid/shell/beam to only focus on solid

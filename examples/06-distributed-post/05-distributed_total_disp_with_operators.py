@@ -76,4 +76,3 @@ fc = merge.get_output(0, dpf.types.fields_container)
 print(fc)
 print(fc[0].min().data)
 print(fc[0].max().data)
-

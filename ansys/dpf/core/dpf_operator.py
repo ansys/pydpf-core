@@ -610,6 +610,7 @@ def available_operator_names(server=None):
         arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
     return arr
 
+
 def _write_output_type_to_proto_style(output_type, request):
     subtype = ""
     stype = ""
@@ -715,7 +716,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return workflow.Workflow(server=server, workflow=toconvert)
 
 
-def _fillConnectionRequestMessage(request, inpt, pin_out=0):
+def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     from ansys.dpf.core import (
         collection,
         cyclic_support,
@@ -726,7 +727,6 @@ def _fillConnectionRequestMessage(request, inpt, pin_out=0):
         scoping,
         workflow,
     )
-
 
     if isinstance(inpt, str):
         request.str = inpt

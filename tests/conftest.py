@@ -6,6 +6,7 @@ pytest as a session fixture
 import os
 
 import pytest
+
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
@@ -26,6 +27,7 @@ if running_docker:
         core.server.RUNNING_DOCKER["args"] += ' -v "' \
                                               f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
                                               ':/tmp/test_files"'
+
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
