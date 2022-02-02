@@ -55,10 +55,7 @@ steps:
         dir $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd %THISDIR%\server\v$(ANSYS_VERSION)\aisol\bin\winx64
-        for file in *; do
-          echo "${file##*/}"
-        done
-        START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
+        START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT%
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server
       timeoutInMinutes: 1
