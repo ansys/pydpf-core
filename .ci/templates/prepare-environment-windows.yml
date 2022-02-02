@@ -52,9 +52,9 @@ steps:
 
     - script: |
         @echo on
-        dir $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64
+        dir $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64
         set THISDIR=$(System.DefaultWorkingDirectory)
-        cd %THISDIR%\server\v212\aisol\bin\winx64
+        cd %THISDIR%\server\v$(ANSYS_VERSION)\aisol\bin\winx64
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server

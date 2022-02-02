@@ -6,7 +6,7 @@ steps:
   - script: |
       set THISDIR=$(System.DefaultWorkingDirectory)
       cd tests
-      set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v212
+      set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v$(ANSYS_VERSION)
       pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
 
     displayName: Test Core API

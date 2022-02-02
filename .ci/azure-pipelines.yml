@@ -123,7 +123,7 @@ jobs:
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp
-    AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v212
+    AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v221
     vstsPackageVersion: "22.1.1"
     
   pool:

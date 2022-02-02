@@ -61,7 +61,7 @@ steps:
     displayName: Display env
 
   - script: |
-      cd ${AWP_ROOT212}/aisol/bin/linx64
+      cd ${AWP_ROOT$(ANSYS_VERSION)}/aisol/bin/linx64
       pwd
       chmod 755 Ans.Dpf.Grpc.sh
       chmod 755 Ans.Dpf.Grpc.exe
