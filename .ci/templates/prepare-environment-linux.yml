@@ -69,3 +69,4 @@ steps:
       export DPF_IP=$(hostname -i)
       python -c "from ansys.dpf import core; core.connect_to_server(ip= '${DPF_IP}', port=50054); print('Python Connected')"
     displayName: Start DPF Server
+    timeoutInMinutes: 1
