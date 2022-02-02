@@ -111,6 +111,7 @@ jobs:
 - job: Linux
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    ANSYS_VERSION: 212
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
@@ -156,6 +157,7 @@ jobs:
 - job: DocumentationLinux
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    ANSYS_VERSION: 212
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp

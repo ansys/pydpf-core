@@ -22,17 +22,6 @@ steps:
       inputs:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
-        
-    - script: |
-        pip install -r requirements_build.txt
-        python setup.py bdist_wheel
-        FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
-        ECHO %WHEELPATH% 
-        pip install %WHEELPATH%
-        cd tests
-        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"           
-      
-      displayName: Install ansys-dpf-core
 
     - task: PythonScript@0
       inputs:
@@ -40,6 +29,17 @@ steps:
         scriptPath: ".ci/edit_ansys_version.py"
         arguments: "--version $(ANSYS_VERSION)"
       displayName: "Set ansys version"
+
+    - script: |
+        pip install -r requirements_build.txt
+        python setup.py bdist_wheel
+        FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
+        ECHO %WHEELPATH% 
+        pip install %WHEELPATH%
+        cd tests
+        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+      
+      displayName: Install ansys-dpf-core
 
     - task: UniversalPackages@0
       inputs:
