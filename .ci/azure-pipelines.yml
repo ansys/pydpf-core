@@ -26,10 +26,11 @@ jobs:
 - job: Windows
   variables:
     python.version: '3.8'
-    ANSYS_VERSION: 212
+    ANSYS_VERSION: 221
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
+    vstsPackageVersion: '22.1.0'
   pool:
     vmImage: 'windows-2019'
 
@@ -43,32 +44,12 @@ jobs:
         ArtifactName: 'ansys_dpf_core_wheel'
       enabled: true
 
-    - script: |
-        pip install -r requirements_test.txt
-      displayName: Install Test Environment
-
-    - script: |
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        rmdir /s /q .\ansys\
-        cd tests
-        set AWP_ROOT212=%THISDIR%\server\v212
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
-        
-      displayName: Test Core API
-      timeoutInMinutes: 10
-
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'tests/junit/test-results.xml'
-        testRunTitle: 'windowsTests'
-        publishRunAttachments: true
-      condition: always()
+    - template: templates\run-unit-tests-windows.yml
 
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd $(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
+        set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v$(ANSYS_VERSION)
         pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
       condition: always()
       displayName: Test API Docstrings
@@ -84,7 +65,7 @@ jobs:
 
     - script:  |
         set THISDIR=$(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
+        set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v$(ANSYS_VERSION)
         python .ci/run_examples.py
       displayName: 'Run example scripts'
       timeoutInMinutes: 5
@@ -102,50 +83,56 @@ jobs:
      
 
     - script: |
-        type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
+        type $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
       condition: always() 
     
     - template: templates\kill-servers-windows.yml   
-      
+
+
+- job: WindowsAnsys2021R2
+    variables:
+      python.version: '3.8'
+      ANSYS_VERSION: 212
+      DISPLAY: ':99.0'
+      PYANSYS_OFF_SCREEN: True
+      DPF_PORT: 32772
+      vstsPackageVersion: '21.2.3'
+    pool:
+      vmImage: 'windows-2019'
+
+    steps:
+      - template: templates\prepare-environment-windows.yml
+
+      - script: |
+              pip install ansys-grpc-dpf==0.3.0
+        displayName: Install proper version of ansys-grpc-dpf
+
+      - script: |
+          rmdir /s /q .\ansys\
+        displayName: Remote local copy of ansys-dpf-core
+
+      - template: templates\run-unit-tests-windows.yml
+
 
 - job: Linux
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
-    ANSYS_VERSION: 212
+    ANSYS_VERSION: 221
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp
-    AWP_ROOT212: $(System.DefaultWorkingDirectory)/server/v212
+    AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v212
+    vstsPackageVersion: "22.1.1"
     
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
     - template: templates\prepare-environment-linux.yml
 
-    - script: |
-        pip install -r requirements_test.txt
-        pip install pytest-azurepipelines
-        rm -r .\ansys
-        export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
-        cd tests
-        export DPF_IP=$(hostname -i)
-        xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
-        export PATH=`pwd`
-        echo ${PATH} 
-      displayName: Test Core API
-      
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-results.xml' 
-        testRunTitle: 'linuxTests'
-        publishRunAttachments: true
-        searchFolder: 'tests/'
-      condition: always()
-      
-      
+    - template: templates\run-unit-tests-linux.yml
+
     - script : |
         echo $0
         if pgrep -x "Ans.Dpf.Grpc" > /dev/null
@@ -163,8 +150,9 @@ jobs:
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp
-    AWP_ROOT212: $(System.DefaultWorkingDirectory)/server/v212
+    AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v$(ANSYS_VERSION)
     GH_DOC_BRANCH: 'gh-pages'
+    vstsPackageVersion: "22.1.1"
     
   pool:
     vmImage: 'ubuntu-20.04'

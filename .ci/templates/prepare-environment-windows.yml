@@ -48,7 +48,7 @@ steps:
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'dpf-windows'
-        vstsPackageVersion: '21.2.3'
+        vstsPackageVersion: $(vstsPackageVersion)
 
     - script: |
         @echo on

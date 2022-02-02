@@ -221,22 +221,22 @@ def test_uploadinfolder_emptyfolder(tmpdir):
 
 def test_load_plugin_correctly():
     from ansys.dpf import core as dpf
-
+    import pkgutil
     base = dpf.BaseService()
     try:
         base.load_library("Ans.Dpf.Math.dll", "math_operators")
     except:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
-    actual_path = pathlib.Path(__file__).parent.absolute()
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
     exists = os.path.exists(
-        os.path.join(actual_path, "..", r"ansys/dpf/core/operators/fft_eval.py")
+        os.path.join(actual_path, r"operators/fft_eval.py")
     )
     assert not exists
     num_lines = sum(
         1
         for line in open(
             os.path.join(
-                actual_path, "..", r"ansys/dpf/core/operators/math/__init__.py"
+                actual_path, r"operators/math/__init__.py"
             )
         )
     )

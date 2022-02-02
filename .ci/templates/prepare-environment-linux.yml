@@ -43,7 +43,7 @@ steps:
       feedsToUse: "internal"
       vstsFeed: "705e121a-9631-49f5-8aaf-c7142856f923"
       vstsFeedPackage: "dpf-linux" #TODO: update hash of packages
-      vstsPackageVersion: "21.2.5"
+      vstsPackageVersion: $(vstsPackageVersion)
     displayName: Download DPF linux package
 
   - script: |

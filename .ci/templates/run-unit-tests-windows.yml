@@ -1,0 +1,21 @@
+steps:
+  - script: |
+      pip install -r requirements_test.txt
+    displayName: Install Test Environment
+
+  - script: |
+      set THISDIR=$(System.DefaultWorkingDirectory)
+      cd tests
+      set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v212
+      pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
+
+    displayName: Test Core API
+    timeoutInMinutes: 10
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'tests/junit/test-results.xml'
+      testRunTitle: 'windowsTests$(ANSYS_VERSION)'
+      publishRunAttachments: true
+    condition: always()
