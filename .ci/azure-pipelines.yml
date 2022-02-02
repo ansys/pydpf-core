@@ -49,6 +49,7 @@ jobs:
 
     - script: |
         set THISDIR=$(System.DefaultWorkingDirectory)
+        rmdir /s /q .\ansys\
         cd tests
         set AWP_ROOT212=%THISDIR%\server\v212
         pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
@@ -125,7 +126,8 @@ jobs:
 
     - script: |
         pip install -r requirements_test.txt
-        pip install pytest-azurepipelines        
+        pip install pytest-azurepipelines
+        rm -r .\ansys
         export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
         cd tests
         export DPF_IP=$(hostname -i)
