@@ -12,11 +12,11 @@ steps:
       echo ${PATH}
       displayName: Test Core API
 
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-results.xml'
-        testRunTitle: 'linuxTests$(ANSYS_VERSION)'
-        publishRunAttachments: true
-        searchFolder: 'tests/'
-      condition: always()
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'junit/test-results.xml'
+      testRunTitle: 'linuxTests$(ANSYS_VERSION)'
+      publishRunAttachments: true
+      searchFolder: 'tests/'
+    condition: always()
