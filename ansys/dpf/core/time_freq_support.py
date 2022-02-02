@@ -414,7 +414,8 @@ class TimeFreqSupport:
         if list_response.HasField("cyc_harmonic_index"):
             out["cyc_harmonic_index"] = dpf.core.Field(
                 server=self._server, field=list_response.cyc_harmonic_index)
-        if list_response.HasField("cyclic_harmonic_index_scoping"):
+        if hasattr(list_response, "cyclic_harmonic_index_scoping") and\
+                list_response.HasField("cyclic_harmonic_index_scoping"):
             out["cyclic_harmonic_index_scoping"] = dpf.core.Scoping(
                 server=self._server, scoping=list_response.cyclic_harmonic_index_scoping)
         return out
