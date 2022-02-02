@@ -1,4 +1,4 @@
-# azure pipelines build and test pymapdl
+# azure pipelines build and test pydpf
 
 variables:
   ALLOW_PLOTTING: true
@@ -26,6 +26,7 @@ jobs:
 - job: Windows
   variables:
     python.version: '3.8'
+    ANSYS_VERSION: 212
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772

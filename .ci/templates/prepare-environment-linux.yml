@@ -4,6 +4,13 @@ steps:
       versionSpec: "$(python.version)"
     displayName: "Use Python $(python.version)"
 
+  - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: ".ci/edit_ansys_version.py"
+        arguments: "--version $(ANSYS_VERSION)"
+      displayName: "Set ansys version"
+
   - task: PipAuthenticate@1
     inputs:
       artifactFeeds: "pyansys"
