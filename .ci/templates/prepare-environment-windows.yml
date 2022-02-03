@@ -1,7 +1,7 @@
 steps:
     - powershell: |
        $curDir = Get-Location
-       New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION\aisol\bin\winx64 -Force
+       New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION -Force
        write-host "##vso[task.setvariable variable=$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)]$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
 
        "$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
@@ -73,7 +73,7 @@ steps:
         set dpf_server=%INSTALLATION_PATH%\aisol\bin\winx64\Ans.Dpf.Grpc.exe
         echo %dpf_server%
         call "%dpf_server%"
-        
+
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT%
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server
