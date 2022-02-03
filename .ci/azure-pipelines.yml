@@ -94,7 +94,6 @@ jobs:
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
     vstsPackageVersion: '21.2.3'
-  condition: "false"
   pool:
     vmImage: 'windows-2019'
 
@@ -113,7 +112,6 @@ jobs:
 
 
 - job: Linux
-  condition: "false"
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     ANSYS_VERSION: 221
@@ -142,7 +140,6 @@ jobs:
       continueOnError: true
 
 - job: DocumentationLinux
-  condition: "false"
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     ANSYS_VERSION: 221
