@@ -8,10 +8,6 @@ steps:
       displayName: 'Set AWP_ROOT$(ANSYS_VERSION)'
       condition: always()
 
-    - script: |
-        @echo on
-        echo %AWP_ROOT221%
-
     - powershell: |
         Set-StrictMode -Version Latest
         $ErrorActionPreference = "Stop"
@@ -67,8 +63,17 @@ steps:
         @echo on
         dir $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64
         echo %AWP_ROOT221%
+        dir %AWP_ROOT221%
         set THISDIR=$(System.DefaultWorkingDirectory)
-        cd %THISDIR%\server\v$(ANSYS_VERSION)\aisol\bin\winx64
+
+        set INSTALLATION_PATH=%AWP_ROOT221%
+        echo %INSTALLATION_PATH%
+        set PATH=%INSTALLATION_PATH%\aisol\bin\winx64;%INSTALLATION_PATH%\tp\hdf5\1.10.5\winx64;%INSTALLATION_PATH%\tp\IntelCompiler\2019.5.281\winx64;%INSTALLATION_PATH%\tp\IntelMKL\2020.0.166\winx64;%INSTALLATION_PATH%\commonfiles\fluids\lib\winx64;%INSTALLATION_PATH%\Framework\bin\win64;%PATH%
+
+        set dpf_server=%INSTALLATION_PATH%\aisol\bin\winx64\Ans.Dpf.Grpc.exe
+        echo %dpf_server%
+        call "%dpf_server%"
+        
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT%
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server
