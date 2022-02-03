@@ -4,7 +4,9 @@ steps:
     displayName: Install Test Environment
 
   - script: |
+      @echo on
       cd tests
+      dir .
       pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
 
     displayName: Test Core API

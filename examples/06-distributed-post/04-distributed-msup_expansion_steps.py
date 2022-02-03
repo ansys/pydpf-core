@@ -60,8 +60,8 @@ print("ports:", ports)
 # Choose the file path
 
 base_path = examples.distributed_msup_folder
-files = [base_path + r'\file0.mode', base_path + r'\file1.mode']
-files_aux = [base_path + r'\file0.rst', base_path + r'\file1.rst']
+files = [os.path.join(base_path, "file0.mode"), os.path.join(base_path, "file1.mode")]
+files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file1.rst")]
 
 ###############################################################################
 # Send workflows on servers

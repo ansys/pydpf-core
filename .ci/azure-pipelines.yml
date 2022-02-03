@@ -84,7 +84,8 @@ jobs:
     - script: |
         type $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
-      condition: always() 
+      condition: always()
+      continueOnError: true
     
     - template: templates\kill-servers-windows.yml   
 
@@ -99,6 +100,7 @@ jobs:
     vstsPackageVersion: '21.2.3'
   pool:
     vmImage: 'windows-2019'
+  condition: "false"
 
   steps:
     - template: templates\prepare-environment-windows.yml

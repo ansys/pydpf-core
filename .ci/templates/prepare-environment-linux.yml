@@ -19,6 +19,7 @@ steps:
       pip install -r .ci/requirements_test_xvfb.txt
       xvfb-run python .ci/display_test.py
     displayName: Test virtual framebuffer
+    continueOnError: true
 
   - script: |
       pip install -r requirements_build.txt
