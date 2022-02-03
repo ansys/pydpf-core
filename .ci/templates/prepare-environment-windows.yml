@@ -53,15 +53,16 @@ steps:
     - powershell: |
        $curDir = Get-Location
        New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION\aisol\bin\winx64 -Force
-       write-host "##vso[task.setvariable variable='$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)';]'$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)'"
+       write-host "##vso[task.setvariable variable="$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)";]"$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)""
 
-       '$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)'
+       "$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
       displayName: 'Set AWP_ROOT$(ANSYS_VERSION)'
       condition: always()
 
     - script: |
         @echo on
         dir $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64
+        echo $(AWP_ROOT221)
         set THISDIR=$(System.DefaultWorkingDirectory)
         cd %THISDIR%\server\v$(ANSYS_VERSION)\aisol\bin\winx64
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT%
