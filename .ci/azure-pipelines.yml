@@ -47,9 +47,7 @@ jobs:
     - template: templates\run-unit-tests-windows.yml
 
     - script: |
-        set THISDIR=$(System.DefaultWorkingDirectory)
         cd $(System.DefaultWorkingDirectory)
-        set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v$(ANSYS_VERSION)
         pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
       condition: always()
       displayName: Test API Docstrings
@@ -64,8 +62,6 @@ jobs:
       condition: always()
 
     - script:  |
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        set AWP_ROOT$(ANSYS_VERSION)=%THISDIR%\server\v$(ANSYS_VERSION)
         python .ci/run_examples.py
       displayName: 'Run example scripts'
       timeoutInMinutes: 5
