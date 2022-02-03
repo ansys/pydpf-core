@@ -30,7 +30,7 @@ jobs:
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
-    vstsPackageVersion: '22.1.0'
+    vstsPackageVersion: '22.1.1'
   pool:
     vmImage: 'windows-2019'
 
