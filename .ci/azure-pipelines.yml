@@ -172,13 +172,15 @@ jobs:
         archiveFile: '$(System.DefaultWorkingDirectory)/docs/archive/doc-ansys-dpf-core.zip'
         replaceExistingArchive: true 
       displayName: 'DOCUMENTATION: zip artifacts'
+      condition: always()
     
     - task: PublishBuildArtifacts@1
       displayName: 'DOCUMENTATION: publish artifacts'
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/docs/archive'
         ArtifactName: doc-ansys-dpf-core
-      enabled: true   
+      enabled: true
+      condition: always()
 
     - powershell: |
         git init

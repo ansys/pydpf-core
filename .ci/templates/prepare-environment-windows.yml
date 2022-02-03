@@ -52,7 +52,7 @@ steps:
 
     - powershell: |
        $curDir = Get-Location
-       write-host "##vso[task.setvariable variable=AWP_ROOT$env:ANSYS_VERSION;]$curDir\server\v$env:ANSYS_VERSION\aisol\bin\winx64"
+       write-host "##vso[task.setvariable variable="$(AWP_ROOT($env:ANSYS_VERSION))";]$curDir\server\v$env:ANSYS_VERSION\aisol\bin\winx64"
 
        $Env:AWP_ROOT$env:ANSYS_VERSION
       displayName: 'Set AWP_ROOT$(ANSYS_VERSION)'

@@ -9,7 +9,8 @@ steps:
       xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3
       export PATH=`pwd`
       echo ${PATH}
-      displayName: Test Core API
+
+    displayName: Test Core API
 
   - task: PublishTestResults@2
     inputs:
@@ -19,3 +20,4 @@ steps:
       publishRunAttachments: true
       searchFolder: 'tests/'
     condition: always()
+    displayName: Publish tests
