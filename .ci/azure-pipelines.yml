@@ -44,6 +44,8 @@ jobs:
         ArtifactName: 'ansys_dpf_core_wheel'
       enabled: true
 
+    - template: templates\kill-servers-windows.yml
+
     - template: templates\run-unit-tests-windows.yml
 
     - script: |

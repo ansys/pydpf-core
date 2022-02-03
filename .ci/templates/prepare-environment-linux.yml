@@ -15,6 +15,7 @@ steps:
     displayName: Install OS packages
 
   - script: |
+      .ci/setup_headless_display.sh
       pip install -r .ci/requirements_test_xvfb.txt
       xvfb-run python .ci/display_test.py
     displayName: Test virtual framebuffer
