@@ -8,7 +8,6 @@ steps:
       pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
 
     displayName: Test Core API
-    timeoutInMinutes: 10
 
   - task: PublishTestResults@2
     inputs:

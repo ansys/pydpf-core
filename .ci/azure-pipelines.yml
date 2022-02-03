@@ -65,6 +65,7 @@ jobs:
         python .ci/run_examples.py
       displayName: 'Run example scripts'
       timeoutInMinutes: 5
+      condition: always()
 
     - script: |
         pip install twine
