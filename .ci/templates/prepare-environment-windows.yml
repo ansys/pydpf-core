@@ -52,9 +52,10 @@ steps:
 
     - powershell: |
        $curDir = Get-Location
-       write-host "##vso[task.setvariable variable="$(AWP_ROOT($env:ANSYS_VERSION))";]$curDir\server\v$env:ANSYS_VERSION\aisol\bin\winx64"
+       New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION\aisol\bin\winx64 -Force
+       write-host "##vso[task.setvariable variable='$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)';]'$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)'"
 
-       $Env:AWP_ROOT$env:ANSYS_VERSION
+       '$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)'
       displayName: 'Set AWP_ROOT$(ANSYS_VERSION)'
       condition: always()
 
