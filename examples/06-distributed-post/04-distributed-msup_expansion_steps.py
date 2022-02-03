@@ -12,6 +12,7 @@ done on a third server.
 
 ###############################################################################
 # Import dpf module and its examples files
+import os.path
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -84,11 +85,15 @@ local_workflow = dpf.Workflow()
 merge = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(base_path + r'\file_load_1.rfrq')
+ds = dpf.DataSources(os.path.join(base_path, "file_load_1.rfrq"))
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-ds = dpf.DataSources(base_path + r'\file_load_2.rfrq')
+ds = dpf.DataSources(os.path.join(base_path, "file_load_2.rfrq"))
+from os import walk
+
+for (dirpath, dirnames, filenames) in walk(base_path):
+    print(filenames)
 response2 = ops.result.displacement(data_sources=ds)
 response2fc = response2.outputs.fields_container()
 response2fc.time_freq_support.time_frequencies.scoping.set_id(0, 2)

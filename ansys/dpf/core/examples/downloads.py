@@ -21,12 +21,10 @@ def _get_file_url(directory, filename):
 def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities
-    print("_retrieve_file", url, filename, directory)
     # First check if file has already been downloaded
     local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        print("os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip)==True")
         return path_utilities.to_server_os(local_path_no_zip.replace(
             LOCAL_DOWNLOADED_EXAMPLES_PATH,
             path_utilities.downloaded_example_path()))
@@ -40,7 +38,6 @@ def _retrieve_file(url, filename, directory):
 
     # Perform download
     _, resp = urlretrieve(url, local_path)
-    print(resp)
     return path_utilities.to_server_os(local_path.replace(
         LOCAL_DOWNLOADED_EXAMPLES_PATH,
         path_utilities.downloaded_example_path()))
