@@ -53,14 +53,6 @@ jobs:
       displayName: Remove local copy of ansys-dpf-core
       condition: always()
 
-    - task: PythonScript@0
-      inputs:
-        scriptSource: 'filePath'
-        scriptPath: ".ci/run_examples.py"
-      displayName: "Run example scripts"
-      timeoutInMinutes: 15
-      condition: always()
-
     - template: templates\kill-servers-windows.yml
 
     - template: templates\run-unit-tests-windows.yml
