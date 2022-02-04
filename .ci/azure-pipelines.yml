@@ -46,8 +46,6 @@ jobs:
 
     - template: templates\kill-servers-windows.yml
 
-    - template: templates\run-unit-tests-windows.yml
-
     - script: |
         cd $(System.DefaultWorkingDirectory)
         pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
@@ -58,16 +56,24 @@ jobs:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-doctests-results.xml'
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
         testRunTitle: 'docTestsTests'
         publishRunAttachments: true
       condition: always()
+
+    - script: |
+        rmdir /s /q .\ansys\
+      displayName: Remote local copy of ansys-dpf-core
 
     - script:  |
         python .ci/run_examples.py
       displayName: 'Run example scripts'
       timeoutInMinutes: 5
       condition: always()
+
+    - template: templates\kill-servers-windows.yml
+
+    - template: templates\run-unit-tests-windows.yml
 
     - script: |
         pip install twine
@@ -120,7 +126,6 @@ jobs:
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
     ANSYS_VERSION: 221
-    DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp
@@ -154,7 +159,7 @@ jobs:
     AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v$(ANSYS_VERSION)
     GH_DOC_BRANCH: 'gh-pages'
     vstsPackageVersion: "22.1.1"
-    
+  condition: "false"
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
