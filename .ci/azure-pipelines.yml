@@ -33,8 +33,7 @@ jobs:
     vstsPackageVersion: '22.1.1'
   pool:
     vmImage: 'windows-2019'
-  condition: "false"
-  
+
   steps:  
     - template: templates\prepare-environment-windows.yml
         

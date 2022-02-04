@@ -30,16 +30,22 @@ steps:
       pip install pytest-azurepipelines
       cd tests
       export DPF_IP=$(hostname -i)
-      xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3
-      export PATH=`pwd`
-      echo ${PATH}
+      xvfb-run pytest -v -k "not workflow" --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 2
     displayName: Test Core API
     condition: always()
+
+  - script: |
+      cd tests
+      export DPF_IP=$(hostname -i)
+      xvfb-run pytest -v -k "workflow" --junitxml=junit/test-results_remote.xml --cov ansys.dpf.core --cov-report=xml  --reruns 1
+    displayName: Test Core API workflow
+    condition: always()
+    timeoutInMinutes: 10
 
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: 'junit/test-results.xml'
+      testResultsFiles: 'junit/test-result*.xml'
       testRunTitle: 'linuxTests$(ANSYS_VERSION)'
       publishRunAttachments: true
       searchFolder: 'tests/'

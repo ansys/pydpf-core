@@ -8,17 +8,29 @@ steps:
 
   - script: |
       @echo on
-      cd tests
+      cd $(System.DefaultWorkingDirectory)/tests
       dir .
-      pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3 .
+      pytest -v -k "not workflow" --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 2.
 
     displayName: Test Core API
     condition: always()
 
+  - template: templates\kill-servers-windows.yml
+
+  - script: |
+      @echo on
+      cd $(System.DefaultWorkingDirectory)/tests
+      dir .
+      pytest -v -k "workflow"  --junitxml=junit/test-results_workflows.xml --cov ansys.dpf.core --cov-report=xml --reruns 1 .
+
+    displayName: Test Core API workflow
+    condition: always()
+    timeoutInMinutes: 15
+
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: 'tests/junit/test-results.xml'
+      testResultsFiles: 'tests/junit/test-result*.xml'
       testRunTitle: 'windowsTests$(ANSYS_VERSION)'
       publishRunAttachments: true
     condition: always()
