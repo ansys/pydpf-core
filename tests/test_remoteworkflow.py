@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import os
 
 from ansys.dpf import core
 from ansys.dpf.core import examples
@@ -451,7 +452,7 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0 or os.name == "posix",
                     reason='Requires server version higher than 3.0')
 def test_multi_process_transparent_api_connect_local_op_remote_workflow():
     files = examples.download_distributed_files()

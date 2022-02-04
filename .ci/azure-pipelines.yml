@@ -47,6 +47,29 @@ jobs:
     - template: templates\kill-servers-windows.yml
 
     - script: |
+        cd $(System.DefaultWorkingDirectory)
+        pip install -r requirements_test.txt
+      displayName: Install Test Environment
+      condition: always()
+
+    - script: |
+        cd $(System.DefaultWorkingDirectory)
+        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+      condition: always()
+      displayName: Test API Docstrings
+      timeoutInMinutes: 15
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
+        testRunTitle: 'docTestsTests'
+        publishRunAttachments: true
+      condition: always()
+
+    - template: templates\kill-servers-windows.yml
+
+    - script: |
         @echo on
         cd $(System.DefaultWorkingDirectory)
         rmdir /s /q .\ansys\
@@ -88,7 +111,6 @@ jobs:
     vstsPackageVersion: '21.2.3'
   pool:
     vmImage: 'windows-2019'
-  condition: "false"
 
   steps:
     - template: templates\prepare-environment-windows.yml
@@ -140,7 +162,6 @@ jobs:
     AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v$(ANSYS_VERSION)
     GH_DOC_BRANCH: 'gh-pages'
     vstsPackageVersion: "22.1.1"
-  condition: "false"
   pool:
     vmImage: 'ubuntu-20.04'
   steps:

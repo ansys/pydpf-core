@@ -5,31 +5,6 @@ steps:
     displayName: Install Test Environment
     condition: always()
 
-  - script : |
-      echo $0
-      if pgrep -x "Ans.Dpf.Grpc" > /dev/null
-      then
-          pkill -f Ans.Dpf.Grpc.exe
-      fi
-    displayName: 'Kill all servers'
-    condition: always()
-    continueOnError: true
-
-  - script: |
-      cd $(System.DefaultWorkingDirectory)
-      xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
-    condition: always()
-    displayName: Test API Docstrings
-    timeoutInMinutes: 15
-
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
-      testRunTitle: 'docTestsTests'
-      publishRunAttachments: true
-    condition: always()
-
   - script: |
       xvfb-run python .ci/run_examples.py
     displayName: "Run example scripts"
