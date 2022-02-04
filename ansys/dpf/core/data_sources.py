@@ -196,6 +196,9 @@ class DataSources:
     def add_upstream(self, upstream_data_sources, result_key=""):
         """Add upstream data sources.
 
+        This is used to add a set of path creating an upstream for
+        recursive workflows.
+
         Parameters
         ----------
         upstream_data_sources : DataSources

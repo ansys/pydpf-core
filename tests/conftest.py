@@ -58,7 +58,7 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
         )
         if not os.path.isfile(filename):
             raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
-        return filen
+        return filename
 
 
 @pytest.fixture()

@@ -60,13 +60,11 @@ class Results:
 
         Examples
         --------
-        Create a stress result from the model and choose its time and mesh scopings.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.electric_therm)
         >>> v = model.results.electric_potential
-        >>> rf = model.results.reaction_force
         >>> dissip = model.results.thermal_dissipation_energy
 
     Examples
