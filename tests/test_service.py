@@ -33,7 +33,7 @@ def test_loadmeshoperators(allkindofcomplexity):
     assert mesh.grid.n_cells
 
 
-def laaoadplugin():
+def test_loadplugin():
     loaded = False
     try:
         dpf.core.load_library("libAns.Dpf.Math.so", "math")
