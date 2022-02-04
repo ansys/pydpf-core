@@ -7,7 +7,7 @@ steps:
 
   - script: |
       cd $(System.DefaultWorkingDirectory)
-      xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
+      xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
     condition: always()
     displayName: Test API Docstrings
     timeoutInMinutes: 15
@@ -20,25 +20,21 @@ steps:
       publishRunAttachments: true
     condition: always()
 
-  - task: PythonScript@0
-    inputs:
-      scriptSource: 'filePath'
-      scriptPath: ".ci/run_examples.py"
+  - script: |
+      xvfb-run python .ci/run_examples.py
     displayName: "Run example scripts"
     timeoutInMinutes: 15
     condition: always()
 
   - script: |
-      pip install -r requirements_test.txt
       pip install pytest-azurepipelines
-      export AWP_ROOT$(ANSYS_VERSION)=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v$(ANSYS_VERSION)
       cd tests
       export DPF_IP=$(hostname -i)
       xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3
       export PATH=`pwd`
       echo ${PATH}
-
     displayName: Test Core API
+    condition: always()
 
   - task: PublishTestResults@2
     inputs:
