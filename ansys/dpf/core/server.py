@@ -367,7 +367,7 @@ class DpfServer:
         self._input_port = port
         self._own_process = launch_server
         self._base_service_instance = None
-        self._session = session.Session(self)
+        self._session_instance = None
 
     @property
     def _base_service(self):
@@ -376,6 +376,12 @@ class DpfServer:
 
             self._base_service_instance = BaseService(self, timeout=1)
         return self._base_service_instance
+
+    @property
+    def _session(self):
+        if not self._session_instance:
+            self._session_instance = session.Session(self)
+        return self._session_instance
 
     @property
     def info(self):

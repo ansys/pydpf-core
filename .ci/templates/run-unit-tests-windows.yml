@@ -9,7 +9,6 @@ steps:
   - script: |
       cd $(System.DefaultWorkingDirectory)/tests
       pytest -v -k "not workflow" --junitxml=junit/test-results.xml --reruns 2 .
-
     displayName: Test Core API
     condition: always()
 
@@ -18,7 +17,6 @@ steps:
   - script: |
       cd $(System.DefaultWorkingDirectory)/tests
       pytest -v -k "workflow"  --junitxml=junit/test-results_workflows.xml --reruns 1 .
-
     displayName: Test Core API workflow
     condition: always()
     timeoutInMinutes: 15
