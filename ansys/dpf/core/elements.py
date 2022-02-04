@@ -487,8 +487,8 @@ class Elements:
         >>> model = dpf.Model(examples.static_rst)
         >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.element_types_field
-        >>> field.data
-        array([1, 1, 1, 1, 1, 1, 1, 1])
+        >>> print(field.data)
+        [1 1 1 1 1 1 1 1]
 
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
@@ -511,8 +511,8 @@ class Elements:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.static_rst)
         >>> elements = model.metadata.meshed_region.elements
-        >>> elements.materials_field.data
-        array([1, 1, 1, 1, 1, 1, 1, 1])
+        >>> print(elements.materials_field.data)
+        [1 1 1 1 1 1 1 1]
 
         """
         return self._mesh.field_of_properties(elemental_properties.material)

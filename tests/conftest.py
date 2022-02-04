@@ -168,6 +168,9 @@ class LocalServers:
                 self._local_servers.append(core.start_local_server(as_global=False))
         return self._local_servers[item]
 
+    def clear(self):
+        self._local_servers = []
+
 
 local_servers = LocalServers()
 local_server = local_servers[0]

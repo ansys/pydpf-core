@@ -307,6 +307,7 @@ def test_remote_workflow_info():
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_local_remote_local_remote_workflow():
+    local_servers.clear()
     files = examples.download_distributed_files()
 
     wf = core.Workflow()
