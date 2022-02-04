@@ -7,10 +7,8 @@ steps:
     condition: always()
 
   - script: |
-      @echo on
       cd $(System.DefaultWorkingDirectory)/tests
-      dir .
-      pytest -v -k "not workflow" --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 2.
+      pytest -v -k "not workflow" --junitxml=junit/test-results.xml --reruns 2 .
 
     displayName: Test Core API
     condition: always()
@@ -18,10 +16,8 @@ steps:
   - template: kill-servers-windows.yml
 
   - script: |
-      @echo on
       cd $(System.DefaultWorkingDirectory)/tests
-      dir .
-      pytest -v -k "workflow"  --junitxml=junit/test-results_workflows.xml --cov ansys.dpf.core --cov-report=xml --reruns 1 .
+      pytest -v -k "workflow"  --junitxml=junit/test-results_workflows.xml --reruns 1 .
 
     displayName: Test Core API workflow
     condition: always()

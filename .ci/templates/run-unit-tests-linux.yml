@@ -5,6 +5,16 @@ steps:
     displayName: Install Test Environment
     condition: always()
 
+  - script : |
+      echo $0
+      if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+      then
+          pkill -f Ans.Dpf.Grpc.exe
+      fi
+    displayName: 'Kill all servers'
+    condition: always()
+    continueOnError: true
+
   - script: |
       cd $(System.DefaultWorkingDirectory)
       xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
