@@ -15,7 +15,7 @@ steps:
     displayName: Test Core API
     condition: always()
 
-  - template: templates\kill-servers-windows.yml
+  - template: kill-servers-windows.yml
 
   - script: |
       @echo on
