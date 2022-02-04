@@ -2,6 +2,26 @@
 steps:
   - script: |
       pip install -r requirements_test.txt
+    displayName: Install Test Environment
+    condition: always()
+
+  - script: |
+      cd $(System.DefaultWorkingDirectory)
+      xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
+    condition: always()
+    displayName: Test API Docstrings
+    timeoutInMinutes: 15
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
+      testRunTitle: 'docTestsTests'
+      publishRunAttachments: true
+    condition: always()
+
+  - script: |
+      pip install -r requirements_test.txt
       pip install pytest-azurepipelines
       export AWP_ROOT$(ANSYS_VERSION)=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v$(ANSYS_VERSION)
       cd tests
