@@ -158,7 +158,16 @@ def engineering_data_sources():
     return ds
 
 
-local_servers = [core.start_local_server(as_global=False),
-                 core.start_local_server(as_global=False),
-                 core.start_local_server(as_global=False)]
+class LocalServers:
+    def __init__(self):
+        self._local_servers = []
+
+    def __getitem__(self, item):
+        if len(self._local_servers) <= item:
+            while len(self._local_servers) <= item:
+                self._local_servers.append(core.start_local_server(as_global=False))
+        return self._local_servers[item]
+
+
+local_servers = LocalServers()
 local_server = local_servers[0]

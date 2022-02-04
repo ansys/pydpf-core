@@ -312,7 +312,7 @@ def test_connect_get_output_int_list_workflow():
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def aconnect_get_output_double_list_workflow():
+def test_connect_get_output_double_list_workflow():
     d = list(np.ones(10000000))
     wf = dpf.core.Workflow()
     op = dpf.core.operators.utility.forward(d)
@@ -323,7 +323,7 @@ def aconnect_get_output_double_list_workflow():
     assert np.allclose(d, dout)
 
 
-def ainputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity):
+def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity):
     data_sources = dpf.core.DataSources(allkindofcomplexity)
     model = dpf.core.Model(data_sources)
     op = dpf.core.Operator("scoping::by_property")
