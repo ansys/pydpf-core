@@ -70,6 +70,7 @@ jobs:
         cd $(System.DefaultWorkingDirectory)
         rmdir /s /q .\ansys\
       displayName: Remove local copy of ansys-dpf-core
+      condition: always()
 
     - task: PythonScript@0
       inputs:
