@@ -5,6 +5,17 @@ variables:
   package_name: ansys-dpf-core
   SHELLOPTS: 'errexit:pipefail'
 
+trigger:
+  branches:
+    include:
+    - 'master*'
+    - 'release-*'
+    exclude:
+    - gh-pages
+  tags:
+    include:
+    - '*'
+
 pr:
   branches:
     include:
