@@ -68,3 +68,4 @@ steps:
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server
       timeoutInMinutes: 1
+      retryCountOnTaskFailure: 1 # Max number of retries; default is zero
