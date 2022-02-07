@@ -1,4 +1,13 @@
-steps:  
+steps:
+    - powershell: |
+       $curDir = Get-Location
+       New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION -Force
+       write-host "##vso[task.setvariable variable=$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)]$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
+
+       "$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
+      displayName: 'Set AWP_ROOT$(ANSYS_VERSION)'
+      condition: always()
+
     - powershell: |
         Set-StrictMode -Version Latest
         $ErrorActionPreference = "Stop"
@@ -22,7 +31,7 @@ steps:
       inputs:
         artifactFeeds: 'pyansys'
         onlyAddExtraIndex: true
-        
+
     - script: |
         pip install -r requirements_build.txt
         python setup.py bdist_wheel
@@ -30,9 +39,16 @@ steps:
         ECHO %WHEELPATH% 
         pip install %WHEELPATH%
         cd tests
-        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"           
+        python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
       
       displayName: Install ansys-dpf-core
+
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'filePath'
+        scriptPath: ".ci/edit_ansys_version.py"
+        arguments: "--version $(ANSYS_VERSION)"
+      displayName: "Set ansys version"
 
     - task: UniversalPackages@0
       inputs:
@@ -41,13 +57,15 @@ steps:
         feedsToUse: 'internal'
         vstsFeed: '705e121a-9631-49f5-8aaf-c7142856f923'
         vstsFeedPackage: 'dpf-windows'
-        vstsPackageVersion: '21.2.3'
+        vstsPackageVersion: $(vstsPackageVersion)
 
     - script: |
         @echo on
-        dir $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        cd %THISDIR%\server\v212\aisol\bin\winx64
+        cd %AWP_ROOT$(ANSYS_VERSION)%\aisol\bin\winx64
+        dir %AWP_ROOT$(ANSYS_VERSION)%\aisol\bin\winx64
+        echo %AWP_ROOT$(ANSYS_VERSION)%
         START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
         python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"        
       displayName: Start DPF Server
+      timeoutInMinutes: 1
+      retryCountOnTaskFailure: 1 # Max number of retries; default is zero

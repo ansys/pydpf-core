@@ -60,7 +60,6 @@ class Results:
 
         Examples
         --------
-
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.electric_therm)

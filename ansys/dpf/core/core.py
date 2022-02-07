@@ -75,14 +75,14 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
-    Notes
-    -----
-    Print a progress bar
-
     Returns
     -------
       server_file_path : str
            path generated server side
+
+    Notes
+    -----
+    Print a progress bar
 
     Examples
     --------
@@ -181,14 +181,15 @@ def download_files_in_folder(
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
-    Notes
-    -----
-    Print a progress bar
-
     Returns
     -------
     paths : list of str
         new file paths client side
+
+    Notes
+    -----
+    Print a progress bar
+
     """
     base = BaseService(server, load_operators=False)
     return base.download_files_in_folder(
@@ -470,10 +471,6 @@ class BaseService:
     def download_file(self, server_file_path, to_client_file_path):
         """Download a file from the server to the target client file path
 
-        Notes
-        -----
-        Print a progress bar
-
         Parameters
         ----------
         server_file_path : str
@@ -481,6 +478,10 @@ class BaseService:
 
         to_client_file_path: str
             file path target where the file will be located client side
+
+        Notes
+        -----
+        Print a progress bar
         """
         request = base_pb2.DownloadFileRequest()
         request.server_file_path = server_file_path
@@ -525,15 +526,15 @@ class BaseService:
         specific_extension (optional) : str
             copies only the files with the given extension
 
-        Notes
-        -----
-        Print a progress bar
-
-
         Returns
         -------
         paths : list of str
             new file paths client side
+
+        Notes
+        -----
+        Print a progress bar
+
         """
         request = base_pb2.DownloadFileRequest()
         request.server_file_path = server_folder_path
@@ -683,14 +684,14 @@ class BaseService:
         to_server_file_path: str
             file path target where the file will be located server side
 
-        Notes
-        -----
-        Print a progress bar
-
         Returns
         -------
            server_file_path : str
                path generated server side
+
+        Notes
+        -----
+        Print a progress bar
         """
         if os.stat(file_path).st_size == 0:
             raise ValueError(file_path + " is empty")

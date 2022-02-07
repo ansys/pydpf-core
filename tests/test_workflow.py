@@ -300,7 +300,7 @@ def test_outputs_bool_workflow():
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_connect_get_output_int_list_workflow():
-    d = list(range(0, 10000000))
+    d = list(range(0, 1000000))
     wf = dpf.core.Workflow()
     op = dpf.core.operators.utility.forward(d)
     wf.add_operators([op])
@@ -313,7 +313,7 @@ def test_connect_get_output_int_list_workflow():
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_connect_get_output_double_list_workflow():
-    d = list(np.ones(10000000))
+    d = list(np.ones(500000))
     wf = dpf.core.Workflow()
     op = dpf.core.operators.utility.forward(d)
     wf.add_operators([op])

@@ -71,14 +71,10 @@ class Collection:
     @staticmethod
     def integral_collection(inpt, server: server.DpfServer = None):
         """Creates a collection of integral type with a list.
+
         The collection of integral is the equivalent of an array of
         data sent server side. It can be used to efficiently stream
         large data to the server.
-
-        Notes
-        -----
-        Used by default by the ``'Operator'`` and the``'Workflow'`` when a
-        list is connected or returned.
 
         Parameters
         ----------
@@ -88,6 +84,11 @@ class Collection:
         Returns
         -------
         Collection
+
+        Notes
+        -----
+        Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+        list is connected or returned.
 
         """
         if all(isinstance(x, int) for x in inpt):
@@ -202,8 +203,7 @@ class Collection:
         entries = self._get_entries_tuple(label_space_or_index)
         if isinstance(entries, list):
             return [entry.entry for entry in entries]
-        else:
-            return entries
+        return entries
 
     def _get_entries_tuple(self, label_space_or_index):
         """Retrieve the entries at a requested label space or index.

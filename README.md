@@ -31,12 +31,6 @@ detailed description of the library, or see the [Examples
 Gallery](https://dpfdocs.pyansys.com/examples/index.html) for more
 detailed examples.
 
-
-Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for a
-detailed description of the library, or see the [Examples
-Gallery](https://dpfdocs.pyansys.com/examples/index.html) for more
-detailed examples.
-
 ## Installation
 
 Install this repository with:

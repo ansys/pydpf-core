@@ -421,14 +421,14 @@ class _FieldBase:
     def data(self):
         """Data in the field as an array.
 
-        Notes
-        -----
-        Print a progress bar.
-
         Returns
         -------
         numpy.ndarray
             Data in the field.
+
+        Notes
+        -----
+        Print a progress bar.
         """
         return self._get_data()
 

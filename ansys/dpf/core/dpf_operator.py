@@ -8,6 +8,7 @@ Provides an interface to the underlying gRPC operator.
 
 import functools
 import logging
+import re
 from typing import NamedTuple
 
 from ansys.dpf.core import server as serverlib
@@ -123,7 +124,7 @@ class Operator:
         return self._progress_bar
 
     @progress_bar.setter
-    def progress_bar(self, value) -> bool:
+    def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
     @protect_grpc
@@ -171,8 +172,9 @@ class Operator:
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
+
         To activate the progress bar for server version higher or equal to 3.0,
-        use my_op.progress_bar = True
+        use ``my_op.progress_bar=True``
 
         Parameters
         ----------
@@ -587,7 +589,7 @@ class OperatorSpecification(NamedTuple):
 
 
 def available_operator_names(server=None):
-    """Returns the list of operators name available in the server
+    """Returns the list of operator names available in the server.
 
     Parameters
     ----------
@@ -605,7 +607,6 @@ def available_operator_names(server=None):
     service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
         operator_pb2.ListAllOperatorsRequest())
     arr = []
-    import re
     for chunk in service:
         arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
     return arr

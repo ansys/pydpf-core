@@ -15,9 +15,11 @@ steps:
     displayName: Install OS packages
 
   - script: |
+      .ci/setup_headless_display.sh
       pip install -r .ci/requirements_test_xvfb.txt
       xvfb-run python .ci/display_test.py
     displayName: Test virtual framebuffer
+    continueOnError: true
 
   - script: |
       pip install -r requirements_build.txt
@@ -29,6 +31,13 @@ steps:
       xvfb-run python -c "from ansys.dpf import core; print(core.Report())"
     displayName: Install ansys-dpf-core
 
+  - task: PythonScript@0
+    inputs:
+      scriptSource: 'filePath'
+      scriptPath: ".ci/edit_ansys_version.py"
+      arguments: "--version $(ANSYS_VERSION)"
+    displayName: "Set ansys version"
+
   - task: UniversalPackages@0
     inputs:
       command: "download"
@@ -36,7 +45,7 @@ steps:
       feedsToUse: "internal"
       vstsFeed: "705e121a-9631-49f5-8aaf-c7142856f923"
       vstsFeedPackage: "dpf-linux" #TODO: update hash of packages
-      vstsPackageVersion: "21.2.5"
+      vstsPackageVersion: $(vstsPackageVersion)
     displayName: Download DPF linux package
 
   - script: |
@@ -54,7 +63,7 @@ steps:
     displayName: Display env
 
   - script: |
-      cd ${AWP_ROOT212}/aisol/bin/linx64
+      cd ${AWP_ROOT$(ANSYS_VERSION)}/aisol/bin/linx64
       pwd
       chmod 755 Ans.Dpf.Grpc.sh
       chmod 755 Ans.Dpf.Grpc.exe
@@ -62,3 +71,5 @@ steps:
       export DPF_IP=$(hostname -i)
       python -c "from ansys.dpf import core; core.connect_to_server(ip= '${DPF_IP}', port=50054); print('Python Connected')"
     displayName: Start DPF Server
+    timeoutInMinutes: 1
+    retryCountOnTaskFailure: 1 # Max number of retries; default is zero

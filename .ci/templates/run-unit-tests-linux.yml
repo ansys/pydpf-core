@@ -1,0 +1,30 @@
+
+steps:
+  - script: |
+      pip install -r requirements_test.txt
+    displayName: Install Test Environment
+    condition: always()
+
+  - script: |
+      xvfb-run python .ci/run_examples.py
+    displayName: "Run example scripts"
+    timeoutInMinutes: 15
+    condition: always()
+
+  - script: |
+      pip install pytest-azurepipelines
+      cd tests
+      export DPF_IP=$(hostname -i)
+      xvfb-run pytest -v -k "not workflow" --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 2
+    displayName: Test Core API
+    condition: always()
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'junit/test-result*.xml'
+      testRunTitle: 'linuxTests$(ANSYS_VERSION)'
+      publishRunAttachments: true
+      searchFolder: 'tests/'
+    condition: always()
+    displayName: Publish tests

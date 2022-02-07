@@ -32,7 +32,18 @@ from ansys.dpf.core.server import (
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.common import types, natures, locations, shell_layers
-from ansys.dpf.core import help
+from ansys.dpf.core import (
+    help,
+    fields_container_factory,
+    fields_factory,
+    mesh_scoping_factory,
+    time_freq_scoping_factory,
+    server,
+    check_version,
+    settings,
+    path_utilities,
+    operators,
+)
 from ansys.dpf.core.core import (
     BaseService,
     load_library,
@@ -51,18 +62,7 @@ from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor
-from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
-from ansys.dpf.core import (
-    fields_container_factory,
-    fields_factory,
-    mesh_scoping_factory,
-    time_freq_scoping_factory,
-)
-from ansys.dpf.core import server
-from ansys.dpf.core import check_version
-from ansys.dpf.core import path_utilities
-from ansys.dpf.core import settings
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
