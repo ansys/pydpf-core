@@ -19,14 +19,6 @@ steps:
     displayName: Test Core API
     condition: always()
 
-  - script: |
-      cd tests
-      export DPF_IP=$(hostname -i)
-      xvfb-run pytest -v -k "workflow" --junitxml=junit/test-results_remote.xml --cov ansys.dpf.core --cov-report=xml  --reruns 1
-    displayName: Test Core API workflow
-    condition: always()
-    timeoutInMinutes: 10
-
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'

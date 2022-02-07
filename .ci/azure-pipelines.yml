@@ -99,7 +99,6 @@ jobs:
     vstsPackageVersion: '21.2.3'
   pool:
     vmImage: 'windows-2019'
-  condition: 'false'
 
   steps:
     - template: templates\prepare-environment-windows.yml
@@ -151,7 +150,6 @@ jobs:
     AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v$(ANSYS_VERSION)
     GH_DOC_BRANCH: 'gh-pages'
     vstsPackageVersion: "22.1.1"
-  condition: 'false'
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
