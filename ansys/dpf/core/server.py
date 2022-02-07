@@ -174,7 +174,6 @@ def start_local_server(
         if ansys_path is None:
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
         if ansys_path is None:
-            import pkgutil
             raise ValueError(
                 "Unable to automatically locate the Ansys path  "
                 f"for version {__ansys_version__}."
