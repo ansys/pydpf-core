@@ -9,8 +9,6 @@ if __name__ == "__main__":
         if arg == "--version":
             print(sys.argv[i+1])
             version = sys.argv[i+1]
-    print(file_path)
-    print(f"Used ANSYS version is {version}")
     file = open(file_path, 'r')
     lines = file.readlines()
     for i, line in enumerate(lines):
@@ -18,5 +16,4 @@ if __name__ == "__main__":
             lines[i] = f'__ansys_version__ = "{version}"\n'
     file.close()
     with open(file_path, 'w') as file:
-        print(lines)
         file.writelines(lines)

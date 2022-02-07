@@ -176,7 +176,6 @@ def start_local_server(
         if ansys_path is None:
             import pkgutil
             raise ValueError(
-                f"package is {pkgutil.get_loader('ansys.dpf.core').path}"
                 "Unable to automatically locate the Ansys path  "
                 f"for version {__ansys_version__}."
                 "Manually enter one when starting the server or set it "

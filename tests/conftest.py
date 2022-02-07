@@ -161,12 +161,24 @@ def engineering_data_sources():
 class LocalServers:
     def __init__(self):
         self._local_servers = []
+        self._max_iter = 3
 
     def __getitem__(self, item):
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
                 self._local_servers.append(core.start_local_server(as_global=False))
-        return self._local_servers[item]
+        try:
+            self._local_servers[item].info
+            return self._local_servers[item]
+        except:
+            for iter in range(0, self._max_iter):
+                try:
+                    self._local_servers[item] = core.start_local_server(as_global=False)
+                    self._local_servers[item].info
+                    break
+                except:
+                    pass
+            return self._local_servers[item]
 
     def clear(self):
         self._local_servers = []

@@ -5,16 +5,6 @@ variables:
   package_name: ansys-dpf-core
   SHELLOPTS: 'errexit:pipefail'
 
-trigger:
-  branches:
-    include:
-    - '*'
-    exclude:
-    - gh-pages
-  tags:
-    include:
-    - '*'
-
 pr:
   branches:
     include:
@@ -76,8 +66,6 @@ jobs:
       displayName: Remove local copy of ansys-dpf-core
       condition: always()
 
-    - template: templates\kill-servers-windows.yml
-
     - template: templates\run-unit-tests-windows.yml
 
     - script: |
@@ -111,6 +99,7 @@ jobs:
     vstsPackageVersion: '21.2.3'
   pool:
     vmImage: 'windows-2019'
+  condition: 'false'
 
   steps:
     - template: templates\prepare-environment-windows.yml
@@ -162,6 +151,7 @@ jobs:
     AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v$(ANSYS_VERSION)
     GH_DOC_BRANCH: 'gh-pages'
     vstsPackageVersion: "22.1.1"
+  condition: 'false'
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
