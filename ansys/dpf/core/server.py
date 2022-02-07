@@ -175,7 +175,8 @@ def start_local_server(
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
         if ansys_path is None:
             raise ValueError(
-                "Unable to automatically locate the Ansys path.  "
+                "Unable to automatically locate the Ansys path  "
+                f"for version {__ansys_version__}."
                 "Manually enter one when starting the server or set it "
                 'as the environment variable "ANSYS_PATH"'
             )
@@ -364,7 +365,7 @@ class DpfServer:
         self._input_port = port
         self._own_process = launch_server
         self._base_service_instance = None
-        self._session = session.Session(self)
+        self._session_instance = None
 
     @property
     def _base_service(self):
@@ -373,6 +374,12 @@ class DpfServer:
 
             self._base_service_instance = BaseService(self, timeout=1)
         return self._base_service_instance
+
+    @property
+    def _session(self):
+        if not self._session_instance:
+            self._session_instance = session.Session(self)
+        return self._session_instance
 
     @property
     def info(self):

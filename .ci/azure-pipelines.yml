@@ -1,4 +1,4 @@
-# azure pipelines build and test pymapdl
+# azure pipelines build and test pydpf
 
 variables:
   ALLOW_PLOTTING: true
@@ -8,7 +8,8 @@ variables:
 trigger:
   branches:
     include:
-    - '*'
+    - 'master*'
+    - 'release-*'
     exclude:
     - gh-pages
   tags:
@@ -26,9 +27,11 @@ jobs:
 - job: Windows
   variables:
     python.version: '3.8'
+    ANSYS_VERSION: 221
     DISPLAY: ':99.0'
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 32772
+    vstsPackageVersion: '22.1.1'
   pool:
     vmImage: 'windows-2019'
 
@@ -42,50 +45,39 @@ jobs:
         ArtifactName: 'ansys_dpf_core_wheel'
       enabled: true
 
+    - template: templates\kill-servers-windows.yml
+
     - script: |
+        cd $(System.DefaultWorkingDirectory)
         pip install -r requirements_test.txt
       displayName: Install Test Environment
-
-    - script: |
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        cd tests
-        set AWP_ROOT212=%THISDIR%\server\v212
-        pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml --reruns 3
-        
-      displayName: Test Core API
-      timeoutInMinutes: 10
-
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'tests/junit/test-results.xml'
-        testRunTitle: 'windowsTests'
-        publishRunAttachments: true
       condition: always()
 
     - script: |
-        set THISDIR=$(System.DefaultWorkingDirectory)
         cd $(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
-        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys\dpf\core
+        pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
       condition: always()
       displayName: Test API Docstrings
-      timeoutInMinutes: 5
+      timeoutInMinutes: 15
 
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-doctests-results.xml'
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
         testRunTitle: 'docTestsTests'
         publishRunAttachments: true
       condition: always()
 
-    - script:  |
-        set THISDIR=$(System.DefaultWorkingDirectory)
-        set AWP_ROOT212=%THISDIR%\server\v212
-        python .ci/run_examples.py
-      displayName: 'Run example scripts'
-      timeoutInMinutes: 5
+    - template: templates\kill-servers-windows.yml
+
+    - script: |
+        @echo on
+        cd $(System.DefaultWorkingDirectory)
+        rmdir /s /q .\ansys\
+      displayName: Remove local copy of ansys-dpf-core
+      condition: always()
+
+    - template: templates\run-unit-tests-windows.yml
 
     - script: |
         pip install twine
@@ -100,48 +92,55 @@ jobs:
      
 
     - script: |
-        type $(System.DefaultWorkingDirectory)\server\v212\aisol\bin\winx64\log.txt
+        type $(System.DefaultWorkingDirectory)\server\v$(ANSYS_VERSION)\aisol\bin\winx64\log.txt
       displayName:  'Show DPF Server Logs'
-      condition: always() 
+      condition: always()
+      continueOnError: true
     
     - template: templates\kill-servers-windows.yml   
-      
+
+
+- job: WindowsAnsys2021R2
+  variables:
+    python.version: '3.8'
+    ANSYS_VERSION: 212
+    DISPLAY: ':99.0'
+    PYANSYS_OFF_SCREEN: True
+    DPF_PORT: 32772
+    vstsPackageVersion: '21.2.3'
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+    - template: templates\prepare-environment-windows.yml
+
+    - script: |
+            pip install ansys-grpc-dpf==0.3.0
+      displayName: Install proper version of ansys-grpc-dpf
+
+    - script: |
+        rmdir /s /q .\ansys\
+      displayName: Remove local copy of ansys-dpf-core
+
+    - template: templates\run-unit-tests-windows.yml
+
 
 - job: Linux
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
-    DISPLAY: ':99.0'
+    ANSYS_VERSION: 221
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp
-    AWP_ROOT212: $(System.DefaultWorkingDirectory)/server/v212
-    
+    AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v221
+    vstsPackageVersion: "22.1.1"
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
     - template: templates\prepare-environment-linux.yml
 
-    - script: |
-        pip install -r requirements_test.txt
-        pip install pytest-azurepipelines        
-        export AWP_ROOT212=${SYSTEM_DEFAULTWORKINGDIRECTORY}/server/v212
-        cd tests
-        export DPF_IP=$(hostname -i)
-        xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
-        export PATH=`pwd`
-        echo ${PATH} 
-      displayName: Test Core API
-      
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'junit/test-results.xml' 
-        testRunTitle: 'linuxTests'
-        publishRunAttachments: true
-        searchFolder: 'tests/'
-      condition: always()
-      
-      
+    - template: templates\run-unit-tests-linux.yml
+
     - script : |
         echo $0
         if pgrep -x "Ans.Dpf.Grpc" > /dev/null
@@ -155,12 +154,13 @@ jobs:
 - job: DocumentationLinux
   variables:
     python.version: '3.7'  # due to VTK 8.1.2 requirement for docbuild
+    ANSYS_VERSION: 221
     PYANSYS_OFF_SCREEN: True
     DPF_PORT: 50055
     TEMP: $(System.DefaultWorkingDirectory)/temp
-    AWP_ROOT212: $(System.DefaultWorkingDirectory)/server/v212
+    AWP_ROOT221: $(System.DefaultWorkingDirectory)/server/v$(ANSYS_VERSION)
     GH_DOC_BRANCH: 'gh-pages'
-    
+    vstsPackageVersion: "22.1.1"
   pool:
     vmImage: 'ubuntu-20.04'
   steps:
@@ -174,6 +174,7 @@ jobs:
         sphinx-apidoc -o docs/source/api ansys ansys/dpf/core/aeneid.py -f --implicit-namespaces --separate --no-headings
         xvfb-run make -C docs html SPHINXOPTS="-w build_errors.txt -N"
       displayName: Build Documentation
+      retryCountOnTaskFailure: 1 # Max number of retries; default is zero
 
     - task: ArchiveFiles@2
       inputs:
@@ -183,13 +184,15 @@ jobs:
         archiveFile: '$(System.DefaultWorkingDirectory)/docs/archive/doc-ansys-dpf-core.zip'
         replaceExistingArchive: true 
       displayName: 'DOCUMENTATION: zip artifacts'
+      condition: always()
     
     - task: PublishBuildArtifacts@1
       displayName: 'DOCUMENTATION: publish artifacts'
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/docs/archive'
         ArtifactName: doc-ansys-dpf-core
-      enabled: true   
+      enabled: true
+      condition: always()
 
     - powershell: |
         git init

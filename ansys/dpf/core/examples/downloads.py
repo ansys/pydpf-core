@@ -21,7 +21,6 @@ def _get_file_url(directory, filename):
 def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities
-
     # First check if file has already been downloaded
     local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
