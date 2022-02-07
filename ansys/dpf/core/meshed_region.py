@@ -485,9 +485,10 @@ class MeshedRegion:
         Parameters
         ----------
         property_name : str, common.elemental_properties, common.nodal_properties
+            Name of the property.
 
-        Return
-        ------
+        Returns
+        -------
         properties : Field, PropertyField
 
         Examples

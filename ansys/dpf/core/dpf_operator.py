@@ -123,7 +123,7 @@ class Operator:
         return self._progress_bar
 
     @progress_bar.setter
-    def progress_bar(self, value) -> bool:
+    def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
     @protect_grpc
@@ -171,8 +171,9 @@ class Operator:
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
+
         To activate the progress bar for server version higher or equal to 3.0,
-        use my_op.progress_bar = True
+        use ``my_op.progress_bar=True``
 
         Parameters
         ----------
@@ -587,7 +588,7 @@ class OperatorSpecification(NamedTuple):
 
 
 def available_operator_names(server=None):
-    """Returns the list of operators name available in the server
+    """Returns the list of operator names available in the server.
 
     Parameters
     ----------

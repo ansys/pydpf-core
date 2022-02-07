@@ -202,8 +202,7 @@ class Collection:
         entries = self._get_entries_tuple(label_space_or_index)
         if isinstance(entries, list):
             return [entry.entry for entry in entries]
-        else:
-            return entries
+        return entries
 
     def _get_entries_tuple(self, label_space_or_index):
         """Retrieve the entries at a requested label space or index.
