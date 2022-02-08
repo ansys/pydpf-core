@@ -14,7 +14,3 @@ from .integrate_over_elements import integrate_over_elements
 from .mass import mass 
 from .moment_of_inertia import moment_of_inertia 
 from .normals import normals 
-from .ans_mat_materials_provider import ans_mat_materials_provider 
-from .ans_mat_property_field_provider import ans_mat_property_field_provider 
-from .ans_mat_materials_provider import ans_mat_materials_provider 
-from .ans_mat_property_field_provider import ans_mat_property_field_provider 

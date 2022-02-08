@@ -36,13 +36,13 @@ jobs:
       - name: Extract some files
         run: |
           ls
-          ls dpf-standalone/
           7z x dpf-standalone/v221.7z
+          ls dpf-standalone/
 
       - name: Set AWP_ROOT$(ANSYS_VERSION)
         run: |
          $curDir = Get-Location
-         New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION -Force
+         New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\dpf-standalone\v$env:ANSYS_VERSION -Force
          write-host "##vso[task.setvariable variable=$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)]$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
          "$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
 
@@ -57,4 +57,33 @@ jobs:
           pip install %WHEELPATH%
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
+      - name: Start DPF Server
+        shell: cmd
+        run: |
+          @echo on
+          cd %AWP_ROOT$(ANSYS_VERSION)%\aisol\bin\winx64
+          dir %AWP_ROOT$(ANSYS_VERSION)%\aisol\bin\winx64
+          echo %AWP_ROOT$(ANSYS_VERSION)%
+          START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
+          python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
 
+      - name: WHEEL publish artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ansys_dpf_core_wheel
+          path: /dist/*
+
+      - name: Kill all servers
+        shell: cmd
+        script: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+
+      - name: Install Test Environment
+        run: |
+          pip install -r requirements_test.txt
+
+      - name: Test API Docstrings
+        run: |
+           pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
