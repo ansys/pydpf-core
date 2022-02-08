@@ -33,5 +33,5 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
-          pip install dist/ansys*.whl
+          pip install dist/*.whl
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
