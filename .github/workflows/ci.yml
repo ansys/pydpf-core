@@ -23,7 +23,6 @@ jobs:
     env:
       ANSYS_VERSION: 221
 
-    if: false
     steps:
       - uses: actions/checkout@v2
 
@@ -240,7 +239,7 @@ jobs:
       - name: Build Documentation
         run: |
           cd .ci
-          build_doc.bat
+          Start-Process -FilePath ".\build_doc.bat"
 
       - name: DOCUMENTATION zip artifacts
         run: |
