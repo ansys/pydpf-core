@@ -14,20 +14,32 @@ on:
 env:
   PYANSYS_OFF_SCREEN: True
   DPF_PORT: 32772
-  ANSYS_VERSION: 221
-  AWP_ROOT221: ""
 
 jobs:
   test_windows:
     name: Windows
     runs-on: windows-2019
+    env:
+      ANSYS_VERSION: 221
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup Python
         uses: actions/setup-python@v2.1.4
         with:
           python-version: 3.8
+
+      - uses: actions/checkout@v1
+        with:
+          repository: ansys-dpf/dpf-standalone
+          token: ${{secrets.DPF_PIPELINE}}
+
+      - name: Set AWP_ROOT$(ANSYS_VERSION)
+         $curDir = Get-Location
+         New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION -Force
+         write-host "##vso[task.setvariable variable=$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)]$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
+         "$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
 
       - name: Install ansys-dpf-core
         shell: cmd
@@ -37,4 +49,7 @@ jobs:
           FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
           ECHO %WHEELPATH%
           pip install %WHEELPATH%
+          cd tests
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+
+
