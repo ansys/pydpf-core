@@ -23,8 +23,6 @@ jobs:
     env:
       ANSYS_VERSION: 221
 
-    if: false
-
     steps:
       - uses: actions/checkout@v2
 
@@ -134,14 +132,20 @@ jobs:
       - name: Test Core API
         run: |
            cd tests
-           pytest --junitxml=junit/test-results.xml --reruns 2 .
+           pytest -k "not workflow" --junitxml=junit/test-results.xml --reruns 2 .
+        if: always()
+
+      - name: Test Core API Workflows
+        run: |
+           cd tests
+           pytest -k "workflow" --junitxml=junit/test-results.xml --reruns 2 .
         if: always()
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2
         with:
           name: ansys_dpf_core_pytest
-          path: junit/test-results.xml
+          path: junit/test-results*.xml
         if: always()
 
       - name: Kill all servers
@@ -158,6 +162,8 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
+
+    if: false
 
     steps:
       - uses: actions/checkout@v2
