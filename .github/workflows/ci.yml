@@ -33,6 +33,12 @@ jobs:
         run: |
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
+      - name: Extract some files
+        run: |
+          ls
+          ls dpf-standalone/
+          7z x dpf-standalone/v221.7z
+
       - name: Set AWP_ROOT$(ANSYS_VERSION)
         run: |
          $curDir = Get-Location
@@ -47,8 +53,8 @@ jobs:
           python setup.py bdist_wheel
           FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
           ECHO %WHEELPATH%
-          pip install %WHEELPATH%
           cd tests
+          pip install %WHEELPATH%
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
 
