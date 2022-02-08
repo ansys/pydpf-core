@@ -261,7 +261,7 @@ jobs:
 
       - name: ReBuild Documentation
         shell: cmd
-        if: steps.main.build_doc_task.result=='failure'
+        if: ${{ always() && steps.main.build_doc_task.result=='failure'}}
         run: |
           cd docs/
           call make html
