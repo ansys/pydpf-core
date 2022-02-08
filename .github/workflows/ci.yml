@@ -55,9 +55,9 @@ jobs:
 
       - name: Publish Doc Test Results
         uses: actions/upload-artifact@v2
-          with:
-            name: ansys_dpf_core_pytest
-            path: junit/test-doctests-results.xml
+        with:
+          name: ansys_dpf_core_pytest
+          path: junit/test-doctests-results.xml
         if: always()
 
       - name: Remove local copy of ansys-dpf-core
@@ -72,9 +72,9 @@ jobs:
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2
-          with:
-            name: ansys_dpf_core_pytest
-            path: junit/test-results.xml
+        with:
+          name: ansys_dpf_core_pytest
+          path: junit/test-results.xml
         if: always()
 
       - name: Run example scripts
