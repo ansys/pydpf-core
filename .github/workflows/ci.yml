@@ -19,12 +19,13 @@ env:
 jobs:
   Windows:
     runs-on: windows-2019
-  env:
-    ANSYS_VERSION: 221
-    AWP_ROOT221: ""
+    env:
+      ANSYS_VERSION: 221
+      AWP_ROOT221: ""
 
-  steps:
-    - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
+
 
     - name: Setup Python
       uses: actions/setup-python@v2.1.4
