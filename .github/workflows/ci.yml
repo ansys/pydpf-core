@@ -108,7 +108,7 @@ jobs:
       - name: Test API Docstrings
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
-        if: always()
+        if: false
 
       - name: Kill all servers
         shell: cmd
@@ -135,8 +135,9 @@ jobs:
           $files = Get-ChildItem -Path test_*
           $split_num = $files.Count / 2
           for ($i=0; $i -lt $split_num; $i++) {
-            $outfile = $files[$i].FullName
-            Rename-Item -Path outfile -NewName "a+"+$outfile
+            $outfile = $files[$i].Name
+            $newfile = "a"+$outfile
+            Rename-Item -Path $outfile -NewName $newfile
           }
           ls .
           pytest -v --junitxml=junit/test-resultsa.xml --reruns 2 .
