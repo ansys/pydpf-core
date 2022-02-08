@@ -62,8 +62,9 @@ jobs:
           ls $env:SERVER\aisol\bin\winx64
           Start-Process Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% -NoNewWindow -WindowStyle Minimized
           python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
-        timeout-minutes: 1
-        max_attempts: 2
+        with:
+          timeout-minutes: 1
+          max_attempts: 2
 
       - name: WHEEL publish artifacts
         uses: actions/upload-artifact@v2
