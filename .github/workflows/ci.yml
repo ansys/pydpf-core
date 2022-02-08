@@ -21,6 +21,10 @@ jobs:
     name: Windows
     runs-on: windows-2019
 
+  env:
+    ANSYS_VERSION: 221
+    AWP_ROOT221: dpf-standalone\${{env:ANSYS_VERSION}}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -38,13 +42,6 @@ jobs:
           ls
           7z x dpf-standalone/v221.7z
           ls dpf-standalone/
-
-      - name: Set AWP_ROOT$(ANSYS_VERSION)
-        run: |
-         $curDir = Get-Location
-         New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\dpf-standalone\v$env:ANSYS_VERSION -Force
-         write-host "##vso[task.setvariable variable=$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)]$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
-         "$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
 
       - name: Install ansys-dpf-core
         shell: cmd
@@ -66,6 +63,7 @@ jobs:
           echo %AWP_ROOT$(ANSYS_VERSION)%
           START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
           python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+        timeout-minutes: 1
 
       - name: WHEEL publish artifacts
         uses: actions/upload-artifact@v2
@@ -87,3 +85,11 @@ jobs:
       - name: Test API Docstrings
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
+          testRunTitle: 'docTestsTests'
+          publishRunAttachments: true
+        condition: always()
