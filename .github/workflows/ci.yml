@@ -37,7 +37,7 @@ jobs:
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set SERVER
-        run: echo "SERVER=$env:AWP_ROOT221" >> $GITHUB_ENV
+        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Extract some files
         run: |
