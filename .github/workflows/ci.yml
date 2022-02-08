@@ -37,10 +37,10 @@ jobs:
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set AWP_ROOT$(ANSYS_VERSION)
-            run: echo "AWP_ROOT$env:ANSYS_VERSION=$(echo ${{github.workspace}}/dpf-standalone/v221 | cut -c 1-6)" >> $GITHUB_ENV
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=$(echo ${{github.workspace}}/dpf-standalone/v221 | cut -c 1-6)" >> $GITHUB_ENV
 
       - name: Set SERVER
-            run: echo "SERVER=$(echo $env:AWP_ROOT($env:ANSYS_VERSION) | cut -c 1-6)" >> $GITHUB_ENV
+        run: echo "SERVER=$(echo $env:AWP_ROOT($env:ANSYS_VERSION) | cut -c 1-6)" >> $GITHUB_ENV
 
       - name: Extract some files
         run: |
