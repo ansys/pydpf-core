@@ -14,7 +14,6 @@ on:
 env:
   PYANSYS_OFF_SCREEN: True
   DPF_PORT: 32772
-  ANSYS_VERSION: 221
 
 jobs:
   test_windows:
@@ -23,7 +22,6 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-      AWP_ROOT221: ${{github.workspace}}/dpf-standalone/v221
       SERVER: ${{env:AWP_ROOT221}}
 
     steps:
@@ -37,6 +35,12 @@ jobs:
       - name: Clone dpf-standalone
         run: |
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
+
+      - name: Set AWP_ROOT$(ANSYS_VERSION)
+            run: echo "AWP_ROOT$env:ANSYS_VERSION=$(echo ${{github.workspace}}/dpf-standalone/v221 | cut -c 1-6)" >> $GITHUB_ENV
+
+      - name: Set SERVER
+            run: echo "SERVER=$(echo $env:AWP_ROOT($env:ANSYS_VERSION) | cut -c 1-6)" >> $GITHUB_ENV
 
       - name: Extract some files
         run: |
