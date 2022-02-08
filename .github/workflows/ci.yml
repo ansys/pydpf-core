@@ -33,7 +33,7 @@ jobs:
 
       - name: Clone dpf-standalone
         run: |
-          git clone https://${{secrets.DPF_PIPELINE}}@github.com\ansys-dpf\dpf-standalone
+          git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set AWP_ROOT$env:ANSYS_VERSION
         run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
@@ -109,6 +109,14 @@ jobs:
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
         if: always()
+
+      - name: Kill all servers
+        shell: cmd
+        run: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+        continue-on-error: true
 
       - name: Publish Doc Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
