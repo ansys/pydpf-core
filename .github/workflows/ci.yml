@@ -241,10 +241,19 @@ jobs:
           pip install -r requirements_docs.txt
 
       - name: Build Documentation
+        id: build_doc_task
         shell: cmd
+        continue-on-error: true
         run: |
           cd .ci
           build_doc.bat
+
+      - name: ReBuild Documentation
+        shell: cmd
+        if: failure(steps.main.build_doc_task)
+        run: |
+          cd docs/
+          call make html
 
       - name: DOCUMENTATION zip artifacts
         run: |
