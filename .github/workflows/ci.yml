@@ -121,7 +121,7 @@ jobs:
       - name: Publish Doc Test Results
         uses: actions/upload-artifact@v2
         with:
-          name: ansys_dpf_core_pytest
+          name: ansys_dpf_core_doctest
           path: junit/test-doctests-results.xml
         if: always()
 
@@ -239,17 +239,14 @@ jobs:
       - name: Install documentation packages for Python
         run: |
           pip install -r requirements_docs.txt
-        if: always()
 
       - name: Build Documentation
-        run: |
-          sphinx-apidoc -o docs/source/api ansys ansys/dpf/core/aeneid.py -f --implicit-namespaces --separate --no-headings
-          make -C docs html SPHINXOPTS="-w build_errors.txt -N"
-        if: always()
+        run: .ci\build_doc.bat
 
       - name: DOCUMENTATION zip artifacts
         run: |
           7z a -tzip ./docs/archive/doc-ansys-dpf-core.zip ./docs/build
+        if: always()
 
       - name: Kill all servers
         shell: cmd
@@ -258,6 +255,7 @@ jobs:
           ECHO %ERRORLEVEL%
           if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
         continue-on-error: true
+        if: always()
 
       - name: Publish Doc Test Results
         uses: actions/upload-artifact@v2
