@@ -22,7 +22,7 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-      AWP_ROOT221: ./dpf-standalone/v221/v221
+      AWP_ROOT221: ./dpf-standalone/v221
 
     steps:
       - uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
       - name: Start DPF Server
         run: |
           cd $env:SERVER\aisol\bin\winx64
-          ls $env:SERVER\aisol\bin\winx64
+          ls .
           Start-Process Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% -NoNewWindow -WindowStyle Minimized
           python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
         timeout-minutes: 1
