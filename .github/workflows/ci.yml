@@ -61,8 +61,8 @@ jobs:
         run: |
           cd $env:SERVER\aisol\bin\winx64
           ls .
-          Start-Process Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% -NoNewWindow -WindowStyle Minimized
-          python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
+          Start-Process -FilePath "Ans.Dpf.Grpc.bat" -ArgumentList "--address 127.0.0.1 --port $env:DPF_PORT" -NoNewWindow -WindowStyle Minimized
+          python -c "from ansys.dpf import core; core.connect_to_server(port=$env:DPF_PORT); print('Python Connected')"
         timeout-minutes: 1
 
       - name: WHEEL publish artifacts
