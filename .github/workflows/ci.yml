@@ -57,13 +57,11 @@ jobs:
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
       - name: Start DPF Server
-        shell: cmd
         run: |
           @echo on
-          cd %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
-          dir %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
-          echo %AWP_ROOT%ANSYS_VERSION%%
-          START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
+          cd $env:SERVER\aisol\bin\winx64
+          dir $env:SERVER\aisol\bin\winx64
+          Start-Process Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% -NoNewWindow -WindowStyle Minimized
           python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
         timeout-minutes: 1
 
