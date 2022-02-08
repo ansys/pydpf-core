@@ -12,14 +12,14 @@ on:
       - "release*"
 
 env:
-  python.version: '3.8'
   PYANSYS_OFF_SCREEN: True
   DPF_PORT: 32772
   ANSYS_VERSION: 221
   AWP_ROOT221: ""
 
 jobs:
-  Explore-GitHub-Actions:
+  test_windows:
+    name: Windows
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
