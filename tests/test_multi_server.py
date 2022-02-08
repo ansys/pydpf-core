@@ -164,7 +164,7 @@ def test_model_cyc_support_multi_server(cyc_models):
 
 def test_model_displacement_multi_server(transient_models):
     tf = transient_models[0].metadata.time_freq_support
-    time_scoping = range(1, len(tf.time_frequencies) + 1)
+    time_scoping = range(1, 3)
     disp = transient_models[0].results.displacement()
     disp.inputs.time_scoping(time_scoping)
     disp2 = transient_models[1].results.displacement()
@@ -198,7 +198,7 @@ def check_fc(fc, fc2):
 
 def test_model_stress_multi_server(transient_models):
     tf = transient_models[0].metadata.time_freq_support
-    time_scoping = range(1, len(tf.time_frequencies) + 1)
+    time_scoping = range(1, 3)
     disp = transient_models[0].results.stress()
     disp.inputs.time_scoping(time_scoping)
     disp2 = transient_models[1].results.stress()
