@@ -86,10 +86,7 @@ jobs:
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: '$(System.DefaultWorkingDirectory)/junit/test-doctests-results.xml'
-          testRunTitle: 'docTestsTests'
-          publishRunAttachments: true
-        condition: always()
+      - name: Publish Doc Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: junit/test-doctests-results.xml
