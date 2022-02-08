@@ -23,7 +23,7 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-      AWP_ROOT221: dpf-standalone\${{env:ANSYS_VERSION}}
+      AWP_ROOT221: dpf-standalone\${{ANSYS_VERSION}}
 
     steps:
       - uses: actions/checkout@v2
