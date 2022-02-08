@@ -24,6 +24,7 @@ jobs:
     env:
       ANSYS_VERSION: 221
       AWP_ROOT221: ${{github.workspace}}/dpf-standalone/v221
+      SERVER: ${{env:AWP_ROOT221}}
 
     steps:
       - uses: actions/checkout@v2
@@ -56,10 +57,9 @@ jobs:
 
       - name: Start DPF Server
         run: |
-          SERVER=$((Get-Variable -Name $env:"AWP_ROOT$($env:ANSYS_VERSION)")
-          cd $SERVER
-          ls $SERVER\aisol\bin\winx64
-          echo $SERVER
+          cd $env:SERVER
+          ls $env:SERVER\aisol\bin\winx64
+          echo $env:SERVER
           START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
           python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
         timeout-minutes: 1
@@ -90,9 +90,9 @@ jobs:
         with:
           files: junit/test-doctests-results.xml
 
-      - script: |
+      - name: Remove local copy of ansys-dpf-core
+        shell: cmd
+        run: |
           @echo on
           cd $(System.DefaultWorkingDirectory)
           rmdir /s /q .\ansys\
-        displayName: Remove local copy of ansys-dpf-core
-        condition: always()
