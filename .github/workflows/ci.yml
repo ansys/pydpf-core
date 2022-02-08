@@ -75,7 +75,7 @@ jobs:
 
       - name: Kill all servers
         shell: cmd
-        script: |
+        run: |
           tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
           ECHO %ERRORLEVEL%
           if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
