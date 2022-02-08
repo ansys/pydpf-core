@@ -33,10 +33,10 @@ jobs:
 
       - name: Clone dpf-standalone
         run: |
-          git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
+          git clone https://${{secrets.DPF_PIPELINE}}@github.com\ansys-dpf\dpf-standalone
 
       - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}/dpf-standalone/v221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Set SERVER
         run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
@@ -86,6 +86,19 @@ jobs:
           name: ansys_dpf_core_wheel
           path: /dist/*
 
+      - name: Install OpenGL
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
+      - name: Install test offscreen rendering
+        run: |
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
 
       - name: Install Test Environment
         run: |
@@ -101,17 +114,18 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           files: junit/test-doctests-results.xml
+        if: always()
 
       - name: Remove local copy of ansys-dpf-core
-        shell: cmd
-        run: |
-          @echo on
-          cd $(System.DefaultWorkingDirectory)
-          rmdir /s /q .\ansys\
+        run: Remove-Item ".\ansys\" -Recurse
         if: always()
 
       - name: Test Core API
         run: |
            cd tests
            pytest -v --junitxml=junit/test-results.xml --reruns 2 .
+        if: always()
+
+      - name: Run example scripts
+        run: python .ci/run_examples.py
         if: always()
