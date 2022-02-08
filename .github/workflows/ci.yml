@@ -29,10 +29,9 @@ jobs:
         with:
           python-version: 3.8
 
-      - uses: actions/checkout@v1
+      - name: Clone dpf-standalone
         with:
-          repository: ansys-dpf/dpf-standalone
-          token: ${{secrets.DPF_PIPELINE}}
+          git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set AWP_ROOT$(ANSYS_VERSION)
         run: |
