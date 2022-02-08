@@ -30,7 +30,7 @@ jobs:
           python-version: 3.8
 
       - name: Clone dpf-standalone
-        with:
+        run: |
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set AWP_ROOT$(ANSYS_VERSION)
