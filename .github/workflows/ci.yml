@@ -36,12 +36,8 @@ jobs:
         run: |
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
-      - name: Start DPF Server
-        shell: cmd
-        run: |
-          @echo on
-          cd %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
-          dir %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
+      - name: Set SERVER
+        run: echo "SERVER=$env:AWP_ROOT221" >> $GITHUB_ENV
 
       - name: Extract some files
         run: |
