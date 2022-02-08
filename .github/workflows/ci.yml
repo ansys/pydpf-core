@@ -19,7 +19,7 @@ env:
   AWP_ROOT221: ""
 
 jobs:
-  Windows:
+  Explore-GitHub-Actions:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
