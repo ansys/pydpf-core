@@ -42,7 +42,7 @@ jobs:
       - name: Extract some files
         run: |
           ls
-          7z x dpf-standalone/v221.7z
+          7z x dpf-standalone/v221.7z dpf-standalone/
           ls dpf-standalone/
 
       - name: Install ansys-dpf-core
