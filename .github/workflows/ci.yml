@@ -232,10 +232,6 @@ jobs:
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
 
-      - name: Remove local copy of ansys-dpf-core
-        run: Remove-Item ".\ansys\" -Recurse
-        if: always()
-
       - name: Install documentation packages for Python
         run: |
           pip install -r requirements_docs.txt
