@@ -35,6 +35,7 @@ jobs:
           token: ${{secrets.DPF_PIPELINE}}
 
       - name: Set AWP_ROOT$(ANSYS_VERSION)
+        run: |
          $curDir = Get-Location
          New-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)" -Value $curDir\server\v$env:ANSYS_VERSION -Force
          write-host "##vso[task.setvariable variable=$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Name)]$((Get-Variable -Name "AWP_ROOT$($env:ANSYS_VERSION)").Value)"
