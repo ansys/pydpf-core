@@ -23,8 +23,8 @@ jobs:
     env:
       ANSYS_VERSION: 221
 
+    if: false
     steps:
-    if: false()
       - uses: actions/checkout@v2
 
       - name: Setup Python
