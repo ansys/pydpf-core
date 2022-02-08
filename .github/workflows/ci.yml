@@ -22,7 +22,6 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-      SERVER: ${{env:AWP_ROOT221}}
 
     steps:
       - uses: actions/checkout@v2
