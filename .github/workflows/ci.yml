@@ -24,6 +24,7 @@ jobs:
       ANSYS_VERSION: 221
 
     steps:
+    if: false()
       - uses: actions/checkout@v2
 
       - name: Setup Python
@@ -132,7 +133,7 @@ jobs:
       - name: Test Core API
         run: |
            cd tests
-           pytest -v --junitxml=junit/test-results.xml --reruns 2 .
+           pytest --junitxml=junit/test-results.xml --reruns 2 .
         if: always()
 
       - name: Publish Test Results
