@@ -15,14 +15,12 @@ env:
   python.version: '3.8'
   PYANSYS_OFF_SCREEN: True
   DPF_PORT: 32772
+  ANSYS_VERSION: 221
+  AWP_ROOT221: ""
 
 jobs:
   Windows:
     runs-on: windows-2019
-    env:
-      ANSYS_VERSION: 221
-      AWP_ROOT221: ""
-
     steps:
       - uses: actions/checkout@v2
 
