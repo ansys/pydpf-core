@@ -20,6 +20,8 @@ jobs:
     name: Windows
     runs-on: windows-2019
 
+    if: false
+
     env:
       ANSYS_VERSION: 221
 
@@ -162,8 +164,6 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-
-    if: false
 
     steps:
       - uses: actions/checkout@v2
