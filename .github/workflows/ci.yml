@@ -20,8 +20,6 @@ jobs:
     name: Windows
     runs-on: windows-2019
 
-    if: false
-
     env:
       ANSYS_VERSION: 221
 
@@ -133,15 +131,21 @@ jobs:
 
       - name: Test Core API
         run: |
-           cd tests
-           pytest -k "not workflow" --junitxml=junit/test-results.xml --reruns 2 .
-        if: always()
+          cd tests
+          $files = Get-ChildItem -Path test_*
+          $split_num = $files.Count / 2
+          for ($i=0; $i -lt $split_num; $i++) {
+            $outfile = $files[$i].FullName
+            Rename-Item -Path outfile -NewName "a+"+$outfile
+          }
+          ls .
+          pytest -v --junitxml=junit/test-resultsa.xml --reruns 2 .
+          $new_files = Get-ChildItem -Path atest_*
 
-      - name: Test Core API Workflows
-        run: |
-           cd tests
-           pytest -k "workflow" --junitxml=junit/test-results.xml --reruns 2 .
-        if: always()
+          for ($i=0; $i -lt $split_num; $i++) {
+            Rename-Item -Path $new_files[$i].FullName -NewName $files[$i].FullName
+          }
+          pytest -v --junitxml=junit/test-resultsb.xml --reruns 2 .
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2
@@ -164,6 +168,8 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
+
+    if: false
 
     steps:
       - uses: actions/checkout@v2
