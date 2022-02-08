@@ -140,11 +140,18 @@ jobs:
           }
           ls .
           pytest -v --junitxml=junit/test-resultsa.xml --reruns 2 .
+          Stop-Process -Name "Ans.Dpf.Grpc.exe"
           $new_files = Get-ChildItem -Path atest_*
 
-          for ($i=0; $i -lt $split_num; $i++) {
+          for ($i=$split_num; $i -lt $files.Count; $i++) {
+            $outfile = $files[$i].Name
+            $newfile = "a"+$outfile
+            Rename-Item -Path $outfile -NewName $newfile
+          }
+          for ($i=0; $i -lt $new_files.Count; $i++) {
             Rename-Item -Path $new_files[$i].FullName -NewName $files[$i].FullName
           }
+          ls .
           pytest -v --junitxml=junit/test-resultsb.xml --reruns 2 .
 
       - name: Publish Test Results
