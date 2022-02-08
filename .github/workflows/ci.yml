@@ -39,11 +39,12 @@ jobs:
       - name: Set SERVER
         run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-      - name: Extract some files
+      - name: Extract standalone zip
         run: |
           ls
-          7z x dpf-standalone/v221.7z dpf-standalone/
-          ls dpf-standalone/
+          cd dpf-standalone
+          7z x v221.7z
+          ls
 
       - name: Install ansys-dpf-core
         shell: cmd
