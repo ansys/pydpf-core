@@ -22,7 +22,7 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-      AWP_ROOT221: ./dpf-standalone/v221
+      AWP_ROOT221: ./dpf-standalone/v221/v221
 
     steps:
       - uses: actions/checkout@v2
@@ -44,7 +44,7 @@ jobs:
           ls
           cd dpf-standalone
           7z x v221.7z
-          ls
+          ls v221
 
       - name: Install ansys-dpf-core
         shell: cmd
