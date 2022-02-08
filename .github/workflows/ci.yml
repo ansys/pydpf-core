@@ -30,6 +30,7 @@ jobs:
           python-version: 3.8
 
       - name: Install ansys-dpf-core
+        shell: cmd
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
