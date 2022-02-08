@@ -61,7 +61,7 @@ jobs:
         run: |
           cd $env:SERVER\aisol\bin\winx64
           ls .
-          Start-Process -FilePath "Ans.Dpf.Grpc.bat" -ArgumentList "--address 127.0.0.1 --port $env:DPF_PORT" -NoNewWindow
+          Start-Process -FilePath "./Ans.Dpf.Grpc.bat" -ArgumentList "--address 127.0.0.1 --port $env:DPF_PORT" -NoNewWindow
           python -c "from ansys.dpf import core; core.connect_to_server(port=$env:DPF_PORT); print('Python Connected')"
         timeout-minutes: 1
 
