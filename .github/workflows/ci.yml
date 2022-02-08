@@ -108,7 +108,6 @@ jobs:
       - name: Test API Docstrings
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
-        if: false
 
       - name: Kill all servers
         shell: cmd
@@ -169,8 +168,6 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-
-    if: false
 
     steps:
       - uses: actions/checkout@v2

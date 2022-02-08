@@ -3,5 +3,5 @@ call sphinx-apidoc -o ../docs/source/api ../ansys ../ansys/dpf/core/aeneid.py -f
 pushd .
 cd ../docs/
 call make clean
-call make html
+call make -C html SPHINXOPTS="-w build_errors.txt -N"
 popd
