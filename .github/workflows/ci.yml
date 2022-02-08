@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/prepare-windows-env-action@v1
+      - uses: .github/actions/prepare-windows-env-action@v1
         with:
           version-number: $env:ANSYS_VERSION
 
