@@ -237,7 +237,9 @@ jobs:
           pip install -r requirements_docs.txt
 
       - name: Build Documentation
-        run: .ci\build_doc.bat
+        run: |
+          cd .ci
+          build_doc.bat
 
       - name: DOCUMENTATION zip artifacts
         run: |
