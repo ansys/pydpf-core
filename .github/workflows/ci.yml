@@ -36,8 +36,12 @@ jobs:
         run: |
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
-      - name: Set SERVER
-        run: echo "SERVER=$(echo $AWP_ROOT221 | cut -c 1-6)" >> $GITHUB_ENV
+      - name: Start DPF Server
+        shell: cmd
+        run: |
+          @echo on
+          cd %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
+          dir %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
 
       - name: Extract some files
         run: |
@@ -60,9 +64,9 @@ jobs:
         shell: cmd
         run: |
           @echo on
-          cd %AWP_ROOT$(ANSYS_VERSION)%\aisol\bin\winx64
-          dir %AWP_ROOT$(ANSYS_VERSION)%\aisol\bin\winx64
-          echo %AWP_ROOT$(ANSYS_VERSION)%
+          cd %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
+          dir %AWP_ROOT%ANSYS_VERSION%%\aisol\bin\winx64
+          echo %AWP_ROOT%ANSYS_VERSION%%
           START /B Ans.Dpf.Grpc.bat --address 127.0.0.1 --port %DPF_PORT% > log.txt 2>&1
           python -c "from ansys.dpf import core; core.connect_to_server(port=$(DPF_PORT)); print('Python Connected')"
         timeout-minutes: 1
