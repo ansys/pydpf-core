@@ -251,7 +251,7 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           cd .ci
-          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "./../docs/error.txt" -RedirectStandardOutput "./../docs/out.txt"
+          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "./../docs/error.txt" -RedirectStandardOutput "./../docs/out.txt" -NoNewWindow
           ls
           $process.ExitCode
           $exit_code = $process.ExitCode
