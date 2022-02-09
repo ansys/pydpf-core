@@ -254,14 +254,14 @@ jobs:
 
       - name: Build Documentation
         continue-on-error: true
+        shell: cmd
         run: |
           cd .ci
-          $process = Start-Process -FilePath "./build_doc.bat" -PassThru -Wait
-          echo "BUILD_DOC_CODE=$process.ExitCode"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          build_doc.bat
 
       - name: ReBuild Documentation
         shell: cmd
-        if: env.BUILD_DOC_CODE == 2
+        if: failure()
         run: |
           cd docs/
           call make html

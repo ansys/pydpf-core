@@ -6,8 +6,6 @@ from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
 
-from conftest import local_server
-
 
 @pytest.fixture()
 def stress_field(allkindofcomplexity):
@@ -1005,7 +1003,7 @@ def test_dot_operator_field():
     assert np.allclose(out.data, -field.data)
 
 
-def test_add_operator_server_field():
+def test_add_operator_server_field(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
@@ -1036,7 +1034,7 @@ def test_add_operator_server_field():
     assert np.allclose(out.data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
-def test_minus_operator_server_field():
+def test_minus_operator_server_field(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
@@ -1065,7 +1063,7 @@ def test_minus_operator_server_field():
     assert np.allclose(out.data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
-def test_dot_operator_server_field():
+def test_dot_operator_server_field(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]

@@ -185,4 +185,8 @@ class LocalServers:
 
 
 local_servers = LocalServers()
-local_server = local_servers[0]
+
+
+@pytest.fixture()
+def local_server():
+    return local_servers[0]

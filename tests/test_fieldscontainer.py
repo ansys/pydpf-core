@@ -13,7 +13,6 @@ from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
     BodyFieldsContainer,
 )
-from conftest import local_server
 
 
 @pytest.fixture()
@@ -493,7 +492,7 @@ def test_dot_operator_fields_container():
     assert np.allclose(out[0].data, -field.data)
 
 
-def test_add_operator_server_fields_container():
+def test_add_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
@@ -529,7 +528,7 @@ def test_add_operator_server_fields_container():
     assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
-def test_minus_operator_server_fields_container():
+def test_minus_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
@@ -563,7 +562,7 @@ def test_minus_operator_server_fields_container():
     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
-def test_dot_operator_server_fields_container():
+def test_dot_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
@@ -605,7 +604,7 @@ def test_dot_operator_server_fields_container():
     assert np.allclose(out[0].data, -field.data)
 
 
-def test_add_operator_server_fields_container():
+def test_add_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -639,7 +638,7 @@ def test_add_operator_server_fields_container():
     assert np.allclose(out[0].data, np.array([[1., 2., 3.], [4., 5., 6.]]))
 
 
-def test_minus_operator_server_fields_container():
+def test_minus_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -673,7 +672,7 @@ def test_minus_operator_server_fields_container():
     assert np.allclose(out[0].data, np.array([[-1., 0., 1.], [2., 3., 4.]]))
 
 
-def test_dot_operator_server_fields_container():
+def test_dot_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -715,7 +714,7 @@ def test_dot_operator_server_fields_container():
     assert np.allclose(out[0].data, -field.data)
 
 
-def test_add_operator_server_fields_container():
+def test_add_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -749,7 +748,7 @@ def test_add_operator_server_fields_container():
     assert np.allclose(out[0].data, np.array([[1., 2., 3.], [4., 5., 6.]]))
 
 
-def test_minus_operator_server_fields_container():
+def test_minus_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -783,7 +782,7 @@ def test_minus_operator_server_fields_container():
     assert np.allclose(out[0].data, np.array([[-1., 0., 1.], [2., 3., 4.]]))
 
 
-def test_dot_operator_server_fields_container():
+def test_dot_operator_server_fields_container(local_server):
     field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]

@@ -10,7 +10,6 @@ from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.check_version import meets_version, get_server_version
-from conftest import local_server
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
@@ -1019,7 +1018,7 @@ def test_dot_operator_operator():
     assert np.allclose(out[0].data, -field.data)
 
 
-def test_add_operator_server_operator():
+def test_add_operator_server_operator(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -1035,7 +1034,7 @@ def test_add_operator_server_operator():
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
 
-def test_minus_operator_server_operator():
+def test_minus_operator_server_operator(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -1051,7 +1050,7 @@ def test_minus_operator_server_operator():
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
 
-def test_dot_operator_server_operator():
+def test_dot_operator_server_operator(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -1104,7 +1103,7 @@ def test_with_progress_operator(allkindofcomplexity):
     assert len(fc) == 2
 
 
-def test_add_operator_server_operator():
+def test_add_operator_server_operator(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -1120,7 +1119,7 @@ def test_add_operator_server_operator():
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
 
-def test_minus_operator_server_operator():
+def test_minus_operator_server_operator(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
@@ -1136,7 +1135,7 @@ def test_minus_operator_server_operator():
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
 
-def test_dot_operator_server_operator():
+def test_dot_operator_server_operator(local_server):
     field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
     field.data = [0., 1., 2., 3., 4., 5.]
     field.scoping.ids = [1, 2]
