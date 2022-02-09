@@ -3,7 +3,6 @@
 Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
-import pytest
 from ansys.dpf import core
 from ansys.dpf.core.misc import module_exists
 

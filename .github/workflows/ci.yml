@@ -135,7 +135,12 @@ jobs:
           for ($i=0; $i -lt $files.Count; $i++) {
             $xml = "junit/test-results"+($i).ToString()+".xml"
             pytest -v --junitxml=$xml --reruns 2 $files[$i].Name
-            Stop-Process -Name "Ans.Dpf.Grpc.exe"
+            try {
+                $process = Get-Process -Name "Ans.Dpf.Grpc.exe" -ErrorAction Stop
+                $process | Stop-Process
+            } catch {
+                Write-Host "Ans.Dpf.Grpc.exe was aready stopped."
+            }
           }
 
       - name: Kill all servers
