@@ -185,7 +185,7 @@ jobs:
 
       - name: echo
         shell: cmd
-        if: env:ERROR==1
+        if: env.ERROR==1
         run: |
           echo ok
 
