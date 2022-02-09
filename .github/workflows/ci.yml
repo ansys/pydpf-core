@@ -133,14 +133,18 @@ jobs:
           cd tests
           New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
           Copy-Item -Path ".\test_local_server.py" -Destination ".\..\local_server_test\test_local_server.py"
+          Copy-Item -Path ".\test_multi_server.py" -Destination ".\..\local_server_test\test_multi_server.py"
           Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
           Remove-Item -Path ".\test_local_server.py"
+          Remove-Item -Path ".\test_multi_server.py"
           pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
 
       - name: Test Core API 2
         run: |
           cd local_server_test
           pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        continue-on-error: true
+        timeout-minutes: 10
 
       - name: Kill all servers
         shell: cmd
