@@ -134,7 +134,7 @@ jobs:
           $files = Get-ChildItem -Path test_*
           for ($i=0; $i -lt $files.Count; $i++) {
             $xml = "junit/test-results"+($i).ToString()+".xml"
-            pytest -v --log-level=ERROR --junitxml=$xml --reruns 2 $files[$i].Name
+            pytest --log-level=ERROR --junitxml=$xml --reruns 2 $files[$i].Name
           }
 
       - name: Kill all servers
@@ -248,23 +248,11 @@ jobs:
 
       - name: Build Documentation
         continue-on-error: true
-        run: |
-          Set-PSDebug -Trace 1
-          cd .ci
-          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "./../docs/error.txt" -RedirectStandardOutput "./../docs/out.txt" -NoNewWindow
-          ls
-          $process.ExitCode
-          $exit_code = $process.ExitCode
-          $exit_code
-          echo "ERROR=$exit_code"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-        timeout-minutes: 20
-
-      - name: ReBuild Documentation
         shell: cmd
-        if: env.ERROR!=0
         run: |
-          cd docs/
-          call make html > log.txt 2>&1
+          cd .ci
+          build_doc.bat > ..\docs\log.txt 2>&1
+        timeout-minutes: 20
 
       - name: DOCUMENTATION zip artifacts
         run: |
