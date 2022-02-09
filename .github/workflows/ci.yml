@@ -134,13 +134,7 @@ jobs:
           $files = Get-ChildItem -Path test_*
           for ($i=0; $i -lt $files.Count; $i++) {
             $xml = "junit/test-results"+($i).ToString()+".xml"
-            pytest -v --junitxml=$xml --reruns 2 $files[$i].Name
-            try {
-                $process = Get-Process -Name "Ans.Dpf.Grpc.exe" -ErrorAction Stop
-                $process | Stop-Process
-            } catch {
-                Write-Host "Ans.Dpf.Grpc.exe was aready stopped."
-            }
+            pytest -v --log-level=ERROR --junitxml=$xml --reruns 2 $files[$i].Name
           }
 
       - name: Kill all servers
@@ -184,6 +178,25 @@ jobs:
         uses: actions/setup-python@v2.1.4
         with:
           python-version: 3.8
+
+      - name: Step is going to fail
+        run: exit 1
+
+      - name: echo
+        shell: cmd
+        if: ${{ failure() }}
+        run: |
+          echo ok
+
+      - name: Step is going to fail
+        run: exit 1
+        continue-on-error: true
+
+      - name: echo
+        shell: cmd
+        if: ${{ failure() }}
+        run: |
+          echo ok
 
       - name: Clone dpf-standalone
         run: |
@@ -261,10 +274,10 @@ jobs:
 
       - name: ReBuild Documentation
         shell: cmd
-        if: failure()
+        if: ${{ failure() }}
         run: |
           cd docs/
-          call make html
+          call make html > log.txt 2>&1
 
       - name: DOCUMENTATION zip artifacts
         run: |
@@ -285,6 +298,13 @@ jobs:
         with:
           name: doc-ansys-dpf-core
           path: ./docs/archive/doc-ansys-dpf-core.zip
+        if: always()
+
+      - name: Publish Documentation log
+        uses: actions/upload-artifact@v2
+        with:
+          name: doc-ansys-dpf-core-loc
+          path: ./docs/log.txt
         if: always()
 
       - name: Init git and add docs
