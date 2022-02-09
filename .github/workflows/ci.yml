@@ -181,15 +181,6 @@ jobs:
 
       - name: Step is going to fail
         run: exit 1
-
-      - name: echo
-        shell: cmd
-        if: ${{ failure() }}
-        run: |
-          echo ok
-
-      - name: Step is going to fail
-        run: exit 1
         continue-on-error: true
 
       - name: echo
