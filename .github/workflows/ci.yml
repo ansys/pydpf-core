@@ -108,6 +108,7 @@ jobs:
       - name: Test API Docstrings
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+        if: false
 
       - name: Kill all servers
         shell: cmd
@@ -131,7 +132,11 @@ jobs:
       - name: Test Core API
         run: |
           cd tests
-          pytest -v -k "not workflow" --junitxml=junit/test-resultsa.xml --reruns 2 .
+          $files = Get-ChildItem -Path test_*
+          for ($i=0; $i -lt $files.Count; $i++) {
+            $xml = "junit/test-results"+i+".xml"
+            pytest -v --junitxml=$xml --reruns 2 files[i].Name
+          }
 
       - name: Kill all servers
         shell: cmd
