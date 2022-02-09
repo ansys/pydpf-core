@@ -97,5 +97,3 @@ fc = local_workflow.get_output("merged", dpf.types.fields_container)
 print(fc)
 print(fc[0].min().data)
 print(fc[0].max().data)
-
-dpf.server.shutdown_all_session_servers()
