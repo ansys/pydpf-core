@@ -688,7 +688,7 @@ def test_connect_model(plate_msup):
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_connect_get_output_int_list_operator():
-    d = list(range(0, 10000000))
+    d = list(range(0, 100000))
     op = dpf.core.operators.utility.forward(d)
     dout = op.get_output(0, dpf.core.types.vec_int)
     assert np.allclose(d, dout)
@@ -697,7 +697,7 @@ def test_connect_get_output_int_list_operator():
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_connect_get_output_double_list_operator():
-    d = list(np.ones(10000000))
+    d = list(np.ones(100000))
     op = dpf.core.operators.utility.forward(d)
     dout = op.get_output(0, dpf.core.types.vec_double)
     assert np.allclose(d, dout)

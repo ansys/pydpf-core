@@ -250,8 +250,12 @@ jobs:
         continue-on-error: true
         run: |
           cd .ci
-          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "error.txt" -RedirectStandardOutput "out.txt"
-          echo "ERROR=$process.ExitCode"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "./../docs/error.txt" -RedirectStandardOutput "./../out.txt"
+          ls
+          $process.ExitCode
+          $exit_code = $process.ExitCode
+          $exit_code
+          echo "ERROR=$exit_code"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: ReBuild Documentation
         shell: cmd
@@ -285,7 +289,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: doc-ansys-dpf-core-loc
-          path: ./docs/log.txt
+          path: ./docs/*.txt
         if: always()
 
       - name: Init git and add docs

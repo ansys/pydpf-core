@@ -328,28 +328,6 @@ def test_light_copy():
     assert fc2[0] != None
 
 
-def test_el_shape_fc(allkindofcomplexity):
-    model = dpf.Model(allkindofcomplexity)
-    fc = model.results.stress.split_by_shape.eval()
-    assert isinstance(fc, ElShapeFieldsContainer)
-    assert len(fc.beam_fields()) == 1
-    assert len(fc.shell_fields()) == 1
-    assert len(fc.solid_fields()) == 1
-    mesh = model.metadata.meshed_region
-
-    f = fc.beam_field()
-    for id in f.scoping.ids:
-        assert mesh.elements.element_by_id(id).shape == "beam"
-
-    f = fc.shell_field()
-    for id in f.scoping.ids:
-        assert mesh.elements.element_by_id(id).shape == "shell"
-
-    f = fc.solid_field()
-    for id in f.scoping.ids:
-        assert mesh.elements.element_by_id(id).shape == "solid"
-
-
 def test_el_shape_time_fc():
     model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
     fc = model.results.stress.on_all_time_freqs.split_by_shape.eval()

@@ -364,9 +364,10 @@ def test_append_data_elemental_nodal_field(allkindofcomplexity):
         nature=dpf.core.natures.symmatrix,
         location=dpf.core.locations.elemental_nodal,
     )
-    for i in range(0, int(f.scoping.size / 10)):
+    size = int(f.scoping.size / 100)
+    for i in range(0, size):
         f_new.append(f.get_entity_data(i), f.scoping.id(i))
-    for i in range(0, int(f.scoping.size / 10)):
+    for i in range(0, size):
         assert np.allclose(f_new.get_entity_data(i), f.get_entity_data(i))
 
 

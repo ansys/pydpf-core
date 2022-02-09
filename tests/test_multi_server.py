@@ -34,14 +34,6 @@ def cyc_models(local_server):
     )
 
 
-@pytest.fixture()
-def all_kind_of_complexity_models(local_server):
-    return (
-        dpf.Model(examples.download_all_kinds_of_complexity()),
-        dpf.Model(examples.download_all_kinds_of_complexity(), server=local_server),
-    )
-
-
 def test_different_multi_server(static_models):
     assert static_models[0]._server != static_models[1]._server
     assert not static_models[0]._server == static_models[1]._server
@@ -209,43 +201,3 @@ def test_model_stress_multi_server(transient_models):
         fc.deep_copy(fc2._server), fc2, server=fc2._server
     )
     assert idenfc.outputs.boolean()
-
-
-def test_model_different_results_big_multi_server(all_kind_of_complexity_models):
-    tf = all_kind_of_complexity_models[0].metadata.time_freq_support
-    time_scoping = len(tf.time_frequencies)
-
-    results = all_kind_of_complexity_models[0].results
-    results2 = all_kind_of_complexity_models[1].results
-
-    op = results.displacement()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.displacement()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
-
-    op = results.stress()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.stress()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
-
-    op = results.elastic_strain()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.elastic_strain()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
-
-    op = results.elemental_volume()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.elemental_volume()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
