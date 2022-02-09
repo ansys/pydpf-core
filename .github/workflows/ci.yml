@@ -257,10 +257,11 @@ jobs:
           $exit_code = $process.ExitCode
           $exit_code
           echo "ERROR=$exit_code"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        timeout-minutes: 20
 
       - name: ReBuild Documentation
         shell: cmd
-        if: env.ERROR==2
+        if: env.ERROR!=0
         run: |
           cd docs/
           call make html > log.txt 2>&1
