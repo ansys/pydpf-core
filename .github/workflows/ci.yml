@@ -180,12 +180,12 @@ jobs:
           python-version: 3.8
 
       - name: Step is going to fail
-        run: exit 1
+        run: echo "ERROR=1"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
         continue-on-error: true
 
       - name: echo
         shell: cmd
-        if: ${{ failure() }}
+        if: ${{$env:ERROR==1}}
         run: |
           echo ok
 
