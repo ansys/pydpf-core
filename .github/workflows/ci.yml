@@ -250,12 +250,12 @@ jobs:
         continue-on-error: true
         run: |
           cd .ci
-          $process = Start-Process -FilePath "./build_doc.bat" -PassThru
+          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "error.txt" -RedirectStandardOutput "out.txt"
           echo "ERROR=$process.ExitCode"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: ReBuild Documentation
         shell: cmd
-        if: env.ERROR==1
+        if: env.ERROR==2
         run: |
           cd docs/
           call make html > log.txt 2>&1
