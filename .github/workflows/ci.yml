@@ -135,7 +135,7 @@ jobs:
           $files = Get-ChildItem -Path test_*
           for ($i=0; $i -lt $files.Count; $i++) {
             $xml = "junit/test-results"+($i).ToString()+".xml"
-            pytest -v --junitxml=$xml --reruns 2 files[i].Name
+            pytest -v --junitxml=$xml --reruns 2 $files[$i].Name
           }
 
       - name: Kill all servers
