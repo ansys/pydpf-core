@@ -223,7 +223,7 @@ def test_multi_process_getoutput_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+@pytest.mark.skipif(True or not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_chain_remote_workflow():
     files = examples.download_distributed_files()
