@@ -302,7 +302,7 @@ jobs:
         if: contains(github.ref, 'refs/tags')
         run: |
           cd docs/build/html
-          git remote add origin https://${{secrets:PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
+          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
           git push -u origin $(GH_DOC_BRANCH) --force
         env:
           GH_DOC_BRANCH: gh-pages
