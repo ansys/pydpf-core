@@ -35,7 +35,7 @@ jobs:
         run: |
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
-      - name: Set AWP_ROOT$env:ANSYS_VERSION
+      - name: Set AWP_ROOT${{env:ANSYS_VERSION}}
         run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Set SERVER
@@ -131,6 +131,7 @@ jobs:
       - name: Test Core API
         run: |
           cd tests
+          New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
           Copy-Item -Path ".\test_local_server.py" -Destination ".\..\local_server_test\test_local_server.py"
           Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
           Remove-Item -Path ".\test_local_server.py"
@@ -162,7 +163,7 @@ jobs:
           twine upload --skip-existing dist/*
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: $(PYPI_TOKEN)
+          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
           TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
   build_doc:
@@ -295,12 +296,13 @@ jobs:
           git commit -m "Documentation generated"
         env:
           GH_DOC_BRANCH: gh-pages
+          GH_EMAIL: pyansys.github.bot@ansys.com
 
       - name: Publish GitHub Pages merge commit
         if: contains(github.ref, 'refs/tags')
         run: |
           cd docs/build/html
-          git remote add origin https://$(GH_PAT)@github.com/pyansys/DPF-Core-docs
+          git remote add origin https://${{secrets:PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
           git push -u origin $(GH_DOC_BRANCH) --force
         env:
           GH_DOC_BRANCH: gh-pages
