@@ -249,8 +249,9 @@ jobs:
       - name: Build Documentation
         continue-on-error: true
         run: |
+          Set-PSDebug -Trace 1
           cd .ci
-          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "./../docs/error.txt" -RedirectStandardOutput "./../out.txt"
+          $process = Start-Process -FilePath "./build_doc.bat" -Wait -PassThru -RedirectStandardError "./../docs/error.txt" -RedirectStandardOutput "./../docs/out.txt"
           ls
           $process.ExitCode
           $exit_code = $process.ExitCode
