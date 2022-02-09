@@ -134,7 +134,7 @@ jobs:
           cd tests
           $files = Get-ChildItem -Path test_*
           for ($i=0; $i -lt $files.Count; $i++) {
-            $xml = "junit/test-results"+i+".xml"
+            $xml = "junit/test-results"+($i).ToString()+".xml"
             pytest -v --junitxml=$xml --reruns 2 files[i].Name
           }
 
@@ -173,6 +173,8 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
+
+    if: false
 
     steps:
       - uses: actions/checkout@v2
