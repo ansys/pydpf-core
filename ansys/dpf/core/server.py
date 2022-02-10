@@ -20,8 +20,13 @@ from ansys import dpf
 from ansys.dpf.core.misc import find_ansys, is_ubuntu
 from ansys.dpf.core import errors
 
-from ansys.dpf.core._version import __ansys_version__
+from ansys.dpf.core._version import (
+    __ansys_version__,
+    server_to_ansys_version,
+    server_to_ansys_grpc_dpf_version
+)
 from ansys.dpf.core import session
+import ansys.grpc.dpf
 
 MAX_PORT = 65535
 
@@ -326,6 +331,7 @@ class DpfServer:
         docker_name=None,
     ):
         """Start the DPF server."""
+
         # check valid ip and port
         check_valid_ip(ip)
         if not isinstance(port, int):
@@ -338,20 +344,6 @@ class DpfServer:
 
         self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
 
-        if launch_server is False:
-            state = grpc.channel_ready_future(self.channel)
-            # verify connection has matured
-            tstart = time.time()
-            while ((time.time() - tstart) < timeout) and not state._matured:
-                time.sleep(0.001)
-
-            if not state._matured:
-                raise TimeoutError(
-                    f"Failed to connect to {ip}:{port} in {timeout} seconds"
-                )
-
-            LOG.debug("Established connection to DPF gRPC")
-
         # assign to global channel when requested
         if as_global:
             dpf.core.SERVER = self
@@ -359,13 +351,15 @@ class DpfServer:
         # TODO: add to PIDs ...
 
         # store port and ip for later reference
-        self.live = True
-        self.ansys_path = ansys_path
         self._input_ip = ip
         self._input_port = port
+        self.live = True
+        self.ansys_path = ansys_path
         self._own_process = launch_server
         self._base_service_instance = None
         self._session_instance = None
+
+        check_ansys_grpc_dpf_version(self, timeout)
 
     @property
     def _base_service(self):
@@ -654,3 +648,30 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
 
     if len(docker_id) > 0:
         return docker_id[0]
+
+
+def check_ansys_grpc_dpf_version(server, timeout):
+    state = grpc.channel_ready_future(server.channel)
+    # verify connection has matured
+    tstart = time.time()
+    while ((time.time() - tstart) < timeout) and not state._matured:
+        time.sleep(0.001)
+
+    if not state._matured:
+        raise TimeoutError(
+            f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
+        )
+
+    LOG.debug("Established connection to DPF gRPC")
+    grpc_module_version = ansys.grpc.dpf.__version__
+    server_version = server.version
+    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
+    if right_grpc_module_version and right_grpc_module_version != grpc_module_version:
+        raise ImportWarning(f"2022R1 Ansys unified install is available. "
+                            f"To use DPF server from Ansys "
+                            f"{server_to_ansys_version.get(server_version, 'Unknown')}"
+                            f" (dpf.SERVER.version=='{server_version}'), "
+                            f"install version {right_grpc_module_version} of ansys-grpc-dpf"
+                            f" with the command: \n     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+                            )
+
