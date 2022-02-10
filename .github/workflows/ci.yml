@@ -39,7 +39,7 @@ jobs:
         run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Set SERVER
-        run: echo "SERVER=$env:AWP_ROOT$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Extract standalone zip
         run: |
@@ -190,7 +190,7 @@ jobs:
         run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Set SERVER
-        run: echo "SERVER=$env:AWP_ROOT$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Extract standalone zip
         run: |
