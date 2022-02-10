@@ -672,6 +672,6 @@ def check_ansys_grpc_dpf_version(server, timeout):
                             f"{server_to_ansys_version.get(server_version, 'Unknown')}"
                             f" (dpf.SERVER.version=='{server_version}'), "
                             f"install version {right_grpc_module_version} of ansys-grpc-dpf"
-                            f" with the command: \n     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+                            f" with the command: \n"
+                            f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
                             )
-
