@@ -36,17 +36,17 @@ jobs:
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Set SERVER
-        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "SERVER=$env:AWP_ROOT$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Extract standalone zip
         run: |
           ls
           cd dpf-standalone
-          7z x v221.7z
-          ls v221
+          7z x v$env:ANSYS_VERSION.7z
+          ls v$env:ANSYS_VERSION
 
       - name: Install ansys-dpf-core
         shell: cmd
@@ -124,19 +124,13 @@ jobs:
           path: junit/test-doctests-results.xml
         if: always()
 
-      - name: Remove local copy of ansys-dpf-core
-        run: Remove-Item ".\ansys\" -Recurse
-        if: always()
-
       - name: Test Core API
         run: |
           cd tests
           New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
-          Copy-Item -Path ".\test_local_server.py" -Destination ".\..\local_server_test\test_local_server.py"
-          Copy-Item -Path ".\test_multi_server.py" -Destination ".\..\local_server_test\test_multi_server.py"
+          Copy-Item -Path [".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"] -Destination ".\..\local_server_test\"
           Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
-          Remove-Item -Path ".\test_local_server.py"
-          Remove-Item -Path ".\test_multi_server.py"
+          Remove-Item -Path [".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"]
           pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
 
       - name: Test Core API 2
@@ -193,17 +187,17 @@ jobs:
           git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
 
       - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Set SERVER
-        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+        run: echo "SERVER=$env:AWP_ROOT$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Extract standalone zip
         run: |
           ls
           cd dpf-standalone
-          7z x v221.7z
-          ls v221
+          7z x v$env:ANSYS_VERSION.7z
+          ls v$env:ANSYS_VERSION
 
       - name: Install ansys-dpf-core
         shell: cmd
