@@ -5,7 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ["psutil", "progressbar2", "numpy", "ansys.grpc.dpf>=0.2.3, <0.4.0"]
+install_requires = ["psutil", "progressbar2", "numpy", "ansys.grpc.dpf>=0.2.3"]
 
 
 # Get version from version info
@@ -69,12 +69,14 @@ setup(
             "msup/file.mode",
             "msup/file.rst",
             "msup/file.rfrq",
-            "distributed/file0.rst",
-            "distributed/file1.rst",
+            "msup_distributed/file0.rst",
+            "msup_distributed/file1.rst",
+            "msup_distributed/file0.mode",
+            "msup_distributed/file1.mode",
+            "msup_distributed/file_load_1.rfrq",
+            "msup_distributed/file_load_2.rfrq",
         ]
     },
-    author='ANSYS',
-    author_email='ramdane.lagha@ansys.com',
     maintainer_email="pyansys.maintainers@ansys.com",
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
     install_requires=install_requires,
@@ -82,6 +84,6 @@ setup(
         "plotting": ["pyvista>=0.24.0", "matplotlib==3.2"],
         "reporting": ["scooby"],
     },
-    url='https://github.com/pyansys/pydpf-core',
+    url="https://github.com/pyansys/pydpf-core",
     license='MIT',
 )

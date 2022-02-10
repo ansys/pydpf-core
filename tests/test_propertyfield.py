@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, natures
@@ -172,12 +173,12 @@ def test_local_property_field():
     assert np.allclose(field_to_local.data, data)
     assert np.allclose(field_to_local.scoping.ids, scoping_ids)
     assert np.allclose(
-        field_to_local._data_pointer, data_pointer[0 : len(data_pointer)]
+        field_to_local._data_pointer, data_pointer[0: len(data_pointer)]
     )
 
     with field_to_local.as_local_field() as f:
         assert np.allclose(f.data, data)
-        assert np.allclose(f._data_pointer, data_pointer[0 : len(data_pointer)])
+        assert np.allclose(f._data_pointer, data_pointer[0: len(data_pointer)])
 
 
 if __name__ == "__main__":

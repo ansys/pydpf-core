@@ -19,13 +19,11 @@ from ansys.dpf.core import examples
 model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
 
-
 ###############################################################################
 # Visualize Specific Mode Shapes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Choose the modes to visualize:
 modes = [1, 5, 6]
-
 
 disp = model.results.displacement.on_time_scoping(modes)
 
@@ -38,7 +36,6 @@ disp = model.results.displacement.on_time_scoping(modes)
 # Print the available named selection:
 print(model.metadata.available_named_selections)
 
-
 ###############################################################################
 # Specify to the result that you want to work on a specific named selection:
 disp.on_named_selection("_STAG1_BASE_NOD")
@@ -49,7 +46,6 @@ results = op.outputs.fields_container()
 # plot
 for mode in modes:
     results[0].meshed_region.plot(results.get_fields_by_time_complex_ids(mode, 0)[0])
-
 
 ###############################################################################
 # Specify to the result that you want to work on specific nodes:

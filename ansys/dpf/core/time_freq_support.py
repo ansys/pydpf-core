@@ -19,7 +19,7 @@ class TimeFreqSupport:
 
     This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
     The RPM value is a step (or load step)-based value.
-    The time freqencies, complex frequencies, and harmonic indices are set-based values.
+    The time frequencies, complex frequencies, and harmonic indices are set-based values.
     There is one set value for each step/substep combination.
 
     Parameters
@@ -53,7 +53,10 @@ class TimeFreqSupport:
             self._message = time_freq_support
         elif isinstance(time_freq_support, support_pb2.Support):
             self._message = time_freq_support_pb2.TimeFreqSupport()
-            self._message.id = time_freq_support.id
+            if isinstance(self._message.id, int):
+                self._message.id = time_freq_support.id
+            else:
+                self._message.id.id = time_freq_support.id.id
         else:
             request = base_pb2.Empty()
             self._message = self._stub.Create(request)
@@ -300,7 +303,7 @@ class TimeFreqSupport:
         freq  : double, optional
             Frequency in Hz.
         cplx : False, optional
-            Whehter to return a complex frequency. The default is ``False``.
+            Whether to return a complex frequency. The default is ``False``.
 
         Returns
         -------
@@ -337,7 +340,12 @@ class TimeFreqSupport:
         request.entity = base_pb2.NUM_SETS
         return self._stub.Count(request).count
 
-    @protect_grpc
+    def __check_if_field_id(self, field):
+        if isinstance(field.id, int):
+            return field.id != 0
+        else:
+            return field.id.id != 0
+
     def _get_frequencies(self, cplx=False):
         """Retrieves a field of all the frequencies in the model
         (complex or real).
@@ -352,17 +360,13 @@ class TimeFreqSupport:
         field : dpf.core.Field
             Field of all the frequencies in the model (complex or real).
         """
-        request = time_freq_support_pb2.ListRequest()
-        request.time_freq_support.CopyFrom(self._message)
 
-        list_response = self._stub.List(request)
-        if cplx is True and list_response.freq_complex.id != 0:
-            return dpf.core.Field(server=self._server, field=list_response.freq_complex)
-        elif cplx is False and list_response.freq_real.id != 0:
-            return dpf.core.Field(server=self._server, field=list_response.freq_real)
-        return None
+        attributes_list = self._get_attributes_list()
+        if cplx and "freq_complex" in attributes_list:
+            return attributes_list["freq_complex"]
+        elif cplx != True and "freq_real" in attributes_list:
+            return attributes_list["freq_real"]
 
-    @protect_grpc
     def _get_rpms(self):
         """Retrieves a field of all the RPMs in the model.
 
@@ -371,15 +375,10 @@ class TimeFreqSupport:
         field : dpf.core.Field
             Field of all the RPMs in the model (complex or real).
         """
-        request = time_freq_support_pb2.ListRequest()
-        request.time_freq_support.CopyFrom(self._message)
+        attributes_list = self._get_attributes_list()
+        if "rpm" in attributes_list:
+            return attributes_list["rpm"]
 
-        list_response = self._stub.List(request)
-        if list_response.rpm.id != 0:
-            return dpf.core.Field(server=self._server, field=list_response.rpm)
-        return None
-
-    @protect_grpc
     def _get_harmonic_indices(self, stage_num=0):
         """Retrieves a field of all the harmonic indices in the model.
 
@@ -391,28 +390,47 @@ class TimeFreqSupport:
         stage_num: int, optional, default = 0
             Targeted stage number.
         """
+        attributes_list = self._get_attributes_list(stage_num)
+        if "cyc_harmonic_index" in attributes_list:
+            return attributes_list["cyc_harmonic_index"]
+
+    @protect_grpc
+    def _get_attributes_list(self, stage_num=None):
         request = time_freq_support_pb2.ListRequest()
         request.time_freq_support.CopyFrom(self._message)
-        request.cyclic_stage_num = stage_num
-
+        if stage_num:
+            request.cyclic_stage_num = stage_num
         list_response = self._stub.List(request)
-        if list_response.cyc_harmonic_index.id != 0:
-            return dpf.core.Field(
-                server=self._server, field=list_response.cyc_harmonic_index
-            )
-        return None
+        out = {}
+        if list_response.HasField("freq_real"):
+            out["freq_real"] = dpf.core.Field(
+                server=self._server, field=list_response.freq_real)
+        if list_response.HasField("freq_complex"):
+            out["freq_complex"] = dpf.core.Field(
+                server=self._server, field=list_response.freq_complex)
+        if list_response.HasField("rpm"):
+            out["rpm"] = dpf.core.Field(
+                server=self._server, field=list_response.rpm)
+        if list_response.HasField("cyc_harmonic_index"):
+            out["cyc_harmonic_index"] = dpf.core.Field(
+                server=self._server, field=list_response.cyc_harmonic_index)
+        if hasattr(list_response, "cyclic_harmonic_index_scoping") and\
+                list_response.HasField("cyclic_harmonic_index_scoping"):
+            out["cyclic_harmonic_index_scoping"] = dpf.core.Scoping(
+                server=self._server, scoping=list_response.cyclic_harmonic_index_scoping)
+        return out
 
     def append_step(
-        self,
-        step_id,
-        step_time_frequencies,
-        step_complex_frequencies=None,
-        rpm_value=None,
-        step_harmonic_indices=None,
+            self,
+            step_id,
+            step_time_frequencies,
+            step_complex_frequencies=None,
+            rpm_value=None,
+            step_harmonic_indices=None,
     ):
         """Append a step with all its field values in the time frequencies support.
         The RPM value is a step (or load step)-based value.
-        The values for time freqencies, complex frequencies, and harmonic indices are set-based.
+        The values for time frequencies, complex frequencies, and harmonic indices are set-based.
         There is one set value for each step/substep combination.
 
         It is necessary that each call of my_time_freq_support.append_step(kwargs**) contains
@@ -502,7 +520,7 @@ class TimeFreqSupport:
     def deep_copy(self, server=None):
         """Create a deep copy of the data for a time frequency support on a given server.
 
-        This methos is useful for passing data from one server instance to another.
+        This method is useful for passing data from one server instance to another.
 
         Parameters
         ----------

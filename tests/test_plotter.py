@@ -1,11 +1,11 @@
-import os
-
 import pytest
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
+from conftest import running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -13,9 +13,6 @@ if misc.module_exists("pyvista"):
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
-
-# currently running dpf on docker.  Used for testing on CI
-RUNNING_DOCKER = os.environ.get("DPF_DOCKER", False)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -249,7 +246,7 @@ def test_throw_complex_file(complex_model):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-@pytest.mark.skipif(RUNNING_DOCKER, reason="Path hidden within docker container")
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
@@ -265,13 +262,14 @@ def test_plot_meshes_container_1(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
     ds = core.DataSources(multishells)
     disp_op.connect(4, ds)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc)
+
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_meshes_container_2(multishells):
@@ -281,7 +279,7 @@ def test_plot_meshes_container_2(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
     ds = core.DataSources(multishells)
@@ -297,6 +295,7 @@ def test_plot_meshes_container_2(multishells):
         disp_fc_2.add_field(lab, disp_fc.get_field(lab))
     meshes_cont_2.plot(disp_fc_2)
 
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_meshes_container_only(multishells):
     model = core.Model(multishells)
@@ -304,8 +303,9 @@ def test_plot_meshes_container_only(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     meshes_cont.plot()
+
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_add_mesh(multishells):
@@ -314,12 +314,13 @@ def test_plotter_add_mesh(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
     for i in range(len(meshes_cont) - 10):
         pl.add_mesh(meshes_cont[i])
     pl.show_figure()
+
 
 def create_mesh_and_field_mapped(multishells):
     # get metadata
@@ -349,6 +350,7 @@ def create_mesh_and_field_mapped(multishells):
     field_m = fields_mapped[0]
     mesh_m = field_m.meshed_region
     return field, field_m, mesh, mesh_m
+
 
 def create_mesh_and_field_mapped_2(multishells):
     # get metadata
@@ -412,19 +414,21 @@ def create_mesh_and_field_mapped_2(multishells):
     mesh_m = field_m.meshed_region
     return field, field_m, mesh, mesh_m
 
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_path_1(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped(multishells)
     # create meshes container, fields container and plot
     meshes_cont = core.MeshesContainer()
     meshes_cont.labels = ["path"]
-    meshes_cont.add_mesh({"path" : 0}, mesh)
-    meshes_cont.add_mesh({"path" : 1}, mesh_m)
+    meshes_cont.add_mesh({"path": 0}, mesh)
+    meshes_cont.add_mesh({"path": 1}, mesh_m)
     fields_cont = core.FieldsContainer()
     fields_cont.labels = ["path"]
-    fields_cont.add_field({"path" : 0}, field)
-    fields_cont.add_field({"path" : 1}, field_m)
+    fields_cont.add_field({"path": 0}, field)
+    fields_cont.add_field({"path": 1}, field_m)
     meshes_cont.plot(fields_cont)
+
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_path_2(multishells):
@@ -438,6 +442,7 @@ def test_plot_path_2(multishells):
     pl.add_field(field, mesh, style="wireframe", show_edges=True,
                  color="w", opacity=0.3)
     pl.show_figure()
+
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_path_3(multishells):

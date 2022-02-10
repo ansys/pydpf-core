@@ -42,8 +42,8 @@ pip install ansys-dpf-core
 You can also clone and install this repository with:
 
 ```
-git clone https://github.com/pyansys/DPF-Core
-cd DPF-Core
+git clone https://github.com/pyansys/pydpf-core
+cd pydpf-core
 pip install . --user
 ```
 

@@ -15,7 +15,6 @@ from ansys.dpf.core import examples
 model = dpf.Model(examples.simple_cyclic)
 print(model)
 
-
 ###############################################################################
 # Expand displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~

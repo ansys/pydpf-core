@@ -33,7 +33,6 @@ reference and nodal stress computed by the extrapolation method.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 ###############################################################################
 # Get the data source's analyse of integration points and data source's analyse reference
 datafile = examples.download_extrapolation_3d_result()
@@ -51,7 +50,7 @@ model = dpf.Model(data_integration_points)
 mesh = model.metadata.meshed_region
 
 # operator instantiation scoping
-op_scoping = dpf.operators.scoping.splitted_on_property_type()  # operator instantiation
+op_scoping = dpf.operators.scoping.split_on_property_type()  # operator instantiation
 op_scoping.inputs.mesh.connect(mesh)
 op_scoping.inputs.requested_location.connect("Elemental")
 mesh_scoping = op_scoping.outputs.mesh_scoping()
@@ -82,7 +81,6 @@ stress = stressop.outputs.fields_container()
 stress_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
 stress_nodal_op.inputs.fields_container.connect(stress)
 mesh.plot(stress_nodal_op.outputs.fields_container())
-
 
 ###############################################################################
 # Create operator ``gauss_to_node_fc`` and compute nodal component stress

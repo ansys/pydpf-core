@@ -17,13 +17,11 @@ cyc = examples.download_multi_stage_cyclic_result()
 model = dpf.Model(cyc)
 print(model)
 
-
 ###############################################################################
 # Check the result info to verify that it's a multistage model
 result_info = model.metadata.result_info
 print(result_info.has_cyclic)
 print(result_info.cyclic_symmetry_type)
-
 
 ###############################################################################
 # Go over the cyclic support
@@ -35,7 +33,6 @@ print(
     "num nodes in the first stage's base sector: ",
     len(cyc_support.base_nodes_scoping(0)),
 )
-
 
 ###############################################################################
 # Expand displacement results
@@ -55,7 +52,6 @@ sectors_scopings.add_scoping({"stage": 0}, dpf.Scoping(ids=[0, 1, 2]))
 sectors_scopings.add_scoping({"stage": 1}, dpf.Scoping(ids=[0, 1, 2, 3, 4, 5, 6]))
 UCyc.inputs.sectors_to_expand(sectors_scopings)
 
-
 # expand the displacements and get a total deformation
 nrm = dpf.Operator("norm_fc")
 nrm.inputs.connect(UCyc.outputs)
@@ -65,7 +61,6 @@ fields = nrm.outputs.fields_container()
 mesh_provider = model.metadata.mesh_provider
 mesh_provider.inputs.read_cyclic(2)
 mesh = mesh_provider.outputs.mesh()
-
 
 ###############################################################################
 # plot the expanded result on the expanded mesh
@@ -84,7 +79,6 @@ selected_sectors_mesh = mesh_exp.outputs.meshed_region()
 
 # # plot the expanded result on the expanded mesh
 selected_sectors_mesh.plot(fields)
-
 
 ###############################################################################
 # Check results precisely

@@ -3,7 +3,7 @@
 ===============
 Troubleshooting
 ===============
-This section explains how to resolve the most common issues encountered with PyDPF-Core.
+This section explains how to resolve the most common issues encountered with ``pydpf-core``.
 It also includes suggestions for improving scripts.
 
 Using the Server

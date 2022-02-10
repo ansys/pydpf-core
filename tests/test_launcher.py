@@ -12,7 +12,6 @@ if ansys_path is not None:
     except:
         invalid_version = True
 
-
 # skip unless ansys v212 is installed
 if ansys_path is None or invalid_version or is_ubuntu():
     pytestmark = pytest.mark.skip("Requires local install of ANSYS 2021R2")
@@ -33,7 +32,7 @@ def test_start_local():
 
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
-        core.start_local_server(ansys_path="")
+        core.start_local_server(ansys_path="", use_docker_by_default=False)
 
 
 def test_server_ip():
