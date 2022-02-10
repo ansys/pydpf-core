@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:01.843** total execution time for **examples_06-distributed-post** files:
+**00:00.913** total execution time for **examples_06-distributed-post** files:
 
 +--------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_06-distributed-post_01-distributed_delegate_to_server.py` (``01-distributed_delegate_to_server.py``)               | 00:01.843 | 0.0 MB |
+| :ref:`sphx_glr_examples_06-distributed-post_01-distributed_delegate_to_server.py` (``01-distributed_delegate_to_server.py``)               | 00:00.913 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
 | :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py` (``00-distributed_total_disp.py``)                               | 00:00.000 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

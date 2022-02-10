@@ -143,7 +143,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50055, 50056]
+    ports: [50057, 50058]
 
 
 
@@ -221,7 +221,7 @@ Create a local workflow able to merge the results
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-100
+.. GENERATED FROM PYTHON SOURCE LINES 92-102
 
 .. code-block:: default
 
@@ -233,6 +233,8 @@ Connect the workflows together and get the output
     print(fc)
     print(fc[0].min().data)
     print(fc[0].max().data)
+
+    dpf.server.shutdown_all_session_servers()
 
 
 
@@ -252,6 +254,7 @@ Connect the workflows together and get the output
 
     [0.]
     [10.03242272]
+    ("'NoneType' object has no attribute 'shutdown'",)
 
 
 
@@ -259,7 +262,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.843 seconds)
+   **Total running time of the script:** ( 0 minutes  0.913 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_delegate_to_server.py:
