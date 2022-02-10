@@ -22,7 +22,6 @@ __pycache__
 
 # compiled documentation
 docs/build
-docs/source/examples
 
 # pip files
 *.egg-info

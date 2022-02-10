@@ -1,0 +1,308 @@
+name: GitHub Actions
+
+on:
+  pull_request:
+     branches-ignore:
+       - '*no-ci*'
+  push:
+    tags:
+      - "*"
+    branches:
+      - master
+      - "release*"
+
+env:
+  PYANSYS_OFF_SCREEN: True
+  DPF_PORT: 32772
+
+jobs:
+  test_windows:
+    name: Windows
+    runs-on: windows-2019
+
+    env:
+      ANSYS_VERSION: 221
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: 3.8
+
+      - name: Clone dpf-standalone
+        run: |
+          git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
+
+      - name: Set AWP_ROOT$env:ANSYS_VERSION
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      - name: Set SERVER
+        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      - name: Extract standalone zip
+        run: |
+          ls
+          cd dpf-standalone
+          7z x v$env:ANSYS_VERSION.7z
+          ls v$env:ANSYS_VERSION
+
+      - name: Install ansys-dpf-core
+        shell: cmd
+        run: |
+          pip install -r requirements_build.txt
+          python setup.py bdist_wheel
+          FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
+          ECHO %WHEELPATH%
+          cd tests
+          pip install %WHEELPATH%
+          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+
+      - name: Start DPF Server
+        run: |
+          cd $env:SERVER\aisol\bin\winx64
+          ls .
+          Start-Process -FilePath "./Ans.Dpf.Grpc.bat" -ArgumentList "--address 127.0.0.1 --port $env:DPF_PORT" -RedirectStandardOutput "log.txt"
+          python -c "from ansys.dpf import core; core.connect_to_server(port=$env:DPF_PORT); print('Python Connected')"
+        timeout-minutes: 1
+
+      - name: Kill all servers
+        shell: cmd
+        run: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+        continue-on-error: true
+
+      - name: Show DPF Server Logs
+        run: Get-Content -Path $env:SERVER\aisol\bin\winx64\log.txt
+        continue-on-error: true
+        if: always()
+
+      - name: WHEEL publish artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ansys_dpf_core_wheel
+          path: ./dist/*
+
+      - name: Install OpenGL
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
+      - name: Install test offscreen rendering
+        run: |
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
+
+      - name: Install Test Environment
+        run: |
+          pip install -r requirements_test.txt
+        if: always()
+
+      - name: Test API Docstrings
+        run: |
+           pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+
+      - name: Kill all servers
+        shell: cmd
+        run: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+        continue-on-error: true
+
+      - name: Publish Doc Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: ansys_dpf_core_doctest
+          path: junit/test-doctests-results.xml
+        if: always()
+
+      - name: Test Core API
+        run: |
+          cd tests
+          New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
+          Copy-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py" -Destination ".\..\local_server_test\"
+          Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
+          Remove-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"
+          pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
+
+      - name: Test Core API 2
+        run: |
+          cd local_server_test
+          pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        timeout-minutes: 10
+
+      - name: Kill all servers
+        shell: cmd
+        run: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+        continue-on-error: true
+
+      - name: Publish Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: ansys_dpf_core_pytest
+          path: tests/junit/test-results*.xml
+        if: always()
+
+      - name: 'Upload to PyPi'
+        if: contains(github.ref, 'refs/tags')
+        shell: cmd
+        run: |
+          pip install twine
+          python setup.py sdist
+          twine upload --skip-existing dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
+          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+
+  build_doc:
+    name: Documentation
+    runs-on: windows-2019
+
+    env:
+      ANSYS_VERSION: 221
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: 3.8
+
+      - name: Clone dpf-standalone
+        run: |
+          git clone https://${{secrets.DPF_PIPELINE}}@github.com/ansys-dpf/dpf-standalone
+
+      - name: Set AWP_ROOT$env:ANSYS_VERSION
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{github.workspace}}\dpf-standalone/v$env:ANSYS_VERSION"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      - name: Set SERVER
+        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      - name: Extract standalone zip
+        run: |
+          ls
+          cd dpf-standalone
+          7z x v$env:ANSYS_VERSION.7z
+          ls v$env:ANSYS_VERSION
+
+      - name: Install ansys-dpf-core
+        shell: cmd
+        run: |
+          pip install -r requirements_build.txt
+          python setup.py bdist_wheel
+          FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
+          ECHO %WHEELPATH%
+          cd tests
+          pip install %WHEELPATH%
+          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+
+      - name: Start DPF Server
+        run: |
+          cd $env:SERVER\aisol\bin\winx64
+          ls .
+          Start-Process -FilePath "./Ans.Dpf.Grpc.bat" -ArgumentList "--address 127.0.0.1 --port $env:DPF_PORT" -RedirectStandardOutput "log.txt" -NoNewWindow
+          python -c "from ansys.dpf import core; core.connect_to_server(port=$env:DPF_PORT); print('Python Connected')"
+        timeout-minutes: 1
+
+      - name: Kill all servers
+        shell: cmd
+        run: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+        continue-on-error: true
+
+      - name: Show DPF Server Logs
+        run: Get-Content -Path $env:SERVER\aisol\bin\winx64\log.txt
+        continue-on-error: true
+        if: always()
+
+      - name: Install OpenGL
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
+      - name: Install test offscreen rendering
+        run: |
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
+
+      - name: Install documentation packages for Python
+        run: |
+          pip install -r requirements_docs.txt
+
+      - name: Build Documentation
+        shell: cmd
+        run: |
+          cd .ci
+          build_doc.bat > ..\docs\log.txt 2>&1
+        timeout-minutes: 20
+
+      - name: DOCUMENTATION zip artifacts
+        run: |
+          7z a -tzip ./docs/archive/doc-ansys-dpf-core.zip ./docs/build
+        if: always()
+
+      - name: Kill all servers
+        shell: cmd
+        run: |
+          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
+          ECHO %ERRORLEVEL%
+          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+        continue-on-error: true
+        if: always()
+
+      - name: Publish Documentation artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: doc-ansys-dpf-core
+          path: ./docs/archive/doc-ansys-dpf-core.zip
+        if: always()
+
+      - name: Publish Documentation log
+        uses: actions/upload-artifact@v2
+        with:
+          name: doc-ansys-dpf-core-log
+          path: ./docs/*.txt
+        if: always()
+
+      - name: Init git and add docs
+        if: contains(github.ref, 'refs/tags')
+        run: |
+          cd docs/build/html
+          git init
+          git checkout -b $(GH_DOC_BRANCH)
+          git config --global user.name "pyansys-ci-bot"
+          git config --global user.email "$(GH_EMAIL)"
+          New-Item -ItemType file .nojekyll
+          git add .
+          git commit -m "Documentation generated"
+        env:
+          GH_DOC_BRANCH: gh-pages
+          GH_EMAIL: pyansys.github.bot@ansys.com
+
+      - name: Publish GitHub Pages merge commit
+        if: contains(github.ref, 'refs/tags')
+        run: |
+          cd docs/build/html
+          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
+          git push -u origin $(GH_DOC_BRANCH) --force
+        env:
+          GH_DOC_BRANCH: gh-pages
