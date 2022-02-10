@@ -524,7 +524,7 @@ class FieldsContainer(Collection):
 
     def __pow__(self, value):
         if value != 2:
-            raise ValueError('DPF only the value is "2" suppported')
+            raise ValueError('DPF only the value is "2" supported')
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
 

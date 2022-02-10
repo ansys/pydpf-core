@@ -1,19 +1,18 @@
 import weakref
 
-import pytest
 import numpy as np
+import pytest
 
+from ansys.dpf import core as dpf
 from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
+from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core import examples
+from ansys.dpf.core import fields_factory
+from ansys.dpf.core import operators as ops
 from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
     BodyFieldsContainer,
 )
-from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core import examples
-from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
-from conftest import local_server
 
 
 @pytest.fixture()
@@ -58,7 +57,7 @@ def test_set_get_field_fields_container():
         assert fieldid != 0
         assert fc.get_field(i)._message.id != 0
         assert (
-            fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
+                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
         )
         assert fc[i]._message.id != 0
 
@@ -86,7 +85,7 @@ def test_set_get_field_fields_container_new_label():
         assert fieldid != 0
         assert fc.get_field(i)._message.id != 0
         assert (
-            fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
+                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
         )
         assert fc[i]._message.id != 0
         assert fc.get_label_space(i) == {"time": i + 1, "complex": 0}
@@ -329,28 +328,6 @@ def test_light_copy():
     assert fc2[0] != None
 
 
-def test_el_shape_fc(allkindofcomplexity):
-    model = dpf.Model(allkindofcomplexity)
-    fc = model.results.stress.split_by_shape.eval()
-    assert isinstance(fc, ElShapeFieldsContainer)
-    assert len(fc.beam_fields()) == 1
-    assert len(fc.shell_fields()) == 1
-    assert len(fc.solid_fields()) == 1
-    mesh = model.metadata.meshed_region
-
-    f = fc.beam_field()
-    for id in f.scoping.ids:
-        assert mesh.elements.element_by_id(id).shape == "beam"
-
-    f = fc.shell_field()
-    for id in f.scoping.ids:
-        assert mesh.elements.element_by_id(id).shape == "shell"
-
-    f = fc.solid_field()
-    for id in f.scoping.ids:
-        assert mesh.elements.element_by_id(id).shape == "solid"
-
-
 def test_el_shape_time_fc():
     model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
     fc = model.results.stress.on_all_time_freqs.split_by_shape.eval()
@@ -462,118 +439,6 @@ def test_dot_operator_fields_container():
 
     # fc * op
     forward = ops.utility.forward_field(field)
-    add = fc * forward
-    assert isinstance(add, ops.math.generalized_inner_product_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([5.0, 50.0]))
-
-    # fc * field
-    add = fc * field
-    assert isinstance(add, ops.math.generalized_inner_product_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([5.0, 50.0]))
-
-    # fc * list
-    add = fc * [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.generalized_inner_product_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([5.0, 14.0]))
-
-    # fc * float
-    add = fc * -1.0
-    assert isinstance(add, ops.math.generalized_inner_product_fc)
-    out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, -field.data)
-
-
-def test_add_operator_server_fields_container():
-    field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    fc = dpf.fields_container_factory.over_time_freq_fields_container(
-        [field, field], server=local_server
-    )
-
-    # operator with field out
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = fc + forward
-    assert isinstance(add, ops.math.add_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array(field.data) * 2.0)
-
-    # fc + list
-    add = fc + [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.add_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
-
-    # fc + float
-    add = fc + 1.0
-    assert isinstance(add, ops.math.add_fc)
-    out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
-
-
-def test_minus_operator_server_fields_container():
-    field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    fc = dpf.fields_container_factory.over_time_freq_fields_container(
-        [field, field], server=local_server
-    )
-
-    # operator with field out
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = fc - forward
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.zeros((2, 3)))
-
-    # fc - list
-    add = fc - [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 2
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
-
-    # fc - float
-    add = fc - 1.0
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
-
-
-def test_dot_operator_server_fields_container():
-    field = dpf.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    fc = dpf.fields_container_factory.over_time_freq_fields_container(
-        [field, field], server=local_server
-    )
-
-    # fc * op
-    forward = ops.utility.forward_field(field, server=local_server)
     add = fc * forward
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()

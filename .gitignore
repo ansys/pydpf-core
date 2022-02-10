@@ -22,7 +22,6 @@ __pycache__
 
 # compiled documentation
 docs/build
-docs/source/examples
 
 # pip files
 *.egg-info
@@ -45,5 +44,8 @@ test-output.xml
 # downloaded files
 ansys/dpf/core/examples/_cache/
 
-# Virtual environment
-venv/
+*.orig
+venv/*
+
+# Visual studio code settings
+.vscode

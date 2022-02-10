@@ -2,6 +2,7 @@
 import weakref
 
 import pytest
+
 from ansys.dpf.core import Scoping, ScopingsContainer
 
 

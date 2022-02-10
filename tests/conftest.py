@@ -6,13 +6,14 @@ pytest as a session fixture
 import os
 
 import pytest
+
 from ansys.dpf import core
 from ansys.dpf.core import examples
+from ansys.dpf.core import path_utilities
 
 core.settings.disable_off_screen_rendering()
-
 # currently running dpf on docker.  Used for testing on CI
-running_docker = os.environ.get("DPF_DOCKER", False)
+running_docker = core.server.RUNNING_DOCKER["use_docker"]
 
 local_test_repo = False
 
@@ -20,6 +21,12 @@ if os.name == "posix":
     import ssl
 
     ssl._create_default_https_context = ssl._create_unverified_context
+
+if running_docker:
+    if local_test_repo:
+        core.server.RUNNING_DOCKER["args"] += ' -v "' \
+                                              f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
+                                              ':/tmp/test_files"'
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
@@ -29,16 +36,14 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     Normally returns local path unless server is running on docker and
     this repository has been mapped to the docker image at /dpf.
     """
-    if running_docker:
-        # assumes repository root is mounted at '/dpf'
-        test_files_path = "/dpf/tests/testfiles"
-        return os.path.join(test_files_path, additional_path, basename)
-    elif local_test_repo is False:
+    if local_test_repo is False:
         if is_in_examples:
             return getattr(examples, is_in_examples)
         else:
             # otherwise, assume file is local
-            test_path = os.path.dirname(os.path.abspath(__file__))
+            test_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "tests"
+            )
             test_files_path = os.path.join(test_path, "testfiles")
             filename = os.path.join(test_files_path, additional_path, basename)
             if not os.path.isfile(filename):
@@ -47,13 +52,15 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
                 )
             return filename
     elif os.environ.get("AWP_UNIT_TEST_FILES", False):
+        if running_docker:
+            return path_utilities.join("/tmp/test_files", "python", additional_path, basename)
         test_files_path = os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
         filename = os.path.join(
             test_files_path, os.path.join(additional_path, basename)
         )
         if not os.path.isfile(filename):
             raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
-        return filen
+        return filename
 
 
 @pytest.fixture()
@@ -153,4 +160,35 @@ def engineering_data_sources():
     return ds
 
 
-local_server = core.start_local_server(as_global=False)
+class LocalServers:
+    def __init__(self):
+        self._local_servers = []
+        self._max_iter = 3
+
+    def __getitem__(self, item):
+        if len(self._local_servers) <= item:
+            while len(self._local_servers) <= item:
+                self._local_servers.append(core.start_local_server(as_global=False))
+        try:
+            self._local_servers[item].info
+            return self._local_servers[item]
+        except:
+            for iter in range(0, self._max_iter):
+                try:
+                    self._local_servers[item] = core.start_local_server(as_global=False)
+                    self._local_servers[item].info
+                    break
+                except:
+                    pass
+            return self._local_servers[item]
+
+    def clear(self):
+        self._local_servers = []
+
+
+local_servers = LocalServers()
+
+
+@pytest.fixture()
+def local_server():
+    return local_servers[0]

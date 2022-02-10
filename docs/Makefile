@@ -20,4 +20,3 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
-	rm -rf source/examples/
