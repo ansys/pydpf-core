@@ -137,7 +137,6 @@ jobs:
         run: |
           cd local_server_test
           pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-        continue-on-error: true
         timeout-minutes: 10
 
       - name: Kill all servers
