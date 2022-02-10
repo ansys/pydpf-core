@@ -128,9 +128,9 @@ jobs:
         run: |
           cd tests
           New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
-          Copy-Item -Path [".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"] -Destination ".\..\local_server_test\"
+          Copy-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py" -Destination ".\..\local_server_test\"
           Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
-          Remove-Item -Path [".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"]
+          Remove-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"
           pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
 
       - name: Test Core API 2
