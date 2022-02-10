@@ -41,7 +41,9 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             return getattr(examples, is_in_examples)
         else:
             # otherwise, assume file is local
-            test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "tests")
+            test_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "tests"
+            )
             test_files_path = os.path.join(test_path, "testfiles")
             filename = os.path.join(test_files_path, additional_path, basename)
             if not os.path.isfile(filename):
