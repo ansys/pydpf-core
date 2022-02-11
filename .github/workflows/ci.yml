@@ -284,7 +284,6 @@ jobs:
         if: always()
 
       - name: Init git and add docs
-        if: contains(github.ref, 'refs/tags')
         run: |
           cd docs/build/html
           git init
@@ -299,7 +298,6 @@ jobs:
           GH_EMAIL: pyansys.github.bot@ansys.com
 
       - name: Publish GitHub Pages merge commit
-        if: contains(github.ref, 'refs/tags')
         run: |
           cd docs/build/html
           git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
