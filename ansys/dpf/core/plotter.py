@@ -152,6 +152,17 @@ class _InternalPlotter:
         show_axes = kwargs.pop("show_axes", None)
         if show_axes:
             self._plotter.add_axes()
+
+        # Camera position
+        cpos = kwargs.pop("cpos", None)
+        if cpos:
+            return self._plotter.show(cpos=cpos)
+
+        # Return camera position
+        return_cpos = kwargs.pop("return_cpos", None)
+        if return_cpos:
+            return self._plotter.show(return_cpos=return_cpos)
+
         return self._plotter.show()
 
 
@@ -269,7 +280,7 @@ class DpfPlotter:
         >>> pl.show_figure()
 
         """
-        self._internal_plotter.show_figure(**kwargs)
+        return self._internal_plotter.show_figure(**kwargs)
 
 
 def plot_chart(fields_container):

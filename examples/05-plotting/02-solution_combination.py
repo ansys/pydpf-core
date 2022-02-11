@@ -14,6 +14,7 @@ And highlight min/max values in the plot.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.plotter import DpfPlotter
+
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
 # ``Model`` class helps to organize access methods for the result by
@@ -86,5 +87,8 @@ plot.add_field(p_inv.outputs.field_eig_1(),
                )
 ###############################################################################
 # Show figure
-#
-plot.show_figure(show_axes=True)
+# You can set the camera positions using the `cpos` argument
+# The three tuples in the list `cpos` represent camera position, focal point, and view up respectively.
+plot.show_figure(show_axes=True, cpos=[(0.169, 0.147, 1.125),
+                                       (-0.126, -0.149, 0.83),
+                                       (0.0, 0.0, 1.0)])

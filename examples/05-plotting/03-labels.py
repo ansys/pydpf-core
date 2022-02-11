@@ -12,6 +12,7 @@ If label for a node is missing, by default nodal scalar value is shown.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.plotter import DpfPlotter
+
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
 # ``Model`` class helps to organize access methods for the result by
@@ -71,5 +72,8 @@ plot.add_node_labels(my_nodes_2, mesh_set, my_labels_2,
                      point_color="white", point_size=30)
 ###############################################################################
 # Show figure
-#
-plot.show_figure(show_axes=True)
+# You can set the camera positions using the `cpos` argument
+# The three tuples in the list `cpos` represent camera position, focal point, and view up respectively.
+plot.show_figure(show_axes=True, cpos=[(0.123, 0.095, 1.069),
+                                       (-0.121, -0.149, 0.825),
+                                       (0.0, 0.0, 1.0)])
