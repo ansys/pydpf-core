@@ -727,6 +727,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         model,
         scoping,
         workflow,
+        time_freq_support,
     )
 
     if isinstance(inpt, str):
@@ -771,6 +772,8 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         request.cyc_support.CopyFrom(inpt._message)
     elif isinstance(inpt, workflow.Workflow):
         request.workflow.CopyFrom(inpt._message)
+    elif isinstance(inpt, time_freq_support.TimeFreqSupport):
+        request.time_freq_support.CopyFrom(inpt._message)
     elif isinstance(inpt, Operator):
         request.inputop.inputop.CopyFrom(inpt._message)
         request.inputop.pinOut = pin_out

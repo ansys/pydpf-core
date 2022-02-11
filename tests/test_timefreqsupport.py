@@ -6,7 +6,9 @@ from ansys.dpf.core import TimeFreqSupport, Model
 from ansys.dpf.core import examples
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
 @pytest.fixture()
 def vel_acc_model(velocity_acceleration):
@@ -272,3 +274,27 @@ def test_deep_copy_time_freq_support_multi_stage():
 
     assert len(tf.get_harmonic_indices(0).data) == 6
     assert len(tf.get_harmonic_indices(1).data) == 6
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
+    model = Model(velocity_acceleration)
+    tf = model.metadata.time_freq_support
+    op = dpf.core.operators.utility.forward(tf)
+    tfout = op.get_output(0, dpf.core.types.time_freq_support)
+    assert np.allclose(tf.time_frequencies.data, tfout.time_frequencies.data)
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
+    model = Model(velocity_acceleration)
+    tf = model.metadata.time_freq_support
+    wf = dpf.core.Workflow()
+    op = dpf.core.operators.utility.forward()
+    wf.set_input_name("tf", op, 0)
+    wf.set_output_name("tf", op, 0)
+    wf.connect("tf", tf)
+    tfout = wf.get_output("tf", dpf.core.types.time_freq_support)
+    assert np.allclose(tf.time_frequencies.data, tfout.time_frequencies.data)
