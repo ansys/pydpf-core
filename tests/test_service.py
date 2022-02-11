@@ -1,8 +1,14 @@
 import os
-import pathlib
 
 import ansys.grpc.dpf
+import pytest
+
 from ansys import dpf
+from ansys.dpf.core import path_utilities
+from ansys.dpf.core.check_version import meets_version, get_server_version
+from conftest import running_docker
+
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
 
 def test_connect():
@@ -59,8 +65,14 @@ def test_launch_server_not_install():
     assert "server_port" in server.info
 
 
+def transfer_to_local_path(path):
+    return os.path.normpath(path.replace(
+        path_utilities.downloaded_example_path(),
+        dpf.core.LOCAL_DOWNLOADED_EXAMPLES_PATH))
+
+
 def test_upload_download(allkindofcomplexity, tmpdir):
-    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
+    file = dpf.core.upload_file_in_tmp_folder(transfer_to_local_path(allkindofcomplexity))
     dataSource = dpf.core.DataSources(file)
     op = dpf.core.Operator("S")
     op.connect(4, dataSource)
@@ -79,6 +91,7 @@ def test_upload_download(allkindofcomplexity, tmpdir):
     assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
 
 
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir):
     file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
     file = dpf.core.upload_file_in_tmp_folder(plate_msup)
@@ -92,6 +105,7 @@ def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir):
     assert os.path.exists(os.path.join(tmpdir, ntpath.basename(multishells)))
 
 
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_with_subdir(multishells, tmpdir):
     file = dpf.core.upload_file_in_tmp_folder(multishells)
 
@@ -115,6 +129,7 @@ def test_download_with_subdir(multishells, tmpdir):
     assert os.path.exists(p2)
 
 
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_downloadinfolder_uploadinfolder(multishells, tmpdir):
     base = dpf.core.BaseService()
     # create in tmpdir some architecture with subfolder in subfolder
@@ -205,23 +220,41 @@ def test_uploadinfolder_emptyfolder(tmpdir):
 
 def test_load_plugin_correctly():
     from ansys.dpf import core as dpf
-
+    import pkgutil
     base = dpf.BaseService()
     try:
         base.load_library("Ans.Dpf.Math.dll", "math_operators")
     except:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
-    actual_path = pathlib.Path(__file__).parent.absolute()
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
     exists = os.path.exists(
-        os.path.join(actual_path, "..", r"ansys/dpf/core/operators/fft_eval.py")
+        os.path.join(actual_path, r"operators/fft_eval.py")
     )
     assert not exists
     num_lines = sum(
         1
         for line in open(
             os.path.join(
-                actual_path, "..", r"ansys/dpf/core/operators/math/__init__.py"
+                actual_path, r"operators/math/__init__.py"
             )
         )
     )
     assert num_lines >= 11
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_dpf_join():
+    dpf.core.Operator("U")  # start server
+    left = "temp"
+    right = "file.rst"
+    conc = dpf.core.path_utilities.join(left, right)
+    os_server = dpf.core.SERVER.os
+    if os_server == 'posix':
+        assert conc == "temp/file.rst"
+    elif os_server == 'nt':
+        assert conc == "temp\\file.rst"
+
+
+if __name__ == "__main__":
+    test_dpf_join()

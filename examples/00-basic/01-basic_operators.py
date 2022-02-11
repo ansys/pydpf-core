@@ -38,7 +38,6 @@ disp_op = dpf.Operator("U")
 print(disp_op.inputs)
 print(disp_op.outputs)
 
-
 ###############################################################################
 # Compute the Maximum Normalized Displacement
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +71,6 @@ print(field_max.data)
 # because all operators may not be available for a given result. Consequently,
 # it is much easier to reference available operators by first running:
 print(model.results)
-
 
 ###############################################################################
 # Create the displacement operator directly from the ``results`` property:

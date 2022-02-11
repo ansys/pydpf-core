@@ -22,7 +22,6 @@ from ansys.dpf.core import operators as ops
 model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
 
-
 ###############################################################################
 # Create the Workflow
 # ~~~~~~~~~~~~~~~~~~~~
@@ -39,19 +38,16 @@ skin_mesh = skin_op.outputs.mesh()
 # Plot the mesh skin:
 skin_mesh.plot()
 
-
 ###############################################################################
 # Compute the stress principal inveriants on the skin nodes only:
 stress_op = ops.result.stress(data_sources=model.metadata.data_sources)
 stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stress_op.inputs.mesh_scoping.connect(skin_op.outputs.nodes_mesh_scoping)
 
-
 principal_op = ops.invariant.principal_invariants_fc(stress_op)
 principal_stress_1 = principal_op.outputs.fields_eig_1()[0]
 principal_stress_2 = principal_op.outputs.fields_eig_2()[0]
 principal_stress_3 = principal_op.outputs.fields_eig_3()[0]
-
 
 ###############################################################################
 # Manipulate Data Locally
@@ -82,7 +78,6 @@ with field_to_keep.as_local_field() as f:
                         d = max(d1, d2, d3)
                         f.append(d, id)
 
-
 ###############################################################################
 # Plot Result Field
 # ~~~~~~~~~~~~~~~~~
@@ -91,7 +86,6 @@ with field_to_keep.as_local_field() as f:
 ###############################################################################
 # Plot the result field on the skin mesh:
 skin_mesh.plot(field_to_keep)
-
 
 ###############################################################################
 # Plot Initial Invariants

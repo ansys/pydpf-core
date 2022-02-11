@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import numpy as np
 import os
-
-from ansys.dpf import core
-import ansys.grpc.dpf
 import tempfile
+
+import ansys.grpc.dpf
+import numpy as np
+
 import ansys.dpf.core.operators as op
+from ansys.dpf import core
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
@@ -52,12 +53,12 @@ def test_makeconnections(allkindofcomplexity):
     displacement_op = my_model.results.displacement()
     norm_op = my_model.operator("norm")
     square_op = core.operators.math.sqr()
-    assert len(displacement_op.inputs._connected_inputs) == 1
+    assert len(displacement_op.inputs._connected_inputs) == 2
     assert len(norm_op.inputs._connected_inputs) == 0
     # assert len(square_op.inputs._connected_inputs)==0
     norm_op.inputs.connect(displacement_op.outputs)
     square_op.inputs.field.connect(norm_op.outputs.field)
-    assert len(displacement_op.inputs._connected_inputs) == 1
+    assert len(displacement_op.inputs._connected_inputs) == 2
     assert len(norm_op.inputs._connected_inputs) == 1
     assert len(square_op.inputs._connected_inputs) == 1
     square_op.inputs.connect(norm_op.outputs.field)
@@ -294,7 +295,7 @@ def test_generated_operator_set_config():
     op1.inputs.fieldA.connect(inpt)
     op1.inputs.fieldB.connect(inpt2)
     out = op1.outputs.field()
-    assert np.allclose(out.scoping.ids, [3, 4, 5])
+    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(out.scoping.ids, [3, 4, 5])
     assert np.allclose(
         out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
     )

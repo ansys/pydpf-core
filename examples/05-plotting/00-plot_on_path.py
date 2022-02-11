@@ -27,7 +27,7 @@ stress_fc = model.results.stress().eqv().outputs.fields_container()
 
 ###############################################################################
 # Then, we create a coordinates field to map on
-coordinates = [ [0.024, 0.03, 0.003]]
+coordinates = [[0.024, 0.03, 0.003]]
 for i in range(1, 51):
     coord_copy = coordinates[0].copy()
     coord_copy[1] = coord_copy[0] + i * 0.001
@@ -56,7 +56,7 @@ pl = DpfPlotter()
 
 pl.add_field(field_m, mesh_m)
 pl.add_mesh(mesh, style="surface", show_edges=True,
-             color="w", opacity=0.3)
+            color="w", opacity=0.3)
 
 # Finally we plot the result
 pl.show_figure(show_axes=True)

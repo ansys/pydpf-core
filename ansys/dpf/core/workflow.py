@@ -8,6 +8,7 @@ import logging
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
@@ -26,7 +27,7 @@ class Workflow:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    workflow :  workflow_pb2.Workflow
+    workflow :  workflow_message_pb2.Workflow
 
     Examples
     --------
@@ -61,8 +62,12 @@ class Workflow:
 
         self._message = workflow
 
-        if workflow is None:
-            self.__send_init_request()
+        remote_copy_needed = server_meet_version("3.0", self._server) \
+                             and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
+        if isinstance(workflow, str):
+            self.__create_from_stream(workflow)
+        elif workflow is None or remote_copy_needed:
+            self.__send_init_request(workflow)
 
     @protect_grpc
     def connect(self, pin_name, inpt, pin_out=0):
@@ -106,12 +111,13 @@ class Workflow:
         request = workflow_pb2.UpdateConnectionRequest()
         request.wf.CopyFrom(self._message)
         request.pin_name = pin_name
-        dpf_operator._fillConnectionRequestMessage(request, inpt, pin_out)
+        tmp = dpf_operator._fillConnectionRequestMessage(request, inpt, self._server, pin_out)
         self._stub.UpdateConnection(request)
 
     @protect_grpc
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
+        A progress bar following the workflow state is printed.
 
         Parameters
         ----------
@@ -128,9 +134,19 @@ class Workflow:
 
         if output_type is not None:
             dpf_operator._write_output_type_to_proto_style(output_type, request)
-            out = self._stub.Get(request)
+            if server_meet_version("3.0", self._server):
+                # handle progress bar
+                self._server._session.add_workflow(self, "workflow")
+                out_future = self._stub.Get.future(request)
+                while out_future.is_active():
+                    self._server._session.listen_to_progress()
+                out = out_future.result()
+            else:
+                out = self._stub.Get(request)
             return dpf_operator._convertOutputMessageToPythonInstance(
-                out, output_type, self._server
+                out,
+                output_type,
+                self._server
             )
         else:
             raise ValueError(
@@ -381,20 +397,21 @@ class Workflow:
         """
         return self.info["output_names"]
 
-    def chain_with(self, workflow, input_output_names=None):
-        """Chain two workflows together so that they become one workflow.
+    @version_requires("3.0")
+    def connect_with(self, left_workflow, output_input_names=None):
+        """Chain 2 workflows together so that they become one workflow.
 
         The one workflow contains all the operators, inputs, and outputs
         exposed in both workflows.
 
         Parameters
         ----------
-        workflow : core.Workflow
-            Second workflow's inputs to chained with this workflow's outputs.
-        input_output_names : str tuple, optional
-            Input name of the workflow to chain with the output name of the second workflow.
-            The default is ``None``, in which case this outputs in this workflow with the same
-            names as the inputs in the second workflow are chained.
+        left_workflow : core.Workflow
+            Second workflow's outputs to chained with this workflow's inputs.
+        output_input_names : str tuple, str dict optional
+            Input name of the left_workflow to be cained with the output name of this workflow.
+            The default is ``None``, in which case the inputs in the left_workflow with the same
+            names as the outputs of this workflow are chained.
 
         Examples
         --------
@@ -404,10 +421,10 @@ class Workflow:
             |  INPUT:                                                                                         |
             |                                                                                                 |
             |input_output_names = ("output","field" )                                                         |
-            |                      ____                                  ______________________               |
-            |  "data_sources"  -> |this| ->  "stuff"        "field" -> |workflow_to_chain_with| -> "contour"  |
-            |"time_scoping"    -> |    |             "mesh_scoping" -> |                      |               |
-            |                     |____| ->  "output"                  |______________________|               |
+            |                      _____________                                  ____________                |
+            |  "data_sources"  -> |left_workflow| ->  "stuff"        "field" -> |     this   | -> "contour"   |
+            |"time_scoping"    -> |             |             "mesh_scoping" -> |            |                |
+            |                     |_____________| ->  "output"                  |____________|                |
             |  OUTPUT                                                                                         |
             |                    ____                                                                         |
             |"data_sources"  -> |this| ->  "stuff"                                                            |
@@ -417,13 +434,96 @@ class Workflow:
 
 
         """
-        request = workflow_pb2.ChainRequest()
-        request.wf.CopyFrom(self._message)
-        request.wf_to_chain_with.CopyFrom(workflow._message)
-        if input_output_names:
-            request.input_to_output.output_name = input_output_names[0]
-            request.input_to_output.input_name = input_output_names[1]
-        self._stub.Chain(request)
+        request = workflow_pb2.ConnectRequest()
+        request.right_wf.CopyFrom(self._message)
+        request.left_wf.CopyFrom(left_workflow._message)
+        if output_input_names:
+            if isinstance(output_input_names, tuple):
+                request.input_to_output.append(
+                    workflow_pb2.InputToOutputChainRequest(
+                        output_name=output_input_names[0],
+                        input_name=output_input_names[1]))
+            elif isinstance(output_input_names, dict):
+                for key in output_input_names:
+                    request.input_to_output.append(
+                        workflow_pb2.InputToOutputChainRequest(
+                            output_name=key,
+                            input_name=output_input_names[key]))
+            else:
+                raise TypeError("output_input_names argument is expect"
+                                "to be either a str tuple or a str dict")
+
+        self._stub.Connect(request)
+
+    @version_requires("3.0")
+    def create_on_other_server(self, *args, **kwargs):
+        """Create a new instance of a workflow on another server. The new
+        Workflow has the same operators, exposed inputs and output pins as
+        this workflow. Connections between operators and between data and
+        operators are kept (except for exposed pins).
+
+        Parameters
+        ----------
+        server : server.DPFServer, optional
+            Server with channel connected to the remote or local instance. When
+            ``None``, attempts to use the global server.
+
+        ip : str, optional
+            ip address on which the new instance should be created (always put
+            a port in args as well)
+
+        port : str, int , optional
+
+        address: str, optional
+            address on which the new instance should be created ("ip:port")
+
+        Returns
+        -------
+        Workflow
+
+        Examples
+        --------
+        Create a generic Workflow computing the minimum of displacement by chaining the ``'U'``
+        and ``'min_max_fc'`` operators.
+
+        >>> from ansys.dpf import core as dpf
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
+        >>> workflow = dpf.Workflow()
+        >>> workflow.add_operators([disp_op,max_fc_op])
+        >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+        >>> workflow.set_output_name("min", max_fc_op.outputs.field_min)
+        >>> workflow.set_output_name("max", max_fc_op.outputs.field_max)
+        >>> #other_server = dpf.start_local_server(as_global=False)
+        >>> #new_workflow = workflow.create_on_other_server(server=other_server)
+        >>> #assert 'data_sources' in new_workflow.input_names
+
+        """
+        server = None
+        address = None
+        for arg in args:
+            if isinstance(arg, dpf.core.server.DpfServer):
+                server = arg
+            elif isinstance(arg, str):
+                address = arg
+
+        if "ip" in kwargs:
+            address = kwargs["ip"] + ":" + str(kwargs["port"])
+        if "address" in kwargs:
+            address = kwargs["address"]
+        if "server" in kwargs:
+            server = kwargs["server"]
+        if server:
+            text_stream = self._stub.WriteToStream(self._message)
+            return Workflow(workflow=text_stream.stream, server=server)
+        elif address:
+            request = workflow_pb2.RemoteCopyRequest()
+            request.wf.CopyFrom(self._message)
+            request.address = address
+            return Workflow(workflow=request, server=self._server)
+        else:
+            raise ValueError("a connection address (either with address input"
+                             "or both ip and port inputs) or a server is required")
 
     def _connect(self):
         """Connect to the gRPC service."""
@@ -447,6 +547,18 @@ class Workflow:
         return _description(self._message, self._server)
 
     @protect_grpc
-    def __send_init_request(self):
-        request = base_pb2.Empty()
+    def __send_init_request(self, workflow):
+        if server_meet_version("3.0", self._server) \
+                and isinstance(workflow, workflow_pb2.RemoteCopyRequest):
+            request = workflow_pb2.CreateRequest()
+            request.remote_copy.CopyFrom(workflow)
+        else:
+            request = base_pb2.Empty()
+            if hasattr(workflow_pb2, "CreateRequest"):
+                request = workflow_pb2.CreateRequest(empty=request)
         self._message = self._stub.Create(request)
+
+    @protect_grpc
+    def __create_from_stream(self, string):
+        request = workflow_pb2.TextStream(stream=string)
+        self._message = self._stub.LoadFromStream(request)

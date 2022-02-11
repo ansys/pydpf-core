@@ -38,6 +38,7 @@ map_types_to_python = _smart_dict_snake()
 for k, v in map_types_to_cpp.items():
     map_types_to_python[v] = k
 map_types_to_python["vector<double>"] = "list"
+map_types_to_python["b"] = "bool"
 
 map_unit_system = _smart_dict_unit_system()
 map_unit_system[5] = "Metric (cm, g, dyne, s, V, A)"

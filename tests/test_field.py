@@ -6,8 +6,6 @@ from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
 
-from conftest import local_server
-
 
 @pytest.fixture()
 def stress_field(allkindofcomplexity):
@@ -366,9 +364,10 @@ def test_append_data_elemental_nodal_field(allkindofcomplexity):
         nature=dpf.core.natures.symmatrix,
         location=dpf.core.locations.elemental_nodal,
     )
-    for i in range(0, int(f.scoping.size / 10)):
+    size = int(f.scoping.size / 100)
+    for i in range(0, size):
         f_new.append(f.get_entity_data(i), f.scoping.id(i))
-    for i in range(0, int(f.scoping.size / 10)):
+    for i in range(0, size):
         assert np.allclose(f_new.get_entity_data(i), f.get_entity_data(i))
 
 
@@ -850,7 +849,12 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
     field = stress.outputs.fields_container()[0]
     copy = field.deep_copy()
     iden = dpf.core.operators.logic.identical_fields(field, copy)
-    assert iden.outputs.boolean()
+
+    try:
+        assert iden.outputs.boolean()
+    except AssertionError as e:
+        print(iden.outputs.message())
+        raise e
 
     mesh = field.meshed_region
     copy = copy.meshed_region
@@ -895,6 +899,7 @@ def test_deep_copy_over_time_field(velocity_acceleration):
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
+
 def test_deep_copy_spec_ncomp_field():
     field = dpf.core.fields_factory.create_vector_field(100, 6, dpf.core.locations.elemental)
     arr = np.arange(600).reshape(100, 6)
@@ -902,6 +907,7 @@ def test_deep_copy_spec_ncomp_field():
     copy = field.deep_copy()
     assert copy.component_count == 6
     assert copy.location == dpf.core.locations.elemental
+
 
 def test_add_operator_field():
     field = dpf.core.fields_factory.create_3d_vector_field(2)
@@ -993,101 +999,6 @@ def test_dot_operator_field():
     # field * float
     add = field * -1.0
     assert type(add) == ops.math.generalized_inner_product
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, -field.data)
-
-
-def test_add_operator_server_field():
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    # field+op
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = field + forward
-    assert isinstance(add, ops.math.add)
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array(field.data) * 2.0)
-
-    # field + list
-    add = field + [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.add)
-    out = add.outputs.field()
-    assert len(out) == 6
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(
-        out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
-
-    # field + float
-    add = field + 1.0
-    assert isinstance(add, ops.math.add)
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
-
-
-def test_minus_operator_server_field():
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    # field-op
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = field - forward
-    assert isinstance(add, ops.math.minus)
-    out = add.outputs.field()
-    assert len(out) == 6
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.zeros((2, 3)))
-
-    # fc - list
-    add = field - [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.minus)
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
-
-    # operator - float
-    add = field - 1.0
-    assert isinstance(add, ops.math.minus)
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
-
-
-def test_dot_operator_server_field():
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    # field * op
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = field * forward
-    assert type(add) == ops.math.generalized_inner_product
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array([5.0, 50.0]))
-
-    # field * field
-    add = field * field
-    assert isinstance(add, ops.math.generalized_inner_product)
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array([5.0, 50.0]))
-
-    # field * list
-    add = field * [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.generalized_inner_product)
-    out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
-    assert np.allclose(out.data, np.array([5.0, 14.0]))
-
-    # field * float
-    add = field * -1.0
-    assert isinstance(add, ops.math.generalized_inner_product)
     out = add.outputs.field()
     assert out.scoping.ids == [1, 2]
     assert np.allclose(out.data, -field.data)

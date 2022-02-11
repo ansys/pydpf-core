@@ -254,7 +254,7 @@ class Scoping:
 
     @property
     def ids(self):
-        """Retrive a list of IDs in the scoping.
+        """Retrieve a list of IDs in the scoping.
 
         Returns
         -------

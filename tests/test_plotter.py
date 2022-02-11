@@ -1,11 +1,11 @@
-import os
-
 import pytest
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
+from conftest import running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -13,9 +13,6 @@ if misc.module_exists("pyvista"):
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
-
-# currently running dpf on docker.  Used for testing on CI
-RUNNING_DOCKER = os.environ.get("DPF_DOCKER", False)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -249,7 +246,7 @@ def test_throw_complex_file(complex_model):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-@pytest.mark.skipif(RUNNING_DOCKER, reason="Path hidden within docker container")
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
@@ -265,7 +262,7 @@ def test_plot_meshes_container_1(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
     ds = core.DataSources(multishells)
@@ -282,7 +279,7 @@ def test_plot_meshes_container_2(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     disp_op = core.Operator("U")
     disp_op.connect(7, meshes_cont)
     ds = core.DataSources(multishells)
@@ -306,7 +303,7 @@ def test_plot_meshes_container_only(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     meshes_cont.plot()
 
 
@@ -317,7 +314,7 @@ def test_plotter_add_mesh(multishells):
     split_mesh_op = core.Operator("split_mesh")
     split_mesh_op.connect(7, mesh)
     split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.outputs.mesh_controller()
+    meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     from ansys.dpf.core.plotter import DpfPlotter
     pl = DpfPlotter()
     for i in range(len(meshes_cont) - 10):

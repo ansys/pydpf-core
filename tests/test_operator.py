@@ -1,7 +1,7 @@
 import gc
-import weakref
 import os
 import shutil
+import weakref
 
 import numpy as np
 import pytest
@@ -9,11 +9,12 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
-from conftest import local_server
-
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
+
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
 
 def test_create_operator():
@@ -196,8 +197,8 @@ def test_inputs_outputs_1_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-        meshed_region.elements.connectivities_field.data.size
-        == meshed_region.elements.connectivities_field.size
+            meshed_region.elements.connectivities_field.data.size
+            == meshed_region.elements.connectivities_field.size
     )
 
 
@@ -297,7 +298,7 @@ def test_outputs_bool_operator():
 def find_mapdl():
     try:
         path = dpf.core.misc.find_ansys()
-        if os.name == "nt":
+        if dpf.core.SERVER.os == "nt":
             exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
             return os.path.isfile(exe)
         else:
@@ -418,7 +419,7 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     op = dpf.core.Operator("split_mesh")
     op.inputs.mesh.connect(model.metadata.meshed_region)
     op.inputs.property("elshape")
-    mc = op.outputs.mesh_controller()
+    mc = op.get_output(0, dpf.core.types.meshes_container)
     assert len(mc) == 4
     assert mc.labels == ["body", "elshape"]
     mesh = mc.get_mesh({"elshape": 1})
@@ -439,8 +440,11 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
     assert len(fc) == 4
+    if hasattr(op.outputs, "mesh_controller"):
+        stress.inputs.connect(op.outputs.mesh_controller)
+    else:
+        stress.inputs.connect(op.outputs.meshes)
 
-    stress.inputs.connect(op.outputs.mesh_controller)
     fc = stress.outputs.fields_container()
     assert fc.labels == ["body", "elshape", "time"]
     assert len(fc) == 4
@@ -619,10 +623,9 @@ def test_operator_set_config():
     op.inputs.fieldA.connect(inpt)
     op.inputs.fieldB.connect(inpt2)
     out = op.outputs.field()
-    assert np.allclose(out.scoping.ids, [3, 4, 5])
-    assert np.allclose(
-        out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
-    )
+    assert np.allclose(out.data, np.array([[2., 4., 6.],
+                                           [8., 10., 12.],
+                                           [14., 16., 18.]]))
 
     conf.set_work_by_index_option(False)
     op = dpf.core.Operator("add", conf)
@@ -682,6 +685,24 @@ def test_connect_model(plate_msup):
     assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_connect_get_output_int_list_operator():
+    d = list(range(0, 100000))
+    op = dpf.core.operators.utility.forward(d)
+    dout = op.get_output(0, dpf.core.types.vec_int)
+    assert np.allclose(d, dout)
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_connect_get_output_double_list_operator():
+    d = list(np.ones(100000))
+    op = dpf.core.operators.utility.forward(d)
+    dout = op.get_output(0, dpf.core.types.vec_double)
+    assert np.allclose(d, dout)
+
+
 def test_connect_result(plate_msup):
     model = dpf.core.Model(plate_msup)
     stress = model.results.stress
@@ -710,6 +731,24 @@ def test_connect_result2(plate_msup):
     norm.inputs.connect(disp)
     out2 = norm.outputs.fields_container()
     assert len(out) == len(out2)
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_connect_get_output_int_list_operator():
+    d = list(range(0, 10000000))
+    op = dpf.core.operators.utility.forward(d)
+    dout = op.get_output(0, dpf.core.types.vec_int)
+    assert np.allclose(d, dout)
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_connect_get_output_double_list_operator():
+    d = list(np.ones(10000000))
+    op = dpf.core.operators.utility.forward(d)
+    dout = op.get_output(0, dpf.core.types.vec_double)
+    assert np.allclose(d, dout)
 
 
 def test_operator_several_output_types(plate_msup):
@@ -979,71 +1018,78 @@ def test_dot_operator_operator():
     assert np.allclose(out[0].data, -field.data)
 
 
-def test_add_operator_server_operator():
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    ####forward field
-    # operator with field out
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = forward + forward
-    assert isinstance(add, ops.math.add_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array(field.data) * 2.0)
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_list_operators():
+    l = dpf.core.dpf_operator.available_operator_names()
+    assert len(l) > 400
+    assert 'merge::result_info' in l
+    assert 'unit_convert' in l
+    assert 'stream_provider' in l
 
 
-def test_minus_operator_server_operator():
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    ####forward field
-    # operator with field out
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = forward - forward
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.zeros((2, 3)))
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_get_static_spec_operator():
+    l = dpf.core.dpf_operator.available_operator_names()
+    for i, name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name)
+        assert len(spec.operator_name) > 0
+        assert len(spec.inputs) > 0
+        assert len(spec.description) > 0
 
 
-def test_dot_operator_server_operator():
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=local_server)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_with_progress_operator(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm)
+    add2 = dpf.core.operators.math.add_fc(add, add)
+    add3 = dpf.core.operators.math.add_fc(add2)
+    add4 = dpf.core.operators.math.add_fc(add3, add3)
+    add4.progress_bar = True
+    fc = add4.outputs.fields_container()
+    assert len(fc) == 2
 
-    ####forward field
-    # operator with field out
-    forward = ops.utility.forward_field(field, server=local_server)
-    add = forward * forward
-    assert isinstance(add, ops.math.generalized_inner_product_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(out[0].data, np.array([5.0, 50.0]))
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_list_operators():
+    l = dpf.core.dpf_operator.available_operator_names()
+    assert len(l) > 400
+    assert 'merge::result_info' in l
+    assert 'unit_convert' in l
+    assert 'stream_provider' in l
 
 
-def test_eval_operator(tmpdir):
-    op = dpf.core.Operator("norm")
-    inpt = dpf.core.Field(nentities=3)
-    data = [0.0, 2.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0]
-    scop = dpf.core.Scoping()
-    scop.ids = [1, 2, 3]
-    inpt.data = data
-    inpt.scoping = scop
-    op.connect(0, inpt)
-    f = op.eval()
-    data = f.data
-    assert np.allclose(data, [2.0, 2.0, 2.0])
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_get_static_spec_operator():
+    l = dpf.core.dpf_operator.available_operator_names()
+    for i, name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name)
+        assert len(spec.operator_name) > 0
+        assert len(spec.inputs) > 0
+        assert len(spec.description) > 0
 
-    csv = dpf.core.Operator("field_to_csv")
-    csv.inputs.file_path.connect(str(tmpdir) + (r"/file.csv"))
-    csv.inputs.field_or_fields_container.connect(f)
-    assert csv.eval() == None
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_with_progress_operator(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm)
+    add2 = dpf.core.operators.math.add_fc(add, add)
+    add3 = dpf.core.operators.math.add_fc(add2)
+    add4 = dpf.core.operators.math.add_fc(add3, add3)
+    add4.progress_bar = True
+    fc = add4.outputs.fields_container()
+    assert len(fc) == 2
 
 
 def test_delete_operator():

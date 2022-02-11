@@ -8,8 +8,8 @@ visualize the outputs.
 
 Import the necessary modules:
 """
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -27,12 +27,10 @@ transient = examples.download_transient_result()
 model = dpf.Model(transient)
 print(model)
 
-
 ###############################################################################
 # Get the timestamps for each substep as a numpy array:
 tf = model.metadata.time_freq_support
 print(tf.time_frequencies.data)
-
 
 ###############################################################################
 # Obtain Minimum and Maximum Displacements for All Results
@@ -78,7 +76,6 @@ plt.ylabel("X Displacement (m)")
 plt.legend()
 plt.show()
 
-
 ###############################################################################
 # Postprocessing Stress
 # ~~~~~~~~~~~~~~~~~~~~~
@@ -122,7 +119,6 @@ field = eqv.outputs.fields_container()[28]
 # Print the first node IDs from the field.
 print(field.scoping.ids[:10])
 
-
 ################################################################################
 # As you can see, these node IDs are not in order. Additionally,
 # there may be fewer entries in the field than nodes in the model. For
@@ -143,7 +139,6 @@ for node_id in node_ids[:10]:
     # Fetch each individual node by node ID.
     node_coord = meshed_region.nodes.node_by_id(node_id).coordinates
     print(f"Node ID {node_id} : %8.5f, %8.5f, %8.5f" % tuple(node_coord))
-
 
 ###############################################################################
 # Rather than individually querying for each node coordinate of the

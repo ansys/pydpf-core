@@ -31,7 +31,7 @@ def search_sequence_numpy(arr, seq):
     for index in np.nditer(indexes[0]):
         if index % 3 == 0:
             if np.allclose(arr[index + 1], seq[1]) and np.allclose(
-                arr[index + 2], seq[2]
+                    arr[index + 2], seq[2]
             ):
                 return index
     return -1
@@ -41,22 +41,22 @@ def search_sequence_numpy(arr, seq):
 # Add nodes:
 id = 1
 for i, x in enumerate(
-    [
-        float(i) * length / float(num_nodes_in_length)
-        for i in range(0, num_nodes_in_length)
-    ]
+        [
+            float(i) * length / float(num_nodes_in_length)
+            for i in range(0, num_nodes_in_length)
+        ]
 ):
     for j, y in enumerate(
-        [
-            float(i) * width / float(num_nodes_in_width)
-            for i in range(0, num_nodes_in_width)
-        ]
+            [
+                float(i) * width / float(num_nodes_in_width)
+                for i in range(0, num_nodes_in_width)
+            ]
     ):
         for k, z in enumerate(
-            [
-                float(i) * depth / float(num_nodes_in_depth)
-                for i in range(0, num_nodes_in_depth)
-            ]
+                [
+                    float(i) * depth / float(num_nodes_in_depth)
+                    for i in range(0, num_nodes_in_depth)
+                ]
         ):
             mesh.nodes.add_node(id, [x, y, z])
             id += 1
@@ -64,7 +64,6 @@ for i, x in enumerate(
 ###############################################################################
 # Get the nodes' coordinates field:
 coordinates = mesh.nodes.coordinates_field
-
 
 ###############################################################################
 # Set the mesh unit:
@@ -78,22 +77,22 @@ coordinates_scoping = coordinates.scoping
 # Add solid elements (linear hexa with eight nodes):
 id = 1
 for i, x in enumerate(
-    [
-        float(i) * length / float(num_nodes_in_length)
-        for i in range(0, num_nodes_in_length - 1)
-    ]
+        [
+            float(i) * length / float(num_nodes_in_length)
+            for i in range(0, num_nodes_in_length - 1)
+        ]
 ):
     for j, y in enumerate(
-        [
-            float(i) * width / float(num_nodes_in_width)
-            for i in range(0, num_nodes_in_width - 1)
-        ]
+            [
+                float(i) * width / float(num_nodes_in_width)
+                for i in range(0, num_nodes_in_width - 1)
+            ]
     ):
         for k, z in enumerate(
-            [
-                float(i) * depth / float(num_nodes_in_depth)
-                for i in range(0, num_nodes_in_depth - 1)
-            ]
+                [
+                    float(i) * depth / float(num_nodes_in_depth)
+                    for i in range(0, num_nodes_in_depth - 1)
+                ]
         ):
             coord1 = np.array([x, y, z])
             connectivity = []
@@ -144,18 +143,15 @@ time1_field.unit = mesh.unit
 time2_field.unit = mesh.unit
 time3_field.unit = mesh.unit
 
-
 ###############################################################################
 # Create results over times in a fields container with its time frequency support:
 fc = dpf.fields_container_factory.over_time_freq_fields_container(
     {0.1: time1_field, 0.2: time2_field, 0.3: time3_field}, "s"
 )
 
-
 ###############################################################################
 # Check that the time frequency support has been built:
 print(fc.time_freq_support)
-
 
 ###############################################################################
 # Plot the norm over time of the fields container:

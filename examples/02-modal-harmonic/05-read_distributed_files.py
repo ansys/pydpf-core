@@ -39,14 +39,12 @@ freq_scoping = disp.get_time_scoping()
 for freq_set in freq_scoping:
     model.metadata.meshed_region.plot(disp.get_field_by_time_complex_ids(freq_set, 0))
 
-
 ###############################################################################
 # Compute stress eqv
 # ~~~~~~~~~~~~~~~~~~~
 stress_res = model.results.stress
 stress_res.on_location(dpf.locations.nodal)
 stress = stress_res.on_all_time_freqs.eval()
-
 
 freq_scoping = stress.get_time_scoping()
 for freq_set in freq_scoping:

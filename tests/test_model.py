@@ -1,10 +1,11 @@
+import functools
+
 import numpy as np
 import pytest
 
 from ansys import dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import misc
-import functools
 
 NO_PLOTTING = True
 
@@ -16,7 +17,7 @@ if misc.module_exists("pyvista"):
 
 @pytest.fixture()
 def static_model():
-    return dpf.core.Model(examples.static_rst)
+    return dpf.core.Model(dpf.core.upload_file_in_tmp_folder(examples.static_rst))
 
 
 def test_model_from_data_source(simple_bar):
@@ -126,8 +127,8 @@ def test_result_displacement_model():
     assert len(results.displacement.split_by_body.eval()) == 32
     assert len(results.displacement.split_by_shape.eval()) == 4
     assert (
-        len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
-        == 222
+            len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
+            == 222
     )
     all_time_ns = results.displacement.on_named_selection(
         "_FIXEDSU"
@@ -166,8 +167,8 @@ def test_result_stress_location_model(plate_msup):
         stress.on_mesh_scoping(
             dpf.core.Scoping(ids=[1, 2], location=dpf.core.locations.elemental)
         )
-        .on_location(dpf.core.locations.nodal)
-        .eval()
+            .on_location(dpf.core.locations.nodal)
+            .eval()
     )
     assert fc[0].location == "Nodal"
 

@@ -13,7 +13,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
 ###############################################################################
 # Create the model and display the state of the result. This transient result
 # file contains several individual results, each at a different times.
@@ -21,7 +20,6 @@ from ansys.dpf.core import operators as ops
 transient = examples.msup_transient
 model = dpf.Model(transient)
 print(model)
-
 
 ###############################################################################
 # Obtain Minimum and Maximum Displacements at All Times
@@ -48,7 +46,6 @@ plt.xlabel("Time (s)")
 plt.ylabel("Displacement (m)")
 plt.legend()
 plt.show()
-
 
 ###############################################################################
 # Use Time Extrapolation

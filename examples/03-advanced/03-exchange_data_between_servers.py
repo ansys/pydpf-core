@@ -47,7 +47,6 @@ model = dpf.Model(file_path_in_tmp)
 disp = model.results.displacement()
 disp.inputs.time_scoping(len(model.metadata.time_freq_support.time_frequencies))
 
-
 ###############################################################################
 # Create a workflow on the second server
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,14 +69,12 @@ comp = dpf.operators.logic.component_selector_fc(coordinates, 0, server=server2)
 fc_disp = disp.outputs.fields_container()
 fc_copy = fc_disp.deep_copy(server=server2)
 
-
 mesh_copy = model.metadata.meshed_region.deep_copy(server=server2)
 # give a mesh to the field
 fc_copy[0].meshed_region = mesh_copy
 fc_copy[1].meshed_region = mesh_copy
 
 coordinates.inputs.field(fc_copy)
-
 
 ###############################################################################
 # Plot the output

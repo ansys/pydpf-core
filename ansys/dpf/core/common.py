@@ -20,6 +20,20 @@ def _remove_spaces(name):
     return out
 
 
+def _make_as_function_name(name):
+    out = name.lower()
+    out = out.replace(" ", "_").\
+        replace("-", "_").\
+        replace("/", "_").\
+        replace(".", "_").\
+        replace(":", "_").\
+        replace(";", "_").\
+        replace(",", "_").\
+        replace("(", "").\
+        replace(")", "")
+    return out
+
+
 def _snake_to_camel_case(name):
     return "".join(word.title() for word in name.split("_"))
 
@@ -66,7 +80,6 @@ natures.__doc__ = __write_enum_doc__(
         "It can be used to create a field of a given dimensionality."
     ),
 )
-
 
 names = [(m.lower(), num - 1) for m, num in field_definition_pb2.ShellLayers.items()]
 shell_layers = Enum("shell_layers", names)
@@ -127,6 +140,64 @@ class locations:
     time_freq_step = "TimeFreq_steps"
 
 
+class elemental_properties:
+    """Contains strings to define elemental property fields.
+
+    Attributes
+    ----------
+    element_shape = "elshape"
+        element shape property data is provided
+
+    element_type = "eltype"
+        element type property data is provided
+
+    connectivity = "connectivity"
+        connectivity property data is provided
+
+    material = "mat"
+        material property data is provided
+
+    element_properties = "elprops"
+        element properties data is provided
+
+    apdl_element_type = "apdl_element_type"
+        apdl element type property data is provided
+    """
+    element_shape = "elshape"
+    element_type = "eltype"
+    connectivity = "connectivity"
+    material = "mat"
+    element_properties = "elprops"
+    apdl_element_type = "apdl_element_type"
+
+    _elemental_property_type_dict = {
+        element_type: "ELEMENT_TYPE",
+        element_shape: "ELEMENT_SHAPE",
+        material: "MATERIAL",
+        connectivity: "CONNECTIVITY",
+    }
+
+
+class nodal_properties:
+    """Contains strings to define nodal property fields.
+
+    Attributes
+    ----------
+    coordinates = "coordinates"
+        coordinates data is provided
+
+    nodal_connectivity = "reverse_connectivity"
+        nodal connectivity property data is provided
+    """
+    coordinates = "coordinates"
+    nodal_connectivity = "reverse_connectivity"
+
+    _nodal_property_type_dict = {
+        coordinates: "COORDINATES",
+        nodal_connectivity: "NODAL_CONNECTIVITY",
+    }
+
+
 class DefinitionLabels:
     """Contains Python definition labels."""
 
@@ -135,7 +206,6 @@ class DefinitionLabels:
 
 
 def _common_progress_bar(text, unit, tot_size=None):
-
     if tot_size:
         widgets = [
             progressbar.FormatLabel(f"{text}: %(value)d of %(max_value)d {unit} "),
@@ -151,3 +221,8 @@ def _common_progress_bar(text, unit, tot_size=None):
         return progressbar.ProgressBar(
             widgets=widgets, max_value=progressbar.UnknownLength
         )
+
+
+def _common_percentage_progress_bar(text):
+    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
+    return progressbar.ProgressBar(widgets=widgets, max_value=100)
