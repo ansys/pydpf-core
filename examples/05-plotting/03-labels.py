@@ -73,7 +73,8 @@ plot.add_node_labels(my_nodes_2, mesh_set, my_labels_2,
 ###############################################################################
 # Show figure
 # You can set the camera positions using the `cpos` argument
-# The three tuples in the list `cpos` represent camera position, focal point, and view up respectively.
+# The three tuples in the list `cpos` represent camera position-
+# focal point, and view up respectively.
 plot.show_figure(show_axes=True, cpos=[(0.123, 0.095, 1.069),
                                        (-0.121, -0.149, 0.825),
                                        (0.0, 0.0, 1.0)])

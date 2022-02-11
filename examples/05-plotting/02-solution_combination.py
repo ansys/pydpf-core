@@ -88,7 +88,8 @@ plot.add_field(p_inv.outputs.field_eig_1(),
 ###############################################################################
 # Show figure
 # You can set the camera positions using the `cpos` argument
-# The three tuples in the list `cpos` represent camera position, focal point, and view up respectively.
+# The three tuples in the list `cpos` represent camera position-
+# focal point, and view up respectively.
 plot.show_figure(show_axes=True, cpos=[(0.169, 0.147, 1.125),
                                        (-0.126, -0.149, 0.83),
                                        (0.0, 0.0, 1.0)])
