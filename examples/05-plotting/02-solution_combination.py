@@ -79,17 +79,10 @@ mesh_set = model.metadata.meshed_region
 #
 plot = DpfPlotter()
 plot.add_field(p_inv.outputs.field_eig_1(),
-               meshed_region=mesh_set,
-               show_min=False,
-               show_max=True,
-               label_text_size=40,
-               label_point_size=15,
-               )
+               meshed_region=mesh_set)
 ###############################################################################
 # Show figure
 # You can set the camera positions using the `cpos` argument
 # The three tuples in the list `cpos` represent camera position-
 # focal point, and view up respectively.
-plot.show_figure(show_axes=True, cpos=[(0.169, 0.147, 1.125),
-                                       (-0.126, -0.149, 0.83),
-                                       (0.0, 0.0, 1.0)])
+plot.show_figure(show_axes=True)
