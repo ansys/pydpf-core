@@ -68,6 +68,14 @@ def test_data_sources_from_data_sources(allkindofcomplexity):
     data_sources2 = dpf.core.DataSources(data_sources=data_sources)
 
 
+def test_several_result_path_data_sources():
+    data_sources = dpf.core.DataSources()
+    data_sources.set_result_file_path("file_hello.rst")
+    data_sources.set_result_file_path("file_bye.rst")
+    assert data_sources.result_key == "rst"
+    assert data_sources.result_files == ["file_hello.rst", "file_bye.rst"]
+
+
 # TODO: Parameter to MergeFrom() must be instance of same class
 @pytest.mark.xfail()
 def test_delete_auto_data_sources(allkindofcomplexity):
