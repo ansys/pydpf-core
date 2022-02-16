@@ -1,0 +1,101 @@
+
+C:\Users\aykumar\github\pydpf-core\.ci>set SPHINX_APIDOC_OPTIONS=inherited-members 
+
+C:\Users\aykumar\github\pydpf-core\.ci>pushd . 
+
+C:\Users\aykumar\github\pydpf-core\.ci>cd ../docs/ 
+
+C:\Users\aykumar\github\pydpf-core\docs>call make clean 
+Removing everything under 'build'...
+Running Sphinx v4.4.0
+making output directory... done
+WARNING: multiple files found for the document "examples/00-plot_on_path": ['examples\\00-plot_on_path.ipynb', 'examples\\00-plot_on_path.py', 'examples\\00-plot_on_path.py.md5', 'examples\\00-plot_on_path.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-plot_on_path.rst' for the build.
+WARNING: multiple files found for the document "examples/01-compare_results": ['examples\\01-compare_results.ipynb', 'examples\\01-compare_results.py', 'examples\\01-compare_results.py.md5', 'examples\\01-compare_results.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\01-compare_results.rst' for the build.
+WARNING: multiple files found for the document "examples/02-solution_combination": ['examples\\02-solution_combination.ipynb', 'examples\\02-solution_combination.py', 'examples\\02-solution_combination.py.md5', 'examples\\02-solution_combination.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-solution_combination.rst' for the build.
+WARNING: multiple files found for the document "examples/03-labels": ['examples\\03-labels.ipynb', 'examples\\03-labels.py', 'examples\\03-labels.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-labels.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/00-basic_example": ['examples\\00-basic\\00-basic_example.ipynb', 'examples\\00-basic\\00-basic_example.py', 'examples\\00-basic\\00-basic_example.py.md5', 'examples\\00-basic\\00-basic_example.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\00-basic_example.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/01-basic_operators": ['examples\\00-basic\\01-basic_operators.ipynb', 'examples\\00-basic\\01-basic_operators.py', 'examples\\00-basic\\01-basic_operators.py.md5', 'examples\\00-basic\\01-basic_operators.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\01-basic_operators.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/02-basic_field_containers": ['examples\\00-basic\\02-basic_field_containers.ipynb', 'examples\\00-basic\\02-basic_field_containers.py', 'examples\\00-basic\\02-basic_field_containers.py.md5', 'examples\\00-basic\\02-basic_field_containers.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\02-basic_field_containers.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/03-create_entities": ['examples\\00-basic\\03-create_entities.ipynb', 'examples\\00-basic\\03-create_entities.py', 'examples\\00-basic\\03-create_entities.py.md5', 'examples\\00-basic\\03-create_entities.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\03-create_entities.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/04-basic-load-file": ['examples\\00-basic\\04-basic-load-file.ipynb', 'examples\\00-basic\\04-basic-load-file.py', 'examples\\00-basic\\04-basic-load-file.py.md5', 'examples\\00-basic\\04-basic-load-file.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\04-basic-load-file.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/05-use_local_data": ['examples\\00-basic\\05-use_local_data.ipynb', 'examples\\00-basic\\05-use_local_data.py', 'examples\\00-basic\\05-use_local_data.py.md5', 'examples\\00-basic\\05-use_local_data.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\05-use_local_data.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/06-load_plugin": ['examples\\00-basic\\06-load_plugin.ipynb', 'examples\\00-basic\\06-load_plugin.py', 'examples\\00-basic\\06-load_plugin.py.md5', 'examples\\00-basic\\06-load_plugin.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\06-load_plugin.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/07-use_result_helpers": ['examples\\00-basic\\07-use_result_helpers.ipynb', 'examples\\00-basic\\07-use_result_helpers.py', 'examples\\00-basic\\07-use_result_helpers.py.md5', 'examples\\00-basic\\07-use_result_helpers.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\07-use_result_helpers.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/08-results_over_time_subset": ['examples\\00-basic\\08-results_over_time_subset.ipynb', 'examples\\00-basic\\08-results_over_time_subset.py', 'examples\\00-basic\\08-results_over_time_subset.py.md5', 'examples\\00-basic\\08-results_over_time_subset.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\08-results_over_time_subset.rst' for the build.
+WARNING: multiple files found for the document "examples/00-basic/09-results_over_space_subset": ['examples\\00-basic\\09-results_over_space_subset.ipynb', 'examples\\00-basic\\09-results_over_space_subset.py', 'examples\\00-basic\\09-results_over_space_subset.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\00-basic\\09-results_over_space_subset.rst' for the build.
+WARNING: multiple files found for the document "examples/01-static-transient/00-basic_transient": ['examples\\01-static-transient\\00-basic_transient.ipynb', 'examples\\01-static-transient\\00-basic_transient.py', 'examples\\01-static-transient\\00-basic_transient.py.md5', 'examples\\01-static-transient\\00-basic_transient.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\01-static-transient\\00-basic_transient.rst' for the build.
+WARNING: multiple files found for the document "examples/01-static-transient/01-transient_easy_time_scoping": ['examples\\01-static-transient\\01-transient_easy_time_scoping.ipynb', 'examples\\01-static-transient\\01-transient_easy_time_scoping.py', 'examples\\01-static-transient\\01-transient_easy_time_scoping.py.md5', 'examples\\01-static-transient\\01-transient_easy_time_scoping.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\01-static-transient\\01-transient_easy_time_scoping.rst' for the build.
+WARNING: multiple files found for the document "examples/02-modal-harmonic/00-multi_harmonic": ['examples\\02-modal-harmonic\\00-multi_harmonic.ipynb', 'examples\\02-modal-harmonic\\00-multi_harmonic.py', 'examples\\02-modal-harmonic\\00-multi_harmonic.py.md5', 'examples\\02-modal-harmonic\\00-multi_harmonic.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-modal-harmonic\\00-multi_harmonic.rst' for the build.
+WARNING: multiple files found for the document "examples/02-modal-harmonic/01-modal_cyclic": ['examples\\02-modal-harmonic\\01-modal_cyclic.ipynb', 'examples\\02-modal-harmonic\\01-modal_cyclic.py', 'examples\\02-modal-harmonic\\01-modal_cyclic.py.md5', 'examples\\02-modal-harmonic\\01-modal_cyclic.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-modal-harmonic\\01-modal_cyclic.rst' for the build.
+WARNING: multiple files found for the document "examples/02-modal-harmonic/02-cyclic_multi_stage": ['examples\\02-modal-harmonic\\02-cyclic_multi_stage.ipynb', 'examples\\02-modal-harmonic\\02-cyclic_multi_stage.py', 'examples\\02-modal-harmonic\\02-cyclic_multi_stage.py.md5', 'examples\\02-modal-harmonic\\02-cyclic_multi_stage.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-modal-harmonic\\02-cyclic_multi_stage.rst' for the build.
+WARNING: multiple files found for the document "examples/02-modal-harmonic/03-compare_modes": ['examples\\02-modal-harmonic\\03-compare_modes.ipynb', 'examples\\02-modal-harmonic\\03-compare_modes.py', 'examples\\02-modal-harmonic\\03-compare_modes.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-modal-harmonic\\03-compare_modes.rst' for the build.
+WARNING: multiple files found for the document "examples/02-modal-harmonic/04-modal_superposition": ['examples\\02-modal-harmonic\\04-modal_superposition.ipynb', 'examples\\02-modal-harmonic\\04-modal_superposition.py', 'examples\\02-modal-harmonic\\04-modal_superposition.py.md5', 'examples\\02-modal-harmonic\\04-modal_superposition.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-modal-harmonic\\04-modal_superposition.rst' for the build.
+WARNING: multiple files found for the document "examples/02-modal-harmonic/05-read_distributed_files": ['examples\\02-modal-harmonic\\05-read_distributed_files.ipynb', 'examples\\02-modal-harmonic\\05-read_distributed_files.py', 'examples\\02-modal-harmonic\\05-read_distributed_files.py.md5', 'examples\\02-modal-harmonic\\05-read_distributed_files.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\02-modal-harmonic\\05-read_distributed_files.rst' for the build.
+WARNING: multiple files found for the document "examples/03-advanced/00-multistage_advanced_options": ['examples\\03-advanced\\00-multistage_advanced_options.ipynb', 'examples\\03-advanced\\00-multistage_advanced_options.py', 'examples\\03-advanced\\00-multistage_advanced_options.py.md5', 'examples\\03-advanced\\00-multistage_advanced_options.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-advanced\\00-multistage_advanced_options.rst' for the build.
+WARNING: multiple files found for the document "examples/03-advanced/01-solve_harmonic_problem": ['examples\\03-advanced\\01-solve_harmonic_problem.ipynb', 'examples\\03-advanced\\01-solve_harmonic_problem.py', 'examples\\03-advanced\\01-solve_harmonic_problem.py.md5', 'examples\\03-advanced\\01-solve_harmonic_problem.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-advanced\\01-solve_harmonic_problem.rst' for the build.
+WARNING: multiple files found for the document "examples/03-advanced/02-volume_averaged_stress": ['examples\\03-advanced\\02-volume_averaged_stress.ipynb', 'examples\\03-advanced\\02-volume_averaged_stress.py', 'examples\\03-advanced\\02-volume_averaged_stress.py.md5', 'examples\\03-advanced\\02-volume_averaged_stress.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-advanced\\02-volume_averaged_stress.rst' for the build.
+WARNING: multiple files found for the document "examples/03-advanced/03-exchange_data_between_servers": ['examples\\03-advanced\\03-exchange_data_between_servers.ipynb', 'examples\\03-advanced\\03-exchange_data_between_servers.py', 'examples\\03-advanced\\03-exchange_data_between_servers.py.md5', 'examples\\03-advanced\\03-exchange_data_between_servers.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-advanced\\03-exchange_data_between_servers.rst' for the build.
+WARNING: multiple files found for the document "examples/03-advanced/04-extrapolation_stress_3d": ['examples\\03-advanced\\04-extrapolation_stress_3d.ipynb', 'examples\\03-advanced\\04-extrapolation_stress_3d.py', 'examples\\03-advanced\\04-extrapolation_stress_3d.py.md5', 'examples\\03-advanced\\04-extrapolation_stress_3d.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-advanced\\04-extrapolation_stress_3d.rst' for the build.
+WARNING: multiple files found for the document "examples/03-advanced/05-extrapolation_strain_2d": ['examples\\03-advanced\\05-extrapolation_strain_2d.ipynb', 'examples\\03-advanced\\05-extrapolation_strain_2d.py', 'examples\\03-advanced\\05-extrapolation_strain_2d.py.md5', 'examples\\03-advanced\\05-extrapolation_strain_2d.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\03-advanced\\05-extrapolation_strain_2d.rst' for the build.
+WARNING: multiple files found for the document "examples/04-specific-requests/00-hdf5_double_float_comparison": ['examples\\04-specific-requests\\00-hdf5_double_float_comparison.ipynb', 'examples\\04-specific-requests\\00-hdf5_double_float_comparison.py', 'examples\\04-specific-requests\\00-hdf5_double_float_comparison.py.md5', 'examples\\04-specific-requests\\00-hdf5_double_float_comparison.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\04-specific-requests\\00-hdf5_double_float_comparison.rst' for the build.
+WARNING: multiple files found for the document "examples/04-specific-requests/01-reduced_matrices_export": ['examples\\04-specific-requests\\01-reduced_matrices_export.ipynb', 'examples\\04-specific-requests\\01-reduced_matrices_export.py', 'examples\\04-specific-requests\\01-reduced_matrices_export.py.md5', 'examples\\04-specific-requests\\01-reduced_matrices_export.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\04-specific-requests\\01-reduced_matrices_export.rst' for the build.
+WARNING: multiple files found for the document "examples/05-plotting/00-plot_on_path": ['examples\\05-plotting\\00-plot_on_path.ipynb', 'examples\\05-plotting\\00-plot_on_path.py', 'examples\\05-plotting\\00-plot_on_path.py.md5', 'examples\\05-plotting\\00-plot_on_path.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\05-plotting\\00-plot_on_path.rst' for the build.
+WARNING: multiple files found for the document "examples/05-plotting/01-compare_results": ['examples\\05-plotting\\01-compare_results.ipynb', 'examples\\05-plotting\\01-compare_results.py', 'examples\\05-plotting\\01-compare_results.py.md5', 'examples\\05-plotting\\01-compare_results.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\05-plotting\\01-compare_results.rst' for the build.
+WARNING: multiple files found for the document "examples/05-plotting/02-solution_combination": ['examples\\05-plotting\\02-solution_combination.ipynb', 'examples\\05-plotting\\02-solution_combination.py', 'examples\\05-plotting\\02-solution_combination.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\05-plotting\\02-solution_combination.rst' for the build.
+WARNING: multiple files found for the document "examples/05-plotting/03-labels": ['examples\\05-plotting\\03-labels.ipynb', 'examples\\05-plotting\\03-labels.py', 'examples\\05-plotting\\03-labels.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\05-plotting\\03-labels.rst' for the build.
+WARNING: multiple files found for the document "examples/06-distributed-post/00-distributed_total_disp": ['examples\\06-distributed-post\\00-distributed_total_disp.ipynb', 'examples\\06-distributed-post\\00-distributed_total_disp.py', 'examples\\06-distributed-post\\00-distributed_total_disp.py.md5', 'examples\\06-distributed-post\\00-distributed_total_disp.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\06-distributed-post\\00-distributed_total_disp.rst' for the build.
+WARNING: multiple files found for the document "examples/06-distributed-post/01-distributed_delegate_to_server": ['examples\\06-distributed-post\\01-distributed_delegate_to_server.ipynb', 'examples\\06-distributed-post\\01-distributed_delegate_to_server.py', 'examples\\06-distributed-post\\01-distributed_delegate_to_server.py.md5', 'examples\\06-distributed-post\\01-distributed_delegate_to_server.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\06-distributed-post\\01-distributed_delegate_to_server.rst' for the build.
+WARNING: multiple files found for the document "examples/06-distributed-post/02-distributed_workflows_on_remote": ['examples\\06-distributed-post\\02-distributed_workflows_on_remote.ipynb', 'examples\\06-distributed-post\\02-distributed_workflows_on_remote.py', 'examples\\06-distributed-post\\02-distributed_workflows_on_remote.py.md5', 'examples\\06-distributed-post\\02-distributed_workflows_on_remote.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\06-distributed-post\\02-distributed_workflows_on_remote.rst' for the build.
+WARNING: multiple files found for the document "examples/06-distributed-post/03-distributed-msup_expansion": ['examples\\06-distributed-post\\03-distributed-msup_expansion.ipynb', 'examples\\06-distributed-post\\03-distributed-msup_expansion.py', 'examples\\06-distributed-post\\03-distributed-msup_expansion.py.md5', 'examples\\06-distributed-post\\03-distributed-msup_expansion.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\06-distributed-post\\03-distributed-msup_expansion.rst' for the build.
+WARNING: multiple files found for the document "examples/06-distributed-post/04-distributed-msup_expansion_steps": ['examples\\06-distributed-post\\04-distributed-msup_expansion_steps.ipynb', 'examples\\06-distributed-post\\04-distributed-msup_expansion_steps.py', 'examples\\06-distributed-post\\04-distributed-msup_expansion_steps.py.md5', 'examples\\06-distributed-post\\04-distributed-msup_expansion_steps.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\06-distributed-post\\04-distributed-msup_expansion_steps.rst' for the build.
+WARNING: multiple files found for the document "examples/06-distributed-post/05-distributed_total_disp_with_operators": ['examples\\06-distributed-post\\05-distributed_total_disp_with_operators.ipynb', 'examples\\06-distributed-post\\05-distributed_total_disp_with_operators.py', 'examples\\06-distributed-post\\05-distributed_total_disp_with_operators.py.md5', 'examples\\06-distributed-post\\05-distributed_total_disp_with_operators.rst']
+Use 'C:\\Users\\aykumar\\github\\pydpf-core\\docs\\source\\examples\\06-distributed-post\\05-distributed_total_disp_with_operators.rst' for the build.
+generating gallery...
+See http://johnmacfarlane.net/pandoc/installing.html
+for installation options
+---------------------------------------------------------------
+
+WARNING: 'pypandoc' not available. Using Sphinx-Gallery to convert rst text blocks to markdown for .ipynb files.
+generating gallery for examples... [ 25%] 00-plot_on_path.py                   
+Extension error:
+Could not find internal Sphinx-Gallery thumbnail file:
+C:\Users\aykumar\github\pydpf-core\docs\source\examples\images\thumb\sphx_glr_00-plot_on_path_thumb.png
