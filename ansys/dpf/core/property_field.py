@@ -139,12 +139,13 @@ class PropertyField(_FieldBase):
         >>> with field_to_local.as_local_field() as f:
         ...     for i in range(1,num_entities+1):
         ...         f.append(list(range(i,i+3)),i)
-        ...         f.get_entity_data(i-1)
-        array([1, 2, 3])
-        array([2, 3, 4])
-        array([3, 4, 5])
-        array([4, 5, 6])
-        array([5, 6, 7])
+        ...         print(f.get_entity_data(i-1))
+        [1 2 3]
+        [2 3 4]
+        [3 4 5]
+        [4 5 6]
+        [5 6 7]
+
 
         """
         return _LocalPropertyField(self)

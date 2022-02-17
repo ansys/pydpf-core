@@ -4,6 +4,8 @@ Collection
 Contains classes associated with the DPF collection.
 
 """
+import numpy as np
+from typing import NamedTuple
 
 from ansys import dpf
 from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
@@ -15,7 +17,7 @@ from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import server
-from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core import scoping
 
 
 class Collection:
@@ -39,7 +41,7 @@ class Collection:
 
     """
 
-    def __init__(self, dpf_type, collection=None, server: server.DpfServer = None):
+    def __init__(self, dpf_type=None, collection=None, server: server.DpfServer=None):
         if server is None:
             server = dpf.core._global_server()
 
@@ -59,8 +61,43 @@ class Collection:
         elif hasattr(collection, "_message"):
             self._message = collection._message
             self._collection = collection  # keep the base collection used for copy
+
         else:
             self._message = collection
+
+        if self._type == None:
+            self._type = types(int(self._message.type) + 1)
+
+    @staticmethod
+    def integral_collection(inpt, server: server.DpfServer = None):
+        """Creates a collection of integral type with a list.
+
+        The collection of integral is the equivalent of an array of
+        data sent server side. It can be used to efficiently stream
+        large data to the server.
+
+        Parameters
+        ----------
+        inpt : list[float], list[int], numpy.array
+            list to transfer server side
+
+        Returns
+        -------
+        Collection
+
+        Notes
+        -----
+        Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+        list is connected or returned.
+
+        """
+        if all(isinstance(x, int) for x in inpt):
+            dpf_type = types.int
+        elif all(isinstance(x, float) for x in inpt):
+            dpf_type = types.double
+        out = Collection(dpf_type=dpf_type, server=server)
+        out._set_integral_entries(inpt)
+        return out
 
     def set_labels(self, labels):
         """Set labels for scoping the collection.
@@ -89,7 +126,8 @@ class Collection:
         Parameters
         ----------
         label : str
-            Labels to scope the etnries to. For example, ``"time"``.
+            Labels to scope the entries to. For example, ``"time"``.
+
         default_value : int, optional
             Default value for existing fields in the collection. The default
             is ``None``.
@@ -162,6 +200,25 @@ class Collection:
         entries : list[Scoping], list[Field], list[MeshedRegion]
             Entries corresponding to the request.
         """
+        entries = self._get_entries_tuple(label_space_or_index)
+        if isinstance(entries, list):
+            return [entry.entry for entry in entries]
+        return entries
+
+    def _get_entries_tuple(self, label_space_or_index):
+        """Retrieve the entries at a requested label space or index.
+
+        Parameters
+        ----------
+        label_space_or_index : dict[str,int]
+            Label space or index. For example,
+            ``{"time": 1, "complex": 0}`` or the index of the field.
+
+        Returns
+        -------
+        entries : list[_CollectionEntry]
+            Entries corresponding to the request.
+        """
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(self._message)
 
@@ -174,21 +231,34 @@ class Collection:
         out = self._stub.GetEntries(request)
         list_out = []
         for obj in out.entries:
+            label_space = {}
+            if obj.HasField("label_space"):
+                for key in obj.label_space.label_space:
+                    label_space[key] = obj.label_space.label_space[key]
             if obj.HasField("dpf_type"):
                 if self._type == types.scoping:
                     unpacked_msg = scoping_pb2.Scoping()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(Scoping(scoping=unpacked_msg, server=self._server))
+                    list_out.append(
+                        _CollectionEntry(
+                            label_space=label_space,
+                            entry=Scoping(scoping=unpacked_msg, server=self._server)))
                 elif self._type == types.field:
                     unpacked_msg = field_pb2.Field()
                     obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(Field(field=unpacked_msg, server=self._server))
+                    list_out.append(
+                        _CollectionEntry(
+                            label_space=label_space,
+                            entry=Field(field=unpacked_msg, server=self._server)))
                 elif self._type == types.meshed_region:
                     unpacked_msg = meshed_region_pb2.MeshedRegion()
                     obj.dpf_type.Unpack(unpacked_msg)
                     list_out.append(
-                        MeshedRegion(mesh=unpacked_msg, server=self._server)
+                        _CollectionEntry(
+                            label_space=label_space,
+                            entry=MeshedRegion(mesh=unpacked_msg, server=self._server))
                     )
+
         if len(list_out) == 0:
             list_out = None
         return list_out
@@ -230,16 +300,8 @@ class Collection:
             Scoping of the requested entry. For example,
             ``{"time": 1, "complex": 0}``.
         """
-        request = collection_pb2.EntryRequest()
-        request.collection.CopyFrom(self._message)
-        request.index = index
-        out = self._stub.GetEntries(request).entries
-        out = out[0].label_space.label_space
-        dictOut = {}
-        for key in out:
-            dictOut[key] = out[key]
-
-        return dictOut
+        entries = self._get_entries_tuple(index)
+        return entries[0].label_space
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
@@ -350,6 +412,37 @@ class Collection:
         request.label = "time"
         self._stub.UpdateSupport(request)
 
+    def _set_integral_entries(self, input):
+        if self._type == types.int:
+            dtype = np.int32
+        else:
+            dtype = np.float
+
+        if isinstance(input, range):
+            input = np.array(list(input), dtype=dtype)
+        elif not isinstance(input, (np.ndarray, np.generic)):
+            input = np.array(input, dtype=dtype)
+        else:
+            input = np.array(list(input), dtype=dtype)
+
+        metadata = [(u"size_bytes", f"{input.size * input.itemsize}")]
+        request = collection_pb2.UpdateAllDataRequest()
+        request.collection.CopyFrom(self._message)
+
+        self._stub.UpdateAllData(scoping._data_chunk_yielder(request, input), metadata=metadata)
+
+    def _get_integral_entries(self):
+        request = collection_pb2.GetAllDataRequest()
+        request.collection.CopyFrom(self._message)
+        if self._type == types.int:
+            data_type = u"int"
+            dtype = np.int32
+        else:
+            data_type = u"double"
+            dtype = np.float
+        service = self._stub.GetAllData(request, metadata=[(u"float_or_double", data_type)])
+        return scoping._data_get_chunk_(dtype, service)
+
     def _connect(self):
         """Connect to the gRPC service."""
         return collection_pb2_grpc.CollectionServiceStub(self._server.channel)
@@ -370,7 +463,10 @@ class Collection:
             Description of the entity.
         """
         request = base_pb2.DescribeRequest()
-        request.dpf_type_id = self._message.id
+        if isinstance(self._message.id, int):
+            request.dpf_type_id = self._message.id
+        else:
+            request.dpf_type_id = self._message.id.id
         return self._stub.Describe(request).description
 
     def __len__(self):
@@ -387,3 +483,7 @@ class Collection:
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]
+
+class _CollectionEntry(NamedTuple):
+    label_space: dict
+    entry: object

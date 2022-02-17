@@ -13,7 +13,7 @@ from ansys.dpf.core.model import Model
 def scoping_by_load_step(load_step, server=None):
     """Create a specific ``ansys.dpf.core.Scoping`` for a given load step.
 
-    The returned scoping describes a specific time frequencey support element
+    The returned scoping describes a specific time frequency support element
     for a given load step.
 
     Parameters
@@ -87,7 +87,7 @@ def scoping_by_set(cumulative_set, server=None):
 def scoping_by_sets(cumulative_sets, server=None):
     """Create a specific :class:`ansys.dpf.core.Scoping` for a given list of cumulative set indices.
 
-    The returned scoping describes a specific time frequencey support element for a given
+    The returned scoping describes a specific time frequency support element for a given
     list of cumulative sets of indices.
 
     Parameters

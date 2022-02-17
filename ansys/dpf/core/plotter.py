@@ -1,7 +1,11 @@
-"""This module contains the DPF plotter class.
+"""
+Plotter
+=======
+This module contains the DPF plotter class.
 
 Contains classes used to plot a mesh and a fields container using PyVista.
 """
+
 import tempfile
 import os
 import sys
@@ -468,7 +472,7 @@ class Plotter:
                         )
                     sl = shell_layers
                 changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
-                fields_container = changeOp.outputs.fields_container()
+                fields_container = changeOp.get_output(0, core.types.fields_container)
                 break
 
         # Merge field data into a single array

@@ -2,7 +2,6 @@ from .identical_meshes import identical_meshes
 from .component_selector_fc import component_selector_fc 
 from .component_selector import component_selector 
 from .identical_property_fields import identical_property_fields 
-from .merge_fields_by_label import merge_fields_by_label 
 from .solid_shell_fields import solid_shell_fields 
 from .identical_fields import identical_fields 
 from .included_fields import included_fields 

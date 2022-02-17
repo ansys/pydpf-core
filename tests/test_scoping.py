@@ -1,9 +1,8 @@
-import pytest
 import numpy as np
+import pytest
 
 from ansys import dpf
 from ansys.dpf.core import Scoping
-import numpy as np
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import meets_version, get_server_version
 

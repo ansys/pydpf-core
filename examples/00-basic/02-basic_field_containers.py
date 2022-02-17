@@ -75,7 +75,7 @@ print(min_max_op.outputs.field_max().data)
 # Out of conveience, you can simply take the max of the field with:
 print(field.max().data)
 
-# The above yields a result idential to:
+# The above yields a result identical to:
 print(np.max(field.data, axis=0))
 
 ###############################################################################
@@ -84,7 +84,3 @@ print(np.max(field.data, axis=0))
 # retain this information.
 max_field = field.max()
 print(max_field)
-
-###############################################################################
-# To include the node IDs of the maximum displacements:
-print("Node IDs of maximum X, Y, and Z displacement:", max_field.scoping.ids)

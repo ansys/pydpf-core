@@ -71,7 +71,7 @@ class FieldContainerPlottingError(ValueError):
 
 
 class InvalidANSYSVersionError(RuntimeError):
-    """Error raised when the Ansys verion is invalid."""
+    """Error raised when the Ansys version is invalid."""
 
     def __init__(self, msg=""):
         RuntimeError.__init__(self, msg)

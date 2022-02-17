@@ -61,6 +61,7 @@ from ansys.dpf.core import (
 )
 from ansys.dpf.core import server
 from ansys.dpf.core import check_version
+from ansys.dpf.core import path_utilities
 from ansys.dpf.core import settings
 
 # for matplotlib
@@ -69,28 +70,19 @@ os.environ["QT_STYLE_OVERRIDE"] = ""
 
 # Setup data directory
 USER_DATA_PATH = None
-EXAMPLES_PATH = None
-if os.environ.get("DPF_DOCKER", False):  # pragma: no cover
-    # Running DPF within docker (likely for CI)
-    # path must be relative to DPF directory
-    #
-    # assumes the following docker mount:
-    # -v /tmp:/dpf/_cache
-    EXAMPLES_PATH = "/tmp"
-else:
-    try:
-        import appdirs
+LOCAL_DOWNLOADED_EXAMPLES_PATH = None
+try:
+    import appdirs
 
-        USER_DATA_PATH = appdirs.user_data_dir("ansys-dpf-core")
-        if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
-            os.makedirs(USER_DATA_PATH)
+    USER_DATA_PATH = appdirs.user_data_dir("ansys-dpf-core")
+    if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
+        os.makedirs(USER_DATA_PATH)
 
-        EXAMPLES_PATH = os.path.join(USER_DATA_PATH, "examples")
-        if not os.path.exists(EXAMPLES_PATH):  # pragma: no cover
-            os.makedirs(EXAMPLES_PATH)
-    except:  # pragma: no cover
-        pass
-
+    LOCAL_DOWNLOADED_EXAMPLES_PATH = os.path.join(USER_DATA_PATH, "examples")
+    if not os.path.exists(LOCAL_DOWNLOADED_EXAMPLES_PATH):  # pragma: no cover
+        os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
+except:  # pragma: no cover
+    pass
 
 SERVER = None
 

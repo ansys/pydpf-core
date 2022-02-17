@@ -1,7 +1,16 @@
 # check spelling, codestyle
 name: Style Check
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  pull_request:
+     branches-ignore:
+       - '*no-ci*'
+  push:
+    tags:
+      - "*"
+    branches:
+      - master
+      - "release*"
 
 jobs:
   build:

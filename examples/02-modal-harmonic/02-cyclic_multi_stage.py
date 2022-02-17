@@ -16,7 +16,6 @@ cyc = examples.download_multi_stage_cyclic_result()
 model = dpf.Model(cyc)
 print(model)
 
-
 ###############################################################################
 # Expand displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +50,6 @@ SCyc.inputs.time_scoping.connect([3])
 
 # request the results averaged on the nodes
 SCyc.inputs.requested_location.connect("Nodal")
-
 
 # request equivalent von mises operator and connect it to stress
 # operator

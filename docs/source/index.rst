@@ -66,5 +66,3 @@ features or formats can be easily added.
    operator_reference
    examples/index
    contributing
-   
-   *.ipynb
