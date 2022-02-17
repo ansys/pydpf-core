@@ -80,7 +80,6 @@ mesh_set = model.metadata.meshed_region
 plot = DpfPlotter()
 plot.add_field(p_inv.outputs.field_eig_1(),
                meshed_region=mesh_set)
-###############################################################################
 # Show figure
 # You can set the camera positions using the `cpos` argument
 # The three tuples in the list `cpos` represent camera position-
