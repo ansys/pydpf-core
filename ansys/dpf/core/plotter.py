@@ -180,6 +180,7 @@ class DpfPlotter:
         list
             List of Label(s). Each list member or member group
             will share same properties.
+        """
         return self._labels
 
     def add_node_labels(self, nodes, meshed_region, labels=None, **kwargs):
