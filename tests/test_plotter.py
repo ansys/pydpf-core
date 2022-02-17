@@ -438,7 +438,7 @@ def test_plot_path_2(multishells):
     pl = DpfPlotter()
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
-    pl.add_field(field_m, mesh_m)
+    pl.add_field(field_m, mesh_m, show_max=True, show_min=True)
     pl.add_field(field, mesh, style="wireframe", show_edges=True,
                  color="w", opacity=0.3)
     pl.show_figure()
@@ -455,4 +455,33 @@ def test_plot_path_3(multishells):
     pl.add_field(field_m, mesh_m)
     pl.add_field(field, mesh, style="wireframe", show_edges=True,
                  color="w", opacity=0.3)
+    pl.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_min_max_labels(multishells):
+    field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
+    # create plotter, add fields and plot
+    from ansys.dpf.core.plotter import DpfPlotter
+    pl = DpfPlotter()
+    pl.add_field(field_m, mesh_m)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True,
+                 color="w", opacity=0.3, show_max=True, show_min=True)
+    pl.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_node_labels(multishells):
+    field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
+    # create plotter, add fields and plot
+    from ansys.dpf.core.plotter import DpfPlotter
+    pl = DpfPlotter()
+    pl.add_field(field_m, mesh_m)
+    my_nodes_1 = [mesh_m.nodes[0], mesh_m.nodes[10]]
+    my_labels_1 = ["MyNode1", "MyNode2"]
+    pl.add_node_labels(my_nodes_1, mesh_m, my_labels_1,
+                       italic=True, bold=True,
+                       font_size=26, text_color="white",
+                       font_family="courier", shadow=True,
+                       point_color="grey", point_size=20)
     pl.show_figure()
