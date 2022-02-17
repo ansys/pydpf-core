@@ -458,7 +458,7 @@ def test_plot_path_3(multishells):
     pl.show_figure()
 
 
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 def test_plot_min_max_labels(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
     # create plotter, add fields and plot
@@ -470,7 +470,7 @@ def test_plot_min_max_labels(multishells):
     pl.show_figure()
 
 
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 def test_plot_node_labels(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
     # create plotter, add fields and plot

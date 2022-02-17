@@ -1,8 +1,8 @@
 """
 .. _solution_combination:
 
-Loadcase combination for principal stress and show max/min label.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Load Case Combination for Principal Stress
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to get a principal stress loadcase combination using DPF
 And highlight min/max values in the plot.
 
@@ -17,7 +17,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
-# ``Model`` class helps to organize access methods for the result by
+# :class:`Model <ansys.dpf.core.model.Model> class helps to organize access methods for the result by
 # keeping track of the operators and data sources used by the result
 # file.
 #
@@ -32,7 +32,7 @@ model = dpf.Model(examples.msup_transient)
 print(model)
 ###############################################################################
 # Get the stress tensor and connect time scoping.
-# Make sure to define ``Nodal`` as requested location,
+# Make sure to define ``"Nodal"`` as the requested location,
 # as the labels are supported only for Nodal results.
 #
 stress_tensor = model.results.stress()

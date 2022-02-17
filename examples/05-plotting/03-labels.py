@@ -1,8 +1,8 @@
 """
 .. _labels:
 
-Add Nodal Labels on Plots.
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add Nodal Labels on Plots
+~~~~~~~~~~~~~~~~~~~~~~~~~
 You can custom labels to specific nodes with specific label properties.
 If label for a node is missing, by default nodal scalar value is shown.
 """
@@ -15,7 +15,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
-# ``Model`` class helps to organize access methods for the result by
+# :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access methods for the result by
 # keeping track of the operators and data sources used by the result
 # file.
 #
@@ -30,7 +30,7 @@ model = dpf.Model(examples.msup_transient)
 print(model)
 ###############################################################################
 # Get the stress tensor and connect time scoping.
-# Make sure to define ``Nodal`` as requested location,
+# Make sure to define the scoping as ``"Nodal"`` as the requested location,
 # as the labels are supported only for Nodal results.
 #
 stress_tensor = model.results.stress()
@@ -42,8 +42,9 @@ stress_tensor.inputs.requested_location.connect("Nodal")
 #  Get the meshed region
 #
 mesh_set = model.metadata.meshed_region
+
 ###############################################################################
-# Plot the results on the mesh, show Min and Max
+# Plot the results on the mesh, show the minimum and maximum.
 #
 plot = DpfPlotter()
 plot.add_field(stress_tensor.outputs.fields_container.get_data()[1],

@@ -173,17 +173,17 @@ class DpfPlotter:
 
     @property
     def labels(self):
-        """"
-        Read only labels.
-        :return: list
-            List of Label(s). Each list member / member group
+        """Return a list of labels.
+
+        Returns
+        --------
+        list
+            List of Label(s). Each list member or member group
             will share same properties.
-        """
         return self._labels
 
     def add_node_labels(self, nodes, meshed_region, labels=None, **kwargs):
-        """
-        Add labels at the nodal locations.
+        """Add labels at the nodal locations.
 
         Parameters
         ----------
@@ -191,12 +191,11 @@ class DpfPlotter:
             Nodes where the labels should be added.
         meshed_region: MeshedRegion
             MeshedRegion to plot.
-        labels: : list of str. or str., optional
-            If label for grid point is not defined,
-            scalar value at that point is shown.
-        kwargs: dict., optional
-                Refers to all the keyword arguments controlling label properties
-                PyVista function => BasePlotter.add_point_labels()
+        labels: : list of str or str, optional
+            If label for grid point is not defined, scalar value at that point is shown.
+        kwargs: dict, optional
+                Keyword arguments controlling label properties.
+                See :func:`pyvista.Plotter.add_point_labels`.
         """
         self._labels.append(self._internal_plotter.add_point_labels(nodes=nodes,
                                                                     meshed_region=meshed_region,
