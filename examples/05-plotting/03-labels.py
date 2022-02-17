@@ -52,10 +52,10 @@ plot.add_field(stress_tensor.outputs.fields_container.get_data()[1],
                label_text_size=15,
                label_point_size=5,
                )
-###############################################################################
+
 # Add custom labels to specific nodes with specific label properties.
 # If label for a node is missing, by default nodal value is shown.
-#
+
 my_nodes_1 = [mesh_set.nodes[0], mesh_set.nodes[10]]
 my_labels_1 = ["MyNode1", "MyNode2"]
 plot.add_node_labels(my_nodes_1, mesh_set, my_labels_1,
@@ -70,7 +70,7 @@ plot.add_node_labels(my_nodes_2, mesh_set, my_labels_2,
                      font_size=30, text_color="black",
                      font_family="arial", shadow=False,
                      point_color="white", point_size=30)
-###############################################################################
+
 # Show figure
 # You can set the camera positions using the `cpos` argument
 # The three tuples in the list `cpos` represent camera position-
