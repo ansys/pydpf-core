@@ -3,6 +3,8 @@ import pathlib
 
 import ansys.grpc.dpf
 from ansys import dpf
+from ansys.dpf.core import path_utilities
+from conftest import running_docker
 
 import pytest
 from ansys.dpf.core.check_version import meets_version, get_server_version
@@ -63,8 +65,14 @@ def test_launch_server_not_install():
     assert "server_port" in server.info
 
 
+def transfer_to_local_path(path):
+    return os.path.normpath(path.replace(
+        path_utilities.downloaded_example_path(),
+        dpf.core.LOCAL_DOWNLOADED_EXAMPLES_PATH))
+
+
 def test_upload_download(allkindofcomplexity, tmpdir):
-    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
+    file = dpf.core.upload_file_in_tmp_folder(transfer_to_local_path(allkindofcomplexity))
     dataSource = dpf.core.DataSources(file)
     op = dpf.core.Operator("S")
     op.connect(4, dataSource)
@@ -83,6 +91,7 @@ def test_upload_download(allkindofcomplexity, tmpdir):
     assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
 
 
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir):
     file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
     file = dpf.core.upload_file_in_tmp_folder(plate_msup)
@@ -96,6 +105,7 @@ def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir):
     assert os.path.exists(os.path.join(tmpdir, ntpath.basename(multishells)))
 
 
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_with_subdir(multishells, tmpdir):
     file = dpf.core.upload_file_in_tmp_folder(multishells)
 
@@ -119,6 +129,7 @@ def test_download_with_subdir(multishells, tmpdir):
     assert os.path.exists(p2)
 
 
+@pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_downloadinfolder_uploadinfolder(multishells, tmpdir):
     base = dpf.core.BaseService()
     # create in tmpdir some architecture with subfolder in subfolder

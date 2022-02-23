@@ -346,7 +346,6 @@ class TimeFreqSupport:
         else:
             return field.id.id != 0
 
-    @protect_grpc
     def _get_frequencies(self, cplx=False):
         """Retrieves a field of all the frequencies in the model
         (complex or real).
@@ -361,17 +360,13 @@ class TimeFreqSupport:
         field : dpf.core.Field
             Field of all the frequencies in the model (complex or real).
         """
-        request = time_freq_support_pb2.ListRequest()
-        request.time_freq_support.CopyFrom(self._message)
 
-        list_response = self._stub.List(request)
-        if cplx is True and self.__check_if_field_id(list_response.freq_complex):
-            return dpf.core.Field(server=self._server, field=list_response.freq_complex)
-        elif cplx is False and self.__check_if_field_id(list_response.freq_real):
-            return dpf.core.Field(server=self._server, field=list_response.freq_real)
-        return None
+        attributes_list = self._get_attributes_list()
+        if cplx and "freq_complex" in attributes_list:
+            return attributes_list["freq_complex"]
+        elif cplx!=True and "freq_real" in attributes_list:
+            return attributes_list["freq_real"]
 
-    @protect_grpc
     def _get_rpms(self):
         """Retrieves a field of all the RPMs in the model.
 
@@ -380,15 +375,10 @@ class TimeFreqSupport:
         field : dpf.core.Field
             Field of all the RPMs in the model (complex or real).
         """
-        request = time_freq_support_pb2.ListRequest()
-        request.time_freq_support.CopyFrom(self._message)
+        attributes_list = self._get_attributes_list()
+        if "rpm" in attributes_list:
+            return attributes_list["rpm"]
 
-        list_response = self._stub.List(request)
-        if self.__check_if_field_id(list_response.rpm):
-            return dpf.core.Field(server=self._server, field=list_response.rpm)
-        return None
-
-    @protect_grpc
     def _get_harmonic_indices(self, stage_num=0):
         """Retrieves a field of all the harmonic indices in the model.
 
@@ -400,16 +390,34 @@ class TimeFreqSupport:
         stage_num: int, optional, default = 0
             Targeted stage number.
         """
+        attributes_list = self._get_attributes_list(stage_num)
+        if "cyc_harmonic_index" in attributes_list:
+            return attributes_list["cyc_harmonic_index"]
+
+    @protect_grpc
+    def _get_attributes_list(self, stage_num=None):
         request = time_freq_support_pb2.ListRequest()
         request.time_freq_support.CopyFrom(self._message)
-        request.cyclic_stage_num = stage_num
-
+        if stage_num:
+            request.cyclic_stage_num = stage_num
         list_response = self._stub.List(request)
-        if self.__check_if_field_id(list_response.cyc_harmonic_index):
-            return dpf.core.Field(
-                server=self._server, field=list_response.cyc_harmonic_index
-            )
-        return None
+        out = {}
+        if list_response.HasField("freq_real"):
+            out["freq_real"] = dpf.core.Field(
+                server=self._server, field=list_response.freq_real)
+        if list_response.HasField("freq_complex"):
+            out["freq_complex"] = dpf.core.Field(
+                server=self._server, field=list_response.freq_complex)
+        if list_response.HasField("rpm"):
+            out["rpm"] = dpf.core.Field(
+                server=self._server, field=list_response.rpm)
+        if list_response.HasField("cyc_harmonic_index"):
+            out["cyc_harmonic_index"] = dpf.core.Field(
+                server=self._server, field=list_response.cyc_harmonic_index)
+        if list_response.HasField("cyclic_harmonic_index_scoping"):
+            out["cyclic_harmonic_index_scoping"] = dpf.core.Scoping(
+                server=self._server, scoping=list_response.cyclic_harmonic_index_scoping)
+        return out
 
     def append_step(
             self,

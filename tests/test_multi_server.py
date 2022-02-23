@@ -9,7 +9,8 @@ from conftest import local_server
 @pytest.fixture()
 def static_models():
     otherfile = dpf.upload_file_in_tmp_folder(examples.static_rst, server=local_server)
-    return (dpf.Model(examples.static_rst), dpf.Model(otherfile, server=local_server))
+    return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst)),
+            dpf.Model(otherfile, server=local_server))
 
 
 @pytest.fixture()
@@ -18,7 +19,7 @@ def transient_models():
         examples.msup_transient, server=local_server
     )
     return (
-        dpf.Model(examples.msup_transient),
+        dpf.Model(dpf.upload_file_in_tmp_folder(examples.msup_transient)),
         dpf.Model(otherfile, server=local_server),
     )
 
@@ -29,19 +30,16 @@ def cyc_models():
         examples.simple_cyclic, server=local_server
     )
     return (
-        dpf.Model(examples.simple_cyclic),
+        dpf.Model(dpf.upload_file_in_tmp_folder(examples.simple_cyclic)),
         dpf.Model(otherfile, server=local_server),
     )
 
 
 @pytest.fixture()
 def all_kind_of_complexity_models():
-    otherfile = dpf.upload_file_in_tmp_folder(
-        examples.download_all_kinds_of_complexity(), server=local_server
-    )
     return (
         dpf.Model(examples.download_all_kinds_of_complexity()),
-        dpf.Model(otherfile, server=local_server),
+        dpf.Model(examples.download_all_kinds_of_complexity(), server=local_server),
     )
 
 

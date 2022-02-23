@@ -19,7 +19,7 @@ if misc.module_exists("pyvista"):
 
 @pytest.fixture()
 def static_model():
-    return dpf.core.Model(examples.static_rst)
+    return dpf.core.Model(dpf.core.upload_file_in_tmp_folder(examples.static_rst))
 
 
 def test_model_from_data_source(simple_bar):

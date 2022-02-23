@@ -3,15 +3,15 @@ import shutil
 import os
 import urllib.request
 
-from ansys.dpf.core import EXAMPLES_PATH
 
 EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/"
 
 
 def delete_downloads():
     """Delete all downloaded examples to free space or update the files"""
-    shutil.rmtree(EXAMPLES_PATH)
-    os.makedirs(EXAMPLES_PATH)
+    from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+    shutil.rmtree(LOCAL_DOWNLOADED_EXAMPLES_PATH)
+    os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
 
 
 def _get_file_url(directory, filename):
@@ -20,11 +20,15 @@ def _get_file_url(directory, filename):
 
 def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
+    from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities
+
     # First check if file has already been downloaded
-    local_path = os.path.join(EXAMPLES_PATH, directory, os.path.basename(filename))
+    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        return local_path_no_zip
+        return path_utilities.to_server_os(local_path_no_zip.replace(
+            LOCAL_DOWNLOADED_EXAMPLES_PATH,
+            path_utilities.downloaded_example_path()))
 
     # grab the correct url retriever
     urlretrieve = urllib.request.urlretrieve
@@ -35,21 +39,14 @@ def _retrieve_file(url, filename, directory):
 
     # Perform download
     _, resp = urlretrieve(url, local_path)
-    return local_path
+    return path_utilities.to_server_os(local_path.replace(
+        LOCAL_DOWNLOADED_EXAMPLES_PATH,
+        path_utilities.downloaded_example_path()))
 
 
 def _download_file(directory, filename):
     url = _get_file_url(directory, filename)
     local_path = _retrieve_file(url, filename, directory)
-
-    if os.environ.get("DPF_DOCKER", False):  # pragma: no cover
-        # override path if running on docker as path must be relative
-        # to docker mount
-        #
-        # Assumes the following mapping in docker
-        # DWN_CSH=/tmp/dpf_cache
-        # -v $DWN_CSH:/dpf/_cache
-        local_path = os.path.join("/dpf/_cache", directory, filename)
     return local_path
 
 

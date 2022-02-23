@@ -300,7 +300,7 @@ def test_outputs_bool_operator():
 def find_mapdl():
     try:
         path = dpf.core.misc.find_ansys()
-        if os.name == "nt":
+        if dpf.core.SERVER.os == "nt":
             exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
             return os.path.isfile(exe)
         else:
@@ -1059,7 +1059,7 @@ def test_dot_operator_server_operator():
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
 
-def test_eval_operator(tmpdir):
+def test_eval_operator():
     op = dpf.core.Operator("norm")
     inpt = dpf.core.Field(nentities=3)
     data = [0.0, 2.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0]
@@ -1071,9 +1071,9 @@ def test_eval_operator(tmpdir):
     f = op.eval()
     data = f.data
     assert np.allclose(data, [2.0, 2.0, 2.0])
-
+    tmpdir = dpf.core.make_tmp_dir_server()
     csv = dpf.core.Operator("field_to_csv")
-    csv.inputs.file_path.connect(str(tmpdir) + (r"/file.csv"))
+    csv.inputs.file_path.connect(dpf.core.path_utilities.join(str(tmpdir), "file.csv"))
     csv.inputs.field_or_fields_container.connect(f)
     assert csv.eval() == None
 
