@@ -5,7 +5,7 @@ DataTree
 ========
 """
 
-from ansys.grpc.dpf import base_pb2, data_tree_pb2, data_tree_pb2_grpc
+from ansys.grpc.dpf import base_pb2
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.mapping_types import types
 
@@ -89,6 +89,7 @@ class DataTree:
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
 
         """
+        from ansys.grpc.dpf import data_tree_pb2
         request = data_tree_pb2.UpdateRequest()
         request.data_tree.CopyFrom(self._message)
 
@@ -329,6 +330,7 @@ class DataTree:
         False
 
         """
+        from ansys.grpc.dpf import data_tree_pb2
         request = data_tree_pb2.HasRequest()
         request.data_tree.CopyFrom(self._message)
         request.names.append(entry)
@@ -363,6 +365,7 @@ class DataTree:
         ['nice', 'funny']
 
         """
+        from ansys.grpc.dpf import data_tree_pb2
         request = data_tree_pb2.GetRequest()
         request.data_tree.CopyFrom(self._message)
         stype = base_pb2.Type.Value(type.name.upper())
@@ -391,6 +394,7 @@ class DataTree:
 
     def _connect(self):
         """Connect to the gRPC service containing the reader."""
+        from ansys.grpc.dpf import data_tree_pb2_grpc
         return data_tree_pb2_grpc.DataTreeServiceStub(self._server.channel)
 
     def __del__(self):
