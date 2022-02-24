@@ -21,7 +21,6 @@ def _get_file_url(directory, filename):
 def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities
-
     # First check if file has already been downloaded
     local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
@@ -228,7 +227,7 @@ def download_sub_file() -> str:
 
 def download_msup_files_to_dict() -> dict:
     """Download all the files necessary for a msup expansion and return the
-    download paths into a dictionnary extension->path.
+    download paths into a dictionary extension->path.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -259,7 +258,7 @@ def download_msup_files_to_dict() -> dict:
 
 def download_distributed_files() -> dict:
     """Download distributed rst files and return the
-    download paths into a dictionnary domain id->path.
+    download paths into a dictionary domain id->path.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -288,7 +287,7 @@ def download_distributed_files() -> dict:
 
 def download_fluent_files() -> dict:
     """Download the cas and dat file of a fluent analysis and return the
-    download paths into a dictionnary extension->path.
+    download paths into a dictionary extension->path.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -362,7 +361,7 @@ def download_extrapolation_2d_result() -> dict:
         Contains path to the example file of ref and path to the example
         file of integrated points.
 
-     Examples
+    Examples
     --------
     Download 2 example result files and return the dictionary containing 2 files
 

@@ -1,10 +1,11 @@
+import functools
+
 import numpy as np
 import pytest
 
 from ansys import dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import misc
-import functools
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
 SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf.core._global_server()), "4.0")
@@ -229,7 +230,6 @@ def test_model_meshes_provider(simple_bar):
     meshes = model.metadata.meshes_provider.outputs.meshes()
     assert len(meshes) == 1
     assert meshes[0].nodes.n_nodes == 3751
-
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):

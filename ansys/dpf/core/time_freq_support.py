@@ -19,7 +19,7 @@ class TimeFreqSupport:
 
     This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
     The RPM value is a step (or load step)-based value.
-    The time freqencies, complex frequencies, and harmonic indices are set-based values.
+    The time frequencies, complex frequencies, and harmonic indices are set-based values.
     There is one set value for each step/substep combination.
 
     Parameters
@@ -303,7 +303,7 @@ class TimeFreqSupport:
         freq  : double, optional
             Frequency in Hz.
         cplx : False, optional
-            Whehter to return a complex frequency. The default is ``False``.
+            Whether to return a complex frequency. The default is ``False``.
 
         Returns
         -------
@@ -364,7 +364,7 @@ class TimeFreqSupport:
         attributes_list = self._get_attributes_list()
         if cplx and "freq_complex" in attributes_list:
             return attributes_list["freq_complex"]
-        elif cplx!=True and "freq_real" in attributes_list:
+        elif cplx != True and "freq_real" in attributes_list:
             return attributes_list["freq_real"]
 
     def _get_rpms(self):
@@ -414,7 +414,8 @@ class TimeFreqSupport:
         if list_response.HasField("cyc_harmonic_index"):
             out["cyc_harmonic_index"] = dpf.core.Field(
                 server=self._server, field=list_response.cyc_harmonic_index)
-        if list_response.HasField("cyclic_harmonic_index_scoping"):
+        if hasattr(list_response, "cyclic_harmonic_index_scoping") and\
+                list_response.HasField("cyclic_harmonic_index_scoping"):
             out["cyclic_harmonic_index_scoping"] = dpf.core.Scoping(
                 server=self._server, scoping=list_response.cyclic_harmonic_index_scoping)
         return out
@@ -429,7 +430,7 @@ class TimeFreqSupport:
     ):
         """Append a step with all its field values in the time frequencies support.
         The RPM value is a step (or load step)-based value.
-        The values for time freqencies, complex frequencies, and harmonic indices are set-based.
+        The values for time frequencies, complex frequencies, and harmonic indices are set-based.
         There is one set value for each step/substep combination.
 
         It is necessary that each call of my_time_freq_support.append_step(kwargs**) contains
@@ -519,7 +520,7 @@ class TimeFreqSupport:
     def deep_copy(self, server=None):
         """Create a deep copy of the data for a time frequency support on a given server.
 
-        This methos is useful for passing data from one server instance to another.
+        This method is useful for passing data from one server instance to another.
 
         Parameters
         ----------

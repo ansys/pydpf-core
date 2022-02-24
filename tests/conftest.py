@@ -6,6 +6,7 @@ pytest as a session fixture
 import os
 
 import pytest
+
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
@@ -27,6 +28,7 @@ if running_docker:
                                               f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
                                               ':/tmp/test_files"'
 
+
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
     """Resolves a test file's full path based on the base name and the
     environment.
@@ -39,7 +41,9 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             return getattr(examples, is_in_examples)
         else:
             # otherwise, assume file is local
-            test_path = os.path.dirname(os.path.abspath(__file__))
+            test_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "tests"
+            )
             test_files_path = os.path.join(test_path, "testfiles")
             filename = os.path.join(test_files_path, additional_path, basename)
             if not os.path.isfile(filename):
@@ -156,7 +160,35 @@ def engineering_data_sources():
     return ds
 
 
-local_servers = [core.start_local_server(as_global=False),
-                 core.start_local_server(as_global=False),
-                 core.start_local_server(as_global=False)]
-local_server = local_servers[0]
+class LocalServers:
+    def __init__(self):
+        self._local_servers = []
+        self._max_iter = 3
+
+    def __getitem__(self, item):
+        if len(self._local_servers) <= item:
+            while len(self._local_servers) <= item:
+                self._local_servers.append(core.start_local_server(as_global=False))
+        try:
+            self._local_servers[item].info
+            return self._local_servers[item]
+        except:
+            for iter in range(0, self._max_iter):
+                try:
+                    self._local_servers[item] = core.start_local_server(as_global=False)
+                    self._local_servers[item].info
+                    break
+                except:
+                    pass
+            return self._local_servers[item]
+
+    def clear(self):
+        self._local_servers = []
+
+
+local_servers = LocalServers()
+
+
+@pytest.fixture()
+def local_server():
+    return local_servers[0]

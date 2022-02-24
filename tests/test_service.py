@@ -1,13 +1,13 @@
 import os
-import pathlib
 
 import ansys.grpc.dpf
+import pytest
+
 from ansys import dpf
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core.check_version import meets_version, get_server_version
 from conftest import running_docker
 
-import pytest
-from ansys.dpf.core.check_version import meets_version, get_server_version
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
 
@@ -220,31 +220,32 @@ def test_uploadinfolder_emptyfolder(tmpdir):
 
 def test_load_plugin_correctly():
     from ansys.dpf import core as dpf
-
+    import pkgutil
     base = dpf.BaseService()
     try:
         base.load_library("Ans.Dpf.Math.dll", "math_operators")
     except:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
-    actual_path = pathlib.Path(__file__).parent.absolute()
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
     exists = os.path.exists(
-        os.path.join(actual_path, "..", r"ansys/dpf/core/operators/fft_eval.py")
+        os.path.join(actual_path, r"operators/fft_eval.py")
     )
     assert not exists
     num_lines = sum(
         1
         for line in open(
             os.path.join(
-                actual_path, "..", r"ansys/dpf/core/operators/math/__init__.py"
+                actual_path, r"operators/math/__init__.py"
             )
         )
     )
     assert num_lines >= 11
 
+
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_dpf_join():
-    dpf.core.Operator("U") # start server
+    dpf.core.Operator("U")  # start server
     left = "temp"
     right = "file.rst"
     conc = dpf.core.path_utilities.join(left, right)

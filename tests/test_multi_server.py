@@ -3,18 +3,17 @@ import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from conftest import local_server
 
 
 @pytest.fixture()
-def static_models():
+def static_models(local_server):
     otherfile = dpf.upload_file_in_tmp_folder(examples.static_rst, server=local_server)
     return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst)),
             dpf.Model(otherfile, server=local_server))
 
 
 @pytest.fixture()
-def transient_models():
+def transient_models(local_server):
     otherfile = dpf.upload_file_in_tmp_folder(
         examples.msup_transient, server=local_server
     )
@@ -25,7 +24,7 @@ def transient_models():
 
 
 @pytest.fixture()
-def cyc_models():
+def cyc_models(local_server):
     otherfile = dpf.upload_file_in_tmp_folder(
         examples.simple_cyclic, server=local_server
     )
@@ -35,21 +34,13 @@ def cyc_models():
     )
 
 
-@pytest.fixture()
-def all_kind_of_complexity_models():
-    return (
-        dpf.Model(examples.download_all_kinds_of_complexity()),
-        dpf.Model(examples.download_all_kinds_of_complexity(), server=local_server),
-    )
-
-
 def test_different_multi_server(static_models):
     assert static_models[0]._server != static_models[1]._server
     assert not static_models[0]._server == static_models[1]._server
     assert static_models[0]._server.port != static_models[1]._server.port
     assert (
-        static_models[0].metadata.data_sources.result_files[0]
-        != static_models[1].metadata.data_sources.result_files[0]
+            static_models[0].metadata.data_sources.result_files[0]
+            != static_models[1].metadata.data_sources.result_files[0]
     )
 
 
@@ -74,8 +65,8 @@ def test_different_multi_server2(static_models):
     assert not static_models[0]._server == static_models[1]._server
     assert static_models[0]._server.port != static_models[1]._server.port
     assert (
-        static_models[0].metadata.data_sources.result_files[0]
-        != static_models[1].metadata.data_sources.result_files[0]
+            static_models[0].metadata.data_sources.result_files[0]
+            != static_models[1].metadata.data_sources.result_files[0]
     )
 
 
@@ -141,30 +132,30 @@ def test_model_cyc_support_multi_server(cyc_models):
     assert cyc_support.num_sectors() == cyc_support2.num_sectors()
     assert cyc_support.base_nodes_scoping().ids == cyc_support2.base_nodes_scoping().ids
     assert (
-        cyc_support.base_elements_scoping().ids
-        == cyc_support2.base_elements_scoping().ids
+            cyc_support.base_elements_scoping().ids
+            == cyc_support2.base_elements_scoping().ids
     )
     assert (
-        cyc_support.sectors_set_for_expansion().ids
-        == cyc_support2.sectors_set_for_expansion().ids
+            cyc_support.sectors_set_for_expansion().ids
+            == cyc_support2.sectors_set_for_expansion().ids
     )
     assert cyc_support.expand_node_id(1).ids == cyc_support2.expand_node_id(1).ids
     assert cyc_support.expand_element_id(1).ids == cyc_support2.expand_element_id(1).ids
     assert (
-        cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
-        == cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
+            cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
+            == cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
     )
     assert (
-        cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion()).ids
-        == cyc_support2.expand_element_id(
-            1, cyc_support2.sectors_set_for_expansion()
-        ).ids
+            cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
+            .ids == cyc_support2.expand_element_id(1,
+                                                   cyc_support2.sectors_set_for_expansion()
+                                                   ).ids
     )
 
 
 def test_model_displacement_multi_server(transient_models):
     tf = transient_models[0].metadata.time_freq_support
-    time_scoping = range(1, len(tf.time_frequencies) + 1)
+    time_scoping = range(1, 3)
     disp = transient_models[0].results.displacement()
     disp.inputs.time_scoping(time_scoping)
     disp2 = transient_models[1].results.displacement()
@@ -198,7 +189,7 @@ def check_fc(fc, fc2):
 
 def test_model_stress_multi_server(transient_models):
     tf = transient_models[0].metadata.time_freq_support
-    time_scoping = range(1, len(tf.time_frequencies) + 1)
+    time_scoping = range(1, 3)
     disp = transient_models[0].results.stress()
     disp.inputs.time_scoping(time_scoping)
     disp2 = transient_models[1].results.stress()
@@ -210,43 +201,3 @@ def test_model_stress_multi_server(transient_models):
         fc.deep_copy(fc2._server), fc2, server=fc2._server
     )
     assert idenfc.outputs.boolean()
-
-
-def test_model_different_results_big_multi_server(all_kind_of_complexity_models):
-    tf = all_kind_of_complexity_models[0].metadata.time_freq_support
-    time_scoping = len(tf.time_frequencies)
-
-    results = all_kind_of_complexity_models[0].results
-    results2 = all_kind_of_complexity_models[1].results
-
-    op = results.displacement()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.displacement()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
-
-    op = results.stress()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.stress()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
-
-    op = results.elastic_strain()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.elastic_strain()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)
-
-    op = results.elemental_volume()
-    op.inputs.time_scoping(time_scoping)
-    op2 = results2.elemental_volume()
-    op2.inputs.time_scoping(time_scoping)
-    fc = op.outputs.fields_container()
-    fc2 = op2.outputs.fields_container()
-    check_fc(fc, fc2)

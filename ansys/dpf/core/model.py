@@ -51,8 +51,8 @@ class Model:
         self._data_sources = data_sources
         self._server = server
         self._metadata = None
-        self._mesh_by_default = True
         self._results = None
+        self._mesh_by_default = True
 
     @property
     def metadata(self):
@@ -247,7 +247,7 @@ class Metadata:
 
     Parameters
     ----------
-    data_sources :
+    data_sources : DataSources
 
     server : server.DPFServer
         Server with the channel connected to the remote or local instance.
@@ -328,8 +328,9 @@ class Metadata:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
             else:
                 timeProvider.inputs.connect(self.data_sources)
-            self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
-
+            self._time_freq_support = timeProvider.get_output(
+                0, types.time_freq_support
+            )
         return self._time_freq_support
 
     @property

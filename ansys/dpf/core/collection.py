@@ -41,7 +41,7 @@ class Collection:
 
     """
 
-    def __init__(self, dpf_type=None, collection=None, server: server.DpfServer = None):
+    def __init__(self, dpf_type=None, collection=None, server: server.DpfServer=None):
         if server is None:
             server = dpf.core._global_server()
 
@@ -71,23 +71,24 @@ class Collection:
     @staticmethod
     def integral_collection(inpt, server: server.DpfServer = None):
         """Creates a collection of integral type with a list.
+
         The collection of integral is the equivalent of an array of
         data sent server side. It can be used to efficiently stream
         large data to the server.
+
+        Parameters
+        ----------
+        inpt : list[float], list[int], numpy.array
+            list to transfer server side
+
+        Returns
+        -------
+        Collection
 
         Notes
         -----
         Used by default by the ``'Operator'`` and the``'Workflow'`` when a
         list is connected or returned.
-
-        Parameters
-        ----------
-        inpt : list[float], list[int], numpy.array
-            list to transfert server side
-
-        Returns
-        -------
-        Collection
 
         """
         if all(isinstance(x, int) for x in inpt):
@@ -125,7 +126,7 @@ class Collection:
         Parameters
         ----------
         label : str
-            Labels to scope the etnries to. For example, ``"time"``.
+            Labels to scope the entries to. For example, ``"time"``.
 
         default_value : int, optional
             Default value for existing fields in the collection. The default
@@ -202,8 +203,7 @@ class Collection:
         entries = self._get_entries_tuple(label_space_or_index)
         if isinstance(entries, list):
             return [entry.entry for entry in entries]
-        else:
-            return entries
+        return entries
 
     def _get_entries_tuple(self, label_space_or_index):
         """Retrieve the entries at a requested label space or index.

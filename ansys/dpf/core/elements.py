@@ -9,8 +9,7 @@ import numpy as np
 from ansys.grpc.dpf import meshed_region_pb2
 
 from ansys.dpf.core import nodes, scoping
-from ansys.dpf.core.common import __write_enum_doc__
-from ansys.dpf.core.common import locations, elemental_properties
+from ansys.dpf.core.common import __write_enum_doc__, locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.errors import protect_grpc
 
@@ -488,8 +487,8 @@ class Elements:
         >>> model = dpf.Model(examples.static_rst)
         >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.element_types_field
-        >>> field.data
-        array([1, 1, 1, 1, 1, 1, 1, 1])
+        >>> print(field.data)
+        [1 1 1 1 1 1 1 1]
 
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
@@ -512,8 +511,8 @@ class Elements:
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.static_rst)
         >>> elements = model.metadata.meshed_region.elements
-        >>> elements.materials_field.data
-        array([1, 1, 1, 1, 1, 1, 1, 1])
+        >>> print(elements.materials_field.data)
+        [1 1 1 1 1 1 1 1]
 
         """
         return self._mesh.field_of_properties(elemental_properties.material)

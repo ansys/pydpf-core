@@ -50,6 +50,9 @@ class contact_fluid_penetration_pressure(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    read_beams : bool
+        Elemental nodal beam results are read if this
+        pin is set to true (default is false)
 
 
     Examples
@@ -76,6 +79,8 @@ class contact_fluid_penetration_pressure(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_read_beams = bool()
+    >>> op.inputs.read_beams.connect(my_read_beams)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.contact_fluid_penetration_pressure(
@@ -87,6 +92,7 @@ class contact_fluid_penetration_pressure(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     read_cyclic=my_read_cyclic,
+    ...     read_beams=my_read_beams,
     ... )
 
     >>> # Get output data
@@ -103,6 +109,7 @@ class contact_fluid_penetration_pressure(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         read_cyclic=None,
+        read_beams=None,
         config=None,
         server=None,
     ):
@@ -125,6 +132,8 @@ class contact_fluid_penetration_pressure(Operator):
             self.inputs.mesh.connect(mesh)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if read_beams is not None:
+            self.inputs.read_beams.connect(read_beams)
 
     @staticmethod
     def _spec():
@@ -206,6 +215,13 @@ class contact_fluid_penetration_pressure(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
+                21: PinSpecification(
+                    name="read_beams",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""Elemental nodal beam results are read if this
+        pin is set to true (default is false)""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -279,6 +295,8 @@ class InputsContactFluidPenetrationPressure(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_read_beams = bool()
+    >>> op.inputs.read_beams.connect(my_read_beams)
     """
 
     def __init__(self, op: Operator):
@@ -315,6 +333,10 @@ class InputsContactFluidPenetrationPressure(_Inputs):
             contact_fluid_penetration_pressure._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._read_cyclic)
+        self._read_beams = Input(
+            contact_fluid_penetration_pressure._spec().input_pin(21), 21, op, -1
+        )
+        self._inputs.append(self._read_beams)
 
     @property
     def time_scoping(self):
@@ -493,6 +515,27 @@ class InputsContactFluidPenetrationPressure(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def read_beams(self):
+        """Allows to connect read_beams input to the operator.
+
+        Elemental nodal beam results are read if this
+        pin is set to true (default is false)
+
+        Parameters
+        ----------
+        my_read_beams : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_fluid_penetration_pressure()
+        >>> op.inputs.read_beams.connect(my_read_beams)
+        >>> # or
+        >>> op.inputs.read_beams(my_read_beams)
+        """
+        return self._read_beams
 
 
 class OutputsContactFluidPenetrationPressure(_Outputs):

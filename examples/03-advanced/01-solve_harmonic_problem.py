@@ -8,9 +8,10 @@ container for an analysis with damping. This fields container is then used to
 solve the problem Ma+Dv+Ku =F by inversing the matrix
 """
 
+import math
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
-import math
 
 ###############################################################################
 # Create 2D (x,y) matrix fields for inertia, damping and stiffness
@@ -18,14 +19,12 @@ import math
 freq = [25, 50, 100, 200, 400]
 dim = 2  # dimension of matrix
 
-
 fM0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
 fM0.append([0.0, 1.0, 2.0, 3.0], 1)
 fK0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
 fK0.append([4.0, 8.0, 0.0, 1.0], 1)
 fC0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
 fC0.append([7.0, 5.0, 9.0, 1.0], 1)
-
 
 ###############################################################################
 # Create a fields container for real and imaginary parts
@@ -45,7 +44,6 @@ cplx_fc = dpf.fields_container_factory.over_time_freq_complex_fields_container(
     reals, ims, time_freq_unit="Hz"
 )
 
-
 ###############################################################################
 # Use dpf's operators to inverse the matrix, compute the amplitude
 # and the phase
@@ -54,7 +52,6 @@ inverse = ops.math.matrix_inverse(cplx_fc)
 component = ops.logic.component_selector_fc(inverse, 0)
 amp = ops.math.amplitude_fc(component)
 phase = ops.math.phase_fc(component)
-
 
 ###############################################################################
 # Get the phase and amplitude and plot it over frequencies

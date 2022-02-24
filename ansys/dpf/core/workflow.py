@@ -8,8 +8,8 @@ import logging
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
-from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -117,7 +117,7 @@ class Workflow:
     @protect_grpc
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
-        A progress bar following the worflow state is printed.
+        A progress bar following the workflow state is printed.
 
         Parameters
         ----------
@@ -131,6 +131,7 @@ class Workflow:
         request = workflow_pb2.WorkflowEvaluationRequest()
         request.wf.CopyFrom(self._message)
         request.pin_name = pin_name
+
         if output_type is not None:
             dpf_operator._write_output_type_to_proto_style(output_type, request)
             if server_meet_version("3.0", self._server):
@@ -143,7 +144,9 @@ class Workflow:
             else:
                 out = self._stub.Get(request)
             return dpf_operator._convertOutputMessageToPythonInstance(
-                out, output_type, self._server
+                out,
+                output_type,
+                self._server
             )
         else:
             raise ValueError(
@@ -396,7 +399,7 @@ class Workflow:
 
     @version_requires("3.0")
     def connect_with(self, left_workflow, output_input_names=None):
-        """Chain two workflows together so that they become one workflow.
+        """Chain 2 workflows together so that they become one workflow.
 
         The one workflow contains all the operators, inputs, and outputs
         exposed in both workflows.
@@ -404,11 +407,11 @@ class Workflow:
         Parameters
         ----------
         left_workflow : core.Workflow
-            Second workflow's outputs to chain with this workflow's inputs
+            Second workflow's outputs to chained with this workflow's inputs.
         output_input_names : str tuple, str dict optional
-            Output names of ``left_workflow`` to chain with the input names of this workflow.
-            The default is ``None``, in which case the outputs of ``left_workflow`` with the same
-            names as the inputs of this workflow are chained.
+            Input name of the left_workflow to be cained with the output name of this workflow.
+            The default is ``None``, in which case the inputs in the left_workflow with the same
+            names as the outputs of this workflow are chained.
 
         Examples
         --------
@@ -519,7 +522,7 @@ class Workflow:
             request.address = address
             return Workflow(workflow=request, server=self._server)
         else:
-            raise ValueError("a connection address (either with adddress input"
+            raise ValueError("a connection address (either with address input"
                              "or both ip and port inputs) or a server is required")
 
     def _connect(self):

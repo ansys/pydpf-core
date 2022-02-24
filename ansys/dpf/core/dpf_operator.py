@@ -8,6 +8,7 @@ Provides an interface to the underlying gRPC operator.
 
 import functools
 import logging
+import re
 from typing import NamedTuple
 
 from ansys.dpf.core import server as serverlib
@@ -123,7 +124,7 @@ class Operator:
         return self._progress_bar
 
     @progress_bar.setter
-    def progress_bar(self, value) -> bool:
+    def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
     @protect_grpc
@@ -171,8 +172,9 @@ class Operator:
     @protect_grpc
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
+
         To activate the progress bar for server version higher or equal to 3.0,
-        use my_op.progress_bar = True
+        use ``my_op.progress_bar=True``
 
         Parameters
         ----------
@@ -466,7 +468,7 @@ class Operator:
 
     def __pow__(self, value):
         if value != 2:
-            raise ValueError('Only the value "2" is suppported.')
+            raise ValueError('Only the value "2" is supported.')
         from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
@@ -587,7 +589,7 @@ class OperatorSpecification(NamedTuple):
 
 
 def available_operator_names(server=None):
-    """Returns the list of operators name available in the server
+    """Returns the list of operator names available in the server.
 
     Parameters
     ----------
@@ -605,7 +607,6 @@ def available_operator_names(server=None):
     service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
         operator_pb2.ListAllOperatorsRequest())
     arr = []
-    import re
     for chunk in service:
         arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
     return arr
@@ -730,6 +731,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         model,
         scoping,
         workflow,
+        time_freq_support,
         data_tree,
     )
 
@@ -777,6 +779,8 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         request.workflow.CopyFrom(inpt._message)
     elif isinstance(inpt, data_tree.DataTree):
         request.data_tree.CopyFrom(inpt._message)
+    elif isinstance(inpt, time_freq_support.TimeFreqSupport):
+        request.time_freq_support.CopyFrom(inpt._message)
     elif isinstance(inpt, Operator):
         request.inputop.inputop.CopyFrom(inpt._message)
         request.inputop.pinOut = pin_out

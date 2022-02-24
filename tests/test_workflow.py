@@ -1,9 +1,9 @@
 import numpy as np
 import pytest
-from ansys import dpf
-import ansys.dpf.core.operators as op
 
+import ansys.dpf.core.operators as op
 import conftest
+from ansys import dpf
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
@@ -301,7 +301,7 @@ def test_outputs_bool_workflow():
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_connect_get_output_int_list_workflow():
-    d = list(range(0, 10000000))
+    d = list(range(0, 1000000))
     wf = dpf.core.Workflow()
     op = dpf.core.operators.utility.forward(d)
     wf.add_operators([op])
@@ -314,7 +314,7 @@ def test_connect_get_output_int_list_workflow():
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_connect_get_output_double_list_workflow():
-    d = list(np.ones(10000000))
+    d = list(np.ones(500000))
     wf = dpf.core.Workflow()
     op = dpf.core.operators.utility.forward(d)
     wf.add_operators([op])
@@ -632,7 +632,7 @@ def test_flush_workflows_session(allkindofcomplexity):
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_create_on_other_server_workflow():
+def test_create_on_other_server_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -640,14 +640,14 @@ def test_create_on_other_server_workflow():
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(conftest.local_server)
+    new_workflow = workflow.create_on_other_server(local_server)
     assert new_workflow.input_names == ['data_sources']
     assert new_workflow.output_names == ['max', 'min']
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_create_on_other_server2_workflow():
+def test_create_on_other_server2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -655,14 +655,14 @@ def test_create_on_other_server2_workflow():
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(server=conftest.local_server)
+    new_workflow = workflow.create_on_other_server(server=local_server)
     assert new_workflow.input_names == ['data_sources']
     assert new_workflow.output_names == ['max', 'min']
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_create_on_other_server_with_ip_workflow():
+def test_create_on_other_server_with_ip_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -671,15 +671,15 @@ def test_create_on_other_server_with_ip_workflow():
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(
-        ip=conftest.local_server.ip,
-        port=conftest.local_server.port)
+        ip=local_server.ip,
+        port=local_server.port)
     assert new_workflow.input_names == ['data_sources']
     assert new_workflow.output_names == ['max', 'min']
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_create_on_other_server_with_address_workflow():
+def test_create_on_other_server_with_address_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -688,14 +688,14 @@ def test_create_on_other_server_with_address_workflow():
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(
-        address=conftest.local_server.ip + ":" + str(conftest.local_server.port))
+        address=local_server.ip + ":" + str(local_server.port))
     assert new_workflow.input_names == ['data_sources']
     assert new_workflow.output_names == ['max', 'min']
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_create_on_other_server_with_address2_workflow():
+def test_create_on_other_server_with_address2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -704,14 +704,14 @@ def test_create_on_other_server_with_address2_workflow():
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(
-        conftest.local_server.ip + ":" + str(conftest.local_server.port))
+        local_server.ip + ":" + str(local_server.port))
     assert new_workflow.input_names == ['data_sources']
     assert new_workflow.output_names == ['max', 'min']
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_create_on_other_server_and_connect_workflow(allkindofcomplexity):
+def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -719,7 +719,7 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity):
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(conftest.local_server)
+    new_workflow = workflow.create_on_other_server(local_server)
     new_workflow.connect("data_sources", dpf.core.DataSources(allkindofcomplexity))
     max = new_workflow.get_output("max", dpf.core.types.field)
     assert np.allclose(max.data, [[8.50619058e+04, 1.04659292e+01, 3.73620870e+05]])

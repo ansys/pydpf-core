@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import numpy as np
 import os
-
-from ansys.dpf import core
-import ansys.grpc.dpf
 import tempfile
+
+import ansys.grpc.dpf
+import numpy as np
+
 import ansys.dpf.core.operators as op
+from ansys.dpf import core
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
