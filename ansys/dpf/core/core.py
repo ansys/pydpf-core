@@ -737,6 +737,19 @@ class BaseService:
     def _prepare_shutdown(self):
         self._stub.PrepareShutdown(base_pb2.Empty())
 
+    #@version_requires("4.0")
+    def _release_server(self):
+        """
+        Release the reference taken by this client on the server
+
+        Notes
+        -----
+        Should be used only if the server was started by this client's instance.
+        To use only with server version > 4.0
+        """
+        self._stub.ReleaseServer(base_pb2.Empty())
+
+
     def __file_chunk_yielder(self, file_path, to_server_file_path, use_tmp_dir=False):
         request = base_pb2.UploadFileRequest()
         request.server_file_path = to_server_file_path

@@ -6,6 +6,7 @@ Used to verify if the server version is a minimum value.
 
 from ansys.dpf.core import errors as dpf_errors
 import sys
+import weakref
 from functools import wraps
 
 
@@ -173,7 +174,11 @@ def version_requires(min_version):
         @wraps(func)
         def wrapper(self, *args, **kwargs):
             """Call the original function"""
-            server = self._server
+
+            if isinstance(self._server, weakref.ref):
+                server = self._server()
+            else:
+                server = self._server
             func_name = func.__name__
 
             # particular cases

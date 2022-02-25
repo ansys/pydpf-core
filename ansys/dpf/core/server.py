@@ -449,9 +449,16 @@ class DpfServer:
                     pass
                 process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             else:
-                p = psutil.Process(self._base_service.server_info["server_process_id"])
-                p.kill()
-            time.sleep(0.01)
+                try:
+                    self._base_service._release_server()
+                except:
+                    try:
+                        p = psutil.Process(self._base_service.server_info["server_process_id"])
+                        p.kill()
+                        time.sleep(0.01)
+                    except:
+                        pass
+
             self.live = False
             try:
                 if id(dpf.core.SERVER) == id(self):
