@@ -1,11 +1,12 @@
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
+from ansys.dpf.core import examples
 
 node_id = 1928
 depth = 10
 
-model = dpf.Model(r"D:\AFT\DPF\questions\stress_gradient\file.rst")
+model = dpf.Model(examples.hemisphere)
 mesh = model.metadata.meshed_region
 stress_fc = model.results.stress().eqv().outputs.fields_container()
 
