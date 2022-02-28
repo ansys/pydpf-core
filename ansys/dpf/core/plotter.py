@@ -49,6 +49,7 @@ class _InternalPlotter:
         if len(kwargs_not_avail) > 0:
             txt = "The following arguments are not supported: "
             txt += str(kwargs_not_avail)
+            warnings.warn(txt)
 
         return kwargs_in
 
