@@ -54,17 +54,33 @@ class _InternalPlotter:
         return kwargs_in
 
     def add_mesh(self, meshed_region, **kwargs):
-        has_attribute_scalar_bar = False
         try:
-            has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
-        except:
-            has_attribute_scalar_bar = False
-
-        if not has_attribute_scalar_bar:
-            kwargs.setdefault("stitle", "Mesh")
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        pv_version = pv.__version__
+        version_to_reach = '0.30.0' # when stitle started to be deprecated
+        meet_ver = meets_version(pv_version, version_to_reach)
+        if meet_ver:
+            # use scalar_bar_args
+            scalar_bar_args={'title': 'Mesh'}
+            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         else:
-            if self._plotter.scalar_bar.GetTitle() is None:
+            # use stitle
+            has_attribute_scalar_bar = False
+            try:
+                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
+            except:
+                has_attribute_scalar_bar = False
+    
+            if not has_attribute_scalar_bar:
                 kwargs.setdefault("stitle", "Mesh")
+            else:
+                if self._plotter.scalar_bar.GetTitle() is None:
+                    kwargs.setdefault("stitle", "Mesh")
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
@@ -103,7 +119,23 @@ class _InternalPlotter:
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
                   label_text_size=30, label_point_size=20, **kwargs):
         name = field.name.split("_")[0]
-        kwargs.setdefault("stitle", name)
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        pv_version = pv.__version__
+        version_to_reach = '0.30.0'
+        meet_ver = meets_version(pv_version, version_to_reach)
+        if meet_ver:
+            # use scalar_bar_args
+            scalar_bar_args={'title': name}
+            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+        else:
+            # use stitle
+            kwargs.setdefault("stitle", name)
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
