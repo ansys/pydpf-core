@@ -16,6 +16,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import examples
+
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
 # :class:`Model <ansys.dpf.core.model.Model> class helps to organize access
@@ -63,7 +64,7 @@ stress_fc = model.results.stress().eqv().outputs.fields_container()
 nodal_scoping = dpf.Scoping(location="Nodal")
 nodal_scoping.ids = [node_id]
 ###############################################################################
-# Get Skin Mesh because `normals` operator required Shells as input.
+# Get Skin Mesh because `normals` operator requires Shells as input.
 #
 skin_mesh = ops.mesh.skin(mesh=mesh)
 skin_meshed_region = skin_mesh.outputs.mesh.get_data()
@@ -121,11 +122,9 @@ mesh_m = field_m.meshed_region
 ###############################################################################
 # Now we create the plotter and add fields and meshes
 pl = DpfPlotter()
-
 pl.add_field(field_m, mesh_m)
 pl.add_mesh(mesh, style="surface", show_edges=True,
             color="w", opacity=0.3)
-
 pl.show_figure(show_axes=True, cpos=[
     (62.687, 50.119, 67.247),
     (5.135, 6.458, -0.355),
