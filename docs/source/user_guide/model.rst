@@ -4,7 +4,7 @@
 DPF Model
 =========
 
-The DPF model provides the starting point for opening a result file. 
+The DPF model provides the starting point for opening a result file.
 From here you can connect various operators and display results
 and data.
 
@@ -14,14 +14,14 @@ server.
 
 .. code-block:: default
 
-    from ansys.dpf import core as dpf    
+    from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-    
+
     path = examples.simple_bar
     model = dpf.Model(path)
 
-To undestand what is available in the result file, you can print the model 
-(or any other instance). 
+To understand what is available in the result file, you can print the model
+(or any other instance).
 
 .. code-block:: default
 
@@ -62,7 +62,7 @@ To undestand what is available in the result file, you can print the model
       Number of sets: 1
     Cumulative     Time (s)       LoadStep       Substep
     1              1.000000       1              1
-    
+
 
 
 For an example using the model, see :ref:`ref_basic_example`.
@@ -83,32 +83,32 @@ For example, you can get the analysis type:
 
 
 .. code-block:: default
-    
+
     model.metadata.result_info.analysis_type
-    
+
 .. rst-class:: sphx-glr-script-out
 
  Out:
 
  .. code-block:: none
- 
+
     'static'
 
 You can get information about the mesh:
 
 
 .. code:: default
-    
+
     >>> model.metadata.meshed_region.nodes.n_nodes
     >>> model.metadata.meshed_region.elements.n_elements
     >>> print(model.metadata.meshed_region.elements.element_by_id(1))
-    
+
 .. rst-class:: sphx-glr-script-out
 
  Out:
 
  .. code-block:: none
- 
+
     3751
     3000
     DPF Element 1
@@ -122,16 +122,16 @@ You can get time sets:
 
 
 .. code-block:: default
-    
+
     time_freq_support =  model.metadata.time_freq_support
     print(time_freq_support.time_frequencies.data)
-    
+
 .. rst-class:: sphx-glr-script-out
 
  Out:
 
  .. code-block:: none
- 
+
     [1.]
 
 
@@ -155,7 +155,7 @@ To view available results, print them:
  Out:
 
  .. code-block:: none
- 
+
     Static analysis
     Unit system: Metric (m, kg, N, s, V, A)
     Physics Type: Mecanic
@@ -174,7 +174,7 @@ To view available results, print them:
 
 .. autoattribute:: ansys.dpf.core.model.Model.results
   :noindex:
-    
+
 Choosing the time, frequencies, or spatial subset on which to get a given result
 is straightforward with the ``results`` attribute:
 
@@ -183,7 +183,7 @@ is straightforward with the ``results`` attribute:
 
     disp_result = model.results.displacement
     disp_at_all_times_on_node_1 =  disp_result.on_all_time_freqs.on_mesh_scoping([1])
-    
+
 
 For an example using the `Result` API, see :ref:`ref_transient_easy_time_scoping`.
 
