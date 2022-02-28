@@ -191,10 +191,10 @@ class _InternalPlotter:
 
 
 class DpfPlotter:
-    """DpfPlotter class. Must be used in order to plot
+    """DpfPlotter class. Can be used in order to plot
     results over a mesh.
 
-    The DpfPlotter is a PyVista dependant object.
+    The current DpfPlotter is a PyVista based object.
 
     That means that PyVista must be installed, and that
     it supports **kwargs as parameter (the argument
@@ -205,7 +205,8 @@ class DpfPlotter:
     def __init__(self, **kwargs):
         """Create a DpfPlotter object.
 
-        The DpfPlotter is a PyVista dependant object.
+        The current DpfPlotter is a PyVista based object.
+        
         That means that PyVista must be installed, and that
         it supports **kwargs as parameter (the argument
         must be supported by the installed PyVista version).
