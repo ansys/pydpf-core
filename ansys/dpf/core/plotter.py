@@ -66,7 +66,7 @@ class _InternalPlotter:
         meet_ver = meets_version(pv_version, version_to_reach)
         if meet_ver:
             # use scalar_bar_args
-            scalar_bar_args={'title': 'Mesh'}
+            scalar_bar_args = {'title': 'Mesh'}
             kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         else:
             # use stitle
@@ -75,7 +75,7 @@ class _InternalPlotter:
                 has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
             except:
                 has_attribute_scalar_bar = False
-    
+
             if not has_attribute_scalar_bar:
                 kwargs.setdefault("stitle", "Mesh")
             else:
@@ -131,7 +131,7 @@ class _InternalPlotter:
         meet_ver = meets_version(pv_version, version_to_reach)
         if meet_ver:
             # use scalar_bar_args
-            scalar_bar_args={'title': name}
+            scalar_bar_args = {'title': name}
             kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         else:
             # use stitle
