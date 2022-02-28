@@ -180,14 +180,12 @@ class _InternalPlotter:
         show_axes = kwargs.pop("show_axes", None)
         if show_axes:
             self._plotter.add_axes()
-                        
-            
+
         kwargs_in = self._sort_supported_kwargs(
             bound_method=self._plotter.show,
             **kwargs
             )
         return self._plotter.show(**kwargs_in)
-
 
 
 class DpfPlotter:
@@ -206,7 +204,7 @@ class DpfPlotter:
         """Create a DpfPlotter object.
 
         The current DpfPlotter is a PyVista based object.
-        
+
         That means that PyVista must be installed, and that
         it supports **kwargs as parameter (the argument
         must be supported by the installed PyVista version).
