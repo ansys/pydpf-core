@@ -120,7 +120,9 @@ fields_mapped = mapping_operator.outputs.fields_container()
 field_m = fields_mapped[0]
 mesh_m = field_m.meshed_region
 ###############################################################################
-# Now we create the plotter and add fields and meshes
+# To create a plot we need to add both the meshes
+# `mesh_m` - mapped mesh
+# `mesh` - original mesh
 pl = DpfPlotter()
 pl.add_field(field_m, mesh_m)
 pl.add_mesh(mesh, style="surface", show_edges=True,
