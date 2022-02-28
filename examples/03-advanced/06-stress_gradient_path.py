@@ -68,7 +68,7 @@ nodal_scoping.ids = [node_id]
 skin_mesh = ops.mesh.skin(mesh=mesh)
 skin_meshed_region = skin_mesh.outputs.mesh.get_data()
 ###############################################################################
-# Get Skin Mesh because `normals` operator requires Shells as input.
+# Get normal at a node using `normals` operator.
 #
 normal = ops.geo.normals()
 normal.inputs.mesh.connect(skin_meshed_region)
