@@ -10,6 +10,7 @@ import tempfile
 import os
 import sys
 import numpy as np
+import inspect
 import warnings
 
 from ansys import dpf
@@ -21,6 +22,7 @@ from ansys.dpf.core.check_version import meets_version
 
 
 class _InternalPlotter:
+    """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
         try:
             import pyvista as pv
@@ -34,21 +36,59 @@ class _InternalPlotter:
         if mesh is not None:
             self._plotter.add_mesh(mesh.grid)
 
-    def add_mesh(self, meshed_region, **kwargs):
-        has_attribute_scalar_bar = False
-        try:
-            has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
-        except:
-            has_attribute_scalar_bar = False
+    def _sort_supported_kwargs(self, bound_method, **kwargs):
+        supported_args = inspect.getargspec(bound_method).args
+        kwargs_in = {}
+        kwargs_not_avail = {}
+        for key, item in kwargs.items():
+            if key in supported_args:
+                kwargs_in[key] = item
+            else:
+                kwargs_not_avail[key] = item
 
-        if not has_attribute_scalar_bar:
-            kwargs.setdefault("stitle", "Mesh")
+        if len(kwargs_not_avail) > 0:
+            txt = "The following arguments are not supported: "
+            txt += str(kwargs_not_avail)
+            warnings.warn(txt)
+
+        return kwargs_in
+
+    def add_mesh(self, meshed_region, **kwargs):
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        pv_version = pv.__version__
+        version_to_reach = '0.30.0' # when stitle started to be deprecated
+        meet_ver = meets_version(pv_version, version_to_reach)
+        if meet_ver:
+            # use scalar_bar_args
+            scalar_bar_args = {'title': 'Mesh'}
+            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         else:
-            if self._plotter.scalar_bar.GetTitle() is None:
+            # use stitle
+            has_attribute_scalar_bar = False
+            try:
+                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
+            except:
+                has_attribute_scalar_bar = False
+
+            if not has_attribute_scalar_bar:
                 kwargs.setdefault("stitle", "Mesh")
+            else:
+                if self._plotter.scalar_bar.GetTitle() is None:
+                    kwargs.setdefault("stitle", "Mesh")
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
-        self._plotter.add_mesh(meshed_region.grid, **kwargs)
+
+        kwargs_in = self._sort_supported_kwargs(
+            bound_method=self._plotter.add_mesh,
+            **kwargs
+            )
+        self._plotter.add_mesh(meshed_region.grid, **kwargs_in)
 
     def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
         label_actors = []
@@ -79,7 +119,23 @@ class _InternalPlotter:
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
                   label_text_size=30, label_point_size=20, **kwargs):
         name = field.name.split("_")[0]
-        kwargs.setdefault("stitle", name)
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        pv_version = pv.__version__
+        version_to_reach = '0.30.0'
+        meet_ver = meets_version(pv_version, version_to_reach)
+        if meet_ver:
+            # use scalar_bar_args
+            scalar_bar_args = {'title': name}
+            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+        else:
+            # use stitle
+            kwargs.setdefault("stitle", name)
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
@@ -108,7 +164,11 @@ class _InternalPlotter:
         overall_data[ind] = field.data[mask]
 
         # plot
-        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs)
+        kwargs_in = self._sort_supported_kwargs(
+            bound_method=self._plotter.add_mesh,
+            **kwargs
+            )
+        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs_in)
 
         if show_max or show_min:
             # Get Min-Max for the field
@@ -153,21 +213,48 @@ class _InternalPlotter:
         if show_axes:
             self._plotter.add_axes()
 
-        # Camera position
-        cpos = kwargs.pop("cpos", None)
-        if cpos:
-            return self._plotter.show(cpos=cpos)
-
-        # Return camera position
-        return_cpos = kwargs.pop("return_cpos", None)
-        if return_cpos:
-            return self._plotter.show(return_cpos=return_cpos)
-
-        return self._plotter.show()
+        kwargs_in = self._sort_supported_kwargs(
+            bound_method=self._plotter.show,
+            **kwargs
+            )
+        return self._plotter.show(**kwargs_in)
 
 
 class DpfPlotter:
+    """DpfPlotter class. Can be used in order to plot
+    results over a mesh.
+
+    The current DpfPlotter is a PyVista based object.
+
+    That means that PyVista must be installed, and that
+    it supports **kwargs as parameter (the argument
+    must be supported by the installed PyVista version).
+    More information about the available arguments are
+    available at :func:`pyvista.plot`.
+    """
     def __init__(self, **kwargs):
+        """Create a DpfPlotter object.
+
+        The current DpfPlotter is a PyVista based object.
+
+        That means that PyVista must be installed, and that
+        it supports **kwargs as parameter (the argument
+        must be supported by the installed PyVista version).
+        More information about the available arguments are
+        available at :func:`pyvista.plot`.
+
+        Parameters
+        ----------
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> pl = DpfPlotter(notebook=False)
+
+        """
         self._internal_plotter = _InternalPlotter(**kwargs)
         self._labels = []
 
@@ -210,6 +297,9 @@ class DpfPlotter:
         ----------
         meshed_region : MeshedRegion
             MeshedRegion to plot.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------
@@ -243,6 +333,9 @@ class DpfPlotter:
             Label the point with the maximum value.
         show_min : bool, optional
             Label the point with the minimum value.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------
@@ -266,6 +359,12 @@ class DpfPlotter:
 
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
+
+        Parameters
+        ----------
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.plot`.
 
         Examples
         --------

@@ -86,7 +86,7 @@ class MeshesContainer(Collection):
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
                 pl.add_mesh(mesh, **kwargs)
-        pl.show_figure(**kwargs)
+        pl.show_figure()
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.
