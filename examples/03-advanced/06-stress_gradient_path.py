@@ -12,6 +12,7 @@ A path is created of a defined length.
 # First, import the DPF-Core module as ``dpf_core`` and import the
 # included examples file and ``DpfPlotter``
 #
+import matplotlib.pyplot as plt
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
@@ -46,8 +47,9 @@ print("Unit: %s" % unit)
 ###############################################################################
 # `depth` defines the path length / depth to which the path will penetrate.
 # While defining `depth` make sure you use the correct mesh unit.
-#
+# `delta` defines distance between consecutive points on the path.
 depth = 10  # in mm
+delta = 0.1  # in mm
 ###############################################################################
 # Get the meshed region
 #
@@ -97,9 +99,8 @@ fz = lambda t: line_fp[2] + normal_vec_in[2] * t
 ###############################################################################
 # Create coordinates using 3D line equation-
 #
-coordinates = [[fx(t / 10.0), fy(t / 10.0), fz(t / 10.0)] for t in
-               range(int(depth
-                         * 10))]
+coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in
+               range(int(depth / delta))]
 flat_coordinates = [entry for data in coordinates for entry in data]
 ###############################################################################
 # Create Field for coordinates of the path.
@@ -119,6 +120,15 @@ fields_mapped = mapping_operator.outputs.fields_container()
 # Here, we request the mapped field data and its mesh
 field_m = fields_mapped[0]
 mesh_m = field_m.meshed_region
+###############################################################################
+# Create stress vs length chart.
+#
+x_initial = 0.0
+length = [x_initial + delta * index for index in range(len(field_m.data))]
+plt.plot(length, field_m.data, "r")
+plt.xlabel("Length (%s)" % mesh.unit)
+plt.ylabel("Stress (%s)" % field_m.unit)
+plt.show()
 ###############################################################################
 # To create a plot we need to add both the meshes
 # `mesh_m` - mapped mesh
