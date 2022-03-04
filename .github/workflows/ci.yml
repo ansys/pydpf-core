@@ -32,7 +32,7 @@ jobs:
           python-version: 3.8
 
       - id: install-dpf
-        uses: actions/pydpf-actions/install-dpf-server@v0
+        uses: pydpf-actions/install-dpf-server@v0
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           ANSYS_VERSION : ${{env.ANSYS_VERSION}}
@@ -148,6 +148,8 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
+
+    condition: false
 
     steps:
       - uses: actions/checkout@v2
