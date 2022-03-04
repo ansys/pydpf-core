@@ -288,9 +288,9 @@ jobs:
         run: |
           cd docs/build/html
           git init
-          git checkout -b $(GH_DOC_BRANCH)
+          git checkout -b $env:GH_DOC_BRANCH
           git config --global user.name "pyansys-ci-bot"
-          git config --global user.email "$(GH_EMAIL)"
+          git config --global user.email "$env:GH_EMAIL"
           New-Item -ItemType file .nojekyll
           git add .
           git commit -m "Documentation generated"
@@ -303,6 +303,6 @@ jobs:
         run: |
           cd docs/build/html
           git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $(GH_DOC_BRANCH) --force
+          git push -u origin $env:GH_DOC_BRANCH --force
         env:
           GH_DOC_BRANCH: gh-pages

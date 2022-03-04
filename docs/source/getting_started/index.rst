@@ -132,7 +132,7 @@ with the server version as shown here:
      - 0.2.*
 
 
-Future development will try to ensure backward compatibilty from the client to the server.
+Future development will try to ensure backward compatibility from the client to the server.
 
 
 To start a server with Ans.Dpf.Grpc.bat or Ans.Dpf.Grpc.sh (used in the `start_local_server`  function),
