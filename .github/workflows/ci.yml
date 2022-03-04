@@ -149,7 +149,7 @@ jobs:
     env:
       ANSYS_VERSION: 221
 
-    condition: false
+    if: false
 
     steps:
       - uses: actions/checkout@v2
