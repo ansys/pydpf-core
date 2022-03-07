@@ -97,7 +97,6 @@ Optional package dependencies can be installed for specific usage:
 - `PyVista <https://pypi.org/project/pyvista/>`_ for 3D plotting
 - `Scooby <https://pypi.org/project/scooby/>`_ for dependency reports
 
-
 Compatibility
 ~~~~~~~~~~~~~
 DPF supports Windows 10 and CentOS 7 and later.  For
