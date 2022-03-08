@@ -137,7 +137,7 @@ class Operator:
             Number of the input pin.
         inpt : str, int, double, bool, list of int, list of doubles,
                Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion,
-               MeshesContainer, DataSources, Operator
+               MeshesContainer, DataSources, Operator, os.PathLike
             Object to connect to.
         pin_out : int, optional
             If the input is an operator, the output pin of the input operator. The
@@ -729,9 +729,11 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         workflow,
         time_freq_support,
     )
-
+    from pathlib import Path
     if isinstance(inpt, str):
         request.str = inpt
+    elif isinstance(inpt, Path):
+        request.str = str(inpt)
     elif isinstance(inpt, bool):
         request.bool = inpt
     elif isinstance(inpt, int):
