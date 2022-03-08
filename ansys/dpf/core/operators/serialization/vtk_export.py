@@ -15,7 +15,7 @@ class vtk_export(Operator):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         Path with vtk extension were the export
         occurs
     mesh : MeshedRegion, optional

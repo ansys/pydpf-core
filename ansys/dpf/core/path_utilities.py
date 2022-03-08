@@ -8,6 +8,7 @@ server into account to create path.
 import os
 
 from ansys.dpf.core import server as server_module
+from pathlib import Path
 
 
 def join(*args, **kwargs):
@@ -19,7 +20,7 @@ def join(*args, **kwargs):
 
     Parameters
     ----------
-    args : str, DPFServer
+    args : str, os.PathLike, DPFServer
         Path to join and optionally a server.
 
     kwargs : DPFServer
@@ -39,6 +40,9 @@ def join(*args, **kwargs):
     for a in args:
         if isinstance(a, str) and len(a) > 0:
             parts.append(a)
+        elif isinstance(a, Path):
+            if len(str(a)) > 0:
+                parts.append(str(a))
         elif isinstance(a, server_module.DpfServer):
             server = a
     if "server" in kwargs:
@@ -64,6 +68,7 @@ def join(*args, **kwargs):
     return path_to_return
 
 def to_server_os(path, server=None):
+    path = str(path)
     if not server:
         server = server_module._global_server()
     if not server:

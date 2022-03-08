@@ -15,7 +15,7 @@ class prns_to_field(Operator):
 
     Parameters
     ----------
-    filepath : str
+    filepath : str or os.PathLike
         Filepath
 
 
