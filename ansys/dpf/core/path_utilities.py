@@ -38,11 +38,8 @@ def join(*args, **kwargs):
     server = None
     parts = []
     for a in args:
-        if isinstance(a, str) and len(a) > 0:
-            parts.append(a)
-        elif isinstance(a, Path):
-            if len(str(a)) > 0:
-                parts.append(str(a))
+        if isinstance(a, (str, Path)) and Path(a) != Path(""):
+            parts.append(str(a))
         elif isinstance(a, server_module.DpfServer):
             server = a
     if "server" in kwargs:
