@@ -24,9 +24,9 @@ class Model:
 
     Parameters
     ----------
-    data_sources : str, dpf.core.DataSources
-        Accepts either a :class:`dpf.core.DataSources` instance or the name of the
-        result file to open. The default is ``None``.
+    data_sources : str, dpf.core.DataSources, os.PathLike
+        Accepts either a :class:`dpf.core.DataSources` instance or the path of the
+        result file to open as an os.PathLike object or a str. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
