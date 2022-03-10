@@ -16,7 +16,7 @@ class run(Operator):
 
     Parameters
     ----------
-    mapdl_exe_path : str, optional
+    mapdl_exe_path : str or os.PathLike, optional
     working_dir : str, optional
     number_of_processes : int, optional
         Set the number of mpi processes used for
@@ -67,7 +67,7 @@ class run(Operator):
         self._inputs = InputsRun(self)
         self._outputs = OutputsRun(self)
         if mapdl_exe_path is not None:
-            self.inputs.mapdl_exe_path.connect(mapdl_exe_path)
+            self.inputs.mapdl_exe_path.connect(str(mapdl_exe_path))
         if working_dir is not None:
             self.inputs.working_dir.connect(working_dir)
         if number_of_processes is not None:

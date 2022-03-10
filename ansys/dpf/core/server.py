@@ -155,7 +155,7 @@ def start_local_server(
     port : int
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    ansys_path : str, optional
+    ansys_path : str or os.PathLike, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
     as_global : bool, optional
@@ -192,7 +192,7 @@ def start_local_server(
 
         # parse the version to an int and check for supported
         try:
-            ver = int(ansys_path[-3:])
+            ver = int(str(ansys_path)[-3:])
             if ver < 211:
                 raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
             if ver == 211 and is_ubuntu():
@@ -234,7 +234,7 @@ def start_local_server(
     if server is None:
         raise OSError(
             f"Unable to launch the server after {n_attempts} attempts.  "
-            "Check the following path:\n{ansys_path}\n\n"
+            "Check the following path:\n{str(ansys_path)}\n\n"
             "or attempt to use a different port"
         )
 
@@ -294,7 +294,7 @@ class DpfServer:
 
     Parameters
     -----------
-    server_bin : str
+    server_bin : str or os.PathLike
         Path for the DPF executable.
     ip : str
         IP address of the remote or local instance to connect to. The
@@ -340,7 +340,7 @@ class DpfServer:
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
         elif launch_server:
-            self._server_id = launch_dpf(ansys_path, ip, port, docker_name=docker_name)
+            self._server_id = launch_dpf(str(ansys_path), ip, port, docker_name=docker_name)
 
         self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
 
@@ -354,7 +354,7 @@ class DpfServer:
         self._input_ip = ip
         self._input_port = port
         self.live = True
-        self.ansys_path = ansys_path
+        self.ansys_path = str(ansys_path)
         self._own_process = launch_server
         self._base_service_instance = None
         self._session_instance = None
@@ -553,13 +553,13 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
             path_in_install = "aisol/bin/linx64"
 
         # verify ansys path is valid
-        if os.path.isdir(f"{ansys_path}/{path_in_install}"):
-            dpf_run_dir = f"{ansys_path}/{path_in_install}"
+        if os.path.isdir(f"{str(ansys_path)}/{path_in_install}"):
+            dpf_run_dir = f"{str(ansys_path)}/{path_in_install}"
         else:
-            dpf_run_dir = f"{ansys_path}"
+            dpf_run_dir = f"{str(ansys_path)}"
         if not os.path.isdir(dpf_run_dir):
             raise NotADirectoryError(
-                f'Invalid ansys path at "{ansys_path}".  '
+                f'Invalid ansys path at "{str(ansys_path)}".  '
                 "Unable to locate the directory containing DPF at "
                 f'"{dpf_run_dir}"'
             )
@@ -575,7 +575,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
 
     Parameters
     ----------
-    ansys_path : str, optional
+    ansys_path : str or os.PathLike, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
     ip : str, optional

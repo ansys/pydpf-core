@@ -144,7 +144,7 @@ def test_no_element_descriptor():
     )
 
 
-def test_descriptor_with_int_value(allkindofcomplexity):
+def test_descriptor_with_int_value():
     # int as attribute instead of element_types.VALUE
     descriptor = dpf.element_types.descriptor(1)
     check_element_attributes(
