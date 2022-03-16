@@ -135,7 +135,7 @@ class Scoping:
         request.scoping.CopyFrom(self._message)
         self._stub.Update(request)
 
-    @version_requires("2.1")
+    # @version_requires("2.1") # !TO_REMOVE
     def _set_ids(self, ids):
         """
         Parameters
@@ -147,7 +147,8 @@ class Scoping:
         -----
         Print a progress bar.
         """
-        self.api_to_call.scoping_set_ids(self, self.internal_object, ids, len(ids))
+        from python_api import utils
+        self.api_to_call.scoping_set_ids(self, self.internal_obj, utils.list_to_int_array(ids), len(ids))
 
     def _get_ids(self, np_array=False):
         """
@@ -204,7 +205,7 @@ class Scoping:
         id : int
             ID of the scoping's index.
         """
-        self.api_to_call.scoping_id_by_index(self, self.internal_object, index)
+        self.api_to_call.scoping_id_by_index(self, self.internal_obj, index)
 
     def _get_index(self, scopingid):
         """Retrieve an ID corresponding to an ID in the scoping.
