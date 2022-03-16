@@ -7,6 +7,7 @@ Scoping
 
 import array
 import sys
+sys.path.append("C:/AnsysDev/DPF/PFClientAPI/CParser/python_api") # !TO_REMOVE
 
 import numpy as np
 from ansys.dpf.core.check_version import server_meet_version, version_requires
@@ -147,7 +148,7 @@ class Scoping:
         -----
         Print a progress bar.
         """
-        self.api_to_call.scoping_set_ids(self, ids, len(ids))
+        self.api_to_call.scoping_set_ids(self, self.internal_object, ids, len(ids))
 
     def _get_ids(self, np_array=False):
         """
@@ -204,10 +205,7 @@ class Scoping:
         id : int
             ID of the scoping's index.
         """
-        request = scoping_pb2.GetRequest()
-        request.index = index
-        request.scoping.CopyFrom(self._message)
-        return self._stub.Get(request).id
+        self.api_to_call.scoping_id_by_index(self, self.internal_object, index)
 
     def _get_index(self, scopingid):
         """Retrieve an ID corresponding to an ID in the scoping.
