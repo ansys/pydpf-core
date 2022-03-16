@@ -15,6 +15,7 @@ import grpc
 import psutil
 import weakref
 import copy
+import abc
 
 from ansys import dpf
 from ansys.dpf.core.misc import find_ansys, is_ubuntu
@@ -42,6 +43,7 @@ if RUNNING_DOCKER["use_docker"]:
     RUNNING_DOCKER["docker_name"] = os.environ.get("DPF_DOCKER")
 RUNNING_DOCKER['args'] = ""
 
+
 def shutdown_global_server():
     try:
         if dpf.core.SERVER != None:
@@ -49,8 +51,7 @@ def shutdown_global_server():
     except:
         pass
 
-
-#atexit.register(shutdown_global_server)
+# atexit.register(shutdown_global_server)
 
 
 def has_local_server():
@@ -289,36 +290,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     return server
 
 
-class DpfServer:
-    """Provides an instance of the DPF server.
-
-    Parameters
-    -----------
-    server_bin : str
-        Path for the DPF executable.
-    ip : str
-        IP address of the remote or local instance to connect to. The
-        default is ``"LOCALHOST"``.
-    port : int
-        Port to connect to the remote instance on. The default is
-        ``"DPF_DEFAULT_PORT"``, which is 50054.
-    timeout : float, optional
-        Maximum number of seconds for the initialization attempt.
-        The default is ``10``. Once the specified number of seconds
-        passes, the connection fails.
-    as_global : bool, optional
-        Global variable that stores the IP address and port for the DPF
-        module. All DPF objects created in this Python session will
-        use this IP and port. The default is ``True``.
-    load_operators : bool, optional
-        Whether to automatically load the math operators. The default
-        is ``True``.
-    launch_server : bool, optional
-        Whether to launch the server on Windows.
-    docker_name : str, optional
-        To start DPF server as a docker, specify the docker name here.
-    """
-
+class BaseServer(abc.ABC):
     def __init__(
         self,
         ansys_path="",
@@ -362,18 +334,27 @@ class DpfServer:
         check_ansys_grpc_dpf_version(self, timeout)
 
     @property
+    def version(self):
+        """Version of the server.
+
+        Returns
+        -------
+        version : str
+        """
+        return self._base_service.server_info["server_version"]
+
+    @property
+    @abc.abstractmethod
+    def _available_api_types(self):
+        raise Exception("Unimplemented")
+
+    @property
     def _base_service(self):
         if not self._base_service_instance:
             from ansys.dpf.core.core import BaseService
 
             self._base_service_instance = BaseService(self, timeout=1)
         return self._base_service_instance
-
-    @property
-    def _session(self):
-        if not self._session_instance:
-            self._session_instance = session.Session(self)
-        return self._session_instance
 
     @property
     def info(self):
@@ -387,6 +368,12 @@ class DpfServer:
             ``"server_version"`` keys.
         """
         return self._base_service.server_info
+
+    @property
+    def _session(self):
+        if not self._session_instance:
+            self._session_instance = session.Session(self)
+        return self._session_instance
 
     @property
     def ip(self):
@@ -415,16 +402,6 @@ class DpfServer:
             return 0
 
     @property
-    def version(self):
-        """Version of the server.
-
-        Returns
-        -------
-        version : str
-        """
-        return self._base_service.server_info["server_version"]
-
-    @property
     def os(self):
         """Get the operating system of the server
 
@@ -435,8 +412,9 @@ class DpfServer:
         """
         return self._base_service.server_info["os"]
 
-    def __str__(self):
-        return f"DPF Server: {self.info}"
+    @property
+    def on_docker(self):
+        return hasattr(self, "_server_id") and self._server_id is not None
 
     def shutdown(self):
         if self._own_process and self.live and self._base_service:
@@ -473,26 +451,6 @@ class DpfServer:
             except:
                 pass
 
-    def __eq__(self, other_server):
-        """Return true, if the ip and the port are equals"""
-        if isinstance(other_server, DpfServer):
-            return self.ip == other_server.ip and self.port == other_server.port
-        return False
-
-    def __ne__(self, other_server):
-        """Return true, if the ip or the port are different"""
-        return not self.__eq__(other_server)
-
-    def __del__(self):
-        try:
-            self.shutdown()
-        except:
-            pass
-
-    @property
-    def on_docker(self):
-        return hasattr(self, "_server_id") and self._server_id is not None
-
     def check_version(self, required_version, msg=None):
         """Check if the server version matches with a required version.
 
@@ -517,6 +475,66 @@ class DpfServer:
 
         return server_meet_version_and_raise(required_version, self, msg)
 
+    def __str__(self):
+        return f"DPF Server: {self.info}"
+
+    def __eq__(self, other_server):
+        """Return true, if the ip and the port are equals"""
+        if isinstance(other_server, DpfServer):
+            return self.ip == other_server.ip and self.port == other_server.port
+        return False
+
+    def __ne__(self, other_server):
+        """Return true, if the ip or the port are different"""
+        return not self.__eq__(other_server)
+
+    def __del__(self):
+        try:
+            self.shutdown()
+        except:
+            pass
+
+
+class DirectLinkServer(BaseServer):
+    @property
+    def _available_api_types(self):
+        return ['C_layer']
+
+
+class DpfServer(BaseServer):
+    """Provides an instance of the DPF server.
+
+    Parameters
+    -----------
+    server_bin : str
+        Path for the DPF executable.
+    ip : str
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
+    port : int
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout : float, optional
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
+    as_global : bool, optional
+        Global variable that stores the IP address and port for the DPF
+        module. All DPF objects created in this Python session will
+        use this IP and port. The default is ``True``.
+    load_operators : bool, optional
+        Whether to automatically load the math operators. The default
+        is ``True``.
+    launch_server : bool, optional
+        Whether to launch the server on Windows.
+    docker_name : str, optional
+        To start DPF server as a docker, specify the docker name here.
+    """
+    @property
+    def _available_api_types(self):
+        return ['grpc', 'C_layer']
+
+
 def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -529,6 +547,7 @@ def _find_port_available_for_docker_bind(port):
     while port in used_ports:
         port += 1
     return port
+
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
     if docker_name:
@@ -576,6 +595,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     os.chdir(old_dir)
     return process
+
 
 def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, docker_name=None):
     """Launch Ansys DPF.
