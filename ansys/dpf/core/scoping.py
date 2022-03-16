@@ -7,7 +7,6 @@ Scoping
 
 import array
 import sys
-sys.path.append("C:/AnsysDev/DPF/PFClientAPI/CParser/python_api") # !TO_REMOVE
 
 import numpy as np
 from ansys.dpf.core.check_version import server_meet_version, version_requires
@@ -77,13 +76,13 @@ class Scoping:
             # common to dpf_classes : call server
             ctypes_server = ServerKnowingCtypes(server)
             # common to dpf_classes : call the API
-            use_ctypes = ctypes_server.use_ctype()
+            use_ctypes = ctypes_server.use_ctypes
             if use_ctypes:
-                from api import CTypesAPI()
-    			self.api_to_call = CTypesAPI()
-    		else:
-                from grpc_ctypes import GrpcAPI
-    			self.api_to_call = GrpcAPI()
+                from python_api.api import CTypesAPI
+                self.api_to_call = CTypesAPI()
+            else:
+                from python_api.grpc_ctypes import GrpcAPI
+                self.api_to_call = GrpcAPI()
                 
             # common to dpf_classes : initialization of the scoping
             self.api_to_call._init_scoping(self)
