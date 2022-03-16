@@ -64,7 +64,7 @@ jobs:
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
           $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
       - name: Install test offscreen rendering
