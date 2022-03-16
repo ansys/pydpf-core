@@ -440,14 +440,14 @@ class DpfServer(BaseServer):
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
         use this IP and port. The default is ``True``.
+    load_operators : bool, optional
+        Whether to automatically load the math operators. The default
+        is ``True``.
     launch_server : bool, optional
         Whether to launch the server on Windows.
     docker_name : str, optional
         To start DPF server as a docker, specify the docker name here.
     """
-    # load_operators : bool, optional
-    #     Whether to automatically load the math operators. The default
-    #     is ``True``.
 
     def __init__(
         self,
@@ -456,7 +456,7 @@ class DpfServer(BaseServer):
         port=DPF_DEFAULT_PORT,
         timeout=10,
         as_global=True,
-        # load_operators=True,
+        load_operators=True,
         launch_server=True,
         docker_name=None,
     ):
