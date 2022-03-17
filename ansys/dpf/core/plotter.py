@@ -419,8 +419,6 @@ class Plotter:
     """
 
     def __init__(self, mesh, **kwargs):
-        # from warnings import warn
-        # warn('Using the Plotter is deprecated, please switch to DpfPlotter instead.', DeprecationWarning, stacklevel=2)
         self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
         self._mesh = mesh
 
@@ -508,7 +506,7 @@ class Plotter:
             field_or_fields_container,
             notebook=None,
             shell_layers=None,
-            # off_screen=None,
+            off_screen=None,
             show_axes=True,
             meshed_region=None,
             **kwargs
@@ -634,8 +632,6 @@ class Plotter:
         background = kwargs.pop("background", None)
         cpos = kwargs.pop("cpos", None)
         return_cpos = kwargs.pop("return_cpos", None)
-        off_screen = kwargs.pop("off_screen", False)
-
 
         # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
         if notebook is not None:
@@ -648,7 +644,6 @@ class Plotter:
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
         text = kwargs.pop('text', None)
-        screenshot = kwargs.pop('screenshot', False)
         if text is not None:
             self._internal_plotter._plotter.add_text(text, position='lower_edge')
         self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
@@ -663,14 +658,14 @@ class Plotter:
         if show_axes:
             self._internal_plotter._plotter.add_axes()
         if return_cpos is None:
-            return self._internal_plotter._plotter.show(screenshot=screenshot)
+            return self._internal_plotter._plotter.show()
         else:
             import pyvista as pv
             pv_version = pv.__version__
             version_to_reach = '0.32.0'
             meet_ver = meets_version(pv_version, version_to_reach)
             if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos, screenshot=screenshot)
+                return self._internal_plotter._plotter.show(return_cpos=return_cpos)
             else:
                 txt = """To use the return_cpos option, please upgrade
                 your pyvista module with a version higher than """

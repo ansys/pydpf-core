@@ -370,7 +370,7 @@ class MeshedRegion:
             field_or_fields_container=None,
             notebook=None,
             shell_layers=None,
-            # off_screen=None,
+            off_screen=None,
             show_axes=True,
             **kwargs
     ):
@@ -406,16 +406,13 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        # kwargs["notebook"] = notebook
-        screenshot = kwargs.pop("screenshot", None)
-        pl = _DpfPlotter(self, **kwargs)
-        kwargs["screenshot"] = screenshot
+        pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
             return pl.plot_contour(
                 field_or_fields_container,
                 notebook,
                 shell_layers,
-                # off_screen,
+                off_screen,
                 show_axes,
                 **kwargs
             )
