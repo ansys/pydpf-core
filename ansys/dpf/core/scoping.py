@@ -35,7 +35,7 @@ class ServerKnowingCtypes:
         if self._client is None:
             ip = self._server.ip
             port = self._server.port
-            self._client = api.client_new(str(ip), str(port))
+            self._client = api.client_new(ip.encode('UTF-8'), str(port).encode('UTF-8'))
         return self._client
 
 class Scoping:
@@ -81,15 +81,16 @@ class Scoping:
         """Initializes the scoping with an optional scoping message or
         by connecting to a stub.
         """
+        self.internal_obj = None
         # different cases, if scoping is None or not
         if scoping is not None:
             self.internal_obj = scoping.internal_obj
             self.api_to_call = scoping.api_to_call
         else:
             # common to dpf_classes : call server
-            ctypes_server = ServerKnowingCtypes(server)
+            self._ctypes_server = ServerKnowingCtypes(server)
             # common to dpf_classes : call the API
-            use_ctypes = ctypes_server.use_ctypes
+            use_ctypes = self._ctypes_server.use_ctypes
             if use_ctypes:
                 from python_api.api import CTypesAPI
                 self.api_to_call = CTypesAPI()
@@ -99,13 +100,6 @@ class Scoping:
                 
             # common to dpf_classes : initialization of the scoping
             self.api_to_call._init_scoping(self, server)
-            
-            # common to dpf_classes : check if server is None or not
-            if server is None:
-                self.internal_obj = self.api_to_call.scoping_new(self)
-            else:
-                client = ctypes_server.get_client(self.api_to_call)
-                self.internal_obj = self.api_to_call.scoping_new_on_client(self, client)
             
             # different cases, if ids, if location ...
             if ids is not None:
