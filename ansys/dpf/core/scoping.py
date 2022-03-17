@@ -20,11 +20,23 @@ class ServerKnowingCtypes:
         if server is None:
             self.use_ctypes = True
         else:
-            self.use_ctypes = False # in fact we need to check the server version
+            ver = server.info.get("server_version")
+            if ver == "4.0":
+                self.use_ctypes = True
+            else:
+                self.use_ctypes = False
             self._server = server
+            self._client = None
     
     def use_ctypes(self):
         return self.use_ctypes
+    
+    def get_client(self, api):
+        if self._client is None:
+            ip = self._server.ip
+            port = self._server.port
+            self._client = api.client_new(str(ip), str(port))
+        return self._client
 
 class Scoping:
     """Represents a scoping, which is a subset of a model support.
@@ -86,13 +98,14 @@ class Scoping:
                 self.api_to_call = GrpcAPI()
                 
             # common to dpf_classes : initialization of the scoping
-            self.api_to_call._init_scoping(self)
+            self.api_to_call._init_scoping(self, server)
             
             # common to dpf_classes : check if server is None or not
             if server is None:
                 self.internal_obj = self.api_to_call.scoping_new(self)
             else:
-                self.internal_obj = self.api_to_call.scoping_new_on_client(self, server)
+                client = ctypes_server.get_client(self.api_to_call)
+                self.internal_obj = self.api_to_call.scoping_new_on_client(self, client)
             
             # different cases, if ids, if location ...
             if ids is not None:
