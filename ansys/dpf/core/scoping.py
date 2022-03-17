@@ -72,6 +72,7 @@ class Scoping:
         # different cases, if scoping is None or not
         if scoping is not None:
             self.internal_obj = scoping.internal_obj
+            self.api_to_call = scoping.api_to_call
         else:
             # common to dpf_classes : call server
             ctypes_server = ServerKnowingCtypes(server)
@@ -205,7 +206,7 @@ class Scoping:
         id : int
             ID of the scoping's index.
         """
-        self.api_to_call.scoping_id_by_index(self, self.internal_obj, index)
+        return self.api_to_call.scoping_id_by_index(self, self.internal_obj, index)
 
     def _get_index(self, scopingid):
         """Retrieve an ID corresponding to an ID in the scoping.
