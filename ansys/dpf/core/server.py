@@ -221,15 +221,22 @@ def start_local_server(
 
     server = None
     n_attempts = 10
+    timeout = 10
+    timed_out = False
     for _ in range(n_attempts):
         try:
             server = DpfServer(
-                ansys_path, ip, port, as_global=as_global,
+                ansys_path, ip, port, timeout=timeout, as_global=as_global,
                 load_operators=load_operators, docker_name=docker_name
             )
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
+        except TimeoutError:
+            if timed_out:
+                break
+            timeout *= 2.
+            timed_out = True
 
     if server is None:
         raise OSError(
