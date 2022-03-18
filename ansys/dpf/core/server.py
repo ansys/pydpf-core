@@ -139,7 +139,8 @@ def start_local_server(
     as_global=True,
     load_operators=True,
     use_docker_by_default=True,
-    docker_name=None
+    docker_name=None,
+    timeout=10.
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -169,6 +170,11 @@ def start_local_server(
         is True, the server is ran as a docker (default is True).
     docker_name : str, optional
         To start DPF server as a docker, specify the docker name here.
+    timeout : float, optional
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, a second attempt is made with twice the given timeout,
+        then if still no server has started, the connection fails.
 
     Returns
     -------
@@ -221,7 +227,6 @@ def start_local_server(
 
     server = None
     n_attempts = 10
-    timeout = 10
     timed_out = False
     for _ in range(n_attempts):
         try:
@@ -235,6 +240,9 @@ def start_local_server(
         except TimeoutError:
             if timed_out:
                 break
+            import warnings
+            warnings.warn(f"Failed to start a server in {timeout}s, " +
+                          f"trying again once in {timeout*2.}s.")
             timeout *= 2.
             timed_out = True
 
@@ -249,7 +257,7 @@ def start_local_server(
     return server
 
 
-def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=5):
+def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=10):
     """Connect to an existing DPF server.
 
     This method sets the global default channel that is then used for the
@@ -291,7 +299,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False)
+    server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False, timeout=timeout)
     dpf.core._server_instances.append(weakref.ref(server))
     return server
 
@@ -331,7 +339,7 @@ class DpfServer:
         ansys_path="",
         ip=LOCALHOST,
         port=DPF_DEFAULT_PORT,
-        timeout=10,
+        timeout=10.,
         as_global=True,
         load_operators=True,
         launch_server=True,
@@ -347,7 +355,9 @@ class DpfServer:
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
         elif launch_server:
-            self._server_id = launch_dpf(str(ansys_path), ip, port, docker_name=docker_name)
+            self._server_id = launch_dpf(str(ansys_path), ip, port,
+                                         docker_name=docker_name,
+                                         timeout=timeout)
 
         self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
 
@@ -366,7 +376,7 @@ class DpfServer:
         self._base_service_instance = None
         self._session_instance = None
 
-        check_ansys_grpc_dpf_version(self, timeout)
+        check_ansys_grpc_dpf_version(self, timeout=timeout)
 
     @property
     def _base_service(self):
@@ -577,7 +587,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
     os.chdir(old_dir)
     return process
 
-def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, docker_name=None):
+def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., docker_name=None):
     """Launch Ansys DPF.
 
     Parameters
@@ -657,7 +667,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
         return docker_id[0]
 
 
-def check_ansys_grpc_dpf_version(server, timeout):
+def check_ansys_grpc_dpf_version(server, timeout=10.):
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
     tstart = time.time()
@@ -666,7 +676,8 @@ def check_ansys_grpc_dpf_version(server, timeout):
 
     if not state._matured:
         raise TimeoutError(
-            f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
+            f"Failed to connect to {server._input_ip}:" +
+            f"{server._input_port} in {int(timeout)} seconds"
         )
 
     LOG.debug("Established connection to DPF gRPC")
