@@ -381,6 +381,10 @@ class BaseServer(abc.ABC):
     def available_api_types(self):
         pass
 
+    @abc.abstractmethod
+    def get_api_for_type(self, c_api, grpc_api):
+        pass
+
     @property
     @abc.abstractmethod
     def _base_service(self):
@@ -531,7 +535,6 @@ class DpfServer(BaseServer):
     docker_name : str, optional
         To start DPF server as a docker, specify the docker name here.
     """
-
     def __init__(
         self,
         ansys_path="",
@@ -572,6 +575,7 @@ class DpfServer(BaseServer):
         self._own_process = launch_server
         self._base_service_instance = None
         self._session_instance = None
+        self._stubs = {}
 
         check_ansys_grpc_dpf_version(self, timeout)
 
@@ -586,8 +590,18 @@ class DpfServer(BaseServer):
     def available_api_types(self):
         raise NotImplementedError
 
-    def create_stub_if_necessary(self):
+    def get_api_for_type(self, c_api, grpc_api):
         raise NotImplementedError
+
+    def create_stub_if_necessary(self, stub_name, stub_type):
+        if not (stub_name in self._stubs.keys()):
+            self._stubs[stub_name] = stub_type(self.channel)
+
+    def get_stub(self, stub_name):
+        if not (stub_name in self._stubs.keys()):
+            return None
+        else:
+            return self._stubs[stub_name]
 
     @property
     def _base_service(self):

@@ -1,25 +1,30 @@
-import ansys.grpc.dpf
+import psutil
 import pytest
-
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from ansys.dpf.core.check_version import meets_version, get_server_version
-from ansys.dpf.core.server import RemoteProtocols, ServerConfig
+from ansys.dpf.core.server import ServerConfig
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
-from conftest import running_docker
 
 
 server_configs = [None,
                   ServerConfig(),
-                  ServerConfig(c_server=True),
-                  ServerConfig(remote_protocol=None),
-                  ServerConfig(c_server=True, remote_protocol=None)]
+                  # ServerConfig(c_server=True),
+                  # ServerConfig(remote_protocol=None),
+                  # ServerConfig(c_server=True, remote_protocol=None),
+                  ]
 
 
 @pytest.mark.parametrize("server_config", server_configs)
 class TestServerConfigs:
+    @pytest.fixture(scope="class", autouse=True)
+    def cleanup(self, request):
+        """Cleanup a testing directory once we are finished."""
+        def reset_server_config():
+            set_server_configuration(ServerConfig())
+        request.addfinalizer(reset_server_config)
+
     def test__global_server(self, server_config):
         set_server_configuration(server_config)
         print(dpf.core.SERVER_CONFIGURATION)
@@ -53,3 +58,4 @@ class TestServerConfigs:
         start_local_server(timeout=1)
         shutdown_all_session_servers()
         assert not has_local_server()
+
