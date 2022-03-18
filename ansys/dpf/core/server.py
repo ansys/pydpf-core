@@ -66,10 +66,26 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
+class RemoteProtocols:
+    gRPC = "gRPC"
+
+
+class ServerConfig:
+    """Provides an instance of ServerConfig object to manage the default server type used
+    """
+    def __init__(self, c_server=False, remote_protocol=RemoteProtocols.gRPC):
+        self.c_server = c_server
+        self.remote_protocol = remote_protocol
+
+
 def _global_server():
     """Retrieve the global server if it exists.
 
-    If the global server has not been specified, check if the user
+    If the global server has not been specified, check the expected server type in
+    the current configuration and start one.
+
+
+    if the user
     has specified the "DPF_START_SERVER" environment variable.  If
     ``True``, start the server locally.  If ``False``, connect to the
     existing server.
@@ -81,10 +97,24 @@ def _global_server():
                 port = int(os.environ.get("DPF_PORT", DPF_DEFAULT_PORT))
                 connect_to_server(ip, port)
             else:
-                start_local_server()
+                if dpf.core.SERVER_CONFIGURATION is None:
+                    # If no SERVER_CONFIGURATION is yet defined, set one with default values
+                    dpf.core.SERVER_CONFIGURATION = ServerConfig()
+                # Start a server of type specified in the dpf.core.SERVER_CONFIGURATION object
+                config = dpf.core.SERVER_CONFIGURATION
+                # If using the defaults (use ansys.grpc.dpf for backward compatibility)
+                if config.remote_protocol == RemoteProtocols.gRPC and (not config.c_server):
+                    # Use the original function
+                    start_local_server()
+                else:
+                    raise NotImplementedError("Other protocols than direct gRPC not implemented.")
 
         return dpf.core.SERVER
     return None
+
+
+def set_server_configuration(server_config: ServerConfig) -> None:
+    dpf.core.SERVER_CONFIGURATION = server_config
 
 
 def port_in_use(port, host=LOCALHOST):
@@ -173,7 +203,7 @@ def start_local_server(
 
     Returns
     -------
-    server : server.DpfServer
+    server : server.ServerBase
     """
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
     if not use_docker:
@@ -290,11 +320,36 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     return server
 
 
+def get_or_create_server(server):
+    """Returns the given server or if None, creates a new one.
+
+    Parameters
+    ----------
+    server: BaseServer, None
+
+    Returns
+    -------
+    server: returns the newly created server, or the server given.
+    """
+    if server:
+        return server
+    return _global_server()
+
+
 class BaseServer(abc.ABC):
     @abc.abstractmethod
     def __init__(self):
         self._server_id = None
         self._session_instance = None
+
+    @abc.abstractmethod
+    def _has_client(self):
+        pass
+
+    @property
+    @abc.abstractmethod
+    def client(self):  # Si gRPC, return le DPFClient
+        pass
 
     @property
     @abc.abstractmethod
@@ -382,7 +437,7 @@ class BaseServer(abc.ABC):
         pass
 
 
-class DirectLinkServer(BaseServer):
+class CServer(BaseServer):
     def __init__(self):
         raise NotImplementedError
 
@@ -417,6 +472,14 @@ class DirectLinkServer(BaseServer):
     @property
     def available_api_types(self):
         raise NotImplementedError
+
+
+class GrpcCServer(CServer):
+    pass
+
+
+class DirectCServer(CServer):
+    pass
 
 
 class DpfServer(BaseServer):
@@ -491,8 +554,18 @@ class DpfServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
 
+    def _has_client(self):
+        raise NotImplementedError
+
+    @property
+    def client(self):  # Si gRPC, return le DPFClient
+        raise NotImplementedError
+
     @property
     def available_api_types(self):
+        raise NotImplementedError
+
+    def create_stub_if_necessary(self):
         raise NotImplementedError
 
     @property
