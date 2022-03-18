@@ -673,11 +673,10 @@ def check_ansys_grpc_dpf_version(server, timeout):
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
-    # if right_grpc_module_version and right_grpc_module_version != grpc_module_version:
-    #     raise ImportWarning(f"2022R1 Ansys unified install is available. "
-    #                         f"To use DPF server from Ansys "
+    ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
+    #    raise ImportWarning(f"{ansys_version_to_use} Ansys unified install is available. "
     #                         f"{server_to_ansys_version.get(server_version, 'Unknown')}"
-    #                         f" (dpf.SERVER.version=='{server_version}'), "
+    #                        f"{ansys_version_to_use}"
     #                         f"install version {right_grpc_module_version} of ansys-grpc-dpf"
     #                         f" with the command: \n"
     #                         f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
