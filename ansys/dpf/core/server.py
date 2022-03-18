@@ -77,6 +77,25 @@ class ServerConfig:
         self.c_server = c_server
         self.remote_protocol = remote_protocol
 
+    def __str__(self):
+        return f"Server configuration: c_server={self.c_server}, " \
+               f"remote protocol={self.remote_protocol}"
+
+
+class ServerFactory:
+    @staticmethod
+    def get_server_from_config():
+        config = dpf.core.SERVER_CONFIGURATION
+        # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
+        if config is None:
+            # If no SERVER_CONFIGURATION is yet defined, set one with default values
+            dpf.core.SERVER_CONFIGURATION = ServerConfig()
+            config = dpf.core.SERVER_CONFIGURATION
+        if config.remote_protocol == RemoteProtocols.gRPC and config.c_server is False:
+            return DpfServer
+        else:
+            raise NotImplementedError("Protocols other than direct gRPC not implemented.")
+
 
 def _global_server():
     """Retrieve the global server if it exists.
@@ -90,25 +109,19 @@ def _global_server():
     ``True``, start the server locally.  If ``False``, connect to the
     existing server.
     """
+    # if global variable dpf.core.SERVER exists
     if hasattr(dpf, "core") and hasattr(dpf.core, "SERVER"):
+        # If no server is currently registered
         if dpf.core.SERVER is None:
+            # Depending on the DPF_START_SERVER environment variable,
+            # if false, do not start a new server, and try to connect to one with default parameters
             if os.environ.get("DPF_START_SERVER", "").lower() == "false":
                 ip = os.environ.get("DPF_IP", LOCALHOST)
                 port = int(os.environ.get("DPF_PORT", DPF_DEFAULT_PORT))
                 connect_to_server(ip, port)
+            # if true, start a server
             else:
-                if dpf.core.SERVER_CONFIGURATION is None:
-                    # If no SERVER_CONFIGURATION is yet defined, set one with default values
-                    dpf.core.SERVER_CONFIGURATION = ServerConfig()
-                # Start a server of type specified in the dpf.core.SERVER_CONFIGURATION object
-                config = dpf.core.SERVER_CONFIGURATION
-                # If using the defaults (use ansys.grpc.dpf for backward compatibility)
-                if config.remote_protocol == RemoteProtocols.gRPC and (not config.c_server):
-                    # Use the original function
-                    start_local_server()
-                else:
-                    raise NotImplementedError("Other protocols than direct gRPC not implemented.")
-
+                start_local_server()
         return dpf.core.SERVER
     return None
 
@@ -170,7 +183,8 @@ def start_local_server(
     as_global=True,
     load_operators=True,
     use_docker_by_default=True,
-    docker_name=None
+    docker_name=None,
+    timeout=10.
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -200,6 +214,10 @@ def start_local_server(
         is True, the server is ran as a docker (default is True).
     docker_name : str, optional
         To start DPF server as a docker, specify the docker name here.
+    timeout : float, optional
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
 
     Returns
     -------
@@ -254,7 +272,7 @@ def start_local_server(
     n_attempts = 10
     for _ in range(n_attempts):
         try:
-            server = DpfServer(
+            server = ServerFactory().get_server_from_config()(
                 ansys_path, ip, port, as_global=as_global,
                 load_operators=load_operators, docker_name=docker_name
             )
@@ -315,7 +333,9 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False)
+    server = ServerFactory().get_server_from_config()(ip=ip, port=port,
+                                                      as_global=as_global, launch_server=False,
+                                                      timeout=timeout)
     dpf.core._server_instances.append(weakref.ref(server))
     return server
 
@@ -533,7 +553,8 @@ class DpfServer(BaseServer):
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
         elif launch_server:
-            self._server_id = launch_dpf(ansys_path, ip, port, docker_name=docker_name)
+            self._server_id = launch_dpf(ansys_path, ip, port,
+                                         docker_name=docker_name, timeout=timeout)
 
         self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
 
