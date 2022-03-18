@@ -15,28 +15,8 @@ from ansys.dpf.core import misc
 from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 from ansys.dpf.core.cache import _setter
 
-class ServerKnowingCtypes:
-    def __init__(self, server):
-        if server is None:
-            self.use_ctypes = True
-        else:
-            ver = server.info.get("server_version")
-            if ver == "4.0":
-                self.use_ctypes = True
-            else:
-                self.use_ctypes = False
-            self._server = server
-            self._client = None
-    
-    def use_ctypes(self):
-        return self.use_ctypes
-    
-    def get_client(self, api):
-        if self._client is None:
-            ip = self._server.ip
-            port = self._server.port
-            self._client = api.client_new(ip.encode('UTF-8'), str(port).encode('UTF-8'))
-        return self._client
+from ansys.dpf.core import server as server_module
+from python_api import scoping_capi, scoping_grpcapi
 
 class Scoping:
     """Represents a scoping, which is a subset of a model support.
@@ -81,31 +61,30 @@ class Scoping:
         """Initializes the scoping with an optional scoping message or
         by connecting to a stub.
         """
-        self.internal_obj = None
-        # different cases, if scoping is None or not
-        if scoping is not None:
-            self.internal_obj = scoping.internal_obj
-            self.api_to_call = scoping.api_to_call
-        else:
-            # common to dpf_classes : call server
-            self._ctypes_server = ServerKnowingCtypes(server)
-            # common to dpf_classes : call the API
-            use_ctypes = self._ctypes_server.use_ctypes
-            if use_ctypes:
-                from python_api.api import CTypesAPI
-                self.api_to_call = CTypesAPI()
-            else:
-                from python_api.grpc_ctypes import GrpcAPI
-                self.api_to_call = GrpcAPI()
-                
-            # common to dpf_classes : initialization of the scoping
-            self.api_to_call._init_scoping(self, server)
+        #step 1: get server
+        self._server = server_module.get_or_create_server(server)
+        
+        #step 2: get api
+        self._api = self._server.get_api_for_type(capi=scoping_capi.ScopingCDPFAPI,
+                                      grpcapi=scoping_grpcapi.ScopingGrpcDPFAPI)
             
-            # different cases, if ids, if location ...
-            if ids is not None:
-                self.api_to_call.scoping_set_ids(self, self.internal_obj, ids, len(ids))
-            if location is not None: 
-                self.api_to_call.scoping_set_location(self, self.internal_obj, location)
+        #step 3: init environement
+        self._api.init_object_name_environment(self) #creates stub when gRPC
+        
+        #step 4: if object exists, else create it
+        if scoping is not None:
+             self._internal_obj = scoping
+        else:
+             if server.has_client():
+                  self._internal_obj = self._api.scoping_new_on_client(server.client)
+             else:
+                  self._internal_obj = self._api.scoping_new()
+        
+        # step 5: handle particular case calls
+        if ids is not None:
+            self.api_to_call.scoping_set_ids(self, self.internal_obj, ids, len(ids))
+        if location is not None: 
+            self.api_to_call.scoping_set_location(self, self.internal_obj, location)
 
     def _count(self):
         """
