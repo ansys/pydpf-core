@@ -135,7 +135,7 @@ class Scoping:
         Print a progress bar.
         """
         from python_api import utils
-        self.api_to_call.scoping_set_ids(self, self.internal_obj, utils.list_to_int_array(ids), len(ids))
+        self._api.scoping_set_ids(self, self.internal_obj, utils.list_to_int_array(ids), len(ids))
 
     def _get_ids(self, np_array=False):
         """
@@ -192,7 +192,7 @@ class Scoping:
         id : int
             ID of the scoping's index.
         """
-        return self.api_to_call.scoping_id_by_index(self, self.internal_obj, index)
+        return self._api.scoping_id_by_index(self, self.internal_obj, index)
 
     def _get_index(self, scopingid):
         """Retrieve an ID corresponding to an ID in the scoping.
