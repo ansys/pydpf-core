@@ -82,9 +82,9 @@ class Scoping:
         
         # step 5: handle particular case calls
         if ids is not None:
-            self.api_to_call.scoping_set_ids(self, self.internal_obj, ids, len(ids))
+            self._api.scoping_set_ids(self, self.internal_obj, ids, len(ids))
         if location is not None: 
-            self.api_to_call.scoping_set_location(self, self.internal_obj, location)
+            self._api.scoping_set_location(self, self.internal_obj, location)
 
     def _count(self):
         """
