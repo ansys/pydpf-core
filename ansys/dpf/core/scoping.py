@@ -15,6 +15,8 @@ from ansys.dpf.core import misc
 from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 from ansys.dpf.core.cache import _setter
 
+from ansys.dpf.core import server as server_module
+from python_api import scoping_capi, scoping_grpcapi
 
 class Scoping:
     """Represents a scoping, which is a subset of a model support.
@@ -59,24 +61,30 @@ class Scoping:
         """Initializes the scoping with an optional scoping message or
         by connecting to a stub.
         """
-        if server is None:
-            import ansys.dpf.core.server as serverlib
-
-            server = serverlib._global_server()
-
-        self._server = server
-        self._stub = self._connect()
-
-        if scoping is None:
-            request = base_pb2.Empty()
-            self._message = self._stub.Create(request)
+        #step 1: get server
+        self._server = server_module.get_or_create_server(server)
+        
+        #step 2: get api
+        self._api = self._server.get_api_for_type(capi=scoping_capi.ScopingCDPFAPI,
+                                      grpcapi=scoping_grpcapi.ScopingGrpcDPFAPI)
+            
+        #step 3: init environement
+        self._api.init_object_name_environment(self) #creates stub when gRPC
+        
+        #step 4: if object exists, else create it
+        if scoping is not None:
+             self._internal_obj = scoping
         else:
-            self._message = scoping
-
-        if ids:
-            self.ids = ids
-        if location:
-            self.location = location
+             if server.has_client():
+                  self._internal_obj = self._api.scoping_new_on_client(server.client)
+             else:
+                  self._internal_obj = self._api.scoping_new()
+        
+        # step 5: handle particular case calls
+        if ids is not None:
+            self._api.scoping_set_ids(self, self.internal_obj, ids, len(ids))
+        if location is not None: 
+            self._api.scoping_set_location(self, self.internal_obj, location)
 
     def _count(self):
         """
@@ -114,7 +122,7 @@ class Scoping:
         request.scoping.CopyFrom(self._message)
         self._stub.Update(request)
 
-    @version_requires("2.1")
+    # @version_requires("2.1") # !TO_REMOVE
     def _set_ids(self, ids):
         """
         Parameters
@@ -126,23 +134,8 @@ class Scoping:
         -----
         Print a progress bar.
         """
-        # must convert to a list for gRPC
-        if isinstance(ids, range):
-            ids = np.array(list(ids), dtype=np.int32)
-        elif not isinstance(ids, (np.ndarray, np.generic)):
-            ids = np.array(ids, dtype=np.int32)
-        else:
-            ids = np.array(list(ids), dtype=np.int32)
-
-        metadata = [("size_int", f"{len(ids)}")]
-        request = scoping_pb2.UpdateIdsRequest()
-        request.scoping.CopyFrom(self._message)
-        if server_meet_version("2.1", self._server):
-            self._stub.UpdateIds(_data_chunk_yielder(request, ids), metadata=metadata)
-        else:
-            self._stub.UpdateIds(
-                _data_chunk_yielder(request, ids, 8.0e6), metadata=metadata
-            )
+        from python_api import utils
+        self._api.scoping_set_ids(self, self.internal_obj, utils.list_to_int_array(ids), len(ids))
 
     def _get_ids(self, np_array=False):
         """
@@ -199,10 +192,7 @@ class Scoping:
         id : int
             ID of the scoping's index.
         """
-        request = scoping_pb2.GetRequest()
-        request.index = index
-        request.scoping.CopyFrom(self._message)
-        return self._stub.Get(request).id
+        return self._api.scoping_id_by_index(self, self.internal_obj, index)
 
     def _get_index(self, scopingid):
         """Retrieve an ID corresponding to an ID in the scoping.
