@@ -84,7 +84,7 @@ class ServerConfig:
 
 class ServerFactory:
     @staticmethod
-    def get_server_from_config():
+    def get_server_type_from_config():
         config = dpf.core.SERVER_CONFIGURATION
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
         if config is None:
@@ -272,7 +272,7 @@ def start_local_server(
     n_attempts = 10
     for _ in range(n_attempts):
         try:
-            server = ServerFactory().get_server_from_config()(
+            server = ServerFactory().get_server_type_from_config()(
                 ansys_path, ip, port, as_global=as_global,
                 load_operators=load_operators, docker_name=docker_name
             )
@@ -333,7 +333,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    server = ServerFactory().get_server_from_config()(ip=ip, port=port,
+    server = ServerFactory().get_server_type_from_config()(ip=ip, port=port,
                                                       as_global=as_global, launch_server=False,
                                                       timeout=timeout)
     dpf.core._server_instances.append(weakref.ref(server))
