@@ -7,6 +7,7 @@ server into account to create path.
 
 import os
 
+import dpf.core.server_types
 from ansys.dpf.core import server as server_module
 
 
@@ -39,7 +40,7 @@ def join(*args, **kwargs):
     for a in args:
         if isinstance(a, str) and len(a) > 0:
             parts.append(a)
-        elif isinstance(a, server_module.DpfServer):
+        elif isinstance(a, dpf.core.server_types.DpfServer):
             server = a
     if "server" in kwargs:
         server = kwargs["server"]

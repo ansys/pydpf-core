@@ -32,13 +32,13 @@ def server_meet_version(required_version, server):
 
 def server_meet_version_and_raise(required_version, server, msg=None):
     """Check if a given server version matches with a required version and raise
-    an execepton if it doesn not match.
+    an exception if it does not match.
 
     Parameters
     ----------
     required_version : str
         Required version to compare with the server version.
-    server : :class:`ansys.dpf.core.server.BaseServer`
+    server : :class:`dpf.core.server_types.BaseServer`
         DPF server object.
     msg : str, optional
         Message contained in the raised exception if the versions do
