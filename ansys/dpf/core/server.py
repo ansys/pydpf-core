@@ -64,15 +64,15 @@ def has_local_server():
     return dpf.core.SERVER is not None
 
 
-class RemoteProtocols:
+class CommunicationProtocols:
     gRPC = "gRPC"
-    none = None
+    direct = "direct"
 
 
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the default server type used
     """
-    def __init__(self, c_server=False, remote_protocol=RemoteProtocols.gRPC):
+    def __init__(self, c_server=False, remote_protocol=CommunicationProtocols.gRPC):
         self.c_server = c_server
         self.remote_protocol = remote_protocol
 
@@ -90,11 +90,11 @@ class ServerFactory:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             dpf.core.SERVER_CONFIGURATION = ServerConfig()
             config = dpf.core.SERVER_CONFIGURATION
-        if config.remote_protocol == RemoteProtocols.gRPC and config.c_server is False:
+        if config.remote_protocol == CommunicationProtocols.gRPC and config.c_server is False:
             return DpfServer
-        elif config.remote_protocol == RemoteProtocols.gRPC and config.c_server:
+        elif config.remote_protocol == CommunicationProtocols.gRPC and config.c_server:
             return GrpcCServer
-        elif config.remote_protocol == RemoteProtocols.none and config.c_server:
+        elif config.remote_protocol == CommunicationProtocols.direct and config.c_server:
             return DirectCServer
         else:
             raise NotImplementedError("Server config not available.")
