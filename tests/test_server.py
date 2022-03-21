@@ -2,7 +2,7 @@ import psutil
 import pytest
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from ansys.dpf.core.server import ServerConfig
+from dpf.core.server_factory import ServerConfig
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server

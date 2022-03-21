@@ -5,7 +5,7 @@ Interface to underlying gRPC workflow.
 """
 import logging
 
-import dpf.core.server_types
+# from ansys.dpf.core.server_types import BaseServer
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc

@@ -47,7 +47,7 @@ def join(*args, **kwargs):
     if not server:
         server = server_module._global_server()
     if not server:
-        if server_module.RUNNING_DOCKER["use_docker"]:
+        if dpf.core.server_types.RUNNING_DOCKER["use_docker"]:
             current_os = "posix"
         else:
             return os.path.join(*args)
@@ -75,7 +75,7 @@ def to_server_os(path, server=None):
         return path.replace("/", "\\")
 
 def downloaded_example_path(server = None):
-    on_docker = server_module.RUNNING_DOCKER["use_docker"]
+    on_docker = dpf.core.server_types.RUNNING_DOCKER["use_docker"]
     if not server:
         server = server_module._global_server()
     if server:

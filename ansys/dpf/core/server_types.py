@@ -1,17 +1,192 @@
 import abc
 import io
 import os
-import platform
+import socket
 import subprocess
 import time
+from threading import Thread
 
 import grpc
 import psutil
 
-import dpf
-from dpf.core import session
-from dpf.core.server import LOCALHOST, DPF_DEFAULT_PORT, check_valid_ip, launch_dpf, \
-    check_ansys_grpc_dpf_version
+import ansys.dpf.core as core
+from ansys.dpf.core import errors, session
+from ansys.dpf.core._version import server_to_ansys_grpc_dpf_version, server_to_ansys_version
+# from ansys.dpf.core.server import LOG, RUNNING_DOCKER, LOCALHOST, DPF_DEFAULT_PORT
+
+import logging
+LOG = logging.getLogger(__name__)
+LOG.setLevel("DEBUG")
+DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
+LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
+RUNNING_DOCKER = {"use_docker": "DPF_DOCKER" in os.environ.keys()}
+MAX_PORT = 65535
+
+
+def check_valid_ip(ip):
+    """Check if a valid IP address is entered.
+
+    This method raises an error when an invalid IP address is entered.
+    """
+    try:
+        socket.inet_aton(ip)
+    except OSError:
+        raise ValueError(f'Invalid IP address "{ip}"')
+
+
+def _run_launch_server_process(ansys_path, ip, port, docker_name):
+    if docker_name:
+        docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
+        dpf_run_dir = os.getcwd()
+        from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+        if os.name == "nt":
+            run_cmd = f"docker run -d -p {port}:{docker_server_port} " \
+                      f"{RUNNING_DOCKER['args']} " \
+                      f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples" ' \
+                      f"-e DOCKER_SERVER_PORT={docker_server_port} " \
+                      f"--expose={docker_server_port} " \
+                      f"{docker_name}"
+        else:
+            run_cmd = ["docker run",
+                       "-d",
+                       f"-p"+f"{port}:{docker_server_port}",
+                       RUNNING_DOCKER['args'],
+                       f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples"'
+                       f"-e DOCKER_SERVER_PORT={docker_server_port}",
+                       f"--expose={docker_server_port}",
+                       docker_name]
+    else:
+        if os.name == "nt":
+            run_cmd = f"Ans.Dpf.Grpc.bat --address {ip} --port {port}"
+            path_in_install = "aisol/bin/winx64"
+        else:
+            run_cmd = ["./Ans.Dpf.Grpc.sh", f"--address {ip}", f"--port {port}"]
+            path_in_install = "aisol/bin/linx64"
+
+        # verify ansys path is valid
+        if os.path.isdir(f"{ansys_path}/{path_in_install}"):
+            dpf_run_dir = f"{ansys_path}/{path_in_install}"
+        else:
+            dpf_run_dir = f"{ansys_path}"
+        if not os.path.isdir(dpf_run_dir):
+            raise NotADirectoryError(
+                f'Invalid ansys path at "{ansys_path}".  '
+                "Unable to locate the directory containing DPF at "
+                f'"{dpf_run_dir}"'
+            )
+
+    old_dir = os.getcwd()
+    os.chdir(dpf_run_dir)
+    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    os.chdir(old_dir)
+    return process
+
+
+def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, docker_name=None):
+    """Launch Ansys DPF.
+
+    Parameters
+    ----------
+    ansys_path : str, optional
+        Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+        The default is the latest Ansys installation.
+    ip : str, optional
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
+    port : int
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout : float, optional
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
+    docker_name : str, optional
+        To start DPF server as a docker, specify the docker name here.
+
+    Returns
+    -------
+    process : subprocess.Popen
+        DPF Process.
+    """
+    process = _run_launch_server_process(ansys_path, ip, port, docker_name)
+
+    # check to see if the service started
+    lines = []
+    docker_id = []
+
+    def read_stdout():
+        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+            LOG.debug(line)
+            lines.append(line)
+        if docker_name:
+            docker_id.append(lines[0].replace("\n", ""))
+            docker_process = subprocess.Popen(f"docker logs {docker_id[0]}",
+                                              stdout=subprocess.PIPE,
+                                              stderr=subprocess.PIPE)
+            for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
+                LOG.debug(line)
+                lines.append(line)
+
+    current_errors = []
+
+    def read_stderr():
+        for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
+            LOG.error(line)
+            current_errors.append(line)
+
+    # must be in the background since the process reader is blocking
+    Thread(target=read_stdout, daemon=True).start()
+    Thread(target=read_stderr, daemon=True).start()
+
+    t_timeout = time.time() + timeout
+    started = False
+    while not started:
+        started = any("server started" in line for line in lines)
+
+        if time.time() > t_timeout:
+            raise TimeoutError(f"Server did not start in {timeout} seconds")
+
+    # verify there were no errors
+    time.sleep(0.1)
+    if current_errors:
+        try:
+            process.kill()
+        except PermissionError:
+            pass
+        errstr = "\n".join(errors)
+        if "Only one usage of each socket address" in errstr:
+            raise errors.InvalidPortError(f"Port {port} in use")
+        raise RuntimeError(errstr)
+
+    if len(docker_id) > 0:
+        return docker_id[0]
+
+
+def check_ansys_grpc_dpf_version(server, timeout):
+    import ansys.grpc
+    state = grpc.channel_ready_future(server.channel)
+    # verify connection has matured
+    tstart = time.time()
+    while ((time.time() - tstart) < timeout) and not state._matured:
+        time.sleep(0.001)
+
+    if not state._matured:
+        raise TimeoutError(
+            f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
+        )
+
+    LOG.debug("Established connection to DPF gRPC")
+    grpc_module_version = ansys.grpc.dpf.__version__
+    server_version = server.version
+    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
+    ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
+    #    raise ImportWarning(f"{ansys_version_to_use} Ansys unified install is available. "
+    #                         f"{server_to_ansys_version.get(server_version, 'Unknown')}"
+    #                        f"{ansys_version_to_use}"
+    #                         f"install version {right_grpc_module_version} of ansys-grpc-dpf"
+    #                         f" with the command: \n"
+    #                         f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+    #                         )
 
 
 class BaseServer(abc.ABC):
@@ -20,9 +195,8 @@ class BaseServer(abc.ABC):
         self._server_id = None
         self._session_instance = None
 
-    @abc.abstractmethod
-    def _has_client(self):
-        pass
+    def has_client(self):
+        raise not (self.client is None)
 
     @property
     @abc.abstractmethod
@@ -153,15 +327,92 @@ class CServer(BaseServer):
 
     @property
     def available_api_types(self):
-        raise NotImplementedError
+        return "c_api"
+
+    def get_api_for_type(self, c_api, grpc_api):
+        return c_api
 
 
 class GrpcCServer(CServer):
-    pass
+    def __init__(self):
+        pass
+
+    @property
+    def version(self):
+        pass
+
+    @property
+    def _base_service(self):
+        pass
+
+    @property
+    def info(self):
+        pass
+
+    @property
+    def os(self):
+        pass
+
+    def shutdown(self):
+        pass
+
+    def __eq__(self, other_server):
+        pass
+
+    def __ne__(self, other_server):
+        pass
+
+    def __del__(self):
+        pass
+
+    @property
+    def available_api_types(self):
+        return client_api
+
+    @property
+    def client(self):
+        return client_api.ClientCAPI.client_new()
 
 
 class DirectCServer(CServer):
-    pass
+    def __init__(self):
+        pass
+
+    @property
+    def version(self):
+        pass
+
+    @property
+    def _base_service(self):
+        pass
+
+    @property
+    def info(self):
+        pass
+
+    @property
+    def os(self):
+        pass
+
+    def shutdown(self):
+        pass
+
+    def __eq__(self, other_server):
+        pass
+
+    def __ne__(self, other_server):
+        pass
+
+    def __del__(self):
+        pass
+
+    @property
+    def available_api_types(self):
+        return "c_api"
+
+    @property
+    def client(self):
+        return None
 
 
 class DpfServer(BaseServer):
@@ -210,7 +461,7 @@ class DpfServer(BaseServer):
         check_valid_ip(ip)
         if not isinstance(port, int):
             raise ValueError("Port must be an integer")
-
+        import platform
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
         elif launch_server:
@@ -221,7 +472,7 @@ class DpfServer(BaseServer):
 
         # assign to global channel when requested
         if as_global:
-            dpf.core.SERVER = self
+            core.SERVER = self
 
         # TODO: add to PIDs ...
 
@@ -237,19 +488,16 @@ class DpfServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
 
-    def _has_client(self):
-        raise NotImplementedError
-
     @property
-    def client(self):  # Si gRPC, return le DPFClient
-        raise NotImplementedError
+    def client(self, stub_name=None):  # Si gRPC, return le DPFClient
+        return self.get_stub(stub_name)
 
     @property
     def available_api_types(self):
-        raise NotImplementedError
+        return list(self._stubs.values())
 
     def get_api_for_type(self, c_api, grpc_api):
-        raise NotImplementedError
+        return grpc_api
 
     def create_stub_if_necessary(self, stub_name, stub_type):
         if not (stub_name in self._stubs.keys()):
@@ -358,15 +606,15 @@ class DpfServer(BaseServer):
 
             self.live = False
             try:
-                if id(dpf.core.SERVER) == id(self):
-                    dpf.core.SERVER = None
+                if id(core.SERVER) == id(self):
+                    core.SERVER = None
             except:
                 pass
 
             try:
-                for i, server in enumerate(dpf.core._server_instances):
+                for i, server in enumerate(core._server_instances):
                     if server() == self:
-                        dpf.core._server_instances.remove(server)
+                        core._server_instances.remove(server)
             except:
                 pass
 

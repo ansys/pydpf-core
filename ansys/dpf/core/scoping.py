@@ -16,7 +16,8 @@ from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 from ansys.dpf.core.cache import _setter
 
 from ansys.dpf.core import server as server_module
-from python_api import scoping_capi, scoping_grpcapi
+# from ansys.dpf.gate import scoping_capi, scoping_grpcapi
+
 
 class Scoping:
     """Represents a scoping, which is a subset of a model support.
