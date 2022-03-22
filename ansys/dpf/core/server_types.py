@@ -329,13 +329,18 @@ class CServer(BaseServer):
     def available_api_types(self):
         return "c_api"
 
-    def get_api_for_type(self, c_api, grpc_api):
-        return c_api
+    def get_api_for_type(self, capi, grpcapi):
+        return capi
 
 
 class GrpcCServer(CServer):
     def __init__(self):
-        pass
+        from ansys.dpf.gate.capi import load_api, _version
+        ISPOSIX = os.name == "posix"
+        ANSYS_INSTALL = os.environ.get("AWP_ROOT"+str(_version.__ansys_version__), None)
+        SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
+                                   "linx64" if ISPOSIX else "winx64")
+        load_api(os.path.join(SUB_FOLDERS, "DPFClientAPI"))
 
     @property
     def version(self):
@@ -347,7 +352,16 @@ class GrpcCServer(CServer):
 
     @property
     def info(self):
-        pass
+        """Server information.
+
+        Returns
+        -------
+        info : dictionary
+            Dictionary with server information, including ``"server_ip"``,
+            ``"server_port"``, ``"server_process_id"``, and
+            ``"server_version"`` keys.
+        """
+        return self._base_service.server_info
 
     @property
     def os(self):
@@ -367,16 +381,17 @@ class GrpcCServer(CServer):
 
     @property
     def available_api_types(self):
-        return client_api
+        return "c_api",
 
     @property
-    def client(self):
-        return client_api.ClientCAPI.client_new()
+    def client(self, ip=LOCALHOST, port=DPF_DEFAULT_PORT):
+        return client_capi.ClientCAPI().client_new(ip=ip, port=port)
 
 
 class DirectCServer(CServer):
     def __init__(self):
-        pass
+        from ansys.dpf.gate import data_processing_core_load_api
+        data_processing_core_load_api(path, api_name)
 
     @property
     def version(self):
@@ -408,7 +423,7 @@ class DirectCServer(CServer):
 
     @property
     def available_api_types(self):
-        return "c_api"
+        return "c_api",
 
     @property
     def client(self):
@@ -496,8 +511,8 @@ class DpfServer(BaseServer):
     def available_api_types(self):
         return list(self._stubs.values())
 
-    def get_api_for_type(self, c_api, grpc_api):
-        return grpc_api
+    def get_api_for_type(self, capi, grpcapi):
+        return grpcapi
 
     def create_stub_if_necessary(self, stub_name, stub_type):
         if not (stub_name in self._stubs.keys()):

@@ -8,7 +8,7 @@ Customize the behavior of the module.
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
 from ansys.dpf.core.server import set_server_configuration
-from dpf.core.server_factory import ServerConfig
+from ansys.dpf.core.server_factory import ServerConfig
 
 
 def disable_off_screen_rendering() -> None:

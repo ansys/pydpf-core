@@ -6,6 +6,7 @@ from dpf.core.server_factory import ServerConfig
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
+from ansys.dpf.core.server import get_or_create_server
 
 
 server_configs = [None,
@@ -58,4 +59,27 @@ class TestServerConfigs:
         start_local_server(timeout=1)
         shutdown_all_session_servers()
         assert not has_local_server()
+
+
+@pytest.mark.parametrize("server_config", server_configs)
+class TestServer:
+    @pytest.fixture(scope="class", autouse=True)
+    def cleanup(self, request):
+        """Cleanup a testing directory once we are finished."""
+
+        def reset_server_config():
+            set_server_configuration(ServerConfig())
+
+        request.addfinalizer(reset_server_config)
+
+    def test_available_api_types(self, server_config):
+        set_server_configuration(server_config)
+        server = get_or_create_server(None)
+        types = server.available_api_types()
+
+    def test_client(self, server_config):
+        set_server_configuration(server_config)
+        server = get_or_create_server(None)
+        client = server.client()
+        assert server.has_client()
 

@@ -16,7 +16,7 @@ from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 from ansys.dpf.core.cache import _setter
 
 from ansys.dpf.core import server as server_module
-# from ansys.dpf.gate import scoping_capi, scoping_grpcapi
+from ansys.dpf.gate import scoping_capi  #, scoping_grpcapi
 
 
 class Scoping:
@@ -64,13 +64,14 @@ class Scoping:
         """
         #step 1: get server
         self._server = server_module.get_or_create_server(server)
-        
+        print(self._server)
+
         #step 2: get api
-        self._api = self._server.get_api_for_type(capi=scoping_capi.ScopingCDPFAPI,
-                                      grpcapi=scoping_grpcapi.ScopingGrpcDPFAPI)
-            
+        self._api = self._server.get_api_for_type(capi=scoping_capi.ScopingCAPI,
+                                      grpcapi=scoping_capi.ScopingCAPI)  # scoping_grpcapi.ScopingGrpcDPFAPI)
+
         #step 3: init environement
-        self._api.init_object_name_environment(self) #creates stub when gRPC
+        self._api.init_scoping_environment(self) #creates stub when gRPC
         
         #step 4: if object exists, else create it
         if scoping is not None:
