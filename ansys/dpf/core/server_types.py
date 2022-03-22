@@ -10,6 +10,7 @@ import os
 import socket
 import subprocess
 import time
+from abc import ABC
 from threading import Thread
 
 import psutil
@@ -209,6 +210,7 @@ class BaseServer(abc.ABC):
     """Abstract class for servers"""
     @abc.abstractmethod
     def __init__(self):
+        # TODO: Use _server_id to compare servers for equality?
         self._server_id = None
         self._session_instance = None
 
@@ -301,49 +303,21 @@ class BaseServer(abc.ABC):
     def __eq__(self, other_server):
         pass
 
-    @abc.abstractmethod
     def __ne__(self, other_server):
-        pass
+        """Return true, if the servers are not equal"""
+        return not self.__eq__(other_server)
 
     @abc.abstractmethod
     def __del__(self):
         pass
 
 
-class CServer(BaseServer):
-    """Parent class for servers going through the DPFClientAPI"""
+class CServer(BaseServer, ABC):
+    """Abstract class for servers going through the DPFClientAPI"""
     def __init__(self):
         from ansys.dpf.gate import capi
         path = _get_dll_path("DPFClientAPI")
         capi.load_api(path)
-
-    @property
-    def version(self):
-        raise NotImplementedError
-
-    @property
-    def _base_service(self):
-        raise NotImplementedError
-
-    @property
-    def info(self):
-        raise NotImplementedError
-
-    @property
-    def os(self):
-        raise NotImplementedError
-
-    def shutdown(self):
-        raise NotImplementedError
-
-    def __eq__(self, other_server):
-        raise NotImplementedError
-
-    def __ne__(self, other_server):
-        raise NotImplementedError
-
-    def __del__(self):
-        raise NotImplementedError
 
     @property
     def available_api_types(self):
@@ -351,6 +325,12 @@ class CServer(BaseServer):
 
     def get_api_for_type(self, capi, grpcapi):
         return capi
+
+    def __del__(self):
+        try:
+            self.shutdown()
+        except Exception as e:
+            raise e
 
 
 class GrpcCServer(CServer):
@@ -366,11 +346,11 @@ class GrpcCServer(CServer):
 
     @property
     def version(self):
-        pass
+        raise NotImplementedError
 
     @property
     def _base_service(self):
-        pass
+        raise NotImplementedError
 
     @property
     def info(self):
@@ -387,23 +367,16 @@ class GrpcCServer(CServer):
 
     @property
     def os(self):
-        pass
+        raise NotImplementedError
 
     def shutdown(self):
-        pass
+        raise NotImplementedError
 
     def __eq__(self, other_server):
-        pass
-
-    def __ne__(self, other_server):
-        pass
-
-    def __del__(self):
-        pass
-
-    @property
-    def available_api_types(self):
-        return "c_api",
+        """Return true, if ***** are equals"""
+        if isinstance(other_server, GrpcCServer):
+            raise NotImplementedError
+        return False
 
     @property
     def client(self, ip=LOCALHOST, port=DPF_DEFAULT_PORT):
@@ -425,35 +398,29 @@ class DirectCServer(CServer):
 
     @property
     def version(self):
-        pass
+        raise NotImplementedError
 
     @property
     def _base_service(self):
-        pass
+        raise NotImplementedError
 
     @property
     def info(self):
-        pass
+        raise NotImplementedError
 
     @property
     def os(self):
-        pass
+        # Since it is direct, one could return the current os
+        return os.name
 
     def shutdown(self):
-        pass
+        raise NotImplementedError
 
     def __eq__(self, other_server):
-        pass
-
-    def __ne__(self, other_server):
-        pass
-
-    def __del__(self):
-        pass
-
-    @property
-    def available_api_types(self):
-        return "c_api",
+        """Return true, if ***** are equals"""
+        if isinstance(other_server, DirectCServer):
+            raise NotImplementedError
+        return False
 
     @property
     def client(self):
@@ -674,10 +641,6 @@ class DpfServer(BaseServer):
         if isinstance(other_server, DpfServer):
             return self.ip == other_server.ip and self.port == other_server.port
         return False
-
-    def __ne__(self, other_server):
-        """Return true, if the ip or the port are different"""
-        return not self.__eq__(other_server)
 
     def __del__(self):
         try:
