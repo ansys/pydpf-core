@@ -420,7 +420,8 @@ class Plotter:
 
     def __init__(self, mesh, **kwargs):
         # from warnings import warn
-        # warn('Using the Plotter is deprecated, please switch to DpfPlotter instead.', DeprecationWarning, stacklevel=2)
+        # warn('Using the Plotter is deprecated, please switch to DpfPlotter instead.',
+        # DeprecationWarning, stacklevel=2)
         self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
         self._mesh = mesh
 
@@ -635,7 +636,6 @@ class Plotter:
         cpos = kwargs.pop("cpos", None)
         return_cpos = kwargs.pop("return_cpos", None)
         off_screen = kwargs.pop("off_screen", False)
-
 
         # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
         if notebook is not None:
