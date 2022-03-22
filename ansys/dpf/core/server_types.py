@@ -1,3 +1,9 @@
+"""
+Server types
+============
+Contains the different kinds of
+servers available for the factory.
+"""
 import abc
 import io
 import os
@@ -22,7 +28,8 @@ RUNNING_DOCKER = {"use_docker": "DPF_DOCKER" in os.environ.keys()}
 MAX_PORT = 65535
 
 
-def get_dll_path(name):
+def _get_dll_path(name):
+    """Helper function to get the right dll path for Linux or Windows"""
     from ansys.dpf.gate import _version
     ISPOSIX = os.name == "posix"
     ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
@@ -199,6 +206,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
 
 
 class BaseServer(abc.ABC):
+    """Abstract class for servers"""
     @abc.abstractmethod
     def __init__(self):
         self._server_id = None
@@ -303,9 +311,10 @@ class BaseServer(abc.ABC):
 
 
 class CServer(BaseServer):
+    """Parent class for servers going through the DPFClientAPI"""
     def __init__(self):
         from ansys.dpf.gate import capi
-        path = get_dll_path("DPFClientAPI")
+        path = _get_dll_path("DPFClientAPI")
         capi.load_api(path)
 
     @property
@@ -345,13 +354,14 @@ class CServer(BaseServer):
 
 
 class GrpcCServer(CServer):
+    """Server using the gRPC communication protocol"""
     def __init__(self):
         # Load DPFClientAPI
         super().__init__()
         # Load Ans.Dpf.GrpcClient
         from ansys.dpf.gate.utils import data_processing_core_load_api
         name = "Ans.Dpf.GrpcClient"
-        path = get_dll_path(name)
+        path = _get_dll_path(name)
         data_processing_core_load_api(path, "remote")
 
     @property
@@ -401,6 +411,7 @@ class GrpcCServer(CServer):
 
 
 class DirectCServer(CServer):
+    """Server using the direct communication protocol"""
     def __init__(self):
         # Load DPFClientAPI
         super().__init__()
@@ -408,7 +419,7 @@ class DirectCServer(CServer):
         from ansys.dpf.gate.utils import data_processing_core_load_api
         from ansys.dpf.gate import data_processing_capi
         name = "DataProcessingCore"
-        path = get_dll_path(name)
+        path = _get_dll_path(name)
         data_processing_core_load_api(path, "common")
         data_processing_capi.DataProcessingCAPI.data_processing_initialization()
 
@@ -450,7 +461,8 @@ class DirectCServer(CServer):
 
 
 class DpfServer(BaseServer):
-    """Provides an instance of the DPF server.
+    """Provides an instance of the DPF server using direct gRPC.
+    Kept for backward-compatibility with dpf servers <0.5.0.
 
     Parameters
     -----------

@@ -1,7 +1,15 @@
+"""
+Server factory, server configuration and communication protocols
+================================================================
+Contains the server factory as well as the communication
+protocols and server configurations available.
+"""
 from ansys.dpf.core.server_types import DpfServer, GrpcCServer, DirectCServer
 
 
 class CommunicationProtocols:
+    """Defines available communication protocols
+    """
     gRPC = "gRPC"
     direct = "direct"
 
@@ -19,6 +27,8 @@ class ServerConfig:
 
 
 class ServerFactory:
+    """Factory for server type choice depending on current configuration.
+    """
     @staticmethod
     def get_server_type_from_config():
         from ansys.dpf.core import SERVER_CONFIGURATION

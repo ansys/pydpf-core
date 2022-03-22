@@ -83,4 +83,3 @@ class TestServer:
         server = get_or_create_server(None)
         assert has_local_server()
         client = server.client
-
