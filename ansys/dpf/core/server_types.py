@@ -23,6 +23,15 @@ RUNNING_DOCKER = {"use_docker": "DPF_DOCKER" in os.environ.keys()}
 MAX_PORT = 65535
 
 
+def get_dll_path(name):
+    from ansys.dpf.gate import _version
+    ISPOSIX = os.name == "posix"
+    ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
+    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
+                               "linx64" if ISPOSIX else "winx64")
+    return os.path.join(SUB_FOLDERS, name)
+
+
 def check_valid_ip(ip):
     """Check if a valid IP address is entered.
 
@@ -335,12 +344,14 @@ class CServer(BaseServer):
 
 class GrpcCServer(CServer):
     def __init__(self):
-        from ansys.dpf.gate.capi import load_api, _version
-        ISPOSIX = os.name == "posix"
-        ANSYS_INSTALL = os.environ.get("AWP_ROOT"+str(_version.__ansys_version__), None)
-        SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
-                                   "linx64" if ISPOSIX else "winx64")
-        load_api(os.path.join(SUB_FOLDERS, "DPFClientAPI"))
+        from ansys.dpf.gate import capi, client_capi
+        dll_path = get_dll_path("DPFClientAPI")
+        capi.load_api(dll_path)
+        self.client_api = client_capi.ClientCAPI()
+
+        from ansys.dpf.gate import data_processing_capi
+        dll_path = get_dll_path("DPFClientAPI")
+        data_processing_capi.load_library("DPFClientAPI.dll", dll_path, "remote")
 
     @property
     def version(self):
@@ -385,13 +396,14 @@ class GrpcCServer(CServer):
 
     @property
     def client(self, ip=LOCALHOST, port=DPF_DEFAULT_PORT):
-        return client_capi.ClientCAPI().client_new(ip=ip, port=port)
+        return self.client_api.client_new(ip=ip, port=port)
 
 
 class DirectCServer(CServer):
     def __init__(self):
-        from ansys.dpf.gate import data_processing_core_load_api
-        data_processing_core_load_api(path, api_name)
+        from ansys.dpf.gate import data_processing_capi
+        dll_path = get_dll_path("DPFClientAPI")
+        data_processing_capi.load_library("DPFClientAPI.dll", dll_path, "common")
 
     @property
     def version(self):
