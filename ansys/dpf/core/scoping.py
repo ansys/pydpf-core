@@ -77,8 +77,8 @@ class Scoping:
         if scoping is not None:
              self._internal_obj = scoping
         else:
-             if server.has_client():
-                  self._internal_obj = self._api.scoping_new_on_client(server.client)
+             if self._server.has_client():
+                  self._internal_obj = self._api.scoping_new_on_client(self._server.client)
              else:
                   self._internal_obj = self._api.scoping_new()
         

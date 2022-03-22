@@ -205,7 +205,7 @@ class BaseServer(abc.ABC):
         self._session_instance = None
 
     def has_client(self):
-        raise not (self.client is None)
+        return not (self.client is None)
 
     @property
     @abc.abstractmethod
