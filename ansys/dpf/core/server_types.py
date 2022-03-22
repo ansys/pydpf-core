@@ -529,7 +529,7 @@ class DpfServer(BaseServer):
 
     @property
     def client(self, stub_name=None):
-        return self.get_stub(stub_name)
+        return self
 
     @property
     def available_api_types(self):
