@@ -7,14 +7,14 @@ import os
 
 import pytest
 
-import dpf.core.server_types
+import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
-running_docker = dpf.core.server_types.RUNNING_DOCKER["use_docker"]
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
 
 local_test_repo = True
 

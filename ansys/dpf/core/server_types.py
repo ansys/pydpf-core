@@ -6,7 +6,6 @@ import subprocess
 import time
 from threading import Thread
 
-import grpc
 import psutil
 
 import ansys.dpf.core as core
@@ -173,6 +172,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
 
 def check_ansys_grpc_dpf_version(server, timeout):
     import ansys.grpc
+    import grpc
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
     tstart = time.time()
@@ -209,7 +209,7 @@ class BaseServer(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def client(self):  # Si gRPC, return le DPFClient
+    def client(self):
         pass
 
     @property
@@ -304,7 +304,9 @@ class BaseServer(abc.ABC):
 
 class CServer(BaseServer):
     def __init__(self):
-        raise NotImplementedError
+        from ansys.dpf.gate import capi
+        path = get_dll_path("DPFClientAPI")
+        capi.load_api(path)
 
     @property
     def version(self):
@@ -344,14 +346,13 @@ class CServer(BaseServer):
 
 class GrpcCServer(CServer):
     def __init__(self):
-        from ansys.dpf.gate import capi, client_capi
-        dll_path = get_dll_path("DPFClientAPI")
-        capi.load_api(dll_path)
-        self.client_api = client_capi.ClientCAPI()
-
-        from ansys.dpf.gate import data_processing_capi
-        dll_path = get_dll_path("DPFClientAPI")
-        data_processing_capi.load_library("DPFClientAPI.dll", dll_path, "remote")
+        # Load DPFClientAPI
+        super().__init__()
+        # Load Ans.Dpf.GrpcClient
+        from ansys.dpf.gate.utils import data_processing_core_load_api
+        name = "Ans.Dpf.GrpcClient"
+        path = get_dll_path(name)
+        data_processing_core_load_api(path, "remote")
 
     @property
     def version(self):
@@ -401,9 +402,15 @@ class GrpcCServer(CServer):
 
 class DirectCServer(CServer):
     def __init__(self):
+        # Load DPFClientAPI
+        super().__init__()
+        # Load DataProcessingCore
+        from ansys.dpf.gate.utils import data_processing_core_load_api
         from ansys.dpf.gate import data_processing_capi
-        dll_path = get_dll_path("DPFClientAPI")
-        data_processing_capi.load_library("DPFClientAPI.dll", dll_path, "common")
+        name = "DataProcessingCore"
+        path = get_dll_path(name)
+        data_processing_core_load_api(path, "common")
+        data_processing_capi.DataProcessingCAPI.data_processing_initialization()
 
     @property
     def version(self):
@@ -483,6 +490,11 @@ class DpfServer(BaseServer):
         docker_name=None,
     ):
         """Start the DPF server."""
+        # Use ansys.grpc.dpf
+        # import ansys.grpc
+
+        # Load Ans.Dpf.Grpc?
+        import grpc
 
         # check valid ip and port
         check_valid_ip(ip)
@@ -516,7 +528,7 @@ class DpfServer(BaseServer):
         check_ansys_grpc_dpf_version(self, timeout)
 
     @property
-    def client(self, stub_name=None):  # Si gRPC, return le DPFClient
+    def client(self, stub_name=None):
         return self.get_stub(stub_name)
 
     @property

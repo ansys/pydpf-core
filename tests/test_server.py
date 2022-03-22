@@ -2,7 +2,7 @@ import psutil
 import pytest
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from dpf.core.server_factory import ServerConfig
+from ansys.dpf.core.server_factory import ServerConfig
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
@@ -75,11 +75,12 @@ class TestServer:
     def test_available_api_types(self, server_config):
         set_server_configuration(server_config)
         server = get_or_create_server(None)
-        types = server.available_api_types()
+        assert has_local_server()
+        types = server.available_api_types
 
     def test_client(self, server_config):
         set_server_configuration(server_config)
         server = get_or_create_server(None)
-        client = server.client()
-        assert server.has_client()
+        assert has_local_server()
+        client = server.client
 
