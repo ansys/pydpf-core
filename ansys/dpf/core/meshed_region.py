@@ -408,8 +408,10 @@ class MeshedRegion:
         """
         # kwargs["notebook"] = notebook
         screenshot = kwargs.pop("screenshot", None)
+        text = kwargs.pop("text", None)
         pl = _DpfPlotter(self, **kwargs)
         kwargs["screenshot"] = screenshot
+        kwargs["text"] = text
         if field_or_fields_container is not None:
             return pl.plot_contour(
                 field_or_fields_container,
