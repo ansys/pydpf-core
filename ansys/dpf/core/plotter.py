@@ -670,7 +670,8 @@ class Plotter:
             version_to_reach = '0.32.0'
             meet_ver = meets_version(pv_version, version_to_reach)
             if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos, screenshot=screenshot)
+                return self._internal_plotter._plotter.show(return_cpos=return_cpos,
+                                                            screenshot=screenshot)
             else:
                 txt = """To use the return_cpos option, please upgrade
                 your pyvista module with a version higher than """
