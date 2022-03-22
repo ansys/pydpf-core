@@ -19,24 +19,15 @@ from ansys.dpf.core._version import (
     __ansys_version__
 )
 from ansys.dpf.core.server_factory import ServerConfig, ServerFactory
-from ansys.dpf.core.server_types import LOG, DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, MAX_PORT
-
-
-# default DPF server port
-
-if RUNNING_DOCKER["use_docker"]:
-    RUNNING_DOCKER["docker_name"] = os.environ.get("DPF_DOCKER")
-RUNNING_DOCKER['args'] = ""
+from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
 
 
 def shutdown_global_server():
     try:
-        if dpf.core.SERVER != None:
+        if dpf.core.SERVER is not None:
             dpf.core.SERVER.__del__()
     except:
         pass
-
-# atexit.register(shutdown_global_server)
 
 
 def has_local_server():
@@ -311,5 +302,3 @@ def _find_port_available_for_docker_bind(port):
     while port in used_ports:
         port += 1
     return port
-
-

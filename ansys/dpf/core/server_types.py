@@ -26,6 +26,9 @@ LOG.setLevel("DEBUG")
 DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
 RUNNING_DOCKER = {"use_docker": "DPF_DOCKER" in os.environ.keys()}
+if RUNNING_DOCKER["use_docker"]:
+    RUNNING_DOCKER["docker_name"] = os.environ.get("DPF_DOCKER")
+RUNNING_DOCKER['args'] = ""
 MAX_PORT = 65535
 
 
@@ -380,7 +383,8 @@ class GrpcCServer(CServer):
 
     @property
     def client(self, ip=LOCALHOST, port=DPF_DEFAULT_PORT):
-        return self.client_api.client_new(ip=ip, port=port)
+        from ansys.dpf.gate.generated.client_capi import ClientCAPI
+        return ClientCAPI.client_new(ip=ip, port=port)
 
 
 class DirectCServer(CServer):
