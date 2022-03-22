@@ -528,7 +528,7 @@ class DpfServer(BaseServer):
         check_ansys_grpc_dpf_version(self, timeout)
 
     @property
-    def client(self, stub_name=None):
+    def client(self):
         return self
 
     @property
