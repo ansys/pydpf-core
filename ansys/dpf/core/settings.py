@@ -7,6 +7,9 @@ Customize the behavior of the module.
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
+from ansys.dpf.core.server import set_server_configuration
+from ansys.dpf.core.server_factory import ServerConfig
+
 
 def disable_off_screen_rendering() -> None:
     """No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``"""
@@ -22,6 +25,7 @@ def disable_off_screen_rendering() -> None:
 
         pv.OFF_SCREEN = True
 
+
 def set_default_pyvista_config():
     # Configure PyVista's ``rcParams`` for dpf
     if module_exists("pyvista"):
@@ -31,6 +35,7 @@ def set_default_pyvista_config():
         pv.rcParams["cmap"] = "jet"
         pv.rcParams["font"]["family"] = "courier"
         pv.rcParams["title"] = "DPF"
+
 
 def disable_interpreter_properties_evaluation() -> bool:
     """If ``jedi`` module is installed (autocompletion module for most of IDEs), disables the
@@ -49,8 +54,10 @@ def disable_interpreter_properties_evaluation() -> bool:
         return True
     return False
 
+
 def set_upload_chunk_size(num_bytes = misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
     misc.DEFAULT_FILE_CHUNK_SIZE = num_bytes
+
 
 def set_dynamic_available_results_capability(value) -> None:
     """Disables the evaluation of the available results and

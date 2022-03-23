@@ -5,6 +5,7 @@ Interface to underlying gRPC workflow.
 """
 import logging
 
+# from ansys.dpf.core.server_types import BaseServer
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
@@ -502,7 +503,7 @@ class Workflow:
         server = None
         address = None
         for arg in args:
-            if isinstance(arg, dpf.core.server.DpfServer):
+            if isinstance(arg, dpf.core.server_types.DpfServer):
                 server = arg
             elif isinstance(arg, str):
                 address = arg

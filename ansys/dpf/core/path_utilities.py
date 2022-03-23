@@ -7,6 +7,7 @@ server into account to create path.
 
 import os
 
+import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 
 
@@ -39,14 +40,14 @@ def join(*args, **kwargs):
     for a in args:
         if isinstance(a, str) and len(a) > 0:
             parts.append(a)
-        elif isinstance(a, server_module.DpfServer):
+        elif isinstance(a, dpf.core.server_types.DpfServer):
             server = a
     if "server" in kwargs:
         server = kwargs["server"]
     if not server:
         server = server_module._global_server()
     if not server:
-        if server_module.RUNNING_DOCKER["use_docker"]:
+        if dpf.core.server_types.RUNNING_DOCKER["use_docker"]:
             current_os = "posix"
         else:
             return os.path.join(*args)
@@ -74,7 +75,7 @@ def to_server_os(path, server=None):
         return path.replace("/", "\\")
 
 def downloaded_example_path(server = None):
-    on_docker = server_module.RUNNING_DOCKER["use_docker"]
+    on_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
     if not server:
         server = server_module._global_server()
     if server:

@@ -7,13 +7,14 @@ import os
 
 import pytest
 
+import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
-running_docker = core.server.RUNNING_DOCKER["use_docker"]
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
 
 local_test_repo = True
 
@@ -24,7 +25,7 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        core.server.RUNNING_DOCKER["args"] += ' -v "' \
+        dpf.core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
                                               f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
                                               ':/tmp/test_files"'
 

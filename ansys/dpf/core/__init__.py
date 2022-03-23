@@ -86,6 +86,7 @@ except:  # pragma: no cover
     pass
 
 SERVER = None
+SERVER_CONFIGURATION = None
 
 _server_instances = []
 

@@ -7,6 +7,7 @@ Contains classes associated with the DPF collection.
 import numpy as np
 from typing import NamedTuple
 
+from ansys.dpf.core.server_types import BaseServer
 from ansys import dpf
 from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
 from ansys.dpf.core.core import base_pb2
@@ -16,7 +17,6 @@ from ansys.dpf.core.field import Field, field_pb2
 from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core import server
 from ansys.dpf.core import scoping
 
 
@@ -41,7 +41,8 @@ class Collection:
 
     """
 
-    def __init__(self, dpf_type=None, collection=None, server: server.DpfServer=None):
+    def __init__(self, dpf_type=None, collection=None,
+                 server: BaseServer =None):
         if server is None:
             server = dpf.core._global_server()
 
@@ -69,7 +70,7 @@ class Collection:
             self._type = types(int(self._message.type) + 1)
 
     @staticmethod
-    def integral_collection(inpt, server: server.DpfServer = None):
+    def integral_collection(inpt, server: BaseServer = None):
         """Creates a collection of integral type with a list.
 
         The collection of integral is the equivalent of an array of
