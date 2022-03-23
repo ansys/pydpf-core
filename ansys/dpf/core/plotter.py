@@ -636,10 +636,10 @@ class Plotter:
         cpos = kwargs.pop("cpos", None)
         return_cpos = kwargs.pop("return_cpos", None)
         off_screen = kwargs.pop("off_screen", False)
-
         # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
-        if notebook is not None:
-            self._internal_plotter._plotter.notebook = notebook
+        # IT SEEMS THAT WHAT FOLLOWS IS USELESS AS IT NEEDS TO BE SET AT INIT OF THE pv.Plotter
+        # if notebook is not None:
+        #     self._internal_plotter._plotter.notebook = notebook
         if off_screen is not None:
             self._internal_plotter._plotter.off_screen = off_screen
 
