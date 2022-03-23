@@ -237,7 +237,7 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, notebook=None, shell_layers=None):
+    def plot(self, notebook=None, shell_layers=None, show_axes=True, **kwargs):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -266,9 +266,18 @@ class Field(_FieldBase):
         shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements. The default is ``None``.
+        show_axes : bool, optional
+            Whether to show a VTK axes widget. The default is ``True``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
         """
-        pl = Plotter(self.meshed_region)
-        pl.plot_contour(self, notebook, shell_layers)
+        screenshot = kwargs.pop("screenshot", None)
+        text = kwargs.pop("text", None)
+        pl = Plotter(self.meshed_region, notebook=notebook, **kwargs)
+        kwargs["screenshot"] = screenshot
+        kwargs["text"] = text
+        pl.plot_contour(self, notebook, shell_layers, show_axes, **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
