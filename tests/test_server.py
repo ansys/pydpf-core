@@ -2,7 +2,7 @@ import psutil
 import pytest
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from ansys.dpf.core.server_factory import ServerConfig
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
@@ -11,9 +11,10 @@ from ansys.dpf.core.server import get_or_create_server
 
 server_configs = [None,
                   ServerConfig(),
-                  # ServerConfig(c_server=True),
-                  # ServerConfig(remote_protocol=None),
-                  # ServerConfig(c_server=True, remote_protocol=None),
+                  ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC),
+                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC),
+                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct),
+                  ServerConfig(c_server=True, remote_protocol=None),
                   ]
 
 
@@ -40,9 +41,17 @@ class TestServerConfigs:
     def test_start_local_server(self, server_config):
         set_server_configuration(server_config)
         print(dpf.core.SERVER_CONFIGURATION)
-        shutdown_all_session_servers()
-        start_local_server(timeout=1)
+        server = start_local_server(timeout=1)
         assert has_local_server()
+        server = None
+        shutdown_all_session_servers()
+
+    def test_start_local_server_with_config(self, server_config):
+        set_server_configuration(None)
+        shutdown_all_session_servers()
+        start_local_server(config=server_config)
+        assert has_local_server()
+        shutdown_all_session_servers()
 
     def test_connect_to_server(self, server_config):
         set_server_configuration(server_config)
@@ -50,7 +59,10 @@ class TestServerConfigs:
         shutdown_all_session_servers()
         start_local_server(timeout=10.)
         print("has_local_server", has_local_server())
-        connect_to_server(timeout=10., as_global=False)
+        if hasattr(dpf.core.SERVER, "ip"):
+            connect_to_server(ip=dpf.core.SERVER.ip, port=dpf.core.SERVER.port, timeout=10., as_global=False)
+        else:
+            connect_to_server(timeout=10., as_global=False)
         assert has_local_server()
 
     def test_shutdown_all_session_servers(self, server_config):

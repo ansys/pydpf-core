@@ -4,6 +4,7 @@ from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import errors
 from ansys.dpf.core import server as serverlib
 from ansys.dpf.core.cache import _setter
+from ansys.dpf.gate import grpc_stream_helpers
 
 import numpy as np
 
@@ -178,7 +179,7 @@ class _FieldBase:
 
         """
         request = field_pb2.UpdateScopingRequest()
-        request.scoping.CopyFrom(scoping._message)
+        request.scoping.CopyFrom(scoping._internal_obj)
         request.field.CopyFrom(self._message)
         self._stub.UpdateScoping(request)
 
@@ -377,7 +378,7 @@ class _FieldBase:
         request.field.CopyFrom(self._message)
         service = self._stub.ListDataPointer(request)
         dtype = np.int32
-        return scoping._data_get_chunk_(dtype, service)
+        return grpc_stream_helpers._data_get_chunk_(dtype, service)
 
     @property
     def _data_pointer_as_list(self):
@@ -397,7 +398,7 @@ class _FieldBase:
         request.field.CopyFrom(self._message)
         service = self._stub.ListDataPointer(request)
         dtype = np.int32
-        return scoping._data_get_chunk_(dtype, service, False)
+        return grpc_stream_helpers._data_get_chunk_(dtype, service, False)
 
     @_data_pointer.setter
     def _data_pointer(self, data):
@@ -414,7 +415,7 @@ class _FieldBase:
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
         self._stub.UpdateDataPointer(
-            scoping._data_chunk_yielder(request, data), metadata=metadata
+            grpc_stream_helpers._data_chunk_yielder(request, data), metadata=metadata
         )
 
     @property
@@ -469,7 +470,7 @@ class _FieldBase:
             data_type = "double"
             dtype = np.float
         service = self._stub.List(request, metadata=[("float_or_double", data_type)])
-        array = scoping._data_get_chunk_(dtype, service, np_array)
+        array = grpc_stream_helpers._data_get_chunk_(dtype, service, np_array)
 
         ncomp = self.component_count
         if ncomp != 1 and np_array:
@@ -507,7 +508,7 @@ class _FieldBase:
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
         self._stub.UpdateData(
-            scoping._data_chunk_yielder(request, data), metadata=metadata
+            grpc_stream_helpers._data_chunk_yielder(request, data), metadata=metadata
         )
 
 
