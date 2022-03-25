@@ -77,3 +77,9 @@ def set_dynamic_available_results_capability(value) -> None:
 
     """
     misc.DYNAMIC_RESULTS = value
+
+def _forward_to_gate():
+    from ansys.dpf.gate import settings
+    from misc import DEFAULT_FILE_CHUNK_SIZE
+    from common import _common_progress_bar
+    settings.forward_settings(DEFAULT_FILE_CHUNK_SIZE, _common_progress_bar)

@@ -18,6 +18,7 @@ from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import scoping
+from ansys.dpf.gate import grpc_stream_helpers
 
 
 class Collection:
@@ -387,7 +388,10 @@ class Collection:
         """
         request = collection_pb2.UpdateRequest()
         request.collection.CopyFrom(self._message)
-        request.entry.dpf_type.Pack(entry._message)
+        if hasattr(entry, "_message"):
+            request.entry.dpf_type.Pack(entry._message)
+        else:
+            request.entry.dpf_type.Pack(entry._internal_obj)
         for key in label_space:
             request.label_space.label_space[key] = label_space[key]
         self._stub.UpdateEntry(request)
@@ -430,7 +434,7 @@ class Collection:
         request = collection_pb2.UpdateAllDataRequest()
         request.collection.CopyFrom(self._message)
 
-        self._stub.UpdateAllData(scoping._data_chunk_yielder(request, input), metadata=metadata)
+        self._stub.UpdateAllData(grpc_stream_helpers._data_chunk_yielder(request, input), metadata=metadata)
 
     def _get_integral_entries(self):
         request = collection_pb2.GetAllDataRequest()
@@ -442,7 +446,7 @@ class Collection:
             data_type = u"double"
             dtype = np.float
         service = self._stub.GetAllData(request, metadata=[(u"float_or_double", data_type)])
-        return scoping._data_get_chunk_(dtype, service)
+        return grpc_stream_helpers._data_get_chunk_(dtype, service)
 
     def _connect(self):
         """Connect to the gRPC service."""

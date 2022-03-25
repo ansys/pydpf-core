@@ -15,18 +15,18 @@ SERVER_VERSION_HIGHER_THAN_2_0 = meets_version(get_server_version(serv), "2.1")
 
 def test_create_scoping():
     scop = Scoping()
-    assert scop._message.id
+    assert scop._internal_obj
 
 
 def test_createbycopy_scoping():
     scop = Scoping()
-    scop2 = Scoping(scoping=scop._message)
-    assert scop._message.id == scop2._message.id
+    scop2 = Scoping(scoping=scop._internal_obj)
+    assert scop._internal_obj == scop2._internal_obj
 
 
 def test_create_scoping_with_ids_location():
     scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental)
-    assert scop._message.id
+    assert scop._internal_obj
     assert scop.ids == [1, 2, 3, 5, 8, 9, 10]
     assert scop.location == dpf.core.locations.elemental
 
@@ -109,7 +109,7 @@ def test_delete_scoping():
 
 def test_delete_auto_scoping():
     scop = Scoping()
-    scop2 = Scoping(scoping=scop)
+    scop2 = Scoping(scoping=scop._internal_obj)
     scop.__del__()
     with pytest.raises(Exception):
         scop2.ids

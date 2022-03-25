@@ -15,11 +15,14 @@ class CommunicationProtocols:
 
 
 class ServerConfig:
-    """Provides an instance of ServerConfig object to manage the default server type used
+    """Provides an instance of ServerConfig object to manage the server type used
     """
     def __init__(self, c_server=False, remote_protocol=CommunicationProtocols.gRPC):
         self.c_server = c_server
-        self.remote_protocol = remote_protocol
+        if not remote_protocol:
+            self.remote_protocol = CommunicationProtocols.direct
+        else:
+            self.remote_protocol = remote_protocol
 
     def __str__(self):
         return f"Server configuration: c_server={self.c_server}, " \
@@ -30,9 +33,10 @@ class ServerFactory:
     """Factory for server type choice depending on current configuration.
     """
     @staticmethod
-    def get_server_type_from_config():
+    def get_server_type_from_config(config=None):
         from ansys.dpf.core import SERVER_CONFIGURATION
-        config = SERVER_CONFIGURATION
+        if not config:
+            config = SERVER_CONFIGURATION
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
         if config is None:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values

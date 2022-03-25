@@ -236,7 +236,7 @@ class CyclicSupport:
         request.node_id = node_id
         request.stage_num = stage_num
         if sectors:
-            request.sectors_to_expand.CopyFrom(sectors._message)
+            request.sectors_to_expand.CopyFrom(sectors._internal_obj)
         return Scoping(
             scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server
         )
@@ -278,7 +278,7 @@ class CyclicSupport:
         request.element_id = element_id
         request.stage_num = stage_num
         if sectors:
-            request.sectors_to_expand.CopyFrom(sectors._message)
+            request.sectors_to_expand.CopyFrom(sectors._internal_obj)
         return Scoping(
             scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server
         )

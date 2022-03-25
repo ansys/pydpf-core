@@ -69,7 +69,7 @@ def test_get_label_scoping():
         mscop = {"time": i + 1, "complex": 0}
         fc.add_field(mscop, Field(nentities=i + 10))
     scop = fc.get_label_scoping()
-    assert scop._message.id != 0
+    assert scop._internal_obj.id != 0
     assert scop.ids == list(range(1, 21))
 
 
