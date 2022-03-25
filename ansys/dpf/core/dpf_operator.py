@@ -766,7 +766,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     elif isinstance(inpt, collection.Collection):
         request.collection.CopyFrom(inpt._message)
     elif isinstance(inpt, scoping.Scoping):
-        request.scoping.CopyFrom(inpt._internal_obj)
+        request.scoping.CopyFrom(inpt._message)
     elif isinstance(inpt, data_sources.DataSources):
         request.data_sources.CopyFrom(inpt._message)
     elif isinstance(inpt, model.Model):

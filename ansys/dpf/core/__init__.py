@@ -91,4 +91,3 @@ SERVER_CONFIGURATION = None
 _server_instances = []
 
 settings.set_default_pyvista_config()
-settings._forward_to_gate()

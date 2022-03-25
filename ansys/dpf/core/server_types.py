@@ -32,14 +32,11 @@ RUNNING_DOCKER['args'] = ""
 MAX_PORT = 65535
 
 
-def _get_dll_path(name, ansys_path=""):
+def _get_dll_path(name):
     """Helper function to get the right dll path for Linux or Windows"""
     from ansys.dpf.gate import _version
     ISPOSIX = os.name == "posix"
-    if ansys_path == "":
-        ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
-    else:
-        ANSYS_INSTALL = ansys_path
+    ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
     SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
                                "linx64" if ISPOSIX else "winx64")
     return os.path.join(SUB_FOLDERS, name)
@@ -215,25 +212,10 @@ def check_ansys_grpc_dpf_version(server, timeout):
 class BaseServer(abc.ABC):
     """Abstract class for servers"""
     @abc.abstractmethod
-    def __init__(self, as_global = True):
-        """Base class for all types of servers: grpc, in process...
-
-        Parameters
-        ----------
-        as_global : bool, optional
-            Global variable that stores the IP address and port for the DPF
-            module. All DPF objects created in this Python session will
-            use this IP and port. The default is ``True``.
-        """
+    def __init__(self):
         # TODO: Use _server_id to compare servers for equality?
         self._server_id = None
         self._session_instance = None
-        self._base_service_instance = None
-
-        # assign to global channel when requested
-        if as_global:
-            core.SERVER = self
-
 
     def has_client(self):
         return not (self.client is None)
@@ -272,14 +254,6 @@ class BaseServer(abc.ABC):
         if not self._session_instance:
             self._session_instance = session.Session(self)
         return self._session_instance
-
-    @property
-    def _base_service(self):
-        if not self._base_service_instance:
-            from ansys.dpf.core.core import BaseService
-
-            self._base_service_instance = BaseService(self, timeout=1)
-        return self._base_service_instance
 
     @property
     @abc.abstractmethod
@@ -325,23 +299,6 @@ class BaseServer(abc.ABC):
 
         return server_meet_version_and_raise(required_version, self, msg)
 
-    def meet_version(self, required_version):
-        """Check if the server version matches with a required version.
-
-        Parameters
-        ----------
-        required_version : str
-            Required version to compare with the server version.
-
-        Returns
-        -------
-        bool
-            ``True`` if the server version meets the requirement.
-        """
-        from ansys.dpf.core.check_version import server_meet_version
-
-        return server_meet_version(required_version, self)
-
     def __str__(self):
         return f"DPF Server: {self.info}"
 
@@ -355,32 +312,15 @@ class BaseServer(abc.ABC):
 
     @abc.abstractmethod
     def __del__(self):
-        try:
-            if id(core.SERVER) == id(self):
-                core.SERVER = None
-        except:
-            pass
-
-        try:
-            for i, server in enumerate(core._server_instances):
-                if server() == self:
-                    core._server_instances.remove(server)
-        except:
-            pass
+        pass
 
 
 class CServer(BaseServer, ABC):
     """Abstract class for servers going through the DPFClientAPI"""
-    def __init__(self,
-        ansys_path="",
-        as_global=True,
-        load_operators=True):
-
-        super().__init__(as_global=as_global)
+    def __init__(self):
         from ansys.dpf.gate import capi
-        path = _get_dll_path("DPFClientAPI", ansys_path)
+        path = _get_dll_path("DPFClientAPI")
         capi.load_api(path)
-        self._own_process=False
 
     @property
     def available_api_types(self):
@@ -391,51 +331,21 @@ class CServer(BaseServer, ABC):
 
     def __del__(self):
         try:
-            if self._own_process:
-                self.shutdown()
-            super().__del__()
-        except:
-            pass
+            self.shutdown()
+        except Exception as e:
+            raise e
 
-
-class GrpcCClient:
-    def __init__(self, ip, port):
-        from ansys.dpf.gate import client_capi
-        self._internal_obj = client_capi.ClientCAPI.client_new(str(ip), str(port))
 
 class GrpcCServer(CServer):
     """Server using the gRPC communication protocol"""
-    def __init__(self,
-        ansys_path="",
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        timeout=10,
-        as_global=True,
-        load_operators=True,
-        launch_server=True,
-        docker_name=None):
+    def __init__(self):
         # Load DPFClientAPI
-        super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)
+        super().__init__()
         # Load Ans.Dpf.GrpcClient
         from ansys.dpf.gate.utils import data_processing_core_load_api
-
         name = "Ans.Dpf.GrpcClient"
-        path = _get_dll_path(name, ansys_path)
+        path = _get_dll_path(name)
         data_processing_core_load_api(path, "remote")
-
-        if launch_server:
-            self._server_id = launch_dpf(ansys_path, ip, port,
-                                         docker_name=docker_name, timeout=timeout)
-
-        self._client = GrpcCClient(ip, port)
-
-
-        # store port and ip for later reference
-        self._input_ip = ip
-        self._input_port = port
-        self.live = True
-        self.ansys_path = ansys_path
-        self._own_process = launch_server
 
     @property
     def version(self):
@@ -463,9 +373,7 @@ class GrpcCServer(CServer):
         raise NotImplementedError
 
     def shutdown(self):
-        from ansys.dpf.gate import data_processing_capi
-        api = data_processing_capi.DataProcessingCAPI
-        api.data_processing_release_server(self.client)
+        raise NotImplementedError
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
@@ -475,44 +383,20 @@ class GrpcCServer(CServer):
 
     @property
     def client(self, ip=LOCALHOST, port=DPF_DEFAULT_PORT):
-        return self._client
-
-    @property
-    def ip(self):
-        """IP address of the server.
-
-        Returns
-        -------
-        ip : str
-        """
-        return self._input_ip
-
-    @property
-    def port(self):
-        """Port of the server.
-
-        Returns
-        -------
-        port : int
-        """
-        return self._input_port
+        from ansys.dpf.gate.generated.client_capi import ClientCAPI
+        return ClientCAPI.client_new(ip=ip, port=port)
 
 
 class DirectCServer(CServer):
     """Server using the direct communication protocol"""
-    def __init__(self,
-        ansys_path="",
-        as_global=True,
-        load_operators=True,
-        docker_name=None):
-
+    def __init__(self):
         # Load DPFClientAPI
-        super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)
+        super().__init__()
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
         from ansys.dpf.gate import data_processing_capi
         name = "DataProcessingCore"
-        path = _get_dll_path(name, ansys_path)
+        path = _get_dll_path(name)
         data_processing_core_load_api(path, "common")
         data_processing_capi.DataProcessingCAPI.data_processing_initialization()
 
@@ -534,7 +418,7 @@ class DirectCServer(CServer):
         return os.name
 
     def shutdown(self):
-        pass
+        raise NotImplementedError
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
@@ -590,8 +474,7 @@ class DpfServer(BaseServer):
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
-
-        super().__init__(as_global=as_global)
+        # import ansys.grpc
 
         # Load Ans.Dpf.Grpc?
         import grpc
@@ -609,6 +492,10 @@ class DpfServer(BaseServer):
 
         self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
 
+        # assign to global channel when requested
+        if as_global:
+            core.SERVER = self
+
         # TODO: add to PIDs ...
 
         # store port and ip for later reference
@@ -617,6 +504,8 @@ class DpfServer(BaseServer):
         self.live = True
         self.ansys_path = ansys_path
         self._own_process = launch_server
+        self._base_service_instance = None
+        self._session_instance = None
         self._stubs = {}
 
         check_ansys_grpc_dpf_version(self, timeout)
@@ -641,6 +530,20 @@ class DpfServer(BaseServer):
             return None
         else:
             return self._stubs[stub_name]
+
+    @property
+    def _base_service(self):
+        if not self._base_service_instance:
+            from ansys.dpf.core.core import BaseService
+
+            self._base_service_instance = BaseService(self, timeout=1)
+        return self._base_service_instance
+
+    @property
+    def _session(self):
+        if not self._session_instance:
+            self._session_instance = session.Session(self)
+        return self._session_instance
 
     @property
     def info(self):
@@ -724,6 +627,18 @@ class DpfServer(BaseServer):
                         pass
 
             self.live = False
+            try:
+                if id(core.SERVER) == id(self):
+                    core.SERVER = None
+            except:
+                pass
+
+            try:
+                for i, server in enumerate(core._server_instances):
+                    if server() == self:
+                        core._server_instances.remove(server)
+            except:
+                pass
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals"""
@@ -733,8 +648,6 @@ class DpfServer(BaseServer):
 
     def __del__(self):
         try:
-            if self._own_process:
-                self.shutdown()
-            super().__del__()
+            self.shutdown()
         except:
             pass
