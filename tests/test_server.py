@@ -1,7 +1,7 @@
 import psutil
 import pytest
 from ansys import dpf
-from ansys.dpf.core import path_utilities
+from ansys.dpf.core import path_utilities, errors, server_types
 from ansys.dpf.core.server_factory import ServerConfig
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
@@ -83,3 +83,12 @@ class TestServer:
         server = get_or_create_server(None)
         assert has_local_server()
         client = server.client
+
+def test_busy_port():
+    if not dpf.core.SERVER:
+        start_local_server()
+    busy_port = dpf.core.SERVER.port
+    with pytest.raises(errors.InvalidPortError):
+        server_types.launch_dpf(ansys_path = dpf.core.misc.find_ansys(), port=busy_port)
+    server = start_local_server(as_global=False, port=busy_port)
+    assert server.port != busy_port
