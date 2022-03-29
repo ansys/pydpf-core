@@ -242,12 +242,12 @@ def test_deep_copy_time_freq_support_harmonic():
     tf = model.metadata.time_freq_support
     copy = tf.deep_copy()
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
-    assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
+    assert np.allclose(tf.time_frequencies.scoping.ids, copy.time_frequencies.scoping.ids)
     assert tf.time_frequencies.unit == copy.time_frequencies.unit
     assert np.allclose(tf.complex_frequencies.data, copy.complex_frequencies.data)
-    assert tf.complex_frequencies.scoping.ids == copy.complex_frequencies.scoping.ids
+    assert np.allclose(tf.complex_frequencies.scoping.ids, copy.complex_frequencies.scoping.ids)
     assert np.allclose(tf.rpms.data, copy.rpms.data)
-    assert tf.rpms.scoping.ids == copy.rpms.scoping.ids
+    assert np.allclose(tf.rpms.scoping.ids, copy.rpms.scoping.ids)
 
 
 def test_deep_copy_time_freq_support_multi_stage():

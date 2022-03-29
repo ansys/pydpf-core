@@ -175,7 +175,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
             process.kill()
         except PermissionError:
             pass
-        errstr = "\n".join(errors)
+        errstr = "\n".join(current_errors)
         if "Only one usage of each socket address" in errstr:
             raise errors.InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)

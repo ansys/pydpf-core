@@ -101,7 +101,7 @@ def test_connect_scoping_operator():
     op.connect(1, scop2)
     fOut = op.get_output(0, dpf.core.types.field)
     scopOut = fOut.scoping
-    assert scopOut.ids == list(range(1, 5))
+    assert np.allclose(scopOut.ids, list(range(1, 5)))
 
 
 def test_connect_datasources_operator(fields_container_csv):
@@ -820,7 +820,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + field
@@ -828,7 +828,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + list
@@ -836,7 +836,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(
         out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
     )
@@ -845,7 +845,7 @@ def test_add_operator_operator():
     add = forward + 1.0
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
     ####forward fields container
@@ -855,7 +855,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + field
@@ -863,7 +863,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + list
@@ -871,7 +871,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(
         out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
     )
@@ -880,7 +880,7 @@ def test_add_operator_operator():
     add = forward + 1.0
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
@@ -896,7 +896,7 @@ def test_minus_operator_operator():
     assert type(add) == ops.math.minus_fc
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator - field
@@ -904,7 +904,7 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator - list
@@ -912,14 +912,14 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
 
     # operator - float
     add = forward - 1.0
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
     ####forward fields container
@@ -929,7 +929,7 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator- field
@@ -937,7 +937,7 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator - list
@@ -945,14 +945,14 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
 
     # operator - float
     add = forward - 1.0
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
@@ -968,7 +968,7 @@ def test_dot_operator_operator():
     assert type(add) == ops.math.generalized_inner_product_fc
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator * field
@@ -976,7 +976,7 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator * list
@@ -984,14 +984,14 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 14.0]))
 
     # operator * float
     add = forward * -1.0
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, -field.data)
 
     ####forward fields container
@@ -1001,7 +1001,7 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator* field
@@ -1009,7 +1009,7 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator * list
@@ -1017,14 +1017,14 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 14.0]))
 
     # operator * float
     add = forward * -1.0
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, -field.data)
 
 

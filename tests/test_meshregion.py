@@ -434,8 +434,8 @@ def test_mesh_deep_copy(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     mesh = model.metadata.meshed_region
     copy = mesh.deep_copy()
-    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
-    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
     assert np.allclose(
         copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
@@ -464,8 +464,8 @@ def test_mesh_deep_copy(allkindofcomplexity):
 def test_mesh_deep_copy2(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     copy = mesh.deep_copy()
-    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
-    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
     assert np.allclose(
         copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data

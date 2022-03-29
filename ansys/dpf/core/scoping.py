@@ -5,19 +5,21 @@ Scoping
 =======
 """
 
-import array
-import sys
-import copy
-
 import numpy as np
-from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import _common_progress_bar, locations
-from ansys.dpf.core import misc
-from ansys.dpf.core.cache import _setter
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import locations
 from ansys.dpf.core import server as server_module
-
-from ansys.dpf.gate import scoping_capi, scoping_grpcapi, data_processing_capi, data_processing_grpcapi, dpf_vector_capi, dpf_vector_abstract_api, dpf_vector
-from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc #TO DO: remove
+from ansys.dpf.core.cache import _setter
+from ansys.dpf.gate import (
+    scoping_capi,
+    scoping_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    dpf_vector_capi,
+    dpf_vector_abstract_api,
+    dpf_vector,
+    dpf_array,
+)
 
 
 class Scoping:
@@ -132,12 +134,14 @@ class Scoping:
         """
         self._api.scoping_set_ids(self, ids, len(ids))
 
-    def _get_ids(self, np_array=False):
+    def _get_ids(self, np_array=True):
         """
         Returns
         -------
         ids : list[int], numpy.array (if np_array==True)
-            List of IDs.
+            Array of IDs.
+
+        np_array: bool, optional
 
         Notes
         -----
@@ -148,7 +152,7 @@ class Scoping:
             vec = dpf_vector.DPFVectorInt(client=self._server.client, api=self._server.get_api_for_type(capi=dpf_vector_capi.DpfVectorCAPI,
                                               grpcapi=dpf_vector_abstract_api.DpfVectorAbstractAPI))
             self._api.scoping_get_ids_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
-            return copy.deepcopy(vec.np_array)
+            return dpf_array.DPFArray(vec) if np_array else vec.np_array.to_list()
         except NotImplementedError:
             return self._api.scoping_get_ids(self, np_array)
 

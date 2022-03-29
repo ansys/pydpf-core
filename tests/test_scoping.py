@@ -27,7 +27,7 @@ def test_createbycopy_scoping():
 def test_create_scoping_with_ids_location():
     scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental)
     assert scop._internal_obj
-    assert scop.ids == [1, 2, 3, 5, 8, 9, 10]
+    assert np.allclose(scop.ids, [1, 2, 3, 5, 8, 9, 10])
     assert scop.location == dpf.core.locations.elemental
 
 
@@ -35,7 +35,7 @@ def test_set_get_ids_scoping():
     scop = Scoping()
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
-    assert scop.ids == ids
+    assert np.allclose(scop.ids, ids)
 
 
 @pytest.mark.skipif(
@@ -203,7 +203,7 @@ def test_as_local_scoping():
             assert loc.index(i + 1) == i
         assert hasattr(loc, "_is_set") is True
         assert loc._is_set is True
-    assert scop.ids == list(range(1, 101))
+    assert np.allclose(scop.ids, list(range(1, 101)))
     assert scop.location == "Nodal"
     with scop.as_local_scoping() as loc:
         assert loc.location == "Nodal"
@@ -223,7 +223,7 @@ def test_as_local_scoping2():
             assert loc.index(i + 1) == i
         assert hasattr(loc, "_is_set") is True
         assert loc._is_set is True
-    assert scop.ids == list(range(1, 101))
+    assert np.allclose(scop.ids, list(range(1, 101)))
     assert scop.location == "Nodal"
     with scop.as_local_scoping() as loc:
         assert loc.location == "Nodal"

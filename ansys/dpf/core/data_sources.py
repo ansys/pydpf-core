@@ -103,7 +103,7 @@ class DataSources:
         ----------
         path: str
             Path to the file.
-        domain_id: int, optional
+        domain_id: int
             Domain ID for the distributed files.
 
         Examples

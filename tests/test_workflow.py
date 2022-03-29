@@ -144,7 +144,7 @@ def test_connect_scoping_workflow():
     wf.set_output_name("field", op, 0)
     fOut = wf.get_output("field", dpf.core.types.field)
     scopOut = fOut.scoping
-    assert scopOut.ids == list(range(1, 5))
+    assert np.allclose(scopOut.ids, list(range(1, 5)))
 
 
 def test_connect_scoping_2_workflow():
@@ -168,7 +168,7 @@ def test_connect_scoping_2_workflow():
     wf.set_output_name("field", op, 0)
     fOut = wf.get_output("field", dpf.core.types.field)
     scopOut = fOut.scoping
-    assert scopOut.ids == list(range(1, 5))
+    assert np.allclose(scopOut.ids, list(range(1, 5)))
 
 
 def test_connect_datasources_workflow(fields_container_csv):

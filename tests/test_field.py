@@ -43,7 +43,7 @@ def test_set_get_scoping():
     ids = [1, 2, 3, 5, 8, 9, 10]
     scoping.ids = ids
     field.scoping = scoping
-    assert field.scoping.ids == ids
+    assert np.allclose(field.scoping.ids, ids)
 
 
 def test_set_get_data_field():
@@ -86,7 +86,7 @@ def test_append_data_field():
         data = [0.01 + i, 0.02 + i, 0.03 + i]
         field.append(data, scopingid)
     scopingOut = field.scoping
-    assert scopingOut.ids == list(range(1, 21))
+    assert np.allclose(scopingOut.ids, list(range(1, 21)))
     for i in range(0, 20):
         scopingid = i + 1
         scopingindex = i
@@ -105,7 +105,7 @@ def test_set_get_entity_data_array_field():
         data = data.reshape((1, 3))
         field.append(data, scopingid)
     scopingOut = field.scoping
-    assert scopingOut.ids == list(range(1, 21))
+    assert np.allclose(scopingOut.ids, list(range(1, 21)))
     for i in range(0, 20):
         scopingid = i + 1
         scopingindex = i
@@ -858,8 +858,8 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
 
     mesh = field.meshed_region
     copy = copy.meshed_region
-    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
-    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
     assert np.allclose(
         copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
@@ -919,7 +919,7 @@ def test_add_operator_field():
     add = field + forward
     assert isinstance(add, ops.math.add)
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array(field.data) * 2.0)
 
     # field + list
@@ -927,7 +927,7 @@ def test_add_operator_field():
     assert isinstance(add, ops.math.add)
     out = add.outputs.field()
     assert len(out) == 6
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(
         out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
     )
@@ -936,7 +936,7 @@ def test_add_operator_field():
     add = field + 1.0
     assert isinstance(add, ops.math.add)
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
@@ -951,21 +951,21 @@ def test_minus_operator_field():
     assert type(add) == ops.math.minus
     out = add.outputs.field()
     assert len(out) == 6
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.zeros((2, 3)))
 
     # fc - list
     add = field - [0.0, 1.0, 2.0]
     assert type(add) == ops.math.minus
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
 
     # operator - float
     add = field - 1.0
     assert type(add) == ops.math.minus
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
@@ -979,28 +979,28 @@ def test_dot_operator_field():
     add = field * forward
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([5.0, 50.0]))
 
     # field * field
     add = field * field
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([5.0, 50.0]))
 
     # field * list
     add = field * [0.0, 1.0, 2.0]
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([5.0, 14.0]))
 
     # field * float
     add = field * -1.0
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, -field.data)
 
 
