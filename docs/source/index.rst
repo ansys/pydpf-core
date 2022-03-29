@@ -17,6 +17,8 @@ This allows DPF to be a modular and easy-to-use tool with a large range of capab
 .. image:: images/drawings/dpf-flow.png
   :width: 670
   :alt: DPF FLow
+  
+The module ``ansys.dpf.core`` provides a Python interface to the powerful DPF framework, enabling rapid postprocessing of a variety of Ansys file formats and physics solutions without ever leaving the Python environment.
 
 Brief Demo
 ~~~~~~~~~~
