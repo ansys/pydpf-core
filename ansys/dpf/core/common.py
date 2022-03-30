@@ -6,6 +6,7 @@ import re
 from enum import Enum
 
 import progressbar
+import numpy as np
 from ansys.grpc.dpf import base_pb2, field_definition_pb2
 
 
@@ -22,14 +23,14 @@ def _remove_spaces(name):
 
 def _make_as_function_name(name):
     out = name.lower()
-    out = out.replace(" ", "_").\
-        replace("-", "_").\
-        replace("/", "_").\
-        replace(".", "_").\
-        replace(":", "_").\
-        replace(";", "_").\
-        replace(",", "_").\
-        replace("(", "").\
+    out = out.replace(" ", "_"). \
+        replace("-", "_"). \
+        replace("/", "_"). \
+        replace(".", "_"). \
+        replace(":", "_"). \
+        replace(";", "_"). \
+        replace(",", "_"). \
+        replace("(", ""). \
         replace(")", "")
     return out
 
@@ -226,3 +227,9 @@ def _common_progress_bar(text, unit, tot_size=None):
 def _common_percentage_progress_bar(text):
     widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
     return progressbar.ProgressBar(widgets=widgets, max_value=100)
+
+
+def _get_size_of_list(list):
+    if isinstance(list, (np.generic, np.ndarray)):
+        return list.size
+    return len(list)

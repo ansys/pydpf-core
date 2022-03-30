@@ -83,7 +83,7 @@ class Scoping:
             if self._server.has_client():
                 self._internal_obj = self._api.scoping_new_on_client(self._server.client)
             else:
-                self._internal_obj = scoping_new()
+                self._internal_obj = self._api.scoping_new()
 
         # step5: handle specific calls to set attributes
         if ids:
@@ -153,6 +153,7 @@ class Scoping:
                                               grpcapi=dpf_vector_abstract_api.DpfVectorAbstractAPI))
             self._api.scoping_get_ids_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
             return dpf_array.DPFArray(vec) if np_array else vec.np_array.to_list()
+
         except NotImplementedError:
             return self._api.scoping_get_ids(self, np_array)
 
@@ -263,10 +264,6 @@ class Scoping:
     @location.setter
     def location(self, value):
         self._set_location(value)
-
-    def _connect(self):
-        """Connect to the gRPC service containing the reader."""
-        return scoping_pb2_grpc.ScopingServiceStub(self._server.channel)
 
     def __len__(self):
         return self._count()

@@ -53,13 +53,13 @@ def test_set_get_field_fields_container():
         fc.add_field(mscop, Field(nentities=i + 10))
     assert fc.get_available_ids_for_label() == list(range(1, 21))
     for i in range(0, 20):
-        fieldid = fc.get_field({"time": i + 1, "complex": 0})._message.id
-        assert fieldid != 0
-        assert fc.get_field(i)._message.id != 0
+        fieldid = fc.get_field({"time": i + 1, "complex": 0})._internal_obj
+        assert fieldid != None
+        assert fc.get_field(i)._internal_obj != None
         assert (
-                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
+                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj != None
         )
-        assert fc[i]._message.id != 0
+        assert fc[i]._internal_obj != None
 
 
 def test_get_label_scoping():
@@ -81,13 +81,12 @@ def test_set_get_field_fields_container_new_label():
         fc.add_field(mscop, Field(nentities=i + 10))
     assert fc.get_available_ids_for_label() == list(range(1, 21))
     for i in range(0, 20):
-        fieldid = fc.get_field({"time": i + 1, "complex": 0})._message.id
-        assert fieldid != 0
-        assert fc.get_field(i)._message.id != 0
+        assert fc.get_field({"time": i + 1, "complex": 0})._internal_obj != None
+        assert fc.get_field(i)._internal_obj != None
         assert (
-                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
+                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj != None
         )
-        assert fc[i]._message.id != 0
+        assert fc[i]._internal_obj != None
         assert fc.get_label_space(i) == {"time": i + 1, "complex": 0}
     fc.add_label("shape")
     for i in range(0, 20):
@@ -97,10 +96,10 @@ def test_set_get_field_fields_container_new_label():
     assert len(fc.get_fields({"time": i + 1, "complex": 0})) == 2
 
     for i in range(0, 20):
-        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._message.id
+        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._internal_obj != None
         assert fieldid != 0
-        assert fc.get_field(i + 20)._message.id != 0
-        assert fc[i]._message.id != 0
+        assert fc.get_field(i + 20)._internal_obj != None
+        assert fc[i]._internal_obj != None
         assert fc.get_label_space(i + 20) == {"time": i + 1, "complex": 0, "shape": 1}
 
 
@@ -115,16 +114,16 @@ def test_set_get_field_fields_container_new_label_default_value():
         mscop = {"time": i + 1, "complex": 0, "shape": 1}
         fc.add_field(mscop, Field(nentities=i + 10))
     for i in range(0, 20):
-        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._message.id
-        assert fieldid != 0
-        assert fc.get_field(i + 20)._message.id != 0
-        assert fc[i]._message.id != 0
+        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._internal_obj
+        assert fieldid != None
+        assert fc.get_field(i + 20)._internal_obj != None
+        assert fc[i]._internal_obj != None
         assert fc.get_label_space(i + 20) == {"time": i + 1, "complex": 0, "shape": 1}
     for i in range(0, 20):
-        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 3})._message.id
-        assert fieldid != 0
-        assert fc.get_field(i)._message.id != 0
-        assert fc[i]._message.id != 0
+        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 3})._internal_obj
+        assert fieldid != None
+        assert fc.get_field(i)._internal_obj != None
+        assert fc[i]._internal_obj != None
         assert fc.get_label_space(i) == {"time": i + 1, "complex": 0, "shape": 3}
 
 
@@ -135,7 +134,7 @@ def test_get_item_field_fields_container():
         mscop = {"time": i + 1, "complex": 0}
         fc.add_field(mscop, Field(nentities=i + 10))
     for i in range(0, 20):
-        assert fc[i]._message.id != 0
+        assert fc[i]._internal_obj != None
 
 
 def test_delete_fields_container():

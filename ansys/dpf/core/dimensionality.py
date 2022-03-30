@@ -25,18 +25,46 @@ class Dimensionality:
 
     """
 
-    def __init__(self, dim_vec, nature: natures):
+    def __init__(self, dim_vec=None, nature: natures = natures.vector):
         self.dim = dim_vec
         self.nature = nature
+        # set nature
+        if not isinstance(nature, natures):
+            if isinstance(nature, str):
+                self.nature = natures[nature]
+            elif isinstance(nature, int):
+                self.nature = natures(nature)
+            else:
+                raise TypeError("Nature is expected to be cast into ansys.dpf.core.natures enum")
 
-    def _parse_dim_to_message(self):
-        message = field_definition_pb2.Dimensionality()
-        message.size.extend(self.dim)
-        message.nature = self.nature.value
-        return message
+        if self.dim is not None and 0 in self.dim:
+            self.dim = [x for x in self.dim if x != 0]
+            if len(self.dim) == 0:
+                self.dim = None
+
+        if self.dim is None:
+            if self.nature == natures.vector:
+                self.dim = [3]
+            elif self.nature == natures.symmatrix:
+                self.dim = [3, 3]
+            elif self.nature == natures.scalar:
+                self.dim = [1]
+
+    def is_1d_dim(self):
+        return len(self.dim) == 1
+
+    def is_2d_dim(self):
+        return len(self.dim) == 2
 
     def __str__(self):
         return str(self.dim) + " " + self.nature.name
+
+    @property
+    def component_count(self):
+        count = 1
+        for comp in self.dim:
+            count *= comp
+        return count
 
     @staticmethod
     def scalar_dim():

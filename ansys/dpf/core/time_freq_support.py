@@ -108,7 +108,7 @@ class TimeFreqSupport:
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         request.time_freq_support.CopyFrom(self._message)
-        request.freq_real.CopyFrom(frequencies._message)
+        request.freq_real.CopyFrom(frequencies._internal_obj)
         self._stub.Update(request)
 
     @time_frequencies.setter
@@ -151,7 +151,7 @@ class TimeFreqSupport:
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         request.time_freq_support.CopyFrom(self._message)
-        request.freq_complex.CopyFrom(complex_frequencies._message)
+        request.freq_complex.CopyFrom(complex_frequencies._internal_obj)
         self._stub.Update(request)
 
     @complex_frequencies.setter
@@ -186,7 +186,7 @@ class TimeFreqSupport:
         """
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         request.time_freq_support.CopyFrom(self._message)
-        request.rpm.CopyFrom(rpms._message)
+        request.rpm.CopyFrom(rpms._internal_obj)
         self._stub.Update(request)
 
     @rpms.setter
@@ -230,7 +230,7 @@ class TimeFreqSupport:
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         cyclic_data = time_freq_support_pb2.CyclicHarmonicData()
         request.time_freq_support.CopyFrom(self._message)
-        cyclic_data.cyc_harmonic_index.CopyFrom(harmonic_indices._message)
+        cyclic_data.cyc_harmonic_index.CopyFrom(harmonic_indices._internal_obj)
         cyclic_data.stage_num = stage_num
         request.cyc_harmonic_data.CopyFrom(cyclic_data)
         self._stub.Update(request)

@@ -17,10 +17,10 @@ def property_field(simple_bar):
     return property_field
 
 
-def test_scopingdata_property_field():
-    pfield = dpf.core.PropertyField()
+def test_scopingdata_property_field(server_type):
+    pfield = dpf.core.PropertyField(server=server_type)
     list_ids = [1, 2, 4, 6, 7]
-    scop = core.Scoping(ids=list_ids, location=locations.nodal)
+    scop = core.Scoping(ids=list_ids, location=locations.nodal, server=server_type)
     pfield.scoping = scop
     list_data = [20, 30, 50, 70, 80]
     pfield.data = list_data
@@ -29,8 +29,8 @@ def test_scopingdata_property_field():
     assert np.allclose(pfield.scoping.ids, list_ids)
 
 
-def test_set_get_data_property_field():
-    field = dpf.core.PropertyField(nentities=20, nature=natures.scalar)
+def test_set_get_data_property_field(server_type):
+    field = dpf.core.PropertyField(nentities=20, nature=natures.scalar, server=server_type)
     data = []
     for i in range(0, 20):
         data.append(i)
@@ -38,8 +38,8 @@ def test_set_get_data_property_field():
     assert np.allclose(field.data, data)
 
 
-def test_create_property_field_push_back():
-    f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal)
+def test_create_property_field_push_back(server_type):
+    f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
     assert len(f_vec.data) == 3
     assert f_vec.data[0] == 1
@@ -48,7 +48,7 @@ def test_create_property_field_push_back():
     assert f_vec.scoping.ids == [1]
     assert len(f_vec.scoping.ids) == 1
 
-    f_scal = core.PropertyField(1, core.natures.scalar, core.locations.nodal)
+    f_scal = core.PropertyField(1, core.natures.scalar, core.locations.nodal, server=server_type)
     f_scal.append([2], 1)
     f_scal.append([5], 2)
     assert len(f_scal.data) == 2
@@ -92,7 +92,7 @@ def test_set_location(property_field):
 
 
 def test_set_prop_field_from_message(property_field):
-    prop_field_message = property_field._message
+    prop_field_message = property_field._internal_obj
     new_prop_field = dpf.core.PropertyField(property_field=prop_field_message)
     assert isinstance(new_prop_field, dpf.core.PropertyField)
     check_on_property_field_from_simplebar(new_prop_field)

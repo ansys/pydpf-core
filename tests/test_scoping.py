@@ -18,21 +18,21 @@ def test_create_scoping():
     assert scop._internal_obj
 
 
-def test_createbycopy_scoping():
-    scop = Scoping()
-    scop2 = Scoping(scoping=scop._internal_obj)
-    assert scop._internal_obj == scop2._internal_obj
+def test_createbycopy_scoping(server_type):
+    scop = Scoping(server=server_type)
+    scop2 = Scoping(scoping=scop, server=server_type)
+    assert scop._internal_obj != scop2._internal_obj
 
 
-def test_create_scoping_with_ids_location():
-    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental)
+def test_create_scoping_with_ids_location(server_type):
+    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental, server=server_type)
     assert scop._internal_obj
     assert np.allclose(scop.ids, [1, 2, 3, 5, 8, 9, 10])
     assert scop.location == dpf.core.locations.elemental
 
 
-def test_set_get_ids_scoping():
-    scop = Scoping()
+def test_set_get_ids_scoping(server_type):
+    scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
     assert np.allclose(scop.ids, ids)
@@ -46,6 +46,7 @@ def test_set_get_ids_long_scoping():
     ids = range(1, 1000000)
     scop.ids = ids
     assert np.allclose(scop.ids, ids)
+    assert len(scop) == len(ids)
 
 
 def test_get_location_scoping():
@@ -57,11 +58,11 @@ def test_get_location_scoping():
     assert scop._get_location() == "Nodal"
 
 
-def test_get_location_property_scoping():
-    scop = Scoping()
+def test_get_location_property_scoping(server_type):
+    scop = Scoping(server=server_type)
     scop.location = "Nodal"
     assert scop.location == "Nodal"
-    scop = Scoping()
+    scop = Scoping(server=server_type)
     scop.location = dpf.core.locations.nodal
     assert scop.location == "Nodal"
 
@@ -73,8 +74,8 @@ def test_count_scoping():
     assert scop._count() == len(ids)
 
 
-def test_set_get_entity_data_scoping():
-    scop = Scoping()
+def test_set_get_entity_data_scoping(server_type):
+    scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
     scop.set_id(0, 11)
@@ -92,25 +93,25 @@ def test_print_scoping():
     print(scop)
 
 
-def test_iter_scoping():
-    scop = Scoping()
+def test_iter_scoping(server_type):
+    scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
     for i, id in enumerate(scop):
         assert id == ids[i]
 
 
-def test_delete_scoping():
-    scop = Scoping()
-    scop.__del__()
+def test_delete_scoping(server_type):
+    scop = Scoping(server=server_type)
+    del scop
     with pytest.raises(Exception):
         scop.ids
 
 
-def test_delete_auto_scoping():
-    scop = Scoping()
+def test_delete_auto_scoping(server_type):
+    scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop._internal_obj)
-    scop.__del__()
+    del scop
     with pytest.raises(Exception):
         scop2.ids
 

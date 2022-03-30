@@ -9,15 +9,14 @@ from typing import NamedTuple
 
 from ansys.dpf.core.server_types import BaseServer
 from ansys import dpf
-from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc, scoping_pb2
+from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc, scoping_pb2, field_pb2
 from ansys.dpf.core.core import base_pb2
 from ansys.dpf.core.common import types
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.field import Field, field_pb2
+from ansys.dpf.core.field import Field
 from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core import scoping
 from ansys.dpf.gate import grpc_stream_helpers
 
 

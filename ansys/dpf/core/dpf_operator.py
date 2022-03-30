@@ -762,7 +762,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
     elif isinstance(inpt, field_base._FieldBase):
-        request.field.CopyFrom(inpt._message)
+        request.field.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, collection.Collection):
         request.collection.CopyFrom(inpt._message)
     elif isinstance(inpt, scoping.Scoping):

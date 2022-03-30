@@ -11,6 +11,7 @@ import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
@@ -25,7 +26,7 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        dpf.core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
+        core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
                                               f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
                                               ':/tmp/test_files"'
 
@@ -159,6 +160,19 @@ def engineering_data_sources():
     )
     ds.add_file_path(resolve_test_file("ds.dat", "engineeringData"), "dat")
     return ds
+
+
+@pytest.fixture(scope="session", params=[ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC),
+                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC),
+                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct)],
+                ids=[
+                "ansys-grpc-dpf",
+                "gRPC CLayer",
+                "in Process CLayer"
+                ])
+def server_type(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
 
 
 class LocalServers:
