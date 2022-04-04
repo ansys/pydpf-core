@@ -110,10 +110,9 @@ def test_delete_scoping(server_type):
 
 def test_delete_auto_scoping(server_type):
     scop = Scoping(server=server_type)
-    scop2 = Scoping(scoping=scop._internal_obj)
+    scop2 = Scoping(scoping=scop)
     del scop
-    with pytest.raises(Exception):
-        scop2.ids
+    assert np.allclose(scop2.ids, [])
 
 
 @pytest.mark.skipif(

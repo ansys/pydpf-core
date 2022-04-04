@@ -8,39 +8,39 @@ from ansys.dpf.core import Scoping, ScopingsContainer
 
 
 @pytest.fixture()
-def elshape_body_sc():
+def elshape_body_sc(server_type):
     """Returns a scopings continer with 20 scoping split on body and elshape"""
-    sc = ScopingsContainer()
+    sc = ScopingsContainer(server=server_type)
     sc.labels = ["elshape", "body"]
     for i in range(0, 20):
         mscop = {"elshape": i + 1, "body": 0}
-        scop = Scoping()
+        scop = Scoping(server=server_type)
         scop.ids = range(0, i + 1)
         sc.add_scoping(mscop, scop)
     return sc
 
 
-def test_create_scopings_container():
-    sc = ScopingsContainer()
-    assert sc._message.id != 0
+def test_create_scopings_container(server_type):
+    sc = ScopingsContainer(server=server_type)
+    assert sc._internal_obj is not None
 
 
-def test_empty_index():
-    sc = ScopingsContainer()
+def test_empty_index(server_type):
+    sc = ScopingsContainer(server=server_type)
     with pytest.raises(IndexError):
         sc[0]
 
 
 def test_createby_message_copy_scopings_container():
     sc = ScopingsContainer()
-    scopings_container2 = ScopingsContainer(scopings_container=sc._message)
-    assert sc._message.id == scopings_container2._message.id
+    scopings_container2 = ScopingsContainer(scopings_container=sc._internal_obj)
+    assert sc._internal_obj == scopings_container2._internal_obj
 
 
-def test_createbycopy_scopings_container():
-    sc = ScopingsContainer()
+def test_createbycopy_scopings_container(server_type):
+    sc = ScopingsContainer(server=server_type)
     scopings_container2 = ScopingsContainer(scopings_container=sc)
-    assert sc._message.id == scopings_container2._message.id
+    assert sc._internal_obj != scopings_container2._internal_obj
 
 
 def test_set_get_scoping_scopings_container(elshape_body_sc):
@@ -73,7 +73,7 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
     sc.add_label("time")
     for i in range(0, 20):
         mscop = {"elshape": i + 1, "body": 0, "time": 1}
-        scop = Scoping()
+        scop = Scoping(server=sc._server)
         scop.ids = range(0, i + 10)
         sc.add_scoping(mscop, scop)
     assert len(sc.get_scopings({"elshape": i + 1, "body": 0})) == 2
@@ -98,7 +98,7 @@ def test_get_item_scoping_scopings_container(elshape_body_sc):
         assert np.allclose(sc[i].ids, list(range(0, i + 1)))
 
 
-def test_delete_scopings_container():
+def test_delete_scopings_container(server_type):
     sc = ScopingsContainer()
     ref = weakref.ref(sc)
     del sc

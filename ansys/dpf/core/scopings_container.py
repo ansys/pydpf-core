@@ -4,6 +4,7 @@
 ScopingsContainer
 =================
 Contains classes associated to the DPF ScopingsContainer"""
+import scoping
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
@@ -26,18 +27,17 @@ class ScopingsContainer(Collection):
     """
 
     def __init__(self, scopings_container=None, server=None):
-        """Initialize the scoping with either optional scoping message,
-        or by connecting to a stub.
-        """
-        if server is None:
-            server = dpf.core._global_server()
-
-        self._server = server
-        self._stub = self._connect()
-
-        Collection.__init__(
-            self, types.scoping, collection=scopings_container, server=self._server
+        super().__init__(
+            collection=scopings_container, server=server
         )
+        if self._internal_obj is None:
+            if self._server.has_client():
+                self._internal_obj = self._api.collection_of_scoping_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.collection_of_scoping_new()
+
+    def create_subtype(self, obj_by_copy):
+        return scoping.Scoping(scoping=obj_by_copy, server=self._server)
 
     def get_scopings(self, label_space):
         """Returns the scopings at a requested label space

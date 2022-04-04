@@ -52,6 +52,7 @@ class _FieldBase:
         if field is not None:
             if isinstance(field, _FieldBase):
                 self._server = field._server
+                self._api_instance = None
                 core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
                                                      grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
                 core_api.init_data_processing_environment(self)

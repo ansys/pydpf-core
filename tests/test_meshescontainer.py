@@ -8,17 +8,21 @@ from ansys import dpf
 from ansys.dpf.core import MeshesContainer
 
 
+# TO DO: add server type
 @pytest.fixture()
-def dummy_mesh(allkindofcomplexity):
+def dummy_mesh():
     """Returns a mesh"""
-    model = dpf.core.Model(allkindofcomplexity)
-    return model.metadata.meshed_region
+    mesh = dpf.core.MeshedRegion()
+    mesh.nodes.add_node(1, [0., 0., 0.])
+    mesh.nodes.add_node(2, [1., 1., 1.])
+    mesh.elements.add_beam_element(1, [0, 1])
+    return mesh
 
 
 @pytest.fixture()
 def elshape_body_mc(dummy_mesh):
     """Returns a meshes container with 20 mesh split on body and elshape"""
-    mc = MeshesContainer()
+    mc = MeshesContainer(server=dummy_mesh._server)
     mc.labels = ["elshape", "body"]
     for i in range(0, 20):
         mscop = {"elshape": i + 1, "body": 0}
@@ -26,9 +30,9 @@ def elshape_body_mc(dummy_mesh):
     return mc
 
 
-def test_create_meshes_container():
+def test_create_meshes_container(server_type):
     mc = MeshesContainer()
-    assert mc._message.id != 0
+    assert mc._internal_obj is not None
 
 
 def test_empty_index():
@@ -39,14 +43,14 @@ def test_empty_index():
 
 def test_createby_message_copy_meshes_container():
     mc = MeshesContainer()
-    meshes_container2 = MeshesContainer(meshes_container=mc._message)
-    assert mc._message.id == meshes_container2._message.id
+    meshes_container2 = MeshesContainer(meshes_container=mc._internal_obj)
+    assert mc._internal_obj == meshes_container2._internal_obj
 
 
-def test_createbycopy_meshes_container():
-    mc = MeshesContainer()
+def test_createbycopy_meshes_container(server_type):
+    mc = MeshesContainer(server=server_type)
     meshes_container2 = MeshesContainer(meshes_container=mc)
-    assert mc._message.id == meshes_container2._message.id
+    assert mc._internal_obj != meshes_container2._internal_obj
 
 
 def test_set_get_mesh_meshes_container(elshape_body_mc):

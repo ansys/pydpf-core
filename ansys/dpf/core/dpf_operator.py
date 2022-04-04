@@ -689,10 +689,14 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
             return meshes_container.MeshesContainer(
                 server=server, meshes_container=toconvert
             )
-        elif output_type == types.vec_int or output_type == types.vec_double:
-            return collection.Collection(server=server,
+        elif output_type == types.vec_int:
+            return collection.IntCollection(server=server,
                                          collection=toconvert
-                                         )._get_integral_entries()
+                                         ).get_integral_entries()
+        elif output_type == types.vec_double:
+            return collection.FloatCollection(server=server,
+                                         collection=toconvert
+                                         ).get_integral_entries()
     elif out.HasField("scoping"):
         toconvert = out.scoping
         return scoping.Scoping(scoping=toconvert, server=server)
@@ -747,14 +751,14 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         if all(isinstance(x, int) for x in inpt):
             if server_meet_version("3.0", server):
                 inpt = collection.Collection.integral_collection(inpt, server)
-                request.collection.CopyFrom(inpt._message)
+                request.collection.CopyFrom(inpt._internal_obj)
                 return inpt
             else:
                 request.vint.rep_int.extend(inpt)
         elif all(isinstance(x, float) for x in inpt):
             if server_meet_version("3.0", server):
                 inpt = collection.Collection.integral_collection(inpt, server)
-                request.collection.CopyFrom(inpt._message)
+                request.collection.CopyFrom(inpt._internal_obj)
                 return inpt
             else:
                 request.vdouble.rep_double.extend(inpt)
@@ -764,7 +768,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     elif isinstance(inpt, field_base._FieldBase):
         request.field.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, collection.Collection):
-        request.collection.CopyFrom(inpt._message)
+        request.collection.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, scoping.Scoping):
         request.scoping.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, data_sources.DataSources):

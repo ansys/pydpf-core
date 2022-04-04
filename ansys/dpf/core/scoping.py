@@ -68,17 +68,17 @@ class Scoping:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        # step 2: get api
-        self._api = self._server.get_api_for_type(capi=scoping_capi.ScopingCAPI,
-                                                  grpcapi=scoping_grpcapi.ScopingGRPCAPI)
-
-        # step3: init environment
-        self._api.init_scoping_environment(self)  # creates stub when gRPC
-
-        # step4: if object exists, take the instance, else create it
+        # step2: if object exists, take the instance, else create it
         if scoping is not None:
-            # scoping is of type protobuf.message or DPFObject*
-            self._internal_obj = scoping
+            if isinstance(scoping, Scoping):
+                self._server = scoping._server
+                core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
+                                                         grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(scoping)
+            else:
+                # scoping is of type protobuf.message or DPFObject*
+                self._internal_obj = scoping
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.scoping_new_on_client(self._server.client)
@@ -90,6 +90,19 @@ class Scoping:
             self.ids = ids
         if location:
             self.location = location
+
+    @property
+    def _server(self):
+        return self._server_instance
+
+    @_server.setter
+    def _server(self, value):
+        self._server_instance = value
+        # step 2: get api
+        self._api = self._server_instance.get_api_for_type(capi=scoping_capi.ScopingCAPI,
+                                                  grpcapi=scoping_grpcapi.ScopingGRPCAPI)
+        # step3: init environment
+        self._api.init_scoping_environment(self)  # creates stub when gRPC
 
     def _count(self):
         """
@@ -152,7 +165,7 @@ class Scoping:
             vec = dpf_vector.DPFVectorInt(client=self._server.client, api=self._server.get_api_for_type(capi=dpf_vector_capi.DpfVectorCAPI,
                                               grpcapi=dpf_vector_abstract_api.DpfVectorAbstractAPI))
             self._api.scoping_get_ids_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
-            return dpf_array.DPFArray(vec) if np_array else vec.np_array.to_list()
+            return dpf_array.DPFArray(vec) if np_array else vec.np_array.tolist()
 
         except NotImplementedError:
             return self._api.scoping_get_ids(self, np_array)
