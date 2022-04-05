@@ -21,7 +21,7 @@ class DataSources:
 
     Parameters
     ----------
-    result_path : str, optional
+    result_path : str or os.PathLike object, optional
         Path of the result. The default is ``None``.
     data_sources : ansys.grpc.dpf.data_sources_pb2.DataSources
         gRPC data sources message. The default is ``None``.
@@ -68,7 +68,7 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str
+        filepath : str or os.PathLike object
             Path to the result file.
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct
@@ -89,7 +89,7 @@ class DataSources:
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
         request.key = key
-        request.path = filepath
+        request.path = str(filepath)
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
@@ -101,7 +101,7 @@ class DataSources:
 
         Parameters
         ----------
-        path: str
+        path: str or os.PathLike object
             Path to the file.
         domain_id: int, optional
             Domain ID for the distributed files.
@@ -118,7 +118,7 @@ class DataSources:
         request.result_path = True
         request.domain.domain_path = True
         request.domain.domain_id = domain_id
-        request.path = path
+        request.path = str(path)
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 
@@ -130,7 +130,7 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str
+        filepath : str or os.PathLike object
             Path of the file.
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct
@@ -155,7 +155,7 @@ class DataSources:
 
         request = data_sources_pb2.UpdateRequest()
         request.key = key
-        request.path = filepath
+        request.path = str(filepath)
         if is_domain:
             request.domain.domain_path = True
             request.domain.domain_id = domain_id
@@ -171,7 +171,7 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str
+        filepath : str or os.PathLike object
             Path of the file.
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct
@@ -189,7 +189,7 @@ class DataSources:
         request = data_sources_pb2.UpdateRequest()
         request.key = key
         request.result_key = result_key
-        request.path = filepath
+        request.path = str(filepath)
         request.data_sources.CopyFrom(self._message)
         self._stub.Update(request)
 

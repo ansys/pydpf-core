@@ -42,9 +42,10 @@ class Input:
         Parameters
         ----------
         inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
-        MeshedRegion, Output, Outputs, Operator
+        MeshedRegion, Output, Outputs, Operator, os.PathLike
             Input of the operator.
         """
+        from pathlib import Path
         # always convert ranges to lists
         if isinstance(inpt, range):
             inpt = list(inpt)
@@ -58,6 +59,8 @@ class Input:
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
+        elif isinstance(inpt, Path):
+            inpt = str(inpt)
 
         input_type_name = type(inpt).__name__
         if not (
@@ -182,9 +185,10 @@ class _Inputs:
         ----------
         inpt : str, int, double, Field, FieldsContainer, Scoping,
                DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,
-               ..., Output, Outputs, Operator
+               ..., Output, Outputs, Operator, os.PathLike
             Input of the operator.
         """
+        from pathlib import Path
         corresponding_pins = []
         if isinstance(inpt, core.Operator):
             if hasattr(inpt, "outputs"):
@@ -196,6 +200,8 @@ class _Inputs:
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
+        elif isinstance(inpt, Path):
+            inpt = str(inpt)
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:

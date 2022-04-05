@@ -64,7 +64,7 @@ coordinates.inputs.coordinate_system(cs)
 comp = dpf.operators.logic.component_selector_fc(coordinates, 0, server=server2)
 
 ###############################################################################
-# Pass data from on server to another
+# Pass data from one server to another
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fc_disp = disp.outputs.fields_container()
 fc_copy = fc_disp.deep_copy(server=server2)

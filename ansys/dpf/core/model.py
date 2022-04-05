@@ -24,9 +24,9 @@ class Model:
 
     Parameters
     ----------
-    data_sources : str, dpf.core.DataSources
-        Accepts either a :class:`dpf.core.DataSources` instance or the name of the
-        result file to open. The default is ``None``.
+    data_sources : str, dpf.core.DataSources, os.PathLike
+        Accepts either a :class:`dpf.core.DataSources` instance or the path of the
+        result file to open as an os.PathLike object or a str. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -384,9 +384,10 @@ class Metadata:
         return self._stream_provider
 
     def _set_data_sources(self, var_inp):
+        from pathlib import Path
         if isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
-        elif isinstance(var_inp, str):
+        elif isinstance(var_inp, (str, Path)):
             self._data_sources = DataSources(var_inp, server=self._server)
         else:
             self._data_sources = DataSources(server=self._server)

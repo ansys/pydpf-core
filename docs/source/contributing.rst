@@ -20,11 +20,7 @@ You can clone the source repository from `DPF-Core
 GitHub <https://https://github.com/pyansys/DPF-Core>`_
 and install the latest version in development mode by running:
 
-.. code::
-
-    git clone https://github.com/pyansys/DPF-Core DPF-Core
-    cd DPF-Core
-    pip install -e .
+.. include:: pydpf-core_clone_install.rst
 
 
 Questions

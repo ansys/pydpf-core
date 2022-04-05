@@ -28,9 +28,5 @@ If you want to edit and potentially contribute to the DPF-Core
 module, clone the repository and install it using pip with the ``-e``
 development flag:
 
-.. code::
-
-    git clone https://github.com/pyansys/pydpf-core
-    cd pydpf-core
-    pip install -e .
+.. include:: ../pydpf-core_clone_install.rst
 
