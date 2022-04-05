@@ -9,7 +9,6 @@ from conftest import local_servers
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
 
-
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_simple_remote_workflow(simple_bar, local_server):
@@ -542,3 +541,28 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
 
     max = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max.data, [10.03242272])
+
+
+@pytest.mark.skipif(not meets_version(get_server_version(core._global_server()), "4.0"),
+                    reason='Requires server version higher than 4.0')
+def test_distributed_workflows_integral_types():
+    data_types = [
+        {'value': True, 'type': core.types.bool},
+        {'value': 123.0, 'type': core.types.double},
+        {'value': 123, 'type': core.types.int},
+        {'value': "hello", 'type': core.types.string},
+        {'value': [123.0, 456.0, 789.0], 'type': core.types.vec_double},
+        {'value': [123, 456, 789], 'type': core.types.vec_int},
+    ]
+
+    server1 = local_servers[0]
+    server2 = local_servers[1]
+
+    for data in data_types:
+        fwd1 = core.operators.utility.forward(server=server1)
+        fwd1.inputs.connect(data['value'])
+
+        fwd2 = core.operators.utility.forward(server=server2)
+        fwd2.inputs.connect(fwd1.outputs)
+
+        fwd2.get_output(0, data['type'])

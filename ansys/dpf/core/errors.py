@@ -111,6 +111,8 @@ def protect_grpc(func):
             details = error.details()
             if "object is null in the dataBase" in details:
                 raise DPFServerNullObject(details) from None
+            elif "Unable to open the following file" in details:
+                raise DPFServerException("The result file could not be found or could not be opened, the server raised an error message: \n" + details) from None
             raise DPFServerException(details) from None
 
         return out
