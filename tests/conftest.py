@@ -174,7 +174,6 @@ def server_type(request):
     return core.start_local_server(config=request.param, as_global=False)
 
 
-
 class LocalServers:
     def __init__(self):
         self._local_servers = []

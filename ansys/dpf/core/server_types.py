@@ -372,15 +372,15 @@ class BaseServer(abc.ABC):
 class CServer(BaseServer, ABC):
     """Abstract class for servers going through the DPFClientAPI"""
     def __init__(self,
-        ansys_path="",
-        as_global=True,
-        load_operators=True):
+                 ansys_path="",
+                 as_global=True,
+                 load_operators=True):
 
         super().__init__(as_global=as_global)
         from ansys.dpf.gate import capi
         path = _get_dll_path("DPFClientAPI", ansys_path)
         capi.load_api(path)
-        self._own_process=False
+        self._own_process = False
 
     @property
     def available_api_types(self):
@@ -402,6 +402,7 @@ class GrpcCClient:
     def __init__(self, ip, port):
         from ansys.dpf.gate import client_capi
         self._internal_obj = client_capi.ClientCAPI.client_new(str(ip), str(port))
+
 
 class GrpcCServer(CServer):
     """Server using the gRPC communication protocol"""

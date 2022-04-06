@@ -4,7 +4,7 @@ MeshesContainer
 ===============
 Contains classes associated with the DPF MeshesContainer.
 """
-import meshed_region
+from ansys.dpf.core import meshed_region
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types

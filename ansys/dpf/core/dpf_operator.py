@@ -772,9 +772,9 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     elif isinstance(inpt, scoping.Scoping):
         request.scoping.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, data_sources.DataSources):
-        request.data_sources.CopyFrom(inpt._message)
+        request.data_sources.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, model.Model):
-        request.data_sources.CopyFrom(inpt.metadata.data_sources._message)
+        request.data_sources.CopyFrom(inpt.metadata.data_sources._internal_obj)
     elif isinstance(inpt, meshed_region.MeshedRegion):
         request.mesh.CopyFrom(inpt._message)
     elif isinstance(inpt, cyclic_support.CyclicSupport):

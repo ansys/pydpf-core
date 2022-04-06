@@ -45,6 +45,13 @@ class ServerFactory:
         if config.remote_protocol == CommunicationProtocols.gRPC and config.c_server is False:
             return DpfServer
         elif config.remote_protocol == CommunicationProtocols.gRPC and config.c_server:
+            import os
+            from ansys.dpf.core._version import __ansys_version__
+            ISPOSIX = os.name == "posix"
+            ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
+            SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
+                                       "linx64" if ISPOSIX else "winx64")
+            os.environ["PATH"] += SUB_FOLDERS
             return GrpcCServer
         elif config.remote_protocol == CommunicationProtocols.direct and config.c_server:
             return DirectCServer
