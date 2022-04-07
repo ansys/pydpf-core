@@ -689,7 +689,7 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
         compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
                               f"index.html#client-server-compatibility")
         raise ImportWarning(f"An incompatibility has been detected between the server version"
-                            f"({server_version} " 
+                            f"({server_version} "
                             f"from Ansys {server_to_ansys_version.get(server_version, 'Unknown')})"
                             f" and the ansys-grpc-dpf version installed ({grpc_module_version})"
                             f"To follow the compatibility guidelines given in "
