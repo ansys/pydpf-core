@@ -14,6 +14,7 @@ the operator chain used to compute the final result.
 .. graphviz::
 
    digraph foo {
+        size="7,7";
         node [shape=box, style=filled, fillcolor="#ffcc00"];
         rankdir=LR;
         splines=ortho;

@@ -12,8 +12,9 @@ To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
 .. graphviz::
-
+   
    digraph foo {
+        size="8,8";
         node [shape=box, style=filled, fillcolor="#ffcc00"];
         rankdir=LR;
         splines=ortho;
