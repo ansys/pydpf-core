@@ -660,7 +660,8 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., doc
             pass
         errstr = "\n".join(errors)
         if "Only one usage of each socket address" in errstr:
-            raise errors.InvalidPortError(f"Port {port} in use")
+            from ansys.dpf.core.errors import InvalidPortError
+            raise InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)
 
     if len(docker_id) > 0:
@@ -685,11 +686,22 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
     if right_grpc_module_version and right_grpc_module_version != grpc_module_version:
-        raise ImportWarning(f"2022R1 Ansys unified install is available. "
-                            f"To use DPF server from Ansys "
-                            f"{server_to_ansys_version.get(server_version, 'Unknown')}"
-                            f" (dpf.SERVER.version=='{server_version}'), "
-                            f"install version {right_grpc_module_version} of ansys-grpc-dpf"
+        compatibility_link = r"https://dpfdocs.pyansys.com/getting_started/index.html#client-server-compatibility"
+        raise ImportWarning(f"An incompatibility has been detected between the server version"
+                            f"({server_version} " 
+                            f"from Ansys {server_to_ansys_version.get(server_version, 'Unknown')})"
+                            f" and the ansys-grpc-dpf version installed ({grpc_module_version})"
+                            f"To follow the compatibility guidelines given in "
+                            f"{compatibility_link} and use DPF server {server_version}, "
+                            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
                             f" with the command: \n"
                             f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
                             )
+        # raise ImportWarning(f"2022R1 Ansys unified install is available. "
+        #                     f"To use DPF server from Ansys "
+        #                     f"{server_to_ansys_version.get(server_version, 'Unknown')}"
+        #                     f" (dpf.SERVER.version=='{server_version}'), "
+        #                     f"install version {right_grpc_module_version} of ansys-grpc-dpf"
+        #                     f" with the command: \n"
+        #                     f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+        #                     )
