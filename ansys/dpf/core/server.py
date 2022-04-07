@@ -686,7 +686,8 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
     if right_grpc_module_version and right_grpc_module_version != grpc_module_version:
-        compatibility_link = r"https://dpfdocs.pyansys.com/getting_started/index.html#client-server-compatibility"
+        compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
+                              f"index.html#client-server-compatibility")
         raise ImportWarning(f"An incompatibility has been detected between the server version"
                             f"({server_version} " 
                             f"from Ansys {server_to_ansys_version.get(server_version, 'Unknown')})"
