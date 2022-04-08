@@ -12,12 +12,13 @@ To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
 .. graphviz::
+   :align: center
 
    digraph foo {
-        size="7,7";
+        size="6,6";
         node [shape=box, style=filled, fillcolor="#ffcc00"];
         rankdir=LR;
-        splines=ortho;
+        splines=line;
 
         disp01 [label="displacement"];
         disp02 [label="displacement"];
@@ -25,14 +26,27 @@ the operator chain used to compute the final result.
         mesh02 [label="mesh"];
 
         subgraph cluster_1 {
+            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+            
             disp01; mesh01;
+            
+            ds01 -> disp01;
+            ds01 -> mesh01;
+            
             label="Server 1";
             style=filled;
             fillcolor=lightgrey;
         }
         
         subgraph cluster_2 {
+            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+            
+            
             disp02; mesh02;
+
+            ds02 -> disp02;
+            ds02 -> mesh02;
+
             label="Server 2";
             style=filled;
             fillcolor=lightgrey;
