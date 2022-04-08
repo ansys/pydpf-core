@@ -8,7 +8,7 @@ on distributed processes. The modal basis (2 distributed files) is read
 on 2 remote servers and the modal response reading and the expansion is
 done on a third server.
 
-To help understand this example the following diagram is provided. It shows 
+To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
 .. graphviz::
@@ -27,21 +27,21 @@ the operator chain used to compute the final result.
 
         subgraph cluster_1 {
             ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-            
+
             disp01; mesh01;
-            
+
             ds01 -> disp01 [style=dashed];
             ds01 -> mesh01 [style=dashed];
-            
+
             label="Server 1";
             style=filled;
             fillcolor=lightgrey;
         }
-        
+
         subgraph cluster_2 {
             ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-            
-            
+
+
             disp02; mesh02;
 
             ds02 -> disp02 [style=dashed];
@@ -103,14 +103,14 @@ files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
 # Create the operators on the servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # On each server we create two new operators, one for 'displacement' computations
-# and a 'mesh_provider' operator and then define their data sources. The displacement 
+# and a 'mesh_provider' operator and then define their data sources. The displacement
 # and mesh_provider operators receive data from their respective data files on each server.
 remote_displacement_operators = []
 remote_mesh_operators = []
 for i, server in enumerate(remote_servers):
     displacement = ops.result.displacement(server=server)
     mesh = ops.mesh.mesh_provider(server=server)
-    remote_displacement_operators.append(displacement)    
+    remote_displacement_operators.append(displacement)
     remote_mesh_operators.append(mesh)
     ds = dpf.DataSources(files[i], server=server)
     ds.add_file_path(files_aux[i])

@@ -2,7 +2,7 @@
 Distributed post without client connection to remote processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To help understand this example the following diagram is provided. It shows 
+To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
 .. graphviz::
@@ -21,18 +21,18 @@ the operator chain used to compute the final result.
 
         subgraph cluster_1 {
             ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-            
+
             ds01 -> disp01 [style=dashed];
             disp01 -> norm01;
-            
+
             label="Server 1";
             style=filled;
             fillcolor=lightgrey;
         }
-        
+
         subgraph cluster_2 {
             ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-            
+
             ds02 -> disp02 [style=dashed];
             disp02 -> norm02;
 
@@ -83,10 +83,10 @@ server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_serve
 ###############################################################################
 # Create the operators on the servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
-# On each server we create two new operators for 'displacement' and 'norm' 
-# computations and define their data sources. The displacement operator 
-# receives data from the data file in its respective server. And the norm 
-# operator, being chained to the displacement operator, receives input from the 
+# On each server we create two new operators for 'displacement' and 'norm'
+# computations and define their data sources. The displacement operator
+# receives data from the data file in its respective server. And the norm
+# operator, being chained to the displacement operator, receives input from the
 # output of this one.
 remote_operators = []
 for i, server in enumerate(remote_servers):
