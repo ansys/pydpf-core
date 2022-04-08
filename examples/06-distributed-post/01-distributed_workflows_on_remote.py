@@ -8,6 +8,40 @@ on distributed processes. After remote post processing,
 results are merged on the local process. In this example, different operator 
 sequences are directly created on different servers. These operators are then 
 connected together without having to care that they are on remote processes.
+
+.. graphviz::
+   :align: center
+
+   digraph foo {
+        size="6,6";
+        node [shape=box, style=filled, fillcolor="#ffcc00"];
+        rankdir=LR;
+        splines=line;
+
+        subgraph cluster_1 {
+            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+            
+            ds01 -> stress1 [style=dashed];
+            
+            label="Server 1";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+        
+        subgraph cluster_2 {
+            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+            
+            ds02 -> stress2 [style=dashed];
+            stress2 -> mul;
+
+            label="Server 2";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+
+        stress1 -> "merge";
+        mul -> "merge";
+   }
 """
 ###############################################################################
 # Import dpf module and its examples files

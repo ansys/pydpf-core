@@ -7,6 +7,45 @@ This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing, results a merged
 on the local process.
 
+.. graphviz::
+   :align: center
+
+   digraph foo {
+        size="6,6";
+        node [shape=box, style=filled, fillcolor="#ffcc00"];
+        rankdir=LR;
+        splines=line;
+
+        disp01 [label="displacement"];
+        disp02 [label="displacement"];
+        norm01 [label="norm"];
+        norm02 [label="norm"];
+
+        subgraph cluster_1 {
+            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+            
+            ds01 -> disp01 [style=dashed];
+            disp01 -> norm01;
+            
+            label="Server 1";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+        
+        subgraph cluster_2 {
+            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+            
+            ds02 -> disp02 [style=dashed];
+            disp02 -> norm02;
+
+            label="Server 2";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+
+        norm01 -> "merge";
+        norm02 -> "merge";
+   }
 """
 
 ###############################################################################

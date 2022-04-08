@@ -30,8 +30,8 @@ the operator chain used to compute the final result.
 
             disp01; mesh01;
 
-            ds01 -> disp01;
-            ds01 -> mesh01;
+            ds01 -> disp01 [style=dashed];
+            ds01 -> mesh01 [style=dashed];
 
             label="Server 1";
             style=filled;
@@ -43,8 +43,8 @@ the operator chain used to compute the final result.
 
             disp02; mesh02;
 
-            ds02 -> disp02;
-            ds02 -> mesh02;
+            ds02 -> disp02 [style=dashed];
+            ds02 -> mesh02 [style=dashed];
 
             label="Server 2";
             style=filled;
