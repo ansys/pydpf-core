@@ -70,7 +70,7 @@ defines a variable like an environment variable that can be used in the other
 XML files. You might use it to find required third party software. 
 
 If the ANSYS_ROOT_FOLDER tag is not defined within the DataProcessing.xml file,
-the root folder is determined by either reading the AWP_ROOT### environment 
+the root folder is determined by reading the AWP_ROOT### environment 
 variable specific to the version of the DPF code. For example, if you are 
 using V222 DPF code, it looks for AWP_ROOT222 to find the root folder. 
 
