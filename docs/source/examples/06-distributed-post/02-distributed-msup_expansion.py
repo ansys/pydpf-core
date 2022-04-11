@@ -1,8 +1,12 @@
 """
-.. _ref_distributed_total_disp:
+.. _ref_distributed_msup:
 
-Distributed post without client connection to remote processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Distributed modal superposition
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how distributed files can be read and expanded
+on distributed processes. The modal basis (2 distributed files) is read
+on 2 remote servers and the modal response reading and the expansion is
+done on a third server.
 
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
@@ -18,14 +22,16 @@ the operator chain used to compute the final result.
 
         disp01 [label="displacement"];
         disp02 [label="displacement"];
-        norm01 [label="norm"];
-        norm02 [label="norm"];
+        mesh01 [label="mesh"];
+        mesh02 [label="mesh"];
 
         subgraph cluster_1 {
             ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
 
+            disp01; mesh01;
+
             ds01 -> disp01 [style=dashed];
-            disp01 -> norm01;
+            ds01 -> mesh01 [style=dashed];
 
             label="Server 1";
             style=filled;
@@ -35,21 +41,32 @@ the operator chain used to compute the final result.
         subgraph cluster_2 {
             ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
 
+
+            disp02; mesh02;
+
             ds02 -> disp02 [style=dashed];
-            disp02 -> norm02;
+            ds02 -> mesh02 [style=dashed];
 
             label="Server 2";
             style=filled;
             fillcolor=lightgrey;
         }
 
-        norm01 -> "merge";
-        norm02 -> "merge";
+        disp01 -> "merge";
+        mesh01 -> "merged_mesh";
+        disp02 -> "merge";
+        mesh02 -> "merged_mesh";
+
+        "merged_mesh" -> "response";
+        "response" -> "expansion";
+        "merge" -> "expansion";
+        "expansion" -> "component";
    }
+
 """
 
 ###############################################################################
-# Import dpf module and its examples files
+# Import dpf module and its examples files.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -71,47 +88,61 @@ ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
 ###############################################################################
-# Print the ips and ports
+# Print the ips and ports.
 print("ips:", ips)
 print("ports:", ports)
 
 ###############################################################################
-# Here we show how we could send files in temporary directory if we were not
-# in shared memory
-files = examples.download_distributed_files()
-server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
-                     dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1])]
+# Choose the file path.
+
+base_path = examples.distributed_msup_folder
+files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
+files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
 
 ###############################################################################
 # Create the operators on the servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
-# On each server we create two new operators for 'displacement' and 'norm'
-# computations and define their data sources. The displacement operator
-# receives data from the data file in its respective server. And the norm
-# operator, being chained to the displacement operator, receives input from the
-# output of this one.
-remote_operators = []
+# On each server we create two new operators, one for 'displacement' computations
+# and a 'mesh_provider' operator and then define their data sources. The displacement
+# and mesh_provider operators receive data from their respective data files on each server.
+remote_displacement_operators = []
+remote_mesh_operators = []
 for i, server in enumerate(remote_servers):
     displacement = ops.result.displacement(server=server)
-    norm = ops.math.norm_fc(displacement, server=server)
-    remote_operators.append(norm)
-    ds = dpf.DataSources(server_file_paths[i], server=server)
+    mesh = ops.mesh.mesh_provider(server=server)
+    remote_displacement_operators.append(displacement)
+    remote_mesh_operators.append(mesh)
+    ds = dpf.DataSources(files[i], server=server)
+    ds.add_file_path(files_aux[i])
     displacement.inputs.data_sources(ds)
+    mesh.inputs.data_sources(ds)
 
 ###############################################################################
-# Create a merge_fields_containers operator able to merge the results
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a local operators chain for expansion
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# In the follwing series of operators we merge the modal basis, the meshes, read
+# the modal response and expand the modal response with the modal basis.
 
 merge = ops.utility.merge_fields_containers()
+merge_mesh = ops.utility.merge_meshes()
+
+ds = dpf.DataSources(base_path + r'/file_load_1.rfrq')
+response = ops.result.displacement(data_sources=ds)
+response.inputs.mesh(merge_mesh.outputs.merges_mesh)
+
+expansion = ops.math.modal_superposition(solution_in_modal_space=response, modal_basis=merge)
+component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################
-# Connect the operators together and get the output
+# Connect the operator chains together and get the output
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 for i, server in enumerate(remote_servers):
-    merge.connect(i, remote_operators[i], 0)
+    merge.connect(i, remote_displacement_operators[i], 0)
+    merge_mesh.connect(i, remote_mesh_operators[i], 0)
 
-fc = merge.get_output(0, dpf.types.fields_container)
+fc = component.get_output(0, dpf.types.fields_container)
+merged_mesh = merge_mesh.get_output(0, dpf.types.meshed_region)
+
+merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
+merged_mesh.plot(fc.get_field_by_time_complex_ids(10, 0))
 print(fc)
-print(fc[0].min().data)
-print(fc[0].max().data)
