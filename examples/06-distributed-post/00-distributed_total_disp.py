@@ -1,4 +1,6 @@
 """
+.. _ref_distributed_total_disp:
+
 Distributed post without client connection to remote processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

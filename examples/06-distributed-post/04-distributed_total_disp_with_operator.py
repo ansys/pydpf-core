@@ -4,7 +4,7 @@
 Distributed post without client connection to remote processes with Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed
-on distributed processes. After remote post processing, results a merged
+on distributed processes. After remote post processing, results are merged
 on the local process.
 
 .. graphviz::
