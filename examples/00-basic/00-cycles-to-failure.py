@@ -76,5 +76,5 @@ myResultField.data =  myResult[:, 2]
 mesh.plot(myResultField)
 # This is a way to plot w/out units/label
 
-""" The cycles to failure result is the (interpolated) negative of the stress result.
-The higher the stress result, the lower number of cycles to failure. """
+## The cycles to failure result is the (interpolated) negative of the stress result.
+## The higher the stress result, the lower number of cycles to failure. """
