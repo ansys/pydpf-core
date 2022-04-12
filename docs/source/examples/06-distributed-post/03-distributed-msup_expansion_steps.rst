@@ -264,7 +264,7 @@ the modal response and expand the modal response with the modal basis.
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-163
+.. GENERATED FROM PYTHON SOURCE LINES 153-165
 
 .. code-block:: default
 
@@ -278,6 +278,8 @@ Connect the operator chains together and get the output
     merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
     merged_mesh.plot(fc.get_field_by_time_complex_ids(20, 0))
     print(fc)
+
+    dpf.server.shutdown_all_session_servers()
 
 
 
@@ -351,6 +353,11 @@ Connect the operator chains together and get the output
       - field 38 {complex:  0, time:  20} with Nodal location, 1 components and 1065 entities.
       - field 39 {complex:  1, time:  20} with Nodal location, 1 components and 1065 entities.
 
+    ("'NoneType' object has no attribute 'shutdown'",)
+    ("'NoneType' object has no attribute 'shutdown'",)
+    ("'NoneType' object has no attribute 'shutdown'",)
+    ("'NoneType' object has no attribute 'shutdown'",)
+    ("'NoneType' object has no attribute 'shutdown'",)
 
 
 
@@ -358,7 +365,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.916 seconds)
+   **Total running time of the script:** ( 0 minutes  6.760 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_03-distributed-msup_expansion_steps.py:

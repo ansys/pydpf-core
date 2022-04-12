@@ -141,7 +141,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50054, 50056]
+    ports: [50054, 50055]
 
 
 
@@ -253,7 +253,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.737 seconds)
+   **Total running time of the script:** ( 0 minutes  1.132 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_04-distributed_total_disp_with_operator.py:

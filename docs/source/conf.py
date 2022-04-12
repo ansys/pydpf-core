@@ -224,4 +224,4 @@ epub_title = project
 epub_exclude_files = ["search.html"]
 
 # GraphViz configuration
-graphviz_output_format = 'svg'
+graphviz_output_format = 'png'

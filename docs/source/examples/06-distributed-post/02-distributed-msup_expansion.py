@@ -146,3 +146,5 @@ merged_mesh = merge_mesh.get_output(0, dpf.types.meshed_region)
 merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
 merged_mesh.plot(fc.get_field_by_time_complex_ids(10, 0))
 print(fc)
+
+dpf.server.shutdown_all_session_servers()
