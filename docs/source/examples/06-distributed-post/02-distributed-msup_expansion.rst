@@ -30,63 +30,13 @@ done on a third server.
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
-.. graphviz::
-   :align: center
+.. image:: 02-operator-dep.png
 
-   digraph foo {
-        size="6,6";
-        node [shape=box, style=filled, fillcolor="#ffcc00"];
-        rankdir=LR;
-        splines=line;
-
-        disp01 [label="displacement"];
-        disp02 [label="displacement"];
-        mesh01 [label="mesh"];
-        mesh02 [label="mesh"];
-
-        subgraph cluster_1 {
-            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-
-            disp01; mesh01;
-
-            ds01 -> disp01 [style=dashed];
-            ds01 -> mesh01 [style=dashed];
-
-            label="Server 1";
-            style=filled;
-            fillcolor=lightgrey;
-        }
-
-        subgraph cluster_2 {
-            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-
-
-            disp02; mesh02;
-
-            ds02 -> disp02 [style=dashed];
-            ds02 -> mesh02 [style=dashed];
-
-            label="Server 2";
-            style=filled;
-            fillcolor=lightgrey;
-        }
-
-        disp01 -> "merge";
-        mesh01 -> "merged_mesh";
-        disp02 -> "merge";
-        mesh02 -> "merged_mesh";
-
-        "merged_mesh" -> "response";
-        "response" -> "expansion";
-        "merge" -> "expansion";
-        "expansion" -> "component";
-   }
-
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
 Import dpf module and its examples files.
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-75
+.. GENERATED FROM PYTHON SOURCE LINES 19-24
 
 .. code-block:: default
 
@@ -102,7 +52,7 @@ Import dpf module and its examples files.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-85
+.. GENERATED FROM PYTHON SOURCE LINES 25-34
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -114,7 +64,7 @@ we will consequently require 2 remote processes
 To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-90
+.. GENERATED FROM PYTHON SOURCE LINES 34-39
 
 .. code-block:: default
 
@@ -130,11 +80,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-92
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Print the ips and ports.
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-95
+.. GENERATED FROM PYTHON SOURCE LINES 41-44
 
 .. code-block:: default
 
@@ -152,16 +102,16 @@ Print the ips and ports.
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50054, 50056]
+    ports: [50054, 50055]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-97
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Choose the file path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-102
+.. GENERATED FROM PYTHON SOURCE LINES 46-51
 
 .. code-block:: default
 
@@ -177,7 +127,7 @@ Choose the file path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-108
+.. GENERATED FROM PYTHON SOURCE LINES 52-57
 
 Create the operators on the servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -185,7 +135,7 @@ On each server we create two new operators, one for 'displacement' computations
 and a 'mesh_provider' operator and then define their data sources. The displacement
 and mesh_provider operators receive data from their respective data files on each server.
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-120
+.. GENERATED FROM PYTHON SOURCE LINES 57-69
 
 .. code-block:: default
 
@@ -208,14 +158,14 @@ and mesh_provider operators receive data from their respective data files on eac
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-125
+.. GENERATED FROM PYTHON SOURCE LINES 70-74
 
 Create a local operators chain for expansion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In the follwing series of operators we merge the modal basis, the meshes, read
 the modal response and expand the modal response with the modal basis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-136
+.. GENERATED FROM PYTHON SOURCE LINES 74-85
 
 .. code-block:: default
 
@@ -237,12 +187,12 @@ the modal response and expand the modal response with the modal basis.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-139
+.. GENERATED FROM PYTHON SOURCE LINES 86-88
 
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 139-151
+.. GENERATED FROM PYTHON SOURCE LINES 88-98
 
 .. code-block:: default
 
@@ -256,8 +206,6 @@ Connect the operator chains together and get the output
     merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
     merged_mesh.plot(fc.get_field_by_time_complex_ids(10, 0))
     print(fc)
-
-    dpf.server.shutdown_all_session_servers()
 
 
 
@@ -311,11 +259,6 @@ Connect the operator chains together and get the output
       - field 18 {complex:  0, time:  10} with Nodal location, 1 components and 1065 entities.
       - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 1065 entities.
 
-    ("'NoneType' object has no attribute 'shutdown'",)
-    ("'NoneType' object has no attribute 'shutdown'",)
-    ("'NoneType' object has no attribute 'shutdown'",)
-    ("'NoneType' object has no attribute 'shutdown'",)
-    ("'NoneType' object has no attribute 'shutdown'",)
 
 
 
@@ -323,7 +266,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.581 seconds)
+   **Total running time of the script:** ( 0 minutes  2.957 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_02-distributed-msup_expansion.py:

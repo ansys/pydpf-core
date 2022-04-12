@@ -11,58 +11,7 @@ done on a third server.
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
-.. graphviz::
-   :align: center
-
-   digraph foo {
-        size="6,6";
-        node [shape=box, style=filled, fillcolor="#ffcc00"];
-        rankdir=LR;
-        splines=line;
-
-        disp01 [label="displacement"];
-        disp02 [label="displacement"];
-        mesh01 [label="mesh"];
-        mesh02 [label="mesh"];
-
-        subgraph cluster_1 {
-            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-
-            disp01; mesh01;
-
-            ds01 -> disp01 [style=dashed];
-            ds01 -> mesh01 [style=dashed];
-
-            label="Server 1";
-            style=filled;
-            fillcolor=lightgrey;
-        }
-
-        subgraph cluster_2 {
-            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-
-
-            disp02; mesh02;
-
-            ds02 -> disp02 [style=dashed];
-            ds02 -> mesh02 [style=dashed];
-
-            label="Server 2";
-            style=filled;
-            fillcolor=lightgrey;
-        }
-
-        disp01 -> "merge";
-        mesh01 -> "merged_mesh";
-        disp02 -> "merge";
-        mesh02 -> "merged_mesh";
-
-        "merged_mesh" -> "response";
-        "response" -> "expansion";
-        "merge" -> "expansion";
-        "expansion" -> "component";
-   }
-
+.. image:: 02-operator-dep.png
 """
 
 ###############################################################################

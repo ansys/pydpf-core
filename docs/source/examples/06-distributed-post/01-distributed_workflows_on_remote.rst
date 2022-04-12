@@ -28,45 +28,13 @@ results are merged on the local process. In this example, different operator
 sequences are directly created on different servers. These operators are then
 connected together without having to care that they are on remote processes.
 
-.. graphviz::
-   :align: center
+.. image:: 01-operator-dep.png
 
-   digraph foo {
-        size="6,6";
-        node [shape=box, style=filled, fillcolor="#ffcc00"];
-        rankdir=LR;
-        splines=line;
-
-        subgraph cluster_1 {
-            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-
-            ds01 -> stress1 [style=dashed];
-
-            label="Server 1";
-            style=filled;
-            fillcolor=lightgrey;
-        }
-
-        subgraph cluster_2 {
-            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-
-            ds02 -> stress2 [style=dashed];
-            stress2 -> mul;
-
-            label="Server 2";
-            style=filled;
-            fillcolor=lightgrey;
-        }
-
-        stress1 -> "merge";
-        mul -> "merge";
-   }
-
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 15-16
 
 Import dpf module and its examples files
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-53
+.. GENERATED FROM PYTHON SOURCE LINES 16-21
 
 .. code-block:: default
 
@@ -82,14 +50,14 @@ Import dpf module and its examples files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-58
+.. GENERATED FROM PYTHON SOURCE LINES 22-26
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
 To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-61
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
 
 .. code-block:: default
 
@@ -103,12 +71,12 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-64
+.. GENERATED FROM PYTHON SOURCE LINES 30-32
 
 Here we show how we could send files in temporary directory if we were not
 in shared memory
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-69
+.. GENERATED FROM PYTHON SOURCE LINES 32-37
 
 .. code-block:: default
 
@@ -124,11 +92,11 @@ in shared memory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-71
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 First operator chain.
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-79
+.. GENERATED FROM PYTHON SOURCE LINES 39-47
 
 .. code-block:: default
 
@@ -147,11 +115,11 @@ First operator chain.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-81
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
 Second operator chain.
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-88
+.. GENERATED FROM PYTHON SOURCE LINES 49-56
 
 .. code-block:: default
 
@@ -169,11 +137,11 @@ Second operator chain.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-90
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 Local merge operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-93
+.. GENERATED FROM PYTHON SOURCE LINES 58-61
 
 .. code-block:: default
 
@@ -187,12 +155,12 @@ Local merge operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-96
+.. GENERATED FROM PYTHON SOURCE LINES 62-64
 
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-105
+.. GENERATED FROM PYTHON SOURCE LINES 64-73
 
 .. code-block:: default
 
@@ -233,7 +201,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.591 seconds)
+   **Total running time of the script:** ( 0 minutes  2.165 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_workflows_on_remote.py:
