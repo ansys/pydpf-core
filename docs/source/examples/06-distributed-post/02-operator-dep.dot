@@ -36,13 +36,16 @@ digraph foo {
         fillcolor=lightgrey;
     }
 
-    disp01 -> "merge";
+    disp01 -> "merge_fields";
     mesh01 -> "merged_mesh";
-    disp02 -> "merge";
+    disp02 -> "merge_fields";
     mesh02 -> "merged_mesh";
+
+    ds03 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+    ds03 -> "response" [style=dashed];
 
     "merged_mesh" -> "response";
     "response" -> "expansion";
-    "merge" -> "expansion";
+    "merge_fields" -> "expansion";
     "expansion" -> "component";
 }

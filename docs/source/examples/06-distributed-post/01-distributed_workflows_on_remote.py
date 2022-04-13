@@ -1,7 +1,7 @@
 """
 .. _ref_distributed_workflows_on_remote:
 
-Connect operator chains on different processes implicitly
+Create custom workflow on distributed processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing,

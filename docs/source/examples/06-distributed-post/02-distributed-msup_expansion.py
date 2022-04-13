@@ -30,7 +30,7 @@ from ansys.dpf.core import operators as ops
 # started. Operator instances will be created on each of those servers to
 # address each a different result file.
 # In this example, we will post process an analysis distributed in 2 files,
-# we will consequently require 2 remote processes
+# we will consequently require 2 remote processes.
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
@@ -71,24 +71,27 @@ for i, server in enumerate(remote_servers):
 ###############################################################################
 # Create a local operators chain for expansion
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In the follwing series of operators we merge the modal basis, the meshes, read
+# In the following series of operators we merge the modal basis, the meshes, read
 # the modal response and expand the modal response with the modal basis.
 
-merge = ops.utility.merge_fields_containers()
+merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
 ds = dpf.DataSources(base_path + r'/file_load_1.rfrq')
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-expansion = ops.math.modal_superposition(solution_in_modal_space=response, modal_basis=merge)
+expansion = ops.math.modal_superposition(
+    solution_in_modal_space=response,
+    modal_basis=merge_fields
+)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################
 # Connect the operator chains together and get the output
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 for i, server in enumerate(remote_servers):
-    merge.connect(i, remote_displacement_operators[i], 0)
+    merge_fields.connect(i, remote_displacement_operators[i], 0)
     merge_mesh.connect(i, remote_mesh_operators[i], 0)
 
 fc = component.get_output(0, dpf.types.fields_container)

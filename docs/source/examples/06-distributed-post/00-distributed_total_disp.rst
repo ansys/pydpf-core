@@ -20,7 +20,7 @@
 
 .. _ref_distributed_total_disp:
 
-Distributed post without client connection to remote processes
+Post processing of displacement on distributed processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To help understand this example the following diagram is provided. It shows
@@ -58,7 +58,7 @@ Make a list of ip addresses and port numbers on which dpf servers are
 started. Operator instances will be created on each of those servers to
 address each a different result file.
 In this example, we will post process an analysis distributed in 2 files,
-we will consequently require 2 remote processes
+we will consequently require 2 remote processes.
 To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
@@ -216,7 +216,7 @@ Connect the operators together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.137 seconds)
+   **Total running time of the script:** ( 0 minutes  1.022 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_00-distributed_total_disp.py:

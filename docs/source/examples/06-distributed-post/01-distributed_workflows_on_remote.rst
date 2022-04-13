@@ -20,7 +20,7 @@
 
 .. _ref_distributed_workflows_on_remote:
 
-Connect operator chains on different processes implicitly
+Create custom workflow on distributed processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing,
@@ -203,7 +203,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.677 seconds)
+   **Total running time of the script:** ( 0 minutes  5.209 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_workflows_on_remote.py:

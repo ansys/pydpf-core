@@ -42,6 +42,8 @@ digraph foo {
 
     ds03 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
     ds03 -> "response2" [style=dashed];
+    ds04 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+    ds04 -> "response" [style=dashed];
 
     "merge_mesh" -> "response";
     "response" -> "merge_use_pass";

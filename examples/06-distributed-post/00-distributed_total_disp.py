@@ -1,7 +1,7 @@
 """
 .. _ref_distributed_total_disp:
 
-Distributed post without client connection to remote processes
+Post processing of displacement on distributed processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To help understand this example the following diagram is provided. It shows
@@ -26,7 +26,7 @@ from ansys.dpf.core import operators as ops
 # started. Operator instances will be created on each of those servers to
 # address each a different result file.
 # In this example, we will post process an analysis distributed in 2 files,
-# we will consequently require 2 remote processes
+# we will consequently require 2 remote processes.
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
