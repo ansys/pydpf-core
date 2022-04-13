@@ -7,7 +7,9 @@ This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing, results are merged
 on the local process.
 
-.. image:: 04-operator-dep.png
+.. image:: 04-operator-dep.svg
+   :align: center
+   :width: 400
 """
 
 ###############################################################################

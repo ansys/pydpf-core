@@ -11,7 +11,9 @@ done on a third server.
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
-.. image:: 02-operator-dep.png
+.. image:: 02-operator-dep.svg
+   :align: center
+   :width: 800
 """
 
 ###############################################################################

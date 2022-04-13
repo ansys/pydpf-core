@@ -11,7 +11,9 @@ done on a third server.
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
-.. image:: 03-operator-dep.png
+.. image:: 03-operator-dep.svg
+   :align: center
+   :width: 800
 """
 
 ###############################################################################
@@ -72,7 +74,7 @@ for i, server in enumerate(remote_servers):
 # In the follwing series of operators we merge the modal basis, the meshes, read
 # the modal response and expand the modal response with the modal basis.
 
-merge = ops.utility.merge_fields_containers()
+merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
 ds = dpf.DataSources(os.path.join(base_path, "file_load_1.rfrq"))
@@ -92,14 +94,14 @@ merge_use_pass = ops.utility.merge_fields_containers()
 merge_use_pass.inputs.fields_containers1(response)
 merge_use_pass.inputs.fields_containers2(response2fc)
 
-expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis=merge)
+expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis=merge_fields)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################
 # Connect the operator chains together and get the output
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 for i, server in enumerate(remote_servers):
-    merge.connect(i, remote_displacement_operators[i], 0)
+    merge_fields.connect(i, remote_displacement_operators[i], 0)
     merge_mesh.connect(i, remote_mesh_operators[i], 0)
 
 fc = component.get_output(0, dpf.types.fields_container)

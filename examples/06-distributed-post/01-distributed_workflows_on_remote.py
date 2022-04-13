@@ -9,7 +9,9 @@ results are merged on the local process. In this example, different operator
 sequences are directly created on different servers. These operators are then
 connected together without having to care that they are on remote processes.
 
-.. image:: 01-operator-dep.png
+.. image:: 01-operator-dep.svg
+   :align: center
+   :width: 400
 """
 ###############################################################################
 # Import dpf module and its examples files

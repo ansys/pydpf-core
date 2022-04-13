@@ -1,6 +1,6 @@
 digraph foo {
-    size="6,6";
-    node [shape=box, style=filled, fillcolor="#ffcc00"];
+    graph [pad="0", nodesep="0.3", ranksep="0.3"]
+    node [shape=box, style=filled, fillcolor="#ffcc00", margin="0"];
     rankdir=LR;
     splines=line;
 

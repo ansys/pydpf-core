@@ -7,7 +7,9 @@ Distributed post without client connection to remote processes
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
 
-.. image:: 00-operator-dep.png
+.. image:: 00-operator-dep.svg
+   :align: center
+   :width: 400
 """
 
 ###############################################################################
