@@ -167,7 +167,7 @@ Create a local operators chain for expansion
 In the follwing series of operators we merge the modal basis, the meshes, read
 the modal response and expand the modal response with the modal basis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-100
+.. GENERATED FROM PYTHON SOURCE LINES 76-103
 
 .. code-block:: default
 
@@ -192,7 +192,10 @@ the modal response and expand the modal response with the modal basis.
     merge_use_pass.inputs.fields_containers1(response)
     merge_use_pass.inputs.fields_containers2(response2fc)
 
-    expansion = ops.math.modal_superposition(solution_in_modal_space=merge_use_pass, modal_basis=merge_fields)
+    expansion = ops.math.modal_superposition(
+        solution_in_modal_space=merge_use_pass,
+        modal_basis=merge_fields
+        )
     component = ops.logic.component_selector_fc(expansion, 1)
 
 
@@ -210,12 +213,12 @@ the modal response and expand the modal response with the modal basis.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-103
+.. GENERATED FROM PYTHON SOURCE LINES 104-106
 
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-113
+.. GENERATED FROM PYTHON SOURCE LINES 106-116
 
 .. code-block:: default
 
@@ -309,7 +312,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.464 seconds)
+   **Total running time of the script:** ( 0 minutes  2.743 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_03-distributed-msup_expansion_steps.py:
