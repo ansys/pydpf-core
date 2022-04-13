@@ -1,4 +1,4 @@
-"""Installation file for python dpf module
+"""Installation file for python dpf module (test)
 """
 import os
 from io import open as io_open
