@@ -109,7 +109,7 @@ class _InternalPlotter:
                                                                    [labels[index]],
                                                                    **kwargs))
             else:
-                scalar_at_index = meshed_region.grid.active_scalars[index]
+                scalar_at_index = meshed_region.grid.active_scalars[node_indexes[index]]
                 scalar_at_grid_point = f"{scalar_at_index:.2f}"
                 label_actors.append(self._plotter.add_point_labels(grid_point,
                                                                    [scalar_at_grid_point],
