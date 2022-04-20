@@ -2,8 +2,6 @@
 Dimensionality
 ==============
 """
-
-from ansys.grpc.dpf import field_definition_pb2
 from ansys.dpf.core.common import natures
 
 

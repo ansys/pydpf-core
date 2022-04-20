@@ -4,10 +4,8 @@ Common
 """
 import re
 from enum import Enum
-
 import progressbar
 import numpy as np
-from ansys.grpc.dpf import base_pb2, field_definition_pb2
 
 
 def _camel_to_snake_case(name):
@@ -59,7 +57,32 @@ def __write_enum_doc__(enum, intro=None):
     return str
 
 
-names = [m.lower() for m in base_pb2.Type.keys()]
+Type = {
+    "STRING": 0,
+    "INT": 1,
+    "DOUBLE": 2,
+    "BOOL": 3,
+    "FIELD": 4,
+    "COLLECTION": 5,
+    "SCOPING": 6,
+    "DATA_SOURCES": 7,
+    "MESHED_REGION": 8,
+    "TIME_FREQ_SUPPORT": 9,
+    "RESULT_INFO": 10,
+    "CYCLIC_SUPPORT": 11,
+    "PROPERTY_FIELD": 12,
+    "WORKFLOW": 13,
+    "RUN": 14,
+    "ANY": 15,
+    "VEC_INT": 16,
+    "VEC_DOUBLE": 17,
+    "SUPPORT": 18,
+    "OPERATOR": 19,
+    "DATA_TREE": 20,
+    "VEC_STRING": 21,
+}
+
+names = [m.lower() for m in Type.keys()]
 names.append("fields_container")
 names.append("scopings_container")
 names.append("meshes_container")
@@ -72,8 +95,15 @@ types.__doc__ = __write_enum_doc__(
     ),
 )
 
-names = [(m.lower(), num) for m, num in base_pb2.Nature.items()]
-natures = Enum("natures", names)
+Nature = {
+    "SCALAR": 0,
+    "VECTOR": 1,
+    "MATRIX": 2,
+    "SYMMATRIX": 5,
+}
+
+names = [(name.lower(), num) for name, num in Nature.items()]
+natures = Enum('natures', names)
 natures.__doc__ = __write_enum_doc__(
     natures,
     (
@@ -82,7 +112,18 @@ natures.__doc__ = __write_enum_doc__(
     ),
 )
 
-names = [(m.lower(), num - 1) for m, num in field_definition_pb2.ShellLayers.items()]
+ShellLayers = {
+    "NOTSET": 0,
+    "TOP": 1,
+    "BOTTOM": 2,
+    "TOPBOTTOM": 3,
+    "MID": 4,
+    "TOPBOTTOMMID": 5,
+    "NONELAYER": 6,
+    "LAYERINDEPENDENT": 7,
+}
+
+names = [(m.lower(), num - 1) for m, num in ShellLayers.items()]
 shell_layers = Enum("shell_layers", names)
 shell_layers.__doc__ = __write_enum_doc__(
     shell_layers,
