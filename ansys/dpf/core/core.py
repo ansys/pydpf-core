@@ -5,6 +5,7 @@ Core
 import os
 import logging
 import time
+import warnings
 import weakref
 import pathlib
 import sys
@@ -15,7 +16,7 @@ from ansys.grpc.dpf import base_pb2, base_pb2_grpc
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core import server as serverlib
 from ansys.dpf.core import misc
-from ansys.dpf.core.common import _common_progress_bar
+from ansys.dpf.core.common import _common_progress_bar, _progress_bar_is_available
 from ansys.dpf.core.cache import class_handling_cache
 
 LOG = logging.getLogger(__name__)
@@ -388,14 +389,19 @@ class BaseService:
 
             # generate code
             from ansys.dpf.core.dpf_operator import Operator
+            try:
+                code_gen = Operator("python_generator")
+                code_gen.connect(1, TARGET_PATH)
+                code_gen.connect(0, filename)
+                code_gen.connect(2, False)
+                code_gen.run()
+            except Exception as e:
+                warnings.warn("Unable to generate the python code with error: " + str(e.args))
 
-            code_gen = Operator("python_generator")
-            code_gen.connect(1, TARGET_PATH)
-            code_gen.connect(0, filename)
-            code_gen.connect(2, False)
-            code_gen.run()
-
-            self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+            try:
+                self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+            except Exception as e:
+                warnings.warn("Unable to download the python generated code with error: " + str(e.args))
 
     @property
     def server_info(self):
@@ -491,10 +497,11 @@ class BaseService:
         for i in range(0, len(chunks.initial_metadata())):
             if chunks.initial_metadata()[i].key == u"size_tot":
                 tot_size = int(chunks.initial_metadata()[i].value) * 1E-3
-                bar = _common_progress_bar("Downloading...",
-                                           unit="KB",
-                                           tot_size=tot_size)
-        if not bar:
+                if _progress_bar_is_available():
+                    bar = _common_progress_bar("Downloading...",
+                                               unit="KB",
+                                               tot_size=tot_size)
+        if not bar and _progress_bar_is_available():
             bar = _common_progress_bar("Downloading...", unit="KB")
             bar.start()
         i = 0
@@ -503,10 +510,12 @@ class BaseService:
                 f.write(chunk.data.data)
                 i += len(chunk.data.data) * 1e-3
                 try:
-                    bar.update(min(i, tot_size))
+                    if bar is not None:
+                        bar.update(min(i, tot_size))
                 except:
                     pass
-        bar.finish()
+        if bar is not None:
+            bar.finish()
 
     @protect_grpc
     def download_files_in_folder(
@@ -543,9 +552,9 @@ class BaseService:
         num_files = 1
         if chunks.initial_metadata()[0].key == "num_files":
             num_files = int(chunks.initial_metadata()[0].value)
-
-        bar = _common_progress_bar("Downloading...", unit="files", tot_size=num_files)
-        bar.start()
+        if _progress_bar_is_available():
+            bar = _common_progress_bar("Downloading...", unit="files", tot_size=num_files)
+            bar.start()
 
         server_path = ""
 
@@ -585,7 +594,8 @@ class BaseService:
                     client_paths.append(cient_path)
                     f = open(cient_path, "wb")
                     try:
-                        bar.update(len(client_paths))
+                        if bar is not None:
+                            bar.update(len(client_paths))
                     except:
                         pass
                 else:
@@ -593,7 +603,8 @@ class BaseService:
             if f is not None:
                 f.write(chunk.data.data)
         try:
-            bar.finish()
+            if bar is not None:
+                bar.finish()
         except:
             pass
         return client_paths
@@ -757,7 +768,7 @@ class BaseService:
 
         tot_size = os.path.getsize(file_path) * 1e-3
 
-        need_progress_bar = tot_size > 10000
+        need_progress_bar = tot_size > 10000 and _progress_bar_is_available()
         if need_progress_bar:
             bar = _common_progress_bar("Uploading...", "KB", tot_size)
             bar.start()

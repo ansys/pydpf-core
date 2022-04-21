@@ -1,6 +1,5 @@
 from abc import abstractmethod, abstractproperty
 from ansys.dpf.gate.generated import field_abstract_api
-from incremental import _inf
 
 from ansys.dpf.core import scoping, dimensionality
 from ansys.dpf.core.common import natures, locations

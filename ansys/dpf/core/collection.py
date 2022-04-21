@@ -146,7 +146,7 @@ class Collection:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> coll = dpf.Collection(dpf.types.field)
+        >>> coll = dpf.FieldsContainer()
         >>> coll.add_label('time')
 
         """
@@ -187,7 +187,7 @@ class Collection:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> coll = dpf.Collection(dpf.types.field)
+        >>> coll = dpf.FieldsContainer()
         >>> coll.add_label('time')
         >>> coll.has_label('time')
         True

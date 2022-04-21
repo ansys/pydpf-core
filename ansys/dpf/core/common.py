@@ -4,8 +4,8 @@ Common
 """
 import re
 from enum import Enum
-import progressbar
 import numpy as np
+from ansys.dpf.core.misc import module_exists
 
 
 def _camel_to_snake_case(name):
@@ -246,8 +246,11 @@ class DefinitionLabels:
     time = "time"
     complex = "complex"
 
+def _progress_bar_is_available():
+    return module_exists("progressbar")
 
 def _common_progress_bar(text, unit, tot_size=None):
+    import progressbar
     if tot_size:
         widgets = [
             progressbar.FormatLabel(f"{text}: %(value)d of %(max_value)d {unit} "),
@@ -266,6 +269,7 @@ def _common_progress_bar(text, unit, tot_size=None):
 
 
 def _common_percentage_progress_bar(text):
+    import progressbar
     widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
     return progressbar.ProgressBar(widgets=widgets, max_value=100)
 
