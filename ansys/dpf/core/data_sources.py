@@ -6,7 +6,8 @@ Data Sources
 """
 import os
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import data_sources_capi, data_sources_grpcapi, integral_types
+from ansys.dpf.gate import data_sources_capi, data_sources_grpcapi, integral_types, \
+    data_processing_capi, data_processing_grpcapi
 
 
 class DataSources:
@@ -273,7 +274,13 @@ class DataSources:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
-        try:  # should silently fail
-            self._api.data_sources_delete(self)
+        try:
+            # get core api
+            core_api = self._server.get_api_for_type(
+                capi=data_processing_capi.DataProcessingCAPI,
+                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            core_api.init_data_processing_environment(self)
+            # delete
+            core_api.data_processing_delete_shared_object(self)
         except:
             pass

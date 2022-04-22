@@ -160,7 +160,6 @@ class Operator:
         array([[0.59428386, 0.00201751, 0.0006032 ]])
 
         """
-
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(self._message)
         request.pin = pin
@@ -766,12 +765,18 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
     elif isinstance(inpt, field_base._FieldBase):
+        if isinstance(inpt._internal_obj, int):
+            raise NotImplementedError("Operator must be switched to pygate")
+        # TODO: inpt._internal_obj is a pointer in the case of CLayer
         request.field.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, collection.Collection):
         request.collection.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, scoping.Scoping):
         request.scoping.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, data_sources.DataSources):
+        if isinstance(inpt._internal_obj, int):
+            raise NotImplementedError("Operator must be switched to pygate")
+            # TODO: inpt._internal_obj is a pointer in the case of CLayer
         request.data_sources.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, model.Model):
         request.data_sources.CopyFrom(inpt.metadata.data_sources._internal_obj)
@@ -784,7 +789,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     elif isinstance(inpt, data_tree.DataTree):
         request.data_tree.CopyFrom(inpt._message)
     elif isinstance(inpt, time_freq_support.TimeFreqSupport):
-        request.time_freq_support.CopyFrom(inpt._message)
+        request.time_freq_support.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, Operator):
         request.inputop.inputop.CopyFrom(inpt._message)
         request.inputop.pinOut = pin_out

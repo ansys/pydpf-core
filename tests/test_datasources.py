@@ -18,31 +18,26 @@ def test_create_with_resultpath_data_sources(allkindofcomplexity, server_type):
 def test_setresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(allkindofcomplexity)
-    print(data_sources)
 
 
 def test_setdomainresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_domain_result_file_path(allkindofcomplexity, 0)
-    print(data_sources)
 
 
 def test_addpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity)
-    print(data_sources)
 
 
 def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity, "rst", is_domain=True, domain_id=1)
-    print(data_sources)
 
 
 def test_addfilepathspecifiedresult_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path_for_specified_result(allkindofcomplexity, "d3plot")
-    print(data_sources)
 
 
 def test_addupstream_data_sources(allkindofcomplexity, server_type):
@@ -59,7 +54,6 @@ def test_delete_data_sources(allkindofcomplexity, server_type):
 def test_print_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(allkindofcomplexity)
-    print(data_sources)
     assert data_sources.result_key == "rst"
     assert data_sources.result_files == [allkindofcomplexity]
 

@@ -10,6 +10,7 @@ from ansys.dpf.core.check_version import meets_version, get_server_version
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
 
+
 @pytest.fixture()
 def vel_acc_model(velocity_acceleration):
     return dpf.core.Model(velocity_acceleration)
@@ -77,42 +78,46 @@ def test_delete_auto_timefreqsupport(simple_rst):
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
-    res1 = dpf.core.TimeFreqSupport(res._message)
+    res1 = dpf.core.TimeFreqSupport(res._internal_obj)
     res.__del__()
     with pytest.raises(Exception):
         res1.n_sets
 
 
-def test_create_time_freq_support():
-    tfq = TimeFreqSupport()
+def test_create_time_freq_support(server_type):
+    tfq = TimeFreqSupport(server=server_type)
     assert tfq is not None
 
 
-def test_update_time_freq_support_real_freq():
-    tfq = TimeFreqSupport()
-    frequencies = fields_factory.create_scalar_field(3)
+def test_update_time_freq_support_real_freq(server_type):
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(3, server=server_type)
     frequencies.data = [0.1, 0.32, 0.4]
     tfq.time_frequencies = frequencies
     frequencies_check = tfq.time_frequencies
-    assert np.allclose(frequencies.data, frequencies_check.data)
+    data1 = frequencies.data
+    data2 = frequencies_check.data
+    assert np.allclose(data1, data2)
     assert tfq.rpms is None
     assert tfq.complex_frequencies is None
 
 
-def test_update_time_freq_support_im_freq():
-    tfq = TimeFreqSupport()
-    frequencies = fields_factory.create_scalar_field(3)
+def test_update_time_freq_support_im_freq(server_type):
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(3, server=server_type)
     frequencies.data = [0.1, 0.32, 0.4]
     tfq.complex_frequencies = frequencies
     frequencies_check = tfq.complex_frequencies
-    assert np.allclose(frequencies.data, frequencies_check.data)
+    data1 = frequencies.data
+    data2 = frequencies_check.data
+    assert np.allclose(data1, data2)
     assert tfq.rpms is None
     assert tfq.time_frequencies is None
 
 
-def test_update_time_freq_support_rpms():
-    tfq = TimeFreqSupport()
-    rpm = fields_factory.create_scalar_field(3)
+def test_update_time_freq_support_rpms(server_type):
+    tfq = TimeFreqSupport(server=server_type)
+    rpm = fields_factory.create_scalar_field(3, server=server_type)
     rpm.data = [0.1, 0.32, 0.4]
     tfq.rpms = rpm
     rpm_check = tfq.rpms
@@ -121,9 +126,9 @@ def test_update_time_freq_support_rpms():
     assert tfq.complex_frequencies is None
 
 
-def test_update_time_freq_support_harmonic_indeces():
-    tfq = TimeFreqSupport()
-    harm = fields_factory.create_scalar_field(3)
+def test_update_time_freq_support_harmonic_indeces(server_type):
+    tfq = TimeFreqSupport(server=server_type)
+    harm = fields_factory.create_scalar_field(3, server=server_type)
     harm.data = [0.1, 0.32, 0.4]
     tfq.set_harmonic_indices(harm)
     harm_check = tfq.get_harmonic_indices()
@@ -133,9 +138,9 @@ def test_update_time_freq_support_harmonic_indeces():
     assert tfq.rpms is None
 
 
-def test_update_time_freq_support_harmonic_indeces_with_num_stage():
-    tfq = TimeFreqSupport()
-    harm = fields_factory.create_scalar_field(3)
+def test_update_time_freq_support_harmonic_indices_with_num_stage(server_type):
+    tfq = TimeFreqSupport(server=server_type)
+    harm = fields_factory.create_scalar_field(3, server=server_type)
     harm.data = [0.12, 0.32, 0.8]
     tfq.set_harmonic_indices(harm, 2)
     harm_check = tfq.get_harmonic_indices(2)
@@ -163,8 +168,8 @@ def test_update_time_freq_support_real_freq_with_ds(velocity_acceleration):
     assert np.allclose(frequencies.data, frequencies_check.data)
 
 
-def test_append_step_1():
-    tfq = TimeFreqSupport()
+def test_append_step_1(server_type):
+    tfq = TimeFreqSupport(server=server_type)
     frequencies = [0.1, 0.21, 1.0]
     tfq.append_step(1, frequencies, rpm_value=2.0)
     assert len(tfq.rpms.data) == 1
@@ -187,8 +192,8 @@ def test_append_step_1():
     assert tfq.get_harmonic_indices() is None
 
 
-def test_append_step_2():
-    tfq = TimeFreqSupport()
+def test_append_step_2(server_type):
+    tfq = TimeFreqSupport(server=server_type)
     tfq.append_step(
         1, [0.1, 0.21, 1.0], rpm_value=2.0, step_harmonic_indices=[1.0, 2.0, 3.0]
     )
@@ -207,8 +212,8 @@ def test_append_step_2():
     assert tfq.complex_frequencies is None
 
 
-def test_append_step_3():
-    tfq = TimeFreqSupport()
+def test_append_step_3(server_type):
+    tfq = TimeFreqSupport(server=server_type)
     tfq.append_step(
         1,
         [0.1, 0.21],
@@ -298,3 +303,28 @@ def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
     wf.connect("tf", tf)
     tfout = wf.get_output("tf", dpf.core.types.time_freq_support)
     assert np.allclose(tf.time_frequencies.data, tfout.time_frequencies.data)
+
+
+@pytest.mark.skipif(True, reason="used to check memory leaks")
+def test_timefreqsupport_memory_leaks():
+    import gc
+    from ansys.dpf.core import start_local_server
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    config = ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC)
+    # config = ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC)
+    # config = ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct)
+    server = start_local_server(config=config, as_global=False)
+    for i in range(0, 2000):
+        gc.collect()
+        # print("\nIteration", i)
+        tfq = TimeFreqSupport(server=server)
+        frequencies = fields_factory.create_scalar_field(3, server=server)
+        frequencies.data = [0.1, 0.32, 0.4]
+        tfq.time_frequencies = frequencies
+        frequencies_check = tfq.time_frequencies  # Call to get
+        tfq.complex_frequencies = frequencies
+        frequencies_cplx_check = tfq.complex_frequencies  # Call to get
+        tfq.rpms = frequencies
+        rpm_check = tfq.rpms  # Call to get
+        tfq.set_harmonic_indices(frequencies)
+        harm_check = tfq.get_harmonic_indices()  # Call to get

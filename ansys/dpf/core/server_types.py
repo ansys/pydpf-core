@@ -505,7 +505,8 @@ class DirectCServer(CServer):
         ansys_path="",
         as_global=True,
         load_operators=True,
-        docker_name=None):
+        docker_name=None,
+        timeout=None):
 
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)

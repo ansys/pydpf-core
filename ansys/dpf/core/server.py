@@ -218,6 +218,7 @@ def start_local_server(
 
     server = None
     n_attempts = 10
+    timed_out = False
     for _ in range(n_attempts):
         try:
             server_type = ServerFactory().get_server_type_from_config(config)
@@ -225,16 +226,24 @@ def start_local_server(
             if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
                 server = server_type(
                     ansys_path, ip, port, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name, launch_server=True
-                )
+                    load_operators=load_operators, docker_name=docker_name, launch_server=True,
+                    timeout=timeout)
             else:
                 server = server_type(
                     ansys_path, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name
+                    load_operators=load_operators, docker_name=docker_name, timeout=timeout
                 )
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
+        except TimeoutError:
+            if timed_out:
+                break
+            import warnings
+            warnings.warn(f"Failed to start a server in {timeout}s, " +
+                          f"trying again once in {timeout*2.}s.")
+            timeout *= 2.
+            timed_out = True
 
     if server is None:
         raise OSError(
