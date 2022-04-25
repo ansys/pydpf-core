@@ -478,10 +478,12 @@ def test_plot_node_labels(multishells):
     pl = DpfPlotter()
     pl.add_field(field_m, mesh_m)
     my_nodes_1 = [mesh_m.nodes[0], mesh_m.nodes[10]]
-    my_labels_1 = ["MyNode1", "MyNode2"]
+    my_labels_1 = ["MyNode1"]
     pl.add_node_labels(my_nodes_1, mesh_m, my_labels_1,
                        italic=True, bold=True,
                        font_size=26, text_color="white",
                        font_family="courier", shadow=True,
                        point_color="grey", point_size=20)
+    a = pl.labels
+    assert pl.labels[1]
     pl.show_figure()
