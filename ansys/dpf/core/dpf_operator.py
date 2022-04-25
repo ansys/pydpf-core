@@ -783,7 +783,7 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
     elif isinstance(inpt, meshed_region.MeshedRegion):
         request.mesh.CopyFrom(inpt._message)
     elif isinstance(inpt, cyclic_support.CyclicSupport):
-        request.cyc_support.CopyFrom(inpt._message)
+        request.cyc_support.CopyFrom(inpt._internal_obj)
     elif isinstance(inpt, workflow.Workflow):
         request.workflow.CopyFrom(inpt._message)
     elif isinstance(inpt, data_tree.DataTree):

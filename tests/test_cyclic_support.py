@@ -13,7 +13,7 @@ def test_cyc_support_from_model(cyclic_lin_rst):
     model = dpf.Model(data_sources)
     result_info = model.metadata.result_info
     assert result_info.cyclic_symmetry_type == "single_stage"
-    assert result_info.has_cyclic == True
+    assert result_info.has_cyclic is True
 
     cyc_support = result_info.cyclic_support
     assert cyc_support.num_sectors() == 15
@@ -153,3 +153,19 @@ def test_delete_auto_cyc_support(cyclic_lin_rst):
     del cyc_support
     gc.collect()
     assert op_ref() is None
+
+
+@pytest.mark.skipif(True, reason="Used to test memory leaks.")
+def test_cyc_support_memory_leaks(cyclic_lin_rst):
+    import gc
+    for i in range(2000):
+        gc.collect()
+        data_sources = dpf.DataSources(cyclic_lin_rst)
+        model = dpf.Model(data_sources)
+        result_info = model.metadata.result_info
+        cyc_support = result_info.cyclic_support
+        a = cyc_support.num_stages
+        b = cyc_support.num_sectors()
+        c = cyc_support.sectors_set_for_expansion()
+        d = cyc_support.base_elements_scoping()
+        e = cyc_support.base_nodes_scoping()
