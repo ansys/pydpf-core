@@ -22,6 +22,7 @@ for classes in inspect.getmembers(sys.modules[__name__], inspect.isclass):
     map_types_to_cpp[classes[0]] = _camel_to_snake_case(classes[0])
 map_types_to_cpp["str"] = "string"
 map_types_to_cpp["MeshedRegion"] = "abstract_meshed_region"
+map_types_to_cpp["DataTree"] = "abstract_data_tree"
 map_types_to_cpp["list"] = "vector<int32>"
 map_types_to_cpp["bool"] = "bool"
 map_types_to_cpp["int"] = "int32"
