@@ -1,16 +1,43 @@
-# -*- coding: utf-8 -*-
+"""
 
+DPF-Core Fatigue Engineering Simple Example
+~~~~~~~~~~~~~~~~~~~~
+This example shows how to generate and use a result file to calculate the 
+cycles to failure result for a simple model.
+
+Material data is manually imported, Structural Steel from Ansys Mechanical:
+Youngs Modulus (youngsSteel)
+Poisson's Ratio (prxySteel)
+Cycles to Failure (snData)
+
+The first step is to generate a simple model with high stress and save the 
+results .rst locally to myDir (default C:\temp).
+For this we use a short pyMapdl script
+
+The second step uses DPF-Core to generate the cycles to failure result.
+The locally saved rst is imported and plotted.
+Then the von Mises stress is generated and plotted with DPF operators.
+The python package numpy is then used to interpolate the cycles to failure values.
+The nodal von Mises equivalent stress value is used in the interpolation.
+Note the cycles to failure data needs to be manipulated to use numpy interpolation.
+
+An empty field is created and filled with the resulting cycles to failure values.
+Cycles to failure result plotted.
+
+The cycles to failure result is the (interpolated) negative of the stress result.
+The higher the stress result, the lower the number of cycles to failure.
+
+Start MAPDL as a service to generate the rst file
+and import the DPF-Core module as ``dpf_core``.
 """
-The first step is to generate a simple model with high stress and save the results .rst locally
-For this we use a short pyMapdl code
-"""
+
 
 from ansys.mapdl.core import launch_mapdl
 from ansys.dpf import core as dpf
 import numpy as np
 myDir = r'c:\temp'
 
-## Material parameters from Ansys Mechanical Structural Steel
+## Material parameters from Ansys Mechanical - Structural Steel
 youngsSteel = 200e9
 prxySteel = 0.3
 snData = np.empty((11, 2)) # initialize empty np matrix
@@ -63,7 +90,7 @@ yValues = snData[:, 0][::-1] # y values are inverted cycles to failure
 
 myResult = np.ones((len(myNodes), 3))
 myResult[:, 0] = myNodes
-myResult[:, 1] = vm_stress # UNITS!!!!
+myResult[:, 1] = vm_stress
 myResult[:, 2] = np.interp(myResult[:, 1], xPoints, yValues)
 
 ##Create an empty field, add nodes/results and plot
@@ -74,7 +101,3 @@ my_scoping.ids = myResult[:, 0]
 myResultField.scoping = my_scoping
 myResultField.data =  myResult[:, 2]
 mesh.plot(myResultField)
-# This is a way to plot w/out units/label
-
-## The cycles to failure result is the (interpolated) negative of the stress result.
-## The higher the stress result, the lower number of cycles to failure. """
