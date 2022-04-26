@@ -12,16 +12,14 @@ in one transaction.
 Import necessary modules:
 """
 
-from ansys.mapdl.core import launch_mapdl
 from ansys.dpf import core as dpf
 import numpy as np
 
-myDir = r'c:\temp'
 
-# The first step is to generate a simple model with high stress and save the results .rst locally
-# For this we use a short pyMapdl code
+# The first step is to generate a simple model with high stress
 
 # # Material parameters from Ansys Mechanical Structural Steel
+# TODO: can we share that? Or that it comes from there?
 youngsSteel = 200e9
 prxySteel = 0.3
 snData = np.empty((11, 2))  # initialize empty np matrix
@@ -29,34 +27,46 @@ snData[:, 0] = [10, 20, 50, 100, 200, 2000, 10000, 20000, 1e5, 2e5, 1e6]
 snData[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2.14e8, 1.38e8,
                 1.14e8, 8.62e7]
 
-# ### Launch pymapdl to generate rst file in myDir
-mapdl = launch_mapdl(run_location=myDir)
-mapdl.prep7()
-# Model
-mapdl.cylind(0.5, 0, 10, 0)
-mapdl.mp("EX", 1, youngsSteel)
-mapdl.mp("PRXY", 1, prxySteel)
-mapdl.mshape(key=1, dimension='3d')
-mapdl.et(1, "SOLID186")
-mapdl.esize(0.3)
-mapdl.vmesh('ALL')
+# This .rst file is here already available but can be obtained using the short pyMapdl code below:
 
-# #### Boundary Conditions: fixed constraint
-mapdl.nsel(type_='S', item='LOC', comp='Z', vmin=0)
-mapdl.d("all", "all")
-mapdl.nsel(type_='S', item='LOC', comp='Z', vmin=10)
-nnodes = mapdl.get("NumNodes", "NODE", 0, "COUNT")
-mapdl.f(node="ALL", lab="fy", value=-13e6 / nnodes)
-mapdl.allsel()
+# # ### Launch pymapdl to generate rst file in myDir
+# from ansys.mapdl.core import launch_mapdl
+#
+#
+# myDir = r'c:\temp'
+# mapdl = launch_mapdl(run_location=myDir)
+# mapdl.prep7()
+# # Model
+# mapdl.cylind(0.5, 0, 10, 0)
+# mapdl.mp("EX", 1, youngsSteel)
+# mapdl.mp("PRXY", 1, prxySteel)
+# mapdl.mshape(key=1, dimension='3d')
+# mapdl.et(1, "SOLID186")
+# mapdl.esize(0.3)
+# mapdl.vmesh('ALL')
+#
+# # #### Boundary Conditions: fixed constraint
+# mapdl.nsel(type_='S', item='LOC', comp='Z', vmin=0)
+# mapdl.d("all", "all")
+# mapdl.nsel(type_='S', item='LOC', comp='Z', vmin=10)
+# nnodes = mapdl.get("NumNodes", "NODE", 0, "COUNT")
+# mapdl.f(node="ALL", lab="fy", value=-13e6 / nnodes)
+# mapdl.allsel()
+#
+# # #### Solve
+# mapdl.run("/SOLU")
+# sol_output = mapdl.solve()
+# mapdl.exit()
+# print('apdl model solved.')
+# rst = myDir + '\\file.rst'
 
-# #### Solve
-mapdl.run("/SOLU")
-sol_output = mapdl.solve()
-mapdl.exit()
-print('apdl model solved.')
+# ##### pydpf is then used to post process the .rst in order to estimate the cycles to failure
 
-# ##### pydpf is used to post process the .rst in order to estimate the cycles to failure
-model = dpf.Model(myDir + '\\file.rst')
+# Comment the two following lines if solving the mapdl problem first
+from ansys.dpf.core import examples
+rst = examples.cyclic_to_failure
+
+model = dpf.Model(rst)
 print(model)
 mesh = model.metadata.meshed_region
 
