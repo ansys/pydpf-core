@@ -11,7 +11,7 @@ Poisson's Ratio (prxySteel)
 Cycles to Failure (snData)
 
 The first step is to generate a simple model with high stress and save the 
-results .rst locally to myDir that defaults to the C:\temp.
+results .rst locally to myDir (default C:\temp).
 For this we use a short pyMapdl script
 
 The second step uses DPF-Core to generate the cycles to failure result.
