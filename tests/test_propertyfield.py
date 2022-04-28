@@ -104,10 +104,10 @@ def test_set_prop_field_from_prop_field(property_field):
     check_on_property_field_from_simplebar(new_prop_field)
 
 
-def test_connect_property_field_operator():
-    f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal)
+def test_connect_property_field_operator(server_type):
+    f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
-    op = dpf.core.operators.utility.forward()
+    op = dpf.core.operators.utility.forward(server = server_type)
     op.inputs.connect(f_vec)
     out = op.get_output(0, core.types.property_field)
     assert out is not None

@@ -106,7 +106,7 @@ class FieldDefinition:
 
     @unit.setter
     def unit(self, value):
-        self._api.csfield_definition_set_unit(self, value, integral_types.MutableListDouble(), 0, 0, 0)
+        self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
 
     @location.setter
     def location(self, value):

@@ -5,11 +5,11 @@ Interface to underlying gRPC workflow.
 """
 import logging
 
-# from ansys.dpf.core.server_types import BaseServer
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.common import types
 from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
@@ -112,7 +112,7 @@ class Workflow:
         request = workflow_pb2.UpdateConnectionRequest()
         request.wf.CopyFrom(self._message)
         request.pin_name = pin_name
-        tmp = dpf_operator._fillConnectionRequestMessage(request, inpt, self._server, pin_out)
+        tmp = _fillConnectionRequestMessage(request, inpt, self._server, pin_out)
         self._stub.UpdateConnection(request)
 
     @protect_grpc
@@ -134,7 +134,7 @@ class Workflow:
         request.pin_name = pin_name
 
         if output_type is not None:
-            dpf_operator._write_output_type_to_proto_style(output_type, request)
+            _write_output_type_to_proto_style(output_type, request)
             if server_meet_version("3.0", self._server):
                 # handle progress bar
                 self._server._session.add_workflow(self, "workflow")
@@ -144,7 +144,7 @@ class Workflow:
                 out = out_future.result()
             else:
                 out = self._stub.Get(request)
-            return dpf_operator._convertOutputMessageToPythonInstance(
+            return _convertOutputMessageToPythonInstance(
                 out,
                 output_type,
                 self._server
@@ -187,9 +187,9 @@ class Workflow:
         for arg in args:
             if isinstance(arg, inputs.Input):
                 input_request.pin = arg._pin
-                input_request.operator.CopyFrom(arg._operator._message)
+                input_request.operator.CopyFrom(arg._operator._internal_obj)
             elif isinstance(arg, dpf_operator.Operator):
-                input_request.operator.CopyFrom(arg._message)
+                input_request.operator.CopyFrom(arg._internal_obj)
             elif isinstance(arg, int):
                 input_request.pin = arg
         request.inputs_naming.extend([input_request])
@@ -226,9 +226,9 @@ class Workflow:
         for arg in args:
             if isinstance(arg, outputs.Output):
                 output_request.pin = arg._pin
-                output_request.operator.CopyFrom(arg._operator._message)
+                output_request.operator.CopyFrom(arg._operator._internal_obj)
             elif isinstance(arg, dpf_operator.Operator):
-                output_request.operator.CopyFrom(arg._message)
+                output_request.operator.CopyFrom(arg._internal_obj)
             elif isinstance(arg, int):
                 output_request.pin = arg
         request.outputs_naming.extend([output_request])
@@ -255,9 +255,9 @@ class Workflow:
         request = workflow_pb2.AddOperatorsRequest()
         request.wf.CopyFrom(self._message)
         if isinstance(operators, list):
-            request.operators.extend([op._message for op in operators])
+            request.operators.extend([op._internal_obj for op in operators])
         elif isinstance(operators, dpf_operator.Operator):
-            request.operators.extend([operators._message])
+            request.operators.extend([operators._internal_obj])
         else:
             raise TypeError(
                 "Operators to add to the workflow are expected to be of "
@@ -563,3 +563,193 @@ class Workflow:
     def __create_from_stream(self, string):
         request = workflow_pb2.TextStream(stream=string)
         self._message = self._stub.LoadFromStream(request)
+
+
+def _write_output_type_to_proto_style(output_type, request):
+    subtype = ""
+    stype = ""
+    if hasattr(output_type, "name"):
+        if output_type == types.fields_container:
+            stype = "collection"
+            subtype = "field"
+        elif output_type == types.scopings_container:
+            stype = "collection"
+            subtype = "scoping"
+        elif output_type == types.meshes_container:
+            stype = "collection"
+            subtype = "meshed_region"
+        elif hasattr(types, "vec_int") and output_type == types.vec_int:
+            stype = 'collection'
+            subtype = 'int'
+        elif hasattr(types, "vec_double") and output_type == types.vec_double:
+            stype = 'collection'
+            subtype = 'double'
+        else:
+            stype = output_type.name
+    elif isinstance(output_type, list):
+        stype = output_type[0]
+        subtype = output_type[1]
+    else:
+        stype = output_type
+    request.type = base_pb2.Type.Value(stype.upper())
+    if subtype != "":
+        request.subtype = base_pb2.Type.Value(subtype.upper())
+
+
+def _convertOutputMessageToPythonInstance(out, output_type, server):
+    from ansys.dpf.core import (
+        cyclic_support,
+        data_sources,
+        field,
+        fields_container,
+        collection,
+        meshed_region,
+        meshes_container,
+        property_field,
+        result_info,
+        scoping,
+        scopings_container,
+        time_freq_support,
+        data_tree,
+        workflow,
+    )
+
+    if out.HasField("str"):
+        return out.str
+    elif out.HasField("int"):
+        return out.int
+    elif out.HasField("double"):
+        return out.double
+    elif out.HasField("bool"):
+        return out.bool
+    elif out.HasField("field"):
+        toconvert = out.field
+        if toconvert.datatype == "int":
+            return property_field.PropertyField(server=server, property_field=toconvert)
+        else:
+            return field.Field(server=server, field=toconvert)
+    elif out.HasField("collection"):
+        toconvert = out.collection
+        if output_type == types.fields_container:
+            return fields_container.FieldsContainer(
+                server=server, fields_container=toconvert
+            )
+        elif output_type == types.scopings_container:
+            return scopings_container.ScopingsContainer(
+                server=server, scopings_container=toconvert
+            )
+        elif output_type == types.meshes_container:
+            return meshes_container.MeshesContainer(
+                server=server, meshes_container=toconvert
+            )
+        elif output_type == types.vec_int:
+            return collection.IntCollection(server=server,
+                                         collection=toconvert
+                                         ).get_integral_entries()
+        elif output_type == types.vec_double:
+            return collection.FloatCollection(server=server,
+                                         collection=toconvert
+                                         ).get_integral_entries()
+    elif out.HasField("scoping"):
+        toconvert = out.scoping
+        return scoping.Scoping(scoping=toconvert, server=server)
+    elif out.HasField("mesh"):
+        toconvert = out.mesh
+        return meshed_region.MeshedRegion(mesh=toconvert, server=server)
+    elif out.HasField("result_info"):
+        toconvert = out.result_info
+        return result_info.ResultInfo(result_info=toconvert, server=server)
+    elif out.HasField("time_freq_support"):
+        toconvert = out.time_freq_support
+        return time_freq_support.TimeFreqSupport(
+            server=server, time_freq_support=toconvert
+        )
+    elif out.HasField("data_sources"):
+        toconvert = out.data_sources
+        return data_sources.DataSources(server=server, data_sources=toconvert)
+    elif out.HasField("cyc_support"):
+        toconvert = out.cyc_support
+        return cyclic_support.CyclicSupport(server=server, cyclic_support=toconvert)
+    elif out.HasField("workflow"):
+        toconvert = out.workflow
+        return workflow.Workflow(server=server, workflow=toconvert)
+    elif out.HasField("data_tree"):
+        toconvert = out.data_tree
+        return data_tree.DataTree(server=server, data_tree=toconvert)
+
+
+def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
+    from ansys.dpf.core import (
+        collection,
+        cyclic_support,
+        data_sources,
+        field_base,
+        meshed_region,
+        model,
+        scoping,
+        workflow,
+        time_freq_support,
+        data_tree,
+    )
+
+    if isinstance(inpt, str):
+        request.str = inpt
+    elif isinstance(inpt, bool):
+        request.bool = inpt
+    elif isinstance(inpt, int):
+        request.int = inpt
+    elif isinstance(inpt, float):
+        request.double = inpt
+    elif isinstance(inpt, list):
+        if all(isinstance(x, int) for x in inpt):
+            if server_meet_version("3.0", server):
+                inpt = collection.Collection.integral_collection(inpt, server)
+                request.collection.CopyFrom(inpt._internal_obj)
+                return inpt
+            else:
+                request.vint.rep_int.extend(inpt)
+        elif all(isinstance(x, float) for x in inpt):
+            if server_meet_version("3.0", server):
+                inpt = collection.Collection.integral_collection(inpt, server)
+                request.collection.CopyFrom(inpt._internal_obj)
+                return inpt
+            else:
+                request.vdouble.rep_double.extend(inpt)
+        else:
+            errormsg = f"input type {inpt.__class__} cannot be connected"
+            raise TypeError(errormsg)
+    elif isinstance(inpt, field_base._FieldBase):
+        if isinstance(inpt._internal_obj, int):
+            raise NotImplementedError("Operator must be switched to pygate")
+        # TODO: inpt._internal_obj is a pointer in the case of CLayer
+        request.field.CopyFrom(inpt._internal_obj)
+    elif isinstance(inpt, collection.Collection):
+        request.collection.CopyFrom(inpt._internal_obj)
+    elif isinstance(inpt, scoping.Scoping):
+        request.scoping.CopyFrom(inpt._internal_obj)
+    elif isinstance(inpt, data_sources.DataSources):
+        if isinstance(inpt._internal_obj, int):
+            raise NotImplementedError("Operator must be switched to pygate")
+            # TODO: inpt._internal_obj is a pointer in the case of CLayer
+        request.data_sources.CopyFrom(inpt._internal_obj)
+    elif isinstance(inpt, model.Model):
+        request.data_sources.CopyFrom(inpt.metadata.data_sources._internal_obj)
+    elif isinstance(inpt, meshed_region.MeshedRegion):
+        request.mesh.CopyFrom(inpt._message)
+    elif isinstance(inpt, cyclic_support.CyclicSupport):
+        request.cyc_support.CopyFrom(inpt._internal_obj)
+    elif isinstance(inpt, workflow.Workflow):
+        request.workflow.CopyFrom(inpt._message)
+    elif isinstance(inpt, data_tree.DataTree):
+        request.data_tree.CopyFrom(inpt._message)
+    elif isinstance(inpt, time_freq_support.TimeFreqSupport):
+        request.time_freq_support.CopyFrom(inpt._internal_obj)
+    elif isinstance(inpt, dpf_operator.Operator):
+        request.inputop.inputop.CopyFrom(inpt._internal_obj)
+        request.inputop.pinOut = pin_out
+    elif isinstance(inpt, outputs.Output):
+        request.inputop.inputop.CopyFrom(inpt._operator._internal_obj)
+        request.inputop.pinOut = inpt._pin
+    else:
+        errormsg = f"input type {inpt.__class__} cannot be connected"
+        raise TypeError(errormsg)

@@ -1,6 +1,6 @@
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.common import types
-from ansys.grpc.dpf import operator_pb2
+from ansys.dpf.core.operator_specification import PinSpecification
 import re
 
 
@@ -27,7 +27,7 @@ class Output:
         """Retrieves the output of the operator."""
         type_output = self._spec.type_names[0]
         if type_output == "abstract_meshed_region":
-            type_output = "meshed_region"
+            type_output = types.meshed_region
 
         elif type_output == "fields_container":
             type_output = types.fields_container
@@ -113,17 +113,7 @@ def _make_printable_type(type):
 
 
 def _modify_output_spec_with_one_type(output_spec, type):
-    from ansys.dpf.core.dpf_operator import PinSpecification
-    if isinstance(output_spec, operator_pb2.PinSpecification):
-        spec = (
-            operator_pb2.PinSpecification()
-        )  # create a copy of the pin spec with only one type
-        spec.CopyFrom(output_spec)
-        _clearRepeatedMessage(spec.type_names)
-        spec.type_names.extend([type])
-    else:
-        spec = PinSpecification._get_copy(output_spec, [type])
-
+    spec = PinSpecification._get_copy(output_spec, [type])
     return spec
 
 

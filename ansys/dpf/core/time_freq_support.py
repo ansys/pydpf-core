@@ -56,9 +56,9 @@ class TimeFreqSupport:
         # step4: if object exists: take instance, else create it:
         # object_name -> protobuf.message, DPFObject*
         if time_freq_support is not None:
+            self._internal_obj = time_freq_support
             # Might to test for type for CLayer as I have not tested this for C
-            self._internal_obj = support_api.support_get_as_time_freq_support(
-                time_freq_support)
+            #self._internal_obj = support_api.support_get_as_time_freq_support(self)
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.time_freq_support_new_on_client(self._server.client)

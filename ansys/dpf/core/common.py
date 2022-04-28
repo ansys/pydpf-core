@@ -94,7 +94,48 @@ types.__doc__ = __write_enum_doc__(
         "through operators and workflows to DPF."
     ),
 )
-
+def types_enum_to_types():
+    from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            fields_container,
+            collection,
+            meshed_region,
+            meshes_container,
+            property_field,
+            result_info,
+            scoping,
+            scopings_container,
+            time_freq_support,
+            dpf_operator,
+            data_tree,
+            workflow,
+        )
+    from ansys.dpf.gate import dpf_vector
+    return {
+        types.string: str,
+        types.int: int,
+        types.double: float,
+        types.bool: bool,
+        types.collection: collection.Collection,
+        types.fields_container: fields_container.FieldsContainer,
+        types.scopings_container: scopings_container.ScopingsContainer,
+        types.meshes_container: meshes_container.MeshesContainer,
+        types.field: field.Field,
+        types.data_sources: data_sources.DataSources,
+        types.cyclic_support: cyclic_support.CyclicSupport,
+        types.workflow: workflow.Workflow,
+        types.time_freq_support: time_freq_support.TimeFreqSupport,
+        types.meshed_region: meshed_region.MeshedRegion,
+        types.result_info: result_info.ResultInfo,
+        types.property_field: property_field.PropertyField,
+        types.data_tree: data_tree.DataTree,
+        types.operator: dpf_operator.Operator,
+        types.scoping: scoping.Scoping,
+        types.vec_int: dpf_vector.DPFVectorInt,
+        types.vec_double: dpf_vector.DPFVectorDouble,
+    }
 Nature = {
     "SCALAR": 0,
     "VECTOR": 1,

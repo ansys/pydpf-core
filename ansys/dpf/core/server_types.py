@@ -162,11 +162,15 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
 
     t_timeout = time.time() + timeout
     started = False
+    timedout = False
     while not started:
         started = any("server started" in line for line in lines)
 
         if time.time() > t_timeout:
-            raise TimeoutError(f"Server did not start in {timeout} seconds")
+            if timedout:
+                raise TimeoutError(f"Server did not start in {timeout+timeout} seconds")
+            timedout = True
+            t_timeout += timeout
 
     # verify there were no errors
     time.sleep(0.1)
@@ -440,7 +444,7 @@ class GrpcCServer(CServer):
 
     @property
     def version(self):
-        raise NotImplementedError
+        return "0.4.0"
 
     @property
     def _base_service(self):
@@ -516,11 +520,11 @@ class DirectCServer(CServer):
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
         data_processing_core_load_api(path, "common")
-        data_processing_capi.DataProcessingCAPI.data_processing_initialization()
+        data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
 
     @property
     def version(self):
-        raise NotImplementedError
+        return "0.4.0"
 
     @property
     def _base_service(self):

@@ -47,7 +47,6 @@ _type_to_input_method = [
     (fields_container.FieldsContainer, external_operator_api.external_operator_get_in_fields_container, "fields_container"),
     (scopings_container.ScopingsContainer, external_operator_api.external_operator_get_in_scopings_container, "scopings_container"),
     (meshes_container.MeshesContainer, external_operator_api.external_operator_get_in_meshes_container, "meshes_container"),
-    (fields_container, external_operator_api.external_operator_get_in_fields_container, fields_container, "fields_container"),
     (data_sources.DataSources, external_operator_api.external_operator_get_in_data_sources, "data_sources"),
     (meshed_region.MeshedRegion, external_operator_api.external_operator_get_in_meshed_region, "mesh"),
     # TO DO : (result_info.ResultInfo, external_operator_api.external_operator_get_in_re),

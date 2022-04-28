@@ -485,7 +485,7 @@ class IntCollection(Collection):
 
     def get_integral_entries(self):
         try:
-            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
             self._api.collection_get_data_as_int_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
             return dpf_array.DPFArray(vec)
         except NotImplementedError:

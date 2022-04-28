@@ -89,7 +89,7 @@ class Session:
         from ansys.grpc.dpf import session_pb2
         request = session_pb2.AddRequest()
         request.session.CopyFrom(self._message)
-        request.op_output.op.CopyFrom(operator._message)
+        request.op_output.op.CopyFrom(operator._internal_obj)
         request.op_output.pin = pin
         request.identifier = identifier
         self._stub.Add(request)
