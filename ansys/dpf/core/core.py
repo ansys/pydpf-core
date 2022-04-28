@@ -41,7 +41,7 @@ def get_runtime_client_config(server=None):
     ----------
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Notes
     -----
@@ -74,7 +74,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Examples
     --------
@@ -105,7 +105,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -143,7 +143,7 @@ def upload_files_in_folder(
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -169,7 +169,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Examples
     --------
@@ -203,7 +203,7 @@ def download_files_in_folder(
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -230,7 +230,7 @@ def upload_file(file_path, to_server_file_path, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -250,7 +250,7 @@ def make_tmp_dir_server(server=None):
     ----------
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -272,7 +272,7 @@ def _description(dpf_entity_message, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
