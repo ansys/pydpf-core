@@ -173,6 +173,15 @@ def engineering_data_sources():
 def server_type(request):
     return core.start_local_server(config=request.param, as_global=False)
 
+@pytest.fixture(scope="session", params=[ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC),
+                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC)],
+                ids=[
+                "ansys-grpc-dpf",
+                "gRPC CLayer",
+                ])
+def server_type_remote_process(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
 
 class LocalServers:
     def __init__(self):

@@ -387,6 +387,23 @@ def test_str_field(stress_field):
     assert "40016" in str(stress_field)
     assert "6" in str(stress_field)
 
+def test_documentation_string_on_field(server_type):
+    field = core.Field(location=locations.elemental_nodal,
+                       nature=core.natures.symmatrix,
+                       server=server_type)
+    field.unit = "Pa"
+    vec_base = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
+    field.append(vec_base, 1)
+    field.append(vec_base, 2)
+    field.append(vec_base, 3)
+    to_check = str(field)
+    assert "Location" in to_check
+    assert "ElementalNodal" in to_check
+    assert "Unit" in to_check
+    assert "Pa" in to_check
+    assert "3" in to_check
+    assert "3 elementary data" in to_check
+    assert "6 components" in to_check
 
 def test_to_nodal(stress_field):
     assert stress_field.location == "ElementalNodal"
@@ -1022,6 +1039,3 @@ def test_dot_operator_field():
     assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, -field.data)
 
-
-if __name__ == "__main__":
-    test_get_set_data_local_field()

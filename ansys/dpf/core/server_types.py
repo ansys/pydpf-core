@@ -444,7 +444,13 @@ class GrpcCServer(CServer):
 
     @property
     def version(self):
-        return "0.4.0"
+        from ansys.dpf.gate import data_processing_capi, integral_types
+        api = data_processing_capi.DataProcessingCAPI
+        major = integral_types.MutableInt32()
+        minor = integral_types.MutableInt32()
+        api.data_processing_get_server_version_on_client(self.client, major, minor)
+        out =  str(int(major)) + "." + str(int(minor))
+        return out
 
     @property
     def _base_service(self):
@@ -465,7 +471,9 @@ class GrpcCServer(CServer):
 
     @property
     def os(self):
-        raise NotImplementedError
+        from ansys.dpf.gate import data_processing_capi
+        api = data_processing_capi.DataProcessingCAPI
+        return api.data_processing_get_os_on_client(self.client)
 
     def shutdown(self):
         from ansys.dpf.gate import data_processing_capi
@@ -524,7 +532,13 @@ class DirectCServer(CServer):
 
     @property
     def version(self):
-        return "0.4.0"
+        from ansys.dpf.gate import data_processing_capi, integral_types
+        api = data_processing_capi.DataProcessingCAPI
+        major = integral_types.MutableInt32()
+        minor = integral_types.MutableInt32()
+        api.data_processing_get_server_version(major, minor)
+        out =  str(int(major)) + "." + str(int(minor))
+        return out
 
     @property
     def _base_service(self):

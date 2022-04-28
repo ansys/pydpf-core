@@ -92,6 +92,15 @@ def test_print_scoping():
     scop.ids = ids
     print(scop)
 
+def test_documentation_string_on_scoping(server_type):
+    scop = Scoping(server=server_type)
+    ids = [1, 2, 3, 5, 8, 9, 10]
+    scop.ids = ids
+    scop.location = "blabla"
+    to_check = str(scop)
+    assert "location" in to_check
+    assert "blabla" in to_check
+    assert "7 entities" in to_check
 
 def test_iter_scoping(server_type):
     scop = Scoping(server=server_type)
