@@ -280,6 +280,21 @@ class nodal_properties:
         nodal_connectivity: "NODAL_CONNECTIVITY",
     }
 
+class config_options:
+    """Contains strings to define configuration options.
+
+    Attributes
+    ----------
+    num_thread = "num_threads"
+        number of threads
+
+    use_cache = "use_cache"
+        usage of cache if a server with gRPC communication
+        protocol is used.
+    """
+    num_threads = "num_threads"
+    use_cache = "use_cache"
+
 
 class DefinitionLabels:
     """Contains Python definition labels."""

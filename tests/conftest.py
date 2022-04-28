@@ -182,6 +182,13 @@ def server_type(request):
 def server_type_remote_process(request):
     return core.start_local_server(config=request.param, as_global=False)
 
+@pytest.fixture(scope="session", params=[ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC)],
+                ids=[
+                "gRPC CLayer",
+                ])
+def server_clayer_remote_process(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
 
 class LocalServers:
     def __init__(self):

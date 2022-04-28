@@ -11,6 +11,9 @@ import weakref
 import grpc
 
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.runtime_config import (
+    RuntimeClientConfig
+    )
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
@@ -29,6 +32,31 @@ if "DPF_CONFIGURATION" in os.environ:
     CONFIGURATION = os.environ["DPF_CONFIGURATION"]
 else:
     CONFIGURATION = "release"
+
+def get_runtime_client_config(server=None):
+    """Get the runtime configuration information of Ans.Dpf.GrpcClient
+    binary.
+
+    Parameters
+    ----------
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the the global server.
+
+    Notes
+    -----
+    Available from 4.0 server version. Can only be used for
+    a gRPC communication protocol using DPF CLayer.
+
+    Returns
+    -------
+    runtime_config : RuntimeClientConfig
+        RuntimeClientConfig object that can be used to interact
+        with Ans.Dpf.GrpcClient configuration.
+
+    """
+    base = BaseService(server, load_operators=False)
+    return base.get_runtime_client_config()
 
 
 def load_library(filename, name="", symbol="LoadOperators", server=None):
@@ -381,9 +409,18 @@ class BaseService:
                     warnings.warn("Unable to download the python generated code with error: " + str(e.args))
         else:
             __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename)
-            
-            
 
+    def get_runtime_client_config(self):
+        config_to_return = None
+        if self._server().has_client():
+            data_tree_tmp = (
+                self._api.data_processing_get_client_config_as_data_tree()
+                )
+            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp)
+        else:
+            raise Exception("in process protocol doesn't have any client configuration set")
+        return config_to_return
+      
     @property
     def server_info(self):
         """Send the request for server information and keep
