@@ -5,14 +5,14 @@ from ansys.dpf.core import Model
 
 
 @pytest.fixture()
-def model(velocity_acceleration):
-    return dpf.core.Model(velocity_acceleration)
+def model(velocity_acceleration, server_type):
+    return dpf.core.Model(velocity_acceleration, server=server_type)
 
 
-def test_get_resultinfo_no_model(velocity_acceleration):
-    dataSource = dpf.core.DataSources(velocity_acceleration)
+def test_get_resultinfo_no_model(velocity_acceleration, server_type):
+    dataSource = dpf.core.DataSources(velocity_acceleration, server=server_type)
     dataSource.set_result_file_path(velocity_acceleration)
-    op = dpf.core.Operator("mapdl::rst::ResultInfoProvider")
+    op = dpf.core.Operator("mapdl::rst::ResultInfoProvider", server=server_type)
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     assert res.analysis_type == "static"
@@ -30,8 +30,8 @@ def test_get_resultinfo(model):
     assert res.physics_type == "mecanic"
 
 
-def test_get_resultinfo_2(simple_bar):
-    model = Model(simple_bar)
+def test_get_resultinfo_2(simple_bar, server_type):
+    model = Model(simple_bar, server=server_type)
     res = model.metadata.result_info
     assert res.unit_system_name == "MKS: m, kg, N, s, V, A, degC"
     assert res.solver_version == "19.3"
@@ -41,6 +41,7 @@ def test_get_resultinfo_2(simple_bar):
     assert res.job_name == "file_Static22_0"
     assert res.product_name == "FULL"
     assert res.main_title == "unsaved_project--Static"
+    assert res.cyclic_support is None
 
 
 def test_byitem_resultinfo(model):
@@ -63,22 +64,40 @@ def test_print_result_info(model):
     print(model.metadata.result_info)
 
 
-def test_delete_resultinfo(velocity_acceleration):
-    new_model = dpf.core.Model(velocity_acceleration)
+def test_delete_resultinfo(velocity_acceleration, server_type):
+    new_model = dpf.core.Model(velocity_acceleration, server=server_type)
     res = new_model.metadata.result_info
-    res.__del__()
-    res._cache.clear()
+    del res
+    # res._cache.clear()
     with pytest.raises(Exception):
         res.n_results
 
 
-def test_delete_auto_resultinfo(velocity_acceleration):
-    dataSource = dpf.core.DataSources()
+def test_delete_auto_resultinfo(velocity_acceleration, server_type):
+    dataSource = dpf.core.DataSources(server=server_type)
     dataSource.set_result_file_path(velocity_acceleration)
-    op = dpf.core.Operator("mapdl::rst::ResultInfoProvider")
+    op = dpf.core.Operator("mapdl::rst::ResultInfoProvider", server=server_type)
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     res_shallow_copy = dpf.core.ResultInfo(res)
     del res
     with pytest.raises(Exception):
         res_shallow_copy.n_results
+
+
+@pytest.mark.skipif(True, reason="Used to test memory leaks")
+def test_result_info_memory_leaks(model):
+    import gc
+    for i in range(1000):
+        gc.collect()
+        metadata = model.metadata
+        res = metadata.result_info  # Still leaking, but maybe from the Operator.connect in Metadata._load_result_info()
+        u = res.unit_system_name
+        c = res.cyclic_support
+        # v = res.solver_version
+        # date = res.solver_date
+        # time = res.solver_time
+        # na = res.user_name
+        # j = res.job_name
+        # n = res.product_name
+        # t = res.main_title

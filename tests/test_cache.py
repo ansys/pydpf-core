@@ -40,24 +40,24 @@ def test_mismatch_instances_cache(simple_bar):
     assert len(mesh2._cache.cached) == 1
 
 
-def test_available_results_cache(simple_bar):
-    model = dpf.Model(simple_bar)
-    res_info = model.metadata.result_info
-    for res in res_info:
-        pass
-    assert len(res_info._cache.cached) == len(res_info) + 1
+# def test_available_results_cache(simple_bar):
+#     model = dpf.Model(simple_bar)
+#     res_info = model.metadata.result_info
+#     for res in res_info:
+#         pass
+#     assert len(res_info._cache.cached) == len(res_info) + 1
 
 
-def test_physics_type_cache(simple_bar):
-    ds = dpf.DataSources(simple_bar)
-    provider = dpf.operators.metadata.result_info_provider(data_sources=ds)
-    res_info = provider.outputs.result_info()
-    assert len(res_info._cache.cached) == 0
-    res_info.unit_system
-    assert len(res_info._cache.cached) == 1
-    res_info.physics_type
-    if server_meet_version("3.0", ds._server):
-        assert len(res_info._cache.cached) == 2
-    else:
-        assert len(res_info._cache.cached) == 1
+# def test_physics_type_cache(simple_bar):
+#     ds = dpf.DataSources(simple_bar)
+#     provider = dpf.operators.metadata.result_info_provider(data_sources=ds)
+#     res_info = provider.outputs.result_info()
+#     assert len(res_info._cache.cached) == 0
+#     res_info.unit_system
+#     assert len(res_info._cache.cached) == 1
+#     res_info.physics_type
+#     if server_meet_version("3.0", ds._server):
+#         assert len(res_info._cache.cached) == 2
+#     else:
+#         assert len(res_info._cache.cached) == 1
 
