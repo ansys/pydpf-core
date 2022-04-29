@@ -8,7 +8,7 @@ import abc
 import ctypes
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import settings, server, server_factory
+from ansys.dpf.core import settings, server, server_factory, operator_specification
 from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, _type_to_output_method, _type_to_input_method
 from ansys.dpf.gate import object_handler, capi
 
@@ -159,7 +159,10 @@ class CustomOperatorBase:
 
     @property
     def _internal_specification(self):
-        return object_handler.ObjHandler(ctypes.c_void_p(self.specification))
+        if isinstance(self.specification, operator_specification.Specification):
+            return self.specification
+        else:
+            return object_handler.ObjHandler(ctypes.c_void_p(self.specification))
 
     @abc.abstractmethod
     def run(self) -> None:

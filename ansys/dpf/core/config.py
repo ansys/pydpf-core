@@ -159,7 +159,7 @@ class Config:
         else:
             raise KeyError(f"{config_name} option doesn't exist.")
 
-    def __try_get_option__(self, config_name) -> operator_specification.ConfigOptionSpec:
+    def __try_get_option__(self, config_name):
         if self._config_help:
             if config_name in self._config_help:
                 return self._config_help[config_name]

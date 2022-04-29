@@ -4,7 +4,9 @@ import numpy as np
 from ansys.dpf import core as dpf
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.check_version import meets_version, get_server_version
-
+from ansys.dpf.core import server_types
+from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, CustomConfigOptionSpec, \
+    PinSpecification
 
 SERVER_VERSION_HIGHER_THAN_5_0 = meets_version(get_server_version(dpf._global_server()), "5.0")
 
@@ -14,7 +16,8 @@ SERVER_VERSION_HIGHER_THAN_5_0 = meets_version(get_server_version(dpf._global_se
 @pytest.fixture(scope="module")
 def load_all_types_plugin():
     current_dir = os.getcwd()
-    return dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"), "py_test_types", "load_operators")
+    return dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"), "py_test_types",
+                            "load_operators")
 
 
 def test_integral_types(load_all_types_plugin):
@@ -37,10 +40,10 @@ def test_integral_types(load_all_types_plugin):
 
 def test_field(load_all_types_plugin):
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental")
-    f.data = np.ones((3,3), dtype=np.float)
+    f.data = np.ones((3, 3), dtype=np.float)
     op = dpf.Operator("custom_forward_field")
     op.connect(0, f)
-    assert np.allclose(op.get_output(0, dpf.types.field).data, np.ones((3,3), dtype=np.float))
+    assert np.allclose(op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float))
     assert op.get_output(0, dpf.types.field).location == "Elemental"
 
 
@@ -84,7 +87,7 @@ def test_meshes_container(load_all_types_plugin):
     sc.add_mesh({}, f)
     op = dpf.Operator("custom_forward_meshes_container")
     op.connect(0, sc)
-    assert len(op.get_output(0, dpf.types.meshes_container))==1
+    assert len(op.get_output(0, dpf.types.meshes_container)) == 1
 
 
 def test_data_sources(load_all_types_plugin):
@@ -104,3 +107,79 @@ def test_syntax_error():
         assert "SyntaxError" in str(ex.args)
         assert "set_ouuuuuutput" in str(ex.args)
 
+
+def test_create_op_specification():
+    local_server = server_types.DirectCServer(as_global=False)
+    spec = CustomSpecification(server=local_server)
+    spec.description = "Add a custom value to all the data of an input Field"
+    spec.inputs = {0: PinSpecification("field", [dpf.Field], "Field on which float value is added."),
+                   1: PinSpecification("to_add", [float], "Data to add.")}
+    spec.outputs = {0: PinSpecification("field", [dpf.Field], "Field on which the float value is added.")}
+    spec.properties = SpecificationProperties("custom add to field", "math")
+    spec.config_specification = [CustomConfigOptionSpec("work_by_index", False, "iterate over indices")]
+    assert spec.description == "Add a custom value to all the data of an input Field"
+    assert len(spec.inputs) == 2
+    assert spec.inputs[0].name == "field"
+    assert spec.inputs[0].type_names == ["field"]
+    assert spec.inputs[1].document == "Data to add."
+    assert spec.outputs[0] == PinSpecification("field", [dpf.Field], "Field on which the float value is added.")
+    assert spec.properties["exposure"] == "public"
+    assert spec.properties["category"] == "math"
+    assert spec.config_specification["work_by_index"].document == "iterate over indices"
+    assert spec.config_specification["work_by_index"].default_value_str == "false"
+
+
+def test_create_config_op_specification():
+    local_server = server_types.DirectCServer(as_global=False)
+    spec = CustomSpecification(server=local_server)
+    spec.config_specification = [CustomConfigOptionSpec("work_by_index", False, "iterate over indices")]
+    spec.config_specification = [CustomConfigOptionSpec("other", 1, "bla")]
+    spec.config_specification = [CustomConfigOptionSpec("other2", 1.5, "blo")]
+    spec.config_specification = [CustomConfigOptionSpec("other3", 1., "blo")]
+    assert spec.config_specification["work_by_index"].document == "iterate over indices"
+    assert spec.config_specification["work_by_index"].default_value_str == "false"
+    assert spec.config_specification["other"].document == "bla"
+    assert spec.config_specification["other"].default_value_str == "1"
+    assert spec.config_specification["other"].type_names == ["int32"]
+    assert spec.config_specification["other2"].document == "blo"
+    assert spec.config_specification["other2"].default_value_str == "1.5"
+    assert spec.config_specification["other2"].type_names == ["double"]
+
+
+def test_create_properties_specification():
+    local_server = server_types.DirectCServer(as_global=False)
+    spec = CustomSpecification(server=local_server)
+    spec.properties = SpecificationProperties("custom add to field", "math")
+    assert spec.properties["exposure"] == "public"
+    assert spec.properties["category"] == "math"
+    assert spec.properties.exposure == "public"
+    assert spec.properties.category == "math"
+    spec = CustomSpecification(server=local_server)
+    spec.properties["exposure"] = "public"
+    spec.properties["category"] = "math"
+    assert spec.properties.exposure == "public"
+    assert spec.properties.category == "math"
+
+
+def test_custom_op_with_spec():
+    current_dir = os.getcwd()
+    dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins"), "py_operator_with_spec",
+                     "load_operators")
+    op = dpf.Operator("custom_add_to_field")
+    assert "Add a custom value to all the data of an input Field" in str(op)
+    assert "Field on which float value is added" in str(op.inputs)
+    assert "Field on which the float value is added" in str(op.outputs.field)
+    f = dpf.fields_factory.create_3d_vector_field(3, "Elemental")
+    f.data = np.ones((3, 3), dtype=np.float)
+    op.inputs.field(f)
+    op.inputs.to_add(3.0)
+    outf = op.outputs.field()
+    expected = np.ones((3, 3), dtype=np.float) + 3.
+    assert np.allclose(outf.data, expected)
+    op = dpf.Operator("custom_add_to_field")
+    op.inputs.connect(f)
+    op.inputs.to_add(4.0)
+    f.data = np.ones((3, 3), dtype=np.float)
+    outf = op.outputs.field()
+    expected = np.ones((3, 3), dtype=np.float) + 4.
+    assert np.allclose(outf.data, expected)
