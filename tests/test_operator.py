@@ -1185,6 +1185,13 @@ def test_generated_operator_config_specification_simple(server_type):
     assert 'id' in conf_spec['work_by_index'].document
 
 
+def test_operator_exception(server_type):
+    ds = dpf.core.DataSources(r"dummy/file.rst", server=server_type)
+    op = ops.result.displacement(data_sources=ds, server=server_type)
+    with pytest.raises(errors.DPFServerException):
+        op.eval()
+
+
 def test_delete_operator(server_type):
     op = dpf.core.Operator("min_max", server=server_type)
     op = None
