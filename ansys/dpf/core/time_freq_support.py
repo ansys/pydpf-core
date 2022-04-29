@@ -6,7 +6,6 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import server as server_module
-from ansys.grpc.dpf import time_freq_support_pb2_grpc
 from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
     support_grpcapi, support_capi, data_processing_capi, data_processing_grpcapi
 
@@ -21,7 +20,7 @@ class TimeFreqSupport:
 
     Parameters
     ----------
-    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
+    time_freq_support : ctypes.c_void_p, ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the

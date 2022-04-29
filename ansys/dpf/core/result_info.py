@@ -53,7 +53,7 @@ class ResultInfo:
 
     Parameters
     ----------
-    result_info : ansys.grpc.dpf.result_info_pb2.ResultInfo message
+    result_info : ctypes.c_void_p, ansys.grpc.dpf.result_info_pb2.ResultInfo message
 
      server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.

@@ -10,7 +10,6 @@ from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import types
-from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -63,6 +62,7 @@ class Workflow:
 
         self._message = workflow
 
+        from ansys.grpc.dpf import workflow_pb2
         remote_copy_needed = server_meet_version("3.0", self._server) \
                              and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
         if isinstance(workflow, str):
@@ -109,6 +109,7 @@ class Workflow:
         >>> max = workflow.get_output("max", dpf.types.field)
 
         """
+        from ansys.grpc.dpf import workflow_pb2
         request = workflow_pb2.UpdateConnectionRequest()
         request.wf.CopyFrom(self._message)
         request.pin_name = pin_name
@@ -128,6 +129,7 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
+        from ansys.grpc.dpf import workflow_pb2
 
         request = workflow_pb2.WorkflowEvaluationRequest()
         request.wf.CopyFrom(self._message)
@@ -179,6 +181,8 @@ class Workflow:
         >>> workflow.connect("data_sources", data_src)
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(self._message)
         input_request = workflow_pb2.OperatorNaming()
@@ -218,6 +222,8 @@ class Workflow:
         >>> fc = workflow.get_output("contour", dpf.types.fields_container)
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(self._message)
         output_request = workflow_pb2.OperatorNaming()
@@ -252,6 +258,8 @@ class Workflow:
         >>> workflow.add_operator([disp_op,max_op])
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.AddOperatorsRequest()
         request.wf.CopyFrom(self._message)
         if isinstance(operators, list):
@@ -310,6 +318,8 @@ class Workflow:
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.RecordInInternalRegistryRequest()
         request.wf.CopyFrom(self._message)
         if identifier:
@@ -343,6 +353,8 @@ class Workflow:
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.WorkflowFromInternalRegistryRequest()
         request.registry_id = id
         wf = Workflow(server=server)
@@ -435,6 +447,8 @@ class Workflow:
 
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.ConnectRequest()
         request.right_wf.CopyFrom(self._message)
         request.left_wf.CopyFrom(left_workflow._message)
@@ -500,6 +514,8 @@ class Workflow:
         >>> #assert 'data_sources' in new_workflow.input_names
 
         """
+        from ansys.grpc.dpf import workflow_pb2
+
         server = None
         address = None
         for arg in args:
@@ -528,6 +544,7 @@ class Workflow:
 
     def _connect(self):
         """Connect to the gRPC service."""
+        from ansys.grpc.dpf import workflow_pb2_grpc
         return workflow_pb2_grpc.WorkflowServiceStub(self._server.channel)
 
     def __del__(self):
@@ -549,6 +566,8 @@ class Workflow:
 
     @protect_grpc
     def __send_init_request(self, workflow):
+        from ansys.grpc.dpf import workflow_pb2, base_pb2
+
         if server_meet_version("3.0", self._server) \
                 and isinstance(workflow, workflow_pb2.RemoteCopyRequest):
             request = workflow_pb2.CreateRequest()
@@ -561,11 +580,15 @@ class Workflow:
 
     @protect_grpc
     def __create_from_stream(self, string):
+        from ansys.grpc.dpf import workflow_pb2
+
         request = workflow_pb2.TextStream(stream=string)
         self._message = self._stub.LoadFromStream(request)
 
 
 def _write_output_type_to_proto_style(output_type, request):
+    from ansys.grpc.dpf import base_pb2
+
     subtype = ""
     stype = ""
     if hasattr(output_type, "name"):

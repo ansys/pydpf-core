@@ -24,7 +24,7 @@ class FieldsContainer(Collection):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p, FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is "None``.
     server : ansys.dpf.core.server, optional

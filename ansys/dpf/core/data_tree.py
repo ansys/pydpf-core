@@ -5,7 +5,6 @@ DataTree
 ========
 """
 
-from ansys.grpc.dpf import base_pb2
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.mapping_types import types
 
@@ -63,6 +62,7 @@ class DataTree:
         self._stub = self._connect()
 
         if data_tree is None:
+            from ansys.grpc.dpf import base_pb2
             request = base_pb2.Empty()
             self._message = self._stub.Create(request)
         else:
@@ -365,7 +365,7 @@ class DataTree:
         ['nice', 'funny']
 
         """
-        from ansys.grpc.dpf import data_tree_pb2
+        from ansys.grpc.dpf import base_pb2, data_tree_pb2
         request = data_tree_pb2.GetRequest()
         request.data_tree.CopyFrom(self._message)
         stype = base_pb2.Type.Value(type.name.upper())
