@@ -1,5 +1,5 @@
+from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 from functools import wraps
-from ansys.dpf.gate.errors import DPFServerException, DPFServerNullObject, protect_grpc
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
@@ -77,11 +77,45 @@ class InvalidANSYSVersionError(RuntimeError):
         RuntimeError.__init__(self, msg)
 
 
+class DPFServerException(Exception):
+    """Error raised when the DPF server has encountered an error."""
+
+    def __init__(self, msg=""):
+        Exception.__init__(self, msg)
+
+
+class DPFServerNullObject(Exception):
+    """Error raised when the DPF server cannot find an object."""
+
+    def __init__(self, msg=""):
+        Exception.__init__(self, msg)
+
+
 class InvalidPortError(OSError):
     """Error raised when used an invalid port when starting DPF."""
 
     def __init__(self, msg=""):
         OSError.__init__(self, msg)
+
+
+def protect_grpc(func):
+    """Capture gRPC exceptions and return a more succinct error message."""
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        """Capture gRPC exceptions."""
+        # Capture gRPC exceptions
+        try:
+            out = func(*args, **kwargs)
+        except (_InactiveRpcError, _MultiThreadedRendezvous) as error:
+            details = error.details()
+            if "object is null in the dataBase" in details:
+                raise DPFServerNullObject(details) from None
+            raise DPFServerException(details) from None
+
+        return out
+
+    return wrapper
 
 
 def protect_source_op_not_found(func):
