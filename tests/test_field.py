@@ -460,6 +460,12 @@ def test_create_and_update_field_definition(server_type):
     fieldDef.location = locations.nodal
     assert fieldDef.location == locations.nodal
 
+def test_create_and_set_get_name_field_definition(server_type):
+    fieldDef = FieldDefinition(server=server_type)
+    assert fieldDef is not None
+
+    fieldDef.name = "my_field"
+    assert fieldDef.name == "my_field"
 
 def test_set_support_timefreq(simple_bar):
     tfq = dpf.core.TimeFreqSupport()

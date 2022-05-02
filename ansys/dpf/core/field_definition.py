@@ -62,6 +62,19 @@ class FieldDefinition:
         return str(location)
 
     @property
+    def name(self):
+        """Field name.
+
+        Returns
+        -------
+        str
+        """
+        name = integral_types.MutableString(256)
+        size = integral_types.MutableInt32(0)
+        self._api.csfield_definition_fill_name(self, name, size)
+        return str(name)
+
+    @property
     def unit(self):
         """Units of the field.
 
@@ -111,6 +124,10 @@ class FieldDefinition:
     @location.setter
     def location(self, value):
         self._api.csfield_definition_set_location(self, value)
+
+    @name.setter
+    def name(self, value):
+        self._api.csfield_definition_set_name(self, value)
 
     @shell_layers.setter
     def shell_layers(self, value):
