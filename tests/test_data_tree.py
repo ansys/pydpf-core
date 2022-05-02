@@ -209,10 +209,12 @@ def test_sub_data_tree():
 def test_runtime_client_config(server_clayer_remote_process):
     client_config = dpf.get_runtime_client_config(server=server_clayer_remote_process)
     use_cache_init = client_config.cache_enabled
-    assert use_cache_init is True
     client_config.cache_enabled = False
     use_cache_set = client_config.cache_enabled
     assert use_cache_set is False
     client_config.cache_enabled = True
     use_cache_end = client_config.cache_enabled
     assert use_cache_end is True
+    client_config.cache_enabled = use_cache_init
+    use_cache_set_end = client_config.cache_enabled
+    assert use_cache_set_end is use_cache_init
