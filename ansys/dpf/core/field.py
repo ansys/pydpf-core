@@ -330,6 +330,10 @@ class Field(_FieldBase):
         return data
 
     def _set_data(self, data):
+        if isinstance(data, list):
+            if all(isinstance(d, list) for d in data):
+                # Transform list of list to numpy_array
+                data = np.array(data)
         if isinstance(data, (np.ndarray, np.generic)):
             if (
                     0 != self.size
@@ -362,7 +366,7 @@ class Field(_FieldBase):
         if self.location == "Nodal":
             raise errors.LocationError('Location is already "Nodal"')
 
-        op = dpf.core.Operator("to_nodal")
+        op = dpf.core.Operator("to_nodal", server=self._server)
         op.inputs.connect(self)
         return op.outputs.field()
 
@@ -488,7 +492,13 @@ class Field(_FieldBase):
     @property
     def name(self):
         """Name of the field."""
-        return self._api.csfield_get_name(self)
+        # return self._api.csfield_get_name(self)
+        from ansys.dpf.gate import integral_types
+        size = integral_types.MutableInt32()
+        name = integral_types.MutableString(0)
+        self._field_definition._api.csfield_definition_fill_name(self._field_definition,
+                                                                 name=name, size=size)
+        return str(name)
 
     def _set_field_definition(self, field_definition):
         """Set the field definition.
@@ -523,8 +533,19 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
+        from ansys.dpf.gate import support_capi, support_grpcapi, object_handler, \
+            data_processing_capi, data_processing_grpcapi
+        data_api = self._server.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+        support = object_handler.ObjHandler(data_processing_api=data_api,
+                                            internal_obj=self._api.csfield_get_support(self),
+                                            server=self._server)
+        support_api = self._server.get_api_for_type(capi=support_capi.SupportCAPI,
+                                                    grpcapi=support_grpcapi.SupportGRPCAPI)
+        meshed_support = support_api.support_get_as_meshed_support(support)
         return meshed_region.MeshedRegion(
-            mesh=self._api.csfield_get_support_as_meshed_region(self),
+            mesh=meshed_support,
             server=self._server
         )
 

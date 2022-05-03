@@ -8,8 +8,8 @@ from ansys.dpf.core.common import locations, shell_layers
 
 
 @pytest.fixture()
-def stress_field(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def stress_field(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     stress = model.results.stress()
     return stress.outputs.fields_container()[0]
 
@@ -36,6 +36,13 @@ def test_create_field_from_helper_vector(server_type):
     data = np.random.random((10, 3))
     field_a = dpf.core.field_from_array(data, server=server_type)
     assert np.allclose(field_a.data, data)
+
+
+def test_set_get_data_from_list_of_list(server_type):
+    data = [[1., 2., 3.], [4., 5., 6.]]
+    field = dpf.core.Field(server=server_type)
+    field.data = data
+    assert np.allclose(field.data, data)
 
 
 def test_createbycopy_field(server_type):
