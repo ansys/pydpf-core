@@ -303,6 +303,9 @@ class Field(_FieldBase):
         return data
 
     def append(self, data, scopingid):
+        if isinstance(data, list):
+            if isinstance(data[0], list):
+                data = np.array(data)
         self._api.csfield_push_back(self, scopingid, _get_size_of_list(data), data)
 
     def _get_data_pointer(self):
