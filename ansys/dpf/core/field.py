@@ -495,7 +495,7 @@ class Field(_FieldBase):
         # return self._api.csfield_get_name(self)
         from ansys.dpf.gate import integral_types
         size = integral_types.MutableInt32()
-        name = integral_types.MutableString(0)
+        name = integral_types.MutableString(256)
         self._field_definition._api.csfield_definition_fill_name(self._field_definition,
                                                                  name=name, size=size)
         return str(name)
