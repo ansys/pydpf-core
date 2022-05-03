@@ -123,7 +123,7 @@ class plastic_strain_rotation_by_euler_nodes(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(
             name="mapdl::rst::EPPL_rotation_by_euler_nodes", server=server

@@ -28,7 +28,8 @@ class Output:
         type_output = self._spec.type_names[0]
         if type_output == "abstract_meshed_region":
             type_output = types.meshed_region
-
+        elif type_output == "abstract_data_tree":
+            type_output = types.data_tree
         elif type_output == "fields_container":
             type_output = types.fields_container
         elif type_output == "scopings_container":

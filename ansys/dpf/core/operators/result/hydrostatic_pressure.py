@@ -55,7 +55,7 @@ class hydrostatic_pressure(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
-    read_beams : bool
+    read_beams : bool, optional
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
 
@@ -238,7 +238,7 @@ class hydrostatic_pressure(Operator):
                 21: PinSpecification(
                     name="read_beams",
                     type_names=["bool"],
-                    optional=False,
+                    optional=True,
                     document="""Elemental nodal beam results are read if this
         pin is set to true (default is false)""",
                 ),
@@ -266,7 +266,7 @@ class hydrostatic_pressure(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="ENL_HPRES", server=server)
 

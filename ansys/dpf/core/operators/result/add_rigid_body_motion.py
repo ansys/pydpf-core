@@ -14,7 +14,7 @@ class add_rigid_body_motion(Operator):
     """Adds a given rigid translation, center and rotation from a
     displacement field. The rotation is given in terms of rotations
     angles. Note that the displacement field has to be in the global
-    coordinate sytem
+    coordinate system
 
     Parameters
     ----------
@@ -87,7 +87,7 @@ class add_rigid_body_motion(Operator):
         description = """Adds a given rigid translation, center and rotation from a
             displacement field. The rotation is given in terms of
             rotations angles. Note that the displacement field has to
-            be in the global coordinate sytem"""
+            be in the global coordinate system"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -145,7 +145,7 @@ class add_rigid_body_motion(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="RigidBodyAddition", server=server)
 

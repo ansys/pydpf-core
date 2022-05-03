@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class remove_rigid_body_motion(Operator):
     """Removes rigid body mode from a total displacement field by
-    minimization. Use a reference point in order to substract its
+    minimization. Use a reference point in order to subtract its
     displacement to the result displacement field.
 
     Parameters
@@ -68,7 +68,7 @@ class remove_rigid_body_motion(Operator):
     @staticmethod
     def _spec():
         description = """Removes rigid body mode from a total displacement field by
-            minimization. Use a reference point in order to substract
+            minimization. Use a reference point in order to subtract
             its displacement to the result displacement field."""
         spec = Specification(
             description=description,
@@ -116,7 +116,7 @@ class remove_rigid_body_motion(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="ExtractRigidBodyMotion", server=server)
 

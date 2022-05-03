@@ -119,7 +119,7 @@ class generalized_inner_product_fc(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(
             name="generalized_inner_product_fc", server=server

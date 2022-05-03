@@ -19,6 +19,8 @@ class fft_multi_harmonic_minmax(Operator):
         - fs_ratio (int) (optional)
         - num_subdivisions (int) (optional)
         - max_num_subdivisions (int) (optional)
+        - num_cycles (int) (optional)
+        - use_harmonic_zero (bool) (optional)
 
       available outputs:
         - field_min (FieldsContainer)
@@ -43,15 +45,19 @@ class fft_multi_harmonic_minmax(Operator):
       >>> op.inputs.num_subdivisions.connect(my_num_subdivisions)
       >>> my_max_num_subdivisions = int()
       >>> op.inputs.max_num_subdivisions.connect(my_max_num_subdivisions)
+      >>> my_num_cycles = int()
+      >>> op.inputs.num_cycles.connect(my_num_cycles)
+      >>> my_use_harmonic_zero = bool()
+      >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
 
       >>> # Instantiate operator and connect inputs in one line
-      >>> op = dpf.operators.math.fft_multi_harmonic_minmax(fields_container=my_fields_container,rpm_scoping=my_rpm_scoping,fs_ratio=my_fs_ratio,num_subdivisions=my_num_subdivisions,max_num_subdivisions=my_max_num_subdivisions)
+      >>> op = dpf.operators.math.fft_multi_harmonic_minmax(fields_container=my_fields_container,rpm_scoping=my_rpm_scoping,fs_ratio=my_fs_ratio,num_subdivisions=my_num_subdivisions,max_num_subdivisions=my_max_num_subdivisions,num_cycles=my_num_cycles,use_harmonic_zero=my_use_harmonic_zero)
 
       >>> # Get output data
       >>> result_field_min = op.outputs.field_min()
       >>> result_field_max = op.outputs.field_max()
       >>> result_all_fields = op.outputs.all_fields()"""
-    def __init__(self, fields_container=None, rpm_scoping=None, fs_ratio=None, num_subdivisions=None, max_num_subdivisions=None, config=None, server=None):
+    def __init__(self, fields_container=None, rpm_scoping=None, fs_ratio=None, num_subdivisions=None, max_num_subdivisions=None, num_cycles=None, use_harmonic_zero=None, config=None, server=None):
         super().__init__(name="fft_multi_harmonic_minmax", config = config, server = server)
         self._inputs = InputsFftMultiHarmonicMinmax(self)
         self._outputs = OutputsFftMultiHarmonicMinmax(self)
@@ -65,16 +71,22 @@ class fft_multi_harmonic_minmax(Operator):
             self.inputs.num_subdivisions.connect(num_subdivisions)
         if max_num_subdivisions !=None:
             self.inputs.max_num_subdivisions.connect(max_num_subdivisions)
+        if num_cycles !=None:
+            self.inputs.num_cycles.connect(num_cycles)
+        if use_harmonic_zero !=None:
+            self.inputs.use_harmonic_zero.connect(use_harmonic_zero)
 
     @staticmethod
     def _spec():
         spec = Specification(description="""Evaluate min max fields on multi harmonic solution. min and max fields are calculated based on evaluating a fft wrt rpms and using the gradient method for adaptive time steping""",
                              map_input_pin_spec={
                                  0 : PinSpecification(name = "fields_container", type_names=["fields_container"], optional=False, document=""""""), 
-                                 1 : PinSpecification(name = "rpm_scoping", type_names=["scoping"], optional=True, document="""rpm scoping, by default the fft is evaluted using all the rpms"""), 
+                                 1 : PinSpecification(name = "rpm_scoping", type_names=["scoping"], optional=True, document="""rpm scoping, by default the fft is evaluated using all the rpms"""), 
                                  2 : PinSpecification(name = "fs_ratio", type_names=["int32"], optional=True, document="""field or fields container with only one field is expected"""), 
                                  3 : PinSpecification(name = "num_subdivisions", type_names=["int32"], optional=True, document="""connect number subdivisions, used for uniform discretization"""), 
-                                 4 : PinSpecification(name = "max_num_subdivisions", type_names=["int32"], optional=True, document="""connect max number subdivisions, used to avoid huge number of sudivisions""")},
+                                 4 : PinSpecification(name = "max_num_subdivisions", type_names=["int32"], optional=True, document="""connect max number subdivisions, used to avoid huge number of sudivisions"""), 
+                                 5 : PinSpecification(name = "num_cycles", type_names=["int32"], optional=True, document="""Number of cycle of the periodic signal (default is 2)"""), 
+                                 6 : PinSpecification(name = "use_harmonic_zero", type_names=["bool"], optional=True, document="""use harmonic zero for first rpm (default is false)""")},
                              map_output_pin_spec={
                                  0 : PinSpecification(name = "field_min", type_names=["fields_container"], optional=False, document=""""""), 
                                  1 : PinSpecification(name = "field_max", type_names=["fields_container"], optional=False, document=""""""), 
@@ -128,6 +140,10 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
       >>> op.inputs.num_subdivisions.connect(my_num_subdivisions)
       >>> my_max_num_subdivisions = int()
       >>> op.inputs.max_num_subdivisions.connect(my_max_num_subdivisions)
+      >>> my_num_cycles = int()
+      >>> op.inputs.num_cycles.connect(my_num_cycles)
+      >>> my_use_harmonic_zero = bool()
+      >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
     """
     def __init__(self, op: Operator):
         super().__init__(fft_multi_harmonic_minmax._spec().inputs, op)
@@ -141,6 +157,10 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
         self._inputs.append(self._num_subdivisions)
         self._max_num_subdivisions = Input(fft_multi_harmonic_minmax._spec().input_pin(4), 4, op, -1) 
         self._inputs.append(self._max_num_subdivisions)
+        self._num_cycles = Input(fft_multi_harmonic_minmax._spec().input_pin(5), 5, op, -1) 
+        self._inputs.append(self._num_cycles)
+        self._use_harmonic_zero = Input(fft_multi_harmonic_minmax._spec().input_pin(6), 6, op, -1) 
+        self._inputs.append(self._use_harmonic_zero)
 
     @property
     def fields_container(self):
@@ -166,7 +186,7 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def rpm_scoping(self):
         """Allows to connect rpm_scoping input to the operator
 
-        - pindoc: rpm scoping, by default the fft is evaluted using all the rpms
+        - pindoc: rpm scoping, by default the fft is evaluated using all the rpms
 
         Parameters
         ----------
@@ -249,6 +269,50 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
 
         """
         return self._max_num_subdivisions
+
+    @property
+    def num_cycles(self):
+        """Allows to connect num_cycles input to the operator
+
+        - pindoc: Number of cycle of the periodic signal (default is 2)
+
+        Parameters
+        ----------
+        my_num_cycles : int, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+        >>> op.inputs.num_cycles.connect(my_num_cycles)
+        >>> #or
+        >>> op.inputs.num_cycles(my_num_cycles)
+
+        """
+        return self._num_cycles
+
+    @property
+    def use_harmonic_zero(self):
+        """Allows to connect use_harmonic_zero input to the operator
+
+        - pindoc: use harmonic zero for first rpm (default is false)
+
+        Parameters
+        ----------
+        my_use_harmonic_zero : bool, 
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+        >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
+        >>> #or
+        >>> op.inputs.use_harmonic_zero(my_use_harmonic_zero)
+
+        """
+        return self._use_harmonic_zero
 
 class OutputsFftMultiHarmonicMinmax(_Outputs):
     """Intermediate class used to get outputs from fft_multi_harmonic_minmax operator
