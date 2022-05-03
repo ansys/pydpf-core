@@ -4,6 +4,7 @@ import weakref
 
 import pytest
 
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0
 from ansys import dpf
 from ansys.dpf.core import MeshesContainer
 
@@ -47,6 +48,8 @@ def test_createby_message_copy_meshes_container():
     assert mc._internal_obj == meshes_container2._internal_obj
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_createbycopy_meshes_container(server_type):
     mc = MeshesContainer(server=server_type)
     meshes_container2 = MeshesContainer(meshes_container=mc)
@@ -99,7 +102,9 @@ def test_get_item_mesh_meshes_container(elshape_body_mc):
 def test_delete_meshes_container():
     mc = MeshesContainer()
     ref = weakref.ref(mc)
-    del mc
+    mc = None
+    import gc
+    gc.collect()
     assert ref() is None
 
 

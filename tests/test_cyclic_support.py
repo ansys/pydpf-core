@@ -138,9 +138,12 @@ def test_delete_cyc_support(cyclic_lin_rst):
     model = dpf.Model(data_sources)
     result_info = model.metadata.result_info
     cyc_support = result_info.cyclic_support
-    cyc_support.__del__()
+    cyc_support2 = dpf.CyclicSupport(cyclic_support=cyc_support._internal_obj, server=cyc_support._server)
+    cyc_support = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
-        cyc_support.num_stages
+        cyc_support2.num_stages
 
 
 def test_delete_auto_cyc_support(cyclic_lin_rst):
@@ -150,7 +153,7 @@ def test_delete_auto_cyc_support(cyclic_lin_rst):
     cyc_support = result_info.cyclic_support
     op_ref = weakref.ref(cyc_support)
 
-    del cyc_support
+    cyc_support = None
     gc.collect()
     assert op_ref() is None
 

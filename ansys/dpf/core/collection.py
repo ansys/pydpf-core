@@ -63,6 +63,7 @@ class Collection:
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(collection)
             else:
                 self._internal_obj = collection
+        self.owned = False
 
     @property
     def _server(self):
@@ -398,9 +399,14 @@ class Collection:
         """Delete the entry."""
         try:
             # delete
-            self._data_processing_core_api.data_processing_delete_shared_object(self)
+            if not self.owned:
+                self._data_processing_core_api.data_processing_delete_shared_object(self)
         except:
             pass
+
+    def _get_ownership(self):
+        self.owned = True
+        return self._internal_obj
 
     def __iter__(self):
         for i in range(len(self)):

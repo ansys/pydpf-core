@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 from ansys import dpf
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
@@ -45,6 +46,8 @@ def test_set_get_data_from_list_of_list(server_type):
     assert np.allclose(field.data, data)
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_createbycopy_field(server_type):
     field = dpf.core.Field(server=server_type)
     field2 = dpf.core.Field(field=field)
@@ -394,6 +397,7 @@ def test_str_field(stress_field):
     assert "40016" in str(stress_field)
     assert "6" in str(stress_field)
 
+
 def test_documentation_string_on_field(server_type):
     field = core.Field(location=locations.elemental_nodal,
                        nature=core.natures.symmatrix,
@@ -411,6 +415,7 @@ def test_documentation_string_on_field(server_type):
     assert "3" in to_check
     assert "3 elementary data" in to_check
     assert "6 components" in to_check
+
 
 def test_to_nodal(stress_field):
     assert stress_field.location == "ElementalNodal"
@@ -454,7 +459,9 @@ def test_mesh_support_field_model(allkindofcomplexity):
 def test_delete_auto_field(server_type):
     field = dpf.core.Field(server=server_type)
     field2 = dpf.core.Field(field=field, server=server_type)
-    del field
+    field = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
         field2.get_ids()
 
@@ -467,12 +474,16 @@ def test_create_and_update_field_definition(server_type):
     fieldDef.location = locations.nodal
     assert fieldDef.location == locations.nodal
 
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_create_and_set_get_name_field_definition(server_type):
     fieldDef = FieldDefinition(server=server_type)
     assert fieldDef is not None
 
     fieldDef.name = "my_field"
     assert fieldDef.name == "my_field"
+
 
 def test_set_support_timefreq(simple_bar):
     tfq = dpf.core.TimeFreqSupport()
@@ -557,7 +568,7 @@ def test_local_elemental_nodal_field_append():
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i, 0.1 * i, 0.2 * i, 0.3 * i], i)
-        assert f._is_set == True
+        assert f._is_set is True
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
     assert len(field_to_local._data_pointer) == num_entities
@@ -833,6 +844,7 @@ def test_set_data_numpy_array_field(server_type):
     field_to_local.data = arr
     assert np.allclose(field_to_local.data, arr)
 
+
 def test_set_data_numpy_array_property_field(server_type):
     field_to_local = dpf.core.PropertyField(server=server_type)
     arr = np.arange(300, dtype=np.int32)
@@ -1051,4 +1063,3 @@ def test_dot_operator_field():
     out = add.outputs.field()
     assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, -field.data)
-

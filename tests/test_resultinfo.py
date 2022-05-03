@@ -64,27 +64,6 @@ def test_print_result_info(model):
     print(model.metadata.result_info)
 
 
-def test_delete_resultinfo(velocity_acceleration, server_type):
-    new_model = dpf.core.Model(velocity_acceleration, server=server_type)
-    res = new_model.metadata.result_info
-    del res
-    # res._cache.clear()
-    with pytest.raises(Exception):
-        res.n_results
-
-
-def test_delete_auto_resultinfo(velocity_acceleration, server_type):
-    dataSource = dpf.core.DataSources(server=server_type)
-    dataSource.set_result_file_path(velocity_acceleration)
-    op = dpf.core.Operator("mapdl::rst::ResultInfoProvider", server=server_type)
-    op.connect(4, dataSource)
-    res = op.get_output(0, dpf.core.types.result_info)
-    res_shallow_copy = dpf.core.ResultInfo(res)
-    del res
-    with pytest.raises(Exception):
-        res_shallow_copy.n_results
-
-
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
 def test_result_info_memory_leaks(model):
     import gc

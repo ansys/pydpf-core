@@ -4,10 +4,7 @@ import pytest
 import ansys.dpf.core.operators as op
 import conftest
 from ansys import dpf
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
-SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf.core._global_server()), "4.0")
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
 
 
 def test_create_workflow():

@@ -10,6 +10,7 @@ import abc
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import operator_specification_capi, operator_specification_grpcapi, integral_types
 from ansys.dpf.core import mapping_types
+from ansys.dpf.core.check_version import version_requires
 
 
 class PinSpecification:
@@ -413,6 +414,7 @@ class CustomSpecification(Specification):
     Notes
     -----
     Is only implemented for usage with type(server)= :class:`ansys.dpf.core.server_types.InProcessServer`
+    and server version higher than 4.0.
 
     Examples
     --------
@@ -448,6 +450,7 @@ class CustomSpecification(Specification):
         super().__init__(server=server)
 
     @property
+    @version_requires("4.0")
     def description(self) -> str:
         """Description of the operation applied by the Operator"""
         return super().description
@@ -457,6 +460,7 @@ class CustomSpecification(Specification):
         self._api.operator_specification_set_description(self, value)
 
     @property
+    @version_requires("4.0")
     def inputs(self) -> dict:
         """Dictionary mapping the input pin numbers to their ``PinSpecification``
 
@@ -475,6 +479,7 @@ class CustomSpecification(Specification):
                                                      , list_types, value.optional, value.ellipsis)
 
     @property
+    @version_requires("4.0")
     def outputs(self) -> dict:
         """Returns a dictionary mapping the output pin numbers to their ``PinSpecification``
 
@@ -492,6 +497,7 @@ class CustomSpecification(Specification):
                                                      , list_types, value.optional, value.ellipsis)
 
     @property
+    @version_requires("4.0")
     def config_specification(self) -> ConfigSpecification:
         """Documents the available configuration options supported by the Operator
 
@@ -523,6 +529,7 @@ class CustomSpecification(Specification):
                     raise TypeError("config options are expected to be either boolean, integer or double values")
 
     @property
+    @version_requires("4.0")
     def properties(self) -> SpecificationProperties:
         """Returns some additional properties of the Operator, like the category, the exposure, the scripting and
         user names and the plugin"""

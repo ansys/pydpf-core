@@ -102,10 +102,10 @@ class ResultInfo:
     def __str__(self):
         try:
             txt = (
-                "%s analysis\n" % self.analysis_type.capitalize()
-                + "Unit system: %s\n" % self.unit_system
-                + "Physics Type: %s\n" % self.physics_type.capitalize()
-                + "Available results:\n"
+                    "%s analysis\n" % self.analysis_type.capitalize()
+                    + "Unit system: %s\n" % self.unit_system
+                    + "Physics Type: %s\n" % self.physics_type.capitalize()
+                    + "Available results:\n"
             )
             for res in self.available_results:
                 line = ["", "-", f'{res.name}: {res.native_location} {res.physical_name}']
@@ -316,10 +316,22 @@ class ResultInfo:
         n_comp = self._api.result_info_get_result_number_of_components(self, numres)
         unit_symbol = self._api.result_info_get_result_unit_symbol(self, numres)
         homogeneity = self._api.result_info_get_result_homogeneity(self, numres)
-        loc_name = integral_types.MutableString(256)
-        self._api.result_info_get_result_location(self, numres, loc_name)
-        loc_name = str(loc_name)
-        scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
+        try:
+            loc_name = integral_types.MutableString(256)
+            self._api.result_info_get_result_location(self, numres, loc_name)
+            loc_name = str(loc_name)
+        except AttributeError:
+            if name in available_result._result_properties:
+                loc_name = available_result._result_properties[name]["location"]
+            else:
+                loc_name = ""
+        try:
+            scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
+        except AttributeError:
+            if name in available_result._result_properties:
+                scripting_name = available_result._result_properties[name]["scripting_name"]
+            else:
+                scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
         sub_res = {}
         for ires in range(num_sub_res):
@@ -333,10 +345,10 @@ class ResultInfo:
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
         from types import SimpleNamespace
         availableresult = SimpleNamespace(name=name, physicsname=physic_name, ncomp=n_comp,
-                                           dimensionality=dimensionality, homogeneity=homogeneity,
-                                           unit=unit_symbol, sub_res=sub_res,
-                                           properties={"loc_name": loc_name,
-                                                       "scripting_name": scripting_name})
+                                          dimensionality=dimensionality, homogeneity=homogeneity,
+                                          unit=unit_symbol, sub_res=sub_res,
+                                          properties={"loc_name": loc_name,
+                                                      "scripting_name": scripting_name})
         return available_result.AvailableResult(availableresult)
 
     def __len__(self):

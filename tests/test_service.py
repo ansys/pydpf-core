@@ -5,10 +5,7 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from ansys.dpf.core.check_version import meets_version, get_server_version
-from conftest import running_docker
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+from conftest import running_docker, SERVER_VERSION_HIGHER_THAN_3_0
 
 
 def test_loadmapdloperators(allkindofcomplexity):

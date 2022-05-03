@@ -156,6 +156,8 @@ def test_str_nodes_elements_meshedregion(simple_bar_model):
 def test_delete_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     mesh = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
         mesh.nodes[0]
 

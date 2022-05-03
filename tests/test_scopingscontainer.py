@@ -4,6 +4,7 @@ import weakref
 import pytest
 import numpy as np
 
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0
 from ansys.dpf.core import Scoping, ScopingsContainer
 
 
@@ -37,6 +38,8 @@ def test_createby_message_copy_scopings_container():
     assert sc._internal_obj == scopings_container2._internal_obj
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_createbycopy_scopings_container(server_type):
     sc = ScopingsContainer(server=server_type)
     scopings_container2 = ScopingsContainer(scopings_container=sc)

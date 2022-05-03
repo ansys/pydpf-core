@@ -1,9 +1,7 @@
 from ansys.dpf import core as dpf
 import os
 import pytest
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf._global_server()), "4.0")
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
@@ -203,6 +201,7 @@ def test_sub_data_tree():
     data_tree.sub2 = data_tree2
     assert data_tree.get_as("sub", dpf.types.data_tree).has("int")
     assert data_tree.get_as("sub2", dpf.types.data_tree).has("int")
+
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
                     reason='Requires server version higher than 4.0')

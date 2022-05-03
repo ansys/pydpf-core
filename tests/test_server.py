@@ -1,4 +1,3 @@
-import psutil
 import pytest
 from ansys import dpf
 from ansys.dpf.core import path_utilities, errors, server_types
@@ -7,6 +6,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
 
 server_configs = [None,
@@ -15,10 +15,15 @@ server_configs = [None,
                   ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
                   ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
                   ServerConfig(protocol=None, legacy=False),
-                  ]
+                  ] \
+    if SERVER_VERSION_HIGHER_THAN_4_0 else \
+    [None,
+     ServerConfig(),
+     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+     ]
 
 
-@pytest.mark.parametrize("server_config", server_configs)
+@pytest.mark.parametrize("server_config", server_configs, scope="class")
 class TestServerConfigs:
     @pytest.fixture(scope="class", autouse=True)
     def cleanup(self, request):
@@ -95,6 +100,7 @@ class TestServer:
         server = get_or_create_server(None)
         assert has_local_server()
         client = server.client
+
 
 def test_busy_port():
     if not dpf.core.SERVER:

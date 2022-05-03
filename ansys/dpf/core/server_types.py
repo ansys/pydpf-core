@@ -175,7 +175,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
             t_timeout += timeout
 
     # verify there were no errors
-    time.sleep(0.1)
+    time.sleep(0.01)
     if current_errors:
         try:
             process.kill()
@@ -191,7 +191,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
-    import ansys.grpc
+    import ansys.grpc.dpf
     import grpc
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured

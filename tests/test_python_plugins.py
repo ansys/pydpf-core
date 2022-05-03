@@ -1,18 +1,17 @@
 import pytest
 import os
 import numpy as np
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 from ansys.dpf import core as dpf
 from ansys.dpf.core.errors import DPFServerException
-from ansys.dpf.core.check_version import meets_version, get_server_version
 from ansys.dpf.core import server_types
 from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, CustomConfigOptionSpec, \
     PinSpecification
 
-SERVER_VERSION_HIGHER_THAN_5_0 = meets_version(get_server_version(dpf._global_server()), "5.0")
+if not SERVER_VERSION_HIGHER_THAN_4_0:
+    pytest.skip('Requires server version higher than 4.0', allow_module_level=True)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_5_0,
-                    reason='Requires server version higher than 5.0')
 @pytest.fixture(scope="module")
 def load_all_types_plugin():
     current_dir = os.getcwd()
@@ -97,6 +96,8 @@ def test_data_sources(load_all_types_plugin):
     assert op.get_output(0, dpf.types.data_sources).result_files == ["file.rst"]
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 5.0')
 def test_syntax_error():
     current_dir = os.getcwd()
     dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "syntax_error_plugin"), "py_raising",
@@ -108,6 +109,8 @@ def test_syntax_error():
         assert "set_ouuuuuutput" in str(ex.args)
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_create_op_specification():
     local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
@@ -129,6 +132,8 @@ def test_create_op_specification():
     assert spec.config_specification["work_by_index"].default_value_str == "false"
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_create_config_op_specification():
     local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
@@ -146,6 +151,8 @@ def test_create_config_op_specification():
     assert spec.config_specification["other2"].type_names == ["double"]
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_create_properties_specification():
     local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
@@ -161,6 +168,8 @@ def test_create_properties_specification():
     assert spec.properties.category == "math"
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_custom_op_with_spec():
     current_dir = os.getcwd()
     dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins"), "py_operator_with_spec",

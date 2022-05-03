@@ -3,6 +3,7 @@ import weakref
 import numpy as np
 import pytest
 
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0
 from ansys.dpf import core as dpf
 from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors
@@ -39,6 +40,8 @@ def test_createby_message_copy_fields_container():
     assert fc._internal_obj == fields_container2._internal_obj
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_createbycopy_fields_container(server_type):
     fc = FieldsContainer(server=server_type)
     fields_container2 = FieldsContainer(fields_container=fc)
@@ -140,7 +143,9 @@ def test_get_item_field_fields_container(server_type):
 def test_delete_fields_container(server_type):
     fc = FieldsContainer(server=server_type)
     ref = weakref.ref(fc)
-    del fc
+    fc = None
+    import gc
+    gc.collect()
     assert ref() is None
 
 
@@ -314,6 +319,8 @@ def test_deep_copy_over_time_fields_container(velocity_acceleration):
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_light_copy(server_type):
     fc = FieldsContainer(server=server_type)
     fc.labels = ["time"]
@@ -337,15 +344,18 @@ def test_el_shape_fc(allkindofcomplexity):
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field()
-    for id in f.scoping.ids:
+    ids = f.scoping.ids[0:int(len(f.scoping)/4)]
+    for id in ids:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field()
-    for id in f.scoping.ids:
+    ids = f.scoping.ids[0:int(len(f.scoping)/4)]
+    for id in ids:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field()
-    for id in f.scoping.ids:
+    ids = f.scoping.ids[0:int(len(f.scoping)/4)]
+    for id in ids:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
 

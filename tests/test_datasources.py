@@ -1,6 +1,7 @@
 import pytest
 
 from ansys import dpf
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 
@@ -63,6 +64,8 @@ def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_several_result_path_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path("file_hello.rst")

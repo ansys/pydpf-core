@@ -10,13 +10,10 @@ from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.operator_specification import Specification
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
-SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf.core._global_server()), "4.0")
 
 
 def test_create_operator(server_type):
@@ -87,21 +84,30 @@ def test_print_operator():
     op = dpf.core.Operator("S")
     print(op)
 
+
 def test_connect_get_out_all_types_operator(server_type):
     forward = ops.utility.forward(server=server_type)
     to_connect = [1, 1.5, "hello", True,
                   dpf.core.Field(server=server_type),
-                  #dpf.core.PropertyField(server=server_type),
+                  # dpf.core.PropertyField(server=server_type),
                   dpf.core.FieldsContainer(server=server_type),
                   dpf.core.MeshesContainer(server=server_type),
                   dpf.core.ScopingsContainer(server=server_type),
                   dpf.core.DataSources("file.rst", server=server_type),
-                  #dpf.core.CyclicSupport(server=server_type),
-                  #dpf.core.MeshedRegion(server=server_type),
+                  # dpf.core.CyclicSupport(server=server_type),
+                  # dpf.core.MeshedRegion(server=server_type),
                   dpf.core.TimeFreqSupport(server=server_type),
-                  #dpf.core.Workflow(server=server_type),
-                  #dpf.core.DataTree(server=server_type),
-                  ]
+                  # dpf.core.Workflow(server=server_type),
+                  # dpf.core.DataTree(server=server_type),
+                  ] if SERVER_VERSION_HIGHER_THAN_3_0 else [1, 1.5, "hello", True,
+                                                            dpf.core.Field(server=server_type),
+                                                            # dpf.core.PropertyField(server=server_type),
+                                                            dpf.core.FieldsContainer(server=server_type),
+                                                            dpf.core.MeshesContainer(server=server_type),
+                                                            dpf.core.ScopingsContainer(server=server_type),
+                                                            dpf.core.DataSources("file.rst", server=server_type)
+                                                            ]
+
     for i, data in enumerate(to_connect):
         forward.connect(i, data)
     for i, data in enumerate(to_connect):
@@ -765,7 +771,7 @@ def test_connect_get_output_double_list_operator(server_type):
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
                     reason='Requires server version higher than 4.0')
 def test_connect_get_output_data_tree_operator():
-    d = dpf.core.DataTree({"name":"Paul"})
+    d = dpf.core.DataTree({"name": "Paul"})
     op = dpf.core.operators.utility.forward(d)
     dout = op.get_output(0, dpf.core.types.data_tree)
     assert dout.get_as("name") == "Paul"
@@ -1113,7 +1119,7 @@ def test_with_progress_operator(allkindofcomplexity):
 
 
 def test_operator_specification_simple(server_type):
-    spec = Specification(operator_name="U", server = server_type)
+    spec = Specification(operator_name="U", server=server_type)
     assert "displacement" in spec.description
     assert "result file path" in spec.inputs[4].document
     assert "field" in spec.outputs[0].type_names[0]
@@ -1127,7 +1133,7 @@ def test_operator_specification_none(server_type):
     assert op.specification.properties == {}
     inputs_dir = dir(op.inputs)
     for i in inputs_dir:
-        if not i[0]=="_":
+        if not i[0] == "_":
             assert False
     outputs_dir = dir(op.outputs)
     for i in outputs_dir:
@@ -1170,9 +1176,9 @@ def test_generated_operator_config_specification_simple(server_type):
     assert 'id' in conf_spec['work_by_index'].document
 
 
-def test_operator_exception(server_type):
-    ds = dpf.core.DataSources(r"dummy/file.rst", server=server_type)
-    op = ops.result.displacement(data_sources=ds, server=server_type)
+def test_operator_exception():
+    ds = dpf.core.DataSources(r"dummy/file.rst")
+    op = ops.result.displacement(data_sources=ds)
     with pytest.raises(errors.DPFServerException):
         op.eval()
 

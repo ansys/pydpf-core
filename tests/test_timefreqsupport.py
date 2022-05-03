@@ -7,8 +7,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0
 
 
 @pytest.fixture()
@@ -67,7 +66,9 @@ def test_delete_timefreqsupport(velocity_acceleration):
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
-    res.__del__()
+    res = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
         res.get_frequence(0, 0)
 
@@ -78,8 +79,10 @@ def test_delete_auto_timefreqsupport(simple_rst):
     op = dpf.core.Operator("mapdl::rst::TimeFreqSupportProvider")
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.time_freq_support)
-    res1 = dpf.core.TimeFreqSupport(res._internal_obj)
-    res.__del__()
+    res1 = dpf.core.TimeFreqSupport(time_freq_support=res._internal_obj, server=op._server)
+    res = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
         res1.n_sets
 
