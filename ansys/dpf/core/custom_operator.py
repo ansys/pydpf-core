@@ -32,7 +32,7 @@ def record_operator(operator_type, *args) -> None:
     else:
         operator = operator_type
     if dpf.SERVER is None:
-        settings.set_server_configuration(server_factory.ServerConfig(True, None))
+        settings.set_server_configuration(server_factory.ServerConfig(None, False))
         server.start_local_server()
     if len(args) == 2:
         external_operator_api.external_operator_record_with_abstract_core_and_wrapper(

@@ -162,9 +162,9 @@ def engineering_data_sources():
     return ds
 
 
-@pytest.fixture(scope="session", params=[ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC),
-                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC),
-                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct)],
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                                         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+                                         ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
                 ids=[
                 "ansys-grpc-dpf",
                 "gRPC CLayer",
@@ -173,8 +173,8 @@ def engineering_data_sources():
 def server_type(request):
     return core.start_local_server(config=request.param, as_global=False)
 
-@pytest.fixture(scope="session", params=[ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC),
-                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC)],
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                  ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
                 ids=[
                 "ansys-grpc-dpf",
                 "gRPC CLayer",
@@ -182,7 +182,7 @@ def server_type(request):
 def server_type_remote_process(request):
     return core.start_local_server(config=request.param, as_global=False)
 
-@pytest.fixture(scope="session", params=[ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC)],
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
                 ids=[
                 "gRPC CLayer",
                 ])

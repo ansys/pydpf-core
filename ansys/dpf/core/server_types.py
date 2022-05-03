@@ -402,13 +402,13 @@ class CServer(BaseServer, ABC):
             pass
 
 
-class GrpcCClient:
+class GrpcClient:
     def __init__(self, ip, port):
         from ansys.dpf.gate import client_capi
         self._internal_obj = client_capi.ClientCAPI.client_new(str(ip), str(port))
 
 
-class GrpcCServer(CServer):
+class GrpcServer(CServer):
     """Server using the gRPC communication protocol"""
     def __init__(self,
         ansys_path="",
@@ -432,7 +432,7 @@ class GrpcCServer(CServer):
             self._server_id = launch_dpf(ansys_path, ip, port,
                                          docker_name=docker_name, timeout=timeout)
 
-        self._client = GrpcCClient(ip, port)
+        self._client = GrpcClient(ip, port)
 
 
         # store port and ip for later reference
@@ -482,7 +482,7 @@ class GrpcCServer(CServer):
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
-        if isinstance(other_server, GrpcCServer):
+        if isinstance(other_server, GrpcServer):
             raise NotImplementedError
         return False
 
@@ -511,8 +511,8 @@ class GrpcCServer(CServer):
         return self._input_port
 
 
-class DirectCServer(CServer):
-    """Server using the direct communication protocol"""
+class InProcessServer(CServer):
+    """Server using the InProcess communication protocol"""
     def __init__(self,
         ansys_path="",
         as_global=True,
@@ -550,7 +550,7 @@ class DirectCServer(CServer):
 
     @property
     def os(self):
-        # Since it is direct, one could return the current os
+        # Since it is InProcess, one could return the current os
         return os.name
 
     def shutdown(self):
@@ -558,7 +558,7 @@ class DirectCServer(CServer):
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
-        if isinstance(other_server, DirectCServer):
+        if isinstance(other_server, InProcessServer):
             raise NotImplementedError
         return False
 
@@ -566,9 +566,8 @@ class DirectCServer(CServer):
     def client(self):
         return None
 
-
-class DpfServer(BaseServer):
-    """Provides an instance of the DPF server using direct gRPC.
+class LegacyGrpcServer(BaseServer):
+    """Provides an instance of the DPF server using InProcess gRPC.
     Kept for backward-compatibility with dpf servers <0.5.0.
 
     Parameters
@@ -747,7 +746,7 @@ class DpfServer(BaseServer):
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals"""
-        if isinstance(other_server, DpfServer):
+        if isinstance(other_server, LegacyGrpcServer):
             return self.ip == other_server.ip and self.port == other_server.port
         return False
 
@@ -758,3 +757,9 @@ class DpfServer(BaseServer):
             super().__del__()
         except:
             pass
+
+# Python 3.10
+# from typing import TypeAlias
+# DpfServer: TypeAlias = LegacyGrpcServer
+# Python <3.10
+DpfServer = LegacyGrpcServer

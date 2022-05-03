@@ -81,7 +81,7 @@ class _FieldBase:
 
         Parameters
         ----------
-        client : None, GrpcCClient, GrpcServer
+        client : None, GrpcClient, GrpcServer
 
         snature : str
             Nature of the field entity data. For example:

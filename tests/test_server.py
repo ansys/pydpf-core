@@ -11,10 +11,10 @@ from ansys.dpf.core.server import get_or_create_server
 
 server_configs = [None,
                   ServerConfig(),
-                  ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC),
-                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC),
-                  ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct),
-                  ServerConfig(c_server=True, remote_protocol=None),
+                  ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                  ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+                  ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
+                  ServerConfig(protocol=None, legacy=False),
                   ]
 
 

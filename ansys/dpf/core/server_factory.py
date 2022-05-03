@@ -4,29 +4,31 @@ Server factory, server configuration and communication protocols
 Contains the server factory as well as the communication
 protocols and server configurations available.
 """
-from ansys.dpf.core.server_types import DpfServer, GrpcCServer, DirectCServer
+from ansys.dpf.core.server_types import LegacyGrpcServer, GrpcServer, InProcessServer
 
 
 class CommunicationProtocols:
     """Defines available communication protocols
     """
     gRPC = "gRPC"
-    direct = "direct"
+    InProcess = "InProcess"
 
 
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used
     """
-    def __init__(self, c_server=False, remote_protocol=CommunicationProtocols.gRPC):
-        self.c_server = c_server
-        if not remote_protocol:
-            self.remote_protocol = CommunicationProtocols.direct
+    def __init__(self, protocol=CommunicationProtocols.gRPC, legacy=True):
+        self.legacy = legacy
+        if not protocol:
+            self.protocol = CommunicationProtocols.InProcess
         else:
-            self.remote_protocol = remote_protocol
+            self.protocol = protocol
 
     def __str__(self):
-        return f"Server configuration: c_server={self.c_server}, " \
-               f"remote protocol={self.remote_protocol}"
+        text = f"Server configuration: protocol={self.protocol}"
+        if self.legacy:
+            text += f" (legacy gRPC)"
+        return text
 
 
 class ServerFactory:
@@ -42,9 +44,9 @@ class ServerFactory:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             SERVER_CONFIGURATION = ServerConfig()
             config = SERVER_CONFIGURATION
-        if config.remote_protocol == CommunicationProtocols.gRPC and config.c_server is False:
-            return DpfServer
-        elif config.remote_protocol == CommunicationProtocols.gRPC and config.c_server:
+        if config.protocol == CommunicationProtocols.gRPC and config.legacy:
+            return LegacyGrpcServer
+        elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
             import os
             from ansys.dpf.core._version import __ansys_version__
             ISPOSIX = os.name == "posix"
@@ -52,8 +54,8 @@ class ServerFactory:
             SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
                                        "linx64" if ISPOSIX else "winx64")
             os.environ["PATH"] += SUB_FOLDERS
-            return GrpcCServer
-        elif config.remote_protocol == CommunicationProtocols.direct and config.c_server:
-            return DirectCServer
+            return GrpcServer
+        elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:
+            return InProcessServer
         else:
             raise NotImplementedError("Server config not available.")

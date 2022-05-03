@@ -479,7 +479,7 @@ class Workflow:
 
         Parameters
         ----------
-        server : server.DPFServer, optional
+        server : server.LegacyGrpcServer, optional
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
 
@@ -519,7 +519,7 @@ class Workflow:
         server = None
         address = None
         for arg in args:
-            if isinstance(arg, dpf.core.server_types.DpfServer):
+            if isinstance(arg, dpf.core.server_types.LegacyGrpcServer):
                 server = arg
             elif isinstance(arg, str):
                 address = arg

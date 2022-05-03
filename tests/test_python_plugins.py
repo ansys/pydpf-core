@@ -109,7 +109,7 @@ def test_syntax_error():
 
 
 def test_create_op_specification():
-    local_server = server_types.DirectCServer(as_global=False)
+    local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
     spec.description = "Add a custom value to all the data of an input Field"
     spec.inputs = {0: PinSpecification("field", [dpf.Field], "Field on which float value is added."),
@@ -130,7 +130,7 @@ def test_create_op_specification():
 
 
 def test_create_config_op_specification():
-    local_server = server_types.DirectCServer(as_global=False)
+    local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
     spec.config_specification = [CustomConfigOptionSpec("work_by_index", False, "iterate over indices")]
     spec.config_specification = [CustomConfigOptionSpec("other", 1, "bla")]
@@ -147,7 +147,7 @@ def test_create_config_op_specification():
 
 
 def test_create_properties_specification():
-    local_server = server_types.DirectCServer(as_global=False)
+    local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
     spec.properties = SpecificationProperties("custom add to field", "math")
     assert spec.properties["exposure"] == "public"

@@ -310,9 +310,9 @@ def test_timefreqsupport_memory_leaks():
     import gc
     from ansys.dpf.core import start_local_server
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-    config = ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC)
-    # config = ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.gRPC)
-    # config = ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct)
+    config = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    # config = ServerConfig(protocol=CommunicationProtocols.gRPC)
+    # config = ServerConfig(protocol=CommunicationProtocols.InProcess)
     server = start_local_server(config=config, as_global=False)
     for i in range(0, 2000):
         gc.collect()
