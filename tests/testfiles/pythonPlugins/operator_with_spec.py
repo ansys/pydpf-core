@@ -27,5 +27,6 @@ class AddFloatToFieldData(CustomOperatorBase):
     def name(self):
         return "custom_add_to_field"
 
+
 def load_operators(*args):
     record_operator(AddFloatToFieldData, *args)

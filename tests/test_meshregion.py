@@ -380,10 +380,10 @@ def test_create_by_copy_meshed_region(server_type):
 def test_has_element_shape_meshed_region(server_type):
     mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4, server=server_type)
     # Any of those four calls make the second call to has_****_elements wrong when using InProcess
-    # assert mesh.elements.has_beam_elements is False
-    # assert mesh.elements.has_solid_elements is False
-    # assert mesh.elements.has_shell_elements is False
-    # assert mesh.elements.has_point_elements is False
+    assert mesh.elements.has_beam_elements is False
+    assert mesh.elements.has_solid_elements is False
+    assert mesh.elements.has_shell_elements is False
+    assert mesh.elements.has_point_elements is False
     assert mesh.elements.n_elements == 0
 
     mesh.nodes.add_node(1, [0.0, 0.0, 0.0])
