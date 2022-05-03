@@ -510,6 +510,7 @@ def test_connect_time_scoping(plate_msup, server_type):
 
 
 def test_connect_model(plate_msup, server_type):
+    print(plate_msup)
     model = dpf.core.Model(plate_msup, server=server_type)
     u = dpf.core.Operator("U", server=server_type)
     u.inputs.connect(model)
@@ -693,24 +694,6 @@ def test_operator_set_config(server_type):
             ]
         ),
     )
-
-
-def test_connect_model(plate_msup, server_type):
-    model = dpf.core.Model(plate_msup, server=server_type)
-    u = dpf.core.Operator("U", server=server_type)
-    u.inputs.connect(model)
-    u.inputs.time_scoping.connect(0.015)
-    fc = u.outputs.fields_container()
-    assert len(fc) == 1
-    assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
-    u.inputs.data_sources(model)
-    fc = u.outputs.fields_container()
-    assert len(fc) == 1
-    assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
-    u.connect(4, model)
-    fc = u.outputs.fields_container()
-    assert len(fc) == 1
-    assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
@@ -1165,7 +1148,8 @@ def test_generated_operator_specification(server_type):
 def test_operator_config_specification_simple(server_type):
     spec = Specification(operator_name="add", server=server_type)
     conf_spec = spec.config_specification
-    assert 'enum dataProcessing::EBinaryOperation' in conf_spec['binary_operation'].type_names
+    if server_type.os != "posix":
+        assert 'enum dataProcessing::EBinaryOperation' in conf_spec['binary_operation'].type_names
     assert conf_spec['binary_operation'].default_value_str == "1"
     assert "Intersection" in conf_spec['binary_operation'].document
     assert 'run_in_parallel' in conf_spec
@@ -1177,7 +1161,8 @@ def test_generated_operator_config_specification_simple(server_type):
     op = ops.math.add(server=server_type)
     spec = op.specification
     conf_spec = spec.config_specification
-    assert 'enum dataProcessing::EBinaryOperation' in conf_spec['binary_operation'].type_names
+    if server_type.os != "posix":
+        assert 'enum dataProcessing::EBinaryOperation' in conf_spec['binary_operation'].type_names
     assert conf_spec['binary_operation'].default_value_str == "1"
     assert "Intersection" in conf_spec['binary_operation'].document
     assert 'run_in_parallel' in conf_spec

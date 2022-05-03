@@ -42,6 +42,8 @@ def _get_dll_path(name, ansys_path=""):
         ANSYS_INSTALL = ansys_path
     SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
                                "linx64" if ISPOSIX else "winx64")
+    if ISPOSIX:
+        name = "lib" + name
     return os.path.join(SUB_FOLDERS, name)
 
 
@@ -382,7 +384,11 @@ class CServer(BaseServer, ABC):
 
         super().__init__(as_global=as_global)
         from ansys.dpf.gate import capi
-        path = _get_dll_path("DPFClientAPI", ansys_path)
+        ISPOSIX = os.name == "posix"
+        name = "DPFClientAPI"
+        if ISPOSIX:
+            name = "DPFClientAPI.so"
+        path = _get_dll_path(name, ansys_path)
         capi.load_api(path)
         self._own_process = False
 
