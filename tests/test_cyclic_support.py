@@ -134,12 +134,13 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst):
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
-def test_delete_cyc_support(cyclic_lin_rst):
-    data_sources = dpf.DataSources(cyclic_lin_rst)
-    model = dpf.Model(data_sources)
+def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):
+    data_sources = dpf.DataSources(cyclic_lin_rst, server=server_type_legacy_grpc)
+    model = dpf.Model(data_sources, server=server_type_legacy_grpc)
     result_info = model.metadata.result_info
     cyc_support = result_info.cyclic_support
-    cyc_support2 = dpf.CyclicSupport(cyclic_support=cyc_support._internal_obj, server=cyc_support._server)
+    cyc_support2 = dpf.CyclicSupport(cyclic_support=cyc_support._internal_obj,
+                                     server=cyc_support._server)
     cyc_support = None
     import gc
     gc.collect()

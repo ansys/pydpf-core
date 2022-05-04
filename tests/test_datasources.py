@@ -1,7 +1,7 @@
 import pytest
 
 from ansys import dpf
-from conftest import SERVER_VERSION_HIGHER_THAN_4_0
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0, SERVER_VERSION_HIGHER_THAN_3_0
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 
@@ -74,10 +74,12 @@ def test_several_result_path_data_sources(server_type):
     assert data_sources.result_files == ["file_hello.rst", "file_bye.rst"]
 
 
-# TODO: Parameter to MergeFrom() must be instance of same class
-@pytest.mark.xfail()
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
 def test_delete_auto_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
-    del data_sources
+    data_sources = None
+    import gc
+    gc.collect()
     data_sources2.set_result_file_path(allkindofcomplexity)

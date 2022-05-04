@@ -200,6 +200,7 @@ if SERVER_VERSION_HIGHER_THAN_4_0:
                     ])
     def server_type_remote_process(request):
         return core.start_local_server(config=request.param, as_global=False)
+
 else:
     @pytest.fixture(scope="session")
     def server_type():
@@ -219,6 +220,15 @@ else:
                     "gRPC CLayer",
                 ])
 def server_clayer_remote_process(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
+
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                      legacy=True)],
+                ids=[
+                    "ansys-grpc-dpf",
+                ])
+def server_type_legacy_grpc(request):
     return core.start_local_server(config=request.param, as_global=False)
 
 

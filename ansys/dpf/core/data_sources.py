@@ -55,7 +55,17 @@ class DataSources:
         # step4: if object exists: take instance, else create it:
         # object_name -> protobuf.message, DPFObject*
         if data_sources is not None:
-            self._internal_obj = data_sources
+            if isinstance(data_sources, DataSources):
+                # Make a Copy
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(
+                    data_sources)
+            else:
+                # It should be a message (usually from a call to operator_getoutput_data_sources)
+                self._internal_obj = data_sources
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
