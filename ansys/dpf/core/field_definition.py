@@ -100,7 +100,7 @@ class FieldDefinition:
         """
         enum_val = self._api.csfield_definition_get_shell_layers(self)
         return shell_layers(
-            enum_val.real - 1
+            enum_val.real  # - 1
         )  # +1 is added to the proto enum to have notset as 0
 
     @property
@@ -131,10 +131,8 @@ class FieldDefinition:
 
     @shell_layers.setter
     def shell_layers(self, value):
-        if isinstance(value, shell_layers):
-            value = value.value + 1
-        else:
-            value += 1
+        if hasattr(value, "value"):
+            value = value.value
         self._api.csfield_definition_set_shell_layers(self, value)
 
     @dimensionality.setter
