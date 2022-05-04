@@ -84,6 +84,13 @@ class InvalidPortError(OSError):
         OSError.__init__(self, msg)
 
 
+class ServerTypeError(NotImplementedError):
+    """Error raised when using a functionality unavailable for this server type"""
+
+    def __init__(self, msg=""):
+        NotImplementedError.__init__(self, msg)
+
+
 def protect_source_op_not_found(func):
     """Capture gRPC server exceptions when a source operator is not found
     and return a more succinct error message.

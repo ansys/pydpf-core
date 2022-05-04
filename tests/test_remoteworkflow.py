@@ -3,10 +3,12 @@ import pytest
 
 from ansys.dpf import core
 from ansys.dpf.core import examples
+from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.check_version import meets_version, get_server_version
 from conftest import local_servers, SERVER_VERSION_HIGHER_THAN_3_0
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_simple_remote_workflow(simple_bar, local_server):
@@ -40,6 +42,7 @@ def test_simple_remote_workflow(simple_bar, local_server):
     assert np.allclose(max.data, [2.52368345e-05])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_remote_workflow():
@@ -83,6 +86,7 @@ def test_multi_process_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_connect_remote_workflow():
@@ -128,6 +132,7 @@ def test_multi_process_connect_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_connect_operator_remote_workflow():
@@ -174,6 +179,7 @@ def test_multi_process_connect_operator_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_getoutput_remote_workflow():
@@ -220,6 +226,7 @@ def test_multi_process_getoutput_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_chain_remote_workflow():
@@ -277,6 +284,7 @@ def test_multi_process_chain_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_remote_workflow_info(local_server):
@@ -301,6 +309,7 @@ def test_remote_workflow_info(local_server):
     assert "distrib" in remote_workflow.output_names
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_local_remote_local_remote_workflow():
@@ -354,6 +363,7 @@ def test_multi_process_local_remote_local_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_transparent_api_remote_workflow():
@@ -385,6 +395,7 @@ def test_multi_process_transparent_api_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_with_names_transparent_api_remote_workflow():
@@ -416,6 +427,7 @@ def test_multi_process_with_names_transparent_api_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_transparent_api_connect_local_datasources_remote_workflow():
@@ -448,6 +460,7 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_transparent_api_connect_local_op_remote_workflow():
@@ -481,6 +494,7 @@ def test_multi_process_transparent_api_connect_local_op_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_transparent_api_create_on_local_remote_workflow():
@@ -511,6 +525,7 @@ def test_multi_process_transparent_api_create_on_local_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
+@pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_multi_process_transparent_api_create_on_local_remote_ith_address_workflow():

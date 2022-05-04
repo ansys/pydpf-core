@@ -98,6 +98,7 @@ def test_cyc_support_from_to_operator(cyclic_lin_rst):
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
+@pytest.mark.xfail(raises=dpf.errors.ServerTypeError)
 def test_cyc_support_from_to_workflow(cyclic_lin_rst):
     data_sources = dpf.DataSources(cyclic_lin_rst)
     model = dpf.Model(data_sources)

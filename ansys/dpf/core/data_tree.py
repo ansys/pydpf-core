@@ -5,7 +5,7 @@ DataTree
 ========
 """
 
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.errors import protect_grpc, ServerTypeError
 from ansys.dpf.core.mapping_types import types
 
 
@@ -17,7 +17,7 @@ class DataTree:
     data: dict(string:object)
         Dictionary attributes names to its associated data to add to the data tree.
     data_tree : ansys.grpc.dpf.data_tree_pb2.DataTree message, optional
-    server : DPFServer, optional
+    server : LegacyGrpcServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
@@ -55,6 +55,11 @@ class DataTree:
         if server is None:
             import ansys.dpf.core.server as serverlib
             server = serverlib._global_server()
+        from ansys.dpf.core.server_types import LegacyGrpcServer
+        # if hasattr(SERVER_CONFIGURATION, "legacy") and SERVER_CONFIGURATION.legacy is False:
+        if not isinstance(server, LegacyGrpcServer):
+            raise ServerTypeError("DataTrees have not yet been implemented for other server "
+                                  "types than legacyGrpc")
         # __set_attr__ method has been overridden, self._common_keys is used to list the "real"
         # names used as its class attributes
         self._common_keys = ["_common_keys", "_server", "_message", "_stub", "_owner_data_tree", "_dict"]

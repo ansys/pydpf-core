@@ -7,7 +7,7 @@ import logging
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.errors import protect_grpc, ServerTypeError
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import types
 
@@ -23,7 +23,7 @@ class Workflow:
 
     Parameters
     ----------
-    server : ansys.dpf.core.server, optional
+    server : LegacyGrpcServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
@@ -56,7 +56,11 @@ class Workflow:
         """Initialize the workflow by connecting to a stub."""
         if server is None:
             server = dpf.core._global_server()
-
+        from ansys.dpf.core.server_types import LegacyGrpcServer
+        # if hasattr(SERVER_CONFIGURATION, "legacy") and SERVER_CONFIGURATION.legacy is False:
+        if not isinstance(server, LegacyGrpcServer):
+            raise ServerTypeError("Workflows have not yet been implemented for other server "
+                                  "types than legacyGrpc")
         self._server = server
         self._stub = self._connect()
 

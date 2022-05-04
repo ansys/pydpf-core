@@ -768,6 +768,7 @@ def test_connect_get_output_double_list_operator(server_type):
     assert np.allclose(d, dout)
 
 
+@pytest.mark.xfail(raises=errors.ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
                     reason='Requires server version higher than 4.0')
 def test_connect_get_output_data_tree_operator():
