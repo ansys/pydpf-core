@@ -15,8 +15,7 @@ else:
     HAS_PYVISTA = False
 
 
-# @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-@pytest.mark.skipif(True, "Makes everything crash")
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_chart_plotter(plate_msup):
     model = Model(plate_msup)
     mesh = model.metadata.meshed_region
