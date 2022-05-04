@@ -257,7 +257,7 @@ def start_local_server(
     return server
 
 
-def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=10):
+def connect_to_server(ip=None, port=None, as_global=True, timeout=10, channel=None):
     """Connect to an existing DPF server.
 
     This method sets the global default channel that is then used for the
@@ -271,6 +271,9 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     port : int
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
+    channel : grpc.Channel
+        gRPC channel to use for communication. When provided, `ip` and `port`
+        cannot be used.
     as_global : bool, optional
         Global variable that stores the IP address and port for the DPF
         module. All DPF objects created in this Python session will
@@ -299,7 +302,14 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    server = DpfServer(ip=ip, port=port, as_global=as_global, launch_server=False, timeout=timeout)
+    server = DpfServer(
+        ip=ip,
+        port=port,
+        as_global=as_global,
+        channel=channel,
+        launch_server=False,
+        timeout=timeout
+    )
     dpf.core._server_instances.append(weakref.ref(server))
     return server
 
@@ -317,6 +327,9 @@ class DpfServer:
     port : int
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
+    channel : grpc.Channel
+        gRPC channel to use for communication. When provided, `ip`, `port`
+        and `launch_server` cannot be used.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
@@ -337,20 +350,33 @@ class DpfServer:
     def __init__(
         self,
         ansys_path="",
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
+        ip=None,
+        port=None,
         timeout=10.,
         as_global=True,
         load_operators=True,
         launch_server=True,
         docker_name=None,
+        channel=None,
     ):
         """Start the DPF server."""
+        if channel is not None:
+            if launch_server:
+                raise ValueError("Cannot launch DPF when providing a channel")
+            if ip is not None or port is not None:
+                raise ValueError("Cannot select the ip and port when providing a channel")
 
-        # check valid ip and port
-        check_valid_ip(ip)
-        if not isinstance(port, int):
-            raise ValueError("Port must be an integer")
+        if channel is None:
+            ip = ip or LOCALHOST
+            port = port or DPF_DEFAULT_PORT
+
+            # check valid ip and port
+            check_valid_ip(ip)
+            if not isinstance(port, int):
+                raise ValueError("Port must be an integer")
+            channel = grpc.insecure_channel("%s:%d" % (ip, port))
+
+        self.channel = channel
 
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
@@ -358,8 +384,6 @@ class DpfServer:
             self._server_id = launch_dpf(str(ansys_path), ip, port,
                                          docker_name=docker_name,
                                          timeout=timeout)
-
-        self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
 
         # assign to global channel when requested
         if as_global:
@@ -451,6 +475,13 @@ class DpfServer:
             "nt" or "posix"
         """
         return self._base_service.server_info["os"]
+
+    @property
+    def _offline_info(self):
+        """Get a description of the server even when not connected."""
+        if self._input_ip and self._input_port:
+            return f"{self._input_ip}:{self._input_port}"
+        return "remote server"
 
     def __str__(self):
         return f"DPF Server: {self.info}"
@@ -677,8 +708,8 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
 
     if not state._matured:
         raise TimeoutError(
-            f"Failed to connect to {server._input_ip}:" +
-            f"{server._input_port} in {int(timeout)} seconds"
+            f"Failed to connect to {server._offline_info}: " +
+            f"in {int(timeout)} seconds"
         )
 
     LOG.debug("Established connection to DPF gRPC")

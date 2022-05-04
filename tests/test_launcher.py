@@ -1,7 +1,9 @@
+import grpc
 import pytest
 
 from ansys.dpf import core
 from ansys.dpf.core.misc import is_ubuntu
+from ansys.dpf.core.server import DpfServer
 
 ansys_path = core.misc.find_ansys()
 
@@ -34,6 +36,32 @@ def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
         core.start_local_server(ansys_path="", use_docker_by_default=False)
 
+def test_connect_via_channel():
+    server = core.start_local_server(as_global=False, ansys_path=core.SERVER.ansys_path)
+
+    # Create a channel to the local server
+    channel = grpc.insecure_channel(f"{server.ip}:{server.port}")
+
+    # Connect to the local server through the user provided channel
+    server = core.connect_to_server(channel=channel, as_global=False)
+
+    # The server object is using the provided channel
+    assert server.channel == channel
+
+    # The connection is valid
+    assert server.info["server_process_id"] != None
+    assert server.info["server_ip"] != None
+    assert server.info["server_port"] != None
+    assert server.info["server_version"] != None
+
+def test_connect_to_server_arguments():
+    channel = grpc.insecure_channel("127.0.0.1:12345")
+    with pytest.raises(ValueError):
+        core.connect_to_server(channel=channel, port=12345)
+    with pytest.raises(ValueError):
+        core.connect_to_server(channel=channel, port=12345)
+    with pytest.raises(ValueError):
+        DpfServer(channel=channel, launch_server=True)
 
 def test_server_ip():
     assert core.SERVER.ip != None

@@ -55,6 +55,7 @@ extensions = [
 # Intersphinx mapping
 intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),
+    "grpc": ("https://grpc.github.io/grpc/python/", None),
 }
 
 autosummary_generate = True
