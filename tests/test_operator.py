@@ -1084,8 +1084,8 @@ def test_with_progress_operator(allkindofcomplexity, server_type):
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_list_operators():
-    l = dpf.core.dpf_operator.available_operator_names()
+def test_list_operators(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     assert len(l) > 400
     assert 'merge::result_info' in l
     assert 'unit_convert' in l
