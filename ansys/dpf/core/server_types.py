@@ -264,14 +264,17 @@ class BaseServer(abc.ABC):
         pass
 
     @property
-    @abc.abstractmethod
-    def _base_service(self):
-        pass
-
-    @property
-    @abc.abstractmethod
     def info(self):
-        pass
+        """Server information.
+
+        Returns
+        -------
+        info : dictionary
+            Dictionary with server information, including ``"server_ip"``,
+            ``"server_port"``, ``"server_process_id"``, and
+            ``"server_version"`` keys.
+        """
+        return self._base_service.server_info
 
     @property
     def _session(self):
@@ -455,25 +458,8 @@ class GrpcServer(CServer):
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
         api.data_processing_get_server_version_on_client(self.client, major, minor)
-        out =  str(int(major)) + "." + str(int(minor))
+        out = str(int(major)) + "." + str(int(minor))
         return out
-
-    @property
-    def _base_service(self):
-        raise NotImplementedError
-
-    @property
-    def info(self):
-        """Server information.
-
-        Returns
-        -------
-        info : dictionary
-            Dictionary with server information, including ``"server_ip"``,
-            ``"server_port"``, ``"server_process_id"``, and
-            ``"server_version"`` keys.
-        """
-        return self._base_service.server_info
 
     @property
     def os(self):
@@ -489,7 +475,8 @@ class GrpcServer(CServer):
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
         if isinstance(other_server, GrpcServer):
-            raise NotImplementedError
+            # """Return true, if the ip and the port are equals"""
+            return self.ip == other_server.ip and self.port == other_server.port
         return False
 
     @property
@@ -543,16 +530,8 @@ class InProcessServer(CServer):
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
         api.data_processing_get_server_version(major, minor)
-        out =  str(int(major)) + "." + str(int(minor))
+        out = str(int(major)) + "." + str(int(minor))
         return out
-
-    @property
-    def _base_service(self):
-        raise NotImplementedError
-
-    @property
-    def info(self):
-        raise NotImplementedError
 
     @property
     def os(self):
@@ -666,19 +645,6 @@ class LegacyGrpcServer(BaseServer):
             return None
         else:
             return self._stubs[stub_name]
-
-    @property
-    def info(self):
-        """Server information.
-
-        Returns
-        -------
-        info : dictionary
-            Dictionary with server information, including ``"server_ip"``,
-            ``"server_port"``, ``"server_process_id"``, and
-            ``"server_version"`` keys.
-        """
-        return self._base_service.server_info
 
     @property
     def ip(self):
