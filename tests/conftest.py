@@ -11,6 +11,8 @@ import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
@@ -25,9 +27,9 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        dpf.core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
-                                              f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
-                                              ':/tmp/test_files"'
+        core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
+                                                    f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
+                                                    ':/tmp/test_files"'
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
@@ -159,6 +161,65 @@ def engineering_data_sources():
     )
     ds.add_file_path(resolve_test_file("ds.dat", "engineeringData"), "dat")
     return ds
+
+
+SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(core._global_server()), "4.0")
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
+#
+# def pytest_generate_tests(metafunc):
+#     if 'server_type' in metafunc.fixturenames:
+#         if SERVER_VERSION_HIGHER_THAN_4_0:
+#             metafunc.parametrize("server_type", [core.start_local_server(config=ServerConfig(c_server=False, remote_protocol=CommunicationProtocols.gRPC), as_global=False),
+#                                                  core.start_local_server(config=ServerConfig(c_server=True,
+#                                                                                              remote_protocol=CommunicationProtocols.gRPC),
+#                                                                          as_global=False),
+#                   core.start_local_server(config=ServerConfig(c_server=True, remote_protocol=CommunicationProtocols.direct), as_global=False)], ids=[
+#                 "ansys-grpc-dpf",
+#                 "gRPC CLayer",
+#                 "in Process CLayer"
+#                 ], scope="session")
+
+if SERVER_VERSION_HIGHER_THAN_4_0:
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+                                             ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                        "gRPC CLayer",
+                        "in Process CLayer"
+                    ])
+    def server_type(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                        "gRPC CLayer",
+                    ])
+    def server_type_remote_process(request):
+        return core.start_local_server(config=request.param, as_global=False)
+else:
+    @pytest.fixture(scope="session")
+    def server_type():
+        return core.start_local_server(as_global=False)
+
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
+    def server_type_remote_process(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
+
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+                ids=[
+                    "gRPC CLayer",
+                ])
+def server_clayer_remote_process(request):
+    return core.start_local_server(config=request.param, as_global=False)
 
 
 class LocalServers:

@@ -25,7 +25,7 @@ class cyclic_volume(Operator):
     data_sources : DataSources
         Data sources containing the result file.
     bool_rotate_to_global : bool, optional
-        If true the field is roated to global
+        If true the field is rotated to global
         coordinate system (default true)
     sector_mesh : MeshedRegion or MeshesContainer, optional
         Mesh of the base sector (can be a skin).
@@ -170,7 +170,7 @@ class cyclic_volume(Operator):
                     name="bool_rotate_to_global",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true the field is roated to global
+                    document="""If true the field is rotated to global
         coordinate system (default true)""",
                 ),
                 7: PinSpecification(
@@ -231,7 +231,7 @@ class cyclic_volume(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="mapdl::rst::ENG_VOL_cyclic", server=server)
 
@@ -414,7 +414,7 @@ class InputsCyclicVolume(_Inputs):
     def bool_rotate_to_global(self):
         """Allows to connect bool_rotate_to_global input to the operator.
 
-        If true the field is roated to global
+        If true the field is rotated to global
         coordinate system (default true)
 
         Parameters

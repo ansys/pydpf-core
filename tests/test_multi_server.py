@@ -130,24 +130,24 @@ def test_model_cyc_support_multi_server(cyc_models):
     cyc_support2 = result_info2.cyclic_support
     assert cyc_support.num_stages == cyc_support2.num_stages
     assert cyc_support.num_sectors() == cyc_support2.num_sectors()
-    assert cyc_support.base_nodes_scoping().ids == cyc_support2.base_nodes_scoping().ids
-    assert (
+    assert np.allclose(cyc_support.base_nodes_scoping().ids, cyc_support2.base_nodes_scoping().ids)
+    assert np.allclose(
             cyc_support.base_elements_scoping().ids
-            == cyc_support2.base_elements_scoping().ids
+            , cyc_support2.base_elements_scoping().ids
     )
-    assert (
+    assert np.allclose(
             cyc_support.sectors_set_for_expansion().ids
-            == cyc_support2.sectors_set_for_expansion().ids
+            , cyc_support2.sectors_set_for_expansion().ids
     )
-    assert cyc_support.expand_node_id(1).ids == cyc_support2.expand_node_id(1).ids
-    assert cyc_support.expand_element_id(1).ids == cyc_support2.expand_element_id(1).ids
-    assert (
+    assert np.allclose(cyc_support.expand_node_id(1).ids, cyc_support2.expand_node_id(1).ids)
+    assert np.allclose(cyc_support.expand_element_id(1).ids, cyc_support2.expand_element_id(1).ids)
+    assert np.allclose(
             cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
-            == cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
+            , cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
     )
-    assert (
+    assert np.allclose(
             cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
-            .ids == cyc_support2.expand_element_id(1,
+            .ids , cyc_support2.expand_element_id(1,
                                                    cyc_support2.sectors_set_for_expansion()
                                                    ).ids
     )

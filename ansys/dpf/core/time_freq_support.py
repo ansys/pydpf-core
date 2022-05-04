@@ -5,13 +5,9 @@ TimeFreqSupport
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.errors import protect_grpc
-from ansys.grpc.dpf import (
-    base_pb2,
-    support_pb2,
-    time_freq_support_pb2,
-    time_freq_support_pb2_grpc,
-)
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
+    support_grpcapi, support_capi, data_processing_capi, data_processing_grpcapi
 
 
 class TimeFreqSupport:
@@ -24,7 +20,7 @@ class TimeFreqSupport:
 
     Parameters
     ----------
-    time_freq_support : ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
+    time_freq_support : ctypes.c_void_p, ansys.grpc.dpf.time_freq_support_pb2.TimeFreqSupport
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
@@ -44,22 +40,29 @@ class TimeFreqSupport:
 
     def __init__(self, time_freq_support=None, server=None):
         """Initialize the TimeFreqSupport with its TimeFreqSupport message (if possible)."""
-        if server is None:
-            server = dpf.core._global_server()
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._server = server
-        self._stub = self._connect()
-        if isinstance(time_freq_support, time_freq_support_pb2.TimeFreqSupport):
-            self._message = time_freq_support
-        elif isinstance(time_freq_support, support_pb2.Support):
-            self._message = time_freq_support_pb2.TimeFreqSupport()
-            if isinstance(self._message.id, int):
-                self._message.id = time_freq_support.id
-            else:
-                self._message.id.id = time_freq_support.id.id
+        # step 2: get api
+        self._api = self._server.get_api_for_type(
+            capi=time_freq_support_capi.TimeFreqSupportCAPI,
+            grpcapi=time_freq_support_grpcapi.TimeFreqSupportGRPCAPI)
+        support_api = self._server.get_api_for_type(capi=support_capi.SupportCAPI,
+                                                    grpcapi=support_grpcapi.SupportGRPCAPI)
+        # step3: init environment
+        self._api.init_time_freq_support_environment(self)  # creates stub when gRPC
+
+        # step4: if object exists: take instance, else create it:
+        # object_name -> protobuf.message, DPFObject*
+        if time_freq_support is not None:
+            self._internal_obj = time_freq_support
+            # Might to test for type for CLayer as I have not tested this for C
+            #self._internal_obj = support_api.support_get_as_time_freq_support(self)
         else:
-            request = base_pb2.Empty()
-            self._message = self._stub.Create(request)
+            if self._server.has_client():
+                self._internal_obj = self._api.time_freq_support_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.time_freq_support_new()
 
     def __str__(self):
         """Describe the entity.
@@ -70,7 +73,7 @@ class TimeFreqSupport:
         """
         from ansys.dpf.core.core import _description
 
-        return _description(self._message, self._server)
+        return _description(self._internal_obj, self._server)
 
     @property
     def time_frequencies(self):
@@ -106,10 +109,7 @@ class TimeFreqSupport:
         frequencies: Field
             Field of time frequencies that must be set.
         """
-        request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        request.freq_real.CopyFrom(frequencies._message)
-        self._stub.Update(request)
+        self._api.time_freq_support_set_shared_time_freqs(self, frequencies)
 
     @time_frequencies.setter
     def time_frequencies(self, value):
@@ -121,7 +121,7 @@ class TimeFreqSupport:
         value : Field
             Field of time frequencies that must be set.
         """
-        return self._set_time_frequencies(value)
+        self._set_time_frequencies(value)
 
     @property
     def complex_frequencies(self):
@@ -149,10 +149,7 @@ class TimeFreqSupport:
         complex_frequencies : Field
             Field of frequencies that must be set.
         """
-        request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        request.freq_complex.CopyFrom(complex_frequencies._message)
-        self._stub.Update(request)
+        self._api.time_freq_support_set_shared_imaginary_freqs(self, complex_frequencies)
 
     @complex_frequencies.setter
     def complex_frequencies(self, value):
@@ -164,7 +161,7 @@ class TimeFreqSupport:
         value : Field
             Field of complex frequencies that must be set.
         """
-        return self._set_complex_frequencies(value)
+        self._set_complex_frequencies(value)
 
     @property
     def rpms(self):
@@ -184,10 +181,7 @@ class TimeFreqSupport:
         rpms : Field
             Field of RPMs that must be set.
         """
-        request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        request.rpm.CopyFrom(rpms._message)
-        self._stub.Update(request)
+        self._api.time_freq_support_set_shared_rpms(self, rpms)
 
     @rpms.setter
     def rpms(self, value):
@@ -227,13 +221,7 @@ class TimeFreqSupport:
         stage_num: int, default: 0, optional
             Stage number that is defined by these harmonic indices.
         """
-        request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
-        cyclic_data = time_freq_support_pb2.CyclicHarmonicData()
-        request.time_freq_support.CopyFrom(self._message)
-        cyclic_data.cyc_harmonic_index.CopyFrom(harmonic_indices._message)
-        cyclic_data.stage_num = stage_num
-        request.cyc_harmonic_data.CopyFrom(cyclic_data)
-        self._stub.Update(request)
+        self._api.time_freq_support_set_harmonic_indices(self, harmonic_indices, stage_num)
 
     @property
     def n_sets(self):
@@ -274,21 +262,28 @@ class TimeFreqSupport:
         """
         return self._get_frequency(step, substep, cumulative_index, cplx)
 
-    @protect_grpc
     def _get_frequency(self, step, substep, cumulative_index, cplx):
         """Retrieves the frequence corresponding to the requested step/substep or
         cumulative index.
         """
-        request = time_freq_support_pb2.GetRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        request.complex = cplx
-        # request.complex = base_pb2.Complex.Value(cplx)
         if cumulative_index is None:
-            request.step_substep.step = step
-            request.step_substep.substep = substep
+            # Use by_step methods
+            if cplx:
+                # Call for imaginary
+                return self._api.time_freq_support_get_imaginary_freq_by_step(self, step, substep)
+            else:
+                # Call for real
+                return self._api.time_freq_support_get_time_freq_by_step(self, step, substep)
         else:
-            request.cumulative_index = cumulative_index
-        return self._stub.Get(request).frequency
+            # Use by_cumul_index methods
+            if cplx:
+                # Call for imaginary
+                return self._api.time_freq_support_get_imaginary_freq_by_cumul_index(
+                    self, cumulative_index)
+            else:
+                # Call for real
+                return self._api.time_freq_support_get_time_freq_by_cumul_index(self,
+                                                                                cumulative_index)
 
     def get_cumulative_index(self, step=0, substep=0, freq=None, cplx=False):
         """Retrieves the cumulative index corresponding to the requested step/substep
@@ -313,38 +308,20 @@ class TimeFreqSupport:
         """
         return self._get_cumulative_index(step, substep, freq, cplx)
 
-    @protect_grpc
     def _get_cumulative_index(self, step, substep, freq, cplx):
         """Retrieve the cumulative index corresponding to the requested step/substep
         or frequency."""
-        request = time_freq_support_pb2.GetRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        request.bool_cumulative_index = True
-        request.complex = cplx
-        if freq is not None:
-            request.frequency = freq
-        else:
-            request.step_substep.step = step
-            request.step_substep.substep = substep
-        return self._stub.Get(request).cumulative_index
+        return self._api.time_freq_support_get_time_freq_cummulative_index_by_value_and_load_step(
+            self, step, substep, freq, cplx
+        )
 
-    @protect_grpc
     def _sets_count(self):
         """
         Returns
         -------
         count : int
         """
-        request = time_freq_support_pb2.CountRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        request.entity = base_pb2.NUM_SETS
-        return self._stub.Count(request).count
-
-    def __check_if_field_id(self, field):
-        if isinstance(field.id, int):
-            return field.id != 0
-        else:
-            return field.id.id != 0
+        return self._api.time_freq_support_get_number_sets(self)
 
     def _get_frequencies(self, cplx=False):
         """Retrieves a field of all the frequencies in the model
@@ -361,11 +338,16 @@ class TimeFreqSupport:
             Field of all the frequencies in the model (complex or real).
         """
 
-        attributes_list = self._get_attributes_list()
-        if cplx and "freq_complex" in attributes_list:
-            return attributes_list["freq_complex"]
-        elif cplx != True and "freq_real" in attributes_list:
-            return attributes_list["freq_real"]
+        # attributes_list = self._get_attributes_list()
+        if cplx:  # and "freq_complex" in attributes_list:
+            # return attributes_list["freq_complex"]
+            freq = self._api.time_freq_support_get_shared_imaginary_freqs(self)
+        # elif cplx != True and "freq_real" in attributes_list:
+        else:
+            # return attributes_list["freq_real"]
+            freq = self._api.time_freq_support_get_shared_time_freqs(self)
+        if freq is not None:
+            return dpf.core.Field(server=self._server, field=freq)
 
     def _get_rpms(self):
         """Retrieves a field of all the RPMs in the model.
@@ -375,9 +357,9 @@ class TimeFreqSupport:
         field : dpf.core.Field
             Field of all the RPMs in the model (complex or real).
         """
-        attributes_list = self._get_attributes_list()
-        if "rpm" in attributes_list:
-            return attributes_list["rpm"]
+        rpm = self._api.time_freq_support_get_shared_rpms(self)
+        if rpm is not None:
+            return dpf.core.Field(server=self._server, field=rpm)
 
     def _get_harmonic_indices(self, stage_num=0):
         """Retrieves a field of all the harmonic indices in the model.
@@ -390,35 +372,9 @@ class TimeFreqSupport:
         stage_num: int, optional, default = 0
             Targeted stage number.
         """
-        attributes_list = self._get_attributes_list(stage_num)
-        if "cyc_harmonic_index" in attributes_list:
-            return attributes_list["cyc_harmonic_index"]
-
-    @protect_grpc
-    def _get_attributes_list(self, stage_num=None):
-        request = time_freq_support_pb2.ListRequest()
-        request.time_freq_support.CopyFrom(self._message)
-        if stage_num:
-            request.cyclic_stage_num = stage_num
-        list_response = self._stub.List(request)
-        out = {}
-        if list_response.HasField("freq_real"):
-            out["freq_real"] = dpf.core.Field(
-                server=self._server, field=list_response.freq_real)
-        if list_response.HasField("freq_complex"):
-            out["freq_complex"] = dpf.core.Field(
-                server=self._server, field=list_response.freq_complex)
-        if list_response.HasField("rpm"):
-            out["rpm"] = dpf.core.Field(
-                server=self._server, field=list_response.rpm)
-        if list_response.HasField("cyc_harmonic_index"):
-            out["cyc_harmonic_index"] = dpf.core.Field(
-                server=self._server, field=list_response.cyc_harmonic_index)
-        if hasattr(list_response, "cyclic_harmonic_index_scoping") and\
-                list_response.HasField("cyclic_harmonic_index_scoping"):
-            out["cyclic_harmonic_index_scoping"] = dpf.core.Scoping(
-                server=self._server, scoping=list_response.cyclic_harmonic_index_scoping)
-        return out
+        harmonic_indices = self._api.time_freq_support_get_shared_harmonic_indices(self, stage_num)
+        if harmonic_indices is not None:
+            return dpf.core.Field(server=self._server, field=harmonic_indices)
 
     def append_step(
             self,
@@ -571,14 +527,14 @@ class TimeFreqSupport:
         harmonic_indices.append(step_harmonic_indices, step_id)
         self.set_harmonic_indices(harmonic_indices, stage_num)
 
-    def _connect(self):
-        """Connect to the gRPC service."""
-        return time_freq_support_pb2_grpc.TimeFreqSupportServiceStub(
-            self._server.channel
-        )
-
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            # get core api
+            core_api = self._server.get_api_for_type(
+                capi=data_processing_capi.DataProcessingCAPI,
+                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            core_api.init_data_processing_environment(self)
+            # delete
+            core_api.data_processing_delete_shared_object(self)
         except:
             pass

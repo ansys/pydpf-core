@@ -6,14 +6,14 @@ from ansys import dpf
 
 
 @pytest.fixture()
-def simple_bar_model(simple_bar):
-    return dpf.core.Model(simple_bar)
+def simple_bar_model(simple_bar, server_type):
+    return dpf.core.Model(simple_bar, server=server_type)
 
 
-def test_get_scoping_meshedregion_from_operator(simple_bar):
-    dataSource = dpf.core.DataSources()
+def test_get_scoping_meshedregion_from_operator(simple_bar, server_type):
+    dataSource = dpf.core.DataSources(server=server_type)
     dataSource.set_result_file_path(simple_bar)
-    mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
+    mesh = dpf.core.Operator("mapdl::rst::MeshProvider", server=server_type)
     mesh.connect(4, dataSource)
     meshOut = mesh.get_output(0, dpf.core.types.meshed_region)
     scop = meshOut._get_scoping(dpf.core.locations.nodal)
@@ -22,7 +22,7 @@ def test_get_scoping_meshedregion_from_operator(simple_bar):
     assert len(scop.ids) == 3000
 
 
-def test_get_mesh_from_model(simple_bar_model):
+def test_get_mesh_from_model(simple_bar_model, server_type):
     mesh = simple_bar_model.metadata.meshed_region
     assert len(mesh.nodes.scoping.ids) == 3751
     assert len(mesh.elements.scoping.ids) == 3000
@@ -155,25 +155,15 @@ def test_str_nodes_elements_meshedregion(simple_bar_model):
 
 def test_delete_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    del mesh
+    mesh = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
         mesh.nodes[0]
 
 
-def test_delete_auto_meshedregion(simple_bar):
-    dataSource = dpf.core.DataSources()
-    dataSource.set_result_file_path(simple_bar)
-    mesh = dpf.core.Operator("mapdl::rst::MeshProvider")
-    mesh.connect(4, dataSource)
-    meshOut = mesh.get_output(0, dpf.core.types.meshed_region)
-    meshOut2 = dpf.core.meshed_region.MeshedRegion(mesh=meshOut._message)
-    del meshOut
-    with pytest.raises(Exception):
-        meshOut2.get_element_type(1)
-
-
-def test_id_indeces_mapping_on_nodes_1(multishells):
-    model = dpf.core.Model(multishells)
+def test_id_indeces_mapping_on_nodes_1(multishells, server_type):
+    model = dpf.core.Model(multishells, server=server_type)
     mesh = model.metadata.meshed_region
     mapping = mesh.nodes.mapping_id_to_index
     nodes = mesh.nodes
@@ -183,8 +173,8 @@ def test_id_indeces_mapping_on_nodes_1(multishells):
     assert mapping[500] == 499
 
 
-def test_id_indeces_mapping_on_nodes_2(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def test_id_indeces_mapping_on_nodes_2(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
     mapping = mesh.nodes.mapping_id_to_index
     nodes = mesh.nodes
@@ -195,8 +185,8 @@ def test_id_indeces_mapping_on_nodes_2(allkindofcomplexity):
     assert mapping[12346] == 12345
 
 
-def test_id_indeces_mapping_on_elements_1(multishells):
-    model = dpf.core.Model(multishells)
+def test_id_indeces_mapping_on_elements_1(multishells, server_type):
+    model = dpf.core.Model(multishells, server=server_type)
     mesh = model.metadata.meshed_region
     mapping = mesh.elements.mapping_id_to_index
     elements = mesh.elements
@@ -206,8 +196,8 @@ def test_id_indeces_mapping_on_elements_1(multishells):
     assert mapping[1999] == 191
 
 
-def test_id_indeces_mapping_on_elements_2(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def test_id_indeces_mapping_on_elements_2(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
     mapping = mesh.elements.mapping_id_to_index
     elements = mesh.elements
@@ -217,8 +207,8 @@ def test_id_indeces_mapping_on_elements_2(allkindofcomplexity):
     assert mapping[4520] == 2011
 
 
-def test_named_selection_mesh(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def test_named_selection_mesh(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
     ns = mesh.available_named_selections
     assert ns == [
@@ -234,8 +224,8 @@ def test_named_selection_mesh(allkindofcomplexity):
     assert scop.location == dpf.core.locations().nodal
 
 
-def test_create_meshed_region():
-    mesh = dpf.core.MeshedRegion(num_nodes=4, num_elements=1)
+def test_create_meshed_region(server_type):
+    mesh = dpf.core.MeshedRegion(num_nodes=4, num_elements=1, server=server_type)
     mesh.nodes.add_node(1, [0.0, 0.0, 0.0])
     assert mesh.nodes.n_nodes == 1
     assert mesh.elements.n_elements == 0
@@ -251,8 +241,8 @@ def test_create_meshed_region():
     assert el.type.value == 16
 
 
-def test_connectivity_meshed_region():
-    mesh = test_create_all_shaped_meshed_region()
+def test_connectivity_meshed_region(server_type):
+    mesh = test_create_all_shaped_meshed_region(server_type)
     connectivity = mesh.elements.connectivities_field
     assert np.allclose(connectivity.get_entity_data_by_id(1), [0, 1, 2, 3])
     assert np.allclose(connectivity.get_entity_data(0), [0, 1, 2, 3])
@@ -263,8 +253,8 @@ def test_connectivity_meshed_region():
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
 
 
-def test_create_all_shaped_meshed_region():
-    mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4)
+def test_create_all_shaped_meshed_region(server_type):
+    mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4, server=server_type)
     assert mesh.nodes.n_nodes == 0
     assert mesh.elements.n_elements == 0
 
@@ -310,11 +300,11 @@ def test_create_all_shaped_meshed_region():
     return mesh
 
 
-def test_create_with_yield_meshed_region():
-    ref_mesh = test_create_all_shaped_meshed_region()
+def test_create_with_yield_meshed_region(server_type):
+    ref_mesh = test_create_all_shaped_meshed_region(server_type)
     mesh = dpf.core.MeshedRegion(
-        num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements
-    )
+        num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements,
+        server=server_type)
     index = 0
     for node in mesh.nodes.add_nodes(ref_mesh.nodes.n_nodes):
         ref_node = ref_mesh.nodes.node_by_index(index)
@@ -350,11 +340,11 @@ def test_create_with_yield_meshed_region():
     assert len(el.nodes) == 4
 
 
-def test_create_by_copy_meshed_region():
-    ref_mesh = test_create_all_shaped_meshed_region()
+def test_create_by_copy_meshed_region(server_type):
+    ref_mesh = test_create_all_shaped_meshed_region(server_type)
     mesh = dpf.core.MeshedRegion(
-        num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements
-    )
+        num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements,
+        server=server_type)
     index = 0
     for node in ref_mesh.nodes:
         ref_node = ref_mesh.nodes.node_by_index(index)
@@ -387,55 +377,58 @@ def test_create_by_copy_meshed_region():
     assert len(el.nodes) == 4
 
 
-def test_has_element_shape_meshed_region():
-    mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4)
-    assert mesh.elements.has_beam_elements == False
-    assert mesh.elements.has_solid_elements == False
-    assert mesh.elements.has_shell_elements == False
-    assert mesh.elements.has_point_elements == False
+def test_has_element_shape_meshed_region(server_type):
+    mesh = dpf.core.MeshedRegion(num_nodes=11, num_elements=4, server=server_type)
+    # Any of those four calls make the second call to has_****_elements wrong when using InProcess
+    assert mesh.elements.has_beam_elements is False
+    assert mesh.elements.has_solid_elements is False
+    assert mesh.elements.has_shell_elements is False
+    assert mesh.elements.has_point_elements is False
+    assert mesh.elements.n_elements == 0
 
     mesh.nodes.add_node(1, [0.0, 0.0, 0.0])
     mesh.nodes.add_node(2, [1.0, 0.0, 0.0])
     mesh.nodes.add_node(3, [1.0, 1.0, 0.0])
     mesh.nodes.add_node(4, [0.0, 1.0, 0.0])
     mesh.elements.add_shell_element(1, [0, 1, 2, 3])
-    assert mesh.elements.has_beam_elements == False
-    assert mesh.elements.has_solid_elements == False
-    assert mesh.elements.has_shell_elements == True
-    assert mesh.elements.has_point_elements == False
+    assert mesh.elements.n_elements == 1
+    assert mesh.elements.has_beam_elements is False
+    assert mesh.elements.has_solid_elements is False
+    assert mesh.elements.has_shell_elements is True  # This fails for CDirect
+    assert mesh.elements.has_point_elements is False
 
     mesh.nodes.add_node(5, [0.0, 0.0, 0.0])
     mesh.elements.add_point_element(2, [4])
-    assert mesh.elements.has_beam_elements == False
-    assert mesh.elements.has_solid_elements == False
-    assert mesh.elements.has_shell_elements == True
-    assert mesh.elements.has_point_elements == True
+    assert mesh.elements.has_beam_elements is False
+    assert mesh.elements.has_solid_elements is False
+    assert mesh.elements.has_shell_elements is True
+    assert mesh.elements.has_point_elements is True
 
     mesh.nodes.add_node(6, [0.0, 0.0, 0.0])
     mesh.nodes.add_node(7, [1.0, 0.0, 0.0])
     mesh.elements.add_beam_element(3, [5, 6])
-    assert mesh.elements.has_beam_elements == True
-    assert mesh.elements.has_solid_elements == False
-    assert mesh.elements.has_shell_elements == True
-    assert mesh.elements.has_point_elements == True
+    assert mesh.elements.has_beam_elements is True
+    assert mesh.elements.has_solid_elements is False
+    assert mesh.elements.has_shell_elements is True
+    assert mesh.elements.has_point_elements is True
 
     mesh.nodes.add_node(8, [0.0, 0.0, 0.0])
     mesh.nodes.add_node(9, [1.0, 0.0, 0.0])
     mesh.nodes.add_node(10, [1.0, 1.0, 0.0])
     mesh.nodes.add_node(11, [0.0, 1.0, 1.0])
     mesh.elements.add_solid_element(4, [7, 8, 9, 10])
-    assert mesh.elements.has_beam_elements == True
-    assert mesh.elements.has_solid_elements == True
-    assert mesh.elements.has_shell_elements == True
-    assert mesh.elements.has_point_elements == True
+    assert mesh.elements.has_beam_elements is True
+    assert mesh.elements.has_solid_elements is True
+    assert mesh.elements.has_shell_elements is True
+    assert mesh.elements.has_point_elements is True
 
 
-def test_mesh_deep_copy(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def test_mesh_deep_copy(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
     copy = mesh.deep_copy()
-    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
-    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
     assert np.allclose(
         copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
@@ -461,11 +454,11 @@ def test_mesh_deep_copy(allkindofcomplexity):
     )
 
 
-def test_mesh_deep_copy2(simple_bar_model):
+def test_mesh_deep_copy2(simple_bar_model, server_type):
     mesh = simple_bar_model.metadata.meshed_region
     copy = mesh.deep_copy()
-    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
-    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
     assert np.allclose(
         copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data

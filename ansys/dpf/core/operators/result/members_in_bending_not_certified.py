@@ -18,7 +18,7 @@ class members_in_bending_not_certified(Operator):
     ANSYS. ANSYS declines all responsibility for the use of this
     operator. HATS Beam and irregular beams (unequal I-Beam, not-
     square Channel-Beam, not-square Angle L-beam, unequal hollow
-    rectanglar beam) not supported.
+    rectangular beam) not supported.
 
     Parameters
     ----------
@@ -148,7 +148,7 @@ class members_in_bending_not_certified(Operator):
             not been certified by ANSYS. ANSYS declines all
             responsibility for the use of this operator. HATS Beam and
             irregular beams (unequal I-Beam, not-square Channel-Beam,
-            not-square Angle L-beam, unequal hollow rectanglar beam)
+            not-square Angle L-beam, unequal hollow rectangular beam)
             not supported."""
         spec = Specification(
             description=description,
@@ -258,7 +258,7 @@ class members_in_bending_not_certified(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(
             name="members_in_bending_not_certified", server=server

@@ -5,22 +5,26 @@ fields_factory
 Contains functions to simplify creating fields.
 """
 
-from ansys.dpf import core
 from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import Field
-from ansys.dpf.core.dimensionality import Dimensionality
-from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import field_capi, field_grpcapi
 
 import numpy as np
 
 
-def field_from_array(arr):
+def field_from_array(arr, server=None):
     """Create a DPF vector or scalar field from a numpy array or a Python list.
 
     Parameters
     ----------
     arr : np.ndarray or List
         Numpy array or Python list containing either 1 or 3 dimensions.
+
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
 
     Returns
     -------
@@ -54,7 +58,7 @@ def field_from_array(arr):
         raise shp_err
 
     n_entities = arr.shape[0]
-    field = Field(nentities=n_entities, nature=nature)
+    field = Field(nentities=n_entities, nature=nature, server=server)
     field.data = arr
     field.scoping.ids = np.arange(1, n_entities + 1)
     return field
@@ -275,14 +279,6 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     )
 
 
-def _connect(server):
-    """Connect to the gRPC instance."""
-    if server is None:
-        server = core._global_server()
-    stub = field_pb2_grpc.FieldServiceStub(server.channel)
-    return stub
-
-
 def _create_field(
     server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0
 ):
@@ -324,42 +320,10 @@ def _create_field(
     field : Field
         DPF field in the requested format.
     """
-    # ncomp_n is number of column components
-    # ncomp_m is number of line components
-    # connect to grpc
-    stub = _connect(server)
-    # set nature
-    if hasattr(nature, "name"):
-        snature = nature.name
-    else:
-        snature = nature
-
-    if snature == natures.vector.name:
-        elem_data_size = 3
-    elif snature == natures.symmatrix.name:
-        elem_data_size = 6
-    elif snature == natures.scalar.name:
-        elem_data_size = 1
-    elif snature == natures.matrix.name:
-        elem_data_size = ncomp_n * ncomp_m
-    else:
-        elem_data_size = ncomp_n
-    if ncomp_n != 0 and ncomp_m != 0:
-        dimensionality = Dimensionality([ncomp_n, ncomp_m], nature)
-    elif ncomp_n != 0 and ncomp_m == 0:
-        dimensionality = Dimensionality([ncomp_n], nature)
-    else:
-        dimensionality = None
-    # set request
-    request = field_pb2.FieldRequest()
-    nature = base_pb2.Nature.Value(snature.upper())
-    request.nature = nature
-    request.location.location = location
-    request.size.scoping_size = nentities
-    if dimensionality is not None:
-        request.dimensionality.CopyFrom(dimensionality._parse_dim_to_message())
-    request.size.data_size = nentities * elem_data_size
-    # get field
-    message = stub.Create(request)
-    field = Field(field=message, server=server)
+    if server is None:
+        server = server_module.get_or_create_server(server)
+    api = server.get_api_for_type(capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI)
+    api.init_field_environment(server)
+    internal_obj = Field._field_create_internal_obj(api=api, client=server.client,  nature=nature, nentities=nentities, location=location, ncomp_n=ncomp_n, ncomp_m=ncomp_m)
+    field = Field(field=internal_obj, server=server)
     return field

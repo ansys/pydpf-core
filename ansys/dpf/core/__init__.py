@@ -31,7 +31,13 @@ from ansys.dpf.core.server import (
 )
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.common import types, natures, locations, shell_layers
+from ansys.dpf.core.common import (
+    types,
+    natures,
+    locations,
+    shell_layers,
+    config_options
+    )
 from ansys.dpf.core import help
 from ansys.dpf.core.core import (
     BaseService,
@@ -42,6 +48,7 @@ from ansys.dpf.core.core import (
     upload_files_in_folder,
     download_files_in_folder,
     make_tmp_dir_server,
+    get_runtime_client_config,
 )
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
@@ -91,3 +98,4 @@ SERVER_CONFIGURATION = None
 _server_instances = []
 
 settings.set_default_pyvista_config()
+settings._forward_to_gate()

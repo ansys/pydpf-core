@@ -4,20 +4,26 @@ Collection
 Contains classes associated with the DPF collection.
 
 """
+import abc
+
 import numpy as np
-from typing import NamedTuple
 
 from ansys.dpf.core.server_types import BaseServer
-from ansys import dpf
-from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
-from ansys.dpf.core.core import base_pb2
-from ansys.dpf.core.common import types
-from ansys.dpf.core.scoping import Scoping, scoping_pb2
-from ansys.dpf.core.field import Field, field_pb2
-from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
+from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core import scoping
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.field import Field
+from ansys.dpf.gate import (
+    collection_capi,
+    collection_grpcapi,
+    label_space_capi,
+    label_space_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    object_handler,
+    dpf_vector,
+    dpf_array
+)
 
 
 class Collection:
@@ -41,33 +47,40 @@ class Collection:
 
     """
 
-    def __init__(self, dpf_type=None, collection=None,
-                 server: BaseServer =None):
-        if server is None:
-            server = dpf.core._global_server()
+    def __init__(self, collection=None,
+                 server: BaseServer = None):
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._server = server
-        self._stub = self._connect()
-        self._type = dpf_type
-        # self.__info = None  # cached info
-
-        if collection is None:
-            request = collection_pb2.CollectionRequest()
-            if hasattr(dpf_type, "name"):
-                stype = dpf_type.name
+        # step2: if object exists, take the instance, else create it
+        self._internal_obj = None
+        if collection is not None:
+            if isinstance(collection, Collection):
+                self._server = collection._server
+                core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
+                                                         grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(collection)
             else:
-                stype = dpf_type
-            request.type = base_pb2.Type.Value(stype.upper())
-            self._message = self._stub.Create(request)
-        elif hasattr(collection, "_message"):
-            self._message = collection._message
-            self._collection = collection  # keep the base collection used for copy
+                self._internal_obj = collection
+        self.owned = False
 
-        else:
-            self._message = collection
+    @property
+    def _server(self):
+        return self._server_instance
 
-        if self._type == None:
-            self._type = types(int(self._message.type) + 1)
+    @_server.setter
+    def _server(self, value):
+        self._server_instance = value
+        # step 2: get api
+        self._api = self._server.get_api_for_type(capi=collection_capi.CollectionCAPI,
+                                                  grpcapi=collection_grpcapi.CollectionGRPCAPI)
+        # step3: init environment
+        self._api.init_collection_environment(self)  # creates stub when gRPC
+
+    @abc.abstractmethod
+    def create_subtype(self, obj_by_copy):
+        pass
 
     @staticmethod
     def integral_collection(inpt, server: BaseServer = None):
@@ -84,7 +97,7 @@ class Collection:
 
         Returns
         -------
-        Collection
+        IntegralCollection
 
         Notes
         -----
@@ -93,12 +106,11 @@ class Collection:
 
         """
         if all(isinstance(x, int) for x in inpt):
-            dpf_type = types.int
-        elif all(isinstance(x, float) for x in inpt):
-            dpf_type = types.double
-        out = Collection(dpf_type=dpf_type, server=server)
-        out._set_integral_entries(inpt)
-        return out
+            return IntCollection(inpt, server=server)
+        if all(isinstance(x, float) for x in inpt):
+            return FloatCollection(inpt, server=server)
+        else:
+            raise NotImplementedError(f"{IntegralCollection.__class__.__name__} is only implemented for int and float values")
 
     def set_labels(self, labels):
         """Set labels for scoping the collection.
@@ -109,17 +121,16 @@ class Collection:
             Labels to scope entries to. For example, ``["time", "complex"]``.
 
         """
-        if len(self._info["labels"]) != 0:
+        current_labels = self.labels
+        if len(current_labels) != 0:
             print(
                 "The collection already has labels :",
-                self._info["labels"],
+                current_labels,
                 "deleting existing labels is not implemented yet.",
             )
             return
-        request = collection_pb2.UpdateLabelsRequest()
-        request.collection.CopyFrom(self._message)
-        request.labels.extend([collection_pb2.NewLabel(label=lab) for lab in labels])
-        self._stub.UpdateLabels(request)
+        for label in labels:
+            self.add_label(label)
 
     def add_label(self, label, default_value=None):
         """Add the requested label to scope the collection.
@@ -136,17 +147,14 @@ class Collection:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> coll = dpf.Collection(dpf.types.field)
+        >>> coll = dpf.FieldsContainer()
         >>> coll.add_label('time')
 
         """
-        request = collection_pb2.UpdateLabelsRequest()
-        request.collection.CopyFrom(self._message)
-        new_label = collection_pb2.NewLabel(label=label)
         if default_value is not None:
-            new_label.default_value.default_value = default_value
-        request.labels.extend([new_label])
-        self._stub.UpdateLabels(request)
+            self._api.collection_add_label_with_default_value(self, label, default_value)
+        else:
+            self._api.collection_add_label(self, label)
 
     def _get_labels(self):
         """Retrieve labels scoping the collection.
@@ -156,7 +164,11 @@ class Collection:
         labels: list[str]
             List of labels that entries are scoped to. For example, ``["time", "complex"]``.
         """
-        return self._info["labels"]
+        num = self._api.collection_get_num_labels(self)
+        out = []
+        for i in range(0, num):
+            out.append(self._api.collection_get_label(self, i))
+        return out
 
     labels = property(_get_labels, set_labels, "labels")
 
@@ -176,7 +188,7 @@ class Collection:
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> coll = dpf.Collection(dpf.types.field)
+        >>> coll = dpf.FieldsContainer()
         >>> coll.add_label('time')
         >>> coll.has_label('time')
         True
@@ -201,68 +213,16 @@ class Collection:
         entries : list[Scoping], list[Field], list[MeshedRegion]
             Entries corresponding to the request.
         """
-        entries = self._get_entries_tuple(label_space_or_index)
-        if isinstance(entries, list):
-            return [entry.entry for entry in entries]
-        return entries
-
-    def _get_entries_tuple(self, label_space_or_index):
-        """Retrieve the entries at a requested label space or index.
-
-        Parameters
-        ----------
-        label_space_or_index : dict[str,int]
-            Label space or index. For example,
-            ``{"time": 1, "complex": 0}`` or the index of the field.
-
-        Returns
-        -------
-        entries : list[_CollectionEntry]
-            Entries corresponding to the request.
-        """
-        request = collection_pb2.EntryRequest()
-        request.collection.CopyFrom(self._message)
-
         if isinstance(label_space_or_index, dict):
-            for key in label_space_or_index:
-                request.label_space.label_space[key] = label_space_or_index[key]
-        elif isinstance(label_space_or_index, int):
-            request.index = label_space_or_index
-
-        out = self._stub.GetEntries(request)
-        list_out = []
-        for obj in out.entries:
-            label_space = {}
-            if obj.HasField("label_space"):
-                for key in obj.label_space.label_space:
-                    label_space[key] = obj.label_space.label_space[key]
-            if obj.HasField("dpf_type"):
-                if self._type == types.scoping:
-                    unpacked_msg = scoping_pb2.Scoping()
-                    obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(
-                        _CollectionEntry(
-                            label_space=label_space,
-                            entry=Scoping(scoping=unpacked_msg, server=self._server)))
-                elif self._type == types.field:
-                    unpacked_msg = field_pb2.Field()
-                    obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(
-                        _CollectionEntry(
-                            label_space=label_space,
-                            entry=Field(field=unpacked_msg, server=self._server)))
-                elif self._type == types.meshed_region:
-                    unpacked_msg = meshed_region_pb2.MeshedRegion()
-                    obj.dpf_type.Unpack(unpacked_msg)
-                    list_out.append(
-                        _CollectionEntry(
-                            label_space=label_space,
-                            entry=MeshedRegion(mesh=unpacked_msg, server=self._server))
-                    )
-
-        if len(list_out) == 0:
-            list_out = None
-        return list_out
+            client_label_space = self._create_client_label_space(label_space_or_index)
+            num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
+            out = []
+            for i in range(0, num):
+                out.append(self.create_subtype(
+                    self._api.collection_get_obj_by_index_for_label_space(self, client_label_space, i)))
+            return out
+        else:
+            return self.create_subtype(self._api.collection_get_obj_by_index(self, label_space_or_index))
 
     def _get_entry(self, label_space_or_index):
         """Retrieve the entry at a requested label space or index.
@@ -282,6 +242,8 @@ class Collection:
         if isinstance(entries, list):
             if len(entries) == 1:
                 return entries[0]
+            elif len(entries) == 0:
+                return None
             else:
                 raise KeyError(f"{label_space_or_index} has {len(entries)} entries")
         else:
@@ -301,12 +263,10 @@ class Collection:
             Scoping of the requested entry. For example,
             ``{"time": 1, "complex": 0}``.
         """
-        entries = self._get_entries_tuple(index)
-        return entries[0].label_space
+        return self._create_dict_from_client_label_space(self._api.collection_get_obj_label_space_by_index(self, index))
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
-
 
         Parameters
         ----------
@@ -318,12 +278,7 @@ class Collection:
         ids : list[int]
             List of IDs assigned to the input label.
         """
-        ids = []
-        for i in range(len(self)):
-            current_scop = self.get_label_space(i)
-            if label in current_scop and current_scop[label] not in ids:
-                ids.append(current_scop[label])
-        return ids
+        return self.get_label_scoping(label)._get_ids(False)
 
     def get_label_scoping(self, label="time"):
         """Retrieve the scoping for an input label.
@@ -341,13 +296,9 @@ class Collection:
         Returns
         -------
         scoping: Scoping
-            IDs scopped to the input label.
+            IDs scoped to the input label.
         """
-        request = collection_pb2.LabelScopingRequest()
-        request.collection.CopyFrom(self._message)
-        request.label = label
-        scoping_message = self._stub.GetLabelScoping(request)
-        scoping = Scoping(scoping_message.label_scoping)
+        scoping = Scoping(self._api.collection_get_label_scoping(self, label), server=self._server)
         return scoping
 
     def __getitem__(self, index):
@@ -373,7 +324,34 @@ class Collection:
         if index >= self_len:
             raise IndexError(f"This collection contains only {self_len} entrie(s)")
 
-        return self._get_entries(index)[0]
+        return self._get_entries(index)
+
+    @property
+    def _label_space_api(self):
+        return self._server.get_api_for_type(capi=label_space_capi.LabelSpaceCAPI,
+                                             grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI)
+
+    @property
+    def _data_processing_core_api(self):
+        core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
+                                             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+        core_api.init_data_processing_environment(self)
+        return core_api
+
+    def _create_client_label_space(self, label_space):
+        client_label_space = object_handler.ObjHandler(self._data_processing_core_api, self._label_space_api.label_space_new_for_object(self))
+        for key, id in label_space.items():
+            self._label_space_api.label_space_add_data(client_label_space, key, id)
+        return client_label_space
+
+    def _create_dict_from_client_label_space(self, client_label_space):
+        if isinstance(client_label_space, dict):
+            return client_label_space
+        out = {}
+        client_label_space = object_handler.ObjHandler(self._data_processing_core_api, client_label_space)
+        for i in range(0, self._label_space_api.label_space_get_size(client_label_space)):
+            out[self._label_space_api.label_space_get_labels_name(client_label_space, i)] = self._label_space_api.label_space_get_labels_value(client_label_space, i)
+        return out
 
     def _add_entry(self, label_space, entry):
         """Update or add an entry at a requested label space.
@@ -385,12 +363,8 @@ class Collection:
         entry : Field or Scoping
             DPF entry to add.
         """
-        request = collection_pb2.UpdateRequest()
-        request.collection.CopyFrom(self._message)
-        request.entry.dpf_type.Pack(entry._message)
-        for key in label_space:
-            request.label_space.label_space[key] = label_space[key]
-        self._stub.UpdateEntry(request)
+        client_label_space = self._create_client_label_space(label_space)
+        self._api.collection_add_entry(self, client_label_space, entry)
 
     def _get_time_freq_support(self):
         """Retrieve time frequency support.
@@ -399,61 +373,12 @@ class Collection:
         -------
         time_freq_support : TimeFreqSupport
         """
-        request = collection_pb2.SupportRequest()
-        request.collection.CopyFrom(self._message)
-        request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
-        message = self._stub.GetSupport(request)
-        return TimeFreqSupport(time_freq_support=message)
+        return TimeFreqSupport(time_freq_support=self._api.collection_get_support(self, "time"))
 
     def _set_time_freq_support(self, time_freq_support):
         """Set the time frequency support of the collection."""
-        request = collection_pb2.UpdateSupportRequest()
-        request.collection.CopyFrom(self._message)
-        request.time_freq_support.CopyFrom(time_freq_support._message)
-        request.label = "time"
-        self._stub.UpdateSupport(request)
+        self._api.collection_set_support(self, "time", time_freq_support)
 
-    def _set_integral_entries(self, input):
-        if self._type == types.int:
-            dtype = np.int32
-        else:
-            dtype = np.float
-
-        if isinstance(input, range):
-            input = np.array(list(input), dtype=dtype)
-        elif not isinstance(input, (np.ndarray, np.generic)):
-            input = np.array(input, dtype=dtype)
-        else:
-            input = np.array(list(input), dtype=dtype)
-
-        metadata = [(u"size_bytes", f"{input.size * input.itemsize}")]
-        request = collection_pb2.UpdateAllDataRequest()
-        request.collection.CopyFrom(self._message)
-
-        self._stub.UpdateAllData(scoping._data_chunk_yielder(request, input), metadata=metadata)
-
-    def _get_integral_entries(self):
-        request = collection_pb2.GetAllDataRequest()
-        request.collection.CopyFrom(self._message)
-        if self._type == types.int:
-            data_type = u"int"
-            dtype = np.int32
-        else:
-            data_type = u"double"
-            dtype = np.float
-        service = self._stub.GetAllData(request, metadata=[(u"float_or_double", data_type)])
-        return scoping._data_get_chunk_(dtype, service)
-
-    def _connect(self):
-        """Connect to the gRPC service."""
-        return collection_pb2_grpc.CollectionServiceStub(self._server.channel)
-
-    @property
-    @protect_grpc
-    def _info(self):
-        """Length and labels of this container."""
-        list_stub = self._stub.List(self._message)
-        return {"len": list_stub.count_entries, "labels": list_stub.labels.labels}
 
     def __str__(self):
         """Describe the entity.
@@ -463,28 +388,163 @@ class Collection:
         description : str
             Description of the entity.
         """
-        request = base_pb2.DescribeRequest()
-        if isinstance(self._message.id, int):
-            request.dpf_type_id = self._message.id
-        else:
-            request.dpf_type_id = self._message.id.id
-        return self._stub.Describe(request).description
+        from ansys.dpf.core.core import _description
+        return _description(self._internal_obj, self._server)
 
     def __len__(self):
         """Retrieve the number of entries."""
-        return self._info["len"]
+        return self._api.collection_get_size(self)
 
     def __del__(self):
         """Delete the entry."""
         try:
-            self._stub.Delete(self._message)
+            # delete
+            if not self.owned:
+                self._data_processing_core_api.data_processing_delete_shared_object(self)
         except:
             pass
+
+    def _get_ownership(self):
+        self.owned = True
+        return self._internal_obj
 
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]
 
-class _CollectionEntry(NamedTuple):
-    label_space: dict
-    entry: object
+
+class IntegralCollection(Collection):
+    """Creates a collection of integral type with a list.
+
+    The collection of integral is the equivalent of an array of
+    data sent server side. It can be used to efficiently stream
+    large data to the server.
+
+    Parameters
+    ----------
+    list : list[float], list[int], numpy.array
+        list to transfer server side
+
+    Notes
+    -----
+    Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+    list is connected or returned.
+    """
+
+    def __init__(self, server=None, collection=None):
+        super().__init__(server=server, collection=collection)
+
+    @abc.abstractmethod
+    def create_subtype(self, obj_by_copy):
+        pass
+
+    @abc.abstractmethod
+    def _set_integral_entries(self, input):
+        pass
+
+    def get_integral_entries(self):
+        pass
+
+
+class IntCollection(Collection):
+    """Creates a collection of integers with a list.
+
+    The collection of integral is the equivalent of an array of
+    data sent server side. It can be used to efficiently stream
+    large data to the server.
+
+    Parameters
+    ----------
+    list : list[int], numpy.array
+        list to transfer server side
+
+    Notes
+    -----
+    Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+    list is connected or returned.
+    """
+
+    def __init__(self, list=None, server=None, collection=None):
+        super().__init__(server=server, collection=collection)
+        if self._internal_obj is None:
+            if self._server.has_client():
+                self._internal_obj = self._api.collection_of_int_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.collection_of_int_new()
+        if list is not None:
+            self._set_integral_entries(list)
+
+
+    def create_subtype(self, obj_by_copy):
+        return int(obj_by_copy)
+
+    def _set_integral_entries(self, input):
+        dtype = np.int32
+        if isinstance(input, range):
+            input = np.array(list(input), dtype=dtype)
+        elif not isinstance(input, (np.ndarray, np.generic)):
+            input = np.array(input, dtype=dtype)
+        else:
+            input = np.array(list(input), dtype=dtype)
+
+        self._api.collection_set_data_as_int(self, input, input.size)
+
+    def get_integral_entries(self):
+        try:
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            self._api.collection_get_data_as_int_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            return dpf_array.DPFArray(vec)
+        except NotImplementedError:
+            return self._api.collection_get_data_as_int(self, 0)
+
+
+class FloatCollection(Collection):
+    """Creates a collection of floats (double64) with a list.
+
+    The collection of integral is the equivalent of an array of
+    data sent server side. It can be used to efficiently stream
+    large data to the server.
+
+    Parameters
+    ----------
+    list : list[float], numpy.array
+        list to transfer server side
+
+    Notes
+    -----
+    Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+    list is connected or returned.
+    """
+
+    def __init__(self, list=None, server=None, collection=None):
+        super().__init__(server=server, collection=collection)
+        self._sub_type = float
+        if self._internal_obj is None:
+            if self._server.has_client():
+                self._internal_obj = self._api.collection_of_double_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.collection_of_double_new()
+        if list is not None:
+            self._set_integral_entries(list)
+
+    def create_subtype(self, obj_by_copy):
+        return float(obj_by_copy)
+
+    def _set_integral_entries(self, input):
+        dtype = np.float
+        if isinstance(input, range):
+            input = np.array(list(input), dtype=dtype)
+        elif not isinstance(input, (np.ndarray, np.generic)):
+            input = np.array(input, dtype=dtype)
+        else:
+            input = np.array(list(input), dtype=dtype)
+
+        self._api.collection_set_data_as_double(self, input, input.size)
+
+    def get_integral_entries(self):
+        try:
+            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            self._api.collection_get_data_as_double_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            return dpf_array.DPFArray(vec)
+        except NotImplementedError:
+            return self._api.collection_get_data_as_double(self, 0)

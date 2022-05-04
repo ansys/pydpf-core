@@ -262,9 +262,9 @@ class Result:
         """
         fc = self.__call__().outputs.fields_container()
         if self._specific_fc_type == "shape":
-            fc = ElShapeFieldsContainer(fields_container=fc, server=fc._server)
+            fc = ElShapeFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         elif self._specific_fc_type == "body":
-            fc = BodyFieldsContainer(fields_container=fc, server=fc._server)
+            fc = BodyFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         return fc
 
     @property

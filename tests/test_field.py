@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 from ansys import dpf
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
@@ -8,47 +9,63 @@ from ansys.dpf.core.common import locations, shell_layers
 
 
 @pytest.fixture()
-def stress_field(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def stress_field(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     stress = model.results.stress()
     return stress.outputs.fields_container()[0]
 
 
-def test_create_field():
-    field = dpf.core.Field()
-    assert field._message.id != 0
+def test_create_field(server_type):
+    field = dpf.core.Field(server=server_type)
+    assert field._internal_obj is not None
 
 
-def test_create_field_from_helper_scalar():
+def test_empty_field(server_type):
+    field = dpf.core.Field(server=server_type)
+    assert np.allclose(field.data, np.empty((0,), dtype=np.float))
+    field = dpf.core.PropertyField(server=server_type)
+    assert np.allclose(field.data, np.empty((0,), dtype=np.int32))
+
+
+def test_create_field_from_helper_scalar(server_type):
     data = np.random.random(10)
-    field_a = dpf.core.field_from_array(data)
+    field_a = dpf.core.field_from_array(data, server=server_type)
     assert np.allclose(field_a.data, data)
 
 
-def test_create_field_from_helper_vector():
+def test_create_field_from_helper_vector(server_type):
     data = np.random.random((10, 3))
-    field_a = dpf.core.field_from_array(data)
+    field_a = dpf.core.field_from_array(data, server=server_type)
     assert np.allclose(field_a.data, data)
 
 
-def test_createbycopy_field():
-    field = dpf.core.Field()
-    field2 = dpf.core.Field(field=field._message)
-    assert field._message.id == field2._message.id
+def test_set_get_data_from_list_of_list(server_type):
+    data = [[1., 2., 3.], [4., 5., 6.]]
+    field = dpf.core.Field(server=server_type)
+    field.data = data
+    assert np.allclose(field.data, data)
 
 
-def test_set_get_scoping():
-    field = dpf.core.Field()
-    scoping = dpf.core.Scoping()
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_createbycopy_field(server_type):
+    field = dpf.core.Field(server=server_type)
+    field2 = dpf.core.Field(field=field)
+    assert field._internal_obj != field2._internal_obj
+
+
+def test_set_get_scoping(server_type):
+    field = dpf.core.Field(server=server_type)
+    scoping = dpf.core.Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scoping.ids = ids
     field.scoping = scoping
-    assert field.scoping.ids == ids
+    assert np.allclose(field.scoping.ids, ids)
 
 
-def test_set_get_data_field():
-    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
-    scoping = dpf.core.Scoping()
+def test_set_get_data_field(server_type):
+    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar, server=server_type)
+    scoping = dpf.core.Scoping(server=server_type)
     ids = []
     data = []
     for i in range(0, 20):
@@ -60,9 +77,9 @@ def test_set_get_data_field():
     assert np.allclose(field.data, data)
 
 
-def test_set_get_data_array_field():
-    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.vector)
-    scoping = dpf.core.Scoping()
+def test_set_get_data_array_field(server_type):
+    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.vector, server=server_type)
+    scoping = dpf.core.Scoping(server=server_type)
     ids = []
     data = []
     for i in range(0, 20):
@@ -78,15 +95,15 @@ def test_set_get_data_array_field():
     assert np.allclose(field.data, data)
 
 
-def test_append_data_field():
-    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.vector)
+def test_append_data_field(server_type):
+    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.vector, server=server_type)
     for i in range(0, 20):
         scopingid = i + 1
         scopingindex = i
         data = [0.01 + i, 0.02 + i, 0.03 + i]
         field.append(data, scopingid)
     scopingOut = field.scoping
-    assert scopingOut.ids == list(range(1, 21))
+    assert np.allclose(scopingOut.ids, list(range(1, 21)))
     for i in range(0, 20):
         scopingid = i + 1
         scopingindex = i
@@ -95,8 +112,8 @@ def test_append_data_field():
         assert np.allclose(dataout, datain)
 
 
-def test_set_get_entity_data_array_field():
-    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.vector)
+def test_set_get_entity_data_array_field(server_type):
+    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.vector, server=server_type)
     for i in range(0, 20):
         scopingid = i + 1
         scopingindex = i
@@ -105,7 +122,7 @@ def test_set_get_entity_data_array_field():
         data = data.reshape((1, 3))
         field.append(data, scopingid)
     scopingOut = field.scoping
-    assert scopingOut.ids == list(range(1, 21))
+    assert np.allclose(scopingOut.ids, list(range(1, 21)))
     for i in range(0, 20):
         scopingid = i + 1
         scopingindex = i
@@ -131,9 +148,9 @@ def test_set_get_entity_data_array_field():
 #    assert dataptr == [0,3,9]
 
 
-def test_set_get_data_property_field():
-    field = core.Field(nentities=20, nature=dpf.core.natures.scalar)
-    scoping = core.Scoping()
+def test_set_get_data_property_field(server_type):
+    field = core.Field(nentities=20, nature=dpf.core.natures.scalar, server=server_type)
+    scoping = core.Scoping(server=server_type)
     ids = []
     data = []
     for i in range(0, 20):
@@ -145,9 +162,9 @@ def test_set_get_data_property_field():
     assert np.allclose(field.data, data)
 
 
-def test_count_field():
-    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar)
-    scoping = dpf.core.Scoping()
+def test_count_field(server_type):
+    field = dpf.core.Field(nentities=20, nature=dpf.core.natures.scalar, server=server_type)
+    scoping = dpf.core.Scoping(server=server_type)
     ids = []
     data = []
     for i in range(0, 20):
@@ -161,9 +178,9 @@ def test_count_field():
     assert field.size == 20
 
 
-def test_resize_field():
-    field = dpf.core.Field(nentities=1, nature=dpf.core.natures.scalar)
-    scoping = dpf.core.Scoping()
+def test_resize_field(server_type):
+    field = dpf.core.Field(nentities=1, nature=dpf.core.natures.scalar, server=server_type)
+    scoping = dpf.core.Scoping(server=server_type)
     ids = []
     data = []
     for i in range(0, 20):
@@ -178,9 +195,9 @@ def test_resize_field():
     assert field.size == 20
 
 
-def test_fromarray_field():
+def test_fromarray_field(server_type):
     data = np.empty((100, 6))
-    f = dpf.core.field_from_array(data)
+    f = dpf.core.field_from_array(data, server=server_type)
     assert f.shape == (100, 6)
 
 
@@ -334,8 +351,8 @@ def test_data_pointer_field(allkindofcomplexity):
     assert data_pointer[1] == 40
 
 
-def test_data_pointer_prop_field():
-    pfield = dpf.core.PropertyField()
+def test_data_pointer_prop_field(server_type):
+    pfield = dpf.core.PropertyField(server=server_type)
     pfield.append([1, 2, 3], 1)
     pfield.append([1, 2, 3, 4], 2)
     pfield.append([1, 2, 3], 3)
@@ -381,6 +398,25 @@ def test_str_field(stress_field):
     assert "6" in str(stress_field)
 
 
+def test_documentation_string_on_field(server_type):
+    field = core.Field(location=locations.elemental_nodal,
+                       nature=core.natures.symmatrix,
+                       server=server_type)
+    field.unit = "Pa"
+    vec_base = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
+    field.append(vec_base, 1)
+    field.append(vec_base, 2)
+    field.append(vec_base, 3)
+    to_check = str(field)
+    assert "Location" in to_check
+    assert "ElementalNodal" in to_check
+    assert "Unit" in to_check
+    assert "Pa" in to_check
+    assert "3" in to_check
+    assert "3 elementary data" in to_check
+    assert "6 components" in to_check
+
+
 def test_to_nodal(stress_field):
     assert stress_field.location == "ElementalNodal"
     field_out = stress_field.to_nodal()
@@ -420,21 +456,33 @@ def test_mesh_support_field_model(allkindofcomplexity):
     assert len(mesh.elements.scoping) == 10292
 
 
-def test_delete_auto_field():
-    field = dpf.core.Field()
-    field2 = dpf.core.Field(field=field)
-    del field
+def test_delete_auto_field(server_type):
+    field = dpf.core.Field(server=server_type)
+    field2 = dpf.core.Field(field=field, server=server_type)
+    field = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
         field2.get_ids()
 
 
-def test_create_and_update_field_definition():
-    fieldDef = FieldDefinition()
+def test_create_and_update_field_definition(server_type):
+    fieldDef = FieldDefinition(server=server_type)
     assert fieldDef is not None
     with pytest.raises(Exception):
         assert fieldDef.location is None
     fieldDef.location = locations.nodal
     assert fieldDef.location == locations.nodal
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
+def test_create_and_set_get_name_field_definition(server_type):
+    fieldDef = FieldDefinition(server=server_type)
+    assert fieldDef is not None
+
+    fieldDef.name = "my_field"
+    assert fieldDef.name == "my_field"
 
 
 def test_set_support_timefreq(simple_bar):
@@ -520,7 +568,7 @@ def test_local_elemental_nodal_field_append():
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i, 0.1 * i, 0.2 * i, 0.3 * i], i)
-        assert f._is_set == True
+        assert f._is_set is True
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
     assert len(field_to_local._data_pointer) == num_entities
@@ -778,8 +826,8 @@ def test_get_set_scoping_local_field():
     assert np.allclose(field_to_local.scoping.ids, [3, 4])
 
 
-def test_empty_data_field():
-    field_to_local = dpf.core.fields_factory.create_3d_vector_field(100)
+def test_empty_data_field(server_type):
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(100, server=server_type)
     data = [1.0, 2.0, 3.0]
     field_to_local.data = data
     assert np.allclose(field_to_local.data, data)
@@ -787,9 +835,22 @@ def test_empty_data_field():
     assert len(field_to_local.data) == 0
 
 
-def test_set_data_numpy_array_field():
-    field_to_local = dpf.core.fields_factory.create_3d_vector_field(100)
-    arr = np.arange(300).reshape(100, 3)
+def test_set_data_numpy_array_field(server_type):
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(100, server=server_type)
+    arr = np.arange(300, dtype=np.int32).reshape(100, 3)
+    field_to_local.data = arr
+    assert np.allclose(field_to_local.data, arr)
+    arr = np.arange(300, dtype=np.float64).reshape(100, 3)
+    field_to_local.data = arr
+    assert np.allclose(field_to_local.data, arr)
+
+
+def test_set_data_numpy_array_property_field(server_type):
+    field_to_local = dpf.core.PropertyField(server=server_type)
+    arr = np.arange(300, dtype=np.int32)
+    field_to_local.data = arr
+    assert np.allclose(field_to_local.data, arr)
+    arr = np.arange(300, dtype=np.float64)
     field_to_local.data = arr
     assert np.allclose(field_to_local.data, arr)
 
@@ -858,8 +919,8 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
 
     mesh = field.meshed_region
     copy = copy.meshed_region
-    assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
-    assert copy.elements.scoping.ids == mesh.elements.scoping.ids
+    assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
+    assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
     assert np.allclose(
         copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
@@ -919,7 +980,7 @@ def test_add_operator_field():
     add = field + forward
     assert isinstance(add, ops.math.add)
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array(field.data) * 2.0)
 
     # field + list
@@ -927,7 +988,7 @@ def test_add_operator_field():
     assert isinstance(add, ops.math.add)
     out = add.outputs.field()
     assert len(out) == 6
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(
         out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
     )
@@ -936,7 +997,7 @@ def test_add_operator_field():
     add = field + 1.0
     assert isinstance(add, ops.math.add)
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
@@ -951,21 +1012,21 @@ def test_minus_operator_field():
     assert type(add) == ops.math.minus
     out = add.outputs.field()
     assert len(out) == 6
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.zeros((2, 3)))
 
     # fc - list
     add = field - [0.0, 1.0, 2.0]
     assert type(add) == ops.math.minus
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
 
     # operator - float
     add = field - 1.0
     assert type(add) == ops.math.minus
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
@@ -979,30 +1040,26 @@ def test_dot_operator_field():
     add = field * forward
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([5.0, 50.0]))
 
     # field * field
     add = field * field
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([5.0, 50.0]))
 
     # field * list
     add = field * [0.0, 1.0, 2.0]
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, np.array([5.0, 14.0]))
 
     # field * float
     add = field * -1.0
     assert type(add) == ops.math.generalized_inner_product
     out = add.outputs.field()
-    assert out.scoping.ids == [1, 2]
+    assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, -field.data)
-
-
-if __name__ == "__main__":
-    test_get_set_data_local_field()

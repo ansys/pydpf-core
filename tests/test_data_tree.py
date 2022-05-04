@@ -1,9 +1,7 @@
 from ansys.dpf import core as dpf
 import os
 import pytest
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf._global_server()), "4.0")
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
@@ -203,3 +201,19 @@ def test_sub_data_tree():
     data_tree.sub2 = data_tree2
     assert data_tree.get_as("sub", dpf.types.data_tree).has("int")
     assert data_tree.get_as("sub2", dpf.types.data_tree).has("int")
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
+                    reason='Requires server version higher than 4.0')
+def test_runtime_client_config(server_clayer_remote_process):
+    client_config = dpf.get_runtime_client_config(server=server_clayer_remote_process)
+    use_cache_init = client_config.cache_enabled
+    client_config.cache_enabled = False
+    use_cache_set = client_config.cache_enabled
+    assert use_cache_set is False
+    client_config.cache_enabled = True
+    use_cache_end = client_config.cache_enabled
+    assert use_cache_end is True
+    client_config.cache_enabled = use_cache_init
+    use_cache_set_end = client_config.cache_enabled
+    assert use_cache_set_end is use_cache_init

@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from ansys import dpf
+from conftest import SERVER_VERSION_HIGHER_THAN_3_0
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import meets_version, get_server_version
@@ -15,27 +16,29 @@ SERVER_VERSION_HIGHER_THAN_2_0 = meets_version(get_server_version(serv), "2.1")
 
 def test_create_scoping():
     scop = Scoping()
-    assert scop._message.id
+    assert scop._internal_obj
 
 
-def test_createbycopy_scoping():
-    scop = Scoping()
-    scop2 = Scoping(scoping=scop._message)
-    assert scop._message.id == scop2._message.id
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_createbycopy_scoping(server_type):
+    scop = Scoping(server=server_type)
+    scop2 = Scoping(scoping=scop, server=server_type)
+    assert scop._internal_obj != scop2._internal_obj
 
 
-def test_create_scoping_with_ids_location():
-    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental)
-    assert scop._message.id
-    assert scop.ids == [1, 2, 3, 5, 8, 9, 10]
+def test_create_scoping_with_ids_location(server_type):
+    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental, server=server_type)
+    assert scop._internal_obj
+    assert np.allclose(scop.ids, [1, 2, 3, 5, 8, 9, 10])
     assert scop.location == dpf.core.locations.elemental
 
 
-def test_set_get_ids_scoping():
-    scop = Scoping()
+def test_set_get_ids_scoping(server_type):
+    scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
-    assert scop.ids == ids
+    assert np.allclose(scop.ids, ids)
 
 
 @pytest.mark.skipif(
@@ -46,6 +49,7 @@ def test_set_get_ids_long_scoping():
     ids = range(1, 1000000)
     scop.ids = ids
     assert np.allclose(scop.ids, ids)
+    assert len(scop) == len(ids)
 
 
 def test_get_location_scoping():
@@ -57,11 +61,11 @@ def test_get_location_scoping():
     assert scop._get_location() == "Nodal"
 
 
-def test_get_location_property_scoping():
-    scop = Scoping()
+def test_get_location_property_scoping(server_type):
+    scop = Scoping(server=server_type)
     scop.location = "Nodal"
     assert scop.location == "Nodal"
-    scop = Scoping()
+    scop = Scoping(server=server_type)
     scop.location = dpf.core.locations.nodal
     assert scop.location == "Nodal"
 
@@ -73,8 +77,8 @@ def test_count_scoping():
     assert scop._count() == len(ids)
 
 
-def test_set_get_entity_data_scoping():
-    scop = Scoping()
+def test_set_get_entity_data_scoping(server_type):
+    scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
     scop.set_id(0, 11)
@@ -91,28 +95,38 @@ def test_print_scoping():
     scop.ids = ids
     print(scop)
 
+def test_documentation_string_on_scoping(server_type):
+    scop = Scoping(server=server_type)
+    ids = [1, 2, 3, 5, 8, 9, 10]
+    scop.ids = ids
+    scop.location = "blabla"
+    to_check = str(scop)
+    assert "location" in to_check
+    assert "blabla" in to_check
+    assert "7 entities" in to_check
 
-def test_iter_scoping():
-    scop = Scoping()
+def test_iter_scoping(server_type):
+    scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
     for i, id in enumerate(scop):
         assert id == ids[i]
 
 
-def test_delete_scoping():
-    scop = Scoping()
-    scop.__del__()
+def test_delete_scoping(server_type):
+    scop = Scoping(server=server_type)
+    del scop
     with pytest.raises(Exception):
         scop.ids
 
 
-def test_delete_auto_scoping():
-    scop = Scoping()
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_delete_auto_scoping(server_type):
+    scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop)
-    scop.__del__()
-    with pytest.raises(Exception):
-        scop2.ids
+    del scop
+    assert np.allclose(scop2.ids, [])
 
 
 @pytest.mark.skipif(
@@ -203,7 +217,7 @@ def test_as_local_scoping():
             assert loc.index(i + 1) == i
         assert hasattr(loc, "_is_set") is True
         assert loc._is_set is True
-    assert scop.ids == list(range(1, 101))
+    assert np.allclose(scop.ids, list(range(1, 101)))
     assert scop.location == "Nodal"
     with scop.as_local_scoping() as loc:
         assert loc.location == "Nodal"
@@ -223,7 +237,7 @@ def test_as_local_scoping2():
             assert loc.index(i + 1) == i
         assert hasattr(loc, "_is_set") is True
         assert loc._is_set is True
-    assert scop.ids == list(range(1, 101))
+    assert np.allclose(scop.ids, list(range(1, 101)))
     assert scop.location == "Nodal"
     with scop.as_local_scoping() as loc:
         assert loc.location == "Nodal"

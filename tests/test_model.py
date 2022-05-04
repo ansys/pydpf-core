@@ -6,9 +6,8 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import misc
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
-SERVER_VERSION_HIGHER_THAN_4_0 = meets_version(get_server_version(dpf.core._global_server()), "4.0")
 
 NO_PLOTTING = True
 
