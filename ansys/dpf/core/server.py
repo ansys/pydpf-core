@@ -366,7 +366,7 @@ class DpfServer:
             if ip is not None or port is not None:
                 raise ValueError("Cannot select the ip and port when providing a channel")
 
-        if channel is None:
+        else:
             ip = ip or LOCALHOST
             port = port or DPF_DEFAULT_PORT
 
