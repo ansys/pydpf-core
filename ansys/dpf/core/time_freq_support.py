@@ -311,9 +311,15 @@ class TimeFreqSupport:
     def _get_cumulative_index(self, step, substep, freq, cplx):
         """Retrieve the cumulative index corresponding to the requested step/substep
         or frequency."""
+        if freq is None:
+            if cplx is False:
+                return self._api.time_freq_support_get_time_freq_cummulative_index_by_step(self,
+                                                                                           step,
+                                                                                           substep)
+            else:
+                raise NotImplementedError("get_cumulative_index is not implemented for cplx=False")
         return self._api.time_freq_support_get_time_freq_cummulative_index_by_value_and_load_step(
-            self, step, substep, freq, cplx
-        )
+            self, step, substep, freq, cplx)
 
     def _sets_count(self):
         """
