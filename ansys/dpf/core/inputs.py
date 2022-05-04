@@ -87,7 +87,7 @@ class Input:
 
         if len(corresponding_pins) == 0:
             err_str = (
-                f"The input operator for the {self._spec.name} pin be "
+                f"The input operator for the {self._spec.name} pin must be "
                 "one of the following types:\n"
             )
             err_str += "\n".join(
