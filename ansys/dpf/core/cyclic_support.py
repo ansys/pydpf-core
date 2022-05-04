@@ -224,6 +224,9 @@ class CyclicSupport:
         [1, 3596, 5816, 8036, 10256, 12476]
 
         """
+        if sectors is None:
+            num_sectors = self._api.cyclic_support_get_num_sectors(self, stage_num)
+            sectors = list(range(num_sectors))
         if isinstance(sectors, list):
             sectors = Scoping(ids=sectors, location="sectors", server=self._server)
         expanded_ids = self._api.cyclic_support_get_expanded_node_ids(self, node_id,
@@ -259,6 +262,9 @@ class CyclicSupport:
         [1, 1558, 2533, 3508, 4483, 5458]
 
         """
+        if sectors is None:
+            num_sectors = self._api.cyclic_support_get_num_sectors(self, stage_num)
+            sectors = list(range(num_sectors))
         if isinstance(sectors, list):
             sectors = Scoping(ids=sectors, location="sectors", server=self._server)
         expanded_ids = self._api.cyclic_support_get_expanded_element_ids(self, element_id,
