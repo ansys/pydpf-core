@@ -6,11 +6,13 @@ Contains utilities enabling to implement and record custom python operators.
 
 import abc
 import ctypes
+import numpy
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import settings, server, server_factory, operator_specification
-from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, _type_to_output_method, _type_to_input_method
-from ansys.dpf.gate import object_handler, capi
+from ansys.dpf.core import settings, server, server_factory, operator_specification, dpf_operator, collection
+from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, \
+    _type_to_output_method, _type_to_input_method
+from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
 def record_operator(operator_type, *args) -> None:
@@ -40,12 +42,10 @@ def record_operator(operator_type, *args) -> None:
             ctypes.c_void_p(*args[0]), ctypes.c_void_p(*args[1]))
     else:
         external_operator_api.external_operator_record_with_abstract_core(operator._call_back(),
-                                                                                                __operator_main__,
-                                                                                                operator.name,
-                                                                                                operator._internal_specification,
-                                                                                                ctypes.c_void_p(*args))
-
-
+                                                                          __operator_main__,
+                                                                          operator.name,
+                                                                          operator._internal_specification,
+                                                                          ctypes.c_void_p(*args))
 
 
 class CustomOperatorBase:
@@ -85,6 +85,7 @@ class CustomOperatorBase:
     ...     record_operator(AddFloatToFieldData, *args)
 
     """
+
     def set_output(self, index: int, data) -> None:
         """
         Add an output to this Operator at the given index.
@@ -102,7 +103,10 @@ class CustomOperatorBase:
         for type_tuple in _type_to_output_method:
             if isinstance(data, type_tuple[0]):
                 return type_tuple[1](self._operator_data, index, data)
-        raise TypeError(f"unable to set output of type type(data).__name__")
+        if isinstance(data, (list, numpy.ndarray)):
+            data = collection.Collection.integral_collection(data, dpf.SERVER)
+            return external_operator_api.external_operator_put_out_collection_as_vector(self._operator_data, index, data)
+        raise TypeError(f"unable to set output of type {type(data).__name__}")
         # TO DO: handle lists
 
     def get_input(self, index, type: type):
@@ -115,19 +119,25 @@ class CustomOperatorBase:
         index : int
             Index of the input.
 
-        type : type
+        type : type, :class:`ansys.dpf.core.common.types`
             Expected type of the data.
 
         Returns
         -------
         data: type
         """
+        type = dpf_operator._write_output_type_to_type(type)
         for type_tuple in _type_to_input_method:
             if type is type_tuple[0]:
                 if len(type_tuple) >= 3:
                     parameters = {type_tuple[2]: type_tuple[1](self._operator_data, index)}
                     return type(**parameters)
                 return type(type_tuple[1](self._operator_data, index))
+        if type == dpf_vector.DPFVectorInt:
+            size = integral_types.MutableInt32(0)
+            out = external_operator_api.external_operator_get_in_vec_int(self._operator_data, index, size)
+            return numpy.ctypeslib.as_array(out, shape=(int(size),))
+        raise TypeError(f"{type} is not a supported operator input")
 
     def set_failed(self) -> None:
         """

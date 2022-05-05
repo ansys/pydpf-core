@@ -84,7 +84,7 @@ class DataTree:
         Parameters
         ----------
         args : dict[string:object], optional
-        kwargs : int, double, string, list[int], list[double], list[str], DataTree
+        kwargs : int, float, string, list[int], list[double], list[str], DataTree
             Attributes names and their values to add.
 
         Examples
@@ -421,7 +421,7 @@ class _LocalDataTree(DataTree):
 
         Parameters
         ----------
-        kwargs: int, double, string, list[int], list[double], list[str], DataTree
+        kwargs: int, float, string, list[int], list[double], list[str], DataTree
             Data to add.
         """
 
