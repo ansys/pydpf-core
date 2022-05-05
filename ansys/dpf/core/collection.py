@@ -105,12 +105,14 @@ class Collection:
         list is connected or returned.
 
         """
-        if all(isinstance(x, int) for x in inpt):
+        if isinstance(inpt, np.ndarray):
+            inpt = inpt.flatten()
+        if all(isinstance(x, (int, np.int32)) for x in inpt):
             return IntCollection(inpt, server=server)
-        if all(isinstance(x, float) for x in inpt):
+        if all(isinstance(x, (float, np.float)) for x in inpt):
             return FloatCollection(inpt, server=server)
         else:
-            raise NotImplementedError(f"{IntegralCollection.__class__.__name__} is only implemented for int and float values")
+            raise NotImplementedError(f"{IntegralCollection.__name__} is only implemented for int and float values and not {type(inpt[0]).__name__}")
 
     def set_labels(self, labels):
         """Set labels for scoping the collection.

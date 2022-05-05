@@ -37,6 +37,18 @@ def test_integral_types(load_all_types_plugin):
     assert op.get_output(0, dpf.types.string) == "hello"
 
 
+def test_lists(load_all_types_plugin):
+    op = dpf.Operator("custom_forward_vec_int")
+    op.connect(0, [1, 2, 3])
+    assert np.allclose(op.get_output(0, dpf.types.vec_int), [1, 2, 3])
+    op = dpf.Operator("custom_set_out_vec_double")
+    assert np.allclose(op.get_output(0, dpf.types.vec_double), [1., 2., 3.])
+    op = dpf.Operator("custom_set_out_np_int")
+    assert np.allclose(op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int))
+    op = dpf.Operator("custom_set_out_np_double")
+    assert np.allclose(op.get_output(0, dpf.types.vec_double), np.ones((200)))
+
+
 def test_field(load_all_types_plugin):
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental")
     f.data = np.ones((3, 3), dtype=np.float)
