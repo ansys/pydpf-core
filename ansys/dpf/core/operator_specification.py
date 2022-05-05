@@ -9,7 +9,7 @@ The OperatorSpecification Provides a documentation for each Operator
 import abc
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import operator_specification_capi, operator_specification_grpcapi, integral_types
-from ansys.dpf.core import mapping_types
+from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
 
 
@@ -20,7 +20,7 @@ class PinSpecification:
     ----------
     name : str
         Name of the Pin.
-    type_names : list[str], list[type]
+    type_names : list[str], list[type], list[ansys.dpf.core.types], ansys.dpf.core.types, type, str
         List of accepted types.
     document : str, optional
         Explains what the pin is used for and what should be connect to it.
@@ -75,9 +75,15 @@ class PinSpecification:
         elif isinstance(val, type):
             self._type_names = [mapping_types.map_types_to_cpp[val.__name__]]
             return
+        elif isinstance(val, common.types):
+            self._type_names = [mapping_types.map_types_to_cpp[common.types_enum_to_types()[val].__name__]]
+            return
         elif isinstance(val, list):
             if len(val) > 0 and isinstance(val[0], type):
                 self._type_names = [mapping_types.map_types_to_cpp[ival.__name__] for ival in val]
+                return
+            if len(val) > 0 and isinstance(val[0], common.types):
+                self._type_names = [mapping_types.map_types_to_cpp[common.types_enum_to_types()[ival].__name__] for ival in val]
                 return
         self._type_names = val
 
@@ -446,8 +452,11 @@ class CustomSpecification(Specification):
     ...         return "custom_add_to_field"
     """
 
-    def __init__(self, server=None):
+    def __init__(self, description=None, server=None):
         super().__init__(server=server)
+        if description is not None:
+            self.description = description
+
 
     @property
     @version_requires("4.0")
