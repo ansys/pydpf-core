@@ -381,13 +381,14 @@ class BaseService:
 
         # TODO: fix code generation upload posix
         import os
-        def __generate_code(TARGET_PATH, filename):
+        def __generate_code(TARGET_PATH, filename, name, symbol):
             from ansys.dpf.core.dpf_operator import Operator
             try:
                 code_gen = Operator("python_generator")
                 code_gen.connect(1, TARGET_PATH)
                 code_gen.connect(0, filename)
-                code_gen.connect(2, False)
+                code_gen.connect(2, symbol)
+                code_gen.connect(3, name)
                 code_gen.run()
             except Exception as e:
                 warnings.warn("Unable to generate the python code with error: " + str(e.args))
@@ -401,7 +402,7 @@ class BaseService:
                 self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
     
                 # generate code
-                __generate_code(TARGET_PATH, filename)
+                __generate_code(TARGET_PATH, filename, name, symbol)
     
                 try:
                     self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
