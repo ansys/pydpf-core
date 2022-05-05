@@ -1,4 +1,5 @@
 from ansys.dpf.core.custom_operator import CustomOperatorBase
+from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, SpecificationProperties
 from ansys.dpf.core import types
 
 
