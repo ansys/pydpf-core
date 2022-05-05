@@ -1,6 +1,5 @@
-from ansys.dpf.gate import capi, external_operator_capi
+from ansys.dpf.gate import capi, external_operator_capi, dpf_vector
 from enum import Enum
-from numpy import ndarray
 from ansys.dpf.core import (
     field, property_field, scoping, collection, data_sources, meshed_region, time_freq_support, \
     workflow, data_tree, dpf_operator, fields_container, scopings_container, \
@@ -33,9 +32,7 @@ _type_to_output_method = [
     (data_tree.DataTree, external_operator_api.external_operator_put_out_data_tree),
     (dpf_operator.Operator, external_operator_api.external_operator_put_out_operator),
 ]
-_list_to_output_method = [
-    ((list, ndarray), int, external_operator_api.external_operator_put_out_vecint)
-]
+
 _type_to_input_method = [
     (bool, external_operator_api.external_operator_get_in_bool),
     (int, external_operator_api.external_operator_get_in_int),

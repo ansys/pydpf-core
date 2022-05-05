@@ -64,3 +64,65 @@ class ForwardStringOperator(CustomOperatorBase):
     @property
     def name(self):
         return "custom_forward_str"
+
+
+class ForwardVecIntOperator(CustomOperatorBase):
+    def run(self):
+        input = self.get_input(0, types.vec_int)
+        self.set_output(0, input)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_vec_int"
+
+
+class SetOutVecDoubleOperator(CustomOperatorBase):
+    def run(self):
+        out = [1., 2., 3.]
+        self.set_output(0, out)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_set_out_vec_double"
+
+
+class SetOutNpArrayIntOperator(CustomOperatorBase):
+    def run(self):
+        import numpy
+        out = numpy.ones((100,2), dtype=numpy.int)
+        self.set_output(0, out)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_set_out_np_int"
+
+
+class SetOutNpArrayDoubleOperator(CustomOperatorBase):
+    def run(self):
+        import numpy
+        out = numpy.ones((100,2))
+        self.set_output(0, out)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_set_out_np_double"

@@ -6,6 +6,11 @@ def load_operators(*args):
     record_operator(integral_types_op.ForwardIntOperator, *args)
     record_operator(integral_types_op.ForwardFloatOperator, *args)
     record_operator(integral_types_op.ForwardStringOperator, *args)
+    record_operator(integral_types_op.ForwardVecIntOperator, *args)
+    record_operator(integral_types_op.SetOutVecDoubleOperator, *args)
+    record_operator(integral_types_op.SetOutNpArrayIntOperator, *args)
+    record_operator(integral_types_op.SetOutNpArrayDoubleOperator, *args)
+
     record_operator(dpf_types_op.ForwardFieldOperator, *args)
     record_operator(dpf_types_op.ForwardDataSourcesOperator, *args)
     record_operator(dpf_types_op.ForwardPropertyFieldOperator, *args)
