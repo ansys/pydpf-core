@@ -536,19 +536,8 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
-        from ansys.dpf.gate import support_capi, support_grpcapi, object_handler, \
-            data_processing_capi, data_processing_grpcapi
-        data_api = self._server.get_api_for_type(
-            capi=data_processing_capi.DataProcessingCAPI,
-            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-        support = object_handler.ObjHandler(data_processing_api=data_api,
-                                            internal_obj=self._api.csfield_get_support(self),
-                                            server=self._server)
-        support_api = self._server.get_api_for_type(capi=support_capi.SupportCAPI,
-                                                    grpcapi=support_grpcapi.SupportGRPCAPI)
-        meshed_support = support_api.support_get_as_meshed_support(support)
         return meshed_region.MeshedRegion(
-            mesh=meshed_support,
+            mesh=self._api.csfield_get_support_as_meshed_region(self),
             server=self._server
         )
 

@@ -5,6 +5,7 @@ import weakref
 
 import numpy as np
 import pytest
+import copy
 
 from ansys import dpf
 from ansys.dpf.core import errors
@@ -793,7 +794,7 @@ def test_operator_several_output_types(plate_msup):
     )
 
     model = dpf.core.Model(plate_msup)
-    din = model.metadata.meshed_region.nodes.coordinates_field.data
+    din = copy.deepcopy(model.metadata.meshed_region.nodes.coordinates_field.data)
 
     assert model.metadata.meshed_region.nodes.coordinates_field.unit == "m"
 
@@ -1094,10 +1095,10 @@ def test_list_operators(server_type_legacy_grpc):
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_get_static_spec_operator():
-    l = dpf.core.dpf_operator.available_operator_names()
+def test_get_static_spec_operator(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name)
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0

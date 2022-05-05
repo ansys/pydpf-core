@@ -362,7 +362,6 @@ class BaseServer(abc.ABC):
         """Return true, if the servers are not equal"""
         return not self.__eq__(other_server)
 
-    @abc.abstractmethod
     def __del__(self):
         try:
             if id(core.SERVER) == id(self):
@@ -394,6 +393,7 @@ class CServer(BaseServer, ABC):
         path = _get_dll_path(name, ansys_path)
         capi.load_api(path)
         self._own_process = False
+        self.ansys_path = ansys_path
 
     @property
     def available_api_types(self):
@@ -448,7 +448,6 @@ class GrpcServer(CServer):
         self._input_ip = ip
         self._input_port = port
         self.live = True
-        self.ansys_path = ansys_path
         self._own_process = launch_server
 
     @property
