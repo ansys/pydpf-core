@@ -4,12 +4,10 @@ Core
 """
 import os
 import logging
-import time
 import warnings
 import weakref
 
-import grpc
-
+from ansys.dpf.core import errors
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig
@@ -381,13 +379,14 @@ class BaseService:
 
         # TODO: fix code generation upload posix
         import os
-        def __generate_code(TARGET_PATH, filename):
+        def __generate_code(TARGET_PATH, filename, name, symbol):
             from ansys.dpf.core.dpf_operator import Operator
             try:
                 code_gen = Operator("python_generator")
                 code_gen.connect(1, TARGET_PATH)
                 code_gen.connect(0, filename)
-                code_gen.connect(2, False)
+                code_gen.connect(2, symbol)
+                code_gen.connect(3, name)
                 code_gen.run()
             except Exception as e:
                 warnings.warn("Unable to generate the python code with error: " + str(e.args))
@@ -401,14 +400,14 @@ class BaseService:
                 self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
     
                 # generate code
-                __generate_code(TARGET_PATH, filename)
+                __generate_code(TARGET_PATH, filename, name, symbol)
     
                 try:
                     self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
                 except Exception as e:
                     warnings.warn("Unable to download the python generated code with error: " + str(e.args))
         else:
-            __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename)
+            __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
 
     def get_runtime_client_config(self):
         config_to_return = None
@@ -657,7 +656,7 @@ class BaseService:
                 txt = """
                 download service only available for server with gRPC communication protocol
                 """
-                raise ValueError(txt)
+                raise errors.ServerTypeError(txt)
             server_path = self._api.data_processing_upload_file(client=self._server().client,
                                                      file_path=f,
                                                      to_server_file_path=to_server_file_path,
@@ -687,7 +686,7 @@ class BaseService:
             txt = """
             download service only available for server with gRPC communication protocol
             """
-            raise ValueError(txt)
+            raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
                                                      file_path=file_path,
                                                      to_server_file_path=to_server_file_path,
@@ -721,7 +720,7 @@ class BaseService:
             txt = """
             download service only available for server with gRPC communication protocol
             """
-            raise ValueError(txt)
+            raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
                                                      file_path=file_path,
                                                      to_server_file_path=file_name,

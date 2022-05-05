@@ -485,16 +485,16 @@ def test_create_and_set_get_name_field_definition(server_type):
     assert fieldDef.name == "my_field"
 
 
-def test_set_support_timefreq(simple_bar):
-    tfq = dpf.core.TimeFreqSupport()
+def test_set_support_timefreq(simple_bar, server_type):
+    tfq = dpf.core.TimeFreqSupport(server=server_type)
     time_frequencies = dpf.core.Field(
-        nature=dpf.core.natures.scalar, location=dpf.core.locations.time_freq
+        nature=dpf.core.natures.scalar, location=dpf.core.locations.time_freq, server=server_type
     )
     time_frequencies.scoping.location = dpf.core.locations.time_freq_step
     time_frequencies.append([0.1, 0.32, 0.4], 1)
     tfq.time_frequencies = time_frequencies
 
-    model = dpf.core.Model(simple_bar)
+    model = dpf.core.Model(simple_bar, server=server_type)
     disp = model.results.displacement()
     fc = disp.outputs.fields_container()
     field = fc[0]

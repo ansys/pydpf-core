@@ -86,9 +86,7 @@ class InvalidPortError(OSError):
 
 class ServerTypeError(NotImplementedError):
     """Error raised when using a functionality unavailable for this server type"""
-
-    def __init__(self, msg=""):
-        NotImplementedError.__init__(self, msg)
+    pass
 
 
 def protect_source_op_not_found(func):
