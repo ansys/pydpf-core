@@ -10,6 +10,7 @@ import weakref
 
 import grpc
 
+import errors
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig
@@ -409,7 +410,7 @@ class BaseService:
                 except Exception as e:
                     warnings.warn("Unable to download the python generated code with error: " + str(e.args))
         else:
-            __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename)
+            __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
 
     def get_runtime_client_config(self):
         config_to_return = None
@@ -658,7 +659,7 @@ class BaseService:
                 txt = """
                 download service only available for server with gRPC communication protocol
                 """
-                raise ValueError(txt)
+                raise errors.ServerTypeError(txt)
             server_path = self._api.data_processing_upload_file(client=self._server().client,
                                                      file_path=f,
                                                      to_server_file_path=to_server_file_path,
@@ -688,7 +689,7 @@ class BaseService:
             txt = """
             download service only available for server with gRPC communication protocol
             """
-            raise ValueError(txt)
+            raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
                                                      file_path=file_path,
                                                      to_server_file_path=to_server_file_path,
@@ -722,7 +723,7 @@ class BaseService:
             txt = """
             download service only available for server with gRPC communication protocol
             """
-            raise ValueError(txt)
+            raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
                                                      file_path=file_path,
                                                      to_server_file_path=file_name,

@@ -6,38 +6,31 @@ from ansys.dpf.core import examples
 
 
 @pytest.fixture()
-def static_models(local_server):
-    otherfile = dpf.upload_file_in_tmp_folder(examples.static_rst, server=local_server)
-    return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst)),
-            dpf.Model(otherfile, server=local_server))
+def static_models(local_server, server_type_remote_process):
+    return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst, server=server_type_remote_process), server=server_type_remote_process),
+            dpf.Model(examples.static_rst, server=local_server))
 
 
 @pytest.fixture()
-def transient_models(local_server):
-    otherfile = dpf.upload_file_in_tmp_folder(
-        examples.msup_transient, server=local_server
-    )
+def transient_models(local_server, server_type_remote_process):
     return (
-        dpf.Model(dpf.upload_file_in_tmp_folder(examples.msup_transient)),
-        dpf.Model(otherfile, server=local_server),
+        dpf.Model(dpf.upload_file_in_tmp_folder(examples.msup_transient, server=server_type_remote_process), server=server_type_remote_process),
+        dpf.Model(examples.msup_transient, server=local_server),
     )
 
 
 @pytest.fixture()
-def cyc_models(local_server):
-    otherfile = dpf.upload_file_in_tmp_folder(
-        examples.simple_cyclic, server=local_server
-    )
+def cyc_models(local_server, server_type_remote_process):
     return (
-        dpf.Model(dpf.upload_file_in_tmp_folder(examples.simple_cyclic)),
-        dpf.Model(otherfile, server=local_server),
+        dpf.Model(dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=server_type_remote_process), server=server_type_remote_process),
+        dpf.Model(examples.simple_cyclic, server=local_server),
     )
 
 
 def test_different_multi_server(static_models):
     assert static_models[0]._server != static_models[1]._server
     assert not static_models[0]._server == static_models[1]._server
-    assert static_models[0]._server.port != static_models[1]._server.port
+    assert static_models[0]._server.info != static_models[1]._server.info
     assert (
             static_models[0].metadata.data_sources.result_files[0]
             != static_models[1].metadata.data_sources.result_files[0]
@@ -63,7 +56,7 @@ def test_model_time_freq_multi_server(static_models):
 def test_different_multi_server2(static_models):
     assert static_models[0]._server != static_models[1]._server
     assert not static_models[0]._server == static_models[1]._server
-    assert static_models[0]._server.port != static_models[1]._server.port
+    assert static_models[0]._server.info != static_models[1]._server.info
     assert (
             static_models[0].metadata.data_sources.result_files[0]
             != static_models[1].metadata.data_sources.result_files[0]

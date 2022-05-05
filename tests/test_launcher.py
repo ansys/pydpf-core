@@ -35,12 +35,12 @@ def test_start_local_failed():
         core.start_local_server(ansys_path="", use_docker_by_default=False)
 
 
-def test_server_ip():
-    assert core.SERVER.ip != None
-    assert core.SERVER.port != None
-    assert core.SERVER.version != None
+def test_server_ip(server_type_remote_process):
+    assert server_type_remote_process.ip != None
+    assert server_type_remote_process.port != None
+    assert server_type_remote_process.version != None
 
-    assert core.SERVER.info["server_process_id"] != None
-    assert core.SERVER.info["server_ip"] != None
-    assert core.SERVER.info["server_port"] != None
-    assert core.SERVER.info["server_version"] != None
+    assert server_type_remote_process.info["server_process_id"] != None
+    assert server_type_remote_process.info["server_ip"] != None
+    assert server_type_remote_process.info["server_port"] != None
+    assert server_type_remote_process.info["server_version"] != None

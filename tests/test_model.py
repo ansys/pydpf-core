@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import misc
+from ansys.dpf.core import examples, misc
+from errors import ServerTypeError
 from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
 
@@ -19,7 +19,11 @@ if misc.module_exists("pyvista"):
 
 @pytest.fixture()
 def static_model():
-    return dpf.core.Model(dpf.core.upload_file_in_tmp_folder(examples.static_rst))
+    try:
+        path = dpf.core.upload_file_in_tmp_folder(examples.static_rst)
+    except ServerTypeError:
+        path = examples.static_rst
+    return dpf.core.Model(path)
 
 
 def test_model_from_data_source(simple_bar):

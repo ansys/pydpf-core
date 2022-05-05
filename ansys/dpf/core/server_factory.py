@@ -4,7 +4,6 @@ Server factory, server configuration and communication protocols
 Contains the server factory as well as the communication
 protocols and server configurations available.
 """
-from ansys.dpf.core.server_types import LegacyGrpcServer, GrpcServer, InProcessServer
 
 
 class CommunicationProtocols:
@@ -31,11 +30,20 @@ class ServerConfig:
         return text
 
 
+class AvailableServerConfigs:
+    """Defines available server configurations
+    """
+    LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
+    InProcessServer = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
+    GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
+
+
 class ServerFactory:
     """Factory for server type choice depending on current configuration.
     """
     @staticmethod
     def get_server_type_from_config(config=None):
+        from ansys.dpf.core.server_types import LegacyGrpcServer, GrpcServer, InProcessServer
         from ansys.dpf.core import SERVER_CONFIGURATION
         if not config:
             config = SERVER_CONFIGURATION
