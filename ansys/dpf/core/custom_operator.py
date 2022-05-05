@@ -8,7 +8,7 @@ import abc
 import ctypes
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import settings, server, server_factory, operator_specification
+from ansys.dpf.core import settings, server, server_factory, operator_specification, dpf_operator
 from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, \
     _type_to_output_method, _type_to_input_method
 from ansys.dpf.gate import object_handler, capi
@@ -115,13 +115,14 @@ class CustomOperatorBase:
         index : int
             Index of the input.
 
-        type : type
+        type : type, :class:`ansys.dpf.core.common.types`
             Expected type of the data.
 
         Returns
         -------
         data: type
         """
+        type = dpf_operator._write_output_type_to_type(type)
         for type_tuple in _type_to_input_method:
             if type is type_tuple[0]:
                 if len(type_tuple) >= 3:
