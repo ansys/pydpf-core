@@ -173,8 +173,8 @@ def test_model_displacement_multi_server(transient_models):
     fc2 = disp2.outputs.fields_container()
     for i, f in enumerate(fc):
         assert fc.get_label_space(i) == fc2.get_label_space(i)
-        ftocheck = fc2[i].deep_copy()
-        iden = dpf.operators.logic.identical_fields(f, ftocheck)
+        ftocheck = fc2[i].deep_copy(server=f._server)
+        iden = dpf.operators.logic.identical_fields(f, ftocheck, server=f._server)
         assert iden.outputs.boolean()
         assert np.allclose(f.data, fc2[i].data)
         assert np.allclose(f.scoping.ids, fc2[i].scoping.ids)
@@ -185,14 +185,14 @@ def test_model_displacement_multi_server(transient_models):
 def check_fc(fc, fc2):
     for i, f in enumerate(fc):
         assert fc.get_label_space(i) == fc2.get_label_space(i)
-        ftocheck = fc2[i].deep_copy()
-        iden = dpf.operators.logic.identical_fields(f, ftocheck)
+        ftocheck = fc2[i].deep_copy(server=f._server)
+        iden = dpf.operators.logic.identical_fields(f, ftocheck, server=f._server)
         assert iden.outputs.boolean()
         assert np.allclose(f.data, fc2[i].data)
         assert np.allclose(f.scoping.ids, fc2[i].scoping.ids)
         assert np.allclose(f.data, ftocheck.data)
         assert np.allclose(f.scoping.ids, ftocheck.scoping.ids)
-    idenfc = dpf.operators.logic.identical_fc(fc, fc2.deep_copy())
+    idenfc = dpf.operators.logic.identical_fc(fc, fc2.deep_copy(server=f._server), server=f._server)
     assert idenfc.outputs.boolean()
 
 
