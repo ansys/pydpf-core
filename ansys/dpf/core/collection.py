@@ -373,7 +373,20 @@ class Collection:
         -------
         time_freq_support : TimeFreqSupport
         """
-        return TimeFreqSupport(time_freq_support=self._api.collection_get_support(self, "time"))
+        from ansys.dpf.gate import support_capi, support_grpcapi, object_handler, \
+            data_processing_capi, data_processing_grpcapi
+        data_api = self._server.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+        support = object_handler.ObjHandler(
+            data_processing_api=data_api,
+            internal_obj=self._api.collection_get_support(self, "time"),
+            server=self._server)
+        support_api = self._server.get_api_for_type(capi=support_capi.SupportCAPI,
+                                                    grpcapi=support_grpcapi.SupportGRPCAPI)
+        time_freq = support_api.support_get_as_time_freq_support(support)
+        res = TimeFreqSupport(time_freq_support=time_freq, server=self._server)
+        return res
 
     def _set_time_freq_support(self, time_freq_support):
         """Set the time frequency support of the collection."""
