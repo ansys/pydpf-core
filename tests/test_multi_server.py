@@ -1,28 +1,41 @@
 import numpy as np
 import pytest
+from conftest import local_server
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core import server_types
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+
+
+@pytest.fixture(scope="module", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)]
+                if isinstance(local_server, server_types.InProcessServer) else [
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if isinstance(local_server, server_types.GrpcServer) else [
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+])
+def other_remote_server(request):
+    return dpf.start_local_server(config=request.param, as_global=False)
 
 
 @pytest.fixture()
-def static_models(local_server, server_type_remote_process):
-    return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst, server=server_type_remote_process), server=server_type_remote_process),
+def static_models(local_server, other_remote_server):
+    return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst, server=other_remote_server), server=other_remote_server),
             dpf.Model(examples.static_rst, server=local_server))
 
 
 @pytest.fixture()
-def transient_models(local_server, server_type_remote_process):
+def transient_models(local_server, other_remote_server):
     return (
-        dpf.Model(dpf.upload_file_in_tmp_folder(examples.msup_transient, server=server_type_remote_process), server=server_type_remote_process),
+        dpf.Model(dpf.upload_file_in_tmp_folder(examples.msup_transient, server=other_remote_server), server=other_remote_server),
         dpf.Model(examples.msup_transient, server=local_server),
     )
 
 
 @pytest.fixture()
-def cyc_models(local_server, server_type_remote_process):
+def cyc_models(local_server, other_remote_server):
     return (
-        dpf.Model(dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=server_type_remote_process), server=server_type_remote_process),
+        dpf.Model(dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=other_remote_server), server=other_remote_server),
         dpf.Model(examples.simple_cyclic, server=local_server),
     )
 
