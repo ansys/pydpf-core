@@ -9,7 +9,8 @@ import ctypes
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import settings, server, server_factory, operator_specification
-from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, _type_to_output_method, _type_to_input_method
+from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, \
+    _type_to_output_method, _type_to_input_method
 from ansys.dpf.gate import object_handler, capi
 
 
@@ -40,12 +41,10 @@ def record_operator(operator_type, *args) -> None:
             ctypes.c_void_p(*args[0]), ctypes.c_void_p(*args[1]))
     else:
         external_operator_api.external_operator_record_with_abstract_core(operator._call_back(),
-                                                                                                __operator_main__,
-                                                                                                operator.name,
-                                                                                                operator._internal_specification,
-                                                                                                ctypes.c_void_p(*args))
-
-
+                                                                          __operator_main__,
+                                                                          operator.name,
+                                                                          operator._internal_specification,
+                                                                          ctypes.c_void_p(*args))
 
 
 class CustomOperatorBase:
@@ -85,6 +84,7 @@ class CustomOperatorBase:
     ...     record_operator(AddFloatToFieldData, *args)
 
     """
+
     def set_output(self, index: int, data) -> None:
         """
         Add an output to this Operator at the given index.
