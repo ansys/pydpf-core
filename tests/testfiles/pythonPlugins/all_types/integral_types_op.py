@@ -3,7 +3,6 @@ from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecif
 from ansys.dpf.core import types
 
 
-
 class ForwardIntOperator(CustomOperatorBase):
     def run(self):
         f = self.get_input(0, int)

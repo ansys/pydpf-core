@@ -23,13 +23,13 @@ for classes in inspect.getmembers(sys.modules[__name__], inspect.isclass):
 map_types_to_cpp["str"] = "string"
 map_types_to_cpp["MeshedRegion"] = "abstract_meshed_region"
 map_types_to_cpp["DataTree"] = "abstract_data_tree"
+map_types_to_cpp["DPFVectorDouble"] = "vector<double>"
+map_types_to_cpp["DPFVectorInt"] = "vector<int32>"
 map_types_to_cpp["list"] = "vector<int32>"
 map_types_to_cpp["bool"] = "bool"
 map_types_to_cpp["int"] = "int32"
 map_types_to_cpp["double"] = "double"
 map_types_to_cpp["float"] = "double"
-map_types_to_cpp["DPFVectorDouble"] = "vector<double>"
-map_types_to_cpp["DPFVectorInt"] = "vector<int32>"
 
 
 class _smart_dict_snake(dict):
