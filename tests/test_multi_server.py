@@ -1,17 +1,16 @@
 import numpy as np
 import pytest
-from conftest import local_server
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import server_types
+from ansys.dpf.core import examples, server_types, server
+from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 
 @pytest.fixture(scope="module", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)]
-                if isinstance(local_server, server_types.InProcessServer) else [
+                if (isinstance(server._global_server(), server_types.InProcessServer)) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if isinstance(local_server, server_types.GrpcServer) else [
+    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if isinstance(server._global_server(), server_types.GrpcServer) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 ])
 def other_remote_server(request):
@@ -20,22 +19,34 @@ def other_remote_server(request):
 
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
-    return (dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst, server=other_remote_server), server=other_remote_server),
+    try:
+        upload = dpf.upload_file_in_tmp_folder(examples.static_rst, server=other_remote_server)
+    except ServerTypeError:
+        upload = examples.static_rst
+    return (dpf.Model(upload, server=other_remote_server),
             dpf.Model(examples.static_rst, server=local_server))
 
 
 @pytest.fixture()
 def transient_models(local_server, other_remote_server):
+    try:
+        upload = dpf.upload_file_in_tmp_folder(examples.msup_transient, server=other_remote_server)
+    except ServerTypeError:
+        upload = examples.msup_transient
     return (
-        dpf.Model(dpf.upload_file_in_tmp_folder(examples.msup_transient, server=other_remote_server), server=other_remote_server),
+        dpf.Model(upload, server=other_remote_server),
         dpf.Model(examples.msup_transient, server=local_server),
     )
 
 
 @pytest.fixture()
 def cyc_models(local_server, other_remote_server):
+    try:
+        upload = dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=other_remote_server)
+    except ServerTypeError:
+        upload = examples.simple_cyclic
     return (
-        dpf.Model(dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=other_remote_server), server=other_remote_server),
+        dpf.Model(upload, server=other_remote_server),
         dpf.Model(examples.simple_cyclic, server=local_server),
     )
 
@@ -44,10 +55,6 @@ def test_different_multi_server(static_models):
     assert static_models[0]._server != static_models[1]._server
     assert not static_models[0]._server == static_models[1]._server
     assert static_models[0]._server.info != static_models[1]._server.info
-    assert (
-            static_models[0].metadata.data_sources.result_files[0]
-            != static_models[1].metadata.data_sources.result_files[0]
-    )
 
 
 def test_model_time_freq_multi_server(static_models):
@@ -70,10 +77,6 @@ def test_different_multi_server2(static_models):
     assert static_models[0]._server != static_models[1]._server
     assert not static_models[0]._server == static_models[1]._server
     assert static_models[0]._server.info != static_models[1]._server.info
-    assert (
-            static_models[0].metadata.data_sources.result_files[0]
-            != static_models[1].metadata.data_sources.result_files[0]
-    )
 
 
 def test_model_mesh_multi_server(static_models):

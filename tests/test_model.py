@@ -5,7 +5,7 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import examples, misc
-from errors import ServerTypeError
+from ansys.dpf.core.errors import ServerTypeError
 from conftest import SERVER_VERSION_HIGHER_THAN_4_0
 
 

@@ -4,13 +4,10 @@ Core
 """
 import os
 import logging
-import time
 import warnings
 import weakref
 
-import grpc
-
-import errors
+from ansys.dpf.core import errors
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig
