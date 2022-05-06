@@ -1,4 +1,5 @@
 from ansys.dpf.core.custom_operator import CustomOperatorBase
+from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, SpecificationProperties
 from ansys.dpf.core import types
 
 
@@ -105,7 +106,13 @@ class SetOutNpArrayIntOperator(CustomOperatorBase):
 
     @property
     def specification(self):
-        return None
+        spec = CustomSpecification()
+        spec.outputs = {
+            0: PinSpecification("flat_int_vec", type_names=types.vec_int)
+        }
+        spec.description = "Sets a numpy array of shape (100,2) as output. The array is flatten by DPF."
+        spec.properties = SpecificationProperties(user_name="set out numpy array of int", category="logic")
+        return spec
 
     @property
     def name(self):
@@ -121,7 +128,12 @@ class SetOutNpArrayDoubleOperator(CustomOperatorBase):
 
     @property
     def specification(self):
-        return None
+        spec = CustomSpecification("Sets a numpy array of shape (100,2) as output. The array is flatten by DPF.")
+        spec.outputs = {
+            0: PinSpecification("flat_double_vec", type_names=types.vec_double)
+        }
+        spec.properties = SpecificationProperties(user_name="set out numpy array of double", category="logic")
+        return spec
 
     @property
     def name(self):

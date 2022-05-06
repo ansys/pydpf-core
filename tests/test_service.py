@@ -1,6 +1,5 @@
 import os
 
-import ansys.grpc.dpf
 import pytest
 
 from ansys import dpf
