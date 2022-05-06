@@ -46,6 +46,13 @@ def test_set_get_data_from_list_of_list(server_type):
     assert np.allclose(field.data, data)
 
 
+def test_append_scalar_data(server_type):
+    field = dpf.core.Field(nature=dpf.core.natures.scalar, server=server_type)
+    for i in range(0, 10):
+        field.append(float(i), i+1)
+    assert np.allclose(field.data, list(range(0, 10)))
+
+
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
 def test_createbycopy_field(server_type):

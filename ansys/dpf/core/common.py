@@ -333,4 +333,6 @@ def _common_percentage_progress_bar(text):
 def _get_size_of_list(list):
     if isinstance(list, (np.generic, np.ndarray)):
         return list.size
+    elif not hasattr(list, '__iter__'):
+        return 1
     return len(list)
