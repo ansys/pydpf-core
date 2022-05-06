@@ -482,3 +482,11 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
         copy.elements.connectivities_field.scoping.ids,
         mesh.elements.connectivities_field.scoping.ids,
     )
+
+
+def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
+    mesh = dpf.core.Model(allkindofcomplexity, server=server_type).metadata.meshed_region
+    has_semi_par = False
+    el = mesh.elements[0]
+    assert dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity)
+

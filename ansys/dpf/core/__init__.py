@@ -80,9 +80,10 @@ os.environ["QT_STYLE_OVERRIDE"] = ""
 USER_DATA_PATH = None
 LOCAL_DOWNLOADED_EXAMPLES_PATH = None
 try:
-    import appdirs
+    import pkgutil
 
-    USER_DATA_PATH = appdirs.user_data_dir("ansys-dpf-core")
+    spec = pkgutil.get_loader("ansys.dpf.core")
+    USER_DATA_PATH = os.path.dirname(spec.get_filename())
     if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
         os.makedirs(USER_DATA_PATH)
 
