@@ -1,5 +1,3 @@
-from builtins import set
-
 import numpy as np
 import pytest
 import vtk
@@ -489,7 +487,6 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
 def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
     mesh = dpf.core.Model(allkindofcomplexity, server=server_type).metadata.meshed_region
     has_semi_par = False
-    for el in mesh.elements:
-        if dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity):
-            has_semi_par = True
-    assert has_semi_par
+    el = mesh.elements[0]
+    assert dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity)
+
