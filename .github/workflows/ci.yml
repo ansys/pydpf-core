@@ -65,7 +65,7 @@ jobs:
       - name: Upload wheel artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}_wheel
+          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}_wheel
           path: ./dist/*
 
 #      - name: Install OpenGL
@@ -136,22 +136,25 @@ jobs:
 #          path: tests/junit/test-results*.xml
 #        if: always()
 
-      - name: Install twine
-        shell: cmd
-        run: |
-          python -m pip install --upgrade pip
-          pip install setuptools twine
-
-      - name: Build package
-        run: python setup.py sdist
-
-      - name: Publish distribution 📦 to Test PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
-          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
-        run: twine upload --verbose --skip-existing dist/*
+## Upload to TestPypi if possible
+#      - name: Install twine
+#        shell: cmd
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install setuptools twine
+#
+#      - name: Build package
+#        run: python setup.py sdist
+#
+#      - name: Publish distribution 📦 to Test PyPI
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+#          TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
+##          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+#        run: |
+#          twine register --verbose test_ansys_dpf_core
+#          twine upload --verbose --skip-existing dist/*
 
 #      - name: Publish distribution 📦 to PyPI --> Now in Release
 #        if: contains(github.ref, 'refs/tags')
@@ -328,26 +331,32 @@ jobs:
       - name: Zip wheelhouse
         uses: vimtor/action-zip@v1
         with:
+          files: wheelhouse
+          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
+
+      - name: Upload Wheelhouse
+        uses: actions/upload-artifact@v2
+        with:
           name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}
           path: '*.zip'
           retention-days: 7
 
-      - name: Install twine
-        shell: cmd
-        run: |
-          python -m pip install --upgrade pip
-          pip install setuptools twine
-
-      - name: Build package
-        run: python setup.py sdist
-
-      - name: Publish distribution 📦 to Test PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
-          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
-        run: twine upload --verbose --skip-existing dist/*
+#      - name: Install twine
+#        shell: cmd
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install setuptools twine
+#
+#      - name: Build package
+#        run: python setup.py sdist
+#
+#      - name: Publish distribution 📦 to Test PyPI
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+#          TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
+##          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+#        run: twine upload --verbose --skip-existing dist/*
 
   Release:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
