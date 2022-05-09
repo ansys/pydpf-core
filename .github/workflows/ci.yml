@@ -150,7 +150,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
           TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
-          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
+#          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
         run: twine upload --verbose --skip-existing dist/*
 
       - name: Publish distribution 📦 to PyPI
@@ -346,7 +346,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
           TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
-          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
+#          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
         run: twine upload --verbose --skip-existing dist/*
 
   Release:
