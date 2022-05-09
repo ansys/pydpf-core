@@ -323,9 +323,16 @@ jobs:
         working-directory: tests
         run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
-      - name: Get the version
+# #     Only works for a tagged Release
+#      - name: Get the version
+#        id: version
+#        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Retrieve PyDPF-Core version
+        run: |
+          echo "::set-output name=PYDPF_CORE_VERSION::$(python -c "from ansys.dpf.core import __version__; print(__version__)")"
+          echo "PyDPF-Core version is: $(python -c "from ansys.dpf.core import __version__; print(__version__)")"
         id: version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Generate wheelhouse
         run: pip wheel . -w wheelhouse
@@ -334,7 +341,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: wheelhouse
-          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
+          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.PYDPF_CORE_VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
 
       - name: Upload wheelhouse to artifacts
         uses: actions/upload-artifact@v2
@@ -375,16 +382,24 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Publish distribution 📦 to PyPI
+      - name: Install twine
+        shell: cmd
         run: |
-          pip install twine
-          twine upload --skip-existing ./**/*.whl
-          twine upload --skip-existing ./**/*.tar.gz
-#         Do NOT upload the zip containing the wheelhouses
+          python -m pip install --upgrade pip
+          pip install setuptools twine
+
+      - name: Build package
+        run: python setup.py sdist
+
+      - name: Publish distribution 📦 to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
           TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+        run: |
+          twine upload --skip-existing ./**/*.whl
+          twine upload --skip-existing ./**/*.tar.gz
+#         Do NOT upload the zip containing the wheelhouses
 
       - name: Release
         uses: softprops/action-gh-release@v1
