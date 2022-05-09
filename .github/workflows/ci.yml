@@ -149,16 +149,17 @@ jobs:
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+          TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
+          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
         run: twine upload --skip-existing dist/*
 
-      - name: Publish distribution 📦 to PyPI
-        if: contains(github.ref, 'refs/tags')
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
-          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-        run: twine upload --skip-existing dist/*
+#      - name: Publish distribution 📦 to PyPI
+#        if: contains(github.ref, 'refs/tags')
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
+#          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+#        run: twine upload --skip-existing dist/*
 
   build_doc:
     name: Documentation
@@ -276,7 +277,7 @@ jobs:
           GH_DOC_BRANCH: gh-pages
 
   generate_wheelhouses:
-    name: Smoke Tests
+    name: Generate wheelhouse
     needs: [test_windows]
     runs-on: ${{ matrix.os }}
     strategy:
