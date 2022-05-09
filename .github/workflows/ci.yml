@@ -62,6 +62,12 @@ jobs:
           pip install %WHEELPATH%
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
+      - name: Retrieve PyDPF-Core version
+        run: |
+          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.core import __version__; print(__version__)")"
+          echo "PyDPF-Core version is: $(python -c "from ansys.dpf.core import __version__; print(__version__)")"
+        id: version
+
       - name: Upload wheel to artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -323,14 +329,14 @@ jobs:
         working-directory: tests
         run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
-# #     Only works for a tagged Release
+# #     Only works for a tagged Release (and for Windows?)
 #      - name: Get the version
 #        id: version
 #        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Retrieve PyDPF-Core version
         run: |
-          echo "::set-output name=PYDPF_CORE_VERSION::$(python -c "from ansys.dpf.core import __version__; print(__version__)")"
+          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.core import __version__; print(__version__)")"
           echo "PyDPF-Core version is: $(python -c "from ansys.dpf.core import __version__; print(__version__)")"
         id: version
 
@@ -341,7 +347,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: wheelhouse
-          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.PYDPF_CORE_VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
+          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
 
       - name: Upload wheelhouse to artifacts
         uses: actions/upload-artifact@v2
