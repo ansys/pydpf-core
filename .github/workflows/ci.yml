@@ -150,17 +150,17 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
           TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
-#          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
+          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
         run: twine upload --verbose --skip-existing dist/*
 
-      - name: Publish distribution 📦 to PyPI
-        if: contains(github.ref, 'refs/tags')
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
-          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-        run: twine upload --skip-existing dist/*
-#
+#      - name: Publish distribution 📦 to PyPI --> Now in Release
+#        if: contains(github.ref, 'refs/tags')
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
+#          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+#        run: twine upload --skip-existing dist/*
+
 #  build_doc:
 #    name: Documentation
 #    runs-on: windows-2019
@@ -346,7 +346,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
           TWINE_REPOSITORY: test_${{ env.PACKAGE_NAME }}
-#          TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/test_${{ env.PACKAGE_NAME }}
+          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
         run: twine upload --verbose --skip-existing dist/*
 
   Release:
