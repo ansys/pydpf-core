@@ -2,6 +2,8 @@ name: Upload Python Package
 
 on: #[release]
   push:
+    tags:
+      - "*"
     branches:
       - ci/release_wheels
 
@@ -15,7 +17,6 @@ env:
   PACKAGE_NAME: ansys_dpf_core
 
 jobs:
-
   testimport:
     name: Smoke Tests
     runs-on: ${{ matrix.os }}
@@ -24,52 +25,52 @@ jobs:
         os: [windows-latest, ubuntu-latest]
         python-version: ['3.7', '3.8', '3.9']
 
-        steps:
-          - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-          - name: Set up Python ${{ matrix.python-version }}
-            uses: actions/setup-python@v2
-            with:
-              python-version: ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
 
-          - name: Linux pip cache
-            uses: actions/cache@v2
-            if: ${{ runner.os == 'Linux' }}
-            with:
-              path: ~/.cache/pip
-              key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements_build.txt') }}
-              restore-keys: |
-                Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
+      - name: Linux pip cache
+        uses: actions/cache@v2
+        if: ${{ runner.os == 'Linux' }}
+        with:
+          path: ~/.cache/pip
+          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements_build.txt') }}
+          restore-keys: |
+            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
 
-          - name: Window pip cache
-            uses: actions/cache@v2
-            if: ${{ runner.os == 'Windows' }}
-            with:
-              path: ~\AppData\Local\pip\Cache
-              key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements_build.txt') }}
-              restore-keys: |
-                Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
+      - name: Window pip cache
+        uses: actions/cache@v2
+        if: ${{ runner.os == 'Windows' }}
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements_build.txt') }}
+          restore-keys: |
+            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
 
-          - name: Install PyDPF-Core
-            run: pip install .
+      - name: Install PyDPF-Core
+        run: pip install .
 
-          - name: Test import
-            working-directory: tests
-            run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+      - name: Test import
+        working-directory: tests
+        run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
-          - name: Get the version
-            id: version
-            run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Get the version
+        id: version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
-          - name: Generate wheelhouse
-            run: pip wheel . -w wheelhouse
+      - name: Generate wheelhouse
+        run: pip wheel . -w wheelhouse
 
-          - name: Zip wheelhouse
-            uses: vimtor/action-zip@v1
-            with:
-              name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}
-              path: '*.zip'
-              retention-days: 7
+      - name: Zip wheelhouse
+        uses: vimtor/action-zip@v1
+        with:
+          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}
+          path: '*.zip'
+          retention-days: 7
 
   deploy:
     runs-on: ubuntu-latest
