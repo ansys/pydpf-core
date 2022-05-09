@@ -62,7 +62,7 @@ jobs:
           pip install %WHEELPATH%
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
-      - name: Upload wheel artifacts
+      - name: Upload wheel to artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}_wheel
@@ -315,7 +315,9 @@ jobs:
             Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
 
       - name: Install PyDPF-Core
-        run: pip install .
+        run: |
+          pip install .
+          pip install -r requirements_build.txt
 
       - name: Test import
         working-directory: tests
@@ -334,7 +336,7 @@ jobs:
           files: wheelhouse
           dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
 
-      - name: Upload Wheelhouse
+      - name: Upload wheelhouse to artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}
@@ -378,6 +380,7 @@ jobs:
           pip install twine
           twine upload --skip-existing ./**/*.whl
           twine upload --skip-existing ./**/*.tar.gz
+#         Do NOT upload the zip containing the wheelhouses
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
