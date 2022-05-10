@@ -163,8 +163,8 @@ jobs:
 
       - name: Set AWP_ROOT$env:ANSYS_VERSION
         run: |
-#          echo AWP_ROOT$env:ANSYS_VERSION
-#          echo "${{ steps.install-dpf.outputs.SERVER }}"
+          echo AWP_ROOT$env:ANSYS_VERSION
+          echo "${{ steps.install-dpf.outputs.SERVER }}"
           echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}" >> $GITHUB_ENV
 
       - name: Install ansys-dpf-core
