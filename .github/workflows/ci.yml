@@ -160,12 +160,10 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           ANSYS_VERSION : ${{env.ANSYS_VERSION}}
 
-#      TODO: check if this needs update for Linux
       - name: Set AWP_ROOT$env:ANSYS_VERSION
         run: |
           echo AWP_ROOT$env:ANSYS_VERSION
-          echo ${{ steps.install-dpf.outputs.SERVER }}
-#          echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          echo "${{ steps.install-dpf.outputs.SERVER }}"
           echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}" >> $GITHUB_ENV
 
       - name: Install ansys-dpf-core
@@ -173,7 +171,6 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
-#          TODO: change the line below
           FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
           ECHO %WHEELPATH%
           cd tests
@@ -186,7 +183,6 @@ jobs:
           name: ansys_dpf_core_wheel
           path: ./dist/*
 
-#      TODO update this one for Linux
       - name: Install OpenGL
         run: |
           Set-StrictMode -Version Latest
@@ -210,7 +206,6 @@ jobs:
         run: |
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
-#      TODO: update this for Linux
       - name: Kill all servers
         shell: cmd
         run: |
