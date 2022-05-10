@@ -186,15 +186,14 @@ jobs:
           name: ansys_dpf_core_wheel
           path: ./dist/*
 
-      - name: Install OpenGL
-        shell: bash
-        run: |
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          source gl-ci-helpers/travis/setup_headless_display_no_sudo.sh
-
+#      - name: Install OpenGL
+#        run: |
 #          Set-StrictMode -Version Latest
 #          $ErrorActionPreference = "Stop"
 #          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+#          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
+#          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
       - name: Install test offscreen rendering
         run: |
           .ci/setup_headless_display.sh
