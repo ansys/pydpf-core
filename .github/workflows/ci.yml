@@ -163,8 +163,8 @@ jobs:
 
       - name: Set AWP_ROOT$env:ANSYS_VERSION
         run: |
-          echo AWP_ROOT$env:ANSYS_VERSION
-          echo "${{ steps.install-dpf.outputs.SERVER }}"
+#          echo AWP_ROOT$env:ANSYS_VERSION
+#          echo "${{ steps.install-dpf.outputs.SERVER }}"
           echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}" >> $GITHUB_ENV
 
       - name: Install ansys-dpf-core
@@ -172,10 +172,10 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
-          FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
-          ECHO %WHEELPATH%
+          for path in $(find dist/ -type f -name "*.whl") do set WHEELPATH="$path"
+          echo $WHEELPATH
           cd tests
-          pip install %WHEELPATH%
+          pip install $WHEELPATH
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
       - name: WHEEL publish artifacts
