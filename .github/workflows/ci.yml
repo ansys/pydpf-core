@@ -172,13 +172,11 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
-          for path in $(ls -d "$PWD"/dist/*.whl); do 
-            export WHEELPATH=$path 
-          done
-          echo $WHEELPATH
+          export WHEELNAME=`ls dist/*.whl`
+          echo ${WHEELNAME}
+          pip install ${WHEELNAME}
           cd tests
-          pip install $WHEELPATH
-          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+          xvfb-run python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
       - name: WHEEL publish artifacts
         uses: actions/upload-artifact@v2
@@ -186,19 +184,15 @@ jobs:
           name: ansys_dpf_core_wheel
           path: ./dist/*
 
-#      - name: Install OpenGL
-#        run: |
-#          Set-StrictMode -Version Latest
-#          $ErrorActionPreference = "Stop"
-#          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-#          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-#          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: Install test offscreen rendering
+      - name: Install OS packages
         run: |
-          .ci/setup_headless_display.sh
+          sudo apt update
+          sudo apt install zip pandoc libgl1-mesa-glx xvfb
+
+      - name: Install and Test offscreen rendering
+        run: |
           pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
+          xvfb-run python .ci/display_test.py
 
       - name: Install Test Environment
         run: |
@@ -210,11 +204,14 @@ jobs:
            pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
       - name: Kill all servers
-        shell: cmd
+        shell: bash
         run: |
-          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-          ECHO %ERRORLEVEL%
-          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+          echo $0
+          if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+          then
+              pkill -f Ans.Dpf.Grpc.exe
+          fi
+        if: always()
         continue-on-error: true
 
       - name: Publish Doc Test Results
@@ -239,13 +236,15 @@ jobs:
           pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
 
-#      TODO: update this for Linux
       - name: Kill all servers
-        shell: cmd
+        shell: bash
         run: |
-          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-          ECHO %ERRORLEVEL%
-          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+          echo $0
+          if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+          then
+              pkill -f Ans.Dpf.Grpc.exe
+          fi
+        if: always()
         continue-on-error: true
 
       - name: Publish Test Results
