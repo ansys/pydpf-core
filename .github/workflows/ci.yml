@@ -201,7 +201,7 @@ jobs:
 
       - name: Test API Docstrings
         run: |
-           pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+           xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
       - name: Kill all servers
         shell: bash
@@ -224,11 +224,16 @@ jobs:
       - name: Test Core API
         run: |
           cd tests
-          New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
-          Copy-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py" -Destination ".\..\local_server_test\"
-          Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
-          Remove-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"
-          pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
+          export DPF_IP=$(hostname -i)
+          xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
+          export PATH=`pwd`
+          echo ${PATH} 
+
+#          New-Item -Path ".\..\" -Name "local_server_test" -ItemType "directory"
+#          Copy-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py" -Destination ".\..\local_server_test\"
+#          Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
+#          Remove-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"
+#          pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
 
       - name: Test Core API 2
         run: |
