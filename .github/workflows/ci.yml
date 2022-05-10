@@ -10,6 +10,7 @@ on:
     branches:
       - master
       - "release*"
+      - ci/linux_testing_pipeline
 
 env:
   PYANSYS_OFF_SCREEN: True
