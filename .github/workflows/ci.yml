@@ -173,7 +173,7 @@ jobs:
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
           for path in $(find dist/ -type f -name *.whl); do 
-            set WHEELPATH="$path" 
+            export WHEELPATH=$path 
           done
           echo $WHEELPATH
           cd tests
