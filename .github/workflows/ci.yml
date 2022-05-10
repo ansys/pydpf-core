@@ -225,6 +225,7 @@ jobs:
       - name: Test Core API
         run: |
           cd tests
+          export TEMP=${{ runner.temp }}
           export DPF_IP=$(hostname -i)
           xvfb-run pytest -v --junitxml=junit/test-results.xml --cov ansys.dpf.core --cov-report=xml  --reruns 3      
           export PATH=`pwd`
@@ -238,8 +239,9 @@ jobs:
 
       - name: Test Core API 2
         run: |
+          export TEMP=${{ runner.temp }}
           cd local_server_test
-          pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+          xvfb-run pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
 
       - name: Kill all servers
