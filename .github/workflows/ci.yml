@@ -172,14 +172,14 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
-          for path in $(find dist/ -type f -name *.whl); do 
+          for path in $(ls -d "$PWD"/dist/*.whl); do 
             export WHEELPATH=$path 
           done
           echo $WHEELPATH
           cd tests
           pip install $WHEELPATH
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-
+#find ~+/dist/ -type f -name
       - name: WHEEL publish artifacts
         uses: actions/upload-artifact@v2
         with:
