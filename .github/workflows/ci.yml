@@ -179,7 +179,7 @@ jobs:
           cd tests
           pip install $WHEELPATH
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-#find ~+/dist/ -type f -name
+
       - name: WHEEL publish artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -187,13 +187,14 @@ jobs:
           path: ./dist/*
 
       - name: Install OpenGL
+        shell: bash
         run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
           git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+          source gl-ci-helpers/travis/setup_headless_display.sh
 
+#          Set-StrictMode -Version Latest
+#          $ErrorActionPreference = "Stop"
+#          $PSDefaultParameterValues['*:ErrorAction']='Stop'
       - name: Install test offscreen rendering
         run: |
           .ci/setup_headless_display.sh
