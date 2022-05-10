@@ -201,7 +201,8 @@ jobs:
 
       - name: Test API Docstrings
         run: |
-           xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+          export TEMP=${{ runner.temp }}
+          xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
       - name: Kill all servers
         shell: bash
