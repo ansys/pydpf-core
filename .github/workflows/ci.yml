@@ -172,7 +172,9 @@ jobs:
         run: |
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
-          for path in $(find dist/ -type f -name "*.whl") do set WHEELPATH="$path"
+          set files=find /dist/ -type f -name "*.whl"
+          echo files
+          for path in $files do set WHEELPATH="$path"
           echo $WHEELPATH
           cd tests
           pip install $WHEELPATH
