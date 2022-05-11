@@ -145,6 +145,8 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
+      TEMP: $RUNNER_TEMP
+#      TEMP: $GITHUB_WORKSPACE/temp
 
     steps:
       - uses: actions/checkout@v2
@@ -200,7 +202,6 @@ jobs:
 
       - name: Test API Docstrings
         run: |
-          export TEMP=${{ runner.temp }}
           xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
       - name: Kill all servers
@@ -228,7 +229,6 @@ jobs:
           cp ./test_{local_server,multi_server,workflow}.py ./../local_server_test/
           cp ./conftest.py ./../local_server_test/conftest.py
           rm ./test_{local_server,multi_server,workflow}.py
-          export TEMP=${{ runner.temp }}
           export DPF_IP=$(hostname -i)
           xvfb-run pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2
           export PATH=`pwd`
@@ -236,7 +236,6 @@ jobs:
 
       - name: Test Core API 2
         run: |
-          export TEMP=${{ runner.temp }}
           cd local_server_test
           xvfb-run pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
