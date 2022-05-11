@@ -179,11 +179,11 @@ jobs:
           cd tests
           xvfb-run python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
-      - name: WHEEL publish artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys_dpf_core_wheel
-          path: ./dist/*
+#      - name: WHEEL publish artifacts
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ansys_dpf_core_wheel
+#          path: ./dist/*
 
       - name: Install OS packages
         run: |
