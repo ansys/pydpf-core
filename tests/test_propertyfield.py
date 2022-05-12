@@ -116,7 +116,7 @@ def test_connect_property_field_operator():
     assert np.allclose(out.scoping.ids, [1])
 
 
-@pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
+# @pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_getoutput_property_field_workflow(simple_bar):
     model = dpf.core.Model(simple_bar)
     mesh = model.metadata.meshed_region
