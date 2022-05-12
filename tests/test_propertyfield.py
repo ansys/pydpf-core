@@ -131,7 +131,7 @@ def test_getoutput_property_field_workflow(simple_bar):
     check_on_property_field_from_simplebar(property_field)
 
 
-@pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
+# @pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_connect_property_field_workflow():
     f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal)
     f_vec.append([1, 2, 4], 1)
