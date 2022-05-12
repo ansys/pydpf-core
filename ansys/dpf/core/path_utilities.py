@@ -20,10 +20,10 @@ def join(*args, **kwargs):
 
     Parameters
     ----------
-    args : str, DPFServer
+    args : str, LegacyGrpcServer
         Path to join and optionally a server.
 
-    kwargs : DPFServer
+    kwargs : LegacyGrpcServer
         server=.
 
     server : Server
@@ -40,7 +40,7 @@ def join(*args, **kwargs):
     for a in args:
         if isinstance(a, str) and len(a) > 0:
             parts.append(a)
-        elif isinstance(a, dpf.core.server_types.DpfServer):
+        elif isinstance(a, dpf.core.server_types.LegacyGrpcServer):
             server = a
     if "server" in kwargs:
         server = kwargs["server"]

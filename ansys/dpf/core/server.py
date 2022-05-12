@@ -10,6 +10,7 @@ import socket
 import subprocess
 import weakref
 import copy
+import inspect
 from ansys import dpf
 
 from ansys.dpf.core.misc import find_ansys, is_ubuntu
@@ -66,12 +67,19 @@ def _global_server():
                 connect_to_server(ip, port)
             # if true, start a server
             else:
-                start_local_server()
+                start_local_server(as_global=True)
         return dpf.core.SERVER
     return None
 
 
 def set_server_configuration(server_config: ServerConfig) -> None:
+    """Sets, for the current python session, the default type of DPF server to use.
+
+    Parameters
+    ----------
+    server_config: ServerConfig
+        Manages the type of server connection to use by default.
+    """
     dpf.core.SERVER_CONFIGURATION = server_config
 
 
@@ -104,10 +112,13 @@ def shutdown_all_session_servers():
     copy_instances = copy.deepcopy(_server_instances)
     for instance in copy_instances:
         try:
-            instance().shutdown()
+            if hasattr(instance(), "shutdown"):
+                instance().shutdown()
         except Exception as e:
             print(e.args)
             pass
+    shutdown_global_server()
+    _server_instances.clear()
 
 
 def start_local_server(
@@ -118,7 +129,8 @@ def start_local_server(
     load_operators=True,
     use_docker_by_default=True,
     docker_name=None,
-    timeout=10.
+    timeout=10.,
+    config=None
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -152,6 +164,8 @@ def start_local_server(
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
+    config: ServerConfig, optional
+        Manages the type of server connection to use.
 
     Returns
     -------
@@ -189,7 +203,7 @@ def start_local_server(
     used_ports = []
     if dpf.core._server_instances:
         for srv in dpf.core._server_instances:
-            if srv():
+            if srv() and hasattr(srv(), "port"):
                 used_ports.append(srv().port)
 
     while port in used_ports:
@@ -204,15 +218,32 @@ def start_local_server(
 
     server = None
     n_attempts = 10
+    timed_out = False
     for _ in range(n_attempts):
         try:
-            server = ServerFactory().get_server_type_from_config()(
-                ansys_path, ip, port, as_global=as_global,
-                load_operators=load_operators, docker_name=docker_name
-            )
+            server_type = ServerFactory().get_server_type_from_config(config)
+            server_init_signature = inspect.signature(server_type.__init__)
+            if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
+                server = server_type(
+                    ansys_path, ip, port, as_global=as_global,
+                    load_operators=load_operators, docker_name=docker_name, launch_server=True,
+                    timeout=timeout)
+            else:
+                server = server_type(
+                    ansys_path, as_global=as_global,
+                    load_operators=load_operators, docker_name=docker_name, timeout=timeout
+                )
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
+        except TimeoutError:
+            if timed_out:
+                break
+            import warnings
+            warnings.warn(f"Failed to start a server in {timeout}s, " +
+                          f"trying again once in {timeout*2.}s.")
+            timeout *= 2.
+            timed_out = True
 
     if server is None:
         raise OSError(
@@ -225,7 +256,7 @@ def start_local_server(
     return server
 
 
-def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=5):
+def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=5, config=None):
     """Connect to an existing DPF server.
 
     This method sets the global default channel that is then used for the
@@ -247,29 +278,38 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
+    config: ServerConfig, optional
+        Manages the type of server connection to use.
 
     Examples
     --------
 
-    >>> from ansys.dpf import core
+    >>> from ansys.dpf import core as dpf
 
     Create a server.
 
-    >>> #server = core.start_local_server(ip = '127.0.0.1')
+    >>> #server = dpf.start_local_server(ip = '127.0.0.1')
     >>> #port = server.port
 
     Connect to a remote server at a non-default port.
 
-    >>> #specified_server = core.connect_to_server('127.0.0.1', port, as_global=False)
+    >>> #specified_server = dpf.connect_to_server('127.0.0.1', port, as_global=False)
 
     Connect to the localhost at the default port.
 
-    >>> #unspecified_server = core.connect_to_server(as_global=False)
+    >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    server = ServerFactory().get_server_type_from_config()(ip=ip, port=port,
-                                                           as_global=as_global, launch_server=False,
-                                                           timeout=timeout)
+    server_type = ServerFactory().get_server_type_from_config(config)
+    server_init_signature = inspect.signature(server_type.__init__)
+    if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
+        server = server_type(
+            ip=ip, port=port, as_global=as_global, launch_server=False
+        )
+    else:
+        server = server_type(
+            as_global=as_global
+        )
     dpf.core._server_instances.append(weakref.ref(server))
     return server
 

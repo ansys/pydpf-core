@@ -4,9 +4,8 @@ Common
 """
 import re
 from enum import Enum
-
-import progressbar
-from ansys.grpc.dpf import base_pb2, field_definition_pb2
+import numpy as np
+from ansys.dpf.core.misc import module_exists
 
 
 def _camel_to_snake_case(name):
@@ -22,14 +21,14 @@ def _remove_spaces(name):
 
 def _make_as_function_name(name):
     out = name.lower()
-    out = out.replace(" ", "_").\
-        replace("-", "_").\
-        replace("/", "_").\
-        replace(".", "_").\
-        replace(":", "_").\
-        replace(";", "_").\
-        replace(",", "_").\
-        replace("(", "").\
+    out = out.replace(" ", "_"). \
+        replace("-", "_"). \
+        replace("/", "_"). \
+        replace(".", "_"). \
+        replace(":", "_"). \
+        replace(";", "_"). \
+        replace(",", "_"). \
+        replace("(", ""). \
         replace(")", "")
     return out
 
@@ -58,7 +57,32 @@ def __write_enum_doc__(enum, intro=None):
     return str
 
 
-names = [m.lower() for m in base_pb2.Type.keys()]
+Type = {
+    "STRING": 0,
+    "INT": 1,
+    "DOUBLE": 2,
+    "BOOL": 3,
+    "FIELD": 4,
+    "COLLECTION": 5,
+    "SCOPING": 6,
+    "DATA_SOURCES": 7,
+    "MESHED_REGION": 8,
+    "TIME_FREQ_SUPPORT": 9,
+    "RESULT_INFO": 10,
+    "CYCLIC_SUPPORT": 11,
+    "PROPERTY_FIELD": 12,
+    "WORKFLOW": 13,
+    "RUN": 14,
+    "ANY": 15,
+    "VEC_INT": 16,
+    "VEC_DOUBLE": 17,
+    "SUPPORT": 18,
+    "OPERATOR": 19,
+    "DATA_TREE": 20,
+    "VEC_STRING": 21,
+}
+
+names = [m.lower() for m in Type.keys()]
 names.append("fields_container")
 names.append("scopings_container")
 names.append("meshes_container")
@@ -70,9 +94,57 @@ types.__doc__ = __write_enum_doc__(
         "through operators and workflows to DPF."
     ),
 )
+def types_enum_to_types():
+    from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            fields_container,
+            collection,
+            meshed_region,
+            meshes_container,
+            property_field,
+            result_info,
+            scoping,
+            scopings_container,
+            time_freq_support,
+            dpf_operator,
+            data_tree,
+            workflow,
+        )
+    from ansys.dpf.gate import dpf_vector
+    return {
+        types.string: str,
+        types.int: int,
+        types.double: float,
+        types.bool: bool,
+        types.collection: collection.Collection,
+        types.fields_container: fields_container.FieldsContainer,
+        types.scopings_container: scopings_container.ScopingsContainer,
+        types.meshes_container: meshes_container.MeshesContainer,
+        types.field: field.Field,
+        types.data_sources: data_sources.DataSources,
+        types.cyclic_support: cyclic_support.CyclicSupport,
+        types.workflow: workflow.Workflow,
+        types.time_freq_support: time_freq_support.TimeFreqSupport,
+        types.meshed_region: meshed_region.MeshedRegion,
+        types.result_info: result_info.ResultInfo,
+        types.property_field: property_field.PropertyField,
+        types.data_tree: data_tree.DataTree,
+        types.operator: dpf_operator.Operator,
+        types.scoping: scoping.Scoping,
+        types.vec_int: dpf_vector.DPFVectorInt,
+        types.vec_double: dpf_vector.DPFVectorDouble,
+    }
+Nature = {
+    "SCALAR": 0,
+    "VECTOR": 1,
+    "MATRIX": 2,
+    "SYMMATRIX": 5,
+}
 
-names = [(m.lower(), num) for m, num in base_pb2.Nature.items()]
-natures = Enum("natures", names)
+names = [(name.lower(), num) for name, num in Nature.items()]
+natures = Enum('natures', names)
 natures.__doc__ = __write_enum_doc__(
     natures,
     (
@@ -81,7 +153,18 @@ natures.__doc__ = __write_enum_doc__(
     ),
 )
 
-names = [(m.lower(), num - 1) for m, num in field_definition_pb2.ShellLayers.items()]
+ShellLayers = {
+    "NOTSET": 0,
+    "TOP": 1,
+    "BOTTOM": 2,
+    "TOPBOTTOM": 3,
+    "MID": 4,
+    "TOPBOTTOMMID": 5,
+    "NONELAYER": 6,
+    "LAYERINDEPENDENT": 7,
+}
+
+names = [(m.lower(), num - 1) for m, num in ShellLayers.items()]
 shell_layers = Enum("shell_layers", names)
 shell_layers.__doc__ = __write_enum_doc__(
     shell_layers,
@@ -197,6 +280,21 @@ class nodal_properties:
         nodal_connectivity: "NODAL_CONNECTIVITY",
     }
 
+class config_options:
+    """Contains strings to define configuration options.
+
+    Attributes
+    ----------
+    num_thread = "num_threads"
+        number of threads
+
+    use_cache = "use_cache"
+        usage of cache if a server with gRPC communication
+        protocol is used.
+    """
+    num_threads = "num_threads"
+    use_cache = "use_cache"
+
 
 class DefinitionLabels:
     """Contains Python definition labels."""
@@ -204,8 +302,11 @@ class DefinitionLabels:
     time = "time"
     complex = "complex"
 
+def _progress_bar_is_available():
+    return module_exists("progressbar")
 
 def _common_progress_bar(text, unit, tot_size=None):
+    import progressbar
     if tot_size:
         widgets = [
             progressbar.FormatLabel(f"{text}: %(value)d of %(max_value)d {unit} "),
@@ -224,5 +325,14 @@ def _common_progress_bar(text, unit, tot_size=None):
 
 
 def _common_percentage_progress_bar(text):
+    import progressbar
     widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
     return progressbar.ProgressBar(widgets=widgets, max_value=100)
+
+
+def _get_size_of_list(list):
+    if isinstance(list, (np.generic, np.ndarray)):
+        return list.size
+    elif not hasattr(list, '__iter__'):
+        return 1
+    return len(list)

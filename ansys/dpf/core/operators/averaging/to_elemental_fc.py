@@ -150,7 +150,7 @@ class to_elemental_fc(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="to_elemental_fc", server=server)
 

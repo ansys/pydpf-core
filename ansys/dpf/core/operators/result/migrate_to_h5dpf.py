@@ -155,7 +155,7 @@ class migrate_to_h5dpf(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="hdf5::h5dpf::migrate_file", server=server)
 

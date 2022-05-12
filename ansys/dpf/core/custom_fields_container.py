@@ -7,7 +7,7 @@ These new classes offer helpers to access data for specific usage, such as
 results split by body or split by material.
 """
 from ansys.dpf.core.fields_container import FieldsContainer
-from ansys.grpc.dpf import meshed_region_pb2
+from ansys.dpf.core import elements
 
 
 class ElShapeFieldsContainer(FieldsContainer):
@@ -74,7 +74,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SOLID")
+        label_space["elshape"] = elements._element_shapes.SOLID.value
         return self.get_fields(label_space)
 
     def shell_fields(self, timeid=None, complexid=None):
@@ -109,7 +109,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SHELL")
+        label_space["elshape"] = elements._element_shapes.SHELL.value
         return self.get_fields(label_space)
 
     def beam_fields(self, timeid=None, complexid=None):
@@ -144,7 +144,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("BEAM")
+        label_space["elshape"] = elements._element_shapes.BEAM.value
         return self.get_fields(label_space)
 
     def solid_field(self, timeid=None, complexid=None):
@@ -176,7 +176,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SOLID")
+        label_space["elshape"] = elements._element_shapes.SOLID.value
         return self.get_field(label_space)
 
     def shell_field(self, timeid=None, complexid=None):
@@ -209,7 +209,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SHELL")
+        label_space["elshape"] = elements._element_shapes.SHELL.value
         return self.get_field(label_space)
 
     def beam_field(self, timeid=None, complexid=None):
@@ -241,7 +241,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("BEAM")
+        label_space["elshape"] = elements._element_shapes.BEAM.value
         return self.get_field(label_space)
 
 

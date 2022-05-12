@@ -61,7 +61,7 @@ class txt_to_data_tree(Operator):
             map_output_pin_spec={
                 0: PinSpecification(
                     name="data_tree",
-                    type_names=["data_tree"],
+                    type_names=["abstract_data_tree"],
                     optional=False,
                     document="""""",
                 ),
@@ -81,7 +81,7 @@ class txt_to_data_tree(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="txt_to_data_tree", server=server)
 

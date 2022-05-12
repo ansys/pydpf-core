@@ -52,6 +52,9 @@ class thermal_strain_principal_3(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    read_beams : bool, optional
+        Elemental nodal beam results are read if this
+        pin is set to true (default is false)
 
 
     Examples
@@ -80,6 +83,8 @@ class thermal_strain_principal_3(Operator):
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_read_beams = bool()
+    >>> op.inputs.read_beams.connect(my_read_beams)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.thermal_strain_principal_3(
@@ -92,6 +97,7 @@ class thermal_strain_principal_3(Operator):
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
+    ...     read_beams=my_read_beams,
     ... )
 
     >>> # Get output data
@@ -109,6 +115,7 @@ class thermal_strain_principal_3(Operator):
         mesh=None,
         requested_location=None,
         read_cyclic=None,
+        read_beams=None,
         config=None,
         server=None,
     ):
@@ -133,6 +140,8 @@ class thermal_strain_principal_3(Operator):
             self.inputs.requested_location.connect(requested_location)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if read_beams is not None:
+            self.inputs.read_beams.connect(read_beams)
 
     @staticmethod
     def _spec():
@@ -221,6 +230,13 @@ class thermal_strain_principal_3(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
+                21: PinSpecification(
+                    name="read_beams",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Elemental nodal beam results are read if this
+        pin is set to true (default is false)""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -245,7 +261,7 @@ class thermal_strain_principal_3(Operator):
         ----------
         server : server.DPFServer, optional
             Server with channel connected to the remote or local instance. When
-            ``None``, attempts to use the the global server.
+            ``None``, attempts to use the global server.
         """
         return Operator.default_config(name="ETH3", server=server)
 
@@ -296,6 +312,8 @@ class InputsThermalStrainPrincipal3(_Inputs):
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_read_beams = bool()
+    >>> op.inputs.read_beams.connect(my_read_beams)
     """
 
     def __init__(self, op: Operator):
@@ -334,6 +352,10 @@ class InputsThermalStrainPrincipal3(_Inputs):
             thermal_strain_principal_3._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._read_cyclic)
+        self._read_beams = Input(
+            thermal_strain_principal_3._spec().input_pin(21), 21, op, -1
+        )
+        self._inputs.append(self._read_beams)
 
     @property
     def time_scoping(self):
@@ -530,6 +552,27 @@ class InputsThermalStrainPrincipal3(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def read_beams(self):
+        """Allows to connect read_beams input to the operator.
+
+        Elemental nodal beam results are read if this
+        pin is set to true (default is false)
+
+        Parameters
+        ----------
+        my_read_beams : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.thermal_strain_principal_3()
+        >>> op.inputs.read_beams.connect(my_read_beams)
+        >>> # or
+        >>> op.inputs.read_beams(my_read_beams)
+        """
+        return self._read_beams
 
 
 class OutputsThermalStrainPrincipal3(_Outputs):

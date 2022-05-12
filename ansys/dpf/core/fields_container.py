@@ -7,9 +7,8 @@ Contains classes associated with the DPF FieldsContainer.
 """
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core.common import types
 from ansys.dpf.core import errors as dpf_errors
-
+from ansys.dpf.core import field
 
 class FieldsContainer(Collection):
     """Represents a fields container, which contains fields belonging to a common result.
@@ -25,7 +24,7 @@ class FieldsContainer(Collection):
 
     Parameters
     ----------
-    fields_container : ansys.grpc.dpf.collection_pb2.Collection or FieldsContainer, optional
+    fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p, FieldsContainer, optional
         Fields container created from either a collection message or by copying an existing
         fields container. The default is "None``.
     server : ansys.dpf.core.server, optional
@@ -63,21 +62,20 @@ class FieldsContainer(Collection):
     """
 
     def __init__(self, fields_container=None, server=None):
-        """Initialize the scoping with either an optional scoping message
-        or by connecting to a stub.
-        """
-        if server is None:
-            server = dpf.core._global_server()
-
-        self._server = server
-        self._stub = self._connect()
+        super().__init__(
+            collection=fields_container, server=server
+        )
+        if self._internal_obj is None:
+            if self._server.has_client():
+                self._internal_obj = self._api.collection_of_field_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.collection_of_field_new()
 
         self._component_index = None  # component index
         self._component_info = None  # for norm/max/min
 
-        Collection.__init__(
-            self, types.field, collection=fields_container, server=self._server
-        )
+    def create_subtype(self, obj_by_copy):
+        return field.Field(field=obj_by_copy, server=self._server)
 
     def get_fields_by_time_complex_ids(self, timeid=None, complexid=None):
         """Retrieve fields at a requested time ID or complex ID.

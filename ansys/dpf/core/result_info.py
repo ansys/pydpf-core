@@ -2,33 +2,50 @@
 ResultInfo
 ==========
 """
-from enum import Enum
-
-from ansys import dpf
-from ansys.grpc.dpf import result_info_pb2, result_info_pb2_grpc
+from enum import Enum, unique
+from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types, \
+    data_processing_capi, data_processing_grpcapi
+from ansys.dpf.core import server as server_module
 from ansys.dpf.core import available_result
 from ansys.dpf.core.mapping_types import map_unit_system
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.common import __write_enum_doc__
-from ansys.dpf.core.cache import class_handling_cache
-from ansys.dpf.core.check_version import server_meet_version, version_requires
 
 
-names = [m for m in result_info_pb2.PhysicsType.keys()]
-physics_types = Enum("physics_types", names)
+@unique
+class physics_types(Enum):
+    mecanic = 0  # TODO change for "mechanical"?
+    thermal = 1
+    magnetic = 2
+    electric = 3
+    unknown_physics = 4
+
+
 physics_types.__doc__ = __write_enum_doc__(
     physics_types,
     "``'Physics_types'`` enumerates the different types of physics that an analysis can have.",
 )
 
-names = [m for m in result_info_pb2.AnalysisType.keys()]
-analysis_types = Enum("analysis_types", names)
+
+@unique
+class analysis_types(Enum):
+    static = 0
+    buckling = 1
+    modal = 2
+    harmonic = 3
+    cms = 4
+    transient = 5
+    msup = 6
+    substruct = 7
+    spectrum = 8
+    unknown_analysis = 9
+
+
 analysis_types.__doc__ = __write_enum_doc__(
     physics_types, "``'Analysis_types'`` enumerates the different types of analysis."
 )
 
 
-@class_handling_cache
 class ResultInfo:
     """Represents the result information.
 
@@ -36,7 +53,7 @@ class ResultInfo:
 
     Parameters
     ----------
-    result_info : ansys.grpc.dpf.result_info_pb2.ResultInfo message
+    result_info : ctypes.c_void_p, ansys.grpc.dpf.result_info_pb2.ResultInfo message
 
      server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -62,33 +79,42 @@ class ResultInfo:
 
     def __init__(self, result_info, server=None):
         """Initialize with a ResultInfo message"""
-        if server is None:
-            server = dpf.core._global_server()
+        # ############################
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._server = server
-        self._stub = self._connect()
+        # step 2: get api
+        self._api = self._server.get_api_for_type(capi=result_info_capi.ResultInfoCAPI,
+                                                  grpcapi=result_info_grpcapi.ResultInfoGRPCAPI)
 
-        if isinstance(result_info, ResultInfo):
-            self._message = result_info._message
-        else:
-            self._message = result_info
+        # step3: init environment
+        self._api.init_result_info_environment(self)  # creates stub when gRPC
+
+        # step4: if object exists, take the instance, else create it
+        if result_info is not None:
+            if isinstance(result_info, ResultInfo):
+                self._internal_obj = result_info._internal_obj
+            else:
+                self._internal_obj = result_info
+        elif result_info is None:
+            raise Exception("Result_info given is None")
 
     def __str__(self):
         try:
             txt = (
-                "%s analysis\n" % self.analysis_type.capitalize()
-                + "Unit system: %s\n" % self.unit_system
-                + "Physics Type: %s\n" % self.physics_type.capitalize()
-                + "Available results:\n"
+                    "%s analysis\n" % self.analysis_type.capitalize()
+                    + "Unit system: %s\n" % self.unit_system
+                    + "Physics Type: %s\n" % self.physics_type.capitalize()
+                    + "Available results:\n"
             )
             for res in self.available_results:
                 line = ["", "-", f'{res.name}: {res.native_location} {res.physical_name}']
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
             return txt
-        except:
+        except Exception as e:
             from ansys.dpf.core.core import _description
-            return _description(self._message, self._server)
+            return _description(self._internal_obj, self._server)
 
     @property
     def _names(self):
@@ -117,18 +143,7 @@ class ResultInfo:
         'static'
 
         """
-        if server_meet_version("3.0", self._server):
-            return self._get_property("analysis_type")
-
-        intOut = self._get_list().analysis_type
-        return result_info_pb2.AnalysisType.Name(intOut).lower()
-
-    @version_requires("3.0")
-    def _get_property(self, property_name):
-        request = result_info_pb2.GetStringPropertiesRequest()
-        request.result_info.CopyFrom(self._message)
-        request.property_names.extend([property_name])
-        return self._stub.GetStringProperties(request).properties[property_name]
+        return self._api.result_info_get_analysis_type_name(self)
 
     @property
     def physics_type(self):
@@ -156,27 +171,18 @@ class ResultInfo:
         physics_type : str
             Type of the physics, such as mechanical or electric.
         """
-        if server_meet_version("3.0", self._server):
-            return self._get_property("physics_type")
-        intOut = self._get_list().physics_type
-        return result_info_pb2.PhysicsType.Name(intOut).lower()
+        return self._api.result_info_get_physics_type_name(self)
 
-    # TODO: Depreciate
     @property
     def n_results(self):
         """Number of results."""
-        if server_meet_version("3.0", self._server):
-            str_num = self._get_property("results_count")
-            return int(str_num)
-        return self._get_list().nresult
+        return self._api.result_info_get_number_of_results(self)
 
     @property
     def unit_system(self):
         """Unit system of the result."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("unit_system_name")
-        val = self._get_list().unit_system
-        return map_unit_system[val]
+        return self._api.result_info_get_unit_system_name(self)
+        # return map_unit_system[self._api.result_info_get_ansys_unit_system_enum(self)]
 
     @property
     def cyclic_symmetry_type(self):
@@ -188,7 +194,7 @@ class ResultInfo:
             Cyclic symmetry type of the results. Options are ``"single_stage"``,
             ``"multi_stage"``, and ``"not_cyclic"``.
         """
-        return self._get_list().cyc_info.cyclic_type
+        return self._api.result_info_get_cyclic_symmetry_type(self)
 
     @property
     def has_cyclic(self):
@@ -199,7 +205,7 @@ class ResultInfo:
         has_cyclic : bool
             Returns ``True`` if the result file has cyclic symmetry or is multistage.
         """
-        return self._get_list().cyc_info.has_cyclic
+        return self._api.result_info_has_cyclic_symmetry(self)
 
     @property
     def cyclic_support(self):
@@ -221,68 +227,58 @@ class ResultInfo:
         >>> cyc_support = result_info.cyclic_support
 
         """
-        tmp = self._get_list().cyc_info.cyc_support
-        return CyclicSupport(cyclic_support=tmp, server=self._server)
+        if self._api.result_info_has_cyclic_symmetry(self):
+            cyclic_support = self._api.result_info_get_cyclic_support(self)
+            return CyclicSupport(cyclic_support=cyclic_support, server=self._server)
 
     @property
     def unit_system_name(self):
         """Name of the unit system."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("unit_system_name")
-        return self._get_list().unit_system_name
+        return self._api.result_info_get_unit_system_name(self)
 
     @property
     def solver_version(self):
         """Version of the solver."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("solver_version")
-        list = self._get_list()
-        major = list.solver_major_version
-        minor = list.solver_minor_version
-        version = str(major) + "." + str(minor)
-        return version
+        major = integral_types.MutableInt32()
+        minor = integral_types.MutableInt32()
+        res = self._api.result_info_get_solver_version(self, major, minor)
+        return str(int(major)) + "." + str(int(minor))
 
     @property
     def solver_date(self):
         """Date of the solver."""
-        if server_meet_version("3.0", self._server):
-            return int(self._get_property("solver_date"))
-        return self._get_list().solver_date
+        date = integral_types.MutableInt32()
+        time = integral_types.MutableInt32()
+        self._api.result_info_get_solve_date_and_time(self, date, time)
+        return int(date)
 
     @property
     def solver_time(self):
         """Time of the solver."""
-        if server_meet_version("3.0", self._server):
-            return int(self._get_property("solver_time"))
-        return self._get_list().solver_time
+        date = integral_types.MutableInt32()
+        time = integral_types.MutableInt32()
+        self._api.result_info_get_solve_date_and_time(self, date, time)
+        return int(time)
 
     @property
     def user_name(self):
         """Name of the user."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("user_name")
-        return self._get_list().user_name
+        return self._api.result_info_get_user_name(self)
 
     @property
     def job_name(self):
         """Name of the job."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("job_name")
-        return self._get_list().job_name
+        return self._api.result_info_get_job_name(self)
 
     @property
     def product_name(self):
         """Name of the product."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("product_name")
-        return self._get_list().product_name
+        return self._api.result_info_get_product_name(self)
 
     @property
     def main_title(self):
         """Main title."""
-        if server_meet_version("3.0", self._server):
-            return self._get_property("main_title")
-        return self._get_list().main_title
+        return self._api.result_info_get_main_title(self)
 
     @property
     def available_results(self):
@@ -314,17 +310,51 @@ class ResultInfo:
         elif numres < 0:
             raise IndexError("Result index must be greater than 0")
 
-        request = result_info_pb2.AvailableResultRequest()
-        request.result_info.CopyFrom(self._message)
-        request.numres = numres
-        res = self._stub.ListResult(request)
-
-        return available_result.AvailableResult(res)
+        name = self._api.result_info_get_result_name(self, numres)
+        physic_name = self._api.result_info_get_result_physics_name(self, numres)
+        dimensionality = self._api.result_info_get_result_dimensionality_nature(self, numres)
+        n_comp = self._api.result_info_get_result_number_of_components(self, numres)
+        unit_symbol = self._api.result_info_get_result_unit_symbol(self, numres)
+        homogeneity = self._api.result_info_get_result_homogeneity(self, numres)
+        try:
+            loc_name = integral_types.MutableString(256)
+            self._api.result_info_get_result_location(self, numres, loc_name)
+            loc_name = str(loc_name)
+        except AttributeError:
+            if name in available_result._result_properties:
+                loc_name = available_result._result_properties[name]["location"]
+            else:
+                loc_name = ""
+        try:
+            scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
+        except AttributeError:
+            if name in available_result._result_properties:
+                scripting_name = available_result._result_properties[name]["scripting_name"]
+            else:
+                scripting_name = available_result._remove_spaces(physic_name)
+        num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
+        sub_res = {}
+        for ires in range(num_sub_res):
+            sub_res_name = self._api.result_info_get_sub_result_name(self, numres, ires)
+            ssub_res_rec_name = integral_types.MutableString(256)
+            self._api.result_info_get_sub_result_operator_name(self, numres,
+                                                               ires,
+                                                               ssub_res_rec_name)
+            ssub_res_rec_name = str(ssub_res_rec_name)
+            descr = self._api.result_info_get_sub_result_description(self, numres, ires)
+            sub_res[sub_res_name] = [ssub_res_rec_name, descr]
+        from types import SimpleNamespace
+        availableresult = SimpleNamespace(name=name, physicsname=physic_name, ncomp=n_comp,
+                                          dimensionality=dimensionality, homogeneity=homogeneity,
+                                          unit=unit_symbol, sub_res=sub_res,
+                                          properties={"loc_name": loc_name,
+                                                      "scripting_name": scripting_name})
+        return available_result.AvailableResult(availableresult)
 
     def __len__(self):
         try:
             return self.n_results
-        except:
+        except Exception as e:
             return 0
 
     def __iter__(self):
@@ -343,17 +373,14 @@ class ResultInfo:
 
         return self._get_result(index)
 
-    def _connect(self):
-        """Connect to the gRPC service containing the reader."""
-        return result_info_pb2_grpc.ResultInfoServiceStub(self._server.channel)
-
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            # get core api
+            core_api = self._server.get_api_for_type(
+                capi=data_processing_capi.DataProcessingCAPI,
+                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            core_api.init_data_processing_environment(self)
+            # delete
+            core_api.data_processing_delete_shared_object(self)
         except:
             pass
-
-    def _get_list(self):
-        return self._stub.List(self._message)
-
-    _to_cache = {_get_list: None, _get_result: None, _get_property: None}
