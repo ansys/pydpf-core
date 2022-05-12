@@ -227,7 +227,7 @@ jobs:
         run: |
           cd tests
           mkdir ./../local_server_test
-          mkdir tests/debug
+          mkdir debug
           export DATAPROCESSING_DEBUG=tests/debug
           cp ./test_{local_server,multi_server,workflow}.py ./../local_server_test/
           cp ./conftest.py ./../local_server_test/conftest.py
@@ -241,8 +241,6 @@ jobs:
       - name: Test Core API 2
         run: |
           export TEMP=${{ runner.temp }}
-          mkdir tests/debug
-          export DATAPROCESSING_DEBUG=tests/debug
           cd local_server_test
           xvfb-run pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
