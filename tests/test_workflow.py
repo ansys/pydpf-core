@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import os
 
 import ansys.dpf.core.operators as op
 import conftest
@@ -323,6 +324,7 @@ def test_connect_get_output_double_list_workflow():
     assert np.allclose(d, dout)
 
 
+@pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity):
     data_sources = dpf.core.DataSources(allkindofcomplexity)
     model = dpf.core.Model(data_sources)
@@ -566,6 +568,7 @@ def test_print_workflow():
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_throws_error(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
@@ -587,6 +590,7 @@ def test_throws_error(allkindofcomplexity):
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_flush_workflows_session(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
