@@ -223,12 +223,12 @@ jobs:
           path: junit/test-doctests-results.xml
         if: always()
 
+#          export DATAPROCESSING_DEBUG="debug/"
       - name: Test Core API
         run: |
           cd tests
           mkdir ./../local_server_test
           mkdir debug
-          export DATAPROCESSING_DEBUG="debug/"
           cp ./test_{local_server,multi_server,workflow}.py ./../local_server_test/
           cp ./conftest.py ./../local_server_test/conftest.py
           rm ./test_{local_server,multi_server,workflow}.py
