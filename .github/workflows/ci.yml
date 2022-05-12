@@ -145,7 +145,7 @@ jobs:
 
     env:
       ANSYS_VERSION: 221
-      TEMP: $RUNNER_TEMP
+      TEMP: ${{ runner.temp }}
 #      TEMP: $GITHUB_WORKSPACE/temp
 
     steps:
