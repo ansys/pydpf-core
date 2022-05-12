@@ -324,7 +324,7 @@ def test_connect_get_output_double_list_workflow():
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
+# @pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity):
     data_sources = dpf.core.DataSources(allkindofcomplexity)
     model = dpf.core.Model(data_sources)
