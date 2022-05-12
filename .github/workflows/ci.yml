@@ -240,7 +240,7 @@ jobs:
         run: |
           export TEMP=${{ runner.temp }}
           mkdir ../tests/debug
-          export DATAPROCESSING_DEBUG=../tests/
+          export DATAPROCESSING_DEBUG=../tests/debug
           cd local_server_test
           xvfb-run pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
