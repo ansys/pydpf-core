@@ -123,6 +123,7 @@ def test_connect_bool_workflow():
     wf.connect("bool", True)
 
 
+# @pytest.mark.skipif(os.name == "posix", reason="Workflow on Linux GitHub runner")
 def test_connect_scoping_workflow():
     op = dpf.core.Operator("Rescope")
     scop = dpf.core.Scoping()

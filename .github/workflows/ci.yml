@@ -141,7 +141,7 @@ jobs:
 
   test_linux:
     name: Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       ANSYS_VERSION: 221
@@ -239,9 +239,18 @@ jobs:
       - name: Test Core API 2
         run: |
           export TEMP=${{ runner.temp }}
+          mkdir ../tests/debug
+          export DATAPROCESSING_DEBUG=../tests/
           cd local_server_test
           xvfb-run pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
+
+      - name: Publish Test Debug Log
+        uses: actions/upload-artifact@v2
+        with:
+          name: ansys_dpf_core_debug
+          path: tests/debug/*
+        if: always()
 
       - name: Kill all servers
         shell: bash
