@@ -65,8 +65,8 @@ def test_start_remote(monkeypatch):
     monkeypatch.setattr(pypim, "connect", mock_connect)
     monkeypatch.setenv("ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG", "/fake/config.json")
 
-    # Call the generic startup sequence with no arguments
-    server = DpfServer()
+    # Call the generic startup sequence with no indication on how to launch it
+    server = DpfServer(as_global=False)
 
     # It detected the environment and connected to pypim
     assert mock_connect.called
@@ -81,6 +81,12 @@ def test_start_remote(monkeypatch):
 
     # It connected using the address provided by PyPIM
     assert server._address == server_address
+
+    # Stop the server
+    server.shutdown()
+
+    # The delete instance is called
+    assert mock_instance.delete.called
 
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
