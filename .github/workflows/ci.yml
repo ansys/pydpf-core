@@ -53,6 +53,10 @@ jobs:
       - name: Install ansys-dpf-core
         shell: cmd
         run: |
+          pip install certifi==2020.12.5
+          pip install protobuf==3.19.4
+          pip install grpcio==1.38.0
+          pip install google-api-python-client==1.7.11
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
           FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
@@ -171,10 +175,6 @@ jobs:
       - name: Install ansys-dpf-core
         shell: cmd
         run: |
-          pip install certifi==2020.12.5
-          pip install protobuf==3.19.4
-          pip install grpcio==1.38.0
-          pip install google-api-python-client==1.7.11
           pip install -r requirements_build.txt
           python setup.py bdist_wheel
           FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
