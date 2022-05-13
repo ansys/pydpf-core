@@ -37,7 +37,7 @@ def test_start_local():
 
 def test_start_remote(monkeypatch):
     # Test for the Product Instance Management API integration
-    
+
     # Start a local DPF server and create a mock PyPIM pretending it is starting it
     local_server = core.start_local_server(as_global=False, ansys_path=core.SERVER.ansys_path)
     server_address = local_server._address
@@ -52,7 +52,7 @@ def test_start_remote(monkeypatch):
     mock_instance.wait_for_ready = create_autospec(mock_instance.wait_for_ready)
     # Mock the deletion method
     mock_instance.delete = create_autospec(mock_instance.delete)
-    
+
     # Mock the PyPIM client, so that on the "create_instance" call it returns the mock instance
     # Note: the host and port here will not be used.
     mock_client = pypim.Client(channel=grpc.insecure_channel("localhost:12345"))
@@ -64,7 +64,7 @@ def test_start_remote(monkeypatch):
     mock_connect = create_autospec(pypim.connect, return_value=mock_client)
     monkeypatch.setattr(pypim, "connect", mock_connect)
     monkeypatch.setenv("ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG", "/fake/config.json")
-    
+
     # Call the generic startup sequence with no arguments
     server = DpfServer()
 
