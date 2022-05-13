@@ -362,9 +362,9 @@ class DpfServer:
             if is_pypim_configured() and not ansys_path and not docker_name:
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
-                # Unset ip and port that may not be the same
-                ip=None
-                port=None
+                # Unset ip and port as it's created by address.
+                ip = None
+                port = None
             else:
                 self._server_id = launch_dpf(str(ansys_path), ip, port,
                                             docker_name=docker_name,
