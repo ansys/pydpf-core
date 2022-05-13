@@ -61,6 +61,12 @@ jobs:
           pip install %WHEELPATH%
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
+      - name: Check licences of packages
+        run: |
+          pip install pip-licenses
+          pip-licenses
+          pip uninstall -y pip-licenses
+
       - name: Retrieve PyDPF-Core version
         run: |
           echo "::set-output name=VERSION::$(python -c "from ansys.dpf.core import __version__; print(__version__)")"
@@ -298,6 +304,9 @@ jobs:
           pip install matplotlib==3.2
           pip install vtk<9.1.0
           pip install pyvista>=0.24.0
+
+      - name: Check licences of packages
+        run: |
           pip install pip-licenses
           pip-licenses
           pip uninstall -y pip-licenses
@@ -305,11 +314,6 @@ jobs:
       - name: Test import
         working-directory: tests
         run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-
-# #     Only works for a tagged Release (and for Windows?)
-#      - name: Get the version
-#        id: version
-#        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Retrieve PyDPF-Core version
         run: |
