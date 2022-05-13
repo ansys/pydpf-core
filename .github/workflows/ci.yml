@@ -283,7 +283,7 @@ jobs:
 
   build_test_package_others:
     name: Build Test and Package for release
-#    if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
