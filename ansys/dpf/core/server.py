@@ -380,8 +380,8 @@ class DpfServer:
 
         # store the address for later reference
         self._address = address
-        self._ip = ip
-        self._port = port
+        self._input_ip = ip
+        self._input_port = port
         self.live = True
         self.ansys_path = str(ansys_path)
         self._own_process = launch_server
