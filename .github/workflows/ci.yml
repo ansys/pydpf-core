@@ -89,12 +89,12 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: wheelhouse
-          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ python-version }}.zip
+          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-3.8.zip
 
       - name: Upload wheelhouse to artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ python-version }}
+          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-3.8
           path: '*.zip'
           retention-days: 7
 
