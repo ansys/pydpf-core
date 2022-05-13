@@ -295,6 +295,11 @@ jobs:
         run: |
           pip install .
           pip install -r requirements_build.txt
+          pip install -r requirements_test.txt
+          pip freeze | grep pytest | xargs pip uninstall -y
+          pip install pip-licenses
+          pip-licenses
+          pip uninstall -y pip-licenses
 
       - name: Test import
         working-directory: tests
