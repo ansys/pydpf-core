@@ -21,26 +21,26 @@ env:
   # It applies 7 days retention policy by default.
   RESET_PIP_CACHE: 0
   PACKAGE_NAME: ansys_dpf_core
-  pythons: "['3.8']"
+#  pythons: "['3.8']"
 
 jobs:
 
-#  Matrix:
-#    name: Matrix
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Create release matrix
-#        run: echo "pythons=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
-#        if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+  Matrix:
+    name: Matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release matrix
+        run: echo "pythons=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
 
-#      - name: Create push matrix
-#        run: echo "PYTHON_TO_TEST=['3.8']" >> $GITHUB_ENV
-#        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
+      - name: Create push matrix
+        run: echo "pythons=['3.8']" >> $GITHUB_ENV
+        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
 
   Windows:
     name: Windows
     runs-on: windows-2019
-#    needs: [Matrix]
+    needs: [Matrix]
     strategy:
       fail-fast: false
       matrix:
