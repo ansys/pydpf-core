@@ -78,7 +78,9 @@ jobs:
           path: ./dist/*
 
       - name: Generate wheelhouse
-        run: pip wheel . -w wheelhouse
+        run: |
+          pip wheel . -w wheelhouse
+          pip freeze > wheelhouse/requirements.txt
 
       - name: Zip wheelhouse
         uses: vimtor/action-zip@v1
