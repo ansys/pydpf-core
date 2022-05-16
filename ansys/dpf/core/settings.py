@@ -55,7 +55,7 @@ def disable_interpreter_properties_evaluation() -> bool:
     return False
 
 
-def set_upload_chunk_size(num_bytes = misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
+def set_upload_chunk_size(num_bytes=misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
     misc.DEFAULT_FILE_CHUNK_SIZE = num_bytes
 
 
@@ -77,3 +77,10 @@ def set_dynamic_available_results_capability(value) -> None:
 
     """
     misc.DYNAMIC_RESULTS = value
+
+
+def _forward_to_gate():
+    from ansys.dpf.gate import settings
+    from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+    from ansys.dpf.core.common import _common_progress_bar, _progress_bar_is_available
+    settings.forward_settings(DEFAULT_FILE_CHUNK_SIZE, _common_progress_bar if _progress_bar_is_available() else None)

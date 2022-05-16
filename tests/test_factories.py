@@ -71,11 +71,11 @@ def test_over_time_freq_fields_container_1():
     assert f2_result.location == locations.nodal
 
 
-def test_over_time_freq_fields_container_2():
-    f1 = fields_factory.create_vector_field(24, 4)
-    f2 = fields_factory.create_vector_field(32, 4, location=locations.elemental)
+def test_over_time_freq_fields_container_2(server_type):
+    f1 = fields_factory.create_vector_field(24, 4, server=server_type)
+    f2 = fields_factory.create_vector_field(32, 4, location=locations.elemental, server=server_type)
     fc = fields_container_factory.over_time_freq_fields_container(
-        {0.43: f1, 1.12: f2}, "Hz"
+        {0.43: f1, 1.12: f2}, "Hz", server=server_type
     )
     labels = fc.labels
     assert labels == ["time"]

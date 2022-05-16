@@ -1,19 +1,10 @@
 import os
 
-import ansys.grpc.dpf
 import pytest
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from ansys.dpf.core.check_version import meets_version, get_server_version
-from conftest import running_docker
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
-
-
-def test_connect():
-    base_service = dpf.core.BaseService(load_operators=False)
-    assert isinstance(base_service._stub, ansys.grpc.dpf.base_pb2_grpc.BaseServiceStub)
+from conftest import running_docker, SERVER_VERSION_HIGHER_THAN_3_0
 
 
 def test_loadmapdloperators(allkindofcomplexity):
@@ -33,16 +24,16 @@ def test_loadmeshoperators(allkindofcomplexity):
     assert mesh.grid.n_cells
 
 
-def test_loadplugin():
+def test_loadplugin(server_type):
     loaded = False
     try:
-        dpf.core.load_library("libAns.Dpf.Math.so", "math")
+        dpf.core.load_library("libAns.Dpf.Math.so", "math", server=server_type)
         loaded = True
     except Exception as e:
         print(e.args)
         pass
     try:
-        dpf.core.load_library("Ans.Dpf.Math.dll", "math")
+        dpf.core.load_library("Ans.Dpf.Math.dll", "math", server=server_type)
         loaded = True
     except Exception as e:
         print(e.args)
@@ -72,7 +63,10 @@ def transfer_to_local_path(path):
 
 
 def test_upload_download(allkindofcomplexity, tmpdir):
-    file = dpf.core.upload_file_in_tmp_folder(transfer_to_local_path(allkindofcomplexity))
+    tmpdir = str(tmpdir)
+    file = dpf.core.upload_file_in_tmp_folder(
+        transfer_to_local_path(allkindofcomplexity)
+        )
     dataSource = dpf.core.DataSources(file)
     op = dpf.core.Operator("S")
     op.connect(4, dataSource)
@@ -84,7 +78,7 @@ def test_upload_download(allkindofcomplexity, tmpdir):
 
     dir = os.path.dirname(file)
     vtk_path = os.path.join(dir, "file.vtk")
-    vtk = dpf.core.operators.serialization.vtk_export(vtk_path, fields1=fcOut)
+    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut)
     vtk.run()
 
     dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"))
@@ -92,12 +86,13 @@ def test_upload_download(allkindofcomplexity, tmpdir):
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir):
-    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity)
-    file = dpf.core.upload_file_in_tmp_folder(plate_msup)
-    file = dpf.core.upload_file_in_tmp_folder(multishells)
+def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process):
+    tmpdir = str(tmpdir)
+    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity, server=server_type_remote_process)
+    file = dpf.core.upload_file_in_tmp_folder(plate_msup, server=server_type_remote_process)
+    file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
     parent_path = os.path.dirname(file)
-    dpf.core.download_files_in_folder(parent_path, tmpdir)
+    dpf.core.download_files_in_folder(parent_path, tmpdir, server=server_type_remote_process)
     import ntpath
 
     assert os.path.exists(os.path.join(tmpdir, ntpath.basename(allkindofcomplexity)))
@@ -106,10 +101,11 @@ def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir):
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_download_with_subdir(multishells, tmpdir):
-    file = dpf.core.upload_file_in_tmp_folder(multishells)
+def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
+    tmpdir = str(tmpdir)
+    file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
 
-    base = dpf.core.BaseService()
+    base = dpf.core.BaseService(server=server_type_remote_process)
     separator = base._get_separator(file)
 
     import ntpath
@@ -117,10 +113,10 @@ def test_download_with_subdir(multishells, tmpdir):
     filename = ntpath.basename(file)
     parent_path = os.path.dirname(file)
     to_server_path = parent_path + separator + "subdir" + separator + filename
-    subdir_filepath = dpf.core.upload_file(file, to_server_path)
+    subdir_filepath = dpf.core.upload_file(file, to_server_path, server=server_type_remote_process)
     folder = parent_path
 
-    out = dpf.core.download_files_in_folder(folder, tmpdir)
+    out = dpf.core.download_files_in_folder(folder, tmpdir, server=server_type_remote_process)
     p1 = os.path.join(tmpdir, filename)
     p2 = os.path.join(tmpdir, "subdir", filename)
     # p1 = tmpdir + "/" + filename
@@ -130,8 +126,9 @@ def test_download_with_subdir(multishells, tmpdir):
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_downloadinfolder_uploadinfolder(multishells, tmpdir):
-    base = dpf.core.BaseService()
+def test_downloadinfolder_uploadinfolder(multishells, tmpdir, server_type_remote_process):
+    tmpdir = str(tmpdir)
+    base = dpf.core.BaseService(server=server_type_remote_process)
     # create in tmpdir some architecture with subfolder in subfolder
     path1 = os.path.join(tmpdir, os.path.basename(multishells))
     path2 = os.path.join(tmpdir, "subdirA", os.path.basename(multishells))
@@ -149,11 +146,12 @@ def test_downloadinfolder_uploadinfolder(multishells, tmpdir):
         to_server_folder_path=TARGET_PATH,
         client_folder_path=tmpdir,
         specific_extension="rst",
+        server=server_type_remote_process
     )
     # download it
     new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
     os.mkdir(new_tmpdir)
-    out = dpf.core.download_files_in_folder(TARGET_PATH, new_tmpdir)
+    out = dpf.core.download_files_in_folder(TARGET_PATH, new_tmpdir, server=server_type_remote_process)
     # check if the architecture of the download is ok
     path1_check = os.path.join(new_tmpdir, os.path.basename(multishells))
     path2_check = os.path.join(new_tmpdir, "subdirA", os.path.basename(multishells))
@@ -209,8 +207,9 @@ def test_downloadinfolder_uploadinfolder(multishells, tmpdir):
 #     # os.remove(os.path.join(tmpdir, "subdirB"))
 
 
-def test_uploadinfolder_emptyfolder(tmpdir):
-    base = dpf.core.BaseService()
+def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
+    tmpdir = str(tmpdir)
+    base = dpf.core.BaseService(server=server_type_remote_process)
     TARGET_PATH = base.make_tmp_dir_server()
     path = base.upload_files_in_folder(
         to_server_folder_path=TARGET_PATH, client_folder_path=tmpdir
@@ -218,10 +217,10 @@ def test_uploadinfolder_emptyfolder(tmpdir):
     assert len(path) == 0
 
 
-def test_load_plugin_correctly():
+def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
     import pkgutil
-    base = dpf.BaseService()
+    base = dpf.BaseService(server=server_type)
     try:
         base.load_library("Ans.Dpf.Math.dll", "math_operators")
     except:
@@ -244,8 +243,8 @@ def test_load_plugin_correctly():
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_dpf_join():
-    dpf.core.Operator("U")  # start server
+def test_dpf_join(server_type):
+    dpf.core.DataSources("bla", server=server_type)  # start server
     left = "temp"
     right = "file.rst"
     conc = dpf.core.path_utilities.join(left, right)

@@ -2,12 +2,8 @@
 Nodes
 =====
 """
-
 import numpy as np
-from ansys.grpc.dpf import meshed_region_pb2
-
-from ansys import dpf
-from ansys.dpf.core.common import nodal_properties
+from ansys.dpf.core.common import nodal_properties, locations
 from ansys.dpf.core.errors import protect_grpc
 
 
@@ -23,7 +19,7 @@ class Node:
         Mesh region that the node is contained in.
     nodeid : int
         ID of the node.
-    nodeindex : int
+    index : int
         Index of the node.
     coordinates : list
         List of ``[x, y, z]`` coordinates for the node.
@@ -156,14 +152,20 @@ class Nodes:
         node : ansys.dpf.core.meshed_region.Node
             Requested node
         """
-        request = meshed_region_pb2.GetRequest()
-        request.mesh.CopyFrom(self._mesh._message)
         if nodeindex is None:
-            request.id = nodeid
-        else:
-            request.index = nodeindex
-        nodeOut = self._mesh._stub.GetNode(request)
-        return Node(self._mesh, nodeOut.id, nodeOut.index, nodeOut.coordinates)
+            nodeindex = self._mesh._api.meshed_region_get_node_index(self._mesh, nodeid)
+        elif nodeid is None:
+            nodeid = self._mesh._api.meshed_region_get_node_id(self._mesh, nodeindex)
+        node_coordinates = [self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=0),
+                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=1),
+                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=2)]
+        return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 
     @property
     def scoping(self):
@@ -187,12 +189,13 @@ class Nodes:
         3
 
         """
-        return self._mesh._get_scoping(loc=dpf.core.locations.nodal)
+        return self._mesh._get_scoping(loc=locations.nodal)
+
 
     @property
     def n_nodes(self):
         """Number of nodes."""
-        return self._mesh._stub.List(self._mesh._message).num_nodes
+        return self._mesh._api.meshed_region_get_num_nodes(self._mesh)
 
     @property
     def coordinates_field(self):
@@ -245,7 +248,6 @@ class Nodes:
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
-    @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""
         return self._mesh.field_of_properties(nodal_properties.coordinates)
@@ -314,11 +316,7 @@ class Nodes:
         coordinates : list[float]
             List of ``[x, y, z]`` coordinates for the node.
         """
-        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
-        node_request = meshed_region_pb2.NodeRequest(id=id)
-        node_request.coordinates.extend(coordinates)
-        request.nodes.append(node_request)
-        self._mesh._stub.Add(request)
+        self._mesh._api.meshed_region_add_node(self._mesh, coordinates, id)
 
     def add_nodes(self, num):
         """Add a number of nodes in the mesh.
@@ -344,14 +342,10 @@ class Nodes:
         ...     node.coordinates = [float(i), float(i), 0.0]
 
         """
-        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
         for i in range(0, num):
             add = NodeAdder()
             yield add
-            node_request = meshed_region_pb2.NodeRequest(id=add.id)
-            node_request.coordinates.extend(add.coordinates)
-            request.nodes.append(node_request)
-        self._mesh._stub.Add(request)
+            self._mesh._api.meshed_region_add_node(self._mesh, add.coordinates, add.id)
 
 
 class NodeAdder:

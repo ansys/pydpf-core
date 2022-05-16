@@ -8,7 +8,7 @@ import weakref
 
 from ansys import dpf
 from ansys.dpf.core.check_version import version_requires, server_meet_version
-from ansys.dpf.core.common import _common_percentage_progress_bar
+from ansys.dpf.core.common import _common_percentage_progress_bar, _progress_bar_is_available
 from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
@@ -89,7 +89,7 @@ class Session:
         from ansys.grpc.dpf import session_pb2
         request = session_pb2.AddRequest()
         request.session.CopyFrom(self._message)
-        request.op_output.op.CopyFrom(operator._message)
+        request.op_output.op.CopyFrom(operator._internal_obj)
         request.op_output.pin = pin
         request.identifier = identifier
         self._stub.Add(request)
@@ -100,6 +100,9 @@ class Session:
         finished.
         """
         service = self._stub.ListenToProgress(self._message)
+        if not _progress_bar_is_available():
+            print("Progress bar is not available, please install progressbar2")
+            return
         bar = _common_percentage_progress_bar("Workflow running")
         bar.start()
         for chunk in service:
