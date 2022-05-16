@@ -28,14 +28,21 @@ jobs:
   Matrix:
     name: Matrix
     runs-on: ubuntu-latest
+    outputs:
+      pythons: ${{ steps.step1.outputs.pythons }}
     steps:
       - name: Create release matrix
-        run: echo "pythons=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
-        if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+        id: step1
+        run: |
+          echo "::set-output name=pythons::['3.8']"
 
-      - name: Create regular matrix
-        run: echo "pythons=['3.8']" >> $GITHUB_ENV
-        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
+#        echo "pythons=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
+
+#        if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+
+#      - name: Create regular matrix
+#        run: echo "pythons=['3.8']" >> $GITHUB_ENV
+#        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
 
       - name: Test config
         run: echo ${{ github.env.pythons }}
@@ -43,11 +50,11 @@ jobs:
   Windows:
     name: Windows
     runs-on: windows-2019
-    needs: [Matrix]
+    needs: Matrix
     strategy:
       fail-fast: false
       matrix:
-        python_version: ${{ github.env.pythons }}
+        python_version: ${{ needs.Matrix.outputs.pythons }}
 
     env:
       ANSYS_VERSION: 221
