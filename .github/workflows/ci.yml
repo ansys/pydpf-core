@@ -21,7 +21,7 @@ env:
   # It applies 7 days retention policy by default.
   RESET_PIP_CACHE: 0
   PACKAGE_NAME: ansys_dpf_core
-  PYTHON_TO_TEST = ['3.8']
+  PYTHON_TO_TEST: ['3.8']
 
 jobs:
 
