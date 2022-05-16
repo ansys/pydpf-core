@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python_version: ${{ env.pythons }}
+        python_version: ${{ github.env.pythons }}
 
     env:
       ANSYS_VERSION: 221
