@@ -33,9 +33,12 @@ jobs:
         run: echo "pythons=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
 
-      - name: Create push matrix
+      - name: Create regular matrix
         run: echo "pythons=['3.8']" >> $GITHUB_ENV
         if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
+
+      - name: Test config
+        run: echo ${{ github.env.pythons }}
 
   Windows:
     name: Windows
