@@ -24,8 +24,8 @@ env:
 
 jobs:
 
-  windows-2019_Py3_8:
-    name: Windows 2019 Python 3.8
+  Windows-2019_Py3_8:
+    name: Windows
     runs-on: windows-2019
 
     env:
