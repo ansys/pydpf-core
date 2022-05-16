@@ -1,2 +1,2 @@
 pyvista>=0.27.2
-matplotlib==3.2
+matplotlib
