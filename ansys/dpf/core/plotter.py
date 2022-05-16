@@ -501,6 +501,7 @@ class Plotter:
         pyplot.title(substr[0] + ": min/max values over time")
         pyplot.legend()
         pyplot.show()
+        return pyplot.gcf()
 
     def plot_contour(
             self,
