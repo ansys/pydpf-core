@@ -34,7 +34,7 @@ jobs:
       - name: Create release matrix
         id: step1
         run: |
-          echo "::set-output name=pythons::['3.8']"
+          echo "::set-output name=pythons::3.8"
 
 #        echo "pythons=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
 
@@ -44,8 +44,8 @@ jobs:
 #        run: echo "pythons=['3.8']" >> $GITHUB_ENV
 #        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
 
-      - name: Test config
-        run: echo ${{ github.env.pythons }}
+#      - name: Test config
+#        run: echo ${{ github.env.pythons }}
 
   Windows:
     name: Windows
