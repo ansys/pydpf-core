@@ -24,9 +24,25 @@ env:
 
 jobs:
 
-  Windows-2019_Py3_8:
+  Matrix:
+    name: Matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release matrix
+        run: echo "PYTHON_TO_TEST=['3.7', '3.8', '3.9']" >> $GITHUB_ENV
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+
+      - name: Create push matrix
+        run: echo "PYTHON_TO_TEST=['3.8']" >> $GITHUB_ENV
+        if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
+
+  Windows:
     name: Windows
     runs-on: windows-2019
+    needs: [Matrix]
+    strategy:
+      matrix:
+        python_version: ${{ env.PYTHON_TO_TEST }}
 
     env:
       ANSYS_VERSION: 221
@@ -37,7 +53,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2.1.4
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python_version }}
 
       - id: install-dpf
         uses: pyansys/pydpf-actions/install-dpf-server@v1
@@ -86,12 +102,12 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: wheelhouse
-          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-3.8.zip
+          dest: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python_version }}.zip
 
       - name: Upload wheelhouse to artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-3.8
+          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-wheelhouse-${{ runner.os }}-${{ matrix.python_version }}
           path: '*.zip'
           retention-days: 7
 
@@ -470,7 +486,7 @@ jobs:
 
   Release:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
-    needs: [windows-2019_Py3_8, build_test_package_others]
+    needs: [Windows, build_test_package_others]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
