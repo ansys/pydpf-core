@@ -104,12 +104,12 @@ jobs:
           Copy-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py" -Destination ".\..\local_server_test\"
           Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
           Remove-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"
-          pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
+          pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
 
       - name: Test Core API 2
         run: |
           cd local_server_test
-          pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+          pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append=True --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
 
       - name: Kill all servers
@@ -119,6 +119,13 @@ jobs:
           ECHO %ERRORLEVEL%
           if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
         continue-on-error: true
+
+      - name: Print Coverage
+        run: coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        if: matrix.python-version == '3.8'
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2

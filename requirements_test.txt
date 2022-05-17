@@ -4,3 +4,4 @@ pytest-rerunfailures
 matplotlib==3.2
 vtk<9.1.0
 pyvista>=0.24.0
+coverage
