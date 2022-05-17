@@ -122,7 +122,6 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
-        if: matrix.python-version == '3.8'
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2
