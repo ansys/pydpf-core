@@ -1,0 +1,45 @@
+name: Release
+
+on: workflow_call
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - uses: actions/download-artifact@v2
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Install twine
+        shell: cmd
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools twine
+
+      - name: Build package
+        run: python setup.py sdist
+
+      - name: Publish distribution 📦 to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+        run: |
+          twine upload --skip-existing ./**/*.whl
+          twine upload --skip-existing ./**/*.tar.gz
+#         /!\ Do NOT publish to Pypi the zip containing the wheelhouses
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./**/*.whl
+            ./**/*.tar.gz
+            ./**/*.pdf
+            ./**/*.zip
