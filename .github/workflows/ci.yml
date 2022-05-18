@@ -12,8 +12,8 @@ on:
       - "release*"
 
 env:
-  PYANSYS_OFF_SCREEN: True
-  DPF_PORT: 32772
+  ANSYS_VERSION: 221
+  PACKAGE_NAME: ansys-dpf-core
 
 jobs:
   test_windows:
@@ -21,7 +21,6 @@ jobs:
     runs-on: windows-2019
 
     env:
-      ANSYS_VERSION: 221
 
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +41,7 @@ jobs:
           echo AWP_ROOT$env:ANSYS_VERSION
           echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-      - name: Install ansys-dpf-core
+      - name: Install local package
         shell: cmd
         run: |
           pip install -r requirements_build.txt
@@ -51,12 +50,15 @@ jobs:
           ECHO %WHEELPATH%
           cd tests
           pip install %WHEELPATH%
-          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+
+      - name: Test import
+        working-directory: tests
+        run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
       - name: WHEEL publish artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ansys_dpf_core_wheel
+          name: ${{ env.PACKAGE_NAME }}_wheel
           path: ./dist/*
 
       - name: Install OpenGL
@@ -93,7 +95,7 @@ jobs:
       - name: Publish Doc Test Results
         uses: actions/upload-artifact@v2
         with:
-          name: ansys_dpf_core_doctest
+          name: ${{ env.PACKAGE_NAME }}_doctest
           path: junit/test-doctests-results.xml
         if: always()
 
@@ -126,7 +128,7 @@ jobs:
       - name: Publish Test Results
         uses: actions/upload-artifact@v2
         with:
-          name: ansys_dpf_core_pytest
+          name: ${{ env.PACKAGE_NAME }}_pytest
           path: tests/junit/test-results*.xml
         if: always()
 
@@ -169,7 +171,7 @@ jobs:
       - name: Set SERVER
         run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-      - name: Install ansys-dpf-core
+      - name: Install local package
         shell: cmd
         run: |
           pip install -r requirements_build.txt
@@ -207,7 +209,7 @@ jobs:
 
       - name: DOCUMENTATION zip artifacts
         run: |
-          7z a -tzip ./docs/archive/doc-ansys-dpf-core.zip ./docs/build
+          7z a -tzip ./docs/archive/doc-${{ env.PACKAGE_NAME }}.zip ./docs/build
         if: always()
 
       - name: Kill all servers
@@ -222,14 +224,14 @@ jobs:
       - name: Publish Documentation artifact
         uses: actions/upload-artifact@v2
         with:
-          name: doc-ansys-dpf-core
-          path: ./docs/archive/doc-ansys-dpf-core.zip
+          name: doc-${{ env.PACKAGE_NAME }}
+          path: ./docs/archive/doc-${{ env.PACKAGE_NAME }}.zip
         if: always()
 
       - name: Publish Documentation log
         uses: actions/upload-artifact@v2
         with:
-          name: doc-ansys-dpf-core-log
+          name: doc-${{ env.PACKAGE_NAME }}-log
           path: ./docs/*.txt
         if: always()
 
