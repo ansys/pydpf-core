@@ -1,0 +1,11 @@
+[run]
+omit =
+     /examples/*,
+     /docs/*,
+     /docker/*,
+     conftest.py,
+     /tests/*,
+     /.ci/*,
+     /ansys/dpf/core/operators/*,
+
+
