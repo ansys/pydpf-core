@@ -382,7 +382,7 @@ class DpfPlotter:
         return self._internal_plotter.show_figure(**kwargs)
 
 
-def plot_chart(fields_container):
+def plot_chart(fields_container, **kwargs):
     """Plot the minimum/maximum result values over time.
 
     This is a valid method if ``time_freq_support`` contains
@@ -390,7 +390,7 @@ def plot_chart(fields_container):
 
     Parameters
     ----------
-    field_container : dpf.core.FieldsContainer
+    fields_container : dpf.core.FieldsContainer
         Fields container that must contains a result for each
         time step of ``time_freq_support``.
 
@@ -404,8 +404,10 @@ def plot_chart(fields_container):
     >>> plotter = dpf.plotter.plot_chart(fc)
 
     """
+    off_screen = kwargs.pop("off_screen", False)
+    screenshot = kwargs.pop("screenshot", False)
     p = Plotter(None)
-    return p.plot_chart(fields_container)
+    return p.plot_chart(fields_container, screenshot=screenshot, off_screen=off_screen)
 
 
 class Plotter:
@@ -444,7 +446,7 @@ class Plotter:
         kwargs.setdefault("show_edges", True)
         return self._mesh.grid.plot(**kwargs)
 
-    def plot_chart(self, fields_container):
+    def plot_chart(self, fields_container, **kwargs):
         """Plot the minimum/maximum result values over time.
 
         This is a valid method if ``time_freq_support`` contains
@@ -503,7 +505,12 @@ class Plotter:
         pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title(substr[0] + ": min/max values over time")
         pyplot.legend()
-        return pyplot.show()
+        screenshot = kwargs.pop("screenshot", False)
+        if screenshot:
+            pyplot.savefig(screenshot)
+        off_screen = kwargs.pop("off_screen", False)
+        if not off_screen:
+            return pyplot.show()
 
     def plot_contour(
             self,
