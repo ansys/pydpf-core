@@ -502,7 +502,8 @@ class Plotter:
         substr = fields_container[0].name.split("_")
         pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title(substr[0] + ": min/max values over time")
-        return pyplot.legend()
+        pyplot.legend()
+        return pyplot.show()
 
     def plot_contour(
             self,
