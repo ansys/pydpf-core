@@ -66,7 +66,9 @@ class MeshesContainer(Collection):
         """
         kwargs.setdefault("show_edges", True)
         notebook = kwargs.pop("notebook", None)
-        pl = DpfPlotter(notebook=notebook)
+        off_screen = kwargs.pop("off_screen", False)
+        screenshot = kwargs.pop("screenshot", False)
+        pl = DpfPlotter(notebook=notebook, off_screen=off_screen)
         if fields_container is not None:
             for i in range(len(fields_container)):
                 label_space = fields_container.get_label_space(i)
@@ -86,7 +88,7 @@ class MeshesContainer(Collection):
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
                 pl.add_mesh(mesh, **kwargs)
-        pl.show_figure()
+        pl.show_figure(screenshot=screenshot)
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.

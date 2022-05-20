@@ -37,7 +37,7 @@ class _InternalPlotter:
             self._plotter.add_mesh(mesh.grid)
 
     def _sort_supported_kwargs(self, bound_method, **kwargs):
-        supported_args = inspect.getargspec(bound_method).args
+        supported_args = inspect.getfullargspec(bound_method).args
         kwargs_in = {}
         kwargs_not_avail = {}
         for key, item in kwargs.items():
