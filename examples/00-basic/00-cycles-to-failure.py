@@ -84,6 +84,8 @@ vm_stress_fields = s_eqv_op.outputs.fields_container()
 vm_stress_nodal = vm_stress_fields[0]
 vm_stress_nodal.plot()
 
+###############################################################################
+
 # Use numpy to interpolate the results.
 vm_stress = vm_stress_nodal.data
 myNodes = vm_stress_nodal.scoping.ids
