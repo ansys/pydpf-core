@@ -71,7 +71,7 @@ for i, server in enumerate(remote_servers):
 ###############################################################################
 # Create a local operators chain for expansion
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In the follwing series of operators we merge the modal basis, the meshes, read
+# In the following series of operators we merge the modal basis, the meshes, read
 # the modal response and expand the modal response with the modal basis.
 
 merge_fields = ops.utility.merge_fields_containers()
