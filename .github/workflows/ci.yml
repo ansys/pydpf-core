@@ -9,13 +9,60 @@ on:
       - "*"
     branches:
       - master
-      - "release*"
 
 env:
   PYANSYS_OFF_SCREEN: True
   DPF_PORT: 32772
+  PACKAGE_NAME: ansys-dpf-core
+  ANSYS_VERSION: 221
+  MODULE: core
 
 jobs:
+  Build_and_Test:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["windows-latest", "ubuntu-latest"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+
+      - name: "Test Package"
+        uses: pyansys/pydpf-actions/test_package@v2.0
+        with:
+          MODULE: ${{env.MODULE}}
+
+  Build_Doc:
+    name: Build Doc
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Build Documentation"
+        uses: pyansys/pydpf-actions/build_doc@v2.0
+        with:
+          python-version: "3.8"
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+        timeout-minutes: 30
+
 #  test_windows:
 #    name: Windows
 #    runs-on: windows-2019
@@ -139,151 +186,151 @@ jobs:
 #          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
 #          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
-  test_linux:
-    name: Linux
-    runs-on: ubuntu-20.04
-
-    env:
-      ANSYS_VERSION: 221
-#      TEMP: $env:RUNNER_TEMP
-#      TEMP: $GITHUB_WORKSPACE/temp
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2.1.4
-        with:
-          python-version: 3.8
-
-      - id: install-dpf
-        uses: pyansys/pydpf-actions/install-dpf-server@v1
-        with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          ANSYS_VERSION : ${{env.ANSYS_VERSION}}
-
-      - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: |
-          echo AWP_ROOT$env:ANSYS_VERSION
-          echo "${{ steps.install-dpf.outputs.SERVER }}"
-          echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}" >> $GITHUB_ENV
-
-      - name: Install ansys-dpf-core
-        shell: bash
-        run: |
-          pip install -r requirements_build.txt
-          python setup.py bdist_wheel
-          export WHEELNAME=`ls dist/*.whl`
-          echo ${WHEELNAME}
-          pip install ${WHEELNAME}
-          cd tests
-          xvfb-run python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-
-      - name: WHEEL publish artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys_dpf_core_wheel
-          path: ./dist/*
-
-      - name: Install OS packages
-        run: |
-          sudo apt update
-          sudo apt install zip pandoc libgl1-mesa-glx xvfb
-
-      - name: Install and Test offscreen rendering
-        run: |
-          pip install -r .ci/requirements_test_xvfb.txt
-          xvfb-run python .ci/display_test.py
-
-      - name: Install Test Environment
-        run: |
-          pip install -r requirements_test.txt
-        if: always()
-
-      - name: Test API Docstrings
-        run: |
-          export TEMP=${{ runner.temp }}
-          xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
-
-      - name: Kill all servers
-        shell: bash
-        run: |
-          echo $0
-          if pgrep -x "Ans.Dpf.Grpc" > /dev/null
-          then
-              pkill -f Ans.Dpf.Grpc.exe
-          fi
-        if: always()
-        continue-on-error: true
-
-      - name: Publish Doc Test Results
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys_dpf_core_doctest
-          path: junit/test-doctests-results.xml
-        if: always()
-
-#          export DATAPROCESSING_DEBUG="debug/"
-      - name: Test Core API
-        run: |
-          cd tests
-          mkdir ./../local_server_test
-          mkdir debug
-          cp ./test_{local_server,multi_server,workflow}.py ./../local_server_test/
-          cp ./conftest.py ./../local_server_test/conftest.py
-          rm ./test_{local_server,multi_server,workflow}.py
-          export TEMP=${{ runner.temp }}
-          export DPF_IP=$(hostname -i)
-          xvfb-run pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2
-          export PATH=`pwd`
-          echo ${PATH} 
-
-      - name: Test Core API 2
-        run: |
-          export TEMP=${{ runner.temp }}
-          cd local_server_test
-          xvfb-run pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-        timeout-minutes: 10
-
-      - name: Publish Test Debug Log
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys_dpf_core_debug
-          path: tests/debug/*
-        if: always()
-
-      - name: Kill all servers
-        shell: bash
-        run: |
-          echo $0
-          if pgrep -x "Ans.Dpf.Grpc" > /dev/null
-          then
-              pkill -f Ans.Dpf.Grpc.exe
-          fi
-        if: always()
-        continue-on-error: true
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-
-      - name: Publish Test Results
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys_dpf_core_pytest
-          path: tests/junit/test-results*.xml
-        if: always()
-
-      - name: 'Upload to PyPi'
-        if: contains(github.ref, 'refs/tags')
-        shell: cmd
-        run: |
-          pip install twine
-          python setup.py sdist
-          twine upload --skip-existing dist/*
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
-          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
+#  test_linux:
+#    name: Linux
+#    runs-on: ubuntu-20.04
+#
+#    env:
+#      ANSYS_VERSION: 221
+##      TEMP: $env:RUNNER_TEMP
+##      TEMP: $GITHUB_WORKSPACE/temp
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Setup Python
+#        uses: actions/setup-python@v2.1.4
+#        with:
+#          python-version: 3.8
+#
+#      - id: install-dpf
+#        uses: pyansys/pydpf-actions/install-dpf-server@v1
+#        with:
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          ANSYS_VERSION : ${{env.ANSYS_VERSION}}
+#
+#      - name: Set AWP_ROOT$env:ANSYS_VERSION
+#        run: |
+#          echo AWP_ROOT$env:ANSYS_VERSION
+#          echo "${{ steps.install-dpf.outputs.SERVER }}"
+#          echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}" >> $GITHUB_ENV
+#
+#      - name: Install ansys-dpf-core
+#        shell: bash
+#        run: |
+#          pip install -r requirements_build.txt
+#          python setup.py bdist_wheel
+#          export WHEELNAME=`ls dist/*.whl`
+#          echo ${WHEELNAME}
+#          pip install ${WHEELNAME}
+#          cd tests
+#          xvfb-run python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+#
+#      - name: WHEEL publish artifacts
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ansys_dpf_core_wheel
+#          path: ./dist/*
+#
+#      - name: Install OS packages
+#        run: |
+#          sudo apt update
+#          sudo apt install zip pandoc libgl1-mesa-glx xvfb
+#
+#      - name: Install and Test offscreen rendering
+#        run: |
+#          pip install -r .ci/requirements_test_xvfb.txt
+#          xvfb-run python .ci/display_test.py
+#
+#      - name: Install Test Environment
+#        run: |
+#          pip install -r requirements_test.txt
+#        if: always()
+#
+#      - name: Test API Docstrings
+#        run: |
+#          export TEMP=${{ runner.temp }}
+#          xvfb-run pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+#
+#      - name: Kill all servers
+#        shell: bash
+#        run: |
+#          echo $0
+#          if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+#          then
+#              pkill -f Ans.Dpf.Grpc.exe
+#          fi
+#        if: always()
+#        continue-on-error: true
+#
+#      - name: Publish Doc Test Results
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ansys_dpf_core_doctest
+#          path: junit/test-doctests-results.xml
+#        if: always()
+#
+##          export DATAPROCESSING_DEBUG="debug/"
+#      - name: Test Core API
+#        run: |
+#          cd tests
+#          mkdir ./../local_server_test
+#          mkdir debug
+#          cp ./test_{local_server,multi_server,workflow}.py ./../local_server_test/
+#          cp ./conftest.py ./../local_server_test/conftest.py
+#          rm ./test_{local_server,multi_server,workflow}.py
+#          export TEMP=${{ runner.temp }}
+#          export DPF_IP=$(hostname -i)
+#          xvfb-run pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2
+#          export PATH=`pwd`
+#          echo ${PATH}
+#
+#      - name: Test Core API 2
+#        run: |
+#          export TEMP=${{ runner.temp }}
+#          cd local_server_test
+#          xvfb-run pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+#        timeout-minutes: 10
+#
+#      - name: Publish Test Debug Log
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ansys_dpf_core_debug
+#          path: tests/debug/*
+#        if: always()
+#
+#      - name: Kill all servers
+#        shell: bash
+#        run: |
+#          echo $0
+#          if pgrep -x "Ans.Dpf.Grpc" > /dev/null
+#          then
+#              pkill -f Ans.Dpf.Grpc.exe
+#          fi
+#        if: always()
+#        continue-on-error: true
+#
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v2
+#
+#      - name: Publish Test Results
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ansys_dpf_core_pytest
+#          path: tests/junit/test-results*.xml
+#        if: always()
+#
+#      - name: 'Upload to PyPi'
+#        if: contains(github.ref, 'refs/tags')
+#        shell: cmd
+#        run: |
+#          pip install twine
+#          python setup.py sdist
+#          twine upload --skip-existing dist/*
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
+#          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
 #  build_doc:
 #    name: Documentation
