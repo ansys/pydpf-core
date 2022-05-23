@@ -275,7 +275,7 @@ class Field(_FieldBase):
         screenshot = kwargs.pop("screenshot", None)
         off_screen = kwargs.pop("off_screen", None)
         text = kwargs.pop("text", None)
-        pl = Plotter(self.meshed_region, notebook=notebook, **kwargs)
+        pl = Plotter(self.meshed_region, off_screen=off_screen, notebook=notebook, **kwargs)
         kwargs["screenshot"] = screenshot
         kwargs["text"] = text
         pl.plot_contour(self, notebook, shell_layers, off_screen, show_axes, **kwargs)

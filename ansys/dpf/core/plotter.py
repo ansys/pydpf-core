@@ -430,7 +430,7 @@ class Plotter:
 
     """
 
-    def __init__(self, mesh, off_screen=False, **kwargs):
+    def __init__(self, mesh, off_screen=None, **kwargs):
         # from warnings import warn
         # warn('Using the Plotter is deprecated, please switch to DpfPlotter instead.',
         # DeprecationWarning, stacklevel=2)
