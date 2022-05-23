@@ -45,7 +45,7 @@ snData[:, 0] = [10, 20, 50, 100, 200, 2000, 10000, 20000, 1e5, 2e5, 1e6]
 snData[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2.14e8, 1.38e8, 1.14e8, 8.62e7]
 
 #### Launch pymapdl to generate rst file in myDir
-mapdl = launch_mapdl(run_location=myDir)
+mapdl = launch_mapdl()
 mapdl.prep7()
 # Model
 mapdl.cylind(0.5, 0, 10, 0)
