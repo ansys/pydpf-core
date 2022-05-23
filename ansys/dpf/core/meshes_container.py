@@ -47,6 +47,9 @@ class MeshesContainer(Collection):
         ----------
         fields_container : FieldsContainer, optional
             Data to plot. The default is ``None``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
 
         Examples
         --------
@@ -66,8 +69,8 @@ class MeshesContainer(Collection):
         """
         kwargs.setdefault("show_edges", True)
         notebook = kwargs.pop("notebook", None)
-        off_screen = kwargs.pop("off_screen", False)
-        screenshot = kwargs.pop("screenshot", False)
+        off_screen = kwargs.pop("off_screen", None)
+        screenshot = kwargs.pop("screenshot", None)
         pl = DpfPlotter(notebook=notebook, off_screen=off_screen)
         if fields_container is not None:
             for i in range(len(fields_container)):

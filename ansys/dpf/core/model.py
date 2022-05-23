@@ -214,6 +214,16 @@ class Model:
     def plot(self, color="w", show_edges=True, **kwargs):
         """Plot the mesh of the model.
 
+        Parameters
+        ----------
+        color : str
+            color of the mesh faces in PyVista format. The default is white with ``"w"``.
+        show_edges : bool
+            Whether to show the mesh edges. The default is ``True``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
+
         Examples
         --------
         Plot the model using the default options.

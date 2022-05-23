@@ -79,8 +79,10 @@ jobs:
         if: always()
 
       - name: Test API Docstrings
+        shell: bash
         run: |
-           pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+          export PYVISTA_OFF_SCREEN=True
+          pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
       - name: Kill all servers
         shell: cmd

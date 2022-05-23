@@ -232,7 +232,7 @@ class DpfPlotter:
     More information about the available arguments are
     available at :func:`pyvista.plot`.
     """
-    def __init__(self, **kwargs):
+    def __init__(self, off_screen=None, **kwargs):
         """Create a DpfPlotter object.
 
         The current DpfPlotter is a PyVista based object.
@@ -245,6 +245,8 @@ class DpfPlotter:
 
         Parameters
         ----------
+        off_screen : bool, optional
+            Whether the plotter instance will render images off-screen. The default is ``False``.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -255,6 +257,7 @@ class DpfPlotter:
         >>> pl = DpfPlotter(notebook=False)
 
         """
+        kwargs["off_screen"] = off_screen
         self._internal_plotter = _InternalPlotter(**kwargs)
         self._labels = []
 
@@ -382,7 +385,7 @@ class DpfPlotter:
         return self._internal_plotter.show_figure(**kwargs)
 
 
-def plot_chart(fields_container, **kwargs):
+def plot_chart(fields_container, off_screen=False, screenshot=None):
     """Plot the minimum/maximum result values over time.
 
     This is a valid method if ``time_freq_support`` contains
@@ -393,6 +396,13 @@ def plot_chart(fields_container, **kwargs):
     fields_container : dpf.core.FieldsContainer
         Fields container that must contains a result for each
         time step of ``time_freq_support``.
+    off_screen : bool, optional
+        Whether to render the image off-screen. Useful for batch workflows.
+        The default is ``False``.
+    screenshot : path-like, optional
+        A file path to which the figure should be saved. The format is inferred from the file
+        extension in the path (defaults to ".png"). The default is ``None``.
+
 
     Examples
     --------
@@ -404,8 +414,6 @@ def plot_chart(fields_container, **kwargs):
     >>> plotter = dpf.plotter.plot_chart(fc)
 
     """
-    off_screen = kwargs.pop("off_screen", False)
-    screenshot = kwargs.pop("screenshot", False)
     p = Plotter(None)
     return p.plot_chart(fields_container, screenshot=screenshot, off_screen=off_screen)
 
@@ -417,13 +425,16 @@ class Plotter:
     ----------
     mesh : str
         Name of the mesh.
+    off_screen : bool, optional
+        Whether the plotter instance will render images off-screen. The default is ``False``.
 
     """
 
-    def __init__(self, mesh, **kwargs):
+    def __init__(self, mesh, off_screen=False, **kwargs):
         # from warnings import warn
         # warn('Using the Plotter is deprecated, please switch to DpfPlotter instead.',
         # DeprecationWarning, stacklevel=2)
+        kwargs["off_screen"] = off_screen
         self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
         self._mesh = mesh
 
