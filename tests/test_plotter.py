@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from ansys import dpf
@@ -5,6 +7,7 @@ from ansys.dpf import core
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
+from ansys.dpf.core.plotter import plot_chart
 from conftest import running_docker
 
 if misc.module_exists("pyvista"):
@@ -13,6 +16,22 @@ if misc.module_exists("pyvista"):
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
+
+
+def remove_picture(picture):
+    if os.path.exists(os.path.join(os.getcwd(), picture)):
+        os.remove(os.path.join(os.getcwd(), picture))
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_on_model(plate_msup):
+    model = Model(plate_msup)
+    model.plot()
+    picture = 'model_plot.png'
+    remove_picture(picture)
+    model.plot(off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -86,6 +105,11 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     mesh.plot(fc)
+    picture = 'mesh_plot.png'
+    remove_picture(picture)
+    mesh.plot(fc, off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -112,6 +136,11 @@ def test_field_nodal_plot(allkindofcomplexity):
     fc = avg_op.outputs.fields_container()
     f = fc[1]
     f.plot()
+    picture = 'field_plot.png'
+    remove_picture(picture)
+    f.plot(off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -269,6 +298,11 @@ def test_plot_meshes_container_1(multishells):
     disp_op.connect(4, ds)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc)
+    picture = 'meshes_cont_plot.png'
+    remove_picture(picture)
+    meshes_cont.plot(disp_fc, off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -485,3 +519,20 @@ def test_plot_node_labels(multishells):
                        font_family="courier", shadow=True,
                        point_color="grey", point_size=20)
     pl.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_chart(allkindofcomplexity):
+    from ansys.dpf.core import types
+    model = Model(allkindofcomplexity)
+    tfq = model.metadata.time_freq_support
+    timeids = list(range(1, tfq.n_sets + 1))
+    disp = model.results.displacement()
+    disp.inputs.time_scoping.connect(timeids)
+    new_fields_container = disp.get_output(0, types.fields_container)
+    plot_chart(new_fields_container)
+    picture = 'plot_chart.png'
+    remove_picture(picture)
+    plot_chart(new_fields_container, off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
