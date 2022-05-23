@@ -71,7 +71,7 @@ mapdl.exit()
 print('apdl model solved.')
 
 # ##### pydpf is used to post process the .rst in order to estimate the cycles to failure
-model = dpf.Model(myDir + '\\file.rst')
+model = dpf.Model(os.path.join(mapdl.directory, 'file.rst'))
 print(model)
 mesh = model.metadata.meshed_region
 
