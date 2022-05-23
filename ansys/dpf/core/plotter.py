@@ -506,18 +506,20 @@ class Plotter:
         pyplot.title(substr[0] + ": min/max values over time")
         pyplot.legend()
         screenshot = kwargs.pop("screenshot", False)
-        if screenshot:
-            pyplot.savefig(screenshot)
         off_screen = kwargs.pop("off_screen", False)
+        f = pyplot.gcf()
+        if screenshot:
+            f.savefig(screenshot)
         if not off_screen:
-            return pyplot.show()
+            pyplot.show(block=True)
+        return f
 
     def plot_contour(
             self,
             field_or_fields_container,
             notebook=None,
             shell_layers=None,
-            # off_screen=None,
+            off_screen=None,
             show_axes=True,
             meshed_region=None,
             **kwargs

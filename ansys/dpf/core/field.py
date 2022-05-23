@@ -273,11 +273,12 @@ class Field(_FieldBase):
             arguments, see ``help(pyvista.plot)``.
         """
         screenshot = kwargs.pop("screenshot", None)
+        off_screen = kwargs.pop("off_screen", None)
         text = kwargs.pop("text", None)
         pl = Plotter(self.meshed_region, notebook=notebook, **kwargs)
         kwargs["screenshot"] = screenshot
         kwargs["text"] = text
-        pl.plot_contour(self, notebook, shell_layers, show_axes, **kwargs)
+        pl.plot_contour(self, notebook, shell_layers, off_screen, show_axes, **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.

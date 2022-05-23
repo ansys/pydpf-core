@@ -412,12 +412,13 @@ class MeshedRegion:
         pl = _DpfPlotter(self, notebook=notebook, **kwargs)
         kwargs["screenshot"] = screenshot
         kwargs["text"] = text
+        off_screen = kwargs.pop("off_screen", None)
         if field_or_fields_container is not None:
             return pl.plot_contour(
                 field_or_fields_container,
                 notebook,
                 shell_layers,
-                # off_screen,
+                off_screen,
                 show_axes,
                 **kwargs
             )
