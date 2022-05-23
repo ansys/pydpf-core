@@ -93,7 +93,9 @@ myResult[:, 0] = myNodes
 myResult[:, 1] = vm_stress
 myResult[:, 2] = np.interp(myResult[:, 1], xPoints, yValues)
 
-##Create an empty field, add nodes/results and plot
+###############################################################################
+
+# Create an empty field, add nodes/results and plot
 myResultField = dpf.Field(len(myNodes), dpf.natures.scalar, 'Nodal')
 my_scoping = dpf.Scoping()
 my_scoping.location = 'Nodal'
