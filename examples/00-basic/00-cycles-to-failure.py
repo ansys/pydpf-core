@@ -75,6 +75,8 @@ model = dpf.Model(os.path.join(mapdl.directory, 'file.rst'))
 print(model)
 mesh = model.metadata.meshed_region
 
+###############################################################################
+
 # Get the von mises equivalent stress, requires an operator
 s_eqv_op = dpf.operators.result.stress_von_mises()
 s_eqv_op.inputs.data_sources.connect(model)
