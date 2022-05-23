@@ -234,7 +234,7 @@ jobs:
           rm ./test_{local_server,multi_server,workflow}.py
           export TEMP=${{ runner.temp }}
           export DPF_IP=$(hostname -i)
-          xvfb-run pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2
+          xvfb-run pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2
           export PATH=`pwd`
           echo ${PATH} 
 
@@ -242,7 +242,7 @@ jobs:
         run: |
           export TEMP=${{ runner.temp }}
           cd local_server_test
-          xvfb-run pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+          xvfb-run pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
 
       - name: Publish Test Debug Log
@@ -262,6 +262,9 @@ jobs:
           fi
         if: always()
         continue-on-error: true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2

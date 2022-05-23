@@ -17,7 +17,7 @@ import weakref
 import copy
 
 from ansys import dpf
-from ansys.dpf.core.misc import find_ansys, is_ubuntu
+from ansys.dpf.core.misc import find_ansys, is_ubuntu, is_pypim_configured
 from ansys.dpf.core import errors
 
 from ansys.dpf.core._version import (
@@ -79,6 +79,9 @@ def _global_server():
                 ip = os.environ.get("DPF_IP", LOCALHOST)
                 port = int(os.environ.get("DPF_PORT", DPF_DEFAULT_PORT))
                 connect_to_server(ip, port)
+            elif is_pypim_configured():
+                # DpfServer constructor will start DPF through PyPIM
+                DpfServer(as_global=True, launch_server=True)
             else:
                 start_local_server()
 
@@ -351,15 +354,23 @@ class DpfServer:
         check_valid_ip(ip)
         if not isinstance(port, int):
             raise ValueError("Port must be an integer")
+        address = "%s:%d" % (ip, port)
 
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
         elif launch_server:
-            self._server_id = launch_dpf(str(ansys_path), ip, port,
-                                         docker_name=docker_name,
-                                         timeout=timeout)
+            if is_pypim_configured() and not ansys_path and not docker_name:
+                self._remote_instance = launch_remote_dpf()
+                address = self._remote_instance.services["grpc"].uri
+                # Unset ip and port as it's created by address.
+                ip = None
+                port = None
+            else:
+                self._server_id = launch_dpf(str(ansys_path), ip, port,
+                                            docker_name=docker_name,
+                                            timeout=timeout)
 
-        self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
+        self.channel = grpc.insecure_channel(address)
 
         # assign to global channel when requested
         if as_global:
@@ -367,7 +378,8 @@ class DpfServer:
 
         # TODO: add to PIDs ...
 
-        # store port and ip for later reference
+        # store the address for later reference
+        self._address = address
         self._input_ip = ip
         self._input_port = port
         self.live = True
@@ -465,6 +477,8 @@ class DpfServer:
                 for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
                 process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            elif hasattr(self, "_remote_instance") and self._remote_instance:
+                self._remote_instance.delete()
             else:
                 p = psutil.Process(self._base_service.server_info["server_process_id"])
                 p.kill()
@@ -667,6 +681,21 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., doc
     if len(docker_id) > 0:
         return docker_id[0]
 
+def launch_remote_dpf(version = None):
+    try:
+        import ansys.platform.instancemanagement as pypim
+    except ImportError as e:
+        raise ImportError("Launching a remote session of DPF requires the installation"
+                           + " of ansys-platform-instancemanagement") from e
+    version = version or __ansys_version__
+    pim = pypim.connect()
+    instance = pim.create_instance(product_name = "dpf", product_version = version)
+    instance.wait_for_ready()
+    grpc_service = instance.services["grpc"]
+    if grpc_service.headers:
+        LOG.error("Communicating with DPF in this remote environment requires metadata."
+                  + "This is not supported, you will likely encounter errors or limitations.")
+    return instance
 
 def check_ansys_grpc_dpf_version(server, timeout=10.):
     state = grpc.channel_ready_future(server.channel)
@@ -677,8 +706,8 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
 
     if not state._matured:
         raise TimeoutError(
-            f"Failed to connect to {server._input_ip}:" +
-            f"{server._input_port} in {int(timeout)} seconds"
+            f"Failed to connect to {server._address}" +
+            f" in {int(timeout)} seconds"
         )
 
     LOG.debug("Established connection to DPF gRPC")
