@@ -19,32 +19,32 @@ env:
   MODULE: core
 
 jobs:
-  Build_and_Test:
-    name: Build and Test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8"]
-        os: ["ubuntu-latest"]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.0
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-
-      - name: "Test Package"
-        uses: pyansys/pydpf-actions/test_package@v2.1
-        with:
-          MODULE: ${{env.MODULE}}
+#  Build_and_Test:
+#    name: Build and Test
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: ["3.8"]
+#        os: ["ubuntu-latest"]
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: "Build Package"
+#        uses: pyansys/pydpf-actions/build_package@v2.0
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#
+#      - name: "Test Package"
+#        uses: pyansys/pydpf-actions/test_package@v2.1
+#        with:
+#          MODULE: ${{env.MODULE}}
 
   Build_Doc:
     name: Build Doc
