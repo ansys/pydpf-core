@@ -48,11 +48,13 @@ class Input:
         self._update_doc_str(docstr, self.name)
 
     def connect(self, inpt):
-        """Connect any input (an entity or an operator output) to a specified input pin of this operator.
+        """Connect any input (an entity or an operator output) to a specified input pin of this
+        operator.
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, Output, Outputs, Operator, os.PathLike
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion, \
+            Output, Outputs, Operator, os.PathLike
             Input of the operator.
 
         """
@@ -278,7 +280,8 @@ class _Inputs:
 class Inputs(_Inputs):
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
-    Used to connect inputs to the Operator by automatically checking types to connect correct inputs.
+    Used to connect inputs to the Operator by automatically
+    checking types to connect correct inputs.
 
     Examples
     --------
