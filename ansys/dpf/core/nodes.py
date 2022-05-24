@@ -357,13 +357,6 @@ class Nodes:
 class NodeAdder:
     """Adds a new node to a meshed region.
 
-    Attributes
-    ----------
-    id : int
-
-    coordinates : list of doubles
-        List of ''[x, y, z]'' coordinates.
-
     Examples
     --------
     Create a meshed region from scratch.

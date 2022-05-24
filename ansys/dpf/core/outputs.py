@@ -1,3 +1,10 @@
+"""
+.. _ref_outputs:
+
+Outputs
+=======
+"""
+
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.common import types
 from ansys.grpc.dpf import operator_pb2
@@ -6,14 +13,19 @@ import re
 
 class Output:
     """
-    Parameters
-    ----------
-    spec :
-        Specification
-    pin :
-        Pin
-    operator :
-        Operator
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to evaluate and get outputs of the Operator.
+
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> isinstance(disp_op.outputs.fields_container, dpf.inputs.Output)
+    True
+    >>> fc = disp_op.outputs.fields_container()
     """
 
     def __init__(self, spec, pin, operator):
@@ -130,10 +142,19 @@ def _modify_output_spec_with_one_type(output_spec, type):
 
 class Outputs(_Outputs):
     """
-    dict_outputs : dict
-        Dictionary of outputs.
-    operator :
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to list the available :class:`ansys.dpf.core.outputs.Output` s of the Operator.
 
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> isinstance(disp_op.outputs, dpf.inputs._Outputs)
+    True
+    >>> fc = disp_op.outputs.fields_container()
     """
 
     def __init__(self, dict_outputs, operator):

@@ -4,7 +4,7 @@
 User Guide
 ==========
 
-DPF-Core is a Python client API for easily accessing DPF (Data Processing Framework) 
+PyDPF-Core is a Python client API for easily accessing DPF (Data Processing Framework)
 postprocessing capabilities. The ``ansys.dpf.core`` package makes highly efficient 
 computation, customization, and remote postprocessing accessible in Python.
 
