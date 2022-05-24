@@ -62,6 +62,7 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+        continue-on-error: true
         timeout-minutes: 30
 
 #  test_windows:
