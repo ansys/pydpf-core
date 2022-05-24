@@ -48,15 +48,15 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "sphinx.ext.todo",
     "sphinx.ext.napoleon",
-    # "pydata_sphinx_theme",
-    # "nbsphinx",
-    # "sphinx.ext.intersphinx"
+    "pydata_sphinx_theme",
+    "nbsphinx",
+    "sphinx.ext.intersphinx"
 ]
 
-# # Intersphinx mapping
-# intersphinx_mapping = {
-#     "pyvista": ("https://docs.pyvista.org/", None),
-# }
+# Intersphinx mapping
+intersphinx_mapping = {
+    "pyvista": ("https://docs.pyvista.org/", None),
+}
 
 autosummary_generate = True
 
@@ -115,7 +115,7 @@ sphinx_gallery_conf = {
     #                         "set_plot_theme('document')"),
 }
 
-# autodoc_member_order = "bysource"
+autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -154,9 +154,9 @@ html_static_path = ["_static"]
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-html_sidebars = {}
+# html_sidebars = {}
 
-# html_sidebars = {"testing": []}
+html_sidebars = {"testing": []}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
