@@ -230,7 +230,7 @@ class DpfPlotter:
     it supports **kwargs as parameter (the argument
     must be supported by the installed PyVista version).
     More information about the available arguments are
-    available at :func:`pyvista.plot`.
+    available at :func:`pyvista.plot` .
     """
     def __init__(self, **kwargs):
         """Create a DpfPlotter object.
@@ -241,13 +241,13 @@ class DpfPlotter:
         it supports **kwargs as parameter (the argument
         must be supported by the installed PyVista version).
         More information about the available arguments are
-        available at :func:`pyvista.plot`.
+        available at :func:`pyvista.plot` .
 
         Parameters
         ----------
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
-            are available at :func:`pyvista.plot`.
+            are available at :func:`pyvista.plot` .
 
         Examples
         --------

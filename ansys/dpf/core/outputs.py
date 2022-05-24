@@ -9,10 +9,11 @@ class Output:
     Parameters
     ----------
     spec :
-
+        Specification
     pin :
-
+        Pin
     operator :
+        Operator
     """
 
     def __init__(self, spec, pin, operator):

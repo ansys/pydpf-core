@@ -163,7 +163,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -196,7 +196,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -228,7 +228,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -336,7 +336,7 @@ class BodyFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -357,7 +357,7 @@ class BodyFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Scoping <ansys.dpf.core.scoping>'
+        :class:`Scoping <ansys.dpf.core.scoping>`
             Field corresponding to the request.
             Scoping containing the material IDs available in the fields container.
         """

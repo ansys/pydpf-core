@@ -362,7 +362,7 @@ class NodeAdder:
     id : int
 
     coordinates : list of doubles
-        List of ``[x, y, z]'' coordinates.
+        List of ''[x, y, z]'' coordinates.
 
     Examples
     --------

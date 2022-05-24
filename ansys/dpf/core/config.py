@@ -115,10 +115,10 @@ class Config:
 
         Parameters
         ----------
+        config_name : str
+            Name of the configuration option.
         config_value : bool, int, float
             Value to give to a configuration option.
-         config_name : str
-            Name of the configuration option.
         """
         return self.__set_config_option__(config_value, config_name)
 

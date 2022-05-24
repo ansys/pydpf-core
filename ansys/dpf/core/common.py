@@ -76,7 +76,7 @@ natures = Enum("natures", names)
 natures.__doc__ = __write_enum_doc__(
     natures,
     (
-        "The ``'natures'`` enum contains the dimensionality types.\n "
+        "The ``'natures'`` enum contains the dimensionality types. "
         "It can be used to create a field of a given dimensionality."
     ),
 )

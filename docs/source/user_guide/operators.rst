@@ -165,7 +165,7 @@ can also be connected to work on a temporal subset:
     
 Evaluating Operators
 ~~~~~~~~~~~~~~~~~~~~
-With all the required inputs assigned, the :class:`ansys.dpf.core.fields_container`can be
+With all the required inputs assigned, the :py:class:`ansys.dpf.core.fields_container` can be
 outputted from the operator:
 
 .. code-block:: python

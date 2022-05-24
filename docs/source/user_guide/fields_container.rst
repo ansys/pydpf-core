@@ -414,7 +414,7 @@ array to Python and then computing the maximum there. Rather than
 copying the array over and then computing the maximum in Python, you
 can instead compute the maximum directly from the field itself.
 
-This example uses the ``'min_max'``operator to compute the maximum of 
+This example uses the ``min_max`` operator to compute the maximum of
 the field while returning the field:
 
 .. code:: python

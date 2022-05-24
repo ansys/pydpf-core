@@ -17,7 +17,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
-# :class:`Model <ansys.dpf.core.model.Model> class helps to organize access
+# :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
 # methods for the result by keeping track of the operators and data sources
 # used by the result
 # file.
