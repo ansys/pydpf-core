@@ -62,7 +62,7 @@ merge = ops.utility.merge_fields_containers()
 
 ###############################################################################
 # Connect the operator chains together and get the output
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 nodal = ops.averaging.to_nodal_fc(merge)
 
