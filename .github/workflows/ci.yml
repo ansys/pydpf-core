@@ -81,8 +81,9 @@ jobs:
       - name: Test API Docstrings
         shell: bash
         run: |
-          export PYVISTA_OFF_SCREEN=True
           pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+
+#          export PYVISTA_OFF_SCREEN=True
 
       - name: Kill all servers
         shell: cmd
