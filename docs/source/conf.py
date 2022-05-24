@@ -50,7 +50,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
     "nbsphinx",
-    "sphinx.ext.intersphinx"
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.graphviz"
 ]
 
 # Intersphinx mapping
@@ -87,7 +88,6 @@ exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
-
 
 # -- Sphinx Gallery Options
 from sphinx_gallery.sorting import FileNameSortKey

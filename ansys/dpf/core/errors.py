@@ -1,3 +1,10 @@
+"""
+.. _ref_errors:
+
+Errors
+======
+"""
+
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 from functools import wraps
 

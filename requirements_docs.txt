@@ -14,3 +14,4 @@ sphinx-notfound-page==0.8
 sphinx-copybutton==0.5.0
 sphinx-gallery==0.10.1
 ansys_sphinx_theme==0.4.2
+graphviz==0.20
