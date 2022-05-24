@@ -484,6 +484,6 @@ def test_plot_node_labels(multishells):
                        font_size=26, text_color="white",
                        font_family="courier", shadow=True,
                        point_color="grey", point_size=20)
-    a = pl.labels
-    assert pl.labels[1]
+    a = pl.labels[0]
+    assert len(a) == 2
     pl.show_figure()
