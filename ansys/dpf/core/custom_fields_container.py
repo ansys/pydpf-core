@@ -11,7 +11,8 @@ from ansys.grpc.dpf import meshed_region_pb2
 
 
 class ElShapeFieldsContainer(FieldsContainer):
-    """Represents a fields container with fields split by an element shape.
+    """
+    Represents a fields container with fields split by an element shape.
 
     Instances of this class are created when a model result is split by an
     element shape, such as a solid, shell, or beam.
@@ -43,18 +44,17 @@ class ElShapeFieldsContainer(FieldsContainer):
             self.add_label("elshape")
 
     def solid_fields(self, timeid=None, complexid=None):
-        """Retrieve a list of all fields with solid element shapes.
+        """
+        Retrieve a list of all fields with solid element shapes.
 
-        You can filter the list of fields with solid element shapes
-        based on a given time, complex type, or both.
+        You can filter the list of fields with solid element shapes based on a given time, complex type, or both.
 
         Parameters
         ----------
         timeid : int, optional
             Time ID for filtering fields with solid element shapes.
         complexid : int, optional
-            Complex type ID for filtering fields with solid element shapes.
-            0 is for real numbers, and 1 is for imaginary numbers.
+            Complex type ID for filtering fields with solid element shapes. 0 is for real numbers, and 1 is for imaginary numbers.
 
         Returns
         -------
@@ -63,6 +63,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
@@ -88,8 +89,7 @@ class ElShapeFieldsContainer(FieldsContainer):
         timeid : int, optional
             Time ID for filtering fields with shell element shapes.
         complexid : int, optional
-            Complex type ID for filtering fields with shell element shapes.
-            0 is for real numbers, and 1 is for imaginary numbers.
+            Complex type ID for filtering fields with shell element shapes. 0 is for real numbers, and 1 is for imaginary numbers.
 
         Returns
         -------
@@ -282,7 +282,6 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_fields_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a list of all fields for a material ID.
-
         You can filter the list of fields for a material ID based on
         a given time, complex type, or both.
 
@@ -320,7 +319,6 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_field_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a field with a given material ID.
-
          You can filter the field based on a given time, complex type, or both.
 
         Parameters

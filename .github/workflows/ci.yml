@@ -2,14 +2,14 @@ name: GitHub Actions
 
 on:
   pull_request:
-     branches-ignore:
-       - '*no-ci*'
+    branches-ignore:
+      - "*no-ci"
+
   push:
     tags:
       - "*"
     branches:
       - master
-      - "release*"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
