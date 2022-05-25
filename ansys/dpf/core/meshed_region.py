@@ -412,6 +412,7 @@ class MeshedRegion:
         pl = DpfPlotter(self, **kwargs)
         if field_or_fields_container is not None:
             return pl.plot_contour(field_or_fields_container, shell_layers, show_axes, **kwargs)
+
         # otherwise, simply plot the mesh
         kwargs["show_axes"] = show_axes
         return pl.show_figure(**kwargs)

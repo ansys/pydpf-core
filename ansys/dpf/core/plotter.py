@@ -73,34 +73,8 @@ class _InternalPlotter:
         return kwargs_in
 
     def add_mesh(self, meshed_region, **kwargs):
-        # Import pyvista
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
-        pv_version = pv.__version__
-        version_to_reach = '0.30.0'  # when stitle started to be deprecated
-        meet_ver = meets_version(pv_version, version_to_reach)
-        if meet_ver:
-            # use scalar_bar_args
-            scalar_bar_args = {'title': 'Mesh'}
-            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        else:
-            # use stitle
-            has_attribute_scalar_bar = False
-            try:
-                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
-            except:
-                has_attribute_scalar_bar = False
 
-            if not has_attribute_scalar_bar:
-                kwargs.setdefault("stitle", "Mesh")
-            else:
-                if self._plotter.scalar_bar.GetTitle() is None:
-                    kwargs.setdefault("stitle", "Mesh")
+        self.set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
         kwargs.setdefault("show_edges", True)
@@ -277,6 +251,37 @@ class _InternalPlotter:
                 your pyvista module with a version higher than """
                 txt += version_to_reach
                 raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
+
+    def set_scalar_bar_title(self, kwargs):
+        # Import pyvista
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use plotting capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        stitle = kwargs.pop("stitle", None)
+        pv_version = pv.__version__
+        version_to_reach = '0.30.0'  # when stitle started to be deprecated
+        meet_ver = meets_version(pv_version, version_to_reach)
+        if meet_ver:
+            # use scalar_bar_args
+            scalar_bar_args = {'title': stitle}
+            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+        else:
+            # use stitle
+            has_attribute_scalar_bar = False
+            try:
+                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
+            except:
+                has_attribute_scalar_bar = False
+
+            if not has_attribute_scalar_bar:
+                kwargs.setdefault("stitle", stitle)
+            else:
+                if self._plotter.scalar_bar.GetTitle() is None:
+                    kwargs.setdefault("stitle", stitle)
 
 
 class DpfPlotter:
@@ -621,46 +626,16 @@ def plot_chart(fields_container, off_screen=False, screenshot=None):
 
 
 class Plotter:
-    """Plotter class. Can be used in order to plot
-    results over a mesh.
+    """Plots fields and meshed regions in DPF-Core.
 
-    The current Plotter is a PyVista based object.
+    Parameters
+    ----------
+    mesh : str
+        Name of the mesh.
 
-    That means that PyVista must be installed, and that
-    it supports **kwargs as parameter (the argument
-    must be supported by the installed PyVista version).
-    More information about the available arguments are
-    available at :class:`pyvista.Plotter`.
     """
 
     def __init__(self, mesh, **kwargs):
-        """Create a Plotter object.
-
-        The current Plotter is a PyVista based object.
-
-        That means that PyVista must be installed, and that
-        it supports **kwargs as parameter (the argument
-        must be supported by the installed PyVista version).
-        More information about the available arguments are
-        available at :class:`pyvista.Plotter`.
-
-        Parameters
-        ----------
-        mesh : str
-            Name of the mesh.
-        **kwargs : optional
-            Additional keyword arguments for the plotter. More information
-            are available at :class:`pyvista.Plotter`.
-
-        Examples
-        --------
-        >>> from ansys.dpf.core.plotter import DpfPlotter
-        >>> pl = DpfPlotter(notebook=False)
-
-        """
-        # from warnings import warn
-        # warn('Using the Plotter is deprecated, please switch to DpfPlotter instead.',
-        # DeprecationWarning, stacklevel=2)
         self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
         self._mesh = mesh
 
@@ -669,17 +644,19 @@ class Plotter:
 
         Parameters
         ----------
+        notebook : bool, optional
+            When ``None`` (default) plot a static image within an
+            iPython notebook if available.  When ``False``, plot
+            external to the notebook with an interactive window.  When
+            ``True``, always plot within a notebook.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
-            see ``help(pyvista.UnstructuredGrid.plot)``.
+            ee ``help(pyvista.plot)``.
 
         """
-        # Set DPF defaults
         kwargs.setdefault("color", "w")
         kwargs.setdefault("show_edges", True)
-        self._internal_plotter.add_mesh(self._mesh, **kwargs)
-        return self._internal_plotter.show_figure(**kwargs)
-        # return self._mesh.grid.plot(**kwargs)
+        return self._mesh.grid.plot(**kwargs)
 
     @staticmethod
     def plot_chart(fields_container, off_screen=False, screenshot=None):
@@ -759,7 +736,9 @@ class Plotter:
     def plot_contour(
             self,
             field_or_fields_container,
+            notebook=None,
             shell_layers=None,
+            off_screen=None,
             show_axes=True,
             meshed_region=None,
             **kwargs
@@ -773,23 +752,32 @@ class Plotter:
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or field container that contains the result to plot.
+        notebook : bool, optional
+            Whether to plot a static image within an iPython notebook
+            if available. The default is `None`, in which case an attempt is
+            made to plot a static imaage within an iPython notebook. When ``False``,
+            a plot external to the notebook is generated with an interactive window.
+            When ``True``, a plot is always generated within a notebook.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
+        off_screen : bool, optional
+            Whether to render off screen, which is useful for automated
+            screenshots. The default is ``None``.
         show_axes : bool, optional
             Whether to show a VTK axes widget. The default is ``True``.
-        meshed_region : dpf.core.MeshedRegion or dpf.core.MeshesContainer, optional
-            Mesh or mesh container on which to plot the fields.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
         """
-        # Ignore warning unless specified
         if not sys.warnoptions:
             import warnings
+
             warnings.simplefilter("ignore")
 
-        if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
+        if isinstance(
+                field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)
+        ):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
                 fields_container = dpf.core.FieldsContainer(
@@ -815,9 +803,10 @@ class Plotter:
                 if label[DefinitionLabels.time] != first_time:
                     raise dpf_errors.FieldContainerPlottingError
 
-        # Use local mesh if none given
-        if meshed_region is None:
-            meshed_region = self._mesh
+        if meshed_region is not None:
+            mesh = meshed_region
+        else:
+            mesh = self._mesh
 
         # get mesh scoping
         location = None
@@ -833,9 +822,9 @@ class Plotter:
                 break
 
         if location == locations.nodal:
-            mesh_location = meshed_region.nodes
+            mesh_location = mesh.nodes
         elif location == locations.elemental:
-            mesh_location = meshed_region.elements
+            mesh_location = mesh.elements
         else:
             raise ValueError(
                 "Only elemental or nodal location are supported for plotting."
@@ -845,13 +834,17 @@ class Plotter:
         changeOp = core.Operator("change_shellLayers")
         for field in fields_container:
             shell_layer_check = field.shell_layers
-            if shell_layer_check in [eshell_layers.topbottom, eshell_layers.topbottommid]:
+            if shell_layer_check in [
+                eshell_layers.topbottom,
+                eshell_layers.topbottommid,
+            ]:
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
                     if not isinstance(shell_layers, eshell_layers):
                         raise TypeError(
-                            "shell_layer attribute must be a core.shell_layers instance.")
+                            "shell_layer attribute must be a core.shell_layers instance."
+                        )
                     sl = shell_layers
                 changeOp.inputs.e_shell_layer.connect(sl.value)  # top layers taken
                 fields_container = changeOp.get_output(0, core.types.fields_container)
@@ -867,15 +860,50 @@ class Plotter:
             ind, mask = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data[mask]
 
-        # Set DPF visualization defaults
+        # create the plotter and add the meshes
+        background = kwargs.pop("background", None)
+        cpos = kwargs.pop("cpos", None)
+        return_cpos = kwargs.pop("return_cpos", None)
+
+        # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
+        if notebook is not None:
+            self._internal_plotter._plotter.notebook = notebook
+        if off_screen is not None:
+            self._internal_plotter._plotter.off_screen = off_screen
+
+        # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
+        text = kwargs.pop('text', None)
+        if text is not None:
+            self._internal_plotter._plotter.add_text(text, position='lower_edge')
+        title = kwargs.pop("title", None)
+        self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
-        # add meshes
-        self._internal_plotter.add_mesh(meshed_region, scalars=overall_data, **kwargs)
+        if background is not None:
+            self._internal_plotter._plotter.set_background(background)
 
-        self._internal_plotter.show_figure(**kwargs)
+        if cpos is not None:
+            self._internal_plotter._plotter.camera_position = cpos
+
+        # show result
+        if show_axes:
+            self._internal_plotter._plotter.add_axes()
+        if return_cpos is None:
+            return self._internal_plotter._plotter.show()
+        else:
+            import pyvista as pv
+            pv_version = pv.__version__
+            version_to_reach = '0.32.0'
+            meet_ver = meets_version(pv_version, version_to_reach)
+            if meet_ver:
+                return self._internal_plotter._plotter.show(return_cpos=return_cpos)
+            else:
+                txt = """To use the return_cpos option, please upgrade
+                your pyvista module with a version higher than """
+                txt += version_to_reach
+                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
