@@ -74,7 +74,7 @@ class _InternalPlotter:
 
     def add_mesh(self, meshed_region, **kwargs):
 
-        self.set_scalar_bar_title(kwargs)
+        self._set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
         kwargs.setdefault("show_edges", True)
@@ -252,7 +252,7 @@ class _InternalPlotter:
                 txt += version_to_reach
                 raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
 
-    def set_scalar_bar_title(self, kwargs):
+    def _set_scalar_bar_title(self, kwargs):
         # Import pyvista
         try:
             import pyvista as pv
