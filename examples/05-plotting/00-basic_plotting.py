@@ -10,7 +10,7 @@ shown with the arguments available.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core.plotter import plot_chart
+# from ansys.dpf.core.plotter import plot_chart
 
 
 # Plot the bare mesh of a model
@@ -56,13 +56,13 @@ meshes_cont.plot(disp_fc, title='Meshes Container disp_fc', text='Meshes Contain
 meshes_cont.plot(off_screen=True, screenshot='meshes_cont_plot.png',
                  title='Meshes Container', text='Meshes Container plot')
 
-# A very limited chart plotting capability exists to chart maximum and minimum values for
-# the fields in a fields container, over the time_freq_support set.
-tfq = model.metadata.time_freq_support
-timeids = list(range(1, tfq.n_sets + 1))
-disp = model.results.displacement()
-disp.inputs.time_scoping.connect(timeids)
-new_fields_container = disp.get_output(0, dpf.types.fields_container)
-fig = plot_chart(new_fields_container)
-# Additional matplotlib kwargs are supported, such as:
-fig = plot_chart(new_fields_container, off_screen=True, screenshot='plot_chart.png')
+# # A very limited chart plotting capability exists to chart maximum and minimum values for
+# # the fields in a fields container, over the time_freq_support set.
+# tfq = model.metadata.time_freq_support
+# timeids = list(range(1, tfq.n_sets + 1))
+# disp = model.results.displacement()
+# disp.inputs.time_scoping.connect(timeids)
+# new_fields_container = disp.get_output(0, dpf.types.fields_container)
+# fig = plot_chart(new_fields_container)
+# # Additional matplotlib kwargs are supported, such as:
+# fig = plot_chart(new_fields_container, off_screen=True, screenshot='plot_chart.png')

@@ -86,6 +86,11 @@ class _InternalPlotter:
             **kwargs
             )
         # Give the mesh to the pyvista Plotter
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        grid = meshed_region.grid
+        grid.set_active_scalars(None)
         self._plotter.add_mesh(meshed_region.grid, **kwargs_in)
 
     def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
@@ -150,6 +155,7 @@ class _InternalPlotter:
         # get the meshed region location
         if meshed_region is None:
             meshed_region = field.meshed_region
+
         location = field.location
         if location == locations.nodal:
             mesh_location = meshed_region.nodes
@@ -176,7 +182,12 @@ class _InternalPlotter:
             bound_method=self._plotter.add_mesh,
             **kwargs
             )
-        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs_in)
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        grid = meshed_region.grid
+        grid.set_active_scalars(None)
+        self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         if show_max or show_min:
             # Get Min-Max for the field

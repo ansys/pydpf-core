@@ -364,10 +364,6 @@ class MeshedRegion:
         """
         if self._full_grid is None:
             self._full_grid = self._as_vtk()
-        # Have to remove any active scalar field from the pre-existing grid object,
-        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
-        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        self._full_grid.set_active_scalars(None)
         return self._full_grid
 
     def plot(
