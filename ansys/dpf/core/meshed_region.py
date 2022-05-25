@@ -9,6 +9,7 @@ from ansys.dpf.core.common import locations, types, nodal_properties, elemental_
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 
@@ -406,26 +407,14 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        # kwargs["notebook"] = notebook
-        screenshot = kwargs.pop("screenshot", None)
-        text = kwargs.pop("text", None)
-        pl = _DpfPlotter(self, notebook=notebook, **kwargs)
-        kwargs["screenshot"] = screenshot
-        kwargs["text"] = text
-        # off_screen = kwargs.pop("off_screen", None)
-        if field_or_fields_container is not None:
-            return pl.plot_contour(
-                field_or_fields_container,
-                notebook,
-                shell_layers,
-                off_screen,
-                show_axes,
-                **kwargs
-            )
-
-        # otherwise, simply plot self
         kwargs["notebook"] = notebook
-        return pl.plot_mesh(**kwargs)
+        kwargs["off_screen"] = off_screen
+        pl = DpfPlotter(self, **kwargs)
+        if field_or_fields_container is not None:
+            return pl.plot_contour(field_or_fields_container, shell_layers, show_axes, **kwargs)
+        # otherwise, simply plot the mesh
+        kwargs["show_axes"] = show_axes
+        return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
         """Create a deep copy of the meshed region's data on a given server.
