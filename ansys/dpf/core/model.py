@@ -235,9 +235,12 @@ class Model:
         >>> model.plot()
 
         """
-        self.metadata.meshed_region.grid.plot(
-            color=color, show_edges=show_edges, **kwargs
-        )
+        from ansys.dpf.core.plotter import DpfPlotter
+        kwargs["color"] = color
+        kwargs["show_edges"] = show_edges
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(self.metadata.meshed_region, **kwargs)
+        pl.show_figure(**kwargs)
 
     @property
     def mesh_by_default(self):
