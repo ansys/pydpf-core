@@ -64,7 +64,7 @@ jobs:
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
           $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
       - name: Install test offscreen rendering
@@ -107,12 +107,12 @@ jobs:
           Copy-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py" -Destination ".\..\local_server_test\"
           Copy-Item -Path ".\conftest.py" -Destination ".\..\local_server_test\conftest.py"
           Remove-Item -Path ".\test_local_server.py",".\test_multi_server.py", ".\test_workflow.py"
-          pytest --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
+          pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results1.xml --reruns 2 .
 
       - name: Test Core API 2
         run: |
           cd local_server_test
-          pytest --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+          pytest --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         timeout-minutes: 10
 
       - name: Kill all servers
@@ -122,6 +122,9 @@ jobs:
           ECHO %ERRORLEVEL%
           if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
         continue-on-error: true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
 
       - name: Publish Test Results
         uses: actions/upload-artifact@v2
@@ -185,7 +188,7 @@ jobs:
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
           $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 git://github.com/pyvista/gl-ci-helpers.git
+          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
       - name: Install test offscreen rendering

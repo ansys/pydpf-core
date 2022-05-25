@@ -1,9 +1,14 @@
 # DPF - Ansys Data Processing Framework
-
-[![PyPI version](https://badge.fury.io/py/ansys-dpf-core.svg)](https://badge.fury.io/py/ansys-dpf-core)
-
-[![Build Status](https://dev.azure.com/pyansys/pyansys/_apis/build/status/pyansys.DPF-Core?branchName=master)](https://dev.azure.com/pyansys/pyansys/_build/latest?definitionId=2&branchName=master)
-
+[![PyAnsys](https://img.shields.io/badge/Py-Ansys-ffc107.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAABDklEQVQ4jWNgoDfg5mD8vE7q/3bpVyskbW0sMRUwofHD7Dh5OBkZGBgW7/3W2tZpa2tLQEOyOzeEsfumlK2tbVpaGj4N6jIs1lpsDAwMJ278sveMY2BgCA0NFRISwqkhyQ1q/Nyd3zg4OBgYGNjZ2ePi4rB5loGBhZnhxTLJ/9ulv26Q4uVk1NXV/f///////69du4Zdg78lx//t0v+3S88rFISInD59GqIH2esIJ8G9O2/XVwhjzpw5EAam1xkkBJn/bJX+v1365hxxuCAfH9+3b9/+////48cPuNehNsS7cDEzMTAwMMzb+Q2u4dOnT2vWrMHu9ZtzxP9vl/69RVpCkBlZ3N7enoDXBwEAAA+YYitOilMVAAAAAElFTkSuQmCC)](https://docs.pyansys.com/)
+[![Python](https://img.shields.io/badge/Python-3.8-blue)](https://pypi.org/project/ansys-dpf-core/)
+[![pypi](https://img.shields.io/pypi/v/ansys-dpf-core.svg?logo=python&logoColor=white)](https://pypi.org/project/ansys-dpf-core)
+[![freq-PyDPF-Core](https://img.shields.io/github/commit-activity/m/pyansys/pydpf-core)](https://github.com/pyansys/pydpf-core)
+[![GH-CI](https://github.com/pyansys/pydpf-core/actions/workflows/ci.yml/badge.svg)](https://github.com/pyansys/pydpf-core/actions/workflows/ci.yml)
+[![docs](https://img.shields.io/website?down_color=lightgrey&down_message=invalid&label=documentation&up_color=brightgreen&up_message=up&url=https%3A%2F%2Fdpfdocs.pyansys.com%2F)](https://dpfdocs.pyansys.com)
+[![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![pypidl](https://img.shields.io/pypi/dm/ansys-dpf-core.svg?label=PyPI%20downloads)](https://pypi.org/project/ansys-dpf-core/)
+[![cov](https://codecov.io/gh/pyansys/pydpf-core/branch/master/graph/badge.svg)](https://codecov.io/gh/pyansys/pydpf-core)
+[![codacy](https://app.codacy.com/project/badge/Grade/61b6a519aea64715ad1726b3955fcf98)](https://www.codacy.com/gh/pyansys/pydpf-core/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pyansys/pydpf-core&amp;utm_campaign=Badge_Grade)
 
 The Data Processing Framework (DPF) is designed to provide numerical
 simulation users/engineers with a toolbox for accessing and

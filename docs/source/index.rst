@@ -2,25 +2,33 @@
 PyAnsys DPF-Core
 ================
 
-DPF (Data Processing Framework) provides numerical
-simulation engineers with a toolbox for accessing and
-transforming simulation data. DPF can access data from solver result
-files as well as several neutral formats, such as CSV, HDF5, and VTK. 
-Various operators provide for the manipulation and transformation 
-of the data.
+The Data Processing Framework (**DPF**) provides numerical simulation 
+users/engineers with a toolbox for accessing and transforming simulation 
+data. It is used to handle complex pre- or post-processing of simulation 
+data within a simulation workflow.
 
-DPF is a workflow-based framework that allows simple and complex
-evaluations by chaining operators. The data in DPF is defined based on
-physics-agnostic mathematical quantities described in self-sufficient 
-entities called fields. This allows DPF to be a modular and easy-to-use 
-tool with a large range of capabilities. It is designed to handle 
-large amounts of data.
+DPF is an independent, physics-agnostic tool that can be plugged into many 
+applications for both data input and data output 
+(result plots, visualization, and so on).
 
-The module `ansys.dpf.core` provides a Python interface to
-the powerful DPF framework, enabling rapid postprocessing of a variety
-of Ansys file formats and physics solutions without ever leaving the
-Python environment.  
+DPF can access data from solver result files and other neutral formats 
+(for example, CSV, HDF5, and VTK). Various operators are available, 
+allowing you to manipulate and transform this data. 
+You can chain operators together to create simple or complex data-processing 
+workflows that can be reused for repeated or future evaluations.
 
+The data in DPF is defined based on physics-agnostic mathematical quantities 
+described in self-sufficient entities called fields. This allows DPF to be 
+a modular and easy-to-use tool with a large range of capabilities. 
+It is designed to handle large amounts of data.
+
+.. image:: images/drawings/dpf-flow.png
+  :width: 670
+  :alt: DPF FLow
+  
+The module ``ansys.dpf.core`` provides a Python interface to the powerful 
+DPF framework, enabling rapid postprocessing of a variety of Ansys file 
+formats and physics solutions without ever leaving the Python environment.
 
 Brief Demo
 ~~~~~~~~~~
