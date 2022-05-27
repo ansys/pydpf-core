@@ -21,7 +21,39 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import meets_version
 
 
-class _InternalPlotter:
+def _sort_supported_kwargs(bound_method, **kwargs):
+    """Filters the kwargs for a given method."""
+    # Ignore warnings unless specified
+    if not sys.warnoptions:
+        import warnings
+        warnings.simplefilter("ignore")
+    # Get supported arguments
+    supported_args = inspect.getfullargspec(bound_method).args
+    kwargs_in = {}
+    kwargs_not_avail = {}
+    # Filter the given arguments
+    for key, item in kwargs.items():
+        if key in supported_args:
+            kwargs_in[key] = item
+        else:
+            kwargs_not_avail[key] = item
+    # Prompt a warning for arguments filtered out
+    if len(kwargs_not_avail) > 0:
+        txt = f"The following arguments are not supported by {bound_method}: "
+        txt += str(kwargs_not_avail)
+        warnings.warn(txt)
+    # Return the accepted arguments
+    return kwargs_in
+
+
+class _InternalPlotterFactory:
+    """Factory for _InternalPlotter based on the backend."""
+    @staticmethod
+    def get_plotter_class():
+        return _PyVistaPlotter
+
+
+class _PyVistaPlotter:
     """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
         # Import pyvista
@@ -33,7 +65,7 @@ class _InternalPlotter:
                 "with :\n pip install pyvista>=0.24.0"
             )
         # Filter kwargs
-        kwargs_in = _InternalPlotter._sort_supported_kwargs(
+        kwargs_in = _sort_supported_kwargs(
             bound_method=pv.Plotter,
             **kwargs)
         # Initiate pyvista Plotter
@@ -42,35 +74,10 @@ class _InternalPlotter:
         mesh = kwargs.pop("mesh", None)
         if mesh is not None:
             # Filter kwargs
-            kwargs_in = _InternalPlotter._sort_supported_kwargs(
+            kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_mesh,
                 **kwargs)
             self._plotter.add_mesh(mesh.grid, **kwargs_in)
-
-    @staticmethod
-    def _sort_supported_kwargs(bound_method, **kwargs):
-        """Filters the kwargs for a given method."""
-        # Ignore warnings unless specified
-        if not sys.warnoptions:
-            import warnings
-            warnings.simplefilter("ignore")
-        # Get supported arguments
-        supported_args = inspect.getfullargspec(bound_method).args
-        kwargs_in = {}
-        kwargs_not_avail = {}
-        # Filter the given arguments
-        for key, item in kwargs.items():
-            if key in supported_args:
-                kwargs_in[key] = item
-            else:
-                kwargs_not_avail[key] = item
-        # Prompt a warning for arguments filtered out
-        if len(kwargs_not_avail) > 0:
-            txt = f"The following arguments are not supported by {bound_method}: "
-            txt += str(kwargs_not_avail)
-            warnings.warn(txt)
-        # Return the accepted arguments
-        return kwargs_in
 
     def add_mesh(self, meshed_region, **kwargs):
 
@@ -81,7 +88,7 @@ class _InternalPlotter:
         kwargs.setdefault("nan_color", "grey")
 
         # Filter kwargs
-        kwargs_in = self._sort_supported_kwargs(
+        kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.add_mesh,
             **kwargs
             )
@@ -106,7 +113,7 @@ class _InternalPlotter:
             return label
 
         # Filter kwargs
-        kwargs_in = self._sort_supported_kwargs(
+        kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.add_point_labels,
             **kwargs
             )
@@ -178,7 +185,7 @@ class _InternalPlotter:
         overall_data[ind] = field.data[mask]
 
         # Filter kwargs for add_mesh
-        kwargs_in = self._sort_supported_kwargs(
+        kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.add_mesh,
             **kwargs
             )
@@ -242,7 +249,7 @@ class _InternalPlotter:
         if cpos is not None:
             self._plotter.camera_position = cpos
 
-        kwargs_in = self._sort_supported_kwargs(
+        kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.show, **kwargs)
 
         # Show depending on return_cpos option
@@ -331,7 +338,8 @@ class DpfPlotter:
         >>> pl = DpfPlotter(notebook=False)
 
         """
-        self._internal_plotter = _InternalPlotter(**kwargs)
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class()
+        self._internal_plotter = _InternalPlotterClass(mesh=mesh, **kwargs)
         self._labels = []
         self._mesh = None
         if mesh:
@@ -646,7 +654,8 @@ class Plotter:
     """
 
     def __init__(self, mesh, **kwargs):
-        self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class()
+        self._internal_plotter = _InternalPlotterClass(mesh=mesh, **kwargs)
         self._mesh = mesh
 
     def plot_mesh(self, **kwargs):
