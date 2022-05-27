@@ -49,7 +49,7 @@ class _InternalPlotter:
 
     @staticmethod
     def _sort_supported_kwargs(bound_method, **kwargs):
-        """Filters the kwargs for a given method"""
+        """Filters the kwargs for a given method."""
         # Ignore warnings unless specified
         if not sys.warnoptions:
             import warnings
@@ -888,7 +888,7 @@ class Plotter:
         text = kwargs.pop('text', None)
         if text is not None:
             self._internal_plotter._plotter.add_text(text, position='lower_edge')
-        title = kwargs.pop("title", None)
+        kwargs.pop("title", None)
         self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
         if background is not None:
