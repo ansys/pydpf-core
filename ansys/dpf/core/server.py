@@ -191,8 +191,8 @@ def start_local_server(
             raise ValueError(
                 "Unable to automatically locate the Ansys path  "
                 f"for version {__ansys_version__}."
-                "Manually enter one when starting the server or set it "
-                'as the environment variable "ANSYS_PATH"'
+                " Manually enter one when starting the server or set it "
+                'as the environment variable "ANSYS_PATH".'
             )
 
         # verify path exists
