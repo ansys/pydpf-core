@@ -8,8 +8,7 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
-# from ansys.dpf.core.plotter import Plotter as _DpfPlotter
-from ansys.dpf.core.plotter import DpfPlotter
+from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 
@@ -407,13 +406,16 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        kwargs["notebook"] = notebook
-        kwargs["off_screen"] = off_screen
-        pl = DpfPlotter(self, **kwargs)
         if field_or_fields_container is not None:
-            return pl.plot_contour(field_or_fields_container, shell_layers, show_axes, **kwargs)
+            pl = Plotter(self, **kwargs)
+            return pl.plot_contour(field_or_fields_container, notebook,
+                                   shell_layers, off_screen, show_axes, **kwargs)
 
         # otherwise, simply plot the mesh
+        kwargs["off_screen"] = off_screen
+        kwargs["notebook"] = notebook
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(self, **kwargs)
         kwargs["show_axes"] = show_axes
         return pl.show_figure(**kwargs)
 

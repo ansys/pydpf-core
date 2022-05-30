@@ -68,60 +68,9 @@ def test_mesh_field_plot(multishells):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    pl = DpfPlotter(model.metadata.meshed_region)
-    pl.plot_mesh()
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_throw_plot_contour_no_mesh(allkindofcomplexity):
-    model = Model(allkindofcomplexity)
     pl = DpfPlotter()
-    stress = model.results.stress()
-    stress.inputs.requested_location.connect("Nodal")
-    f = stress.outputs.fields_container()[0]
-    with pytest.raises(ValueError):
-        pl.plot_contour(f)
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_plot_contour_one_component_field(allkindofcomplexity):
-    model = Model(allkindofcomplexity)
-    pl = DpfPlotter(model.metadata.meshed_region)
-    stress = model.results.stress()
-    stress.inputs.requested_location.connect("Nodal")
-    f = stress.outputs.fields_container().select_component(1)[0]
-    pl.plot_contour(f)
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_throw_plot_contour_location(allkindofcomplexity):
-    model = Model(allkindofcomplexity)
-    pl = DpfPlotter()
-    stress = model.results.stress()
-    stress.inputs.requested_location.connect("ElementalNodal")
-    f = stress.outputs.fields_container()[0]
-    with pytest.raises(ValueError):
-        pl.plot_contour(f)
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_throw_plot_contour_input(allkindofcomplexity):
-    model = Model(allkindofcomplexity)
-    pl = DpfPlotter()
-    stress = model.results.stress()
-    with pytest.raises(TypeError):
-        pl.plot_contour(stress)
-
-
-@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_throw_plot_mesh_no_mesh(allkindofcomplexity):
-    model = Model(allkindofcomplexity)
-    pl = DpfPlotter()
-    stress = model.results.stress()
-    stress.inputs.requested_location.connect("Nodal")
-    f = stress.outputs.fields_container()[0]
-    with pytest.raises(ValueError):
-        pl.plot_mesh()
+    pl.add_mesh(model.metadata.meshed_region)
+    pl.show_figure()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -133,7 +82,7 @@ def test_plotter_on_field(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     field = fc[1]
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
@@ -148,7 +97,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op = Operator("to_elemental_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
 
@@ -160,7 +109,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op = Operator("to_nodal_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
 

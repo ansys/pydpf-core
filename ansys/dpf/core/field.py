@@ -10,7 +10,7 @@ from ansys.dpf.core import errors, meshed_region, time_freq_support
 from ansys.dpf.core.common import locations, natures, types
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
-from ansys.dpf.core.plotter import DpfPlotter as Plotter
+from ansys.dpf.core.plotter import Plotter
 from ansys.grpc.dpf import base_pb2, field_pb2
 
 
@@ -272,9 +272,10 @@ class Field(_FieldBase):
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
-        kwargs["notebook"] = notebook
-        pl = Plotter(**kwargs)
-        pl.plot_contour(self, shell_layers, show_axes, self.meshed_region, **kwargs)
+        pl = Plotter(self.meshed_region, **kwargs)
+        off_screen = kwargs.pop("off_screen", None)
+        pl.plot_contour(self, notebook, shell_layers, off_screen, show_axes,
+                        self.meshed_region, **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
