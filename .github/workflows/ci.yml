@@ -80,7 +80,7 @@ jobs:
 
       - name: Test API Docstrings
         run: |
-          pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
+           pytest --doctest-modules --junitxml=junit/test-doctests-results.xml ansys/dpf/core
 
       - name: Kill all servers
         shell: cmd
