@@ -37,7 +37,6 @@ def test_plotter_on_model(plate_msup):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_chart_plotter(plate_msup):
     model = Model(plate_msup)
-    mesh = model.metadata.meshed_region
     tfq = model.metadata.time_freq_support
     timeids = list(range(1, tfq.n_sets + 1))
     disp = model.results.displacement()
