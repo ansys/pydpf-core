@@ -47,7 +47,8 @@ def _sort_supported_kwargs(bound_method, **kwargs):
 
 
 class _InternalPlotterFactory:
-    """Factory for _InternalPlotter based on the backend."""
+    """
+    Factory for _InternalPlotter based on the backend."""
     @staticmethod
     def get_plotter_class():
         return _PyVistaPlotter
