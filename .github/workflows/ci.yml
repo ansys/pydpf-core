@@ -19,52 +19,52 @@ env:
   MODULE: core
 
 jobs:
-#  Build_and_Test:
-#    name: Build and Test
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        python-version: ["3.8"]
-#        os: ["ubuntu-latest"]
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: "Build Package"
-#        uses: pyansys/pydpf-actions/build_package@v2.0
-#        with:
-#          python-version: ${{ matrix.python-version }}
-#          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-#          MODULE: ${{env.MODULE}}
-#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-#          install_extras: plotting
-#
-#      - name: "Test Package"
-#        uses: pyansys/pydpf-actions/test_package@v2.1
-#        with:
-#          MODULE: ${{env.MODULE}}
-
-  Build_Doc:
-    name: Build Doc
-    runs-on: ubuntu-latest
+  Build_and_Test:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Build Documentation"
-        uses: pyansys/pydpf-actions/build_doc@v2.1
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.0
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          build_extras: ../ansys/dpf/core/log.py ../ansys/dpf/core/help.py ../ansys/dpf/core/mapping_types.py ../ansys/dpf/core/ipconfig.py ../ansys/dpf/core/field_base.py ../ansys/dpf/core/cache.py ../ansys/dpf/core/misc.py ../ansys/dpf/core/check_version.py ../ansys/dpf/core/operators/build.py ../ansys/dpf/core/operators/specification.py ../ansys/dpf/core/vtk_helper.py
-        continue-on-error: true
-        timeout-minutes: 30
+
+      - name: "Test Package"
+        uses: pyansys/pydpf-actions/test_package@v2.1
+        with:
+          MODULE: ${{env.MODULE}}
+
+#  Build_Doc:
+#    name: Build Doc
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: "Build Documentation"
+#        uses: pyansys/pydpf-actions/build_doc@v2.1
+#        with:
+#          python-version: "3.8"
+#          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#          build_extras: ../ansys/dpf/core/log.py ../ansys/dpf/core/help.py ../ansys/dpf/core/mapping_types.py ../ansys/dpf/core/ipconfig.py ../ansys/dpf/core/field_base.py ../ansys/dpf/core/cache.py ../ansys/dpf/core/misc.py ../ansys/dpf/core/check_version.py ../ansys/dpf/core/operators/build.py ../ansys/dpf/core/operators/specification.py ../ansys/dpf/core/vtk_helper.py
+#        continue-on-error: true
+#        timeout-minutes: 30
 
 #  test_windows:
 #    name: Windows
