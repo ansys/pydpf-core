@@ -547,6 +547,14 @@ def test_cpos_plot(multishells):
     ret = mesh.plot(cpos='xy')
 
 
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_return_cpos_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    ret = mesh.plot(return_cpos=True)
+    assert ret
+
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 def test_plot_chart(allkindofcomplexity):
     from ansys.dpf.core import types

@@ -249,11 +249,10 @@ class _PyVistaPlotter:
         if cpos is not None:
             self._plotter.camera_position = cpos
 
-        kwargs_in = _sort_supported_kwargs(
-            bound_method=self._plotter.show, **kwargs)
-
         # Show depending on return_cpos option
         return_cpos = kwargs.pop("return_cpos", None)
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._plotter.show, **kwargs)
         if return_cpos is None:
             return self._plotter.show(**kwargs_in)
         else:
