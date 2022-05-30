@@ -271,7 +271,7 @@ class Field(_FieldBase):
             arguments, see ``help(pyvista.plot)``.
         """
         pl = Plotter(self.meshed_region, **kwargs)
-        pl.plot_contour(self, notebook, shell_layers, **kwargs)
+        return pl.plot_contour(self, notebook, shell_layers, **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
