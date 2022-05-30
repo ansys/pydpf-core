@@ -12,7 +12,7 @@ from conftest import running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    from ansys.dpf.core.plotter import DpfPlotter, Plotter
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
@@ -69,7 +69,18 @@ def test_mesh_field_plot(multishells):
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     pl = DpfPlotter(model.metadata.meshed_region)
-    cpos = pl.plot_mesh()
+    pl.plot_mesh()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plot_contour_no_mesh(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
+    pl = DpfPlotter()
+    stress = model.results.stress()
+    stress.inputs.requested_location.connect("Nodal")
+    f = stress.outputs.fields_container()[0]
+    with pytest.raises(ValueError):
+        pl.plot_contour(f)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -85,7 +96,7 @@ def test_plotter_on_field(allkindofcomplexity):
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
-    cpos = pl.plot_contour(fields_container)
+    pl.plot_contour(fields_container)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -297,7 +308,7 @@ def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
     fc = stress.outputs.fields_container()
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     pl._plot_contour_using_vtk_file(fc)
 
 

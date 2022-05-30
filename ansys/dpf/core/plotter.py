@@ -468,6 +468,34 @@ class DpfPlotter:
         """
         return self._internal_plotter.show_figure(**kwargs)
 
+    def plot_mesh(self, meshed_region=None, **kwargs):
+        """Plot the mesh using PyVista.
+
+        Parameters
+        ----------
+        notebook : bool, optional
+            When ``None`` (default) plot a static image within an
+            iPython notebook if available.  When ``False``, plot
+            external to the notebook with an interactive window.  When
+            ``True``, always plot within a notebook.
+        meshed_region : dpf.core.MeshedRegion or dpf.core.MeshesContainer, optional
+            Mesh or mesh container to plot. If none given, takes the one given at initialization.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For more information,
+            ee ``help(pyvista.plot)``.
+
+        """
+        kwargs.setdefault("color", "w")
+        kwargs.setdefault("show_edges", True)
+        if not meshed_region:
+            if not self._mesh:
+                raise ValueError(
+                    "\"meshed_region\" argument null while no default MeshedRegion "
+                    "was given at Plotter initialization.")
+            meshed_region = self._mesh
+        self._internal_plotter.add_mesh(meshed_region, **kwargs)
+        return self._internal_plotter.show_figure(**kwargs)
+
     def plot_contour(
             self,
             field_or_fields_container,
