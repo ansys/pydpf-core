@@ -49,6 +49,23 @@ def test_chart_plotter(plate_msup):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_mesh_bare_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    ret = mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_mesh_field_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    stress = model.results.stress()
+    stress.inputs.requested_location.connect("Nodal")
+    f = stress.outputs.fields_container()[0]
+    ret = mesh.plot(f)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     pl = DpfPlotter(model.metadata.meshed_region)
