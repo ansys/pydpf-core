@@ -43,7 +43,7 @@ def test_chart_plotter(plate_msup):
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     ret = pl.plot_chart(new_fields_container)
     assert ret
 
