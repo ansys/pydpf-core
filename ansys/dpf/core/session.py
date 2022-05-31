@@ -64,7 +64,7 @@ class Session:
         from ansys.grpc.dpf import session_pb2
         request = session_pb2.AddRequest()
         request.session.CopyFrom(self._message)
-        request.wf.CopyFrom(workflow._message)
+        request.wf.CopyFrom(workflow._internal_obj)
         request.identifier = identifier
         self._stub.Add(request)
 

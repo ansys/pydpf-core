@@ -108,6 +108,13 @@ def test_data_sources(load_all_types_plugin):
     assert op.get_output(0, dpf.types.data_sources).result_files == ["file.rst"]
 
 
+def test_workflow(load_all_types_plugin):
+    f = dpf.Workflow()
+    op = dpf.Operator("custom_forward_workflow")
+    op.connect(0, f)
+    assert op.get_output(0, dpf.types.workflow) is not None
+
+
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
                     reason='Requires server version higher than 5.0')
 def test_syntax_error():

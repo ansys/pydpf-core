@@ -18,3 +18,4 @@ def load_operators(*args):
     record_operator(dpf_types_op.ForwardScopingsContainerOperator, *args)
     record_operator(dpf_types_op.ForwardFieldsContainerOperator, *args)
     record_operator(dpf_types_op.ForwardMeshesContainerOperator, *args)
+    record_operator(dpf_types_op.ForwardWorkflowOperator, *args)

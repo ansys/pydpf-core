@@ -28,14 +28,11 @@ class Scoping:
     Parameters
     ----------
     scoping : ctypes.c_void_p, ansys.grpc.dpf.scoping_pb2.Scoping message, optional
-    server : ansys.dpf.core.server, optional
-        Server with the channel connected to the remote or local instance.
+
+    server : DPFServer, optional
+        Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    server : DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
-
     Examples
     --------
     Create a mesh scoping.

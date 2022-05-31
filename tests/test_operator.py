@@ -98,7 +98,7 @@ def test_connect_get_out_all_types_operator(server_type):
                   # dpf.core.CyclicSupport(server=server_type),
                   # dpf.core.MeshedRegion(server=server_type),
                   dpf.core.TimeFreqSupport(server=server_type),
-                  # dpf.core.Workflow(server=server_type),
+                  dpf.core.Workflow(server=server_type),
                   # dpf.core.DataTree(server=server_type),
                   ] if SERVER_VERSION_HIGHER_THAN_3_0 else [1, 1.5, "hello", True,
                                                             dpf.core.Field(server=server_type),
