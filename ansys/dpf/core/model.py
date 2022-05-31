@@ -240,7 +240,7 @@ class Model:
         kwargs["show_edges"] = show_edges
         pl = DpfPlotter(**kwargs)
         pl.add_mesh(self.metadata.meshed_region, **kwargs)
-        pl.show_figure(**kwargs)
+        return pl.show_figure(**kwargs)
 
     @property
     def mesh_by_default(self):
