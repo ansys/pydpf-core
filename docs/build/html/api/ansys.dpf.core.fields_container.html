@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -183,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -625,6 +636,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
+         ids_with_data_higher_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
+         ids_with_data_lower_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.included_fields.html">
          included_fields
         </a>
@@ -814,6 +835,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
+         easy_statistics
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.entity_extractor.html">
          entity_extractor
         </a>
@@ -896,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -2451,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2779,6 +2815,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.field.html">
      Field
     </a>
@@ -2801,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2830,7 +2876,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
-     OperatorSpecification
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2968,7 +3019,10 @@ to be separated from imaginary parts (<code class="docutils literal notranslate"
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fields_container</strong> (<em>ansys.grpc.dpf.collection_pb2.Collection</em><em>, </em><em>ctypes.c_void_p</em><em>, </em><a class="reference internal" href="#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><em>optional</em>) – Fields container created from either a collection message or by copying an existing
+<li><p><strong>fields_container</strong> (<em>ansys.grpc.dpf.collection_pb2.Collection</em><em>, </em><em>ctypes.c_void_p</em><em>,</em>) – </p></li>
+<li><p><strong>FieldsContainer</strong> – Fields container created from either a collection message or by copying an existing
+fields container. The default is “None``.</p></li>
+<li><p><strong>optional</strong> – Fields container created from either a collection message or by copying an existing
 fields container. The default is “None``.</p></li>
 <li><p><strong>server</strong> (<em>ansys.dpf.core.server</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
@@ -3221,14 +3275,12 @@ greater than one.</p>
 <dt class="sig sig-object py" id="ansys.dpf.core.fields_container.FieldsContainer.add_field_by_time_id">
 <span class="sig-name descname"><span class="pre">add_field_by_time_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_container.FieldsContainer.add_field_by_time_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add or update a field at a requested time ID.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>field<span class="classifier">Field</span></dt><dd><p>DPF field to add or update.</p>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>timeid: int, optional</dt><dd><p>Time ID for the requested time set. The default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a>) – DPF field to add or update.</p></li>
+<li><p><strong>timeid</strong> (<em>int</em><em>, </em><em>optional</em>) – Time ID for the requested time set. The default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

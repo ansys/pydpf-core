@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -269,9 +270,9 @@ Ansys 2021 R2.  For more information on getting a licensed copy of Ansys,
 visit the <a class="reference external" href="https://www.ansys.com/">Ansys website</a>.</p>
 </section>
 <section id="installation">
-<span id="basic-gallery"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <section id="installation-with-pip">
-<span id="id1"></span><h3>Installation with PIP<a class="headerlink" href="#installation-with-pip" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>Installation with PIP<a class="headerlink" href="#installation-with-pip" title="Permalink to this headline">¶</a></h3>
 <p>Once Ansys 2021 R1 or later is installed, you can install the
 DPF-Core module with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span>
@@ -369,14 +370,13 @@ installed. The package dependencies are:</p>
 <p>DPF supports Windows 10 and CentOS 7 and later.  For
 more information, see <a class="reference external" href="https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support">Ansys Platform Support</a>.</p>
 <p>Other platforms may be supported by using DPF within a
-containerization ecosystem such as Docker or Kubernetes.
-For more information, see <span class="xref std std-ref">docker</span>.</p>
+containerization ecosystem such as Docker or Kubernetes.</p>
 <section id="client-server-compatibility">
 <h3>Client Server Compatibility<a class="headerlink" href="#client-server-compatibility" title="Permalink to this headline">¶</a></h3>
 <p>The <a class="reference external" href="https://pypi.org/project/ansys-grpc-dpf/">ansys.grpc.dpf</a> module should be synchronized
 with the server version as shown here:</p>
-<table class="colwidths-given table" id="id3">
-<caption><span class="caption-text">Client-Server Compatibility</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-given table" id="id4">
+<caption><span class="caption-text">Client-Server Compatibility</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 33%" />
@@ -389,23 +389,19 @@ with the server version as shown here:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>5.0 (Ansys 2023R1)</p></td>
-<td><p>0.6.0</p></td>
-<td><p>&gt;=0.6.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>4.0 (Ansys 2022R2)</p></td>
+<tr class="row-even"><td><p>4.0 (Ansys 2022R2)</p></td>
 <td><p>0.5.0</p></td>
 <td><p>&gt;=0.5.0</p></td>
 </tr>
-<tr class="row-even"><td><p>3.0 (Ansys 2022R1)</p></td>
+<tr class="row-odd"><td><p>3.0 (Ansys 2022R1)</p></td>
 <td><p>0.4.0</p></td>
 <td><p>&gt;=0.4.0</p></td>
 </tr>
-<tr class="row-odd"><td><p>2.0 (Ansys 2021R2)</p></td>
+<tr class="row-even"><td><p>2.0 (Ansys 2021R2)</p></td>
 <td><p>0.3.0</p></td>
 <td><p>&gt;=0.3.0</p></td>
 </tr>
-<tr class="row-even"><td><p>1.0 (Ansys 2021R1)</p></td>
+<tr class="row-odd"><td><p>1.0 (Ansys 2021R1)</p></td>
 <td><p>0.2.2</p></td>
 <td><p>0.2.*</p></td>
 </tr>

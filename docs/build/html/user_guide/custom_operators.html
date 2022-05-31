@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -158,7 +159,24 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="current nav bd-sidenav">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="model.html">
+   DPF Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="operators.html">
+   Operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fields_container.html">
+   Fields Container and Fields
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="plotting.html">
    Plot
@@ -619,7 +637,7 @@ custom_plugin.xml<div class="sd-summary-down docutils">
 <section id="use-the-custom-operators">
 <h2>Use the Custom Operators<a class="headerlink" href="#use-the-custom-operators" title="Permalink to this headline">¶</a></h2>
 <p>Once a python plugin is written, it can be loaded with the function <a class="reference internal" href="../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a>
-taking as first argument the path to the directory of the plugin, as second argument “<a href="#id1"><span class="problematic" id="id2">py_</span></a>” + any name identifying the plugin,
+taking as first argument the path to the directory of the plugin, as second argument <code class="docutils literal notranslate"><span class="pre">py_</span></code> + any name identifying the plugin,
 and as last argument the function’s name used to record operators.</p>
 <p>If a single script has been used to create the plugin, then the second argument should be <code class="docutils literal notranslate"><span class="pre">py_</span></code> + name of the python file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
@@ -628,7 +646,7 @@ and as last argument the function’s name used to record operators.</p>
 <span class="s2">&quot;load_operators&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If a python package was written, then the second argument should be “<a href="#id3"><span class="problematic" id="id4">py_</span></a>” + any name:</p>
+<p>If a python package was written, then the second argument should be <code class="docutils literal notranslate"><span class="pre">_py</span></code> + any name:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
 <span class="sa">r</span><span class="s2">&quot;path/to/plugins/custom_plugin&quot;</span><span class="p">,</span>
 <span class="s2">&quot;py_my_custom_plugin&quot;</span><span class="p">,</span> <span class="c1">#if the load_operators function is defined in path/to/plugins/custom_plugin/__init__.py</span>

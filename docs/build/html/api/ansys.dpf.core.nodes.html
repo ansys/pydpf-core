@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -41,7 +42,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="OperatorSpecification" href="ansys.dpf.core.operator_specification.html" />
+    <link rel="next" title="Operator Specification" href="ansys.dpf.core.operator_specification.html" />
     <link rel="prev" title="Model" href="ansys.dpf.core.model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -183,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -625,6 +636,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
+         ids_with_data_higher_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
+         ids_with_data_lower_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.included_fields.html">
          included_fields
         </a>
@@ -814,6 +835,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
+         easy_statistics
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.entity_extractor.html">
          entity_extractor
         </a>
@@ -896,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -2451,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2779,6 +2815,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.field.html">
      Field
     </a>
@@ -2801,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2830,7 +2876,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
-     OperatorSpecification
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -3224,27 +3275,6 @@ order of the nodes in the <a class="reference internal" href="ansys.dpf.core.mes
 <dt class="sig sig-object py" id="ansys.dpf.core.nodes.NodeAdder">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.nodes.</span></span><span class="sig-name descname"><span class="pre">NodeAdder</span></span><a class="headerlink" href="#ansys.dpf.core.nodes.NodeAdder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a new node to a meshed region.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.nodes.NodeAdder.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#ansys.dpf.core.nodes.NodeAdder.id" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.nodes.NodeAdder.coordinates">
-<span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#ansys.dpf.core.nodes.NodeAdder.coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of <a href="#id1"><span class="problematic" id="id2">``</span></a>[x, y, z]’’ coordinates.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of doubles</p>
-</dd>
-</dl>
-</dd></dl>
-
 <p class="rubric">Examples</p>
 <p>Create a meshed region from scratch.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
@@ -3257,14 +3287,14 @@ order of the nodes in the <a class="reference internal" href="ansys.dpf.core.mes
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.nodes.NodeAdder.id">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#ansys.dpf.core.nodes.NodeAdder.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>ID of the node.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="id3">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.nodes.NodeAdder.coordinates">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#ansys.dpf.core.nodes.NodeAdder.coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinates of the node.</p>
 </dd></dl>
 

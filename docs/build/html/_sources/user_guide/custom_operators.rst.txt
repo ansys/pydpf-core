@@ -173,7 +173,7 @@ Use the Custom Operators
 ------------------------
 
 Once a python plugin is written, it can be loaded with the function :func:`ansys.dpf.core.core.load_library`
-taking as first argument the path to the directory of the plugin, as second argument “py_” + any name identifying the plugin,
+taking as first argument the path to the directory of the plugin, as second argument ``py_`` + any name identifying the plugin,
 and as last argument the function’s name used to record operators.
 
 If a single script has been used to create the plugin, then the second argument should be ``py_`` + name of the python file:
@@ -185,7 +185,7 @@ If a single script has been used to create the plugin, then the second argument 
     "py_custom_plugin", #if the load_operators function is defined in path/to/plugins/custom_plugin.py
     "load_operators")
 
-If a python package was written, then the second argument should be "py_" + any name:
+If a python package was written, then the second argument should be ``_py`` + any name:
 
 .. code::
 

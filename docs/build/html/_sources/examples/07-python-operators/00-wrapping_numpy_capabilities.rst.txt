@@ -47,7 +47,7 @@ file plugins/easy_statistics.py. This file is:
 Load Plugin
 -----------
 Once a python plugin is written, it can be loaded with the function :py:func:`ansys.dpf.core.core.load_library`
-taking as first argument the path to the directory of the plugin, as second argument "py_" + the name of
+taking as first argument the path to the directory of the plugin, as second argument ``py_`` + the name of
 the python script, and as last argument the function's name used to record operators.
 
 .. GENERATED FROM PYTHON SOURCE LINES 33-40
@@ -71,13 +71,6 @@ the python script, and as last argument the function's name used to record opera
 
  .. code-block:: none
 
-    Downloading...: 0 of 484 files   0%|                                                                                                                                                      |
-    Downloading...: 65 of 484 files  13%|####################                                                                                                                                 |
-    Downloading...: 148 of 484 files  30%|#############################################                                                                                                       |
-    Downloading...: 241 of 484 files  49%|#########################################################################                                                                           |
-    Downloading...: 340 of 484 files  70%|#######################################################################################################                                             |
-    Downloading...: 441 of 484 files  91%|######################################################################################################################################              |
-    Downloading...: 484 of 484 files 100%|####################################################################################################################################################|
 
     'py_easy_statistics successfully loaded'
 
@@ -164,7 +157,7 @@ Use the Custom Operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  13.688 seconds)
+   **Total running time of the script:** ( 0 minutes  12.003 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_00-wrapping_numpy_capabilities.py:

@@ -31,8 +31,10 @@ class FieldDefinition:
         self._server = server_module.get_or_create_server(server)
 
         # step 2: get api
-        self._api = self._server.get_api_for_type(capi=field_definition_capi.FieldDefinitionCAPI,
-                                                  grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI)
+        self._api = self._server.get_api_for_type(
+            capi=field_definition_capi.FieldDefinitionCAPI,
+            grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI
+        )
 
         # step3: init environment
         self._api.init_field_definition_environment(self)  # creates stub when gRPC
@@ -84,7 +86,9 @@ class FieldDefinition:
             Units of the field.
         """
         unit = integral_types.MutableString(256)
-        unused = [integral_types.MutableInt32(), integral_types.MutableInt32(), integral_types.MutableDouble(),
+        unused = [integral_types.MutableInt32(),
+                  integral_types.MutableInt32(),
+                  integral_types.MutableDouble(),
                   integral_types.MutableDouble()]
         self._api.csfield_definition_fill_unit(self, unit, *unused)
         return str(unit)
@@ -139,7 +143,9 @@ class FieldDefinition:
     def dimensionality(self, value):
         if not isinstance(value, Dimensionality):
             raise TypeError("the dimensionality needs to be of type Dimensionality")
-        self._api.csfield_definition_set_dimensionality(self, int(value.nature.value), value.dim, len(value.dim))
+        self._api.csfield_definition_set_dimensionality(
+            self, int(value.nature.value), value.dim, len(value.dim)
+        )
 
     def deep_copy(self, server=None):
         """Creates a deep copy of the field_definition's data on a given server.

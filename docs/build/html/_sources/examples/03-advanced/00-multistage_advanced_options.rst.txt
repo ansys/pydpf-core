@@ -118,7 +118,7 @@ Check the result info to verify that it's a multistage model
 
     list id {
       id: 1971
-      server_address: "127.0.0.1:50057"
+      server_address: "127.0.0.1:50055"
     }
     , analysis_type: MODAL
     unit_system: 11
@@ -138,7 +138,7 @@ Check the result info to verify that it's a multistage model
       cyc_support {
         id {
           id: 1981
-          server_address: "127.0.0.1:50057"
+          server_address: "127.0.0.1:50055"
         }
       }
     }
@@ -146,7 +146,7 @@ Check the result info to verify that it's a multistage model
     True
     list id {
       id: 1971
-      server_address: "127.0.0.1:50057"
+      server_address: "127.0.0.1:50055"
     }
     , analysis_type: MODAL
     unit_system: 11
@@ -166,7 +166,7 @@ Check the result info to verify that it's a multistage model
       cyc_support {
         id {
           id: 1982
-          server_address: "127.0.0.1:50057"
+          server_address: "127.0.0.1:50055"
         }
       }
     }
@@ -205,7 +205,7 @@ Go over the cyclic support
 
     list id {
       id: 1971
-      server_address: "127.0.0.1:50057"
+      server_address: "127.0.0.1:50055"
     }
     , analysis_type: MODAL
     unit_system: 11
@@ -225,14 +225,14 @@ Go over the cyclic support
       cyc_support {
         id {
           id: 1983
-          server_address: "127.0.0.1:50057"
+          server_address: "127.0.0.1:50055"
         }
       }
     }
 
     list id {
       id: 1971
-      server_address: "127.0.0.1:50057"
+      server_address: "127.0.0.1:50055"
     }
     , analysis_type: MODAL
     unit_system: 11
@@ -252,7 +252,7 @@ Go over the cyclic support
       cyc_support {
         id {
           id: 1984
-          server_address: "127.0.0.1:50057"
+          server_address: "127.0.0.1:50055"
         }
       }
     }
@@ -419,7 +419,7 @@ Check results precisely
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.212 seconds)
+   **Total running time of the script:** ( 0 minutes  1.897 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_00-multistage_advanced_options.py:

@@ -281,7 +281,7 @@ step : all the ``abs(values)`` in the field less than 1e-14 are considered null
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.481 seconds)
+   **Total running time of the script:** ( 0 minutes  4.235 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_05-extrapolation_strain_2d.py:

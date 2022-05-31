@@ -5,9 +5,10 @@ DPF Most used entities
 
 .. toctree::
    :hidden:
-    model
-    operators
-    fields_container
+
+   model
+   operators
+   fields_container
 
 .. card-carousel:: 2
 

@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
@@ -547,13 +548,28 @@ displacement operator:</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Available inputs:
-     -   streams_container : StreamsContainer, optional
-         Result file container allowed to be kept open to cache data
+     -   fields_container : FieldsContainer, optional
+         Fields container already allocated modified inplace
 
      -   read_cyclic : Enum Dataprocessing::Ecyclicreading, int, optional
          If 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2
          cyclic expansion is done, if 3 cyclic expansion is done and stages are
          merged (default is 1)
+
+     -   bool_rotate_to_global : bool, optional
+         If true the field is rotated to global coordinate system (default
+         true)
+
+     -   time_scoping : Scoping, int, list, float, Field, optional
+         Time/freq (use doubles or field), time/freq set ids (use ints or
+         scoping) or time/freq step ids (use scoping with timefreq_steps
+         location) required in output
+
+     -   mesh : MeshedRegion, MeshesContainer, optional
+         Prevents from reading the mesh in the result files
+
+     -   streams_container : StreamsContainer, optional
+         Result file container allowed to be kept open to cache data
 
      -   data_sources : DataSources
          Result file path container, used if no streams are set
@@ -562,21 +578,6 @@ displacement operator:</p>
          Nodes or elements scoping required in output. the scoping&#39;s location
          indicates whether nodes or elements are asked. using scopings
          container enables to split the result fields container in domains
-
-     -   bool_rotate_to_global : bool, optional
-         If true the field is rotated to global coordinate system (default
-         true)
-
-     -   mesh : MeshedRegion, MeshesContainer, optional
-         Prevents from reading the mesh in the result files
-
-     -   time_scoping : Scoping, int, list, float, Field, optional
-         Time/freq (use doubles or field), time/freq set ids (use ints or
-         scoping) or time/freq step ids (use scoping with timefreq_steps
-         location) required in output
-
-     -   fields_container : FieldsContainer, optional
-         Fields container already allocated modified inplace
 
 
 Available outputs:
@@ -715,7 +716,7 @@ scripting syntax.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.48153706e-08]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.157 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.112 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-01-basic-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9aa372dff2fc2ef917214ce9663244c9/01-basic_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-basic_operators.py</span></code></a></p>

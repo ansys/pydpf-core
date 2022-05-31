@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -183,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -625,6 +636,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
+         ids_with_data_higher_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
+         ids_with_data_lower_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.included_fields.html">
          included_fields
         </a>
@@ -814,6 +835,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
+         easy_statistics
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.entity_extractor.html">
          entity_extractor
         </a>
@@ -896,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -2451,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2779,6 +2815,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.field.html">
      Field
     </a>
@@ -2801,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2830,7 +2876,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
-     OperatorSpecification
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2969,28 +3020,6 @@ global server.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.scoping.Scoping.ids">
-<span class="sig-name descname"><span class="pre">ids</span></span><a class="headerlink" href="#ansys.dpf.core.scoping.Scoping.ids" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of IDs to include in the scoping.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.scoping.Scoping.location">
-<span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#ansys.dpf.core.scoping.Scoping.location" title="Permalink to this definition">¶</a></dt>
-<dd><p>Location of the IDs, such as <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
 <p class="rubric">Examples</p>
 <p>Create a mesh scoping.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -3055,8 +3084,8 @@ global server.</p></li>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ids</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.scoping.Scoping.ids">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ids</span></span><a class="headerlink" href="#ansys.dpf.core.scoping.Scoping.ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of IDs in the scoping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -3071,8 +3100,8 @@ global server.</p></li>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="id1">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.scoping.Scoping.location">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#ansys.dpf.core.scoping.Scoping.location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Location of the IDs as a string, such as <code class="docutils literal notranslate"><span class="pre">&quot;nodal&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;elemental&quot;</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">&quot;time_freq&quot;</span></code>.</p>
 <dl class="field-list simple">

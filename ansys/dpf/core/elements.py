@@ -419,20 +419,26 @@ class Elements:
         elif elementid is None:
             elementid = self._mesh._api.meshed_region_get_element_id(self._mesh, elementindex)
         nodesOut = []
-        num_nodes = self._mesh._api.meshed_region_get_num_nodes_of_element(self._mesh, index=elementindex)
+        num_nodes = self._mesh._api.meshed_region_get_num_nodes_of_element(self._mesh,
+                                                                           index=elementindex)
         for i_node in range(num_nodes):
-            node_id = self._mesh._api.meshed_region_get_node_id_of_element(self._mesh, elementindex, i_node)
-            if node_id >=0:
+            node_id = self._mesh._api.meshed_region_get_node_id_of_element(
+                self._mesh, elementindex, i_node
+            )
+            if node_id >= 0:
                 node_index = self._mesh._api.meshed_region_get_node_index(self._mesh, node_id)
-                node_coordinates = [self._mesh._api.meshed_region_get_node_coord(self._mesh,
-                                                                                index=node_index,
-                                                                                coordinate=0),
-                                    self._mesh._api.meshed_region_get_node_coord(self._mesh,
-                                                                                index=node_index,
-                                                                                coordinate=1),
-                                    self._mesh._api.meshed_region_get_node_coord(self._mesh,
-                                                                                index=node_index,
-                                                                                coordinate=2)]
+                node_coordinates = [self._mesh._api.meshed_region_get_node_coord(
+                    self._mesh,
+                    index=node_index,
+                    coordinate=0),
+                                    self._mesh._api.meshed_region_get_node_coord(
+                                        self._mesh,
+                                        index=node_index,
+                                        coordinate=1),
+                                    self._mesh._api.meshed_region_get_node_coord(
+                                        self._mesh,
+                                        index=node_index,
+                                        coordinate=2)]
                 nodesOut.append(
                     nodes.Node(self._mesh, node_id, node_index, node_coordinates)
                 )

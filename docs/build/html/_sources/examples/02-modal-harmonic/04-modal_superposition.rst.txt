@@ -174,7 +174,7 @@ or modal analysis has the exact same syntax
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.392 seconds)
+   **Total running time of the script:** ( 0 minutes  10.951 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_04-modal_superposition.py:

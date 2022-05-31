@@ -1,3 +1,10 @@
+"""
+.. _ref_inputs:
+
+Inputs
+======
+"""
+
 from textwrap import wrap
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import _Outputs, Output
@@ -6,16 +13,20 @@ from ansys.dpf import core
 
 class Input:
     """
-    Parameters
-    ----------
-    spec :
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to connect inputs to the Operator.
 
-    pin :
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> isinstance(disp_op.inputs.data_sources, dpf.inputs.Input)
+    True
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> disp_op.inputs.time_scoping([2])
 
-    operator :
-
-    count_ellipsis : optional
-        The default is ``-1``.
     """
 
     def __init__(self, spec, pin, operator, count_ellipsis=-1):
@@ -41,9 +52,10 @@ class Input:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
-        MeshedRegion, Output, Outputs, Operator
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion,
+        Output, Outputs, Operator
             Input of the operator.
+
         """
         # always convert ranges to lists
         if isinstance(inpt, range):
@@ -175,15 +187,14 @@ class _Inputs:
 
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
-
         Searches for the input type corresponding to the output.
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping,
-               DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,
-               ..., Output, Outputs, Operator
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
             Input of the operator.
+
         """
         corresponding_pins = []
         if isinstance(inpt, core.Operator):
@@ -260,6 +271,22 @@ class _Inputs:
 
 # Dynamic class Inputs
 class Inputs(_Inputs):
+    """
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to connect inputs to the Operator by automatically
+    checking types to connect correct inputs.
+
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> isinstance(disp_op.inputs, dpf.inputs._Inputs)
+    True
+    >>> disp_op.inputs.connect(data_src)
+    >>> disp_op.inputs.connect([2])
+    """
     def __init__(self, dict_inputs, operator):
         super().__init__(dict_inputs, operator)
 

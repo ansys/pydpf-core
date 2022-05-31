@@ -17,7 +17,7 @@ from ansys.dpf.gate import (
     data_processing_grpcapi,
     tmp_dir_capi,
     tmp_dir_grpcapi,
-    collection_capi, 
+    collection_capi,
     collection_grpcapi,
     integral_types,
     object_handler
@@ -319,13 +319,17 @@ class BaseService:
             server = server_module.get_or_create_server(server)
         self._server = weakref.ref(server)
         self._collection_api = None
-        
+
         # step 2: get api
-        self._api = self._server().get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                  grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-        self._api_tmp_dir = self._server().get_api_for_type(capi=tmp_dir_capi.TmpDirCAPI,
-                                                  grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI)
-        
+        self._api = self._server().get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+        )
+        self._api_tmp_dir = self._server().get_api_for_type(
+            capi=tmp_dir_capi.TmpDirCAPI,
+            grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
+        )
+
         # step3: init environement
         self._api.init_data_processing_environment(self)  # creates stub when gRPC
 
@@ -368,10 +372,12 @@ class BaseService:
 
         """
         if self._server().has_client():
-            self._internal_obj = self._api.data_processing_load_library_on_client(sLibraryKey=name,
-                                                                                  sDllPath=filename,
-                                                                                  sloader_symbol=symbol,
-                                                                                  client=self._server().client)
+            self._internal_obj = self._api.data_processing_load_library_on_client(
+                sLibraryKey=name,
+                sDllPath=filename,
+                sloader_symbol=symbol,
+                client=self._server().client
+            )
         else:
             self._internal_obj = self._api.data_processing_load_library(name=name,
                                                                         dllPath=filename,
@@ -390,22 +396,24 @@ class BaseService:
                 code_gen.run()
             except Exception as e:
                 warnings.warn("Unable to generate the python code with error: " + str(e.args))
-        
+
         local_dir = os.path.dirname(os.path.abspath(__file__))
         LOCAL_PATH = os.path.join(local_dir, "operators")
         if self._server().has_client():
-            if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):    
+            if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
                 # send local generated code
                 TARGET_PATH = self.make_tmp_dir_server()
                 self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
-    
+
                 # generate code
                 __generate_code(TARGET_PATH, filename, name, symbol)
-    
+
                 try:
                     self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
                 except Exception as e:
-                    warnings.warn("Unable to download the python generated code with error: " + str(e.args))
+                    warnings.warn(
+                        f"Unable to download the python generated code with error: {e.args}"
+                    )
         else:
             __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
 
@@ -419,7 +427,7 @@ class BaseService:
         else:
             raise Exception("in process protocol doesn't have any client configuration set")
         return config_to_return
-      
+
     @property
     def server_info(self):
         """Send the request for server information and keep
@@ -442,7 +450,9 @@ class BaseService:
         serv_os = ""
         # ip/port
         if self._server().has_client():
-            serv_ip = self._api.data_processing_get_server_ip_and_port(client=self._server().client, port=serv_port)
+            serv_ip = self._api.data_processing_get_server_ip_and_port(
+                client=self._server().client, port=serv_port
+            )
             serv_port = int(serv_port)
         else:
             serv_ip = ""
@@ -462,10 +472,12 @@ class BaseService:
             self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
         # server os
         if self._server().has_client():
-            serv_os = self._api.data_processing_get_os_on_client(client=self._server().client)
+            serv_os = self._api.data_processing_get_os_on_client(
+                client=self._server().client
+            )
         else:
             serv_os = self._api.data_processing_get_os()
-        
+
         out = {
             "server_ip": serv_ip,
             "server_port": serv_port,
@@ -526,14 +538,18 @@ class BaseService:
             download service only available for server with gRPC communication protocol
             """
             raise ValueError(txt)
-        client_path = self._api.data_processing_download_file(client=self._server().client,
-                                                 server_file_path=server_file_path,
-                                                 to_client_file_path=to_client_file_path)
+        client_path = self._api.data_processing_download_file(
+            client=self._server().client,
+            server_file_path=server_file_path,
+            to_client_file_path=to_client_file_path
+        )
 
     def _set_collection_api(self):
         if self._collection_api is None:
-            self._collection_api = self._server().get_api_for_type(capi=collection_capi.CollectionCAPI,
-                                                      grpcapi=collection_grpcapi.CollectionGRPCAPI)
+            self._collection_api = self._server().get_api_for_type(
+                capi=collection_capi.CollectionCAPI,
+                grpcapi=collection_grpcapi.CollectionGRPCAPI
+            )
             self._collection_api.init_collection_environment(self)
         return self._collection_api
 
@@ -585,7 +601,6 @@ class BaseService:
                 out[i] = entry
             return out
         return client_paths_ptr
-        
 
     def upload_files_in_folder(
             self, to_server_folder_path, client_folder_path, specific_extension=None
@@ -741,6 +756,6 @@ class BaseService:
         To use only with server version > 4.0
         """
         if self._server().has_client():
-            self._api.data_processing_release_server(client=self._server().client)
-        
-
+            self._api.data_processing_release_server(
+                client=self._server().client
+            )

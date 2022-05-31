@@ -33,6 +33,7 @@ Submodules
    ansys.dpf.core.operators.math.cplx_multiply
    ansys.dpf.core.operators.math.dot
    ansys.dpf.core.operators.math.dot_tensor
+   ansys.dpf.core.operators.math.easy_statistics
    ansys.dpf.core.operators.math.entity_extractor
    ansys.dpf.core.operators.math.exponential
    ansys.dpf.core.operators.math.exponential_fc
@@ -50,6 +51,7 @@ Submodules
    ansys.dpf.core.operators.math.ln_fc
    ansys.dpf.core.operators.math.make_one_on_comp
    ansys.dpf.core.operators.math.matrix_inverse
+   ansys.dpf.core.operators.math.min_max_over_time
    ansys.dpf.core.operators.math.minus
    ansys.dpf.core.operators.math.minus_fc
    ansys.dpf.core.operators.math.modal_superposition

@@ -67,7 +67,7 @@ Load Plugin
 -----------
 Once a python plugin is written as a package, it can be loaded with the function
 :py:func:`ansys.dpf.core.core.load_library` taking as first argument the path to the directory of the plugin,
-as second argument "py_" + any name identifying the plugin,
+as second argument ``py_`` + any name identifying the plugin,
 and as last argument the function's name exposed in the __init__ file and used to record operators.
 
 .. GENERATED FROM PYTHON SOURCE LINES 52-62
@@ -183,7 +183,7 @@ Use the Custom Operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.305 seconds)
+   **Total running time of the script:** ( 0 minutes  3.167 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_01-package_python_operators.py:

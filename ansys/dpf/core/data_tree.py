@@ -62,7 +62,9 @@ class DataTree:
                                   "types than legacyGrpc")
         # __set_attr__ method has been overridden, self._common_keys is used to list the "real"
         # names used as its class attributes
-        self._common_keys = ["_common_keys", "_server", "_message", "_stub", "_owner_data_tree", "_dict"]
+        self._common_keys = [
+            "_common_keys", "_server", "_message", "_stub", "_owner_data_tree", "_dict"
+        ]
         self._server = server
         self._stub = self._connect()
 
@@ -135,8 +137,9 @@ class DataTree:
 
         Warning
         -------
-        If this :func:`<release_data> DataTree.to_fill()` method is not used as a context manager in a
-        ``with`` statement or if the method `release_data()` is not called,
+        If this :func:`<release_data> DataTree.to_fill()` method is not used as
+        a context manager in a ``with`` statement or if the method `release_data()`
+        is not called,
         the data will not be updated.
 
         Returns

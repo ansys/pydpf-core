@@ -17,8 +17,6 @@ Submodules
    :maxdepth: 4
 
    ansys.dpf.core.available_result
-   ansys.dpf.core.cache
-   ansys.dpf.core.check_version
    ansys.dpf.core.collection
    ansys.dpf.core.common
    ansys.dpf.core.config
@@ -34,20 +32,14 @@ Submodules
    ansys.dpf.core.elements
    ansys.dpf.core.errors
    ansys.dpf.core.field
-   ansys.dpf.core.field_base
    ansys.dpf.core.field_definition
    ansys.dpf.core.fields_container
    ansys.dpf.core.fields_container_factory
    ansys.dpf.core.fields_factory
-   ansys.dpf.core.help
    ansys.dpf.core.inputs
-   ansys.dpf.core.ipconfig
-   ansys.dpf.core.log
-   ansys.dpf.core.mapping_types
    ansys.dpf.core.mesh_scoping_factory
    ansys.dpf.core.meshed_region
    ansys.dpf.core.meshes_container
-   ansys.dpf.core.misc
    ansys.dpf.core.model
    ansys.dpf.core.nodes
    ansys.dpf.core.operator_specification
@@ -67,7 +59,6 @@ Submodules
    ansys.dpf.core.settings
    ansys.dpf.core.time_freq_scoping_factory
    ansys.dpf.core.time_freq_support
-   ansys.dpf.core.vtk_helper
    ansys.dpf.core.workflow
 
 Module contents

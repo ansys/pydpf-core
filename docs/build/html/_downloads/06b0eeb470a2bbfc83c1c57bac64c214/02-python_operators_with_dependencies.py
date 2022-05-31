@@ -44,13 +44,13 @@ and exports the mesh and the norm of the input field in a gltf file located at t
 #
 #       .. dropdown:: texture.png
 #
-#          .. literalinclude:: plugins/gltf_plugin/texture.png
+#          .. image:: plugins/gltf_plugin/texture.png
 #
 #       .. dropdown:: assets
 #
-#          :download:`<plugins/gltf_plugin/assets/gltf_sites_winx64.zip>`
+#          :download:`plugins/gltf_plugin/assets/gltf_sites_winx64.zip`
 #
-#          :download:`<plugins/gltf_plugin/assets/gltf_sites_linx64.zip>`
+#          :download:`plugins/gltf_plugin/assets/gltf_sites_linx64.zip`
 #
 #    .. dropdown:: gltf_plugin.xml
 #
@@ -67,7 +67,7 @@ and exports the mesh and the norm of the input field in a gltf file located at t
 # -----------
 # Once a python plugin is written as a package, it can be loaded with the function
 # :py:func:`ansys.dpf.core.core.load_library` taking as first argument the path to the directory of the plugin,
-# as second argument "py_" + any name identifying the plugin,
+# as second argument ``py_`` + any name identifying the plugin,
 # and as last argument the function's name exposed in the ``__init__.py`` file and used to record operators.
 
 import os

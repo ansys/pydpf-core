@@ -670,13 +670,15 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
                 server=server, meshes_container=toconvert
             )
         elif output_type == types.vec_int:
-            return collection.IntCollection(server=server,
-                                         collection=toconvert
-                                         ).get_integral_entries()
+            return collection.IntCollection(
+                server=server,
+                collection=toconvert
+            ).get_integral_entries()
         elif output_type == types.vec_double:
-            return collection.FloatCollection(server=server,
-                                         collection=toconvert
-                                         ).get_integral_entries()
+            return collection.FloatCollection(
+                server=server,
+                collection=toconvert
+            ).get_integral_entries()
     elif out.HasField("scoping"):
         toconvert = out.scoping
         return scoping.Scoping(scoping=toconvert, server=server)

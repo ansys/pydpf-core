@@ -191,7 +191,6 @@ class Nodes:
         """
         return self._mesh._get_scoping(loc=locations.nodal)
 
-
     @property
     def n_nodes(self):
         """Number of nodes."""
@@ -350,13 +349,6 @@ class Nodes:
 
 class NodeAdder:
     """Adds a new node to a meshed region.
-
-    Attributes
-    ----------
-    id : int
-
-    coordinates : list of doubles
-        List of ``[x, y, z]'' coordinates.
 
     Examples
     --------

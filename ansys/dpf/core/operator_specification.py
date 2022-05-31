@@ -1,14 +1,15 @@
 """
 .. _ref_operator_specification:
 
-OperatorSpecification
-=====================
+Operator Specification
+======================
 The OperatorSpecification Provides a documentation for each Operator
 """
 
 import abc
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import operator_specification_capi, operator_specification_grpcapi, integral_types
+from ansys.dpf.gate import operator_specification_capi, operator_specification_grpcapi,\
+    integral_types
 from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
 
@@ -16,7 +17,7 @@ from ansys.dpf.core.check_version import version_requires
 class PinSpecification:
     """Documents an input or output pin of an Operator
 
-    Attributes
+    Parameters
     ----------
     name : str
         Name of the Pin.
@@ -27,8 +28,8 @@ class PinSpecification:
     optional : bool, optional
         Whether it is optional to connect to Pin or not. Default is False.
     ellipsis : bool, optional
-        Whether data respecting this PinSpecification can be connected from this pin number to infinity.
-        Default is False.
+        Whether data respecting this PinSpecification can be connected
+        from this pin number to infinity. Default is False.
 
     Examples
     --------
@@ -76,14 +77,20 @@ class PinSpecification:
             self._type_names = [mapping_types.map_types_to_cpp[val.__name__]]
             return
         elif isinstance(val, common.types):
-            self._type_names = [mapping_types.map_types_to_cpp[common.types_enum_to_types()[val].__name__]]
+            self._type_names = [mapping_types.map_types_to_cpp[
+                                    common.types_enum_to_types()[val].__name__
+                                ]]
             return
         elif isinstance(val, list):
             if len(val) > 0 and isinstance(val[0], type):
                 self._type_names = [mapping_types.map_types_to_cpp[ival.__name__] for ival in val]
                 return
             if len(val) > 0 and isinstance(val[0], common.types):
-                self._type_names = [mapping_types.map_types_to_cpp[common.types_enum_to_types()[ival].__name__] for ival in val]
+                self._type_names = [
+                    mapping_types.map_types_to_cpp[
+                        common.types_enum_to_types()[ival].__name__
+                    ] for ival in val
+                ]
                 return
         self._type_names = val
 
@@ -98,7 +105,8 @@ class PinSpecification:
     def __repr__(self):
         return '{class_name}({params})'.format(
             class_name=self.__class__.__name__,
-            params=', '.join('{param}={value}'.format(param=k, value=f"'{v}'" if isinstance(v, str) else v) for k, v in
+            params=', '.join('{param}={value}'.format(
+                param=k, value=f"'{v}'" if isinstance(v, str) else v) for k, v in
                              vars(self).items()))
 
     def __eq__(self, other):
@@ -106,7 +114,7 @@ class PinSpecification:
 
 
 class ConfigSpecification(dict):
-    """Dictionnary of the available configuration options and their specification
+    """Dictionary of the available configuration options and their specification
     (:class:`ansys.dpf.core.operator_specification.ConfigOptionSpec`)
     """
     def __init__(self, *arg, **kw):
@@ -114,7 +122,8 @@ class ConfigSpecification(dict):
 
 
 class ConfigOptionSpec:
-    """Documentation of a configuration option available for a given Operator (:class:`ansys.dpf.core.Operator)
+    """Documentation of a configuration option available for a given
+     Operator (:class:`ansys.dpf.core.Operator`)
 
     Attributes
     ----------
@@ -133,9 +142,10 @@ class ConfigOptionSpec:
     >>> operator = dpf.operators.math.add()
     >>> config_spec = operator.specification.config_specification
     >>> config_spec.keys()
-    dict_keys(['binary_operation', 'inplace', 'mutex', 'num_threads', 'permissive', 'run_in_parallel', 'use_cache', 'work_by_index'])
+    dict_keys(['binary_operation', 'inplace', 'mutex', 'num_threads', 'permissive', 'run_in_parallel', 'use_cache', 'work_by_index'])  # noqa: E501
     >>> config_spec['inplace']
-    ConfigOptionSpec(name='inplace', type_names=['bool'], default_value_str='false', document='The output is written over the input to save memory if this config is set to true.')
+    ConfigOptionSpec(name='inplace', type_names=['bool'], default_value_str='false', document='The output is written over the input to save memory if this config is set to true.')  # noqa: E501
+
     """
 
     name: str
@@ -152,7 +162,8 @@ class ConfigOptionSpec:
     def __repr__(self):
         return '{class_name}({params})'.format(
             class_name=self.__class__.__name__,
-            params=', '.join('{param}={value}'.format(param=k, value=f"'{v}'" if isinstance(v, str) else v) for k, v in
+            params=', '.join('{param}={value}'.format(
+                param=k, value=f"'{v}'" if isinstance(v, str) else v) for k, v in
                              vars(self).items()))
 
 
@@ -174,7 +185,8 @@ class SpecificationBase:
 
 
 class Specification(SpecificationBase):
-    """Documents an Operator with its description (what the Operator does), its inputs and outputs and some properties
+    """Documents an Operator with its description (what the Operator does),
+    its inputs and outputs and some properties
 
     Examples
     --------
@@ -224,7 +236,9 @@ class Specification(SpecificationBase):
                     self._internal_obj = self._api.operator_specification_new(operator_name)
             else:
                 if self._server.has_client():
-                    raise NotImplementedError("Creating an empty specification on a gRPC client is not implemented")
+                    raise NotImplementedError(
+                        "Creating an empty specification on a gRPC client is not implemented"
+                    )
                 self._internal_obj = self._api.operator_empty_specification_new()
 
         self.operator_name = operator_name
@@ -235,8 +249,8 @@ class Specification(SpecificationBase):
 
     @property
     def properties(self):
-        """Returns some additional properties of the Operator, like the category, the exposure, the scripting and
-        user names and the plugin
+        """Returns some additional properties of the Operator, like the category, the exposure,
+        the scripting and user names and the plugin
 
         Examples
         --------
@@ -250,7 +264,9 @@ class Specification(SpecificationBase):
             if self._internal_obj is not None:
                 num_properties = self._api.operator_specification_get_num_properties(self)
                 for i_property in range(num_properties):
-                    property_key = self._api.operator_specification_get_property_key(self, i_property)
+                    property_key = self._api.operator_specification_get_property_key(
+                        self, i_property
+                    )
                     prop = self._api.operator_specification_get_properties(self, property_key)
                     self._properties[property_key] = prop
         return self._properties
@@ -268,7 +284,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.scale_by_field()
         >>> operator.specification.description
-        "Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field."
+        "Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field."  # noqa: E501
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
@@ -289,7 +305,7 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], optional=False, document='result file path container, used if no streams are set', ellipsis=False)
+        PinSpecification(name='data_sources', _type_names=['data_sources'], optional=False, document='result file path container, used if no streams are set', ellipsis=False)  # noqa: E501
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -309,7 +325,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], optional=False, document='', ellipsis=False)}
+        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], optional=False, document='', ellipsis=False)}  # noqa: E501
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
@@ -359,20 +375,22 @@ class Specification(SpecificationBase):
                 n_types = self._api.operator_specification_get_config_num_type_names(self, i)
                 option_type_names = [self._api.operator_specification_get_config_type_name(
                     self, i, n_type) for n_type in range(n_types)]
-                option_default_value = self._api.operator_specification_get_config_printable_default_value(self, i)
+                option_default_value = \
+                    self._api.operator_specification_get_config_printable_default_value(self, i)
                 option_doc = self._api.operator_specification_get_config_description(self, i)
-                self._config_specification[option_name] = ConfigOptionSpec(name=option_name,
-                                                                           type_names=option_type_names,
-                                                                           default_value_str=option_default_value,
-                                                                           document=option_doc)
+                self._config_specification[option_name] = ConfigOptionSpec(
+                    name=option_name,
+                    type_names=option_type_names,
+                    default_value_str=option_default_value,
+                    document=option_doc)
         return self._config_specification
 
 
 class CustomConfigOptionSpec(ConfigOptionSpec):
     def __init__(self, option_name: str, default_value, document: str):
         type_names = [mapping_types.map_types_to_cpp[type(default_value).__name__]]
-        super().__init__(name=option_name, type_names=list(type_names), default_value_str=str(default_value),
-                         document=document)
+        super().__init__(name=option_name, type_names=list(type_names),
+                         default_value_str=str(default_value), document=document)
 
 
 class Exposures:
@@ -407,7 +425,8 @@ class SpecificationProperties:
         Readable lower case name of the Operator. example: "custom operator".
 
     category : str, Categories
-        Choose from Categories options. Arrange the different Operators in the documentation and in the code generation.
+        Choose from Categories options. Arrange the different Operators in the documentation
+        and in the code generation.
 
     scripting_name : str
         Snake case name of the Operator. example: "custom_operator".
@@ -424,8 +443,9 @@ class SpecificationProperties:
                  plugin: str = None, spec=None,
                  **kwargs):
         self._spec = spec
-        self.__dict__.update(user_name=user_name, category=category, exposure=exposure, scripting_name=scripting_name,
-                             plugin=plugin, **kwargs)
+        self.__dict__.update(
+            user_name=user_name, category=category, exposure=exposure,
+            scripting_name=scripting_name, plugin=plugin, **kwargs)
 
     def __repr__(self):
         keys = sorted(self.__dict__)
@@ -447,24 +467,26 @@ class SpecificationProperties:
 
 
 class CustomSpecification(Specification):
-    """Allows to create an Operator Specification with its description (what the Operator does), its inputs and outputs
-    and some properties.
+    """Allows to create an Operator Specification with its description (what the Operator does),
+    its inputs and outputs and some properties.
     Inherits from Specification (which has only getters) to implement setters.
 
-    Designed to be used in an implementation of :class:`ansys.dpf.core.custom_operator.CustomOperatorBase` for
+    Designed to be used in an implementation of
+    :class:`CustomOperatorBase <ansys.dpf.core.custom_operator.CustomOperatorBase>` for
     the property ``specification``.
 
     Notes
     -----
-    Is only implemented for usage with type(server)= :class:`ansys.dpf.core.server_types.InProcessServer`
+    Is only implemented for usage with type(server)=
+    :class:`ansys.dpf.core.server_types.InProcessServer`
     and server version higher than 4.0.
 
     Examples
     --------
     >>> from ansys.dpf.core.custom_operator import CustomOperatorBase
     >>> from ansys.dpf.core import Field
-    >>> from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties,\
-                                                        PinSpecification
+    >>> from ansys.dpf.core.operator_specification import CustomSpecification, \
+    SpecificationProperties, PinSpecification
     >>> class AddFloatToFieldData(CustomOperatorBase):
     ...     def run(self):
     ...         field = self.get_input(0, Field)
@@ -478,9 +500,11 @@ class CustomSpecification(Specification):
     ...     def specification(self):
     ...         spec = CustomSpecification()
     ...         spec.description = "Add a custom value to all the data of an input Field"
-    ...         spec.inputs = {0: PinSpecification("field", [Field], "Field on which float value is added."),
-    ...                        1: PinSpecification("to_add", [float], "Data to add.") }
-    ...         spec.outputs = {0: PinSpecification("field", [Field], "Field on which the float value is added.")}
+    ...         spec.inputs = {
+    ...             0: PinSpecification("field", [Field], "Field on which float value is added."),
+    ...             1: PinSpecification("to_add", [float], "Data to add.") }
+    ...         spec.outputs = {
+    ...             0: PinSpecification("field", [Field], "Updated field.")}
     ...         spec.properties = SpecificationProperties("custom add to field", "math")
     ...         return spec
     ...
@@ -493,7 +517,6 @@ class CustomSpecification(Specification):
         super().__init__(server=server)
         if description is not None:
             self.description = description
-
 
     @property
     @version_requires("4.0")
@@ -518,11 +541,11 @@ class CustomSpecification(Specification):
 
     @inputs.setter
     def inputs(self, val: dict):
-        import ctypes
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(self, True, key, value.name, value.document, len(value.type_names)
-                                                     , list_types, value.optional, value.ellipsis)
+            self._api.operator_specification_set_pin(
+                self, True, key, value.name, value.document, len(value.type_names)
+                , list_types, value.optional, value.ellipsis)
 
     @property
     @version_requires("4.0")
@@ -539,8 +562,9 @@ class CustomSpecification(Specification):
     def outputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(self, False, key, value.name, value.document, len(value.type_names)
-                                                     , list_types, value.optional, value.ellipsis)
+            self._api.operator_specification_set_pin(
+                self, False, key, value.name, value.document, len(value.type_names),
+                list_types, value.optional, value.ellipsis)
 
     @property
     @version_requires("4.0")
@@ -560,25 +584,30 @@ class CustomSpecification(Specification):
         for value in val:
             for type in value.type_names:
                 if type == "double":
-                    self._api.operator_specification_add_double_config_option(self, value.name,
-                                                                              float(value.default_value_str),
-                                                                              value.document)
+                    self._api.operator_specification_add_double_config_option(
+                        self, value.name,
+                        float(value.default_value_str),
+                        value.document)
                 elif type == "int32":
-                    self._api.operator_specification_add_int_config_option(self, value.name,
-                                                                           int(float(value.default_value_str)),
-                                                                           value.document)
+                    self._api.operator_specification_add_int_config_option(
+                        self, value.name,
+                        int(float(value.default_value_str)),
+                        value.document)
                 elif type == "bool":
-                    self._api.operator_specification_add_bool_config_option(self, value.name,
-                                                                            value.default_value_str == "True",
-                                                                            value.document)
+                    self._api.operator_specification_add_bool_config_option(
+                        self, value.name,
+                        value.default_value_str == "True",
+                        value.document)
                 else:
-                    raise TypeError("config options are expected to be either boolean, integer or double values")
+                    raise TypeError(
+                        "config options are expected to be either boolean, integer or double values"
+                    )
 
     @property
     @version_requires("4.0")
     def properties(self) -> SpecificationProperties:
-        """Returns some additional properties of the Operator, like the category, the exposure, the scripting and
-        user names and the plugin"""
+        """Returns some additional properties of the Operator, like the category, the exposure,
+        the scripting and user names and the plugin"""
         return SpecificationProperties(**super().properties, spec=self)
 
     @properties.setter

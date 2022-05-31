@@ -28,7 +28,7 @@ It's a simple example displaying how routines can be wrapped in DPF python plugi
 # Load Plugin
 # -----------
 # Once a python plugin is written, it can be loaded with the function :py:func:`ansys.dpf.core.core.load_library`
-# taking as first argument the path to the directory of the plugin, as second argument "py_" + the name of
+# taking as first argument the path to the directory of the plugin, as second argument ``py_`` + the name of
 # the python script, and as last argument the function's name used to record operators.
 
 import os

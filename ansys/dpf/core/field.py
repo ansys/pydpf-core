@@ -122,22 +122,34 @@ class Field(_FieldBase):
         return self._api_instance
 
     @staticmethod
-    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+    def _field_create_internal_obj(
+            api: field_abstract_api.FieldAbstractAPI,
+            client,
+            nature,
+            nentities,
+            location=locations.nodal,
+            ncomp_n=0,
+            ncomp_m=0
+    ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
 
         if dim.is_1d_dim():
             if client is not None:
-                return api.field_new_with1_ddimensionnality_on_client(client, dim.nature.value, dim.dim[0], nentities,
-                                                                      location)
+                return api.field_new_with1_ddimensionnality_on_client(
+                    client, dim.nature.value, dim.dim[0], nentities, location)
             else:
-                return api.field_new_with1_ddimensionnality(dim.nature.value, dim.dim[0], nentities, location)
+                return api.field_new_with1_ddimensionnality(
+                    dim.nature.value, dim.dim[0], nentities, location
+                )
         elif dim.is_2d_dim():
             if client is not None:
-                return api.field_new_with2_ddimensionnality_on_client(client, dim.nature.value, dim.dim[0], dim.dim[1],
-                                                                      nentities, location)
+                return api.field_new_with2_ddimensionnality_on_client(
+                    client, dim.nature.value, dim.dim[0], dim.dim[1], nentities, location
+                )
             else:
-                return api.field_new_with2_ddimensionnality(dim.nature.value, dim.dim[0], dim.dim[1], nentities, location)
+                return api.field_new_with2_ddimensionnality(
+                    dim.nature.value, dim.dim[0], dim.dim[1], nentities, location
+                )
         else:
             raise AttributeError("Unable to parse field's attributes to create an instance.")
 
@@ -275,7 +287,9 @@ class Field(_FieldBase):
     def get_entity_data(self, index):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.csfield_get_entity_data_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size, index)
+            self._api.csfield_get_entity_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, index
+            )
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -288,8 +302,8 @@ class Field(_FieldBase):
     def get_entity_data_by_id(self, id):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.csfield_get_entity_data_by_id_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size,
-                                                                   id)
+            self._api.csfield_get_entity_data_by_id_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, id)
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -311,7 +325,9 @@ class Field(_FieldBase):
     def _get_data_pointer(self):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.csfield_get_data_pointer_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.csfield_get_data_pointer_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             return dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -323,7 +339,9 @@ class Field(_FieldBase):
     def _get_data(self, np_array=True):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.csfield_get_data_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.csfield_get_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
         except NotImplementedError:
             data = self._api.csfield_get_data(self, np_array)

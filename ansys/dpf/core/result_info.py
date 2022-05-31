@@ -7,7 +7,6 @@ from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types
     data_processing_capi, data_processing_grpcapi
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import available_result
-from ansys.dpf.core.mapping_types import map_unit_system
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.common import __write_enum_doc__
 

@@ -1,4 +1,7 @@
-"""Download example datasets from https://github.com/pyansys/example-data"""
+"""
+Downloads
+=========
+Download example datasets from https://github.com/pyansys/example-data"""
 import shutil
 import os
 import urllib.request

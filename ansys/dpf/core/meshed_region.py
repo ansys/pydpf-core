@@ -2,7 +2,7 @@
 MeshedRegion
 ============
 """
-from ansys.dpf.core import scoping, field, property_field, fields_container, field_base
+from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, types
 from ansys.dpf.core.elements import Elements, element_types
@@ -30,14 +30,6 @@ class MeshedRegion:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-
-    Attributes
-    ----------
-    nodes : Nodes
-        Entity containing all nodal properties.
-
-    elements : Elements
-        Entity containing all elemental properties.
 
     Examples
     --------
@@ -68,7 +60,6 @@ class MeshedRegion:
     """
 
     def __init__(self, num_nodes=None, num_elements=None, mesh=None, server=None):
-        from ansys.dpf.gate import object_handler
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 

@@ -11,9 +11,16 @@ import ctypes
 import numpy
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import settings, server, server_factory, operator_specification, dpf_operator, collection
-from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, external_operator_api, \
-    _type_to_output_method, _type_to_input_method
+from ansys.dpf.core import (
+    settings,
+    server,
+    server_factory,
+    operator_specification,
+    dpf_operator,
+    collection,
+)
+from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, \
+    external_operator_api, _type_to_output_method, _type_to_input_method
 from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
@@ -24,7 +31,8 @@ def record_operator(operator_type, *args) -> None:
     Parameters
     ----------
     operator_type : type, CustomOperatorBase
-        Class type inheriting from CustomOperatorBase. ``name`` and ``specification`` properties are called
+        Class type inheriting from CustomOperatorBase.
+        ``name`` and ``specification`` properties are called
         and run method callback is given to DataProcessingCore.
 
     *args
@@ -40,29 +48,35 @@ def record_operator(operator_type, *args) -> None:
         server.start_local_server()
     if len(args) == 2:
         external_operator_api.external_operator_record_with_abstract_core_and_wrapper(
-            operator._call_back(), __operator_main__, operator.name, operator._internal_specification,
-            ctypes.c_void_p(*args[0]), ctypes.c_void_p(*args[1]))
+            operator._call_back(),
+            __operator_main__,
+            operator.name,
+            operator._internal_specification,
+            ctypes.c_void_p(*args[0]), ctypes.c_void_p(*args[1]),
+        )
     else:
-        external_operator_api.external_operator_record_with_abstract_core(operator._call_back(),
-                                                                          __operator_main__,
-                                                                          operator.name,
-                                                                          operator._internal_specification,
-                                                                          ctypes.c_void_p(*args))
+        external_operator_api.external_operator_record_with_abstract_core(
+            operator._call_back(),
+            __operator_main__,
+            operator.name,
+            operator._internal_specification,
+            ctypes.c_void_p(*args))
 
 
 class CustomOperatorBase:
     """
     Base class interfacing CPython Custom Operators which can be used as regular
     DPF Operators in any API.
-    A CustomOperator is defined by its name, its specification and its run method. These three abstract methods
-    should be implemented to create a CustomOperator.
+    A CustomOperator is defined by its name, its specification and its run method.
+    These three abstract methods should be implemented to create a CustomOperator.
 
     Examples
     --------
     Create a Custom Operator which adds an input float value to the data of an input Field.
 
     >>> from ansys.dpf.core.custom_operator import CustomOperatorBase
-    >>> from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, PinSpecification
+    >>> from ansys.dpf.core.operator_specification import CustomSpecification, \
+    SpecificationProperties, PinSpecification
     >>> from ansys.dpf.core import Field
     >>> class AddFloatToFieldData(CustomOperatorBase):
     ...     def run(self):
@@ -77,9 +91,11 @@ class CustomOperatorBase:
     ...     def specification(self):
     ...         spec = CustomSpecification()
     ...         spec.description = "Add a custom value to all the data of an input Field"
-    ...         spec.inputs = {0: PinSpecification("field", [Field], "Field on which float value is added."),
-    ...                        1: PinSpecification("to_add", [float], "Data to add.") }
-    ...         spec.outputs = {0: PinSpecification("field", [Field], "Field on which the float value is added.")}
+    ...         spec.inputs = {
+    ...             0: PinSpecification("field", [Field], "Field on which float value is added."),
+    ...             1: PinSpecification("to_add", [float], "Data to add.") }
+    ...         spec.outputs = {
+    ...             0: PinSpecification("field", [Field], "Updated field.")}
     ...         spec.properties = SpecificationProperties("custom add to field", "math")
     ...         return spec
     ...
@@ -114,7 +130,9 @@ class CustomOperatorBase:
                 return type_tuple[1](self._operator_data, index, data)
         if isinstance(data, (list, numpy.ndarray)):
             data = collection.Collection.integral_collection(data, dpf.SERVER)
-            return external_operator_api.external_operator_put_out_collection_as_vector(self._operator_data, index, data)
+            return external_operator_api.external_operator_put_out_collection_as_vector(
+                self._operator_data, index, data
+            )
         raise TypeError(f"unable to set output of type {type(data).__name__}")
 
     def get_input(self, index, type: type):
@@ -143,7 +161,9 @@ class CustomOperatorBase:
                 return type(type_tuple[1](self._operator_data, index))
         if type == dpf_vector.DPFVectorInt:
             size = integral_types.MutableInt32(0)
-            out = external_operator_api.external_operator_get_in_vec_int(self._operator_data, index, size)
+            out = external_operator_api.external_operator_get_in_vec_int(
+                self._operator_data, index, size
+            )
             return numpy.ctypeslib.as_array(out, shape=(int(size),))
         raise TypeError(f"{type} is not a supported operator input")
 
@@ -196,13 +216,13 @@ class CustomOperatorBase:
     @abc.abstractmethod
     def specification(self):
         """
-        Documents the operator.
-        The following are mandatory  to have a full support (documentation, code generation and usage) of the new operator.
-            *Description
-            *Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
-            *Supported outputs (a name, a document, a type, and can be ellipsis)
-            *User name
-            *Category
+        Documents the operator. The following are mandatory  to have a full support
+        (documentation, code generation and usage) of the new operator:
+        * Description
+        * Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
+        * Supported outputs (a name, a document, a type, and can be ellipsis)
+        * User name
+        * Category
 
         Returns
         -------

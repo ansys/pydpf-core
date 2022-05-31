@@ -18,6 +18,8 @@ Submodules
    ansys.dpf.core.operators.logic.identical_fields
    ansys.dpf.core.operators.logic.identical_meshes
    ansys.dpf.core.operators.logic.identical_property_fields
+   ansys.dpf.core.operators.logic.ids_with_data_higher_than_average
+   ansys.dpf.core.operators.logic.ids_with_data_lower_than_average
    ansys.dpf.core.operators.logic.included_fields
    ansys.dpf.core.operators.logic.solid_shell_fields
 

@@ -3,7 +3,6 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
-import abc
 import io
 import os
 import socket
@@ -223,7 +222,8 @@ def start_local_server(
         try:
             server_type = ServerFactory().get_server_type_from_config(config)
             server_init_signature = inspect.signature(server_type.__init__)
-            if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
+            if "ip" in server_init_signature.parameters.keys() and \
+                    "port" in server_init_signature.parameters.keys():
                 server = server_type(
                     ansys_path, ip, port, as_global=as_global,
                     load_operators=load_operators, docker_name=docker_name, launch_server=True,
@@ -302,7 +302,8 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     """
     server_type = ServerFactory().get_server_type_from_config(config)
     server_init_signature = inspect.signature(server_type.__init__)
-    if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
+    if "ip" in server_init_signature.parameters.keys() \
+            and "port" in server_init_signature.parameters.keys():
         server = server_type(
             ip=ip, port=port, as_global=as_global, launch_server=False
         )

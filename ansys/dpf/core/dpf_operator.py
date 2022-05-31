@@ -108,8 +108,10 @@ class Operator:
     @property
     def _api(self) -> operator_abstract_api.OperatorAbstractAPI:
         if self._api_instance is None:
-            self._api_instance = self._server.get_api_for_type(capi=operator_capi.OperatorCAPI,
-                                                               grpcapi=operator_grpcapi.OperatorGRPCAPI)
+            self._api_instance = self._server.get_api_for_type(
+                capi=operator_capi.OperatorCAPI,
+                grpcapi=operator_grpcapi.OperatorGRPCAPI
+            )
         return self._api_instance
 
     def _add_sub_res_operators(self, sub_results):
@@ -148,7 +150,6 @@ class Operator:
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
-    @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
         """Connect an input on the operator using a pin number.
 
@@ -156,18 +157,17 @@ class Operator:
         ----------
         pin : int
             Number of the input pin.
-        inpt : str, int, double, bool, list of int, list of doubles,
-               Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion,
-               MeshesContainer, DataSources, Operator
-            Object to connect to.
+
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
+            Operator Object to connect to.
+
         pin_out : int, optional
-            If the input is an operator, the output pin of the input operator. The
-            default is ``0``.
+            If the input is an operator, the output pin of the input operator. The default is ``0``.
 
         Examples
         --------
-        Compute the minimum of displacement by chaining the ``"U"``
-        and ``"min_max_fc"`` operators.
+        Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -230,24 +230,34 @@ class Operator:
             (str, self._api.operator_getoutput_string),
             (float, self._api.operator_getoutput_double),
             (field.Field, self._api.operator_getoutput_field, "field"),
-            (property_field.PropertyField, self._api.operator_getoutput_property_field, "property_field"),
+            (property_field.PropertyField, self._api.operator_getoutput_property_field,
+             "property_field"),
             (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
-            (fields_container.FieldsContainer, self._api.operator_getoutput_fields_container, "fields_container"),
+            (fields_container.FieldsContainer, self._api.operator_getoutput_fields_container,
+             "fields_container"),
             (scopings_container.ScopingsContainer, self._api.operator_getoutput_scopings_container,
              "scopings_container"),
-            (meshes_container.MeshesContainer, self._api.operator_getoutput_meshes_container, "meshes_container"),
-            (data_sources.DataSources, self._api.operator_getoutput_data_sources, "data_sources"),
-            (cyclic_support.CyclicSupport, self._api.operator_getoutput_cyclic_support, "cyclic_support"),
+            (meshes_container.MeshesContainer, self._api.operator_getoutput_meshes_container,
+             "meshes_container"),
+            (data_sources.DataSources, self._api.operator_getoutput_data_sources,
+             "data_sources"),
+            (cyclic_support.CyclicSupport, self._api.operator_getoutput_cyclic_support,
+             "cyclic_support"),
             (meshed_region.MeshedRegion, self._api.operator_getoutput_meshed_region, "mesh"),
             (result_info.ResultInfo, self._api.operator_getoutput_result_info, "result_info"),
-            (time_freq_support.TimeFreqSupport, self._api.operator_getoutput_time_freq_support, "time_freq_support"),
+            (time_freq_support.TimeFreqSupport, self._api.operator_getoutput_time_freq_support,
+             "time_freq_support"),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
             (Operator, self._api.operator_getoutput_operator, "operator"),
             (dpf_vector.DPFVectorInt, self._api.operator_getoutput_int_collection,
-             lambda obj: collection.IntCollection(server=self._server, collection=obj).get_integral_entries()),
+             lambda obj: collection.IntCollection(
+                 server=self._server, collection=obj
+             ).get_integral_entries()),
             (dpf_vector.DPFVectorDouble, self._api.operator_getoutput_double_collection,
-             lambda obj: collection.FloatCollection(server=self._server, collection=obj).get_integral_entries()),
+             lambda obj: collection.FloatCollection(
+                 server=self._server, collection=obj
+             ).get_integral_entries()),
         ]
 
     @property
@@ -275,7 +285,8 @@ class Operator:
             (scoping.Scoping, self._api.operator_connect_scoping),
             (collection.Collection, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),
-            (model.Model, self._api.operator_connect_data_sources, lambda obj: obj.metadata.data_sources),
+            (model.Model, self._api.operator_connect_data_sources,
+             lambda obj: obj.metadata.data_sources),
             (cyclic_support.CyclicSupport, self._api.operator_connect_cyclic_support),
             (meshed_region.MeshedRegion, self._api.operator_connect_meshed_region),
             # TO DO: (result_info.ResultInfo, self._api.operator_connect_result_info),

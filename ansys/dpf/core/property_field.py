@@ -67,17 +67,21 @@ class PropertyField(_FieldBase):
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
         if not self._api_instance:
-            self._api_instance = self._server.get_api_for_type(capi=property_field_capi.PropertyFieldCAPI,
-                                                               grpcapi=property_field_grpcapi.PropertyFieldGRPCAPI)
+            self._api_instance = self._server.get_api_for_type(
+                capi=property_field_capi.PropertyFieldCAPI,
+                grpcapi=property_field_grpcapi.PropertyFieldGRPCAPI
+            )
         return self._api_instance
 
-
     @staticmethod
-    def _field_create_internal_obj(api: property_field_abstract_api.PropertyFieldAbstractAPI, client, nature, nentities,
+    def _field_create_internal_obj(api: property_field_abstract_api.PropertyFieldAbstractAPI,
+                                   client, nature, nentities,
                                    location=locations.nodal, ncomp_n=0, ncomp_m=0):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
         if client is not None:
-            return api.csproperty_field_new_on_client(client, nentities, nentities*dim.component_count)
+            return api.csproperty_field_new_on_client(
+                client, nentities, nentities*dim.component_count
+            )
         else:
             return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
@@ -155,12 +159,17 @@ class PropertyField(_FieldBase):
         self._api.csproperty_field_set_cscoping(self, scoping)
 
     def _get_scoping(self):
-        return scoping.Scoping(scoping=self._api.csproperty_field_get_cscoping(self), server=self._server)
+        return scoping.Scoping(
+            scoping=self._api.csproperty_field_get_cscoping(self),
+            server=self._server
+        )
 
     def get_entity_data(self, index):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.csproperty_field_get_entity_data_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size, index)
+            self._api.csproperty_field_get_entity_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, index
+            )
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -173,8 +182,8 @@ class PropertyField(_FieldBase):
     def get_entity_data_by_id(self, id):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size,
-                                                                   id)
+            self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, id)
             data = dpf_array.DPFArray(vec)
         except NotImplementedError:
             index = self.scoping.index(id)
@@ -192,7 +201,9 @@ class PropertyField(_FieldBase):
     def _get_data_pointer(self):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.csproperty_field_get_data_pointer_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.csproperty_field_get_data_pointer_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             return dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -204,7 +215,9 @@ class PropertyField(_FieldBase):
     def _get_data(self, np_array=True):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.csproperty_field_get_data_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.csproperty_field_get_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
         except NotImplementedError:
             data = self._api.csproperty_field_get_data(self, np_array)

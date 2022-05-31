@@ -13,7 +13,7 @@ Ansys 2021 R2.  For more information on getting a licensed copy of Ansys,
 visit the `Ansys website <https://www.ansys.com/>`_.
 
 
-.. _basic-gallery:
+.. _getting_started:
 
 Installation
 ~~~~~~~~~~~~
@@ -104,8 +104,7 @@ DPF supports Windows 10 and CentOS 7 and later.  For
 more information, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
 Other platforms may be supported by using DPF within a
-containerization ecosystem such as Docker or Kubernetes. 
-For more information, see :ref:`docker`.
+containerization ecosystem such as Docker or Kubernetes.
 
 ***************************
 Client Server Compatibility
@@ -120,9 +119,10 @@ with the server version as shown here:
 
    * - Ans.Dpf.Grpc.exe server version
      - ansys.grpc.dpf python module version
+     - ansys.dpf.core python module version
    * - 4.0 (Ansys 2022R2)
      - 0.5.0
-     - >=0.5.0	 
+     - >=0.5.0
    * - 3.0 (Ansys 2022R1)
      - 0.4.0
      - >=0.4.0

@@ -6,4 +6,4 @@ from .solid_shell_fields import solid_shell_fields
 from .identical_fields import identical_fields 
 from .included_fields import included_fields 
 from .identical_fc import identical_fc 
-from .enrich_materials import enrich_materials 
+from .enrich_materials import enrich_materials

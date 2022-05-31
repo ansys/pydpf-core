@@ -39,14 +39,15 @@ class _FieldBase:
         else:
             self._api.init_field_environment(self)  # creates stub when gRPC
 
-
         # step4: if object exists, take the instance, else create it
         if field is not None:
             if isinstance(field, _FieldBase):
                 self._server = field._server
                 self._api_instance = None
-                core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                )
                 core_api.init_data_processing_environment(self)
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(field)
             else:
@@ -67,8 +68,8 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature,
+                                   nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
         """Returns a gRPC field message or C object instance of a new field.
         This new field is created with this functions parameter attributes
 
@@ -210,8 +211,10 @@ class _FieldBase:
     def __del__(self):
         try:
             # get core api
-            core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            core_api = self._server.get_api_for_type(
+                capi=data_processing_capi.DataProcessingCAPI,
+                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+            )
             core_api.init_data_processing_environment(self)
 
             # delete

@@ -586,7 +586,7 @@ These demos show advanced use cases demonstrating high level of workflow customi
 
 .. _sphx_glr_examples_04-specific-requests:
 
-.. _specific_requests
+.. _specific_requests:
 
 Examples that targets specific requests
 =======================================
@@ -643,7 +643,7 @@ These demos show how to solve specific requests.
 
 .. _sphx_glr_examples_05-plotting:
 
-.. _plotting_examples
+.. _plotting_examples:
 
 Plotting Examples
 =================
@@ -699,7 +699,7 @@ These demos show how to use the DpfPlotter.
 
 .. _sphx_glr_examples_06-distributed-post:
 
-.. _distributed_post
+.. _distributed_post:
 
 Examples for post processing on distributed process
 ===================================================

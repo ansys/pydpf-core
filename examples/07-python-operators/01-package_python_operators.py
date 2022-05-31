@@ -47,7 +47,7 @@ This plugin will hold 2 different Operators:
 # -----------
 # Once a python plugin is written as a package, it can be loaded with the function
 # :py:func:`ansys.dpf.core.core.load_library` taking as first argument the path to the directory of the plugin,
-# as second argument "py_" + any name identifying the plugin,
+# as second argument ``py_`` + any name identifying the plugin,
 # and as last argument the function's name exposed in the __init__ file and used to record operators.
 
 import os

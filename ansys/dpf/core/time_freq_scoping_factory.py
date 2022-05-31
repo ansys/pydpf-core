@@ -20,7 +20,7 @@ def scoping_by_load_step(load_step, server=None):
     ----------
     load_step : int
         Load step ID of the specific time frequency scoping.
-     server : DpfServer, optional
+    server : DpfServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
@@ -94,7 +94,7 @@ def scoping_by_sets(cumulative_sets, server=None):
     ----------
     cumulative_sets : list[int]
         List of cumulative indices of the sets.
-     server : DpfServer, optional
+    server : DpfServer, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.

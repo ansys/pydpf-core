@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
@@ -541,7 +542,7 @@ file plugins/easy_statistics.py. This file is:</p>
 <section id="load-plugin">
 <h2>Load Plugin<a class="headerlink" href="#load-plugin" title="Permalink to this headline">¶</a></h2>
 <p>Once a python plugin is written, it can be loaded with the function <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a>
-taking as first argument the path to the directory of the plugin, as second argument “<a href="#id1"><span class="problematic" id="id2">py_</span></a>” + the name of
+taking as first argument the path to the directory of the plugin, as second argument <code class="docutils literal notranslate"><span class="pre">py_</span></code> + the name of
 the python script, and as last argument the function’s name used to record operators.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -551,15 +552,7 @@ the python script, and as last argument the function’s name used to record ope
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading...: 0 of 484 files   0%|                                                                                                                                                      |
-Downloading...: 65 of 484 files  13%|####################                                                                                                                                 |
-Downloading...: 148 of 484 files  30%|#############################################                                                                                                       |
-Downloading...: 241 of 484 files  49%|#########################################################################                                                                           |
-Downloading...: 340 of 484 files  70%|#######################################################################################################                                             |
-Downloading...: 441 of 484 files  91%|######################################################################################################################################              |
-Downloading...: 484 of 484 files 100%|####################################################################################################################################################|
-
-&#39;py_easy_statistics successfully loaded&#39;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;py_easy_statistics successfully loaded&#39;
 </pre></div>
 </div>
 <p>Once the Operator loaded, it can be instantiated with:</p>
@@ -570,6 +563,16 @@ Downloading...: 484 of 484 files 100%|##########################################
 is connected to the “easy_statistics” Operator.
 Methods of the class <code class="docutils literal notranslate"><span class="pre">easy_statistics</span></code> are dynamically added thanks to the Operator’s
 specification defined in the plugin.</p>
+<div class="graphviz"><img src="../../_images/graphviz-2589e0643b5762e78a977908d556554f5ed3c0aa.png" alt="digraph foo {
+   graph [pad=&quot;0.5&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]
+   node [shape=box, style=filled, fillcolor=&quot;#ffcc00&quot;, margin=&quot;0&quot;];
+   rankdir=LR;
+   splines=line;
+   ds [label=&quot;ds&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+   ds -&gt; displacement [style=dashed];
+   displacement -&gt; norm;
+   norm -&gt; easy_statistics;
+}" class="graphviz" /></div>
 </section>
 <section id="use-the-custom-operator">
 <h2>Use the Custom Operator<a class="headerlink" href="#use-the-custom-operator" title="Permalink to this headline">¶</a></h2>
@@ -592,7 +595,7 @@ third quartile is 1.4276663319275634e-08
 variance is 3.054190175494998e-17
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.688 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  12.003 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-00-wrapping-numpy-capabilities-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ed1907232d69ade0798fc5971e321e6c/00-wrapping_numpy_capabilities.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-wrapping_numpy_capabilities.py</span></code></a></p>

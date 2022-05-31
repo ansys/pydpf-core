@@ -15,3 +15,4 @@ sphinx-notfound-page>=0.3.0
 sphinx-copybutton
 sphinx-gallery>=0.4.0
 pyansys_sphinx_theme
+graphviz

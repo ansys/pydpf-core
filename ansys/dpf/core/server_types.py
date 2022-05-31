@@ -18,7 +18,6 @@ import psutil
 import ansys.dpf.core as core
 from ansys.dpf.core import errors, session
 from ansys.dpf.core._version import server_to_ansys_grpc_dpf_version, server_to_ansys_version
-# from ansys.dpf.core.server import LOG, RUNNING_DOCKER, LOCALHOST, DPF_DEFAULT_PORT
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -240,7 +239,6 @@ class BaseServer(abc.ABC):
         if as_global:
             core.SERVER = self
 
-
     def has_client(self):
         return not (self.client is None)
 
@@ -420,14 +418,15 @@ class GrpcClient:
 class GrpcServer(CServer):
     """Server using the gRPC communication protocol"""
     def __init__(self,
-        ansys_path="",
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        timeout=10,
-        as_global=True,
-        load_operators=True,
-        launch_server=True,
-        docker_name=None):
+                 ansys_path="",
+                 ip=LOCALHOST,
+                 port=DPF_DEFAULT_PORT,
+                 timeout=10,
+                 as_global=True,
+                 load_operators=True,
+                 launch_server=True,
+                 docker_name=None
+                 ):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
@@ -442,7 +441,6 @@ class GrpcServer(CServer):
                                          docker_name=docker_name, timeout=timeout)
 
         self._client = GrpcClient(ip, port)
-
 
         # store port and ip for later reference
         self._input_ip = ip
@@ -506,11 +504,11 @@ class GrpcServer(CServer):
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
     def __init__(self,
-        ansys_path="",
-        as_global=True,
-        load_operators=True,
-        docker_name=None,
-        timeout=None):
+                 ansys_path="",
+                 as_global=True,
+                 load_operators=True,
+                 docker_name=None,
+                 timeout=None):
 
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)

@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -183,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -625,6 +636,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
+         ids_with_data_higher_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
+         ids_with_data_lower_than_average
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.included_fields.html">
          included_fields
         </a>
@@ -814,6 +835,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
+         easy_statistics
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.entity_extractor.html">
          entity_extractor
         </a>
@@ -896,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -2451,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2779,6 +2815,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.field.html">
      Field
     </a>
@@ -2801,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2830,7 +2876,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
-     OperatorSpecification
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2961,7 +3012,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>operator_type</strong> (<em>type</em><em>, </em><a class="reference internal" href="#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><em>CustomOperatorBase</em></a>) – Class type inheriting from CustomOperatorBase. <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">specification</span></code> properties are called
+<li><p><strong>operator_type</strong> (<em>type</em><em>, </em><a class="reference internal" href="#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><em>CustomOperatorBase</em></a>) – Class type inheriting from CustomOperatorBase.
+<code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">specification</span></code> properties are called
 and run method callback is given to DataProcessingCore.</p></li>
 <li><p><strong>*args</strong> – Forwarded arguments passed in <code class="docutils literal notranslate"><span class="pre">load_operators</span></code> method</p></li>
 </ul>
@@ -2974,12 +3026,12 @@ and run method callback is given to DataProcessingCore.</p></li>
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.custom_operator.</span></span><span class="sig-name descname"><span class="pre">CustomOperatorBase</span></span><a class="headerlink" href="#ansys.dpf.core.custom_operator.CustomOperatorBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class interfacing CPython Custom Operators which can be used as regular
 DPF Operators in any API.
-A CustomOperator is defined by its name, its specification and its run method. These three abstract methods
-should be implemented to create a CustomOperator.</p>
+A CustomOperator is defined by its name, its specification and its run method.
+These three abstract methods should be implemented to create a CustomOperator.</p>
 <p class="rubric">Examples</p>
 <p>Create a Custom Operator which adds an input float value to the data of an input Field.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core.custom_operator</span> <span class="kn">import</span> <span class="n">CustomOperatorBase</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core.operator_specification</span> <span class="kn">import</span> <span class="n">CustomSpecification</span><span class="p">,</span> <span class="n">SpecificationProperties</span><span class="p">,</span> <span class="n">PinSpecification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core.operator_specification</span> <span class="kn">import</span> <span class="n">CustomSpecification</span><span class="p">,</span>     <span class="n">SpecificationProperties</span><span class="p">,</span> <span class="n">PinSpecification</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Field</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">AddFloatToFieldData</span><span class="p">(</span><span class="n">CustomOperatorBase</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2994,9 +3046,11 @@ should be implemented to create a CustomOperator.</p>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">specification</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="n">spec</span> <span class="o">=</span> <span class="n">CustomSpecification</span><span class="p">()</span>
 <span class="gp">... </span>        <span class="n">spec</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Add a custom value to all the data of an input Field&quot;</span>
-<span class="gp">... </span>        <span class="n">spec</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Field</span><span class="p">],</span> <span class="s2">&quot;Field on which float value is added.&quot;</span><span class="p">),</span>
-<span class="gp">... </span>                       <span class="mi">1</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;to_add&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="s2">&quot;Data to add.&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="gp">... </span>        <span class="n">spec</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Field</span><span class="p">],</span> <span class="s2">&quot;Field on which the float value is added.&quot;</span><span class="p">)}</span>
+<span class="gp">... </span>        <span class="n">spec</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Field</span><span class="p">],</span> <span class="s2">&quot;Field on which float value is added.&quot;</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="mi">1</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;to_add&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="s2">&quot;Data to add.&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="gp">... </span>        <span class="n">spec</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Field</span><span class="p">],</span> <span class="s2">&quot;Updated field.&quot;</span><span class="p">)}</span>
 <span class="gp">... </span>        <span class="n">spec</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">SpecificationProperties</span><span class="p">(</span><span class="s2">&quot;custom add to field&quot;</span><span class="p">,</span> <span class="s2">&quot;math&quot;</span><span class="p">)</span>
 <span class="gp">... </span>        <span class="k">return</span> <span class="n">spec</span>
 <span class="gp">...</span>
@@ -3074,15 +3128,13 @@ call <code class="docutils literal notranslate"><span class="pre">set_succeeded<
 <dl class="py property">
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_operator.CustomOperatorBase.specification">
 <em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.custom_operator.CustomOperatorBase.specification" title="Permalink to this definition">¶</a></dt>
-<dd><p>Documents the operator.
-The following are mandatory  to have a full support (documentation, code generation and usage) of the new operator.</p>
-<blockquote>
-<div><p><a href="#id1"><span class="problematic" id="id2">*</span></a>Description
-<a href="#id3"><span class="problematic" id="id4">*</span></a>Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
-<a href="#id5"><span class="problematic" id="id6">*</span></a>Supported outputs (a name, a document, a type, and can be ellipsis)
-<a href="#id7"><span class="problematic" id="id8">*</span></a>User name
-<a href="#id9"><span class="problematic" id="id10">*</span></a>Category</p>
-</div></blockquote>
+<dd><p>Documents the operator. The following are mandatory  to have a full support
+(documentation, code generation and usage) of the new operator:
+* Description
+* Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
+* Supported outputs (a name, a document, a type, and can be ellipsis)
+* User name
+* Category</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>spec</strong></p>

@@ -25,6 +25,7 @@
     
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
@@ -628,7 +629,7 @@ common.py<div class="sd-summary-down docutils">
 <h2>Load Plugin<a class="headerlink" href="#load-plugin" title="Permalink to this headline">¶</a></h2>
 <p>Once a python plugin is written as a package, it can be loaded with the function
 <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> taking as first argument the path to the directory of the plugin,
-as second argument “<a href="#id1"><span class="problematic" id="id2">py_</span></a>” + any name identifying the plugin,
+as second argument <code class="docutils literal notranslate"><span class="pre">py_</span></code> + any name identifying the plugin,
 and as last argument the function’s name exposed in the __init__ file and used to record operators.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -652,6 +653,16 @@ and as last argument the function’s name exposed in the __init__ file and used
 is connected to the “ids_with_data_lower_than_average” Operator.
 Methods of the class <code class="docutils literal notranslate"><span class="pre">ids_with_data_lower_than_average</span></code> are dynamically added thanks to the Operator’s
 specification.</p>
+<div class="graphviz"><img src="../../_images/graphviz-e5cb5ec13bdaf9990f486d0b8f1b4a438243a61a.png" alt="digraph foo {
+   graph [pad=&quot;0.5&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]
+   node [shape=box, style=filled, fillcolor=&quot;#ffcc00&quot;, margin=&quot;0&quot;];
+   rankdir=LR;
+   splines=line;
+   ds [label=&quot;ds&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+   ds -&gt; displacement [style=dashed];
+   displacement -&gt; norm;
+   norm -&gt; ids_with_data_lower_than_average;
+}" class="graphviz" /></div>
 </section>
 <section id="use-the-custom-operator">
 <h2>Use the Custom Operator<a class="headerlink" href="#use-the-custom-operator" title="Permalink to this headline">¶</a></h2>
@@ -676,7 +687,7 @@ scoping out is: DPF  Scoping:
   with Nodal location and 35 entities
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.305 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.167 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-01-package-python-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a509d520cc7e8df99837074c955c911c/01-package_python_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-package_python_operators.py</span></code></a></p>

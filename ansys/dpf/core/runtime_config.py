@@ -1,20 +1,15 @@
 """
 RuntimeConfig
-========
+=============
 """
 
-from ansys.dpf.core.check_version import version_requires, server_meet_version
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import (
-    config_options,
-    types
-    )
 from ansys.dpf.gate import (
     data_processing_capi,
     dpf_data_tree_capi,
     integral_types,
     object_handler
 )
+
 
 class _RuntimeConfig:
     """ Parent class for configuration options.

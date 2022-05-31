@@ -64,13 +64,13 @@ The complete package looks like:
 
       .. dropdown:: texture.png
 
-         .. literalinclude:: plugins/gltf_plugin/texture.png
+         .. image:: plugins/gltf_plugin/texture.png
 
       .. dropdown:: assets
 
-         :download:`<plugins/gltf_plugin/assets/gltf_sites_winx64.zip>`
+         :download:`plugins/gltf_plugin/assets/gltf_sites_winx64.zip`
 
-         :download:`<plugins/gltf_plugin/assets/gltf_sites_linx64.zip>`
+         :download:`plugins/gltf_plugin/assets/gltf_sites_linx64.zip`
 
    .. dropdown:: gltf_plugin.xml
 
@@ -88,7 +88,7 @@ Load Plugin
 -----------
 Once a python plugin is written as a package, it can be loaded with the function
 :py:func:`ansys.dpf.core.core.load_library` taking as first argument the path to the directory of the plugin,
-as second argument "py_" + any name identifying the plugin,
+as second argument ``py_`` + any name identifying the plugin,
 and as last argument the function's name exposed in the ``__init__.py`` file and used to record operators.
 
 .. GENERATED FROM PYTHON SOURCE LINES 72-83
@@ -197,7 +197,7 @@ The gltf Operator output can be downloaded :download:`here<images/thumb/out02.gl
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.480 seconds)
+   **Total running time of the script:** ( 0 minutes  15.584 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_02-python_operators_with_dependencies.py:
