@@ -53,7 +53,7 @@ The expansion is recursive in dpf: first the modal response is red,
 then, "upstreams" mode shapes are found in the data sources, so they
 are red and expanded (mode shapes x modal response)
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-33
+.. GENERATED FROM PYTHON SOURCE LINES 24-32
 
 .. code-block:: default
 
@@ -72,8 +72,7 @@ are red and expanded (mode shapes x modal response)
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 34-39
+.. GENERATED FROM PYTHON SOURCE LINES 33-38
 
 Compute displacements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,7 +80,7 @@ Once the recursivity is put in the data sources (with add_upstream)
 computing displacements with or without expansion, in harmonic, transient
 or modal analysis has the exact same syntax
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-46
+.. GENERATED FROM PYTHON SOURCE LINES 38-45
 
 .. code-block:: default
 
@@ -175,7 +174,7 @@ or modal analysis has the exact same syntax
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.824 seconds)
+   **Total running time of the script:** ( 0 minutes  8.392 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_04-modal_superposition.py:

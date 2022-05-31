@@ -22,7 +22,7 @@
 
 Connect workflows on different processes implicitly
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed 
+This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing,
 results a merged on the local process. In this example, different workflows are
 directly created on different servers. Those workflows are then connected
@@ -52,7 +52,7 @@ Import dpf module and its examples files
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
-To make this example easier, we will start local servers here, 
+To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-28
@@ -72,9 +72,9 @@ but we could get connected to any existing servers on the network.
 .. GENERATED FROM PYTHON SOURCE LINES 29-34
 
 Create template workflows on remote servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For the purpose of this example, we will create 2 workflows computing 
-elemental nodal stresses on different servers. The second workflow will 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For the purpose of this example, we will create 2 workflows computing
+elemental nodal stresses on different servers. The second workflow will
 multiply by 2.0 the stresses. A last workflow will merge the outputs
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-37
@@ -186,7 +186,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.156 seconds)
+   **Total running time of the script:** ( 0 minutes  2.292 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_02-distributed_workflows_on_remote.py:

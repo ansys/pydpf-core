@@ -177,7 +177,7 @@ These examples explain the basic concepts of DPF.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to Load Custom Data">
+    <div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:">
 
 .. only:: html
 
@@ -832,6 +832,85 @@ These demos show how to create worflows on different processes (possibly on diff
    :hidden:
 
    /examples/06-distributed-post/05-distributed_total_disp_with_operators
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_examples_07-python-operators:
+
+.. _python_operators:
+
+Examples of custom python plugins of Operators
+==============================================
+These demos show how to create your own DPF plugin using pyDPF API. These plugins hold custom
+Operators enabling to wrap your custom capabilities and to use them as any native DPF's Operator.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Write user defined Operator">
+
+.. only:: html
+
+ .. figure:: /examples/07-python-operators/images/thumb/sphx_glr_00-wrapping_numpy_capabilities_thumb.png
+     :alt: Write user defined Operator
+
+     :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/07-python-operators/00-wrapping_numpy_capabilities
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This plugin will hold 2 different Operators:   - One returning all the scoping ids having data ...">
+
+.. only:: html
+
+ .. figure:: /examples/07-python-operators/images/thumb/sphx_glr_01-package_python_operators_thumb.png
+     :alt: Write user defined Operators as a package
+
+     :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/07-python-operators/01-package_python_operators
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This plugin will hold an Operator which implementation depends on a third party python module n...">
+
+.. only:: html
+
+ .. figure:: /examples/07-python-operators/images/thumb/sphx_glr_02-python_operators_with_dependencies_thumb.png
+     :alt: Write user defined Operators having third party dependencies
+
+     :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/07-python-operators/02-python_operators_with_dependencies
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

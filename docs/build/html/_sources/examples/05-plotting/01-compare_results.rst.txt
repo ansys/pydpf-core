@@ -76,7 +76,7 @@ results over the same mesh and make a comparison.
 Now we create an :class:`ansys.dpf.core.plotter.DpfPlotter` and add the
 first mesh and the first result
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-50
+.. GENERATED FROM PYTHON SOURCE LINES 35-51
 
 .. code-block:: default
 
@@ -98,6 +98,7 @@ first mesh and the first result
     pl.show_figure(show_axes=True)
 
 
+
 .. image-sg:: /examples/05-plotting/images/sphx_glr_01-compare_results_001.png
    :alt: 01 compare results
    :srcset: /examples/05-plotting/images/sphx_glr_01-compare_results_001.png
@@ -110,7 +111,7 @@ first mesh and the first result
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.888 seconds)
+   **Total running time of the script:** ( 0 minutes  1.316 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_01-compare_results.py:

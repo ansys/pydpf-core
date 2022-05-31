@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Examples &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Examples &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -458,6 +481,13 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#examples-for-post-processing-on-distributed-process">
    Examples for post processing on distributed process
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#examples-of-custom-python-plugins-of-operators">
+   Examples of custom python plugins of Operators
   </a>
   <ul class="nav section-nav flex-column">
   </ul>
@@ -545,7 +575,7 @@
 </figure>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Use Result Helpers to Load Custom Data"><figure class="align-default" id="id8">
+<div class="sphx-glr-thumbcontainer" tooltip="Import necessary modules:"><figure class="align-default" id="id8">
 <img alt="Use Result Helpers to Load Custom Data" src="../_images/sphx_glr_07-use_result_helpers_thumb.png" />
 <figcaption>
 <p><span class="caption-text"><a class="reference internal" href="00-basic/07-use_result_helpers.html#sphx-glr-examples-00-basic-07-use-result-helpers-py"><span class="std std-ref">Use Result Helpers to Load Custom Data</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
@@ -783,6 +813,35 @@ results from harmonic or modal analyses.</p>
 <img alt="Distributed post without client connection to remote processes with Operators" src="../_images/sphx_glr_05-distributed_total_disp_with_operators_thumb.png" />
 <figcaption>
 <p><span class="caption-text"><a class="reference internal" href="06-distributed-post/05-distributed_total_disp_with_operators.html#sphx-glr-examples-06-distributed-post-05-distributed-total-disp-with-operators-py"><span class="std std-ref">Distributed post without client connection to remote processes with Operators</span></a></span><a class="headerlink" href="#id34" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></section>
+<section id="examples-of-custom-python-plugins-of-operators">
+<span id="python-operators"></span><span id="sphx-glr-examples-07-python-operators"></span><h2>Examples of custom python plugins of Operators<a class="headerlink" href="#examples-of-custom-python-plugins-of-operators" title="Permalink to this headline">¶</a></h2>
+<p>These demos show how to create your own DPF plugin using pyDPF API. These plugins hold custom
+Operators enabling to wrap your custom capabilities and to use them as any native DPF’s Operator.</p>
+<div class="sphx-glr-thumbcontainer" tooltip="Write user defined Operator"><figure class="align-default" id="id35">
+<img alt="Write user defined Operator" src="../_images/sphx_glr_00-wrapping_numpy_capabilities_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="07-python-operators/00-wrapping_numpy_capabilities.html#sphx-glr-examples-07-python-operators-00-wrapping-numpy-capabilities-py"><span class="std std-ref">Write user defined Operator</span></a></span><a class="headerlink" href="#id35" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This plugin will hold 2 different Operators:   - One returning all the scoping ids having data ..."><figure class="align-default" id="id36">
+<img alt="Write user defined Operators as a package" src="../_images/sphx_glr_01-package_python_operators_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="07-python-operators/01-package_python_operators.html#sphx-glr-examples-07-python-operators-01-package-python-operators-py"><span class="std std-ref">Write user defined Operators as a package</span></a></span><a class="headerlink" href="#id36" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This plugin will hold an Operator which implementation depends on a third party python module n..."><figure class="align-default" id="id37">
+<img alt="Write user defined Operators having third party dependencies" src="../_images/sphx_glr_02-python_operators_with_dependencies_thumb.png" />
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="07-python-operators/02-python_operators_with_dependencies.html#sphx-glr-examples-07-python-operators-02-python-operators-with-dependencies-py"><span class="std std-ref">Write user defined Operators having third party dependencies</span></a></span><a class="headerlink" href="#id37" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </div><div class="toctree-wrapper compound">

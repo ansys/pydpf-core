@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Exchange Data Between Servers &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Exchange Data Between Servers &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -502,7 +525,7 @@ the network via: connect_to_server</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>50055 50054
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>50058 50057
 </pre></div>
 </div>
 </section>
@@ -547,7 +570,6 @@ This file upload is useless in our case, since the 2 servers are locals</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fc_disp</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="n">fc_copy</span> <span class="o">=</span> <span class="n">fc_disp</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
 
-
 <span class="n">mesh_copy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server2</span><span class="p">)</span>
 <span class="c1"># give a mesh to the field</span>
 <span class="n">fc_copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span> <span class="o">=</span> <span class="n">mesh_copy</span>
@@ -572,7 +594,7 @@ This file upload is useless in our case, since the 2 servers are locals</p>
 <li><img src="../../_images/sphx_glr_03-exchange_data_between_servers_001.png" srcset="../../_images/sphx_glr_03-exchange_data_between_servers_001.png" alt="03 exchange data between servers" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_03-exchange_data_between_servers_002.png" srcset="../../_images/sphx_glr_03-exchange_data_between_servers_002.png" alt="03 exchange data between servers" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.969 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  15.406 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-03-exchange-data-between-servers-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a9a7452a6e24e8dbb7d55f9f7eb6adcf/03-exchange_data_between_servers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-exchange_data_between_servers.py</span></code></a></p>

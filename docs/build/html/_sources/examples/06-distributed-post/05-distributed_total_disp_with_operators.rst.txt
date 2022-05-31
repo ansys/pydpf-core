@@ -22,7 +22,7 @@
 
 Distributed post without client connection to remote processes with Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed 
+This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing, results a merged
 on the local process.
 
@@ -55,12 +55,12 @@ Create the template workflow of total displacement
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
-Make a list of ip addresses an port numbers on which dpf servers are 
-started. Workflows instances will be created on each of those servers to 
+Make a list of ip addresses an port numbers on which dpf servers are
+started. Workflows instances will be created on each of those servers to
 address each a different result file.
 In this example, we will post process an analysis distributed in 2 files,
 we will consequently require 2 remote processes
-To make this example easier, we will start local servers here, 
+To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
 .. GENERATED FROM PYTHON SOURCE LINES 33-38
@@ -101,7 +101,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50055, 50056]
+    ports: [50060, 50061]
 
 
 
@@ -131,7 +131,7 @@ in shared memory
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
-We also connect the data sources to those workflows 
+We also connect the data sources to those workflows
 
 .. GENERATED FROM PYTHON SOURCE LINES 55-63
 
@@ -175,7 +175,7 @@ Create a local workflow able to merge the results
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-80
+.. GENERATED FROM PYTHON SOURCE LINES 71-79
 
 .. code-block:: default
 
@@ -187,7 +187,6 @@ Connect the workflows together and get the output
     print(fc)
     print(fc[0].min().data)
     print(fc[0].max().data)
-
 
 
 
@@ -214,7 +213,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.037 seconds)
+   **Total running time of the script:** ( 0 minutes  2.029 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_05-distributed_total_disp_with_operators.py:

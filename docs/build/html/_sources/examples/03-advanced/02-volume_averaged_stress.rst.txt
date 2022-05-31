@@ -49,7 +49,7 @@ Create a model targeting a given result file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The model will give an easy access to the mesh, time_freq_support ...
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-39
+.. GENERATED FROM PYTHON SOURCE LINES 20-37
 
 .. code-block:: default
 
@@ -57,10 +57,8 @@ The model will give an easy access to the mesh, time_freq_support ...
     model = dpf.Model(examples.complex_rst)
     mesh = model.metadata.meshed_region
 
-
     # Volume size to check
     volume_check = 4.0e-11
-
 
     # get the all the node ids in the model to find the minimum amount of
     # surrounding elements to get a minimum volume
@@ -79,12 +77,12 @@ The model will give an easy access to the mesh, time_freq_support ...
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-42
+.. GENERATED FROM PYTHON SOURCE LINES 38-40
 
 Read the volume by element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-46
+.. GENERATED FROM PYTHON SOURCE LINES 40-44
 
 .. code-block:: default
 
@@ -99,12 +97,12 @@ Read the volume by element
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-49
+.. GENERATED FROM PYTHON SOURCE LINES 45-47
 
 Find the minimum list of elements by node to get the volume check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-91
+.. GENERATED FROM PYTHON SOURCE LINES 47-89
 
 .. code-block:: default
 
@@ -157,7 +155,7 @@ Find the minimum list of elements by node to get the volume check
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-99
+.. GENERATED FROM PYTHON SOURCE LINES 90-97
 
 Create workflow
 ~~~~~~~~~~~~~~~~
@@ -167,7 +165,7 @@ apply dot product seqv.volume
 sum up those on the list of elements
 divide this sum by the total volume on those elements
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-133
+.. GENERATED FROM PYTHON SOURCE LINES 97-131
 
 .. code-block:: default
 
@@ -189,8 +187,8 @@ divide this sum by the total volume on those elements
                 ssum = 0.0
                 for id in node_index_to_el_ids[key]:
                     ssum += (
-                        values_to_sum.get_entity_data_by_id(id)[0]
-                        * vol.get_entity_data_by_id(id)[0]
+                            values_to_sum.get_entity_data_by_id(id)[0]
+                            * vol.get_entity_data_by_id(id)[0]
                     )
                 dataseqvsum.append(ssum)
                 datavolsum.append(node_index_to_found_volume[key])
@@ -212,18 +210,17 @@ divide this sum by the total volume on those elements
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 134-136
+.. GENERATED FROM PYTHON SOURCE LINES 132-134
 
 Plot elemental seqv and volume averaged elemental seqv
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-140
+.. GENERATED FROM PYTHON SOURCE LINES 134-137
 
 .. code-block:: default
 
     mesh.plot(values_to_sum_field)
     mesh.plot(divide.outputs.field())
-
 
 
 
@@ -249,13 +246,13 @@ Plot elemental seqv and volume averaged elemental seqv
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 141-144
+.. GENERATED FROM PYTHON SOURCE LINES 138-141
 
 Use the Operator instead
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 An operator with the same algorithm has been implemented
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-161
+.. GENERATED FROM PYTHON SOURCE LINES 141-158
 
 .. code-block:: default
 
@@ -291,7 +288,7 @@ An operator with the same algorithm has been implemented
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.358 seconds)
+   **Total running time of the script:** ( 0 minutes  6.181 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_02-volume_averaged_stress.py:

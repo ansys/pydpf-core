@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:01.628** total execution time for **examples_05-plotting** files:
+**00:02.243** total execution time for **examples_05-plotting** files:
 
 +----------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_01-compare_results.py` (``01-compare_results.py``) | 00:00.888 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_01-compare_results.py` (``01-compare_results.py``) | 00:01.316 | 0.0 MB |
 +----------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_00-plot_on_path.py` (``00-plot_on_path.py``)       | 00:00.740 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_00-plot_on_path.py` (``00-plot_on_path.py``)       | 00:00.927 | 0.0 MB |
 +----------------------------------------------------------------------------------------+-----------+--------+

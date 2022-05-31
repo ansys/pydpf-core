@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Multi-stage Cyclic Symmetry Use Advanced Customization &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Multi-stage Cyclic Symmetry Use Advanced Customization &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -516,7 +539,61 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>True
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>list id {
+  id: 1971
+  server_address: &quot;127.0.0.1:50057&quot;
+}
+, analysis_type: MODAL
+unit_system: 11
+nresult: 4
+unit_system_name: &quot;MKS: m, kg, N, s, V, A, degC&quot;
+solver_major_version: 20
+solver_minor_version: 2
+solver_date: 20200401
+solver_time: 80908
+user_name: &quot;cbellot&quot;
+job_name: &quot;file0&quot;
+product_name: &quot;FULL&quot;
+main_title: &quot;TwoCylsWithBlade--Modal&quot;
+cyc_info {
+  has_cyclic: true
+  cyclic_type: &quot;multi_stage&quot;
+  cyc_support {
+    id {
+      id: 1981
+      server_address: &quot;127.0.0.1:50057&quot;
+    }
+  }
+}
+
+True
+list id {
+  id: 1971
+  server_address: &quot;127.0.0.1:50057&quot;
+}
+, analysis_type: MODAL
+unit_system: 11
+nresult: 4
+unit_system_name: &quot;MKS: m, kg, N, s, V, A, degC&quot;
+solver_major_version: 20
+solver_minor_version: 2
+solver_date: 20200401
+solver_time: 80908
+user_name: &quot;cbellot&quot;
+job_name: &quot;file0&quot;
+product_name: &quot;FULL&quot;
+main_title: &quot;TwoCylsWithBlade--Modal&quot;
+cyc_info {
+  has_cyclic: true
+  cyclic_type: &quot;multi_stage&quot;
+  cyc_support {
+    id {
+      id: 1982
+      server_address: &quot;127.0.0.1:50057&quot;
+    }
+  }
+}
+
 multi_stage
 </pre></div>
 </div>
@@ -532,7 +609,61 @@ multi_stage
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>num stages: 2
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>list id {
+  id: 1971
+  server_address: &quot;127.0.0.1:50057&quot;
+}
+, analysis_type: MODAL
+unit_system: 11
+nresult: 4
+unit_system_name: &quot;MKS: m, kg, N, s, V, A, degC&quot;
+solver_major_version: 20
+solver_minor_version: 2
+solver_date: 20200401
+solver_time: 80908
+user_name: &quot;cbellot&quot;
+job_name: &quot;file0&quot;
+product_name: &quot;FULL&quot;
+main_title: &quot;TwoCylsWithBlade--Modal&quot;
+cyc_info {
+  has_cyclic: true
+  cyclic_type: &quot;multi_stage&quot;
+  cyc_support {
+    id {
+      id: 1983
+      server_address: &quot;127.0.0.1:50057&quot;
+    }
+  }
+}
+
+list id {
+  id: 1971
+  server_address: &quot;127.0.0.1:50057&quot;
+}
+, analysis_type: MODAL
+unit_system: 11
+nresult: 4
+unit_system_name: &quot;MKS: m, kg, N, s, V, A, degC&quot;
+solver_major_version: 20
+solver_minor_version: 2
+solver_date: 20200401
+solver_time: 80908
+user_name: &quot;cbellot&quot;
+job_name: &quot;file0&quot;
+product_name: &quot;FULL&quot;
+main_title: &quot;TwoCylsWithBlade--Modal&quot;
+cyc_info {
+  has_cyclic: true
+  cyclic_type: &quot;multi_stage&quot;
+  cyc_support {
+    id {
+      id: 1984
+      server_address: &quot;127.0.0.1:50057&quot;
+    }
+  }
+}
+
+num stages: 2
 num_sectors stage 0: 6
 num_sectors stage 1: 12
 num nodes in the first stage&#39;s base sector:  2220
@@ -553,7 +684,6 @@ num nodes in the first stage&#39;s base sector:  2220
 <span class="n">sectors_scopings</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">({</span><span class="s2">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
 <span class="n">sectors_scopings</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">({</span><span class="s2">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]))</span>
 <span class="n">UCyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sectors_to_expand</span><span class="p">(</span><span class="n">sectors_scopings</span><span class="p">)</span>
-
 
 <span class="c1"># expand the displacements and get a total deformation</span>
 <span class="n">nrm</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;norm_fc&quot;</span><span class="p">)</span>
@@ -620,13 +750,13 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 
 [0. 0. 0. 0. 0. 0.]
 1394
-[1394, 4989, 7209]
+[1394 4989 7209]
 [0.07179672]
 [0.07179672]
 [0.07179672]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.498 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.212 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-00-multistage-advanced-options-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9d74f9d2939b127f06d8a6427b0f7bad/00-multistage_advanced_options.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-multistage_advanced_options.py</span></code></a></p>

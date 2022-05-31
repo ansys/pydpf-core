@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Session &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Session &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,11 +37,12 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="settings" href="ansys.dpf.core.settings.html" />
-    <link rel="prev" title="Server" href="ansys.dpf.core.server.html" />
+    <link rel="prev" title="Server types" href="ansys.dpf.core.server_types.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -454,6 +456,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.prepare_mapping_workflow.html">
+         prepare_mapping_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">
          rotate
         </a>
@@ -563,6 +570,16 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">
+         ascending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">
+         ascending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">
          component_selector
         </a>
@@ -570,6 +587,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">
          component_selector_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
+         descending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">
+         descending_sort_fc
         </a>
        </li>
        <li class="toctree-l4">
@@ -1029,8 +1056,23 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">
+         combine_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">
+         exclude_levelset
         </a>
        </li>
        <li class="toctree-l4">
@@ -1049,8 +1091,28 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">
+         make_plane_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">
+         make_sphere_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">
+         mesh_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">
          mesh_cut
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">
+         mesh_plan_clip
         </a>
        </li>
        <li class="toctree-l4">
@@ -1076,6 +1138,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">
          node_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.point_cloud_search.html">
+         point_cloud_search
         </a>
        </li>
        <li class="toctree-l4">
@@ -1535,8 +1602,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">
+         cyclic_expanded_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">
          cyclic_expanded_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">
+         cyclic_expanded_temperature
         </a>
        </li>
        <li class="toctree-l4">
@@ -1715,6 +1792,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">
+         global_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">
          heat_flux
         </a>
@@ -1787,6 +1869,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">
          kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">
+         mapdl_material_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">
+         mapdl_section
         </a>
        </li>
        <li class="toctree-l4">
@@ -1887,6 +1979,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">
          nodal_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">
+         nodal_to_global
         </a>
        </li>
        <li class="toctree-l4">
@@ -2642,6 +2739,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_operator.html">
+     Custom Operator Base
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.cyclic_support.html">
      Cyclic Support
     </a>
@@ -2727,6 +2829,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
+     OperatorSpecification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.path_utilities.html">
      path_utilities
     </a>
@@ -2752,6 +2859,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.runtime_config.html">
+     RuntimeConfig
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.scoping.html">
      Scoping
     </a>
@@ -2764,6 +2876,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.server.html">
      Server
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_factory.html">
+     Server factory, server configuration and communication protocols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_types.html">
+     Server types
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -2839,7 +2961,7 @@ call backs from the server when workflows are running.
 A session is started every time a <code class="docutils literal notranslate"><span class="pre">'DpfServer'</span></code> is created.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.session.Session.add_workflow">
-<span class="sig-name descname"><span class="pre">add_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">worflow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session.add_workflow" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workflow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session.add_workflow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a workflow to the session. It allows to follow the workflow’s
 events while it’s running.
 This method is automatically called when a workflow’s output
@@ -2847,7 +2969,7 @@ is requested.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>worflow</strong> (<a class="reference internal" href="ansys.dpf.core.workflow.html#ansys.dpf.core.workflow.Workflow" title="ansys.dpf.core.workflow.Workflow"><em>Workflow</em></a>) – </p></li>
+<li><p><strong>workflow</strong> (<a class="reference internal" href="ansys.dpf.core.workflow.html#ansys.dpf.core.workflow.Workflow" title="ansys.dpf.core.workflow.Workflow"><em>Workflow</em></a>) – </p></li>
 <li><p><strong>identifier</strong> (<em>str</em>) – name given to the workflow</p></li>
 </ul>
 </dd>
@@ -2876,7 +2998,7 @@ is requested and the opetion op.progress_bar is set to <code class="docutils lit
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.session.Session.listen_to_progress">
 <span class="sig-name descname"><span class="pre">listen_to_progress</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session.listen_to_progress" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts a progress bar and update it everytime an operator is
+<dd><p>Starts a progress bar and update it every time an operator is
 finished.</p>
 </dd></dl>
 

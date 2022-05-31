@@ -23,18 +23,19 @@
 Distributed msup distributed modal response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and expanded
-on distributed processes. The modal basis (2 distributed files) is read 
-on 2 remote servers and the modal response (2 distributed files) reading and the expansion is 
+on distributed processes. The modal basis (2 distributed files) is read
+on 2 remote servers and the modal response (2 distributed files) reading and the expansion is
 done on a third server.
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-15
 
 Import dpf module and its examples files
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-20
+.. GENERATED FROM PYTHON SOURCE LINES 15-21
 
 .. code-block:: default
 
+    import os.path
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
@@ -47,13 +48,13 @@ Import dpf module and its examples files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-24
+.. GENERATED FROM PYTHON SOURCE LINES 22-25
 
-Create the template workflow 
+Create the template workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 this workflow will provide the modal basis and the mesh for each domain
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-29
+.. GENERATED FROM PYTHON SOURCE LINES 25-30
 
 .. code-block:: default
 
@@ -69,12 +70,12 @@ this workflow will provide the modal basis and the mesh for each domain
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-32
+.. GENERATED FROM PYTHON SOURCE LINES 31-33
 
 Add the operators to the template workflow and name its inputs and outputs
 Once workflow's inputs and outputs are named, they can be connected later on
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-38
+.. GENERATED FROM PYTHON SOURCE LINES 33-39
 
 .. code-block:: default
 
@@ -91,19 +92,19 @@ Once workflow's inputs and outputs are named, they can be connected later on
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-48
+.. GENERATED FROM PYTHON SOURCE LINES 40-49
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
-Make a list of ip addresses an port numbers on which dpf servers are 
-started. Workflows instances will be created on each of those servers to 
+Make a list of ip addresses an port numbers on which dpf servers are
+started. Workflows instances will be created on each of those servers to
 address each a different result file.
 In this example, we will post process an analysis distributed in 2 files,
 we will consequently require 2 remote processes
-To make this example easier, we will start local servers here, 
+To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-53
+.. GENERATED FROM PYTHON SOURCE LINES 49-54
 
 .. code-block:: default
 
@@ -119,11 +120,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 Print the ips and ports
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-58
+.. GENERATED FROM PYTHON SOURCE LINES 56-59
 
 .. code-block:: default
 
@@ -141,23 +142,23 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50054, 50056]
+    ports: [50061, 50062]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Choose the file path
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-65
+.. GENERATED FROM PYTHON SOURCE LINES 61-66
 
 .. code-block:: default
 
 
     base_path = examples.distributed_msup_folder
-    files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
-    files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
+    files = [os.path.join(base_path, "file0.mode"), os.path.join(base_path, "file1.mode")]
+    files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file1.rst")]
 
 
 
@@ -166,14 +167,14 @@ Choose the file path
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-70
+.. GENERATED FROM PYTHON SOURCE LINES 67-71
 
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
-We also connect the data sources to those workflows 
+We also connect the data sources to those workflows
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-77
+.. GENERATED FROM PYTHON SOURCE LINES 71-78
 
 .. code-block:: default
 
@@ -191,14 +192,14 @@ We also connect the data sources to those workflows
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-82
+.. GENERATED FROM PYTHON SOURCE LINES 79-83
 
 Create a local workflow for expansion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this workflow we merge the modal basis, the meshes, read the modal response
 and expand the modal response with the modal basis
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-112
+.. GENERATED FROM PYTHON SOURCE LINES 83-117
 
 .. code-block:: default
 
@@ -207,11 +208,15 @@ and expand the modal response with the modal basis
     merge = ops.utility.merge_fields_containers()
     merge_mesh = ops.utility.merge_meshes()
 
-    ds = dpf.DataSources(base_path + r'/file_load_1.rfrq')
+    ds = dpf.DataSources(os.path.join(base_path, "file_load_1.rfrq"))
     response = ops.result.displacement(data_sources=ds)
     response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-    ds = dpf.DataSources(base_path + r'/file_load_2.rfrq')
+    ds = dpf.DataSources(os.path.join(base_path, "file_load_2.rfrq"))
+    from os import walk
+
+    for (dirpath, dirnames, filenames) in walk(base_path):
+        print(filenames)
     response2 = ops.result.displacement(data_sources=ds)
     response2fc = response2.outputs.fields_container()
     response2fc.time_freq_support.time_frequencies.scoping.set_id(0, 2)
@@ -236,27 +241,38 @@ and expand the modal response with the modal basis
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    ['file0.mode', 'file0.rst', 'file1.mode', 'file1.rst', 'file_load_1.rfrq', 'file_load_2.rfrq']
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-115
+
+.. GENERATED FROM PYTHON SOURCE LINES 118-120
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-123
+.. GENERATED FROM PYTHON SOURCE LINES 120-131
 
 .. code-block:: default
 
 
     for i, server in enumerate(remote_servers):
-        local_workflow.connect_with(remote_workflows[i], {"out": "in" + str(i), "outmesh": "inmesh" + str(i)})
+        local_workflow.connect_with(remote_workflows[i],
+                                    {"out": "in" + str(i), "outmesh": "inmesh" + str(i)})
 
     fc = local_workflow.get_output("expanded", dpf.types.fields_container)
     merged_mesh = local_workflow.get_output("mesh", dpf.types.meshed_region)
     merged_mesh.plot(fc.get_field_by_time_complex_ids(1, 0))
     merged_mesh.plot(fc.get_field_by_time_complex_ids(20, 0))
     print(fc)
+    dpf.server.shutdown_all_session_servers()
+
 
 
 .. rst-class:: sphx-glr-horizontal
@@ -336,7 +352,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.650 seconds)
+   **Total running time of the script:** ( 0 minutes  6.158 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_04-distributed-msup_expansion_steps.py:

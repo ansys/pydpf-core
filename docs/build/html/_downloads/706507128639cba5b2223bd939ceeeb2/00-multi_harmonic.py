@@ -27,12 +27,10 @@ harmonic = examples.download_multi_harmonic_result()
 model = dpf.Model(harmonic)
 print(model)
 
-
 ###############################################################################
 # Read the analysis domain support
 tf = model.metadata.time_freq_support
 print("Number of solution sets", tf.n_sets)
-
 
 ###############################################################################
 # Compute multi harmonic response
@@ -67,7 +65,6 @@ fft = ops.math.fft_multi_harmonic_minmax()
 
 fft.inputs.connect(comp.outputs)
 fft.inputs.rpm_scoping.connect(rpms)
-
 
 fields = fft.outputs.field_max()
 len(fields)  # one multi-harmonic field response per node

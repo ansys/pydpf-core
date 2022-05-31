@@ -22,10 +22,10 @@
 
 Compute total displacement from distributed files with distributed post
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed 
+This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing of total displacement,
-results a merged on the local process. In this example, the client is only 
-connected to the coordinator server. Connections to remote proceses are only
+results a merged on the local process. In this example, the client is only
+connected to the coordinator server. Connections to remote processes are only
 done implicitly through the coordinator.
 
 .. GENERATED FROM PYTHON SOURCE LINES 15-16
@@ -93,15 +93,15 @@ Once workflow's inputs and outputs are named, they can be connected later on
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
-Make a list of ip addresses an port numbers on which dpf servers are 
-started. Workflows instances will be created on each of those servers to 
+Make a list of ip addresses an port numbers on which dpf servers are
+started. Workflows instances will be created on each of those servers to
 address each a different result file.
 In this example, we will post process an analysis distributed in 2 files,
 we will consequently require 2 remote processes
-To make this example easier, we will start local servers here, 
+To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 We only keep instances of remote_servers to start and keep those servers
-awaik. The purpose of this example is to show that we can do distributed 
+awaik. The purpose of this example is to show that we can do distributed
 post processing without opening channels between this client and
 the remote processes
 
@@ -143,7 +143,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50055, 50056]
+    ports: [50059, 50060]
 
 
 
@@ -173,7 +173,7 @@ in shared memory
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
-We also connect the data sources to those workflows 
+We also connect the data sources to those workflows.
 
 .. GENERATED FROM PYTHON SOURCE LINES 72-78
 
@@ -221,7 +221,7 @@ Create a local workflow able to merge the results
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-100
+.. GENERATED FROM PYTHON SOURCE LINES 92-102
 
 .. code-block:: default
 
@@ -233,6 +233,8 @@ Connect the workflows together and get the output
     print(fc)
     print(fc[0].min().data)
     print(fc[0].max().data)
+
+    dpf.server.shutdown_all_session_servers()
 
 
 
@@ -259,7 +261,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.884 seconds)
+   **Total running time of the script:** ( 0 minutes  11.070 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_delegate_to_server.py:

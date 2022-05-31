@@ -67,7 +67,7 @@ Create a parallel piped mesh made of linear hexa:
         for index in np.nditer(indexes[0]):
             if index % 3 == 0:
                 if np.allclose(arr[index + 1], seq[1]) and np.allclose(
-                    arr[index + 2], seq[2]
+                        arr[index + 2], seq[2]
                 ):
                     return index
         return -1
@@ -90,22 +90,22 @@ Add nodes:
 
     id = 1
     for i, x in enumerate(
-        [
-            float(i) * length / float(num_nodes_in_length)
-            for i in range(0, num_nodes_in_length)
-        ]
+            [
+                float(i) * length / float(num_nodes_in_length)
+                for i in range(0, num_nodes_in_length)
+            ]
     ):
         for j, y in enumerate(
-            [
-                float(i) * width / float(num_nodes_in_width)
-                for i in range(0, num_nodes_in_width)
-            ]
+                [
+                    float(i) * width / float(num_nodes_in_width)
+                    for i in range(0, num_nodes_in_width)
+                ]
         ):
             for k, z in enumerate(
-                [
-                    float(i) * depth / float(num_nodes_in_depth)
-                    for i in range(0, num_nodes_in_depth)
-                ]
+                    [
+                        float(i) * depth / float(num_nodes_in_depth)
+                        for i in range(0, num_nodes_in_depth)
+                    ]
             ):
                 mesh.nodes.add_node(id, [x, y, z])
                 id += 1
@@ -121,7 +121,7 @@ Add nodes:
 
 Get the nodes' coordinates field:
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-69
+.. GENERATED FROM PYTHON SOURCE LINES 66-68
 
 .. code-block:: default
 
@@ -134,12 +134,11 @@ Get the nodes' coordinates field:
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 70-71
+.. GENERATED FROM PYTHON SOURCE LINES 69-70
 
 Set the mesh unit:
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-77
+.. GENERATED FROM PYTHON SOURCE LINES 70-76
 
 .. code-block:: default
 
@@ -156,32 +155,32 @@ Set the mesh unit:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 77-78
 
 Add solid elements (linear hexa with eight nodes):
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-118
+.. GENERATED FROM PYTHON SOURCE LINES 78-117
 
 .. code-block:: default
 
     id = 1
     for i, x in enumerate(
-        [
-            float(i) * length / float(num_nodes_in_length)
-            for i in range(0, num_nodes_in_length - 1)
-        ]
+            [
+                float(i) * length / float(num_nodes_in_length)
+                for i in range(0, num_nodes_in_length - 1)
+            ]
     ):
         for j, y in enumerate(
-            [
-                float(i) * width / float(num_nodes_in_width)
-                for i in range(0, num_nodes_in_width - 1)
-            ]
+                [
+                    float(i) * width / float(num_nodes_in_width)
+                    for i in range(0, num_nodes_in_width - 1)
+                ]
         ):
             for k, z in enumerate(
-                [
-                    float(i) * depth / float(num_nodes_in_depth)
-                    for i in range(0, num_nodes_in_depth - 1)
-                ]
+                    [
+                        float(i) * depth / float(num_nodes_in_depth)
+                        for i in range(0, num_nodes_in_depth - 1)
+                    ]
             ):
                 coord1 = np.array([x, y, z])
                 connectivity = []
@@ -227,7 +226,7 @@ Add solid elements (linear hexa with eight nodes):
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-126
+.. GENERATED FROM PYTHON SOURCE LINES 118-125
 
 Create displacement fields over time with three time sets.
 Here the displacement on each node will be the value of its x, y, and
@@ -237,7 +236,7 @@ and z coordinates for time 2.
 The displacement on each node will be three times the value of its x,
 y, and z coordinates for time 3.
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-148
+.. GENERATED FROM PYTHON SOURCE LINES 125-146
 
 .. code-block:: default
 
@@ -269,12 +268,11 @@ y, and z coordinates for time 3.
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 149-150
+.. GENERATED FROM PYTHON SOURCE LINES 147-148
 
 Create results over times in a fields container with its time frequency support:
 
-.. GENERATED FROM PYTHON SOURCE LINES 150-155
+.. GENERATED FROM PYTHON SOURCE LINES 148-152
 
 .. code-block:: default
 
@@ -289,17 +287,15 @@ Create results over times in a fields container with its time frequency support:
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 156-157
+.. GENERATED FROM PYTHON SOURCE LINES 153-154
 
 Check that the time frequency support has been built:
 
-.. GENERATED FROM PYTHON SOURCE LINES 157-160
+.. GENERATED FROM PYTHON SOURCE LINES 154-156
 
 .. code-block:: default
 
     print(fc.time_freq_support)
-
 
 
 
@@ -322,11 +318,11 @@ Check that the time frequency support has been built:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 161-162
+.. GENERATED FROM PYTHON SOURCE LINES 157-158
 
 Plot the norm over time of the fields container:
 
-.. GENERATED FROM PYTHON SOURCE LINES 162-167
+.. GENERATED FROM PYTHON SOURCE LINES 158-163
 
 .. code-block:: default
 
@@ -369,7 +365,7 @@ Plot the norm over time of the fields container:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.174 seconds)
+   **Total running time of the script:** ( 0 minutes  7.402 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_03-create_entities.py:

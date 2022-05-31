@@ -27,15 +27,15 @@ access to helpers for requesting results on specific mesh and time scopings.
 With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-17
+Import necessary modules:
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-17
 
 .. code-block:: default
 
-    import numpy as np
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-    from ansys.dpf.core import operators as ops
 
 
 
@@ -44,18 +44,16 @@ model is straightforward.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-20
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
-First, create a model object to establish a connection with an
-example result file
+Create a model object to establish a connection with an example result file:
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-24
+.. GENERATED FROM PYTHON SOURCE LINES 19-22
 
 .. code-block:: default
 
     model = dpf.Model(examples.download_multi_stage_cyclic_result())
     print(model)
-
 
 
 
@@ -98,18 +96,17 @@ example result file
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-28
+.. GENERATED FROM PYTHON SOURCE LINES 23-26
 
-Visualize specific mode shapes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Choose the modes to visualize
+Visualize Specific Mode Shapes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Choose the modes to visualize:
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-33
+.. GENERATED FROM PYTHON SOURCE LINES 26-30
 
 .. code-block:: default
 
-    modes = [1,5,6]
-
+    modes = [1, 5, 6]
 
     disp = model.results.displacement.on_time_scoping(modes)
 
@@ -120,22 +117,21 @@ Choose the modes to visualize
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-37
+.. GENERATED FROM PYTHON SOURCE LINES 31-34
 
-Choose a spatial subset
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Work only a named selection (or component)
+Choose a Spatial Subset
+~~~~~~~~~~~~~~~~~~~~~~~
+Work on only a named selection (or component).
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
-Print the available named selection
+Print the available named selection:
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-43
+.. GENERATED FROM PYTHON SOURCE LINES 37-39
 
 .. code-block:: default
 
     print(model.metadata.available_named_selections)
-
 
 
 
@@ -152,25 +148,22 @@ Print the available named selection
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
-Specify to the result that we work on a specific named selection
+Specify to the result that you want to work on a specific named selection:
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-57
+.. GENERATED FROM PYTHON SOURCE LINES 41-50
 
 .. code-block:: default
 
-    disp.on_named_selection('_STAG1_BASE_NOD')
+    disp.on_named_selection("_STAG1_BASE_NOD")
     op = disp()
-    op.inputs.read_cyclic(2)#expand cyclic 
+    op.inputs.read_cyclic(2)  # expand cyclic
     results = op.outputs.fields_container()
 
-    #plot
+    # plot
     for mode in modes:
         results[0].meshed_region.plot(results.get_fields_by_time_complex_ids(mode, 0)[0])
-    
-    
-
 
 
 
@@ -203,25 +196,24 @@ Specify to the result that we work on a specific named selection
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
-Specify to the result that we work on specific nodes
+Specify to the result that you want to work on specific nodes:
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-69
+.. GENERATED FROM PYTHON SOURCE LINES 52-61
 
 .. code-block:: default
 
     disp = model.results.displacement.on_time_scoping(modes)
     disp.on_mesh_scoping(list(range(1, 200)))
     op = disp()
-    op.inputs.read_cyclic(2)#expand cyclic 
+    op.inputs.read_cyclic(2)  # expand cyclic
     results = op.outputs.fields_container()
 
-    #plot
+    # plot
     for mode in modes:
         results[0].meshed_region.plot(results.get_fields_by_time_complex_ids(mode, 0)[0])
-    
-    
+
 
 
 .. rst-class:: sphx-glr-horizontal
@@ -255,7 +247,7 @@ Specify to the result that we work on specific nodes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.825 seconds)
+   **Total running time of the script:** ( 0 minutes  5.494 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_07-use_result_helpers.py:

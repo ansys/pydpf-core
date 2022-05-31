@@ -3,7 +3,7 @@
 
 Connect workflows on different processes implicitly
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed 
+This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing,
 results a merged on the local process. In this example, different workflows are
 directly created on different servers. Those workflows are then connected
@@ -20,16 +20,16 @@ from ansys.dpf.core import operators as ops
 ###############################################################################
 # Configure the servers
 # ~~~~~~~~~~~~~~~~~~~~~~
-# To make this example easier, we will start local servers here, 
+# To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
 remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
 
 ###############################################################################
 # Create template workflows on remote servers
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# For the purpose of this example, we will create 2 workflows computing 
-# elemental nodal stresses on different servers. The second workflow will 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# For the purpose of this example, we will create 2 workflows computing
+# elemental nodal stresses on different servers. The second workflow will
 # multiply by 2.0 the stresses. A last workflow will merge the outputs
 
 files = examples.download_distributed_files()

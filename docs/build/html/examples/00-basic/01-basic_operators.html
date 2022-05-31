@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Operators Overview &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Operators Overview &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -524,28 +547,28 @@ displacement operator:</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Available inputs:
-     -   bool_rotate_to_global : bool, optional
-         If true the field is rotated to global coordinate system (default
-         true)
-
-     -   data_sources : DataSources
-         Result file path container, used if no streams are set
+     -   streams_container : StreamsContainer, optional
+         Result file container allowed to be kept open to cache data
 
      -   read_cyclic : Enum Dataprocessing::Ecyclicreading, int, optional
          If 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2
          cyclic expansion is done, if 3 cyclic expansion is done and stages are
          merged (default is 1)
 
-     -   streams_container : StreamsContainer, optional
-         Result file container allowed to be kept open to cache data
-
-     -   mesh : MeshedRegion, MeshesContainer, optional
-         Prevents from reading the mesh in the result files
+     -   data_sources : DataSources
+         Result file path container, used if no streams are set
 
      -   mesh_scoping : ScopingsContainer, Scoping, optional
          Nodes or elements scoping required in output. the scoping&#39;s location
          indicates whether nodes or elements are asked. using scopings
          container enables to split the result fields container in domains
+
+     -   bool_rotate_to_global : bool, optional
+         If true the field is rotated to global coordinate system (default
+         true)
+
+     -   mesh : MeshedRegion, MeshesContainer, optional
+         Prevents from reading the mesh in the result files
 
      -   time_scoping : Scoping, int, list, float, Field, optional
          Time/freq (use doubles or field), time/freq set ids (use ints or
@@ -692,7 +715,7 @@ scripting syntax.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.48153706e-08]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.834 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.157 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-01-basic-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9aa372dff2fc2ef917214ce9663244c9/01-basic_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-basic_operators.py</span></code></a></p>

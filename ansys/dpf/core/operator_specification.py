@@ -381,7 +381,44 @@ class Exposures:
     hidden = "hidden"
 
 
+class Categories:
+    result = "result"
+    math = "math"
+    mesh = "mesh"
+    min_max = "min_max"
+    scoping = "scoping"
+    mapping = "mapping"
+    geo = "geo"
+    filter = "filter"
+    utility = "utility"
+    averaging = "averaging"
+    serialization = "serialization"
+    invariant = "invariant"
+    logic = "logic"
+    metadata = "metadata"
+
+
 class SpecificationProperties:
+    """Properties of an Operator.
+
+    Parameters
+    ----------
+    user_name : str
+        Readable lower case name of the Operator. example: "custom operator".
+
+    category : str, Categories
+        Choose from Categories options. Arrange the different Operators in the documentation and in the code generation.
+
+    scripting_name : str
+        Snake case name of the Operator. example: "custom_operator".
+
+    exposure : Exposures
+        Public by default, a hidden or private Operator doesn't appear in the documentation.
+
+    plugin : str
+        Snake case name of the plugin it belongs to.
+
+    """
     def __init__(self, user_name: str = None, category: str = None, scripting_name: str = None,
                  exposure: Exposures = Exposures.public,
                  plugin: str = None, spec=None,
@@ -410,7 +447,7 @@ class SpecificationProperties:
 
 
 class CustomSpecification(Specification):
-    """Allow to create an Operator Specification with its description (what the Operator does), its inputs and outputs
+    """Allows to create an Operator Specification with its description (what the Operator does), its inputs and outputs
     and some properties.
     Inherits from Specification (which has only getters) to implement setters.
 
@@ -427,7 +464,7 @@ class CustomSpecification(Specification):
     >>> from ansys.dpf.core.custom_operator import CustomOperatorBase
     >>> from ansys.dpf.core import Field
     >>> from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties,\
-                                                        Exposures, CustomConfigOptionSpec, PinSpecification
+                                                        PinSpecification
     >>> class AddFloatToFieldData(CustomOperatorBase):
     ...     def run(self):
     ...         field = self.get_input(0, Field)

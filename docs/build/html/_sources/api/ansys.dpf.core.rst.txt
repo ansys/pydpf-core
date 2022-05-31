@@ -24,6 +24,7 @@ Submodules
    ansys.dpf.core.config
    ansys.dpf.core.core
    ansys.dpf.core.custom_fields_container
+   ansys.dpf.core.custom_operator
    ansys.dpf.core.cyclic_support
    ansys.dpf.core.data_sources
    ansys.dpf.core.data_tree
@@ -49,15 +50,19 @@ Submodules
    ansys.dpf.core.misc
    ansys.dpf.core.model
    ansys.dpf.core.nodes
+   ansys.dpf.core.operator_specification
    ansys.dpf.core.outputs
    ansys.dpf.core.path_utilities
    ansys.dpf.core.plotter
    ansys.dpf.core.property_field
    ansys.dpf.core.result_info
    ansys.dpf.core.results
+   ansys.dpf.core.runtime_config
    ansys.dpf.core.scoping
    ansys.dpf.core.scopings_container
    ansys.dpf.core.server
+   ansys.dpf.core.server_factory
+   ansys.dpf.core.server_types
    ansys.dpf.core.session
    ansys.dpf.core.settings
    ansys.dpf.core.time_freq_scoping_factory

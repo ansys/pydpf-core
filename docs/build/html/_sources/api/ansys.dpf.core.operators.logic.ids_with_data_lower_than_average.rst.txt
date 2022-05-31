@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.logic.ids_with_data_lower_than_average
+   :inherited-members:

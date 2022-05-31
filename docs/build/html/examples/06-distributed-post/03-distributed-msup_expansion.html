@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Distributed modal superposition &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Distributed modal superposition &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -509,7 +532,7 @@ In this example, we will post process an analysis distributed in 2 files,
 we will consequently require 2 remote processes
 To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">remote_servers</span> <span class="o">=</span> <span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span><span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">remote_servers</span> <span class="o">=</span> <span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
 <span class="n">ips</span> <span class="o">=</span> <span class="p">[</span><span class="n">remote_server</span><span class="o">.</span><span class="n">ip</span> <span class="k">for</span> <span class="n">remote_server</span> <span class="ow">in</span> <span class="n">remote_servers</span><span class="p">]</span>
 <span class="n">ports</span> <span class="o">=</span> <span class="p">[</span><span class="n">remote_server</span><span class="o">.</span><span class="n">port</span> <span class="k">for</span> <span class="n">remote_server</span> <span class="ow">in</span> <span class="n">remote_servers</span><span class="p">]</span>
 </pre></div>
@@ -521,11 +544,11 @@ but we could get connected to any existing servers on the network.</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ips: [&#39;127.0.0.1&#39;, &#39;127.0.0.1&#39;]
-ports: [50055, 50056]
+ports: [50061, 50062]
 </pre></div>
 </div>
 <p>Choose the file path</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">base_path</span><span class="o">=</span><span class="n">examples</span><span class="o">.</span><span class="n">distributed_msup_folder</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">base_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">distributed_msup_folder</span>
 <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file0.mode&#39;</span><span class="p">,</span> <span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file1.mode&#39;</span><span class="p">]</span>
 <span class="n">files_aux</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file0.rst&#39;</span><span class="p">,</span> <span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file1.rst&#39;</span><span class="p">]</span>
 </pre></div>
@@ -535,8 +558,8 @@ ports: [50055, 50056]
 <h1>Send workflows on servers<a class="headerlink" href="#send-workflows-on-servers" title="Permalink to this headline">¶</a></h1>
 <p>Here we create new instances on the server by copies of the template workflow
 We also connect the data sources to those workflows</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">remote_workflows</span> <span class="o">=</span><span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">server</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remote_servers</span><span class="p">)</span> <span class="p">:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">remote_workflows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">server</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remote_servers</span><span class="p">):</span>
     <span class="n">remote_workflows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">template_workflow</span><span class="o">.</span><span class="n">create_on_other_server</span><span class="p">(</span><span class="n">server</span><span class="p">))</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">add_file_path</span><span class="p">(</span><span class="n">files_aux</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -556,14 +579,14 @@ and expand the modal response with the modal basis</p>
 <span class="n">response</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">merge_mesh</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">merges_mesh</span><span class="p">)</span>
 
-<span class="n">expansion</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">modal_superposition</span><span class="p">(</span><span class="n">solution_in_modal_space</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">modal_basis</span> <span class="o">=</span> <span class="n">merge</span><span class="p">)</span>
-<span class="n">component</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">expansion</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">modal_superposition</span><span class="p">(</span><span class="n">solution_in_modal_space</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">modal_basis</span><span class="o">=</span><span class="n">merge</span><span class="p">)</span>
+<span class="n">component</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="n">local_workflow</span><span class="o">.</span><span class="n">add_operators</span><span class="p">([</span><span class="n">merge</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span><span class="n">expansion</span><span class="p">,</span><span class="n">merge_mesh</span><span class="p">,</span><span class="n">component</span><span class="p">])</span>
-<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;in0&quot;</span><span class="p">,</span> <span class="n">merge</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="n">merge</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;inmesh0&quot;</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;inmesh1&quot;</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">add_operators</span><span class="p">([</span><span class="n">merge</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="p">,</span> <span class="n">component</span><span class="p">])</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;in0&quot;</span><span class="p">,</span> <span class="n">merge</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="n">merge</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;inmesh0&quot;</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">local_workflow</span><span class="o">.</span><span class="n">set_input_name</span><span class="p">(</span><span class="s2">&quot;inmesh1&quot;</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="n">local_workflow</span><span class="o">.</span><span class="n">set_output_name</span><span class="p">(</span><span class="s2">&quot;expanded&quot;</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
 <span class="n">local_workflow</span><span class="o">.</span><span class="n">set_output_name</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">merges_mesh</span><span class="p">)</span>
@@ -572,14 +595,17 @@ and expand the modal response with the modal basis</p>
 </section>
 <section id="connect-the-workflows-together-and-get-the-output">
 <h1>Connect the workflows together and get the output<a class="headerlink" href="#connect-the-workflows-together-and-get-the-output" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">server</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remote_servers</span><span class="p">)</span> <span class="p">:</span>
-    <span class="n">local_workflow</span><span class="o">.</span><span class="n">connect_with</span><span class="p">(</span><span class="n">remote_workflows</span><span class="p">[</span><span class="n">i</span><span class="p">],{</span><span class="s2">&quot;out&quot;</span><span class="p">:</span><span class="s2">&quot;in&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="s2">&quot;outmesh&quot;</span><span class="p">:</span><span class="s2">&quot;inmesh&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)})</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">server</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remote_servers</span><span class="p">):</span>
+    <span class="n">local_workflow</span><span class="o">.</span><span class="n">connect_with</span><span class="p">(</span><span class="n">remote_workflows</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                <span class="p">{</span><span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;outmesh&quot;</span><span class="p">:</span> <span class="s2">&quot;inmesh&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)})</span>
 
 <span class="n">fc</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;expanded&quot;</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
-<span class="n">merged_mesh</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
-<span class="n">merged_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
-<span class="n">merged_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">merged_mesh</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
+<span class="n">merged_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">merged_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
+
+<span class="n">dpf</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown_all_session_servers</span><span class="p">()</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
@@ -614,7 +640,7 @@ and expand the modal response with the modal basis</p>
   - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 1065 entities.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.882 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.186 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-distributed-post-03-distributed-msup-expansion-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e94ca9065b0da25e6202c4e25e4122af/03-distributed-msup_expansion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-distributed-msup_expansion.py</span></code></a></p>

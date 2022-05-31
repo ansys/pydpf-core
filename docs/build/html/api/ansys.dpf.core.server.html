@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Server &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Server &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,10 +37,11 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Session" href="ansys.dpf.core.session.html" />
+    <link rel="next" title="Server factory, server configuration and communication protocols" href="ansys.dpf.core.server_factory.html" />
     <link rel="prev" title="ScopingsContainer" href="ansys.dpf.core.scopings_container.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -454,6 +456,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.prepare_mapping_workflow.html">
+         prepare_mapping_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">
          rotate
         </a>
@@ -563,6 +570,16 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">
+         ascending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">
+         ascending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">
          component_selector
         </a>
@@ -570,6 +587,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">
          component_selector_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
+         descending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">
+         descending_sort_fc
         </a>
        </li>
        <li class="toctree-l4">
@@ -1029,8 +1056,23 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">
+         combine_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">
+         exclude_levelset
         </a>
        </li>
        <li class="toctree-l4">
@@ -1049,8 +1091,28 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">
+         make_plane_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">
+         make_sphere_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">
+         mesh_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">
          mesh_cut
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">
+         mesh_plan_clip
         </a>
        </li>
        <li class="toctree-l4">
@@ -1076,6 +1138,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">
          node_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.point_cloud_search.html">
+         point_cloud_search
         </a>
        </li>
        <li class="toctree-l4">
@@ -1535,8 +1602,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">
+         cyclic_expanded_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">
          cyclic_expanded_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">
+         cyclic_expanded_temperature
         </a>
        </li>
        <li class="toctree-l4">
@@ -1715,6 +1792,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">
+         global_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">
          heat_flux
         </a>
@@ -1787,6 +1869,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">
          kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">
+         mapdl_material_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">
+         mapdl_section
         </a>
        </li>
        <li class="toctree-l4">
@@ -1887,6 +1979,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">
          nodal_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">
+         nodal_to_global
         </a>
        </li>
        <li class="toctree-l4">
@@ -2642,6 +2739,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_operator.html">
+     Custom Operator Base
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.cyclic_support.html">
      Cyclic Support
     </a>
@@ -2727,6 +2829,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
+     OperatorSpecification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.path_utilities.html">
      path_utilities
     </a>
@@ -2752,6 +2859,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.runtime_config.html">
+     RuntimeConfig
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.scoping.html">
      Scoping
     </a>
@@ -2764,6 +2876,16 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Server
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_factory.html">
+     Server factory, server configuration and communication protocols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_types.html">
+     Server types
     </a>
    </li>
    <li class="toctree-l2">
@@ -2847,6 +2969,17 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="ansys.dpf.core.server.set_server_configuration">
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">set_server_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><span class="pre">ansys.dpf.core.server_factory.ServerConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ansys.dpf.core.server.set_server_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets, for the current python session, the default type of DPF server to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>server_config</strong> (<a class="reference internal" href="ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><em>ServerConfig</em></a>) – Manages the type of server connection to use by default.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="ansys.dpf.core.server.port_in_use">
 <span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">port_in_use</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.port_in_use" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a port is in use at the given host.</p>
@@ -2865,13 +2998,6 @@ permission errors like: <code class="docutils literal notranslate"><span class="
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.check_valid_ip">
-<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">check_valid_ip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.check_valid_ip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if a valid IP address is entered.</p>
-<p>This method raises an error when an invalid IP address is entered.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="ansys.dpf.core.server.shutdown_all_session_servers">
 <span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">shutdown_all_session_servers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.shutdown_all_session_servers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shut down all active servers created by this module.</p>
@@ -2879,7 +3005,7 @@ permission errors like: <code class="docutils literal notranslate"><span class="
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ansys.dpf.core.server.start_local_server">
-<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">start_local_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.start_local_server" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">start_local_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_docker_by_default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.start_local_server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start a new local DPF server at a given port and IP address.</p>
 <p>This method requires Windows and ANSYS 2021 R1 or later. If <code class="docutils literal notranslate"><span class="pre">as_global=True</span></code>, which is
 the default) the server is stored globally, replacing the one stored previously.
@@ -2897,23 +3023,30 @@ The default is the latest Ansys installation.</p></li>
 module. All DPF objects created in this Python session will
 use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
 <li><p><strong>load_operators</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to automatically load the math operators. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>use_docker_by_default</strong> (<em>bool</em><em>, </em><em>optional</em>) – If the environment variable DPF_DOCKER is set to a docker name and use_docker_by_default
+is True, the server is ran as a docker (default is True).</p></li>
+<li><p><strong>docker_name</strong> (<em>str</em><em>, </em><em>optional</em>) – To start DPF server as a docker, specify the docker name here.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initialization attempt.
+The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
+passes, the connection fails.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><em>ServerConfig</em></a><em>, </em><em>optional</em>) – Manages the type of server connection to use.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>server</strong></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer">server.DpfServer</a></p>
+<dd class="field-odd"><p>server.ServerBase</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ansys.dpf.core.server.connect_to_server">
-<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">connect_to_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.connect_to_server" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">connect_to_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.connect_to_server" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect to an existing DPF server.</p>
 <p>This method sets the global default channel that is then used for the
-duration of the DPF sesssion.</p>
+duration of the DPF session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2924,9 +3057,10 @@ default is <code class="docutils literal notranslate"><span class="pre">&quot;LO
 <li><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
 module. All DPF objects created in this Python session will
 use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
-<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initalization attempt.
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initialization attempt.
 The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
 passes, the connection fails.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><em>ServerConfig</em></a><em>, </em><em>optional</em>) – Manages the type of server connection to use.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2949,150 +3083,19 @@ passes, the connection fails.</p></li>
 </div>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">DpfServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides an instance of the DPF server.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>server_bin</strong> (<em>str</em>) – Path for the DPF executable.</p></li>
-<li><p><strong>ip</strong> (<em>str</em>) – IP address of the remote or local instance to connect to. The
-default is <code class="docutils literal notranslate"><span class="pre">&quot;LOCALHOST&quot;</span></code>.</p></li>
-<li><p><strong>port</strong> (<em>int</em>) – Port to connect to the remote instance on. The default is
-<code class="docutils literal notranslate"><span class="pre">&quot;DPF_DEFAULT_PORT&quot;</span></code>, which is 50054.</p></li>
-<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initalization attempt.
-The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
-passes, the connection fails.</p></li>
-<li><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
-module. All DPF objects created in this Python session will
-use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
-<li><p><strong>load_operators</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to automatically load the math operators. The default
-is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
-<li><p><strong>launch_server</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to launch the server on Windows.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer.info">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Server information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>info</strong> – Dictionary with server information, including <code class="docutils literal notranslate"><span class="pre">&quot;server_ip&quot;</span></code>,
-<code class="docutils literal notranslate"><span class="pre">&quot;server_port&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;server_process_id&quot;</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">&quot;server_version&quot;</span></code> keys.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dictionary</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer.ip">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ip</span></span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.ip" title="Permalink to this definition">¶</a></dt>
-<dd><p>IP address of the server.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>ip</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer.port">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Port of the server.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>port</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer.version">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Version of the server.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>version</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer.os">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.os" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the operating system of the server</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.DpfServer.check_version">
-<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.DpfServer.check_version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the server version matches with a required version.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
-<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
-</ul>
-</dd>
-</dl>
-<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
-<dt class="sig sig-object py" id="ansys.dpf.core.server.launch_dpf">
-<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">launch_dpf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.launch_dpf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Launch Ansys DPF.</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.server.get_or_create_server">
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server.</span></span><span class="sig-name descname"><span class="pre">get_or_create_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server.get_or_create_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the given server or if None, creates a new one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ansys_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Root path for the Ansys installation directory. For example, <code class="docutils literal notranslate"><span class="pre">&quot;/ansys_inc/v212/&quot;</span></code>.
-The default is the latest Ansys installation.</p></li>
-<li><p><strong>ip</strong> (<em>str</em><em>, </em><em>optional</em>) – IP address of the remote or local instance to connect to. The
-default is <code class="docutils literal notranslate"><span class="pre">&quot;LOCALHOST&quot;</span></code>.</p></li>
-<li><p><strong>port</strong> (<em>int</em>) – Port to connect to the remote instance on. The default is
-<code class="docutils literal notranslate"><span class="pre">&quot;DPF_DEFAULT_PORT&quot;</span></code>, which is 50054.</p></li>
-<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initalization attempt.
-The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
-passes, the connection fails.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>server</strong> (<a class="reference internal" href="ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.BaseServer" title="ansys.dpf.core.server_types.BaseServer"><em>BaseServer</em></a><em>, </em><em>None</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>process</strong> – DPF Process.</p>
+<dd class="field-even"><p><strong>server</strong></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>subprocess.Popen</p>
+<dd class="field-odd"><p>returns the newly created server, or the server given.</p>
 </dd>
 </dl>
 </dd></dl>

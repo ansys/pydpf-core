@@ -52,7 +52,7 @@ Next, create the model and display the state of the result.  Note
 that this harmonic result file contains several rpms,
 each rpm has several frequencies.
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-31
+.. GENERATED FROM PYTHON SOURCE LINES 24-30
 
 .. code-block:: default
 
@@ -61,7 +61,6 @@ each rpm has several frequencies.
     harmonic = examples.download_multi_harmonic_result()
     model = dpf.Model(harmonic)
     print(model)
-
 
 
 
@@ -1098,17 +1097,16 @@ each rpm has several frequencies.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Read the analysis domain support
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-37
+.. GENERATED FROM PYTHON SOURCE LINES 32-35
 
 .. code-block:: default
 
     tf = model.metadata.time_freq_support
     print("Number of solution sets", tf.n_sets)
-
 
 
 
@@ -1125,14 +1123,14 @@ Read the analysis domain support
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-42
+.. GENERATED FROM PYTHON SOURCE LINES 36-40
 
 Compute multi harmonic response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we compute the Rz multi harmonic responses based on
 a selected nodes and a set of EOs (multiple engine orders).
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-78
+.. GENERATED FROM PYTHON SOURCE LINES 40-75
 
 .. code-block:: default
 
@@ -1165,7 +1163,6 @@ a selected nodes and a set of EOs (multiple engine orders).
     fft.inputs.connect(comp.outputs)
     fft.inputs.rpm_scoping.connect(rpms)
 
-
     fields = fft.outputs.field_max()
     len(fields)  # one multi-harmonic field response per node
 
@@ -1179,11 +1176,11 @@ a selected nodes and a set of EOs (multiple engine orders).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
 Plot the minimum and maximum displacements over time
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-87
+.. GENERATED FROM PYTHON SOURCE LINES 77-84
 
 .. code-block:: default
 
@@ -1209,7 +1206,7 @@ Plot the minimum and maximum displacements over time
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.812 seconds)
+   **Total running time of the script:** ( 0 minutes  4.471 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_00-multi_harmonic.py:

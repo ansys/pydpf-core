@@ -48,6 +48,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
+    "sphinx_design",
     "nbsphinx",
 ]
 

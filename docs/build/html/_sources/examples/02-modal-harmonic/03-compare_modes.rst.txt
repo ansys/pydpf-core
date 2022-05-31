@@ -47,13 +47,12 @@ model is straightforward.
 First, create a model object to establish a connection with an
 example result file
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-22
+.. GENERATED FROM PYTHON SOURCE LINES 18-21
 
 .. code-block:: default
 
     model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
     print(model)
-
 
 
 
@@ -144,13 +143,13 @@ example result file
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-26
+.. GENERATED FROM PYTHON SOURCE LINES 22-25
 
 Visualize specific mode shapes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Choose the modes to visualize
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 25-27
 
 .. code-block:: default
 
@@ -163,13 +162,12 @@ Choose the modes to visualize
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 30-32
+.. GENERATED FROM PYTHON SOURCE LINES 28-30
 
 Choose to split the displacement on solid/shell/beam to only focus on shell
 elements
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-38
+.. GENERATED FROM PYTHON SOURCE LINES 30-35
 
 .. code-block:: default
 
@@ -177,7 +175,6 @@ elements
     for mode in modes:
         fc = disp.on_time_scoping(mode).split_by_shape.eval()
         model.metadata.meshed_region.plot(fc.shell_field())
-
 
 
 
@@ -217,12 +214,12 @@ elements
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 36-38
 
 Choose to split the displacement on solid/shell/beam to only focus on solid
 elements
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-45
+.. GENERATED FROM PYTHON SOURCE LINES 38-42
 
 .. code-block:: default
 
@@ -271,7 +268,7 @@ elements
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.223 seconds)
+   **Total running time of the script:** ( 0 minutes  10.508 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_03-compare_modes.py:

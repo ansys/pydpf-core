@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ids_with_data_lower_than_average &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><style>
+    .navbar-light {
+        background-color: black !important;
+    }
+</style>
+
+<div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <span class="target" id="module-ansys.dpf.core.operators.logic.ids_with_data_lower_than_average"></span><section id="ids-with-data-lower-than-average">
+<h1>ids_with_data_lower_than_average<a class="headerlink" href="#ids-with-data-lower-than-average" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.</span></span><span class="sig-name descname"><span class="pre">ids_with_data_lower_than_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a scoping with all the ids having data lower or equal to the average value of the scalar field’s data in input.</p>
+<dl class="simple">
+<dt>available inputs:</dt><dd><ul class="simple">
+<li><p>field (Field)</p></li>
+</ul>
+</dd>
+<dt>available outputs:</dt><dd><ul class="simple">
+<li><p>scoping (Scoping)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make input connections</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator and connect inputs in one line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get output data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_scoping</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.default_config">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.default_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the default configuration for an operator.</p>
+<p>You can change the copy of the default configuration to meet your needs
+before instantiating the operator.
+The Configuration allows to customize how the operation
+will be processed by the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the operator.  For example <code class="docutils literal notranslate"><span class="pre">&quot;U&quot;</span></code>. You can use the
+<code class="docutils literal notranslate"><span class="pre">&quot;html_doc&quot;</span></code> operator to retrieve a list of existing operators.</p></li>
+<li><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance. The
+default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the global
+server.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Default configuration for the operator.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class”<cite>ansys.dpf.core.config.Config</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.inputs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables to connect inputs to the operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>inputs</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage" title="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage">InputsIdsWithDataLowerThanAverage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.outputs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables to get outputs of the operator by evaluationg it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>outputs</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage" title="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage">OutputsIdsWithDataLowerThanAverage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.config">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy of the operator’s current configuration.</p>
+<p>You can modify the copy of the configuration and then use <code class="docutils literal notranslate"><span class="pre">operator.config</span> <span class="pre">=</span> <span class="pre">new_config</span></code>
+or create an operator with the new configuration as a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Copy of the operator’s current configuration.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.config.html#ansys.dpf.core.config.Config" title="ansys.dpf.core.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.config.Config</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect an input on the operator using a pin number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin</strong> (<em>int</em>) – Number of the input pin.</p></li>
+<li><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><em>bool</em><em>, </em><em>list of int</em><em>, </em><em>list of doubles</em><em>,</em>) – <dl class="simple">
+<dt>Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion,</dt><dd><p>MeshesContainer, DataSources, Operator</p>
+</dd>
+</dl>
+<p>Object to connect to.</p>
+</p></li>
+<li><p><strong>pin_out</strong> (<em>int</em><em>, </em><em>optional</em>) – If the input is an operator, the output pin of the input operator. The
+default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the minimum of displacement by chaining the <code class="docutils literal notranslate"><span class="pre">&quot;U&quot;</span></code>
+and <code class="docutils literal notranslate"><span class="pre">&quot;min_max_fc&quot;</span></code> operators.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">multishells_rst</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span> <span class="o">=</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+<span class="go">array([[0.59428386, 0.00201751, 0.0006032 ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate this operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pin</strong> (<em>int</em>) – Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>output</strong> – Returns the first output of the operator by default and the output of a
+given pin when specified. Or, it only evaluates the operator without output.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer">FieldsContainer</a>, <a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>, <a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a>, <a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">eval</span></code> method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core.operators.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">multishells_rst</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normfc</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.get_output">
+<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.get_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the output of the operator on the pin number.</p>
+<p>To activate the progress bar for server version higher or equal to 3.0,
+use <code class="docutils literal notranslate"><span class="pre">my_op.progress_bar=True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>output_type</strong> (<a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.types" title="ansys.dpf.core.common.types"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.types</span></code></a>, type,  optional) – Requested type of the output. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output of the operator.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.operator_specification">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.operator_specification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the grpc spec message in self._spec</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.progress_bar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>With this property, the user can choose to print a progress bar when
+the operator’s output is requested, default is False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate this operator.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.specification">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.specification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Specification (or documentation) of this Operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.operator_specification.html#ansys.dpf.core.operator_specification.Specification" title="ansys.dpf.core.operator_specification.Specification">Specification</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.</span></span><span class="sig-name descname"><span class="pre">InputsIdsWithDataLowerThanAverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate class used to connect user inputs to ids_with_data_lower_than_average operator</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.field">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to connect field input to the operator</p>
+<ul class="simple">
+<li><p>pindoc: scalar Field.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>my_field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>,</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect any input (an entity or an operator output) to any input pin of this operator.</p>
+<p>Searches for the input type corresponding to the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>,</em>) – <dl class="simple">
+<dt>DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,</dt><dd><p>…, Output, Outputs, Operator</p>
+</dd>
+</dl>
+<p>Input of the operator.</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.</span></span><span class="sig-name descname"><span class="pre">OutputsIdsWithDataLowerThanAverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate class used to get outputs from ids_with_data_lower_than_average operator
+.. rubric:: Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_scoping</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage.scoping">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">scoping</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage.scoping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to get scoping output of the operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>my_scoping</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a>,</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_scoping</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

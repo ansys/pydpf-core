@@ -121,6 +121,12 @@ with the server version as shown here:
    * - Ans.Dpf.Grpc.exe server version
      - ansys.grpc.dpf python module version
      - ansys.dpf.core python module version
+   * - 5.0 (Ansys 2023R1)
+     - 0.6.0
+     - >=0.6.0
+   * - 4.0 (Ansys 2022R2)
+     - 0.5.0
+     - >=0.5.0
    * - 3.0 (Ansys 2022R1)
      - 0.4.0
      - >=0.4.0

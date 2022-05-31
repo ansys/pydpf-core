@@ -314,7 +314,7 @@ result, use the min/max operator:
     # Out of conveience, you can simply take the max of the field with:
     print(field.max().data)
 
-    # The above yields a result idential to:
+    # The above yields a result identical to:
     print(np.max(field.data, axis=0))
 
 
@@ -346,7 +346,7 @@ retain this information.
 
     max_field = field.max()
     print(max_field)
-    print("Node IDs of maximum X, Y, and Z displacement:", max_field.scoping.ids)
+
 
 
 
@@ -362,7 +362,6 @@ retain this information.
       3 entities 
       Data:1 components and 3 elementary data 
 
-    Node IDs of maximum X, Y, and Z displacement: [75, 14, 40]
 
 
 
@@ -370,7 +369,7 @@ retain this information.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.377 seconds)
+   **Total running time of the script:** ( 0 minutes  0.399 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_02-basic_field_containers.py:

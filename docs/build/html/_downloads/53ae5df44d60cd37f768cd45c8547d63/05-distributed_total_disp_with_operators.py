@@ -3,7 +3,7 @@
 
 Distributed post without client connection to remote processes with Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed 
+This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing, results a merged
 on the local process.
 
@@ -23,12 +23,12 @@ from ansys.dpf.core import operators as ops
 ###############################################################################
 # Configure the servers
 # ~~~~~~~~~~~~~~~~~~~~~~
-# Make a list of ip addresses an port numbers on which dpf servers are 
-# started. Workflows instances will be created on each of those servers to 
+# Make a list of ip addresses an port numbers on which dpf servers are
+# started. Workflows instances will be created on each of those servers to
 # address each a different result file.
 # In this example, we will post process an analysis distributed in 2 files,
 # we will consequently require 2 remote processes
-# To make this example easier, we will start local servers here, 
+# To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
 remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
@@ -51,7 +51,7 @@ server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_serve
 # Send workflows on servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Here we create new instances on the server by copies of the template workflow
-# We also connect the data sources to those workflows 
+# We also connect the data sources to those workflows
 remote_operators = []
 for i, server in enumerate(remote_servers):
     displacement = ops.result.displacement(server=server)
@@ -76,4 +76,3 @@ fc = merge.get_output(0, dpf.types.fields_container)
 print(fc)
 print(fc[0].min().data)
 print(fc[0].max().data)
-

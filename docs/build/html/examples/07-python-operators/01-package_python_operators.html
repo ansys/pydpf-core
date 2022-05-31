@@ -1,0 +1,721 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Write user defined Operators as a package &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Write user defined Operators having third party dependencies" href="02-python_operators_with_dependencies.html" />
+    <link rel="prev" title="Write user defined Operator" href="00-wrapping_numpy_capabilities.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><style>
+    .navbar-light {
+        background-color: black !important;
+    }
+</style>
+
+<div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
+  <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/00-basic_example.html">
+   Basic DPF-Core Usage
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/01-basic_operators.html">
+   Operators Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/02-basic_field_containers.html">
+   Field and Field Containers Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/03-create_entities.html">
+   Create Your Own Entities Use DPF Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/04-basic-load-file.html">
+   Write/Load and Upload/Download a Result File
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/05-use_local_data.html">
+   Bring a Field’s Data Locally to Improve Performance
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/06-load_plugin.html">
+   Load Plugin
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
+   Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/00-basic_transient.html">
+   Transient Analysis Result Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
+   Choose a Time Scoping for a Transient Analysis
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/00-multi_harmonic.html">
+   Multi-Harmonic Response Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/01-modal_cyclic.html">
+   Modal Cyclic symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
+   Multi-stage Cyclic Symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+   Use Result Helpers to compare mode shapes for solids and then shells
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/04-modal_superposition.html">
+   Expand Harmonic Modal Superposition with DPF
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/05-read_distributed_files.html">
+   Read results from distributed files
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/00-multistage_advanced_options.html">
+   Multi-stage Cyclic Symmetry Use Advanced Customization
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/01-solve_harmonic_problem.html">
+   Solve Harmonic Problem (with damping) Using Matrix Inverse
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/02-volume_averaged_stress.html">
+   Average Elemental Stress on a given volume
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+   Exchange Data Between Servers
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/04-extrapolation_stress_3d.html">
+   Extrapolation Method for stress result of 3D-element
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/05-extrapolation_strain_2d.html">
+   Extrapolation Method for strain result of 2D-element
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-specific-requests/00-hdf5_double_float_comparison.html">
+   Hdf5 export and compare precision
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-specific-requests/01-reduced_matrices_export.html">
+   Get reduced matrices and make export
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/00-distributed_total_disp.html">
+   Distributed post without client connection to remote processes
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/01-distributed_delegate_to_server.html">
+   Compute total displacement from distributed files with distributed post
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/02-distributed_workflows_on_remote.html">
+   Connect workflows on different processes implicitly
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/03-distributed-msup_expansion.html">
+   Distributed modal superposition
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/04-distributed-msup_expansion_steps.html">
+   Distributed msup distributed modal response
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/05-distributed_total_disp_with_operators.html">
+   Distributed post without client connection to remote processes with Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#write-operator">
+   Write Operator
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-plugin">
+   Load Plugin
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-the-custom-operator">
+   Use the Custom Operator
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-07-python-operators-01-package-python-operators-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="write-user-defined-operators-as-a-package">
+<span id="ref-python-plugin-package"></span><span id="sphx-glr-examples-07-python-operators-01-package-python-operators-py"></span><h1>Write user defined Operators as a package<a class="headerlink" href="#write-user-defined-operators-as-a-package" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how more complex DPF python plugins of Operators can be created as standard python packages.
+The benefits of writing packages instead of simple scripts are: componentization (split the code in several
+python modules or files), distribution (with packages, standard python tools can be used to upload and
+download packages) and documentation (READMEs, docs, tests and examples can be added to the package).</p>
+<dl class="simple">
+<dt>This plugin will hold 2 different Operators:</dt><dd><ul class="simple">
+<li><p>One returning all the scoping ids having data higher than the average</p></li>
+<li><p>One returning all the scoping ids having data lower than the average</p></li>
+</ul>
+</dd>
+</dl>
+<section id="write-operator">
+<h2>Write Operator<a class="headerlink" href="#write-operator" title="Permalink to this headline">¶</a></h2>
+<p>For this more advanced use case, a python package is created.
+Each Operator implementation derives from <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code></a>
+and a call to <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.record_operator" title="ansys.dpf.core.custom_operator.record_operator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code></a> records the Operators of the plugin.
+The complete package looks like:</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+average_filter_plugin</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+__init__.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">operators_loader</span> <span class="kn">import</span> <span class="n">load_operators</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+operators.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core.custom_operator</span> <span class="kn">import</span> <span class="n">CustomOperatorBase</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core.operator_specification</span> <span class="kn">import</span> <span class="n">CustomSpecification</span><span class="p">,</span> <span class="n">PinSpecification</span><span class="p">,</span> <span class="n">SpecificationProperties</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">average_filter_plugin</span> <span class="kn">import</span> <span class="n">common</span>
+
+
+<span class="k">class</span> <span class="nc">IdsWithDataHigherThanAverage</span><span class="p">(</span><span class="n">CustomOperatorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">)</span>
+        <span class="n">average</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">compute_average_of_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+        <span class="n">ids_in</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+        <span class="n">data_in</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_in</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="n">average</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ids_in</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">scoping_out</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">scoping_out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_succeeded</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">specification</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">CustomSpecification</span><span class="p">(</span><span class="s2">&quot;Creates a scoping with all the ids having data higher or equal &quot;</span>
+                                   <span class="s2">&quot;to the average value of the scalar field&#39;s data in input.&quot;</span><span class="p">)</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="s2">&quot;scalar Field.&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;scoping&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">SpecificationProperties</span><span class="p">(</span><span class="n">user_name</span><span class="o">=</span><span class="s2">&quot;ids with data higher than average&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s2">&quot;logic&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spec</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;ids_with_data_higher_than_average&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">IdsWithDataLowerThanAverage</span><span class="p">(</span><span class="n">CustomOperatorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">)</span>
+        <span class="n">average</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">compute_average_of_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+        <span class="n">ids_in</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+        <span class="n">data_in</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_in</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="n">average</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ids_in</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">scoping_out</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">scoping_out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_succeeded</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">specification</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">CustomSpecification</span><span class="p">(</span><span class="s2">&quot;Creates a scoping with all the ids having data lower or equal &quot;</span>
+                                   <span class="s2">&quot;to the average value of the scalar field&#39;s data in input.&quot;</span><span class="p">)</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="s2">&quot;scalar Field.&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;scoping&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">SpecificationProperties</span><span class="p">(</span><span class="n">user_name</span><span class="o">=</span><span class="s2">&quot;ids with data lower than average&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s2">&quot;logic&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spec</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;ids_with_data_lower_than_average&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+operators_loader.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">average_filter_plugin</span> <span class="kn">import</span> <span class="n">operators</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core.custom_operator</span> <span class="kn">import</span> <span class="n">record_operator</span>
+
+
+<span class="k">def</span> <span class="nf">load_operators</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">record_operator</span><span class="p">(</span><span class="n">operators</span><span class="o">.</span><span class="n">IdsWithDataHigherThanAverage</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">record_operator</span><span class="p">(</span><span class="n">operators</span><span class="o">.</span><span class="n">IdsWithDataLowerThanAverage</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+common.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+
+
+<span class="k">def</span> <span class="nf">compute_average_of_field</span><span class="p">(</span><span class="n">field</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details></div>
+</div>
+</section>
+<section id="load-plugin">
+<h2>Load Plugin<a class="headerlink" href="#load-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Once a python plugin is written as a package, it can be loaded with the function
+<a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> taking as first argument the path to the directory of the plugin,
+as second argument “<a href="#id1"><span class="problematic" id="id2">py_</span></a>” + any name identifying the plugin,
+and as last argument the function’s name exposed in the __init__ file and used to record operators.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+
+<span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;07-python-operators&quot;</span><span class="p">,</span> <span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;average_filter_plugin&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;py_average_filter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;load_operators&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;py_average_filter successfully loaded&#39;
+</pre></div>
+</div>
+<p>Once the Plugin loaded, Operators recorded in the plugin can be used with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;ids_with_data_lower_than_average&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To use this new Operator, a workflow computing the norm of the displacement
+is connected to the “ids_with_data_lower_than_average” Operator.
+Methods of the class <code class="docutils literal notranslate"><span class="pre">ids_with_data_lower_than_average</span></code> are dynamically added thanks to the Operator’s
+specification.</p>
+</section>
+<section id="use-the-custom-operator">
+<h2>Use the Custom Operator<a class="headerlink" href="#use-the-custom-operator" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+
+
+<span class="n">new_scoping</span> <span class="o">=</span> <span class="n">new_operator</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping in was:&quot;</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scoping out is:&quot;</span><span class="p">,</span> <span class="n">new_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>scoping in was: DPF  Scoping:
+  with Nodal location and 81 entities
+
+----------------------------------------------
+scoping out is: DPF  Scoping:
+  with Nodal location and 35 entities
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.305 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-01-package-python-operators-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a509d520cc7e8df99837074c955c911c/01-package_python_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-package_python_operators.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/38f223916af626fd90a07ba48d08af68/01-package_python_operators.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">01-package_python_operators.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

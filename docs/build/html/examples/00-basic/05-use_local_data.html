@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bring a Field’s Data Locally to Improve Performance &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Bring a Field’s Data Locally to Improve Performance &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -537,7 +560,6 @@ model. Computing results only on this skin reduces the data size.</p>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">skin_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">nodes_mesh_scoping</span><span class="p">)</span>
 
-
 <span class="n">principal_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">invariant</span><span class="o">.</span><span class="n">principal_invariants_fc</span><span class="p">(</span><span class="n">stress_op</span><span class="p">)</span>
 <span class="n">principal_stress_1</span> <span class="o">=</span> <span class="n">principal_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_eig_1</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">principal_stress_2</span> <span class="o">=</span> <span class="n">principal_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_eig_2</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
@@ -591,7 +613,7 @@ Exploring data allows you to customize it to meet your needs.</p>
 <li><img src="../../_images/sphx_glr_05-use_local_data_005.png" srcset="../../_images/sphx_glr_05-use_local_data_005.png" alt="05 use local data" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_05-use_local_data_006.png" srcset="../../_images/sphx_glr_05-use_local_data_006.png" alt="05 use local data" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.314 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.583 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-05-use-local-data-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/588398b53425e5d702dbb6eb2434ee16/05-use_local_data.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">05-use_local_data.py</span></code></a></p>

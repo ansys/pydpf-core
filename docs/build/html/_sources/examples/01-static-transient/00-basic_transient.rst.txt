@@ -31,8 +31,8 @@ Import the necessary modules:
 
 .. code-block:: default
 
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
@@ -54,7 +54,7 @@ Downloading this example should take only a few seconds.
 Next, create the model and display the state of the result. This transient
 result file contains several individual results, each at a different timestamp.
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-31
+.. GENERATED FROM PYTHON SOURCE LINES 25-30
 
 .. code-block:: default
 
@@ -62,7 +62,6 @@ result file contains several individual results, each at a different timestamp.
     transient = examples.download_transient_result()
     model = dpf.Model(transient)
     print(model)
-
 
 
 
@@ -146,17 +145,16 @@ result file contains several individual results, each at a different timestamp.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 Get the timestamps for each substep as a numpy array:
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-37
+.. GENERATED FROM PYTHON SOURCE LINES 32-35
 
 .. code-block:: default
 
     tf = model.metadata.time_freq_support
     print(tf.time_frequencies.data)
-
 
 
 
@@ -178,14 +176,14 @@ Get the timestamps for each substep as a numpy array:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-42
+.. GENERATED FROM PYTHON SOURCE LINES 36-40
 
 Obtain Minimum and Maximum Displacements for All Results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create a displacement operator and set its time scoping request to
 the entire time frequency support:
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-53
+.. GENERATED FROM PYTHON SOURCE LINES 40-51
 
 .. code-block:: default
 
@@ -220,11 +218,11 @@ the entire time frequency support:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-55
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 Plot the minimum and maximum displacements over time:
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-64
+.. GENERATED FROM PYTHON SOURCE LINES 53-62
 
 .. code-block:: default
 
@@ -249,12 +247,12 @@ Plot the minimum and maximum displacements over time:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-67
+.. GENERATED FROM PYTHON SOURCE LINES 63-65
 
 Plot the minimum and maximum displacements over time for the X
 component.
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-82
+.. GENERATED FROM PYTHON SOURCE LINES 65-79
 
 .. code-block:: default
 
@@ -275,7 +273,6 @@ component.
 
 
 
-
 .. image-sg:: /examples/01-static-transient/images/sphx_glr_00-basic_transient_002.png
    :alt: 00 basic transient
    :srcset: /examples/01-static-transient/images/sphx_glr_00-basic_transient_002.png
@@ -285,14 +282,14 @@ component.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-87
+.. GENERATED FROM PYTHON SOURCE LINES 80-84
 
 Postprocessing Stress
 ~~~~~~~~~~~~~~~~~~~~~
 Create an equivalent (von Mises) stress operator and set its time
 scoping to the entire time frequency support:
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-103
+.. GENERATED FROM PYTHON SOURCE LINES 84-100
 
 .. code-block:: default
 
@@ -332,11 +329,11 @@ scoping to the entire time frequency support:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 104-105
+.. GENERATED FROM PYTHON SOURCE LINES 101-102
 
 Plot the maximum stress over time:
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-113
+.. GENERATED FROM PYTHON SOURCE LINES 102-110
 
 .. code-block:: default
 
@@ -360,14 +357,14 @@ Plot the maximum stress over time:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-118
+.. GENERATED FROM PYTHON SOURCE LINES 111-115
 
 Scoping and Stress Field Coordinates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The scoping of the stress field can be used to extract the
 coordinates used for each result:
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-126
+.. GENERATED FROM PYTHON SOURCE LINES 115-122
 
 .. code-block:: default
 
@@ -382,19 +379,18 @@ coordinates used for each result:
 
 
 
-
 .. rst-class:: sphx-glr-script-out
 
  Out:
 
  .. code-block:: none
 
-    [508, 509, 909, 910, 524, 525, 534, 533, 513, 908]
+    [508 509 909 910 524 525 534 533 513 908]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-136
+.. GENERATED FROM PYTHON SOURCE LINES 123-132
 
 As you can see, these node IDs are not in order. Additionally,
 there may be fewer entries in the field than nodes in the model. For
@@ -406,7 +402,7 @@ the model and then extract a coordinate for each node index.
 Here is an inefficient way of getting the coordinates as each
 individual request must be sent to the DPF service:
 
-.. GENERATED FROM PYTHON SOURCE LINES 136-148
+.. GENERATED FROM PYTHON SOURCE LINES 132-143
 
 .. code-block:: default
 
@@ -420,7 +416,6 @@ individual request must be sent to the DPF service:
         # Fetch each individual node by node ID.
         node_coord = meshed_region.nodes.node_by_id(node_id).coordinates
         print(f"Node ID {node_id} : %8.5f, %8.5f, %8.5f" % tuple(node_coord))
-
 
 
 
@@ -446,7 +441,7 @@ individual request must be sent to the DPF service:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 149-155
+.. GENERATED FROM PYTHON SOURCE LINES 144-150
 
 Rather than individually querying for each node coordinate of the
 field, you can use the :func:`map_scoping` to remap the field data
@@ -455,7 +450,7 @@ to match the order of the nodes in the meshed region.
 Obtain the indices needed to get the data from ``field.data`` to match
 the order of nodes in the mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 155-171
+.. GENERATED FROM PYTHON SOURCE LINES 150-166
 
 .. code-block:: default
 
@@ -498,7 +493,7 @@ the order of nodes in the mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.311 seconds)
+   **Total running time of the script:** ( 0 minutes  1.395 seconds)
 
 
 .. _sphx_glr_download_examples_01-static-transient_00-basic_transient.py:

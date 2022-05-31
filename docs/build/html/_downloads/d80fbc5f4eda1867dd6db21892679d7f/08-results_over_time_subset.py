@@ -15,12 +15,10 @@ Import necessary modules:
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 ###############################################################################
 # Create a model object to establish a connection with an example result file:
 model = dpf.Model(examples.download_transient_result())
 print(model)
-
 
 ###############################################################################
 # Request specific time sets
@@ -46,7 +44,6 @@ print(disp)
 disp_op = model.results.displacement()
 disp_op.inputs.time_scoping(time_sets)
 disp = disp_op.outputs.fields_container()
-
 
 ###############################################################################
 # Equivalent to:

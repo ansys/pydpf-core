@@ -22,7 +22,7 @@
 
 Distributed post without client connection to remote processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed 
+This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing, results a merged
 on the local process.
 
@@ -73,7 +73,7 @@ Create displacement and norm operators
 Add the operators to the template workflow and name its inputs and outputs
 Once workflow's inputs and outputs are named, they can be connected later on
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-36
+.. GENERATED FROM PYTHON SOURCE LINES 31-35
 
 .. code-block:: default
 
@@ -88,25 +88,24 @@ Once workflow's inputs and outputs are named, they can be connected later on
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 37-46
+.. GENERATED FROM PYTHON SOURCE LINES 36-45
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~~
-Make a list of ip addresses an port numbers on which dpf servers are 
-started. Workflows instances will be created on each of those servers to 
+Make a list of ip addresses an port numbers on which dpf servers are
+started. Workflows instances will be created on each of those servers to
 address each a different result file.
 In this example, we will post process an analysis distributed in 2 files,
 we will consequently require 2 remote processes
-To make this example easier, we will start local servers here, 
+To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-51
+.. GENERATED FROM PYTHON SOURCE LINES 45-50
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False),dpf.start_local_server(as_global=False)]
+    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
 
@@ -117,11 +116,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 51-52
 
 Print the ips and ports
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-56
+.. GENERATED FROM PYTHON SOURCE LINES 52-55
 
 .. code-block:: default
 
@@ -139,17 +138,17 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50054, 50056]
+    ports: [50059, 50060]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-59
+.. GENERATED FROM PYTHON SOURCE LINES 56-58
 
 Here we show how we could send files in temporary directory if we were not
 in shared memory
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-64
+.. GENERATED FROM PYTHON SOURCE LINES 58-62
 
 .. code-block:: default
 
@@ -164,25 +163,22 @@ in shared memory
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 65-69
+.. GENERATED FROM PYTHON SOURCE LINES 63-67
 
 Send workflows on servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Here we create new instances on the server by copies of the template workflow
-We also connect the data sources to those workflows 
+We also connect the data sources to those workflows
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-76
+.. GENERATED FROM PYTHON SOURCE LINES 67-73
 
 .. code-block:: default
 
-    remote_workflows =[]
-    for i,server in enumerate(remote_servers) :
+    remote_workflows = []
+    for i, server in enumerate(remote_servers):
         remote_workflows.append(template_workflow.create_on_other_server(server))
         ds = dpf.DataSources(server_file_paths[i])
         remote_workflows[i].connect("data_sources", ds)
-        
-    
 
 
 
@@ -190,12 +186,13 @@ We also connect the data sources to those workflows
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-79
+
+.. GENERATED FROM PYTHON SOURCE LINES 74-76
 
 Create a local workflow able to merge the results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-87
+.. GENERATED FROM PYTHON SOURCE LINES 76-84
 
 .. code-block:: default
 
@@ -203,10 +200,9 @@ Create a local workflow able to merge the results
     local_workflow = dpf.Workflow()
     merge = ops.utility.merge_fields_containers()
     local_workflow.add_operator(merge)
-    local_workflow.set_input_name("in0", merge,0)
-    local_workflow.set_input_name("in1", merge,1)
+    local_workflow.set_input_name("in0", merge, 0)
+    local_workflow.set_input_name("in1", merge, 1)
     local_workflow.set_output_name("merged", merge.outputs.merged_fields_container)
-    
 
 
 
@@ -214,19 +210,20 @@ Create a local workflow able to merge the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-90
+
+.. GENERATED FROM PYTHON SOURCE LINES 85-87
 
 Connect the workflows together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-98
+.. GENERATED FROM PYTHON SOURCE LINES 87-95
 
 .. code-block:: default
 
 
-    for i,server in enumerate(remote_servers) :
-        local_workflow.connect_with(remote_workflows[i],("out", "in"+str(i)))
-    
+    for i, server in enumerate(remote_servers):
+        local_workflow.connect_with(remote_workflows[i], ("out", "in" + str(i)))
+
     fc = local_workflow.get_output("merged", dpf.types.fields_container)
     print(fc)
     print(fc[0].min().data)
@@ -257,7 +254,7 @@ Connect the workflows together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.129 seconds)
+   **Total running time of the script:** ( 0 minutes  1.082 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_00-distributed_total_disp.py:

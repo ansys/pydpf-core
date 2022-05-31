@@ -201,6 +201,11 @@ In DPF, field data is always associated with its scoping and support, making the
 a self-describing piece of data. A field is also defined by its dimensionnality, unit, 
 location, and more.
 
+.. figure:: ../images/drawings/field.png
+   :scale: 30%
+
+   Field Representation
+
 You can get an overview of a field's metadata by printing the field:
 
 .. code-block:: python

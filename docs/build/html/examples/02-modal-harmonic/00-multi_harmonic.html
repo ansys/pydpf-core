@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Multi-Harmonic Response Example &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Multi-Harmonic Response Example &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -391,6 +393,27 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../06-distributed-post/05-distributed_total_disp_with_operators.html">
    Distributed post without client connection to remote processes with Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
   </a>
  </li>
 </ul>
@@ -1537,7 +1560,6 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 <span class="n">fft</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 <span class="n">fft</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">rpm_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">rpms</span><span class="p">)</span>
 
-
 <span class="n">fields</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>  <span class="c1"># one multi-harmonic field response per node</span>
 
@@ -1554,7 +1576,7 @@ a selected nodes and a set of EOs (multiple engine orders).</p>
 <span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_00-multi_harmonic_001.png" srcset="../../_images/sphx_glr_00-multi_harmonic_001.png" alt="00 multi harmonic" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.812 seconds)</p>
+<img src="../../_images/sphx_glr_00-multi_harmonic_001.png" srcset="../../_images/sphx_glr_00-multi_harmonic_001.png" alt="00 multi harmonic" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.471 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-00-multi-harmonic-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/706507128639cba5b2223bd939ceeeb2/00-multi_harmonic.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-multi_harmonic.py</span></code></a></p>

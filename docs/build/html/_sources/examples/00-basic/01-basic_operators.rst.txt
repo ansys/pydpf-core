@@ -116,14 +116,13 @@ to be "chained" to allow for highly efficient operations.
 To print out the available inputs and outputs of the
 displacement operator:
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-42
+.. GENERATED FROM PYTHON SOURCE LINES 37-41
 
 .. code-block:: default
 
     disp_op = dpf.Operator("U")
     print(disp_op.inputs)
     print(disp_op.outputs)
-
 
 
 
@@ -136,28 +135,28 @@ displacement operator:
  .. code-block:: none
 
     Available inputs:
-         -   bool_rotate_to_global : bool, optional
-             If true the field is rotated to global coordinate system (default
-             true)               
-                             
-         -   data_sources : DataSources
-             Result file path container, used if no streams are set
+         -   streams_container : StreamsContainer, optional
+             Result file container allowed to be kept open to cache data
                              
          -   read_cyclic : Enum Dataprocessing::Ecyclicreading, int, optional
              If 0 cyclic symmetry is ignored, if 1 cyclic sector is read, if 2
              cyclic expansion is done, if 3 cyclic expansion is done and stages are
              merged (default is 1)
                              
-         -   streams_container : StreamsContainer, optional
-             Result file container allowed to be kept open to cache data
-                             
-         -   mesh : MeshedRegion, MeshesContainer, optional
-             Prevents from reading the mesh in the result files
+         -   data_sources : DataSources
+             Result file path container, used if no streams are set
                              
          -   mesh_scoping : ScopingsContainer, Scoping, optional
              Nodes or elements scoping required in output. the scoping's location
              indicates whether nodes or elements are asked. using scopings
              container enables to split the result fields container in domains
+                             
+         -   bool_rotate_to_global : bool, optional
+             If true the field is rotated to global coordinate system (default
+             true)               
+                             
+         -   mesh : MeshedRegion, MeshesContainer, optional
+             Prevents from reading the mesh in the result files
                              
          -   time_scoping : Scoping, int, list, float, Field, optional
              Time/freq (use doubles or field), time/freq set ids (use ints or
@@ -175,7 +174,7 @@ displacement operator:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-48
+.. GENERATED FROM PYTHON SOURCE LINES 42-47
 
 Compute the Maximum Normalized Displacement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -183,7 +182,7 @@ This example demonstrate how to chain various operators. It connects the input
 of the operator to the data sources contained within the ``model`` object and
 then the maximum of the norm of the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-67
+.. GENERATED FROM PYTHON SOURCE LINES 47-66
 
 .. code-block:: default
 
@@ -227,7 +226,7 @@ then the maximum of the norm of the operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-74
+.. GENERATED FROM PYTHON SOURCE LINES 67-73
 
 Wrapped Operators
 ~~~~~~~~~~~~~~~~~
@@ -236,12 +235,11 @@ available for a given result.  This is provided out of convenience
 because all operators may not be available for a given result. Consequently,
 it is much easier to reference available operators by first running:
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-77
+.. GENERATED FROM PYTHON SOURCE LINES 73-75
 
 .. code-block:: default
 
     print(model.results)
-
 
 
 
@@ -274,11 +272,11 @@ it is much easier to reference available operators by first running:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
 Create the displacement operator directly from the ``results`` property:
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-92
+.. GENERATED FROM PYTHON SOURCE LINES 77-90
 
 .. code-block:: default
 
@@ -316,11 +314,11 @@ Create the displacement operator directly from the ``results`` property:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-94
+.. GENERATED FROM PYTHON SOURCE LINES 91-92
 
 Plot the displacement:
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-96
+.. GENERATED FROM PYTHON SOURCE LINES 92-94
 
 .. code-block:: default
 
@@ -346,7 +344,7 @@ Plot the displacement:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-103
+.. GENERATED FROM PYTHON SOURCE LINES 95-101
 
 Scripting Operator Syntax
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -355,12 +353,12 @@ an operator's "string name" is not mandatory.
 While this example is similar to the above script, it uses the DPF
 scripting syntax.
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-107
+.. GENERATED FROM PYTHON SOURCE LINES 103-105
 
 Instead of using a ``model`` class instance, use a
 ``DdataSources`` object directly. The ``DataSources`` constructor input is a path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-110
+.. GENERATED FROM PYTHON SOURCE LINES 105-108
 
 .. code-block:: default
 
@@ -382,11 +380,11 @@ Instead of using a ``model`` class instance, use a
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-112
+.. GENERATED FROM PYTHON SOURCE LINES 109-110
 
 Instantiate the operators and connect them:
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-120
+.. GENERATED FROM PYTHON SOURCE LINES 110-118
 
 .. code-block:: default
 
@@ -405,11 +403,11 @@ Instantiate the operators and connect them:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-122
+.. GENERATED FROM PYTHON SOURCE LINES 119-120
 
 Get the output and print the result data:
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-125
+.. GENERATED FROM PYTHON SOURCE LINES 120-123
 
 .. code-block:: default
 
@@ -434,7 +432,7 @@ Get the output and print the result data:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.834 seconds)
+   **Total running time of the script:** ( 0 minutes  1.157 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_01-basic_operators.py:

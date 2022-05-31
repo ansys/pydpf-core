@@ -1,7 +1,9 @@
 """
-CustomOperatorBase
-==================
-Contains utilities enabling to implement and record custom python operators.
+.. _ref_custom_operator:
+
+Custom Operator Base
+====================
+Contains utilities allowing you to implement and record custom Python operators.
 """
 
 import abc
@@ -17,12 +19,12 @@ from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 def record_operator(operator_type, *args) -> None:
     """
-    Add an operator (with its name, run callback and specification) to DPF core registry.
+    Add an operator (with its name, run callback, and specification) to the DPF core registry.
 
     Parameters
     ----------
     operator_type : type, CustomOperatorBase
-        class type inheriting from CustomOperatorBase. ``name`` and ``specification`` properties are called
+        Class type inheriting from CustomOperatorBase. ``name`` and ``specification`` properties are called
         and run method callback is given to DataProcessingCore.
 
     *args
@@ -52,7 +54,7 @@ class CustomOperatorBase:
     """
     Base class interfacing CPython Custom Operators which can be used as regular
     DPF Operators in any API.
-    A CustomOperator is defined by its name, its specification and its run method. These 3 abstract methods
+    A CustomOperator is defined by its name, its specification and its run method. These three abstract methods
     should be implemented to create a CustomOperator.
 
     Examples
@@ -60,6 +62,7 @@ class CustomOperatorBase:
     Create a Custom Operator which adds an input float value to the data of an input Field.
 
     >>> from ansys.dpf.core.custom_operator import CustomOperatorBase
+    >>> from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, PinSpecification
     >>> from ansys.dpf.core import Field
     >>> class AddFloatToFieldData(CustomOperatorBase):
     ...     def run(self):
@@ -72,7 +75,13 @@ class CustomOperatorBase:
     ...
     ...     @property
     ...     def specification(self):
-    ...         return None
+    ...         spec = CustomSpecification()
+    ...         spec.description = "Add a custom value to all the data of an input Field"
+    ...         spec.inputs = {0: PinSpecification("field", [Field], "Field on which float value is added."),
+    ...                        1: PinSpecification("to_add", [float], "Data to add.") }
+    ...         spec.outputs = {0: PinSpecification("field", [Field], "Field on which the float value is added.")}
+    ...         spec.properties = SpecificationProperties("custom add to field", "math")
+    ...         return spec
     ...
     ...     @property
     ...     def name(self):
@@ -107,12 +116,11 @@ class CustomOperatorBase:
             data = collection.Collection.integral_collection(data, dpf.SERVER)
             return external_operator_api.external_operator_put_out_collection_as_vector(self._operator_data, index, data)
         raise TypeError(f"unable to set output of type {type(data).__name__}")
-        # TO DO: handle lists
 
     def get_input(self, index, type: type):
         """
         Method used to get an input of a requested type at a given index in the ``run`` method.
-        The correct input type should have been connected to this Operator beforehand.
+        The correct input type must be connected to this Operator beforehand.
 
         Parameters
         ----------
@@ -187,6 +195,19 @@ class CustomOperatorBase:
     @property
     @abc.abstractmethod
     def specification(self):
+        """
+        Documents the operator.
+        The following are mandatory  to have a full support (documentation, code generation and usage) of the new operator.
+            *Description
+            *Supported inputs (a name, a document, a list of accepted types (optional) and/or ellipses)
+            *Supported outputs (a name, a document, a type, and can be ellipsis)
+            *User name
+            *Category
+
+        Returns
+        -------
+        spec : CustomSpecification
+        """
         pass
 
     @property

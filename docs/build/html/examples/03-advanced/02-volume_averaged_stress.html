@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Average Elemental Stress on a given volume &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Average Elemental Stress on a given volume &#8212; PyDPF-Core 0.6.dev0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +37,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +396,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -493,10 +516,8 @@ total volume</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">complex_rst</span><span class="p">)</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
 
-
 <span class="c1"># Volume size to check</span>
 <span class="n">volume_check</span> <span class="o">=</span> <span class="mf">4.0e-11</span>
-
 
 <span class="c1"># get the all the node ids in the model to find the minimum amount of</span>
 <span class="c1"># surrounding elements to get a minimum volume</span>
@@ -587,8 +608,8 @@ divide this sum by the total volume on those elements</p>
             <span class="n">ssum</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">node_index_to_el_ids</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
                 <span class="n">ssum</span> <span class="o">+=</span> <span class="p">(</span>
-                    <span class="n">values_to_sum</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="o">*</span> <span class="n">vol</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">values_to_sum</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="o">*</span> <span class="n">vol</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="p">)</span>
             <span class="n">dataseqvsum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ssum</span><span class="p">)</span>
             <span class="n">datavolsum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_index_to_found_volume</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
@@ -638,7 +659,7 @@ divide this sum by the total volume on those elements</p>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_02-volume_averaged_stress_003.png" srcset="../../_images/sphx_glr_02-volume_averaged_stress_003.png" alt="02 volume averaged stress" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.358 seconds)</p>
+<img src="../../_images/sphx_glr_02-volume_averaged_stress_003.png" srcset="../../_images/sphx_glr_02-volume_averaged_stress_003.png" alt="02 volume averaged stress" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.181 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-02-volume-averaged-stress-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/388fe850b3668978aa3b5c880754eed3/02-volume_averaged_stress.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-volume_averaged_stress.py</span></code></a></p>

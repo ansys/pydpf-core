@@ -26,15 +26,15 @@ This example shows how to create an harmonic (over frequencies) fields
 container for an analysis with damping. This fields container is then used to
 solve the problem Ma+Dv+Ku =F by inversing the matrix
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-15
+.. GENERATED FROM PYTHON SOURCE LINES 10-16
 
 .. code-block:: default
 
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import operators as ops
     import math
 
+    from ansys.dpf import core as dpf
+    from ansys.dpf.core import operators as ops
 
 
 
@@ -42,18 +42,18 @@ solve the problem Ma+Dv+Ku =F by inversing the matrix
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-17
+
+.. GENERATED FROM PYTHON SOURCE LINES 17-18
 
 Create 2D (x,y) matrix fields for inertia, damping and stiffness
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-30
+.. GENERATED FROM PYTHON SOURCE LINES 18-29
 
 .. code-block:: default
 
 
     freq = [25, 50, 100, 200, 400]
     dim = 2  # dimension of matrix
-
 
     fM0 = dpf.fields_factory.create_matrix_field(1, dim, dim)
     fM0.append([0.0, 1.0, 2.0, 3.0], 1)
@@ -69,13 +69,12 @@ Create 2D (x,y) matrix fields for inertia, damping and stiffness
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 31-33
+.. GENERATED FROM PYTHON SOURCE LINES 30-32
 
 Create a fields container for real and imaginary parts
 for each frequency
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-49
+.. GENERATED FROM PYTHON SOURCE LINES 32-47
 
 .. code-block:: default
 
@@ -101,13 +100,12 @@ for each frequency
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 50-52
+.. GENERATED FROM PYTHON SOURCE LINES 48-50
 
 Use dpf's operators to inverse the matrix, compute the amplitude
 and the phase
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-59
+.. GENERATED FROM PYTHON SOURCE LINES 50-56
 
 .. code-block:: default
 
@@ -124,12 +122,11 @@ and the phase
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 60-61
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
 
 Get the phase and amplitude and plot it over frequencies
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-88
+.. GENERATED FROM PYTHON SOURCE LINES 58-85
 
 .. code-block:: default
 
@@ -187,7 +184,7 @@ Get the phase and amplitude and plot it over frequencies
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.132 seconds)
+   **Total running time of the script:** ( 0 minutes  0.369 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_01-solve_harmonic_problem.py:

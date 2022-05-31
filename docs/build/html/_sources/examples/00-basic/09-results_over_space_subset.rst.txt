@@ -588,17 +588,18 @@ Create a custom spatial split
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 162-168
+.. GENERATED FROM PYTHON SOURCE LINES 162-169
 
 .. code-block:: default
 
     elemental_stress = model.results.stress.on_location(dpf.locations.elemental)(
-        mesh_scoping=scopings_container)\
+        mesh_scoping=scopings_container) \
         .eval()
     print(elemental_stress)
 
     for field in elemental_stress:
         model.metadata.meshed_region.plot(field)
+
 
 
 .. rst-class:: sphx-glr-horizontal
@@ -640,7 +641,7 @@ Create a custom spatial split
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.558 seconds)
+   **Total running time of the script:** ( 0 minutes  10.625 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_09-results_over_space_subset.py:

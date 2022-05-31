@@ -45,14 +45,13 @@ It also shows how to use the cyclic support for advanced post processing
 
 Create the model and display the state of the result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-21
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
 .. code-block:: default
 
     cyc = examples.download_multi_stage_cyclic_result()
     model = dpf.Model(cyc)
     print(model)
-
 
 
 
@@ -95,11 +94,11 @@ Create the model and display the state of the result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 Check the result info to verify that it's a multistage model
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-28
+.. GENERATED FROM PYTHON SOURCE LINES 22-26
 
 .. code-block:: default
 
@@ -111,24 +110,77 @@ Check the result info to verify that it's a multistage model
 
 
 
-
 .. rst-class:: sphx-glr-script-out
 
  Out:
 
  .. code-block:: none
 
+    list id {
+      id: 1971
+      server_address: "127.0.0.1:50057"
+    }
+    , analysis_type: MODAL
+    unit_system: 11
+    nresult: 4
+    unit_system_name: "MKS: m, kg, N, s, V, A, degC"
+    solver_major_version: 20
+    solver_minor_version: 2
+    solver_date: 20200401
+    solver_time: 80908
+    user_name: "cbellot"
+    job_name: "file0"
+    product_name: "FULL"
+    main_title: "TwoCylsWithBlade--Modal"
+    cyc_info {
+      has_cyclic: true
+      cyclic_type: "multi_stage"
+      cyc_support {
+        id {
+          id: 1981
+          server_address: "127.0.0.1:50057"
+        }
+      }
+    }
+
     True
+    list id {
+      id: 1971
+      server_address: "127.0.0.1:50057"
+    }
+    , analysis_type: MODAL
+    unit_system: 11
+    nresult: 4
+    unit_system_name: "MKS: m, kg, N, s, V, A, degC"
+    solver_major_version: 20
+    solver_minor_version: 2
+    solver_date: 20200401
+    solver_time: 80908
+    user_name: "cbellot"
+    job_name: "file0"
+    product_name: "FULL"
+    main_title: "TwoCylsWithBlade--Modal"
+    cyc_info {
+      has_cyclic: true
+      cyclic_type: "multi_stage"
+      cyc_support {
+        id {
+          id: 1982
+          server_address: "127.0.0.1:50057"
+        }
+      }
+    }
+
     multi_stage
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-30
+.. GENERATED FROM PYTHON SOURCE LINES 27-28
 
 Go over the cyclic support
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-40
+.. GENERATED FROM PYTHON SOURCE LINES 28-37
 
 .. code-block:: default
 
@@ -145,12 +197,65 @@ Go over the cyclic support
 
 
 
-
 .. rst-class:: sphx-glr-script-out
 
  Out:
 
  .. code-block:: none
+
+    list id {
+      id: 1971
+      server_address: "127.0.0.1:50057"
+    }
+    , analysis_type: MODAL
+    unit_system: 11
+    nresult: 4
+    unit_system_name: "MKS: m, kg, N, s, V, A, degC"
+    solver_major_version: 20
+    solver_minor_version: 2
+    solver_date: 20200401
+    solver_time: 80908
+    user_name: "cbellot"
+    job_name: "file0"
+    product_name: "FULL"
+    main_title: "TwoCylsWithBlade--Modal"
+    cyc_info {
+      has_cyclic: true
+      cyclic_type: "multi_stage"
+      cyc_support {
+        id {
+          id: 1983
+          server_address: "127.0.0.1:50057"
+        }
+      }
+    }
+
+    list id {
+      id: 1971
+      server_address: "127.0.0.1:50057"
+    }
+    , analysis_type: MODAL
+    unit_system: 11
+    nresult: 4
+    unit_system_name: "MKS: m, kg, N, s, V, A, degC"
+    solver_major_version: 20
+    solver_minor_version: 2
+    solver_date: 20200401
+    solver_time: 80908
+    user_name: "cbellot"
+    job_name: "file0"
+    product_name: "FULL"
+    main_title: "TwoCylsWithBlade--Modal"
+    cyc_info {
+      has_cyclic: true
+      cyclic_type: "multi_stage"
+      cyc_support {
+        id {
+          id: 1984
+          server_address: "127.0.0.1:50057"
+        }
+      }
+    }
 
     num stages: 2
     num_sectors stage 0: 6
@@ -160,13 +265,13 @@ Go over the cyclic support
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-44
+.. GENERATED FROM PYTHON SOURCE LINES 38-41
 
 Expand displacement results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we expand displacement results, on chosen sectors
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-70
+.. GENERATED FROM PYTHON SOURCE LINES 41-65
 
 .. code-block:: default
 
@@ -183,7 +288,6 @@ In this example we expand displacement results, on chosen sectors
     sectors_scopings.add_scoping({"stage": 0}, dpf.Scoping(ids=[0, 1, 2]))
     sectors_scopings.add_scoping({"stage": 1}, dpf.Scoping(ids=[0, 1, 2, 3, 4, 5, 6]))
     UCyc.inputs.sectors_to_expand(sectors_scopings)
-
 
     # expand the displacements and get a total deformation
     nrm = dpf.Operator("norm_fc")
@@ -202,13 +306,12 @@ In this example we expand displacement results, on chosen sectors
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 71-73
+.. GENERATED FROM PYTHON SOURCE LINES 66-68
 
 plot the expanded result on the expanded mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-75
+.. GENERATED FROM PYTHON SOURCE LINES 68-70
 
 .. code-block:: default
 
@@ -226,12 +329,12 @@ plot the expanded result on the expanded mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-78
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
 
 Choose to expand only some sectors for the mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-89
+.. GENERATED FROM PYTHON SOURCE LINES 73-83
 
 .. code-block:: default
 
@@ -248,7 +351,6 @@ Choose to expand only some sectors for the mesh
 
 
 
-
 .. image-sg:: /examples/03-advanced/images/sphx_glr_00-multistage_advanced_options_002.png
    :alt: 00 multistage advanced options
    :srcset: /examples/03-advanced/images/sphx_glr_00-multistage_advanced_options_002.png
@@ -258,12 +360,12 @@ Choose to expand only some sectors for the mesh
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-92
+.. GENERATED FROM PYTHON SOURCE LINES 84-86
 
 Check results precisely
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-109
+.. GENERATED FROM PYTHON SOURCE LINES 86-103
 
 .. code-block:: default
 
@@ -306,7 +408,7 @@ Check results precisely
 
     [0. 0. 0. 0. 0. 0.]
     1394
-    [1394, 4989, 7209]
+    [1394 4989 7209]
     [0.07179672]
     [0.07179672]
     [0.07179672]
@@ -317,7 +419,7 @@ Check results precisely
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.498 seconds)
+   **Total running time of the script:** ( 0 minutes  2.212 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_00-multistage_advanced_options.py:

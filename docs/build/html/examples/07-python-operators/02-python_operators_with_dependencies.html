@@ -1,0 +1,899 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Write user defined Operators having third party dependencies &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Contributing" href="../../contributing.html" />
+    <link rel="prev" title="Write user defined Operators as a package" href="01-package_python_operators.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><style>
+    .navbar-light {
+        background-color: black !important;
+    }
+</style>
+
+<div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
+  <img src="../../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/00-basic_example.html">
+   Basic DPF-Core Usage
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/01-basic_operators.html">
+   Operators Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/02-basic_field_containers.html">
+   Field and Field Containers Overview
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/03-create_entities.html">
+   Create Your Own Entities Use DPF Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/04-basic-load-file.html">
+   Write/Load and Upload/Download a Result File
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/05-use_local_data.html">
+   Bring a Field’s Data Locally to Improve Performance
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/06-load_plugin.html">
+   Load Plugin
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
+   Use Result Helpers to Load Custom Data
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+   Scope results over custom time domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+   Scope results over custom space domains
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/00-basic_transient.html">
+   Transient Analysis Result Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-static-transient/01-transient_easy_time_scoping.html">
+   Choose a Time Scoping for a Transient Analysis
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/00-multi_harmonic.html">
+   Multi-Harmonic Response Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/01-modal_cyclic.html">
+   Modal Cyclic symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
+   Multi-stage Cyclic Symmetry Example
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+   Use Result Helpers to compare mode shapes for solids and then shells
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/04-modal_superposition.html">
+   Expand Harmonic Modal Superposition with DPF
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-modal-harmonic/05-read_distributed_files.html">
+   Read results from distributed files
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/00-multistage_advanced_options.html">
+   Multi-stage Cyclic Symmetry Use Advanced Customization
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/01-solve_harmonic_problem.html">
+   Solve Harmonic Problem (with damping) Using Matrix Inverse
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/02-volume_averaged_stress.html">
+   Average Elemental Stress on a given volume
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+   Exchange Data Between Servers
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/04-extrapolation_stress_3d.html">
+   Extrapolation Method for stress result of 3D-element
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-advanced/05-extrapolation_strain_2d.html">
+   Extrapolation Method for strain result of 2D-element
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-specific-requests/00-hdf5_double_float_comparison.html">
+   Hdf5 export and compare precision
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-specific-requests/01-reduced_matrices_export.html">
+   Get reduced matrices and make export
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/00-plot_on_path.html">
+   Plot results on a specific path
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-plotting/01-compare_results.html">
+   Compare Results Using the Plotter
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/00-distributed_total_disp.html">
+   Distributed post without client connection to remote processes
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/01-distributed_delegate_to_server.html">
+   Compute total displacement from distributed files with distributed post
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/02-distributed_workflows_on_remote.html">
+   Connect workflows on different processes implicitly
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/03-distributed-msup_expansion.html">
+   Distributed modal superposition
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/04-distributed-msup_expansion_steps.html">
+   Distributed msup distributed modal response
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-distributed-post/05-distributed_total_disp_with_operators.html">
+   Distributed post without client connection to remote processes with Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#write-operator">
+   Write Operator
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-plugin">
+   Load Plugin
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-the-custom-operator">
+   Use the Custom Operator
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-07-python-operators-02-python-operators-with-dependencies-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="write-user-defined-operators-having-third-party-dependencies">
+<span id="ref-python-operators-with-deps"></span><span id="sphx-glr-examples-07-python-operators-02-python-operators-with-dependencies-py"></span><h1>Write user defined Operators having third party dependencies<a class="headerlink" href="#write-user-defined-operators-having-third-party-dependencies" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how advanced DPF python plugins of Operators can be created as standard python packages
+and how third party python modules dependencies can be added to the package.
+For a first introduction on user defined python Operators see example <a class="reference internal" href="00-wrapping_numpy_capabilities.html#ref-wrapping-numpy-capabilities"><span class="std std-ref">Write user defined Operator</span></a>
+and for a simpler example on user defined python Operators as a package see <a class="reference internal" href="01-package_python_operators.html#ref-python-plugin-package"><span class="std std-ref">Write user defined Operators as a package</span></a>.</p>
+<p>This plugin will hold an Operator which implementation depends on a third party python module named
+<a class="reference external" href="https://pypi.org/project/gltf/">gltf</a>. This Operator takes a path, a mesh and 3D vector field in input
+and exports the mesh and the norm of the input field in a gltf file located at the given path.</p>
+<section id="write-operator">
+<h2>Write Operator<a class="headerlink" href="#write-operator" title="Permalink to this headline">¶</a></h2>
+<p>For this more advanced use case, a python package is created.
+Each Operator implementation derives from <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code></a>
+and a call to <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.record_operator" title="ansys.dpf.core.custom_operator.record_operator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code></a> records the Operators of the plugin.
+The complete package looks like:</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+plugin</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+gltf_plugin</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+__init__.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">operators_loader</span> <span class="kn">import</span> <span class="n">load_operators</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+operators.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gltf_plugin</span> <span class="kn">import</span> <span class="n">gltf_export</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core.custom_operator</span> <span class="kn">import</span> <span class="n">CustomOperatorBase</span><span class="p">,</span> <span class="n">record_operator</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core.operator_specification</span> <span class="kn">import</span> <span class="n">CustomSpecification</span><span class="p">,</span> <span class="n">PinSpecification</span><span class="p">,</span> <span class="n">SpecificationProperties</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+
+
+<span class="k">class</span> <span class="nc">WriteGLTF</span><span class="p">(</span><span class="n">CustomOperatorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">)</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">)</span>
+
+        <span class="n">mesh_element_types</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">element_types_field</span><span class="o">.</span><span class="n">data_as_list</span>
+        <span class="k">if</span> <span class="n">mesh_element_types</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Tri3</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh_element_types</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">mesh_element_types</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Elements of mesh are not triangles.&quot;</span><span class="p">)</span>
+
+        <span class="n">norm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+        <span class="n">norm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+
+        <span class="n">min_max_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">()</span>
+        <span class="n">min_max_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">norm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">())</span>
+        <span class="n">field_max</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">field_min</span> <span class="o">=</span> <span class="n">min_max_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_min</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">field_range</span> <span class="o">=</span> <span class="n">field_max</span> <span class="o">-</span> <span class="n">field_min</span>
+
+        <span class="n">uv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">norm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">uv</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">value</span> <span class="o">/</span> <span class="n">field_range</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">gltf_export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">coordinates_field</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">connectivities_field</span><span class="o">.</span><span class="n">data_as_list</span><span class="p">,</span> <span class="n">uv</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_succeeded</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">specification</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">CustomSpecification</span><span class="p">(</span><span class="s2">&quot;Writes a GLTF file for a surface MeshedRegion with triangles elements and a Field using pygltflib python module.&quot;</span><span class="p">)</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="s2">&quot;path to write GLTF file&quot;</span><span class="p">),</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">),</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;field&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="s2">&quot;3D vector Field to export (ie displacement Field).&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="n">PinSpecification</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">type_names</span><span class="o">=</span><span class="nb">str</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">SpecificationProperties</span><span class="p">(</span><span class="n">user_name</span><span class="o">=</span><span class="s2">&quot;GLTF export&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s2">&quot;serialization&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spec</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;gltf_export&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+operators_loader.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gltf_plugin</span> <span class="kn">import</span> <span class="n">operators</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core.custom_operator</span> <span class="kn">import</span> <span class="n">record_operator</span>
+
+
+<span class="k">def</span> <span class="nf">load_operators</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">record_operator</span><span class="p">(</span><span class="n">operators</span><span class="o">.</span><span class="n">WriteGLTF</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+gltf_export.py<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">pygltflib</span>
+<span class="kn">from</span> <span class="nn">pygltflib.utils</span> <span class="kn">import</span> <span class="n">ImageFormat</span><span class="p">,</span> <span class="n">Image</span>
+
+
+<span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">texture_data</span><span class="o">=</span><span class="p">[]):</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">texture_data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Mesh points do not match field container points.&quot;</span><span class="p">)</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">uint32</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">uv</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">texture_data</span><span class="p">)</span>
+
+    <span class="n">indices_binary_blob</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+    <span class="n">vertices_binary_blob</span> <span class="o">=</span> <span class="n">vertices</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+    <span class="n">uv_binary_blob</span> <span class="o">=</span> <span class="n">uv</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+
+    <span class="n">gltf</span> <span class="o">=</span> <span class="n">pygltflib</span><span class="o">.</span><span class="n">GLTF2</span><span class="p">(</span>
+        <span class="n">scene</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">scenes</span><span class="o">=</span><span class="p">[</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">Scene</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
+        <span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span>
+        <span class="n">meshes</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span>
+                <span class="n">primitives</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">pygltflib</span><span class="o">.</span><span class="n">Primitive</span><span class="p">(</span>
+                        <span class="n">attributes</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">Attributes</span><span class="p">(</span><span class="n">POSITION</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">TEXCOORD_0</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">indices</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="mi">0</span>
+                    <span class="p">)</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">textures</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Texture</span><span class="p">(</span>
+                <span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">sampler</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">samplers</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Sampler</span><span class="p">(</span>
+                <span class="n">magFilter</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span>
+                <span class="n">minFilter</span><span class="o">=</span><span class="mi">9987</span><span class="p">,</span>
+                <span class="n">wrapS</span><span class="o">=</span><span class="mi">33071</span><span class="p">,</span>
+                <span class="n">wrapT</span><span class="o">=</span><span class="mi">33071</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">materials</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Material</span><span class="p">(</span>
+                <span class="n">pbrMetallicRoughness</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">PbrMetallicRoughness</span><span class="p">(</span><span class="n">baseColorTexture</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">TextureInfo</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                                                    <span class="n">metallicFactor</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">roughnessFactor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">accessors</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Accessor</span><span class="p">(</span>
+                <span class="n">bufferView</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">componentType</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">UNSIGNED_INT</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="n">indices</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+                <span class="nb">max</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">max</span><span class="p">())],</span>
+                <span class="nb">min</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">min</span><span class="p">())],</span>
+            <span class="p">),</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Accessor</span><span class="p">(</span>
+                <span class="n">bufferView</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">componentType</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span>
+                <span class="nb">type</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">VEC3</span><span class="p">,</span>
+                <span class="nb">max</span><span class="o">=</span><span class="n">vertices</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                <span class="nb">min</span><span class="o">=</span><span class="n">vertices</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="p">),</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Accessor</span><span class="p">(</span>
+                <span class="n">bufferView</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">componentType</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">uv</span><span class="p">),</span>
+                <span class="nb">type</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">VEC2</span><span class="p">,</span>
+                <span class="nb">max</span><span class="o">=</span><span class="n">uv</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                <span class="nb">min</span><span class="o">=</span><span class="n">uv</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">bufferViews</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">BufferView</span><span class="p">(</span>
+                <span class="n">buffer</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">byteLength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_binary_blob</span><span class="p">),</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">ELEMENT_ARRAY_BUFFER</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">BufferView</span><span class="p">(</span>
+                <span class="n">buffer</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">byteOffset</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_binary_blob</span><span class="p">),</span>
+                <span class="n">byteLength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices_binary_blob</span><span class="p">),</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">ARRAY_BUFFER</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">BufferView</span><span class="p">(</span>
+                <span class="n">buffer</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">byteOffset</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_binary_blob</span> <span class="o">+</span> <span class="n">vertices_binary_blob</span><span class="p">),</span>
+                <span class="n">byteLength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">uv_binary_blob</span><span class="p">),</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">pygltflib</span><span class="o">.</span><span class="n">ARRAY_BUFFER</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">buffers</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">pygltflib</span><span class="o">.</span><span class="n">Buffer</span><span class="p">(</span>
+                <span class="n">byteLength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_binary_blob</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices_binary_blob</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">uv_binary_blob</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">()</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;texture.png&quot;</span>
+    <span class="n">gltf</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">gltf</span><span class="o">.</span><span class="n">convert_images</span><span class="p">(</span><span class="n">ImageFormat</span><span class="o">.</span><span class="n">DATAURI</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+
+    <span class="n">gltf</span><span class="o">.</span><span class="n">set_binary_blob</span><span class="p">(</span><span class="n">indices_binary_blob</span> <span class="o">+</span> <span class="n">vertices_binary_blob</span> <span class="o">+</span> <span class="n">uv_binary_blob</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;.glb&#39;</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">+=</span> <span class="s1">&#39;.glb&#39;</span>
+
+    <span class="n">gltf</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">path</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+texture.png<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+assets<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><code class="xref download docutils literal notranslate"><span class="pre">&lt;plugins/gltf_plugin/assets/gltf_sites_winx64.zip&gt;</span></code></p>
+<p class="sd-card-text"><code class="xref download docutils literal notranslate"><span class="pre">&lt;plugins/gltf_plugin/assets/gltf_sites_linx64.zip&gt;</span></code></p>
+</div>
+</details></div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+gltf_plugin.xml<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;Environment&gt;</span>
+	<span class="nt">&lt;Windows&gt;</span>
+		<span class="nt">&lt;CUSTOM_SITE&gt;</span>$(THIS_XML_FOLDER)/gltf_plugin/assets/gltf_sites_winx64.zip;$(CUSTOM_SITE)<span class="nt">&lt;/CUSTOM_SITE&gt;</span>
+		<span class="nt">&lt;LOAD_DEFAULT_DPF_SITE&gt;</span>true<span class="nt">&lt;/LOAD_DEFAULT_DPF_SITE&gt;</span>
+	<span class="nt">&lt;/Windows&gt;</span>
+	<span class="nt">&lt;Linux&gt;</span>
+		<span class="nt">&lt;CUSTOM_SITE&gt;</span>$(THIS_XML_FOLDER)/gltf_plugin/assets/deps_linx64.zip:$(CUSTOM_SITE)<span class="nt">&lt;/CUSTOM_SITE&gt;</span>
+		<span class="nt">&lt;LOAD_DEFAULT_DPF_SITE&gt;</span>true<span class="nt">&lt;/LOAD_DEFAULT_DPF_SITE&gt;</span>
+	<span class="nt">&lt;/Linux&gt;</span>
+<span class="nt">&lt;/Environment&gt;</span>
+</pre></div>
+</div>
+</div>
+</details></div>
+</div>
+<p>To add third party modules as dependencies to a custom DPF python plugin, a folder or zip file
+with the sites of the dependencies needs to be created and referenced in an xml located next to the plugin’s folder
+and having the same name as the plugin plus the <code class="docutils literal notranslate"><span class="pre">.xml</span></code> extension. The <code class="docutils literal notranslate"><span class="pre">site</span></code> python module is used by DPF when
+calling <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> function to add these custom sites to the python interpreter path.
+To create these custom sites, the requirements of the custom plugin should be installed in a python virtual
+environment, the site-packages (with unnecessary folders removed) should be zipped and put with the plugin. The
+path to this zip should be referenced in the xml as done above.</p>
+<p>To simplify this step, a requirements file can be added in the plugin, like:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+requirements.txt<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pygltflib</span>
+</pre></div>
+</div>
+</div>
+</details><p>And this <a class="reference download internal" download="" href="../../_downloads/be1092fa007e10f40b7f9ea7fdfa881a/create_sites_for_python_operators.ps1"><code class="xref download docutils literal notranslate"><span class="pre">powershell</span> <span class="pre">script</span></code></a> for windows or
+this <a class="reference download internal" download="" href="../../_downloads/865325386e9f426c0639d8c3be57bb75/create_sites_for_python_operators.sh"><code class="xref download docutils literal notranslate"><span class="pre">shell</span> <span class="pre">script</span></code></a> can be ran with the mandatory arguments:</p>
+<ul class="simple">
+<li><p>-pluginpath : path to the folder of the plugin.</p></li>
+<li><p>-zippath : output zip file name.</p></li>
+</ul>
+<p>optional arguments are:</p>
+<ul class="simple">
+<li><p>-pythonexe : path to a python executable of your choice.</p></li>
+<li><p>-tempfolder : path to a temporary folder to work on, default is the environment variable <code class="docutils literal notranslate"><span class="pre">TEMP</span></code> on Windows and /tmp/ on Linux.</p></li>
+</ul>
+<p>For windows powershell, call:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_sites_for_python_operators</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">pluginpath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span> <span class="o">-</span><span class="n">zippath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">winx64</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+</div>
+<p>For linux shell, call:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_sites_for_python_operators</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">pluginpath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span> <span class="o">-</span><span class="n">zippath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">linx64</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+</div>
+</section>
+<section id="load-plugin">
+<h2>Load Plugin<a class="headerlink" href="#load-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Once a python plugin is written as a package, it can be loaded with the function
+<a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> taking as first argument the path to the directory of the plugin,
+as second argument “<a href="#id1"><span class="problematic" id="id2">py_</span></a>” + any name identifying the plugin,
+and as last argument the function’s name exposed in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file and used to record operators.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+
+<span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;07-python-operators&quot;</span><span class="p">,</span> <span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_plugin&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;py_dpf_gltf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;load_operators&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;py_dpf_gltf successfully loaded&#39;
+</pre></div>
+</div>
+<p>Once the Plugin loaded, Operators recorded in the plugin can be used with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;gltf_export&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This new Operator <code class="docutils literal notranslate"><span class="pre">gltf_export</span></code> requires a triangle surface mesh, a displacement Field on this surface mesh
+as well as an export path as inputs.
+To demo this new Operator, a <a class="reference internal" href="../../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.model.Model</span></code></a> on a simple file is created,
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.mesh.tri_mesh_skin.html#module-ansys.dpf.core.operators.mesh.tri_mesh_skin" title="ansys.dpf.core.operators.mesh.tri_mesh_skin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.mesh.tri_mesh_skin</span></code></a> Operator is used to extract the surface of the mesh in triangles
+elements.</p>
+</section>
+<section id="use-the-custom-operator">
+<h2>Use the Custom Operator<a class="headerlink" href="#use-the-custom-operator" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="n">skin_mesh</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tri_mesh_skin</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">displacement</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">skin_mesh</span><span class="p">)</span>
+<span class="n">displacement</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">skin_mesh</span><span class="p">)</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s2">&quot;out&quot;</span><span class="p">))</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">skin_mesh</span><span class="p">)</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;operator ran successfully&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>operator ran successfully
+</pre></div>
+</div>
+<p>The gltf Operator output can be downloaded <code class="xref download docutils literal notranslate"><span class="pre">here</span></code>.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  11.480 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-02-python-operators-with-dependencies-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/06b0eeb470a2bbfc83c1c57bac64c214/02-python_operators_with_dependencies.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-python_operators_with_dependencies.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/14286bebe77eb63aa8f2a8f887a5f354/02-python_operators_with_dependencies.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">02-python_operators_with_dependencies.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
