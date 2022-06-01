@@ -29,8 +29,8 @@ For general or technical questions about the project, its
 applications, or about software usage, please create an issue at
 `DPF-Core Issues <https://github.com/pyansys/DPF-Core/issues>`_ where the
 community or DPF-Core developers can collectively address your
-questions.  The project support team can be reached at
-[alexander.kaszynski@ansys.com](mailto:alexander.kaszynski@ansys.com)
+questions. To reach the project support team, 
+email `pyansys.support@ansys.com <pyansys.support@ansys.com>`_.
 
 By posting on the issues page, your question can be addressed by
 community members with the needed expertise and the knowledge gained
