@@ -1106,15 +1106,15 @@ def test_get_static_spec_operator(server_type_legacy_grpc):
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_with_progress_operator(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def test_with_progress_operator(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     op = model.results.stress()
     op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm)
-    add2 = dpf.core.operators.math.add_fc(add, add)
-    add3 = dpf.core.operators.math.add_fc(add2)
-    add4 = dpf.core.operators.math.add_fc(add3, add3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_type)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type)
     add4.progress_bar = True
     fc = add4.outputs.fields_container()
     assert len(fc) == 2

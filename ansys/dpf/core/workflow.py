@@ -251,19 +251,29 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
+        if server_meet_version("3.0", self._server):
+            # handle progress bar
+            self._server._session.add_workflow(self, "workflow")
+            self._progress_thread = self._server._session.listen_to_progress()
         output_type = dpf_operator._write_output_type_to_type(output_type)
+        out = None
         for type_tuple in self._type_to_output_method:
             if output_type is type_tuple[0]:
                 if len(type_tuple) >= 3:
                     if isinstance(type_tuple[2], str):
                         parameters = {type_tuple[2]: type_tuple[1](self, pin_name)}
-                        return output_type(**parameters, server=self._server)
+                        out = output_type(**parameters, server=self._server)
                     else:
-                        return type_tuple[2](type_tuple[1](self, pin_name))
-                try:
-                    return output_type(type_tuple[1](self, pin_name), server=self._server)
-                except TypeError:
-                    return output_type(type_tuple[1](self, pin_name))
+                        out = type_tuple[2](type_tuple[1](self, pin_name))
+                if out is None:
+                    try:
+                        out = output_type(type_tuple[1](self, pin_name), server=self._server)
+                    except TypeError:
+                        self._progress_thread = None
+                        out = output_type(type_tuple[1](self, pin_name))
+        if out is not None:
+            self._progress_thread = None
+            return out
         raise TypeError(f"{output_type} is not an implemented Operator's output")
 
     def set_input_name(self, name, *args):

@@ -315,20 +315,29 @@ class Operator:
             Output of the operator.
         """
         output_type = _write_output_type_to_type(output_type)
+        if self._server.meet_version("3.0") and self.progress_bar:
+            self._server._session.add_operator(self, pin, "operator")
+            self._progress_thread = self._server._session.listen_to_progress()
         if output_type is None:
             return self._api.operator_run(self)
+        out = None
         for type_tuple in self._type_to_output_method:
             if output_type is type_tuple[0]:
                 if len(type_tuple) >= 3:
                     if isinstance(type_tuple[2], str):
                         parameters = {type_tuple[2]: type_tuple[1](self, pin)}
-                        return output_type(**parameters, server=self._server)
+                        out = output_type(**parameters, server=self._server)
                     else:
-                        return type_tuple[2](type_tuple[1](self, pin))
-                try:
-                    return output_type(type_tuple[1](self, pin), server=self._server)
-                except TypeError:
-                    return output_type(type_tuple[1](self, pin))
+                        out = type_tuple[2](type_tuple[1](self, pin))
+                if out is None:
+                    try:
+                        return output_type(type_tuple[1](self, pin), server=self._server)
+                    except TypeError:
+                        self._progress_thread = None
+                        return output_type(type_tuple[1](self, pin))
+        if out is not None:
+            self._progress_thread = None
+            return out
         raise TypeError(f"{output_type} is not an implemented Operator's output")
 
     @property

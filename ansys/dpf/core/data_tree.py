@@ -52,7 +52,7 @@ class DataTree:
     >>> data_tree.add(num_entities=3, list_of_raws=[1,2,3,4], name="George")
     >>> txt = data_tree.write_to_txt()
 
-     Create a data tree with a context manager.
+    Create a data tree with a context manager.
 
     >>> from ansys.dpf import core as dpf
     >>> data_tree = dpf.DataTree()
