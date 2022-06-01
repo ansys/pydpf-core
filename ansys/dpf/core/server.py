@@ -185,15 +185,23 @@ def start_local_server(
     """
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
     if not use_docker:
+        # If no custom path was given in input
+        # First check the environment variable for a custom path
+        if ansys_path is None:
+            ansys_path = os.environ.get("ANSYS_PATH")
+        # Then check for usual installation folders with AWP_ROOT and find_ansys
         if ansys_path is None:
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
+        # If still no install has been found, throw an exception
         if ansys_path is None:
             raise ValueError(
-                "Unable to automatically locate the Ansys path  "
-                f"for version {__ansys_version__}."
-                "Manually enter one when starting the server or set it "
-                'as the environment variable "ANSYS_PATH"'
-            )
+                "Unable to locate any Ansys installation.\n"
+                f'Make sure the "AWP_ROOT{__ansys_version__}" environment variable '
+                f"is set if using ANSYS version {__ansys_version__}.\n"
+                "You can also manually define the path to the ANSYS installation root folder"
+                " of the version you want to use (vXXX folder):\n"
+                '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
+                '- or by setting it by default with the environment variable "ANSYS_PATH"')
 
         # verify path exists
         if not os.path.isdir(ansys_path):
