@@ -33,7 +33,7 @@ MAX_PORT = 65535
 
 def _get_dll_path(name, ansys_path=""):
     """Helper function to get the right dll path for Linux or Windows"""
-    from ansys.dpf.gate import _version
+    from ansys.dpf.core import _version
     ISPOSIX = os.name == "posix"
     if ansys_path == "":
         ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)

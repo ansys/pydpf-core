@@ -37,7 +37,7 @@ class Workflow:
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
-    workflow :  ctypes.c_void_p, workflow_message_pb2.Workflow, optional
+    workflow : ctypes.c_void_p, workflow_message_pb2.Workflow, optional
 
     Examples
     --------
@@ -660,5 +660,3 @@ class Workflow:
         """
         from ansys.dpf.core.core import _description
         return _description(self._internal_obj, self._server)
-
-

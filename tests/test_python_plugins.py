@@ -115,6 +115,16 @@ def test_workflow(load_all_types_plugin):
     assert op.get_output(0, dpf.types.workflow) is not None
 
 
+def test_data_tree(load_all_types_plugin):
+    f = dpf.DataTree()
+    f.add(name="Paul")
+    op = dpf.Operator("custom_forward_data_tree")
+    op.connect(0, f)
+    dt = op.get_output(0, dpf.types.data_tree)
+    assert dt is not None
+    assert dt.get_as("name")=="Paul"
+
+
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
                     reason='Requires server version higher than 5.0')
 def test_syntax_error():

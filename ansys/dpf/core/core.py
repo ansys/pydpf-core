@@ -31,31 +31,6 @@ if "DPF_CONFIGURATION" in os.environ:
 else:
     CONFIGURATION = "release"
 
-def get_runtime_client_config(server=None):
-    """Get the runtime configuration information of Ans.Dpf.GrpcClient
-    binary.
-
-    Parameters
-    ----------
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
-
-    Notes
-    -----
-    Available from 4.0 server version. Can only be used for
-    a gRPC communication protocol using DPF CLayer.
-
-    Returns
-    -------
-    runtime_config : RuntimeClientConfig
-        RuntimeClientConfig object that can be used to interact
-        with Ans.Dpf.GrpcClient configuration.
-
-    """
-    base = BaseService(server, load_operators=False)
-    return base.get_runtime_client_config()
-
 
 def load_library(filename, name="", symbol="LoadOperators", server=None):
     """Dynamically load an operators library for dpf.core.
@@ -418,12 +393,11 @@ class BaseService:
             __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
 
     def get_runtime_client_config(self):
-        config_to_return = None
         if self._server().has_client():
             data_tree_tmp = (
                 self._api.data_processing_get_client_config_as_data_tree()
                 )
-            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp)
+            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
         else:
             raise Exception("in process protocol doesn't have any client configuration set")
         return config_to_return

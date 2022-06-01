@@ -7,6 +7,9 @@ Customize the behavior of the module.
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
+from ansys.dpf.core.server import set_server_configuration  # noqa: F401
+from ansys.dpf.core.server_factory import ServerConfig  # noqa: F401
+from ansys.dpf.core import core
 
 
 def disable_off_screen_rendering() -> None:
@@ -83,3 +86,28 @@ def _forward_to_gate():
     from ansys.dpf.core.common import _common_progress_bar, _progress_bar_is_available
     settings.forward_settings(
         DEFAULT_FILE_CHUNK_SIZE, _common_progress_bar if _progress_bar_is_available() else None)
+
+def get_runtime_client_config(server=None):
+    """Get the runtime configuration information of Ans.Dpf.GrpcClient
+    binary.
+
+    Parameters
+    ----------
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+
+    Notes
+    -----
+    Available from 4.0 server version. Can only be used for
+    a gRPC communication protocol using DPF CLayer.
+
+    Returns
+    -------
+    runtime_config : RuntimeClientConfig
+        RuntimeClientConfig object that can be used to interact
+        with Ans.Dpf.GrpcClient configuration.
+
+    """
+    base = core.BaseService(server, load_operators=False)
+    return base.get_runtime_client_config()

@@ -373,13 +373,12 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
     assert len(out) == len(mc)
 
 
-@pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
                     reason='Requires server version higher than 4.0')
-def test_connect_get_output_data_tree_operator():
-    d = dpf.core.DataTree({"name":"Paul"})
-    wf = dpf.core.Workflow()
-    op = dpf.core.operators.utility.forward()
+def test_connect_get_output_data_tree_operator(server_type):
+    d = dpf.core.DataTree({"name":"Paul"}, server=server_type)
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
     wf.set_input_name("in", op.inputs.any)
     wf.set_output_name("out", op.outputs.any)
     wf.connect("in", d)

@@ -4,9 +4,21 @@
 DataTree
 ========
 """
+import enum
 
-from ansys.dpf.core.errors import protect_grpc, ServerTypeError
 from ansys.dpf.core.mapping_types import types
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import (
+    dpf_data_tree_abstract_api,
+    dpf_data_tree_capi,
+    dpf_data_tree_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    collection_capi,
+    collection_grpcapi,
+    object_handler,
+    integral_types,
+)
 
 
 class DataTree:
@@ -16,9 +28,9 @@ class DataTree:
     ----------
     data: dict(string:object)
         Dictionary attributes names to its associated data to add to the data tree.
-    data_tree : ansys.grpc.dpf.data_tree_pb2.DataTree message, optional
-    server : LegacyGrpcServer, optional
-        Server with the channel connected to the remote or local instance.
+    data_tree : ctypes.c_void_p, ansys.grpc.dpf.data_tree_pb2.DataTree message, optional
+    server : DPFServer, optional
+        Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
@@ -52,33 +64,42 @@ class DataTree:
     """
 
     def __init__(self, data=None, data_tree=None, server=None):
-        if server is None:
-            import ansys.dpf.core.server as serverlib
-            server = serverlib._global_server()
-        from ansys.dpf.core.server_types import LegacyGrpcServer
-        # if hasattr(SERVER_CONFIGURATION, "legacy") and SERVER_CONFIGURATION.legacy is False:
-        if not isinstance(server, LegacyGrpcServer):
-            raise ServerTypeError("DataTrees have not yet been implemented for other server "
-                                  "types than legacyGrpc")
         # __set_attr__ method has been overridden, self._common_keys is used to list the "real"
         # names used as its class attributes
-        self._common_keys = [
-            "_common_keys", "_server", "_message", "_stub", "_owner_data_tree", "_dict"
-        ]
-        self._server = server
-        self._stub = self._connect()
+        self._common_keys = ["_common_keys", "_server", "_internal_obj", "_owner_data_tree",
+                             "_dict", "_api_instance"]
+        
 
-        if data_tree is None:
-            from ansys.grpc.dpf import base_pb2
-            request = base_pb2.Empty()
-            self._message = self._stub.Create(request)
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
+
+        # step 2: get api
+        self._api_instance = None  # see property self._api
+
+        # step3: init environment
+        self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
+
+        # step4: if object exists, take the instance, else create it
+        if data_tree is not None:
+            self._internal_obj = data_tree
         else:
-            self._message = data_tree
+            if self._server.has_client():
+                self._internal_obj = self._api.dpf_data_tree_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.dpf_data_tree_new()
 
         if data:
             self.add(data)
 
-    @protect_grpc
+    @property
+    def _api(self) -> dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI:
+        if not self._api_instance:
+            self._api_instance = self._server.get_api_for_type(
+                capi=dpf_data_tree_capi.DpfDataTreeCAPI,
+                grpcapi=dpf_data_tree_grpcapi.DpfDataTreeGRPCAPI
+            )
+        return self._api_instance
+
     def add(self, *args, **kwargs):
         """
         Add attributes with their value to the data tree.
@@ -96,36 +117,68 @@ class DataTree:
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
 
         """
-        from ansys.grpc.dpf import data_tree_pb2
-        request = data_tree_pb2.UpdateRequest()
-        request.data_tree.CopyFrom(self._message)
-
-        def add_data(key, value):
-            data = data_tree_pb2.Data()
-            data.name = key
+        def add_data(self, key, value):
             if isinstance(value, str):
-                data.string = value
+                self._api.dpf_data_tree_set_string_attribute(self, key, value, len(value))
             elif isinstance(value, float):
-                data.double = value
-            elif isinstance(value, int):
-                data.int = value
+                self._api.dpf_data_tree_set_double_attribute(self, key, value)
+            elif isinstance(value, (bool, int, enum.Enum)):
+                self._api.dpf_data_tree_set_int_attribute(self, key, int(value))
             elif isinstance(value, list):
                 if len(value) > 0 and isinstance(value[0], float):
-                    data.vec_double.rep_double.extend(value)
+                    self._api.dpf_data_tree_set_vec_double_attribute(
+                        self, key, value, len(value)
+                    )
                 elif len(value) > 0 and isinstance(value[0], str):
-                    data.vec_string.rep_string.extend(value)
-                else:
-                    data.vec_int.rep_int.extend(value)
+                    if self._server.has_client():
+                        coll_obj = object_handler.ObjHandler(
+                            data_processing_api=self._core_api,
+                            internal_obj=self._coll_api.collection_of_string_new_local(self._server.client))
+                    else:
+                        coll_obj = object_handler.ObjHandler(
+                            data_processing_api=self._core_api,
+                            internal_obj=self._coll_api.collection_of_string_new())
+                    for s in value:
+                        self._coll_api.collection_add_string_entry(coll_obj, s)
+                    self._api.dpf_data_tree_set_string_collection_attribute(
+                        self, key, coll_obj
+                    )
+                elif len(value) > 0 and isinstance(value[0], int):
+                    self._api.dpf_data_tree_set_vec_int_attribute(
+                        self, key, value, len(value)
+                    )
+                elif len(value) > 0:
+                    raise TypeError(f"List of {type(value[0]).__name__} is not supported, "
+                                    f"use list of int, float or strings.")
             elif isinstance(value, DataTree):
-                data.data_tree.CopyFrom(value._message)
-            request.data.append(data)
-
+                self._api.dpf_data_tree_set_sub_tree_attribute(
+                    self, key, value
+                )
+            else:
+                raise TypeError(f"{type(value[0]).__name__} is not a supported type, "
+                                "use lists, int, float, strings or DataTree.")
         for entry in args:
             for key, value in entry.items():
-                add_data(key, value)
+                add_data(self, key, value)
+
         for key, value in kwargs.items():
-            add_data(key, value)
-        self._stub.Update(request)
+            add_data(self, key, value)
+
+    @property
+    def _core_api(self):
+        core_api = self._server.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+        core_api.init_data_processing_environment(self)
+        return core_api
+
+    @property
+    def _coll_api(self):
+        coll_api = self._server.get_api_for_type(
+            capi=collection_capi.CollectionCAPI,
+            grpcapi=collection_grpcapi.CollectionGRPCAPI)
+        coll_api.init_collection_environment(self)
+        return coll_api
 
     def to_fill(self):
         """
@@ -233,7 +286,6 @@ class DataTree:
             return op.get_output(0, core.types.string)
 
     @staticmethod
-    @protect_grpc
     def read_from_json(path=None, txt=None, server=None):
         """
         Convert a json string or file to DataTree
@@ -274,7 +326,6 @@ class DataTree:
         return op.outputs.data_tree()
 
     @staticmethod
-    @protect_grpc
     def read_from_txt(path=None, txt=None, server=None):
         """
         Convert a text string or file to DataTree
@@ -314,7 +365,6 @@ class DataTree:
             op.inputs.string_or_path.connect(str(txt))
         return op.outputs.data_tree()
 
-    @protect_grpc
     def has(self, entry):
         """
         Return True if the entry exists
@@ -338,13 +388,8 @@ class DataTree:
         False
 
         """
-        from ansys.grpc.dpf import data_tree_pb2
-        request = data_tree_pb2.HasRequest()
-        request.data_tree.CopyFrom(self._message)
-        request.names.append(entry)
-        return self._stub.Has(request).has_each_name[entry]
+        return self._api.dpf_data_tree_has_attribute(self, entry)
 
-    @protect_grpc
     def get_as(self, name, type=types.string):
         """
         Returns an attribute value by its name in the required type.
@@ -373,41 +418,50 @@ class DataTree:
         ['nice', 'funny']
 
         """
-        from ansys.grpc.dpf import base_pb2, data_tree_pb2
-        request = data_tree_pb2.GetRequest()
-        request.data_tree.CopyFrom(self._message)
-        stype = base_pb2.Type.Value(type.name.upper())
-        request.data.append(data_tree_pb2.SingleDataRequest(name=name, type=stype))
-        data = self._stub.Get(request).data[0]
-        if data.HasField("string"):
-            return data.string
-        elif data.HasField("int"):
-            return data.int
-        elif data.HasField("double"):
-            return data.double
-        elif data.HasField("vec_int"):
-            return data.vec_int.rep_int
-        elif data.HasField("vec_double"):
-            return data.vec_double.rep_double
-        elif data.HasField("vec_string"):
-            return data.vec_string.rep_string
-        elif data.HasField("data_tree"):
-            return DataTree(data_tree=data.data_tree, server=self._server)
+        out = None
+        if type == types.int:
+            out = integral_types.MutableInt32()
+            self._api.dpf_data_tree_get_int_attribute(self, name, out)
+            out = int(out)
+        elif type == types.double:
+            out = integral_types.MutableDouble()
+            self._api.dpf_data_tree_get_double_attribute(self, name, out)
+            out = float(out)
+        elif type == types.string:
+            out = integral_types.MutableString(1)
+            size = integral_types.MutableInt32(0)
+            self._api.dpf_data_tree_get_string_attribute(self, name, out, size)
+            out = str(out)
+        elif type == types.vec_double:
+            out = integral_types.MutableListDouble()
+            self._api.dpf_data_tree_get_vec_double_attribute(self, name, out, out.internal_size)
+            out = out.tolist()
+        elif type == types.vec_int:
+            out = integral_types.MutableListInt32()
+            self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
+            out = out.tolist()
+        elif type == types.vec_string:
+            coll_obj = object_handler.ObjHandler(
+                data_processing_api=self._core_api,
+                internal_obj=self._api.dpf_data_tree_get_string_collection_attribute(self, name)
+            )
+            num = self._coll_api.collection_get_size(coll_obj)
+            out = []
+            for i in range(num):
+                out.append(self._coll_api.collection_get_string_entry(coll_obj, i))
+        elif type == types.data_tree:
+            obj = self._api.dpf_data_tree_get_sub_tree(self, name)
+            out = DataTree(data_tree=obj, server=self._server)
+        return out
 
-    @protect_grpc
     def __setattr__(self, key, value):
         if key == "_common_keys" or key in self._common_keys:
             return super.__setattr__(self, key, value)
         self.add({key: value})
 
-    def _connect(self):
-        """Connect to the gRPC service containing the reader."""
-        from ansys.grpc.dpf import data_tree_pb2_grpc
-        return data_tree_pb2_grpc.DataTreeServiceStub(self._server.channel)
-
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            self._core_api.data_processing_delete_shared_object(self)
         except:
             pass
 

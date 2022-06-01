@@ -48,7 +48,6 @@ from ansys.dpf.core.core import (
     upload_files_in_folder,
     download_files_in_folder,
     make_tmp_dir_server,
-    get_runtime_client_config,
 )
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
