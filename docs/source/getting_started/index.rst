@@ -17,8 +17,15 @@ For more information, see :ref:`docker`.
 Client Server Compatibility
 ***************************
 
-The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module should be synchronized
-with the server version as shown here:
+The DPF server version depends on the Ansys installation version.
+The PyDPF-Core client used must be compatible with it according to the table below.
+Notice that starting with Ansys 2021 R2 one can use any PyDPF-Core >= 3.0.
+Only Ansys 2021 R1 requires a specific version of PyDPF-Core (0.2.*).
+
+Future development will always try to ensure backward compatibility from the client to the server.
+
+The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module should also be synchronized
+with the server version.
 
 .. list-table:: Client-Server Compatibility
    :widths: 35 35 35
@@ -36,10 +43,6 @@ with the server version as shown here:
    * - 1.0 (Ansys 2021R1)
      - 0.2.2
      - 0.2.*
-
-
-Future development will try to ensure backward compatibility from the client to the server.
-
 
 To start a server with Ans.Dpf.Grpc.bat or Ans.Dpf.Grpc.sh (used in the `start_local_server`  function),
 please make sure that the environment variable `AWP_ROOT{VER}` with (VER=212, 221, ...) is set.
