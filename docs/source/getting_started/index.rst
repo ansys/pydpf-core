@@ -9,10 +9,6 @@ Compatibility
 DPF supports Windows 10 and CentOS 7 and later. For
 more information, see `Ansys Platform Support <https://www.ansys.com/solutions/solutions-by-role/it-professionals/platform-support>`_.
 
-Other platforms may be supported by using DPF within a
-containerization ecosystem such as Docker or Kubernetes.
-For more information, see :ref:`docker`.
-
 ***************************
 Client Server Compatibility
 ***************************
