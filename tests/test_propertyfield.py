@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import copy
 
 from ansys import dpf
 from ansys.dpf import core
@@ -179,6 +180,31 @@ def test_local_property_field():
     with field_to_local.as_local_field() as f:
         assert np.allclose(f.data, data)
         assert np.allclose(f._data_pointer, data_pointer[0: len(data_pointer)])
+
+
+def test_mutable_data_property_field(server_clayer, simple_bar):
+    model = dpf.core.Model(simple_bar, server=server_clayer)
+    mesh = model.metadata.meshed_region
+    op = dpf.core.Operator("meshed_skin_sector", server=server_clayer)
+    op.inputs.mesh.connect(mesh)
+
+    wf = dpf.core.Workflow(server=server_clayer)
+    wf.add_operator(op)
+    wf.set_output_name("field_out", op, 3)
+
+    property_field = wf.get_output("field_out", dpf.core.types.property_field)
+    data = property_field.data
+    data_copy = copy.deepcopy(data)
+    data[0] += 1
+    data.commit()
+    changed_data = property_field.data
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1)
+    data[0] += 1
+    data = None
+    changed_data = property_field.data
+    assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
 if __name__ == "__main__":

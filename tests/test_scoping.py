@@ -3,6 +3,7 @@ import pytest
 
 from ansys import dpf
 from conftest import SERVER_VERSION_HIGHER_THAN_3_0
+import copy
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import meets_version, get_server_version
@@ -254,3 +255,20 @@ def test_auto_delete_scoping_local():
     del s
     with scop.as_local_scoping() as s:
         assert s[0] == 1
+
+
+def test_mutable_ids_data(server_clayer):
+    scop = Scoping(server=server_clayer)
+    scop.ids = range(1, int(2e6))
+    data = scop.ids
+    data_copy = copy.deepcopy(data)
+    data[0] += 1
+    data.commit()
+    changed_data = scop.ids
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1)
+    data[0] += 1
+    data = None
+    changed_data = scop.ids
+    assert np.allclose(changed_data[0], data_copy[0] + 2)

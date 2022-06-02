@@ -223,6 +223,16 @@ def server_clayer_remote_process(request):
     return core.start_local_server(config=request.param, as_global=False)
 
 
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+                                         ServerConfig(protocol=None, legacy=False)],
+                ids=[
+                    "gRPC CLayer",
+                    "in Process CLayer"
+                ])
+def server_clayer(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
+
 @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
                                                       legacy=True)],
                 ids=[

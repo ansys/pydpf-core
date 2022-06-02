@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import copy
 from ansys import dpf
 from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
 from ansys.dpf import core
@@ -899,6 +900,42 @@ def test_field_huge_amount_of_data(allkindofcomplexity):
     field.data = modif_data
     new_modif_data = field.data
     assert np.allclose(new_modif_data, modif_data)
+
+
+def test_field_mutable_data(server_clayer, allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    field = model.results.displacement().outputs.fields_container()[0]
+    data = field.data
+    data_copy = copy.deepcopy(data)
+    data[0] += 1.
+    data.commit()
+    changed_data = field.data
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1.)
+    data[0] += 1
+    data = None
+    changed_data = field.data
+    assert np.allclose(changed_data[0], data_copy[0] + 2.)
+
+
+def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    field = model.results.stress().outputs.fields_container()[0]
+    data = field._data_pointer
+    data_copy = copy.deepcopy(data)
+    data[0] += 1
+    data.commit()
+    changed_data = field._data_pointer
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1)
+    data[0] += 1
+    data = None
+    changed_data = field._data_pointer
+    assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
 def test_deep_copy_field():
