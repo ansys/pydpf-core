@@ -47,14 +47,16 @@ class ElShapeFieldsContainer(FieldsContainer):
         """
         Retrieve a list of all fields with solid element shapes.
 
-        You can filter the list of fields with solid element shapes based on a given time, complex type, or both.
+        You can filter the list of fields with solid element shapes based on a given time,
+        complex type, or both.
 
         Parameters
         ----------
         timeid : int, optional
             Time ID for filtering fields with solid element shapes.
         complexid : int, optional
-            Complex type ID for filtering fields with solid element shapes. 0 is for real numbers, and 1 is for imaginary numbers.
+            Complex type ID for filtering fields with solid element shapes. 0 is for real numbers,
+            and 1 is for imaginary numbers.
 
         Returns
         -------
@@ -89,7 +91,8 @@ class ElShapeFieldsContainer(FieldsContainer):
         timeid : int, optional
             Time ID for filtering fields with shell element shapes.
         complexid : int, optional
-            Complex type ID for filtering fields with shell element shapes. 0 is for real numbers, and 1 is for imaginary numbers.
+            Complex type ID for filtering fields with shell element shapes. 0 is for real numbers,
+            and 1 is for imaginary numbers.
 
         Returns
         -------
