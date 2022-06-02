@@ -9,7 +9,7 @@ import weakref
 import threading
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import server_types
+from ansys.dpf.core import server_types, errors
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.common import _common_percentage_progress_bar, _progress_bar_is_available
 from ansys.dpf.gate import session_capi, session_grpcapi, capi, \
@@ -103,11 +103,17 @@ class Session:
     """A class used to create a user session on the server, it allows to plan events
     call backs from the server when workflows are running.
     A session is started every time a ``'DpfServer'`` is created.
+
+    Notes
+    -----
+    Class available with server's version starting at 3.0.
     """
 
     def __init__(self, server=None):
         # step 1: get server
         server = server_module.get_or_create_server(server)
+        if not server.meet_version("3.0"):
+            raise errors.DpfVersionNotSupported("3.0")
         self._server_weak_ref = weakref.ref(server)
         # step 2: get api
         self._api = server.get_api_for_type(capi=session_capi.SessionCAPI,

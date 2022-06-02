@@ -1,19 +1,17 @@
 from ansys.dpf import core as dpf
 import os
 import pytest
-from conftest import SERVER_VERSION_HIGHER_THAN_4_0
+import conftest
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_create_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     assert data_tree._internal_obj
     assert not data_tree.has("int")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_add_single_data_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     data_tree.add(int=1)
@@ -30,8 +28,7 @@ def test_add_single_data_data_tree(server_type):
     assert data_tree.has("list_string")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_add_multiple_data_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     data_tree.add(int=1, double=1., string="hello", list_int=[1, 2], list_double=[1.5, 2.5], list_string=["hello", "bye"])
@@ -43,8 +40,7 @@ def test_add_multiple_data_data_tree(server_type):
     assert data_tree.has("list_string")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_add_dict_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     data_tree.add({"int": 1, "double": 1., "string": "hello", "list_int": [1, 2],
@@ -57,8 +53,7 @@ def test_add_dict_data_tree(server_type):
     assert data_tree.has("list_string")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_add_data_to_fill_data_tree():
     data_tree = dpf.DataTree()
     with data_tree.to_fill() as to_fill:
@@ -76,8 +71,7 @@ def test_add_data_to_fill_data_tree():
     assert data_tree.has("list_string")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_get_as_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
@@ -101,8 +95,7 @@ def test_get_as_data_tree(server_type):
     assert data_tree.get_as("list_string", dpf.types.vec_string) == ["hello", "bye"]
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_write_data_tree():
     data_tree = dpf.DataTree()
     data_tree.int = 1
@@ -131,8 +124,7 @@ def test_write_data_tree():
     assert "1.500000;2.500000" in txt
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_write_to_file_data_tree(tmpdir):
     data_tree = dpf.DataTree()
     with data_tree.to_fill() as to_fill:
@@ -160,8 +152,7 @@ def test_write_to_file_data_tree(tmpdir):
     assert data_tree.has("list_string")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_read_from_txt_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
@@ -189,8 +180,7 @@ def test_read_from_txt_data_tree(server_type):
     assert data_tree.has("list_string")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_sub_data_tree():
     data_tree = dpf.DataTree()
     data_tree2 = dpf.DataTree()
@@ -203,8 +193,7 @@ def test_sub_data_tree():
     assert data_tree.get_as("sub2", dpf.types.data_tree).has("int")
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_runtime_client_config(server_clayer_remote_process):
     client_config = dpf.settings.get_runtime_client_config(server=server_clayer_remote_process)
     use_cache_init = client_config.cache_enabled
@@ -219,12 +208,12 @@ def test_runtime_client_config(server_clayer_remote_process):
     assert use_cache_set_end is use_cache_init
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_unsupported_types_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with pytest.raises(TypeError):
         data_tree.add(data1=[[1]])
     with pytest.raises(TypeError):
         data_tree.add(data1=(1,2))
+
 

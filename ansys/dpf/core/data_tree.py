@@ -8,6 +8,7 @@ import enum
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core import errors
 from ansys.dpf.gate import (
     dpf_data_tree_abstract_api,
     dpf_data_tree_capi,
@@ -61,6 +62,9 @@ class DataTree:
     ...     to_fill.list_of_raws = [1,2,3,4]
     >>> json = data_tree.write_to_json()
 
+    Notes
+    -----
+    Class available with server's version starting at 4.0.
     """
 
     def __init__(self, data=None, data_tree=None, server=None):
@@ -72,6 +76,9 @@ class DataTree:
 
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
+
+        if not self._server.meet_version("4.0"):
+            raise errors.DpfVersionNotSupported("4.0")
 
         # step 2: get api
         self._api_instance = None  # see property self._api

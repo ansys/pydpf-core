@@ -4,8 +4,8 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
-from conftest import running_docker, SERVER_VERSION_HIGHER_THAN_3_0
-
+from conftest import running_docker
+import conftest
 
 def test_loadmapdloperators(allkindofcomplexity):
     dpf.core.BaseService(load_operators=True)
@@ -241,8 +241,6 @@ def test_load_plugin_correctly(server_type):
     assert num_lines >= 11
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
 def test_dpf_join(server_type):
     dpf.core.DataSources("bla", server=server_type)  # start server
     left = "temp"

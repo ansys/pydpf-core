@@ -1,7 +1,7 @@
 import pytest
 
 from ansys import dpf
-from conftest import SERVER_VERSION_HIGHER_THAN_4_0, SERVER_VERSION_HIGHER_THAN_3_0
+import conftest
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 
@@ -64,8 +64,8 @@ def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Bug in server version lower than 4.0')
 def test_several_result_path_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path("file_hello.rst")
@@ -74,8 +74,8 @@ def test_several_result_path_data_sources(server_type):
     assert data_sources.result_files == ["file_hello.rst", "file_bye.rst"]
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Copying data is supported starting server version 3.0')
 def test_delete_auto_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)

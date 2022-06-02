@@ -4,6 +4,7 @@ FieldDefinition
 """
 
 from ansys.dpf.core.common import natures, shell_layers
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -64,6 +65,7 @@ class FieldDefinition:
         return str(location)
 
     @property
+    @version_requires("4.0")
     def name(self):
         """Field name.
 
@@ -130,6 +132,7 @@ class FieldDefinition:
         self._api.csfield_definition_set_location(self, value)
 
     @name.setter
+    @version_requires("4.0")
     def name(self, value):
         self._api.csfield_definition_set_name(self, value)
 

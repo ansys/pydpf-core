@@ -12,7 +12,7 @@ import re
 from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.errors import protect_grpc, DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core.common import types_enum_to_types
@@ -662,11 +662,17 @@ def available_operator_names(server=None):
     -------
     list
 
+    Notes
+    -----
+    Function available with server's version starting at 3.0.
+
     """
     from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc
     if server is None:
         server = server_module._global_server()
 
+    if not server.meet_version("3.0"):
+        raise DpfVersionNotSupported("3.0")
     service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
         operator_pb2.ListAllOperatorsRequest())
     arr = []

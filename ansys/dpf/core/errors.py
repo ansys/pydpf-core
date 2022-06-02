@@ -3,11 +3,17 @@
 
 Errors
 ======
+
+.. autoexception:: DpfVersionNotSupported
+   :members:
+
+.. autoexception:: DPFServerNullObject
+   :members:
 """
 
 from functools import wraps
 from ansys.dpf.gate.errors import DPFServerException, \
-    DPFServerNullObject, protect_grpc  # noqa: F401
+    DPFServerNullObject, DpfVersionNotSupported, protect_grpc  # noqa: F401
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
@@ -19,18 +25,6 @@ This fields_container contains multiple fields.  Only one time-step
 result can be plotted at a time. Extract a field with
 ``fields_container[index]``.
 """
-
-
-class DpfVersionNotSupported(RuntimeError):
-    """Error raised when the dpf-core/grpc-dpf python features are not
-    supported by the DPF gRPC server version."""
-
-    def __init__(self, version, msg=None):
-        if msg is None:
-            msg = "Feature not supported. Upgrade the server to "
-            msg += str(version)
-            msg += " version (or above)."
-        RuntimeError.__init__(self, msg)
 
 
 class DpfValueError(ValueError):

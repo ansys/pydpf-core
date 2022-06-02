@@ -4,7 +4,6 @@ Nodes
 """
 import numpy as np
 from ansys.dpf.core.common import nodal_properties, locations
-from ansys.dpf.core.errors import protect_grpc
 
 
 class Node:
@@ -136,7 +135,6 @@ class Nodes:
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeindex=index)
 
-    @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
         """Retrieves the node by its ID or index.
 

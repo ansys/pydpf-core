@@ -141,9 +141,9 @@ class Workflow:
                 self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
-                    self._api.operator_connect_vector_int(self, pin_name, inpt, len(inpt))
+                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
                 else:
-                    self._api.operator_connect_vector_double(self, pin_name, inpt, len(inpt))
+                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
         else:
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
@@ -547,6 +547,9 @@ class Workflow:
             |"mesh_scoping" ->  |____| -> "output"                                                            |
             +-------------------------------------------------------------------------------------------------+ # noqa: E501
 
+        Notes
+        -----
+        Function available with server's version starting at 3.0.
 
         """
         if output_input_names:

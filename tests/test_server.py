@@ -6,7 +6,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
-from conftest import SERVER_VERSION_HIGHER_THAN_4_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 
 server_configs = [None,
@@ -16,7 +16,7 @@ server_configs = [None,
                   ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
                   ServerConfig(protocol=None, legacy=False),
                   ] \
-    if SERVER_VERSION_HIGHER_THAN_4_0 else \
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
     [None,
      ServerConfig(),
      ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),

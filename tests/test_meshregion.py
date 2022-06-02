@@ -3,6 +3,7 @@ import pytest
 import vtk
 
 from ansys import dpf
+import conftest
 
 
 @pytest.fixture()
@@ -484,6 +485,9 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
     )
 
 
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Bug in server version lower than 4.0')
 def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
     mesh = dpf.core.Model(allkindofcomplexity, server=server_type).metadata.meshed_region
     has_semi_par = False

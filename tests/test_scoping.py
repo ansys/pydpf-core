@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0
+import conftest
 import copy
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
@@ -20,8 +20,9 @@ def test_create_scoping():
     assert scop._internal_obj
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Copying data is '
+                           'supported starting server version 3.0')
 def test_createbycopy_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop, server=server_type)
@@ -121,8 +122,8 @@ def test_delete_scoping(server_type):
         scop.ids
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Copying data is supported starting server version 3.0')
 def test_delete_auto_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop)

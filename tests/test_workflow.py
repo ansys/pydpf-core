@@ -4,7 +4,6 @@ import pytest
 import ansys.dpf.core.operators as op
 import conftest
 from ansys import dpf
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
 
 
 def test_create_workflow(server_type):
@@ -295,8 +294,7 @@ def test_outputs_bool_workflow(server_type):
     assert out == True
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_get_output_int_list_workflow(server_type):
     d = list(range(0, 1000000))
     wf = dpf.core.Workflow(server=server_type)
@@ -308,8 +306,7 @@ def test_connect_get_output_int_list_workflow(server_type):
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_get_output_double_list_workflow(server_type):
     d = list(np.ones(500000))
     wf = dpf.core.Workflow(server=server_type)
@@ -373,8 +370,7 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
     assert len(out) == len(mc)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under('4.0')
 def test_connect_get_output_data_tree_operator(server_type):
     d = dpf.core.DataTree({"name":"Paul"}, server=server_type)
     wf = dpf.core.Workflow(server=server_type)
@@ -441,8 +437,7 @@ def test_transfer_owner_workflow(allkindofcomplexity, server_type):
     wf_copy = dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     data_sources = dpf.core.DataSources(cyclic_lin_rst, server=server_type)
     data_sources.add_file_path(cyclic_ds)
@@ -471,8 +466,7 @@ def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     data_sources = dpf.core.DataSources(cyclic_lin_rst, server=server_type)
     data_sources.add_file_path(cyclic_ds)
@@ -501,8 +495,7 @@ def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     data_sources = dpf.core.DataSources(cyclic_lin_rst, server=server_type)
     data_sources.add_file_path(cyclic_ds)
@@ -576,8 +569,8 @@ def test_print_workflow(server_type):
     assert "bool" in str(wf)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason="Bug with server's version older than 3.0")
 def test_throws_error(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
@@ -598,8 +591,7 @@ def test_throws_error(allkindofcomplexity):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_flush_workflows_session(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
@@ -630,8 +622,7 @@ def test_flush_workflows_session(allkindofcomplexity):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -646,8 +637,7 @@ def test_create_on_other_server_workflow(local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -662,8 +652,7 @@ def test_create_on_other_server2_workflow(local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_ip_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -680,8 +669,7 @@ def test_create_on_other_server_with_ip_workflow(local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_address_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -697,8 +685,7 @@ def test_create_on_other_server_with_address_workflow(local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_address2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -714,8 +701,7 @@ def test_create_on_other_server_with_address2_workflow(local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)

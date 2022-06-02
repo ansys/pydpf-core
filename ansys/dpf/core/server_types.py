@@ -389,7 +389,13 @@ class CServer(BaseServer, ABC):
         if ISPOSIX:
             name = "DPFClientAPI.so"
         path = _get_dll_path(name, ansys_path)
-        capi.load_api(path)
+        try:
+            capi.load_api(path)
+        except Exception as e:
+            for arg in e.args:
+                if "v222" in e.args:
+                    raise e
+            raise errors.DpfVersionNotSupported("4.0")
         self._own_process = False
         self.ansys_path = ansys_path
 
