@@ -136,7 +136,8 @@ class Operator:
         pin : int
             Number of the input pin.
 
-        inpt : str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources
+        inpt : str, int, double, bool, list of int, list of doubles, Field, FieldsContainer,
+               Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources
             Operator Object to connect to.
 
         pin_out : int, optional
