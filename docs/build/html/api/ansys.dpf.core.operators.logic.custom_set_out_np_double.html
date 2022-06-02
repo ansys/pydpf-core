@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>ids_with_data_lower_than_average &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>custom_set_out_np_double &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -42,8 +42,8 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="included_fields" href="ansys.dpf.core.operators.logic.included_fields.html" />
-    <link rel="prev" title="ids_with_data_higher_than_average" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html" />
+    <link rel="next" title="custom_set_out_np_int" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html" />
+    <link rel="prev" title="component_selector_fc" href="ansys.dpf.core.operators.logic.component_selector_fc.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -600,6 +600,16 @@
          component_selector_fc
         </a>
        </li>
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4 current active">
-        <a class="current reference internal" href="#">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3002,19 +3002,16 @@
               
               <div>
                 
-  <span class="target" id="module-ansys.dpf.core.operators.logic.ids_with_data_lower_than_average"></span><section id="ids-with-data-lower-than-average">
-<h1>ids_with_data_lower_than_average<a class="headerlink" href="#ids-with-data-lower-than-average" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-ansys.dpf.core.operators.logic.custom_set_out_np_double"></span><section id="custom-set-out-np-double">
+<h1>custom_set_out_np_double<a class="headerlink" href="#custom-set-out-np-double" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.</span></span><span class="sig-name descname"><span class="pre">ids_with_data_lower_than_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a scoping with all the ids having data lower or equal to the average value of the scalar field’s data in input.</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.custom_set_out_np_double.</span></span><span class="sig-name descname"><span class="pre">custom_set_out_np_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a numpy array of shape (100,2) as output. The array is flatten by DPF.</p>
+<p>available inputs:</p>
 <dl class="simple">
-<dt>available inputs:</dt><dd><ul class="simple">
-<li><p>field (Field)</p></li>
-</ul>
-</dd>
 <dt>available outputs:</dt><dd><ul class="simple">
-<li><p>scoping (Scoping)</p></li>
+<li><p>flat_double_vec (list)</p></li>
 </ul>
 </dd>
 </dl>
@@ -3023,25 +3020,23 @@
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">custom_set_out_np_double</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make input connections</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator and connect inputs in one line</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">my_field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">custom_set_out_np_double</span><span class="p">(</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get output data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_scoping</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_flat_double_vec</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">flat_double_vec</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.default_config">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.default_config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.default_config">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.default_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the default configuration for an operator.</p>
 <p>You can change the copy of the default configuration to meet your needs
 before instantiating the operator.
@@ -3067,36 +3062,36 @@ server.</p></li>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.inputs">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.inputs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.inputs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to connect inputs to the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>inputs</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage" title="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage">InputsIdsWithDataLowerThanAverage</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.InputsCustomSetOutNpDouble" title="ansys.dpf.core.operators.logic.custom_set_out_np_double.InputsCustomSetOutNpDouble">InputsCustomSetOutNpDouble</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.outputs">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.outputs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.outputs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.outputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to get outputs of the operator by evaluationg it</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>outputs</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage" title="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage">OutputsIdsWithDataLowerThanAverage</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.OutputsCustomSetOutNpDouble" title="ansys.dpf.core.operators.logic.custom_set_out_np_double.OutputsCustomSetOutNpDouble">OutputsCustomSetOutNpDouble</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.config">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.config">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy of the operator’s current configuration.</p>
 <p>You can modify the copy of the configuration and then use <code class="docutils literal notranslate"><span class="pre">operator.config</span> <span class="pre">=</span> <span class="pre">new_config</span></code>
 or create an operator with the new configuration as a parameter.</p>
@@ -3111,8 +3106,8 @@ or create an operator with the new configuration as a parameter.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.connect" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect an input on the operator using a pin number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3146,8 +3141,8 @@ or create an operator with the new configuration as a parameter.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.eval">
-<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.eval" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.eval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate this operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3175,8 +3170,8 @@ given pin when specified. Or, it only evaluates the operator without output.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.get_output">
-<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.get_output" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.get_output">
+<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.get_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the output of the operator on the pin number.</p>
 <p>To activate the progress bar for server version higher or equal to 3.0,
 use <code class="docutils literal notranslate"><span class="pre">my_op.progress_bar=True</span></code></p>
@@ -3197,27 +3192,27 @@ use <code class="docutils literal notranslate"><span class="pre">my_op.progress_
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.operator_specification">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.operator_specification" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.operator_specification">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.operator_specification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put the grpc spec message in self._spec</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.progress_bar">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.progress_bar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.progress_bar" title="Permalink to this definition">¶</a></dt>
 <dd><p>With this property, the user can choose to print a progress bar when
 the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate this operator.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.specification">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.ids_with_data_lower_than_average.specification" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.specification">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.custom_set_out_np_double.specification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the Specification (or documentation) of this Operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -3232,45 +3227,19 @@ the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.</span></span><span class="sig-name descname"><span class="pre">InputsIdsWithDataLowerThanAverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate class used to connect user inputs to ids_with_data_lower_than_average operator</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.InputsCustomSetOutNpDouble">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.custom_set_out_np_double.</span></span><span class="sig-name descname"><span class="pre">InputsCustomSetOutNpDouble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.InputsCustomSetOutNpDouble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate class used to connect user inputs to custom_set_out_np_double operator</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">custom_set_out_np_double</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.field">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows to connect field input to the operator</p>
-<ul class="simple">
-<li><p>pindoc: scalar Field.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>my_field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>,</em>) – </p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#or</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.InputsIdsWithDataLowerThanAverage.connect" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.InputsCustomSetOutNpDouble.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.InputsCustomSetOutNpDouble.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect any input (an entity or an operator output) to any input pin of this operator.
 Searches for the input type corresponding to the output.</p>
 <dl class="field-list simple">
@@ -3291,37 +3260,37 @@ Searches for the input type corresponding to the output.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.</span></span><span class="sig-name descname"><span class="pre">OutputsIdsWithDataLowerThanAverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate class used to get outputs from ids_with_data_lower_than_average operator
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.OutputsCustomSetOutNpDouble">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.logic.custom_set_out_np_double.</span></span><span class="sig-name descname"><span class="pre">OutputsCustomSetOutNpDouble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.OutputsCustomSetOutNpDouble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate class used to get outputs from custom_set_out_np_double operator
 .. rubric:: Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">custom_set_out_np_double</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_scoping</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_flat_double_vec</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">flat_double_vec</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage.scoping">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">scoping</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.OutputsIdsWithDataLowerThanAverage.scoping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows to get scoping output of the operator</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.logic.custom_set_out_np_double.OutputsCustomSetOutNpDouble.flat_double_vec">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">flat_double_vec</span></span><a class="headerlink" href="#ansys.dpf.core.operators.logic.custom_set_out_np_double.OutputsCustomSetOutNpDouble.flat_double_vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to get flat_double_vec output of the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>my_scoping</strong></p>
+<dd class="field-odd"><p><strong>my_flat_double_vec</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a>,</p>
+<dd class="field-even"><p>list,</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">ids_with_data_lower_than_average</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">custom_set_out_np_double</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_scoping</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_flat_double_vec</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">flat_double_vec</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>

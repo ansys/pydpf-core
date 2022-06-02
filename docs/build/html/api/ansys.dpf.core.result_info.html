@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>ResultInfo &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>ResultInfo &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3004,64 +3004,91 @@
                 
   <span class="target" id="module-ansys.dpf.core.result_info"></span><section id="resultinfo">
 <h1>ResultInfo<a class="headerlink" href="#resultinfo" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="py class enum">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.physics_types">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.result_info.</span></span><span class="sig-name descname"><span class="pre">physics_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">enum</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.result_info.</span></span><span class="sig-name descname"><span class="pre">physics_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types" title="Permalink to this definition">¶</a></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">'Physics_types'</span></code> enumerates the different types of physics that an analysis can have.</p>
+<p>Valid values are as follows:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.physics_types.mecanic">
-<span class="sig-name descname"><span class="pre">mecanic</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.mecanic" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">mecanic</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;physics_types.mecanic:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.mecanic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.physics_types.thermal">
-<span class="sig-name descname"><span class="pre">thermal</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.thermal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">thermal</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;physics_types.thermal:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.thermal" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.physics_types.magnetic">
-<span class="sig-name descname"><span class="pre">magnetic</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.magnetic" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">magnetic</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;physics_types.magnetic:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.magnetic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.physics_types.electric">
-<span class="sig-name descname"><span class="pre">electric</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.electric" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">electric</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;physics_types.electric:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.electric" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.physics_types.unknown_physics">
-<span class="sig-name descname"><span class="pre">unknown_physics</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.unknown_physics" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unknown_physics</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;physics_types.unknown_physics:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.physics_types.unknown_physics" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="py class enum">
 <dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.result_info.</span></span><span class="sig-name descname"><span class="pre">analysis_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">enum</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.result_info.</span></span><span class="sig-name descname"><span class="pre">analysis_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types" title="Permalink to this definition">¶</a></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">'Analysis_types'</span></code> enumerates the different types of analysis.</p>
+<p>Valid values are as follows:</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.mecanic">
-<span class="sig-name descname"><span class="pre">mecanic</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.mecanic" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.static">
+<span class="sig-name descname"><span class="pre">static</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.static:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.static" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.thermal">
-<span class="sig-name descname"><span class="pre">thermal</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.thermal" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.buckling">
+<span class="sig-name descname"><span class="pre">buckling</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.buckling:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.buckling" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.magnetic">
-<span class="sig-name descname"><span class="pre">magnetic</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.magnetic" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.modal">
+<span class="sig-name descname"><span class="pre">modal</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.modal:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.modal" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.electric">
-<span class="sig-name descname"><span class="pre">electric</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.electric" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.harmonic">
+<span class="sig-name descname"><span class="pre">harmonic</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.harmonic:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.harmonic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.unknown_physics">
-<span class="sig-name descname"><span class="pre">unknown_physics</span></span><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.unknown_physics" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.cms">
+<span class="sig-name descname"><span class="pre">cms</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.cms:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.cms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.transient">
+<span class="sig-name descname"><span class="pre">transient</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.transient:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.transient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.msup">
+<span class="sig-name descname"><span class="pre">msup</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.msup:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.msup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.substruct">
+<span class="sig-name descname"><span class="pre">substruct</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.substruct:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.substruct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.spectrum">
+<span class="sig-name descname"><span class="pre">spectrum</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.spectrum:</span> <span class="pre">8&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.spectrum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.result_info.analysis_types.unknown_analysis">
+<span class="sig-name descname"><span class="pre">unknown_analysis</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;analysis_types.unknown_analysis:</span> <span class="pre">9&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.result_info.analysis_types.unknown_analysis" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

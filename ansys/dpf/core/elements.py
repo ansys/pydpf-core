@@ -5,7 +5,7 @@ Elements
 from enum import Enum
 import numpy as np
 from ansys.dpf.core import nodes, scoping
-from ansys.dpf.core.common import __write_enum_doc__, locations, elemental_properties
+from ansys.dpf.core.common import locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
 
@@ -804,7 +804,7 @@ class ElementAdder:
 
 
 class element_types(Enum):
-    """Contains the types of elements."""
+    """Types of elements available in a dpf's mesh."""
 
     General = -2
     All = -1
@@ -1222,11 +1222,6 @@ class element_types(Enum):
             element_type = element_types(element_type)
         descriptor = element_types._descriptors().get(element_type, None)
         return descriptor
-
-
-element_types.__doc__ = __write_enum_doc__(
-    element_types, "Types of elements available in a dpf's mesh."
-)
 
 
 class _element_shapes(Enum):

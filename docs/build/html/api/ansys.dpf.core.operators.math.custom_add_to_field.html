@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>easy_statistics &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>custom_add_to_field &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -42,8 +42,8 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="entity_extractor" href="ansys.dpf.core.operators.math.entity_extractor.html" />
-    <link rel="prev" title="dot_tensor" href="ansys.dpf.core.operators.math.dot_tensor.html" />
+    <link rel="next" title="dot" href="ansys.dpf.core.operators.math.dot.html" />
+    <link rel="prev" title="cplx_multiply" href="ansys.dpf.core.operators.math.cplx_multiply.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -824,6 +824,11 @@
          cplx_multiply
         </a>
        </li>
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
+         custom_add_to_field
+        </a>
+       </li>
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4 current active">
-        <a class="current reference internal" href="#">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3002,22 +3002,20 @@
               
               <div>
                 
-  <span class="target" id="module-ansys.dpf.core.operators.math.easy_statistics"></span><section id="easy-statistics">
-<h1>easy_statistics<a class="headerlink" href="#easy-statistics" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-ansys.dpf.core.operators.math.custom_add_to_field"></span><section id="custom-add-to-field">
+<h1>custom_add_to_field<a class="headerlink" href="#custom-add-to-field" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.easy_statistics.</span></span><span class="sig-name descname"><span class="pre">easy_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the first quartile, the median, the third quartile and the variance of a scalar Field with numpy</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.custom_add_to_field.</span></span><span class="sig-name descname"><span class="pre">custom_add_to_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_add</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a custom value to all the data of an input Field</p>
 <dl class="simple">
 <dt>available inputs:</dt><dd><ul class="simple">
-<li><p>field (Field, FieldsContainer)</p></li>
+<li><p>field (Field)</p></li>
+<li><p>to_add (float)</p></li>
 </ul>
 </dd>
 <dt>available outputs:</dt><dd><ul class="simple">
-<li><p>first_quartile (float)</p></li>
-<li><p>median (float)</p></li>
-<li><p>third_quartile (float)</p></li>
-<li><p>variance (float)</p></li>
+<li><p>field (Field)</p></li>
 </ul>
 </dd>
 </dl>
@@ -3026,28 +3024,27 @@
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make input connections</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_to_add</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_add</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_to_add</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator and connect inputs in one line</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">my_field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">my_field</span><span class="p">,</span><span class="n">to_add</span><span class="o">=</span><span class="n">my_to_add</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get output data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_first_quartile</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">first_quartile</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_median</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_third_quartile</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">third_quartile</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_variance</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_field</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.default_config">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.default_config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.default_config">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.default_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the default configuration for an operator.</p>
 <p>You can change the copy of the default configuration to meet your needs
 before instantiating the operator.
@@ -3073,36 +3070,36 @@ server.</p></li>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.inputs">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.inputs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.inputs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to connect inputs to the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>inputs</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics" title="ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics">InputsEasyStatistics</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField" title="ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField">InputsCustomAddToField</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.outputs">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.outputs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.outputs">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.outputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to get outputs of the operator by evaluationg it</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>outputs</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics" title="ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics">OutputsEasyStatistics</a></p>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.math.custom_add_to_field.OutputsCustomAddToField" title="ansys.dpf.core.operators.math.custom_add_to_field.OutputsCustomAddToField">OutputsCustomAddToField</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.config">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.config">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy of the operator’s current configuration.</p>
 <p>You can modify the copy of the configuration and then use <code class="docutils literal notranslate"><span class="pre">operator.config</span> <span class="pre">=</span> <span class="pre">new_config</span></code>
 or create an operator with the new configuration as a parameter.</p>
@@ -3117,8 +3114,8 @@ or create an operator with the new configuration as a parameter.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.connect" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect an input on the operator using a pin number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3152,8 +3149,8 @@ or create an operator with the new configuration as a parameter.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.eval">
-<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.eval" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.eval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate this operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3181,8 +3178,8 @@ given pin when specified. Or, it only evaluates the operator without output.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.get_output">
-<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.get_output" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.get_output">
+<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.get_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the output of the operator on the pin number.</p>
 <p>To activate the progress bar for server version higher or equal to 3.0,
 use <code class="docutils literal notranslate"><span class="pre">my_op.progress_bar=True</span></code></p>
@@ -3203,27 +3200,27 @@ use <code class="docutils literal notranslate"><span class="pre">my_op.progress_
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.operator_specification">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.operator_specification" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.operator_specification">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.operator_specification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put the grpc spec message in self._spec</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.progress_bar">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.progress_bar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.progress_bar" title="Permalink to this definition">¶</a></dt>
 <dd><p>With this property, the user can choose to print a progress bar when
 the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate this operator.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.easy_statistics.specification">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.easy_statistics.specification" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.specification">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.custom_add_to_field.specification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the Specification (or documentation) of this Operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -3238,35 +3235,37 @@ the operator’s output is requested, default is False</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.easy_statistics.</span></span><span class="sig-name descname"><span class="pre">InputsEasyStatistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate class used to connect user inputs to easy_statistics operator</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.custom_add_to_field.</span></span><span class="sig-name descname"><span class="pre">InputsCustomAddToField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate class used to connect user inputs to custom_add_to_field operator</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_field</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_to_add</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_add</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_to_add</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics.field">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics.field" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField.field">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField.field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows to connect field input to the operator</p>
 <ul class="simple">
-<li><p>pindoc: scalar Field on which the statistics quantities is computed.</p></li>
+<li><p>pindoc: Field on which float value is added.</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>my_field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>,</em>) – </p>
+<dd class="field-odd"><p><strong>my_field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>,</em>) – </p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#or</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">my_field</span><span class="p">)</span>
@@ -3274,9 +3273,33 @@ the operator’s output is requested, default is False</p>
 </div>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField.to_add">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">to_add</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField.to_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to connect to_add input to the operator</p>
+<ul class="simple">
+<li><p>pindoc: Data to add.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>my_to_add</strong> (<em>float</em><em>,</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_add</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_to_add</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_add</span><span class="p">(</span><span class="n">my_to_add</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.InputsEasyStatistics.connect" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.InputsCustomAddToField.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect any input (an entity or an operator output) to any input pin of this operator.
 Searches for the input type corresponding to the output.</p>
 <dl class="field-list simple">
@@ -3297,109 +3320,40 @@ Searches for the input type corresponding to the output.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.easy_statistics.</span></span><span class="sig-name descname"><span class="pre">OutputsEasyStatistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate class used to get outputs from easy_statistics operator
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.OutputsCustomAddToField">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.math.custom_add_to_field.</span></span><span class="sig-name descname"><span class="pre">OutputsCustomAddToField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.OutputsCustomAddToField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate class used to get outputs from custom_add_to_field operator
 .. rubric:: Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_first_quartile</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">first_quartile</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_median</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_third_quartile</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">third_quartile</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_variance</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_field</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.first_quartile">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">first_quartile</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.first_quartile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows to get first_quartile output of the operator</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.custom_add_to_field.OutputsCustomAddToField.field">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">field</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.custom_add_to_field.OutputsCustomAddToField.field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to get field output of the operator</p>
+<ul class="simple">
+<li><p>pindoc: Field on which the float value is added.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>my_first_quartile</strong></p>
+<dd class="field-odd"><p><strong>my_field</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>float,</p>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>,</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">custom_add_to_field</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_first_quartile</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">first_quartile</span><span class="p">()</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.median">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">median</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.median" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows to get median output of the operator</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>my_median</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>float,</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_median</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.third_quartile">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">third_quartile</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.third_quartile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows to get third_quartile output of the operator</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>my_third_quartile</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>float,</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_third_quartile</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">third_quartile</span><span class="p">()</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.variance">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">variance</span></span><a class="headerlink" href="#ansys.dpf.core.operators.math.easy_statistics.OutputsEasyStatistics.variance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows to get variance output of the operator</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>my_variance</strong></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>float,</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">easy_statistics</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_variance</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_field</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>

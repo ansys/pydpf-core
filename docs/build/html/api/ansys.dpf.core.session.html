@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Session &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>Session &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3007,7 +3007,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="ansys.dpf.core.session.Session">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.session.</span></span><span class="sig-name descname"><span class="pre">Session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class used to a user session on the server, it allows to plan events
+<dd><p>A class used to create a user session on the server, it allows to plan events
 call backs from the server when workflows are running.
 A session is started every time a <code class="docutils literal notranslate"><span class="pre">'DpfServer'</span></code> is created.</p>
 <dl class="py method">
@@ -3030,11 +3030,12 @@ is requested.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.session.Session.add_operator">
 <span class="sig-name descname"><span class="pre">add_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session.add_operator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a workflow made of the input operator and all his ancestors
+<dd><p>Creates a workflow made of the input operator and all its ancestors
 to the session. It allows to follow the workflow’s
 events while it’s running.
 This method is automatically called when an operator’s output
-is requested and the opetion op.progress_bar is set to <code class="docutils literal notranslate"><span class="pre">'True'</span></code>.</p>
+is requested and the property <a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator.progress_bar" title="ansys.dpf.core.dpf_operator.Operator.progress_bar"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.dpf_operator.Operator.progress_bar()</span></code></a>
+is set to <code class="docutils literal notranslate"><span class="pre">'True'</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -3049,7 +3050,7 @@ is requested and the opetion op.progress_bar is set to <code class="docutils lit
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.session.Session.listen_to_progress">
 <span class="sig-name descname"><span class="pre">listen_to_progress</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session.listen_to_progress" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts a progress bar and update it every time an operator is
+<dd><p>Starts a progress bar and updates it every time an operator is
 finished.</p>
 </dd></dl>
 
@@ -3063,7 +3064,7 @@ Called when the session is started.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.session.Session.flush_workflows">
 <span class="sig-name descname"><span class="pre">flush_workflows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.session.Session.flush_workflows" title="Permalink to this definition">¶</a></dt>
-<dd><p>This removes the handle on the workflow by the session</p>
+<dd><p>This removes the handle on the workflow by the <code class="docutils literal notranslate"><span class="pre">session</span></code></p>
 </dd></dl>
 
 </dd></dl>

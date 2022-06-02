@@ -51,6 +51,7 @@ extensions = [
     "sphinx_design",
     "nbsphinx",
     "sphinx.ext.graphviz",
+    "enum_tools.autoenum",
 ]
 
 autosummary_generate = True

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>AvailableResult &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>AvailableResult &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3004,10 +3004,306 @@
                 
   <span class="target" id="module-ansys.dpf.core.available_result"></span><section id="availableresult">
 <h1>AvailableResult<a class="headerlink" href="#availableresult" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="py class enum">
 <dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.available_result.</span></span><span class="sig-name descname"><span class="pre">Homogeneity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">enum</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.available_result.</span></span><span class="sig-name descname"><span class="pre">Homogeneity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity" title="Permalink to this definition">¶</a></dt>
 <dd><p>An enumeration.</p>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.acceleration">
+<span class="sig-name descname"><span class="pre">acceleration</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.acceleration:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.acceleration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.angle">
+<span class="sig-name descname"><span class="pre">angle</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.angle:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.angular_velocity">
+<span class="sig-name descname"><span class="pre">angular_velocity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.angular_velocity:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.angular_velocity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.surface">
+<span class="sig-name descname"><span class="pre">surface</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.surface:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.surface" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.capacitance">
+<span class="sig-name descname"><span class="pre">capacitance</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.capacitance:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.capacitance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_charge">
+<span class="sig-name descname"><span class="pre">electric_charge</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.electric_charge:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_charge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_charge_density">
+<span class="sig-name descname"><span class="pre">electric_charge_density</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.electric_charge_density:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_charge_density" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.conductivity">
+<span class="sig-name descname"><span class="pre">conductivity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.conductivity:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.conductivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.current">
+<span class="sig-name descname"><span class="pre">current</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.current:</span> <span class="pre">9&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.current" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.density">
+<span class="sig-name descname"><span class="pre">density</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.density:</span> <span class="pre">10&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.density" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.displacement">
+<span class="sig-name descname"><span class="pre">displacement</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.displacement:</span> <span class="pre">11&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.displacement" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_conductivity">
+<span class="sig-name descname"><span class="pre">electric_conductivity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.electric_conductivity:</span> <span class="pre">12&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_conductivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_field">
+<span class="sig-name descname"><span class="pre">electric_field</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.electric_field:</span> <span class="pre">13&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_flux_density">
+<span class="sig-name descname"><span class="pre">electric_flux_density</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.electric_flux_density:</span> <span class="pre">14&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_flux_density" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_resistivity">
+<span class="sig-name descname"><span class="pre">electric_resistivity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.electric_resistivity:</span> <span class="pre">15&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_resistivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.energy:</span> <span class="pre">16&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.energy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.film_coefficient">
+<span class="sig-name descname"><span class="pre">film_coefficient</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.film_coefficient:</span> <span class="pre">17&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.film_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.force">
+<span class="sig-name descname"><span class="pre">force</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.force:</span> <span class="pre">18&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.force" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.force_intensity">
+<span class="sig-name descname"><span class="pre">force_intensity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.force_intensity:</span> <span class="pre">19&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.force_intensity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.frequency:</span> <span class="pre">20&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.frequency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.heat_flux">
+<span class="sig-name descname"><span class="pre">heat_flux</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.heat_flux:</span> <span class="pre">21&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.heat_flux" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.heat_generation">
+<span class="sig-name descname"><span class="pre">heat_generation</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.heat_generation:</span> <span class="pre">22&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.heat_generation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.heat_rate">
+<span class="sig-name descname"><span class="pre">heat_rate</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.heat_rate:</span> <span class="pre">23&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.heat_rate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.inductance">
+<span class="sig-name descname"><span class="pre">inductance</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.inductance:</span> <span class="pre">24&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.inductance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.inverse_stress">
+<span class="sig-name descname"><span class="pre">inverse_stress</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.inverse_stress:</span> <span class="pre">25&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.inverse_stress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.length">
+<span class="sig-name descname"><span class="pre">length</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.length:</span> <span class="pre">26&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.magnetic_field_intensity">
+<span class="sig-name descname"><span class="pre">magnetic_field_intensity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.magnetic_field_intensity:</span> <span class="pre">27&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_field_intensity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.magnetic_flux">
+<span class="sig-name descname"><span class="pre">magnetic_flux</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.magnetic_flux:</span> <span class="pre">28&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_flux" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.magnetic_flux_density">
+<span class="sig-name descname"><span class="pre">magnetic_flux_density</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.magnetic_flux_density:</span> <span class="pre">29&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_flux_density" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.mass">
+<span class="sig-name descname"><span class="pre">mass</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.mass:</span> <span class="pre">30&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.mass" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.moment">
+<span class="sig-name descname"><span class="pre">moment</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.moment:</span> <span class="pre">31&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.moment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.moment_intertia">
+<span class="sig-name descname"><span class="pre">moment_intertia</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.moment_intertia:</span> <span class="pre">32&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.moment_intertia" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.permeability">
+<span class="sig-name descname"><span class="pre">permeability</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.permeability:</span> <span class="pre">33&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.permeability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.permittivity">
+<span class="sig-name descname"><span class="pre">permittivity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.permittivity:</span> <span class="pre">34&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.permittivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.poisson">
+<span class="sig-name descname"><span class="pre">poisson</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.poisson:</span> <span class="pre">35&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.poisson" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.power">
+<span class="sig-name descname"><span class="pre">power</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.power:</span> <span class="pre">36&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.power" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.pressure">
+<span class="sig-name descname"><span class="pre">pressure</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.pressure:</span> <span class="pre">37&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.pressure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.relative_permeability">
+<span class="sig-name descname"><span class="pre">relative_permeability</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.relative_permeability:</span> <span class="pre">38&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.relative_permeability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.relative_permittivity">
+<span class="sig-name descname"><span class="pre">relative_permittivity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.relative_permittivity:</span> <span class="pre">39&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.relative_permittivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.section_modulus">
+<span class="sig-name descname"><span class="pre">section_modulus</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.section_modulus:</span> <span class="pre">40&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.section_modulus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.specific_heat">
+<span class="sig-name descname"><span class="pre">specific_heat</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.specific_heat:</span> <span class="pre">41&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.specific_heat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.specific_weight">
+<span class="sig-name descname"><span class="pre">specific_weight</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.specific_weight:</span> <span class="pre">42&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.specific_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.shear_strain">
+<span class="sig-name descname"><span class="pre">shear_strain</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.shear_strain:</span> <span class="pre">43&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.shear_strain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.stiffness">
+<span class="sig-name descname"><span class="pre">stiffness</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.stiffness:</span> <span class="pre">44&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.stiffness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.strain">
+<span class="sig-name descname"><span class="pre">strain</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.strain:</span> <span class="pre">45&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.strain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.stress">
+<span class="sig-name descname"><span class="pre">stress</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.stress:</span> <span class="pre">46&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.stress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.strength">
+<span class="sig-name descname"><span class="pre">strength</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.strength:</span> <span class="pre">47&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.strength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.thermal_expansion">
+<span class="sig-name descname"><span class="pre">thermal_expansion</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.thermal_expansion:</span> <span class="pre">48&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.thermal_expansion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.temperature:</span> <span class="pre">49&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.temperature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.time:</span> <span class="pre">50&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.velocity">
+<span class="sig-name descname"><span class="pre">velocity</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.velocity:</span> <span class="pre">51&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.velocity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.voltage">
+<span class="sig-name descname"><span class="pre">voltage</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.voltage:</span> <span class="pre">52&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.voltage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.volume:</span> <span class="pre">53&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.volume" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.moment_inertia_mass">
+<span class="sig-name descname"><span class="pre">moment_inertia_mass</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.moment_inertia_mass:</span> <span class="pre">55&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.moment_inertia_mass" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">stress_intensity_factor</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.stress_intensity_factor:</span> <span class="pre">92&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.stress_intensity_factor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.thermal_gradient">
+<span class="sig-name descname"><span class="pre">thermal_gradient</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.thermal_gradient:</span> <span class="pre">95&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.thermal_gradient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.resistance">
+<span class="sig-name descname"><span class="pre">resistance</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.resistance:</span> <span class="pre">1000&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.resistance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.unknown">
+<span class="sig-name descname"><span class="pre">unknown</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.unknown:</span> <span class="pre">111&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.unknown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.dimensionless">
+<span class="sig-name descname"><span class="pre">dimensionless</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;Homogeneity.dimensionless:</span> <span class="pre">117&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.dimensionless" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">

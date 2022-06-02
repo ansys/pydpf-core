@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Workflow &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>Workflow &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3014,10 +3014,10 @@ inputs and outputs to compute a given algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>server</strong> (<a class="reference internal" href="ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><em>LegacyGrpcServer</em></a><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
+<li><p><strong>server</strong> (<em>DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>
-<li><p><strong>workflow</strong> (<em>workflow_message_pb2.Workflow</em>) – </p></li>
+<li><p><strong>workflow</strong> (<em>ctypes.c_void_p</em><em>, </em><em>workflow_message_pb2.Workflow</em><em>, </em><em>optional</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -3197,7 +3197,7 @@ exposed before with wf.set_input_name</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.workflow.Workflow.record">
-<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_ownership</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.workflow.Workflow.record" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_ownership</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.workflow.Workflow.record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the workflow to DPF’s internal registry with an ID returned by this method.</p>
 <p>The workflow can be recovered by <code class="docutils literal notranslate"><span class="pre">dpf.core.Workflow.get_recorded_workflow(id)</span></code>.</p>
 <dl class="field-list simple">

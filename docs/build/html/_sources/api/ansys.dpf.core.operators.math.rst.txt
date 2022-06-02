@@ -31,9 +31,9 @@ Submodules
    ansys.dpf.core.operators.math.cplx_divide
    ansys.dpf.core.operators.math.cplx_dot
    ansys.dpf.core.operators.math.cplx_multiply
+   ansys.dpf.core.operators.math.custom_add_to_field
    ansys.dpf.core.operators.math.dot
    ansys.dpf.core.operators.math.dot_tensor
-   ansys.dpf.core.operators.math.easy_statistics
    ansys.dpf.core.operators.math.entity_extractor
    ansys.dpf.core.operators.math.exponential
    ansys.dpf.core.operators.math.exponential_fc

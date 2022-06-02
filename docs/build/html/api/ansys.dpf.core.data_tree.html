@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>DataTree &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>DataTree &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3012,8 +3012,8 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>dict</em><em>(</em><em>string:object</em><em>)</em>) – Dictionary attributes names to its associated data to add to the data tree.</p></li>
-<li><p><strong>data_tree</strong> (<em>ansys.grpc.dpf.data_tree_pb2.DataTree message</em><em>, </em><em>optional</em>) – </p></li>
-<li><p><strong>server</strong> (<a class="reference internal" href="ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><em>LegacyGrpcServer</em></a><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
+<li><p><strong>data_tree</strong> (<em>ctypes.c_void_p</em><em>, </em><em>ansys.grpc.dpf.data_tree_pb2.DataTree message</em><em>, </em><em>optional</em>) – </p></li>
+<li><p><strong>server</strong> (<em>DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>
 </ul>
@@ -3036,9 +3036,7 @@ global server.</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">txt</span> <span class="o">=</span> <span class="n">data_tree</span><span class="o">.</span><span class="n">write_to_txt</span><span class="p">()</span>
 </pre></div>
 </div>
-<blockquote>
-<div><p>Create a data tree with a context manager.</p>
-</div></blockquote>
+<p>Create a data tree with a context manager.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data_tree</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataTree</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">data_tree</span><span class="o">.</span><span class="n">to_fill</span><span class="p">()</span> <span class="k">as</span> <span class="n">to_fill</span><span class="p">:</span>

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>RuntimeConfig &#8212; PyDPF-Core 0.6.dev0 documentation</title>
+    <title>RuntimeConfig &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -601,6 +601,16 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
          descending_sort
         </a>
@@ -633,16 +643,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
          identical_property_fields
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_higher_than_average.html">
-         ids_with_data_higher_than_average
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.logic.ids_with_data_lower_than_average.html">
-         ids_with_data_lower_than_average
         </a>
        </li>
        <li class="toctree-l4">
@@ -825,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -832,11 +837,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
          dot_tensor
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="ansys.dpf.core.operators.math.easy_statistics.html">
-         easy_statistics
         </a>
        </li>
        <li class="toctree-l4">
@@ -3006,13 +3006,18 @@
 <h1>RuntimeConfig<a class="headerlink" href="#runtimeconfig" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ansys.dpf.core.runtime_config.RuntimeClientConfig">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.runtime_config.</span></span><span class="sig-name descname"><span class="pre">RuntimeClientConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_tree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.runtime_config.RuntimeClientConfig" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.runtime_config.</span></span><span class="sig-name descname"><span class="pre">RuntimeClientConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.runtime_config.RuntimeClientConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables to access and set runtime configuration
 options to DataProcessingCore binary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data_tree</strong> (<em>int</em>) – DataTree pointer describing the existing parameters configuration
-of DataprocessingCore.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_tree</strong> (<em>ctypes.cvoid_p</em>) – DataTree pointer describing the existing parameters configuration
+of DataprocessingCore.</p></li>
+<li><p><strong>server</strong> (<a class="reference internal" href="ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><em>GrpcServer</em></a><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance.
+The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
+global server.</p></li>
+</ul>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -3020,9 +3025,27 @@ of DataprocessingCore.</p>
 a gRPC communication protocol using DPF CLayer.</p>
 <p class="rubric">Examples</p>
 <p>Get runtime configuration for DataProcessingCore.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">pass</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">server_factory</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">client_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get_runtime_client_config</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cache_enabled</span> <span class="o">=</span> <span class="n">client_config</span><span class="o">.</span><span class="n">cache_enabled</span>
 </pre></div>
 </div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.runtime_config.RuntimeClientConfig.cache_enabled">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cache_enabled</span></span><a class="headerlink" href="#ansys.dpf.core.runtime_config.RuntimeClientConfig.cache_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether gRPC requests and responses are intercepted
+to cache them and retrieve them when appropriate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>

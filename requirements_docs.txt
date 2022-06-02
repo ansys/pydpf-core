@@ -16,3 +16,4 @@ sphinx-copybutton
 sphinx-gallery>=0.4.0
 pyansys_sphinx_theme
 graphviz
+enum-tools[sphinx]
