@@ -144,7 +144,7 @@ jobs:
           TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
   build_doc:
-    name: Build Doc
+    name: Documentation
     runs-on: ubuntu-latest
 
     steps:
