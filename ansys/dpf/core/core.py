@@ -32,7 +32,7 @@ else:
     CONFIGURATION = "release"
 
 
-def load_library(filename, name="", symbol="LoadOperators", server=None):
+def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in
     ansys.dpf.core.operators
@@ -49,6 +49,9 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
 
+    generate_operators : bool, optional
+        Whether operators code generation should be done or not (default is False).
+
     Examples
     --------
     Load the mesh operators for Windows (for Linux, just use
@@ -59,7 +62,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
 
     """
     base = BaseService(server, load_operators=False)
-    base.load_library(filename, name, symbol)
+    base.load_library(filename, name, symbol, generate_operators)
     return name + " successfully loaded"
 
 
@@ -323,7 +326,7 @@ class BaseService:
         else:
             return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(self, filename, name="", symbol="LoadOperators"):
+    def load_library(self, filename, name="", symbol="LoadOperators", generate_operators=False):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
@@ -335,6 +338,9 @@ class BaseService:
 
         name : str, optional
             Library name.  Probably optional
+
+        generate_operators : bool, optional
+            Whether operators code generation should be done or not (default is False).
 
         Examples
         --------
@@ -357,40 +363,40 @@ class BaseService:
             self._internal_obj = self._api.data_processing_load_library(name=name,
                                                                         dllPath=filename,
                                                                         symbol=symbol)
-
-        # TODO: fix code generation upload posix
-        import os
-        def __generate_code(TARGET_PATH, filename, name, symbol):
-            from ansys.dpf.core.dpf_operator import Operator
-            try:
-                code_gen = Operator("python_generator")
-                code_gen.connect(1, TARGET_PATH)
-                code_gen.connect(0, filename)
-                code_gen.connect(2, symbol)
-                code_gen.connect(3, name)
-                code_gen.run()
-            except Exception as e:
-                warnings.warn("Unable to generate the python code with error: " + str(e.args))
-
-        local_dir = os.path.dirname(os.path.abspath(__file__))
-        LOCAL_PATH = os.path.join(local_dir, "operators")
-        if self._server().has_client():
-            if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
-                # send local generated code
-                TARGET_PATH = self.make_tmp_dir_server()
-                self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
-
-                # generate code
-                __generate_code(TARGET_PATH, filename, name, symbol)
-
+        if generate_operators:
+            # TODO: fix code generation upload posix
+            import os
+            def __generate_code(TARGET_PATH, filename, name, symbol):
+                from ansys.dpf.core.dpf_operator import Operator
                 try:
-                    self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                    code_gen = Operator("python_generator")
+                    code_gen.connect(1, TARGET_PATH)
+                    code_gen.connect(0, filename)
+                    code_gen.connect(2, symbol)
+                    code_gen.connect(3, name)
+                    code_gen.run()
                 except Exception as e:
-                    warnings.warn(
-                        f"Unable to download the python generated code with error: {e.args}"
-                    )
-        else:
-            __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
+                    warnings.warn("Unable to generate the python code with error: " + str(e.args))
+
+            local_dir = os.path.dirname(os.path.abspath(__file__))
+            LOCAL_PATH = os.path.join(local_dir, "operators")
+            if self._server().has_client():
+                if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
+                    # send local generated code
+                    TARGET_PATH = self.make_tmp_dir_server()
+                    self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+
+                    # generate code
+                    __generate_code(TARGET_PATH, filename, name, symbol)
+
+                    try:
+                        self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                    except Exception as e:
+                        warnings.warn(
+                            f"Unable to download the python generated code with error: {e.args}"
+                        )
+            else:
+                __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
 
     def get_runtime_client_config(self):
         if self._server().has_client():

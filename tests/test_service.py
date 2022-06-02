@@ -222,7 +222,7 @@ def test_load_plugin_correctly(server_type):
     import pkgutil
     base = dpf.BaseService(server=server_type)
     try:
-        base.load_library("Ans.Dpf.Math.dll", "math_operators")
+        base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
     except:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
