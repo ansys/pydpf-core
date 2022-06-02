@@ -38,10 +38,20 @@ detailed examples.
 
 ## Installation
 
-Install this repository with:
+DPF requires an Ansys installation and must be compatible with it.
+Compatibility between PyDPF-Core and Ansys is documented 
+[here](https://dpfdocs.pyansys.com/getting_started/index.html#compatibility).
+
+Starting with Ansys 2021R2, install this package with:
 
 ```
 pip install ansys-dpf-core 
+```
+
+For use with Ansys 2021R1, install this package with:
+
+```
+pip install ansys-dpf-core==0.2.1
 ```
 
 You can also clone and install this repository with:
