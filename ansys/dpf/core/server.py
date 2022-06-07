@@ -129,7 +129,8 @@ def start_local_server(
     use_docker_by_default=True,
     docker_name=None,
     timeout=10.,
-    config=None
+    config=None,
+    use_pypim=True
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -142,10 +143,10 @@ def start_local_server(
     ip : str, optional
         IP address of the remote or local instance to connect to. The
         default is ``"LOCALHOST"``.
-    port : int
+    port : int, optional
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    ansys_path : str, optional
+    ansys_path : str or os.PathLike, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
     as_global : bool, optional
@@ -165,6 +166,9 @@ def start_local_server(
         passes, the connection fails.
     config: ServerConfig, optional
         Manages the type of server connection to use.
+    use_pypim: bool, optional
+        Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
+        Defaults to True.
 
     Returns
     -------
@@ -172,15 +176,23 @@ def start_local_server(
     """
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
     if not use_docker:
+        # If no custom path was given in input
+        # First check the environment variable for a custom path
+        if ansys_path is None:
+            ansys_path = os.environ.get("ANSYS_PATH")
+        # Then check for usual installation folders with AWP_ROOT and find_ansys
         if ansys_path is None:
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
+        # If still no install has been found, throw an exception
         if ansys_path is None:
             raise ValueError(
-                "Unable to automatically locate the Ansys path  "
-                f"for version {__ansys_version__}."
-                "Manually enter one when starting the server or set it "
-                'as the environment variable "ANSYS_PATH"'
-            )
+                "Unable to locate any Ansys installation.\n"
+                f'Make sure the "AWP_ROOT{__ansys_version__}" environment variable '
+                f"is set if using ANSYS version {__ansys_version__}.\n"
+                "You can also manually define the path to the ANSYS installation root folder"
+                " of the version you want to use (vXXX folder):\n"
+                '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
+                '- or by setting it by default with the environment variable "ANSYS_PATH"')
 
         # verify path exists
         if not os.path.isdir(ansys_path):
@@ -188,7 +200,7 @@ def start_local_server(
 
         # parse the version to an int and check for supported
         try:
-            ver = int(ansys_path[-3:])
+            ver = int(str(ansys_path)[-3:])
             if ver < 211:
                 raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
             if ver == 211 and is_ubuntu():
@@ -225,14 +237,13 @@ def start_local_server(
             if "ip" in server_init_signature.parameters.keys() and \
                     "port" in server_init_signature.parameters.keys():
                 server = server_type(
-                    ansys_path, ip, port, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name, launch_server=True,
-                    timeout=timeout)
+                    ansys_path, ip, port, as_global=as_global, launch_server=True,
+                    load_operators=load_operators, docker_name=docker_name, timeout=timeout,
+                    use_pypim=use_pypim)
             else:
                 server = server_type(
                     ansys_path, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name, timeout=timeout
-                )
+                    load_operators=load_operators, docker_name=docker_name, timeout=timeout)
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
@@ -248,7 +259,7 @@ def start_local_server(
     if server is None:
         raise OSError(
             f"Unable to launch the server after {n_attempts} attempts.  "
-            "Check the following path:\n{ansys_path}\n\n"
+            "Check the following path:\n{str(ansys_path)}\n\n"
             "or attempt to use a different port"
         )
 

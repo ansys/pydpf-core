@@ -176,7 +176,7 @@ class InputsPythonGenerator(_Inputs):
 
         Parameters
         ----------
-        my_dll_source_path : str
+        my_dll_source_path : str or os.PathLike
 
         Examples
         --------
@@ -194,7 +194,7 @@ class InputsPythonGenerator(_Inputs):
 
         Parameters
         ----------
-        my_output_path : str
+        my_output_path : str or os.PathLike
 
         Examples
         --------

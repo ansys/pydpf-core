@@ -7,7 +7,7 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, types
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi, \
@@ -404,20 +404,18 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
-            return pl.plot_contour(
-                field_or_fields_container,
-                notebook,
-                shell_layers,
-                off_screen,
-                show_axes,
-                **kwargs
-            )
+            pl = Plotter(self, **kwargs)
+            return pl.plot_contour(field_or_fields_container, notebook,
+                                   shell_layers, off_screen, show_axes, **kwargs)
 
-        # otherwise, simply plot self
+        # otherwise, simply plot the mesh
+        kwargs["off_screen"] = off_screen
         kwargs["notebook"] = notebook
-        return pl.plot_mesh(**kwargs)
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(self, **kwargs)
+        kwargs["show_axes"] = show_axes
+        return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
         """Create a deep copy of the meshed region's data on a given server.

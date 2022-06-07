@@ -41,7 +41,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None, generat
 
     Parameters
     ----------
-    filename : str
+    filename : str or os.PathLike
         Filename of the operator library.
 
     name : str, optional
@@ -74,7 +74,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         file path on the client side to upload
 
     new_file_name : str, optional
@@ -109,10 +109,10 @@ def upload_files_in_folder(
 
     Parameters
     ----------
-    to_server_folder_path : str
+    to_server_folder_path : str or os.PathLike
         folder path target where will be uploaded files on the server side
 
-    client_folder_path: str
+    client_folder_path: str or os.PathLike
         folder path where the files that must be uploaded are located
         on client side
 
@@ -139,10 +139,10 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
     Parameters
     ----------
-    server_file_path : str
+    server_file_path : str or os.PathLike
         file path to download on the server side
 
-    to_client_file_path: str
+    to_client_file_path: str or os.PathLike
         file path target where the file will be located client side
 
     server : server.DPFServer, optional
@@ -170,10 +170,10 @@ def download_files_in_folder(
 
     Parameters
     ----------
-    server_folder_path : str
+    server_folder_path : str or os.PathLike
         folder path to download on the server side
 
-    to_client_folder_path: str
+    to_client_folder_path: str or os.PathLike
         folder path target where the files will be located client side
 
     specific_extension (optional) : str
@@ -200,10 +200,10 @@ def upload_file(file_path, to_server_file_path, server=None):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         file path on the client side to upload
 
-    to_server_file_path: str
+    to_server_file_path: str or os.PathLike
         file path target where the file will be located server side
 
     server : server.DPFServer, optional
@@ -328,15 +328,15 @@ class BaseService:
         else:
             return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(self, filename, name="", symbol="LoadOperators", generate_operators=False):
+    def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
 
         Parameters
         ----------
-        filename : str
-            Filename of the operator library.
+        file_path : str or os.PathLike
+            file_path of the operator library.
 
         name : str, optional
             Library name.  Probably optional
@@ -354,16 +354,17 @@ class BaseService:
         >>> # base.load_library('meshOperatorsCore.dll', 'mesh_operators')
 
         """
+        file_path = str(file_path)
         if self._server().has_client():
             self._internal_obj = self._api.data_processing_load_library_on_client(
                 sLibraryKey=name,
-                sDllPath=filename,
+                sDllPath=file_path,
                 sloader_symbol=symbol,
                 client=self._server().client
             )
         else:
             self._internal_obj = self._api.data_processing_load_library(name=name,
-                                                                        dllPath=filename,
+                                                                        dllPath=file_path,
                                                                         symbol=symbol)
         if generate_operators:
             # TODO: fix code generation upload posix
@@ -389,7 +390,7 @@ class BaseService:
                     self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
 
                     # generate code
-                    __generate_code(TARGET_PATH, filename, name, symbol)
+                    __generate_code(TARGET_PATH, file_path, name, symbol)
 
                     try:
                         self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
@@ -398,7 +399,7 @@ class BaseService:
                             f"Unable to download the python generated code with error: {e.args}"
                         )
             else:
-                __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
+                __generate_code(TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol)
 
     def get_runtime_client_config(self):
         if self._server().has_client():
@@ -526,10 +527,10 @@ class BaseService:
 
         Parameters
         ----------
-        server_file_path : str
+        server_file_path : str or os.PathLike
             file path to download on the server side
 
-        to_client_file_path: str
+        to_client_file_path: str or os.PathLike
             file path target where the file will be located client side
         """
         if not self._server().has_client():
@@ -539,8 +540,8 @@ class BaseService:
             raise ValueError(txt)
         client_path = self._api.data_processing_download_file(
             client=self._server().client,
-            server_file_path=server_file_path,
-            to_client_file_path=to_client_file_path
+            server_file_path=str(server_file_path),
+            to_client_file_path=str(to_client_file_path)
         )
 
     def _set_collection_api(self):
@@ -560,10 +561,10 @@ class BaseService:
 
         Parameters
         ----------
-        server_folder_path : str
+        server_folder_path : str or os.PathLike
             folder path to download on the server side
 
-        to_client_folder_path: str
+        to_client_folder_path: str or os.PathLike
             folder path target where the files will be located client side
 
         specific_extension (optional) : str
@@ -583,8 +584,8 @@ class BaseService:
         if specific_extension is None:
             specific_extension = ""
         client_paths_ptr = self._api.data_processing_download_files(client=self._server().client,
-                                                 server_file_path=server_folder_path,
-                                                 to_client_file_path=to_client_folder_path,
+                                                 server_file_path=str(server_folder_path),
+                                                 to_client_file_path=str(to_client_folder_path),
                                                  specific_extension=specific_extension)
         if not isinstance(client_paths_ptr, list):
             from ansys.dpf.gate import object_handler
@@ -609,10 +610,10 @@ class BaseService:
 
         Parameters
         ----------
-        to_server_folder_path : str
+        to_server_folder_path : str or os.PathLike
             folder path target where will be uploaded files on the server side
 
-        client_folder_path: str
+        client_folder_path: str or os.PathLike
             folder path where the files that must be uploaded are located
             on client side
 
@@ -635,13 +636,13 @@ class BaseService:
                         f,
                         filename,
                         server_paths,
-                        to_server_folder_path,
+                        str(to_server_folder_path),
                         subdirectory,
                     )
             for file in files:
                 f = os.path.join(root, file)
                 server_paths = self._upload_and_get_server_path(
-                    specific_extension, f, file, server_paths, to_server_folder_path
+                    specific_extension, f, file, server_paths, str(to_server_folder_path)
                 )
             break
         return server_paths
@@ -683,10 +684,10 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str
+        file_path : str or os.PathLike
             file path on the client side to upload
 
-        to_server_file_path: str
+        to_server_file_path: str or os.PathLike
             file path target where the file will be located server side
 
         Returns
@@ -702,8 +703,8 @@ class BaseService:
             """
             raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=file_path,
-                                                     to_server_file_path=to_server_file_path,
+                                                     file_path=str(file_path),
+                                                     to_server_file_path=str(to_server_file_path),
                                                      use_tmp_dir=False)
 
     def upload_file_in_tmp_folder(self, file_path, new_file_name=None):
@@ -712,7 +713,7 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str
+        file_path : str or os.PathLike
             file path on the client side to upload
 
         new_file_name : str, optional
@@ -736,8 +737,8 @@ class BaseService:
             """
             raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=file_path,
-                                                     to_server_file_path=file_name,
+                                                     file_path=str(file_path),
+                                                     to_server_file_path=str(file_name),
                                                      use_tmp_dir=True)
 
     def _prepare_shutdown(self):

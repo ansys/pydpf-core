@@ -7,6 +7,7 @@ Operator
 
 import functools
 import logging
+import os
 from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
@@ -159,7 +160,7 @@ class Operator:
 
         inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
         ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
-            Operator Object to connect to.
+            Operator, os.PathLike Object to connect to.
 
         pin_out : int, optional
             If the input is an operator, the output pin of the input operator. The default is ``0``.
@@ -197,6 +198,8 @@ class Operator:
                 else:
                     self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
         else:
+            if isinstance(inpt, os.PathLike):
+                inpt = str(inpt)
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
                     if len(type_tuple) == 3:

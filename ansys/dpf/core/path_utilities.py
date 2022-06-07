@@ -9,6 +9,7 @@ import os
 
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
+from pathlib import Path
 
 
 def join(*args, **kwargs):
@@ -20,7 +21,7 @@ def join(*args, **kwargs):
 
     Parameters
     ----------
-    args : str, LegacyGrpcServer
+    args : str, os.PathLike, LegacyGrpcServer
         Path to join and optionally a server.
 
     kwargs : LegacyGrpcServer
@@ -38,8 +39,8 @@ def join(*args, **kwargs):
     server = None
     parts = []
     for a in args:
-        if isinstance(a, str) and len(a) > 0:
-            parts.append(a)
+        if isinstance(a, (str, Path)) and len(a) > 0:
+            parts.append(str(a))
         elif isinstance(a, dpf.core.server_types.LegacyGrpcServer):
             server = a
     if "server" in kwargs:
@@ -65,6 +66,7 @@ def join(*args, **kwargs):
     return path_to_return
 
 def to_server_os(path, server=None):
+    path = str(path)
     if not server:
         server = server_module._global_server()
     if not server:

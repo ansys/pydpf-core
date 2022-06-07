@@ -52,7 +52,13 @@ extensions = [
     "nbsphinx",
     "sphinx.ext.graphviz",
     "enum_tools.autoenum",
+    "sphinx.ext.intersphinx"
 ]
+
+# Intersphinx mapping
+intersphinx_mapping = {
+    "pyvista": ("https://docs.pyvista.org/", None),
+}
 
 autosummary_generate = True
 
@@ -84,6 +90,7 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
+
 # -- Sphinx Gallery Options
 from sphinx_gallery.sorting import FileNameSortKey
 
@@ -91,7 +98,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples/"],
+    "examples_dirs": ["../../examples"],
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
     # Patter to search for example files

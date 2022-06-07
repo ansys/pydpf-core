@@ -20,7 +20,7 @@ class DataSources:
 
     Parameters
     ----------
-    result_path : str, optional
+    result_path : str or os.PathLike object, optional
         Path of the result. The default is ``None``.
     data_sources : ansys.grpc.dpf.data_sources_pb2.DataSources
         gRPC data sources message. The default is ``None``.
@@ -80,7 +80,7 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str
+        filepath : str or os.PathLike object
             Path to the result file.
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct
@@ -99,9 +99,9 @@ class DataSources:
 
         """
         if key == "":
-            self._api.data_sources_set_result_file_path_utf8(self, filepath)
+            self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
-            self._api.data_sources_set_result_file_path_with_key_utf8(self, filepath, key)
+            self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
 
     def set_domain_result_file_path(self, path, domain_id):
         """Add a result file path by domain.
@@ -111,7 +111,7 @@ class DataSources:
 
         Parameters
         ----------
-        path: str
+        path: str or os.PathLike object
             Path to the file.
         domain_id: int
             Domain ID for the distributed files.
@@ -124,7 +124,7 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        self._api.data_sources_set_domain_result_file_path_utf8(self, path, domain_id)
+        self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
     def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
         """Add a file path to the data sources.
@@ -134,7 +134,7 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str
+        filepath : str or os.PathLike object
             Path of the file.
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct
@@ -160,13 +160,13 @@ class DataSources:
             if key == "":
                 raise NotImplementedError("A key must be given when using is_domain=True.")
             else:
-                self._api.data_sources_add_domain_file_path_with_key_utf8(self, filepath,
+                self._api.data_sources_add_domain_file_path_with_key_utf8(self, str(filepath),
                                                                           key, domain_id)
         else:
             if key == "":
-                self._api.data_sources_add_file_path_utf8(self, filepath)
+                self._api.data_sources_add_file_path_utf8(self, str(filepath))
             else:
-                self._api.data_sources_add_file_path_with_key_utf8(self, filepath, key)
+                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
         """Add a file path for a specified result file key to the data sources.
@@ -177,7 +177,7 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str
+        filepath : str or os.PathLike object
             Path of the file.
         key : str, optional
             Extension of the file, which is used as a key for choosing the correct
@@ -192,7 +192,7 @@ class DataSources:
             # append local path
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
 
-        self._api.data_sources_add_file_path_for_specified_result_utf8(self, filepath,
+        self._api.data_sources_add_file_path_for_specified_result_utf8(self, str(filepath),
                                                                        key, result_key)
 
     def add_upstream(self, upstream_data_sources, result_key=""):

@@ -17,7 +17,11 @@ import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core import errors, session
-from ansys.dpf.core._version import server_to_ansys_grpc_dpf_version, server_to_ansys_version
+from ansys.dpf.core._version import (
+    server_to_ansys_grpc_dpf_version,
+    server_to_ansys_version,
+    __ansys_version__
+)
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -31,11 +35,13 @@ RUNNING_DOCKER['args'] = ""
 MAX_PORT = 65535
 
 
-def _get_dll_path(name, ansys_path=""):
+def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
     from ansys.dpf.core import _version
     ISPOSIX = os.name == "posix"
-    if ansys_path == "":
+    if ansys_path is None:
+        ansys_path = os.environ.get("ANSYS_PATH")
+    if ansys_path is None:
         ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
     else:
         ANSYS_INSTALL = ansys_path
@@ -189,6 +195,44 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
         return docker_id[0]
 
 
+def launch_remote_dpf(version=None):
+    try:
+        import ansys.platform.instancemanagement as pypim
+    except ImportError as e:
+        raise ImportError("Launching a remote session of DPF requires the installation"
+                          + " of ansys-platform-instancemanagement") from e
+    version = version or __ansys_version__
+    pim = pypim.connect()
+    instance = pim.create_instance(product_name="dpf", product_version=version)
+    instance.wait_for_ready()
+    grpc_service = instance.services["grpc"]
+    if grpc_service.headers:
+        LOG.error("Communicating with DPF in this remote environment requires metadata."
+                  + "This is not supported, you will likely encounter errors or limitations.")
+    return instance
+
+def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str:str, grpc_module_version:str):
+    if right_grpc_module_version_str:
+        import re
+        from packaging.version import parse as parse_version
+        right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)
+        right_version_numbers = right_grpc_module_version_str[
+                                right_version_first_numbers.start():-1]
+        compare = "==" if right_version_first_numbers.start() == 0 else \
+            right_grpc_module_version_str[0:right_version_first_numbers.start()].strip()
+        if compare == "==":
+            return parse_version(grpc_module_version) == parse_version(right_version_numbers)
+        elif compare == ">=":
+            return parse_version(grpc_module_version) >= parse_version(right_version_numbers)
+        elif compare == ">":
+            return parse_version(grpc_module_version) > parse_version(right_version_numbers)
+        elif compare == "<=":
+            return parse_version(grpc_module_version) <= parse_version(right_version_numbers)
+        elif compare == "<":
+            return parse_version(grpc_module_version) < parse_version(right_version_numbers)
+    return True
+
+
 def check_ansys_grpc_dpf_version(server, timeout):
     import ansys.grpc.dpf
     import grpc
@@ -207,20 +251,28 @@ def check_ansys_grpc_dpf_version(server, timeout):
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
-    ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
-    #    raise ImportWarning(f"{ansys_version_to_use} Ansys unified install is available. "
-    #                         f"{server_to_ansys_version.get(server_version, 'Unknown')}"
-    #                        f"{ansys_version_to_use}"
-    #                         f"install version {right_grpc_module_version} of ansys-grpc-dpf"
-    #                         f" with the command: \n"
-    #                         f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
-    #                         )
+    if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
+        ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
+        compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
+                              f"index.html#client-server-compatibility")
+        raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
+                            f"({server_version} "
+                            f"from Ansys {ansys_version_to_use})"
+                            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
+                            f" Please consider using the latest DPF server available in the "
+                            f"2022R1 Ansys unified install.\n"
+                            f"To follow the compatibility guidelines given in "
+                            f"{compatibility_link} while still using DPF server {server_version}, "
+                            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
+                            f" with the command: \n"
+                            f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+                            )
 
 
 class BaseServer(abc.ABC):
     """Abstract class for servers"""
     @abc.abstractmethod
-    def __init__(self, as_global = True):
+    def __init__(self, as_global=True):
         """Base class for all types of servers: grpc, in process...
 
         Parameters
@@ -378,7 +430,7 @@ class BaseServer(abc.ABC):
 class CServer(BaseServer, ABC):
     """Abstract class for servers going through the DPFClientAPI"""
     def __init__(self,
-                 ansys_path="",
+                 ansys_path=None,
                  as_global=True,
                  load_operators=True):
 
@@ -416,24 +468,26 @@ class CServer(BaseServer, ABC):
 
 
 class GrpcClient:
-    def __init__(self, ip, port):
+    def __init__(self, address=None):
         from ansys.dpf.gate import client_capi
-        self._internal_obj = client_capi.ClientCAPI.client_new(str(ip), str(port))
+        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
 
 
 class GrpcServer(CServer):
     """Server using the gRPC communication protocol"""
     def __init__(self,
-                 ansys_path="",
+                 ansys_path=None,
                  ip=LOCALHOST,
                  port=DPF_DEFAULT_PORT,
                  timeout=10,
                  as_global=True,
                  load_operators=True,
                  launch_server=True,
-                 docker_name=None
+                 docker_name=None,
+                 use_pypim=True,
                  ):
         # Load DPFClientAPI
+        from ansys.dpf.core.misc import is_pypim_configured
         super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         from ansys.dpf.gate.utils import data_processing_core_load_api
@@ -442,13 +496,24 @@ class GrpcServer(CServer):
         path = _get_dll_path(name, ansys_path)
         data_processing_core_load_api(path, "remote")
 
-        if launch_server:
-            self._server_id = launch_dpf(ansys_path, ip, port,
-                                         docker_name=docker_name, timeout=timeout)
+        address = f"{ip}:{port}"
 
-        self._client = GrpcClient(ip, port)
+        self._remote_instance = None
+        if launch_server:
+            if is_pypim_configured() and not ansys_path and not docker_name and use_pypim:
+                self._remote_instance = launch_remote_dpf()
+                address = self._remote_instance.services["grpc"].uri
+                # Unset ip and port as it's created by address.
+                ip = None
+                port = None
+            else:
+                self._server_id = launch_dpf(ansys_path, ip, port,
+                                             docker_name=docker_name, timeout=timeout)
+
+        self._client = GrpcClient(address)
 
         # store port and ip for later reference
+        self._address = address
         self._input_ip = ip
         self._input_port = port
         self.live = True
@@ -472,6 +537,8 @@ class GrpcServer(CServer):
 
     def shutdown(self):
         from ansys.dpf.gate import data_processing_capi
+        if self._remote_instance:
+            self._remote_instance.delete()
         api = data_processing_capi.DataProcessingCAPI
         api.data_processing_release_server(self.client)
 
@@ -479,12 +546,22 @@ class GrpcServer(CServer):
         """Return true, if ***** are equals"""
         if isinstance(other_server, GrpcServer):
             # """Return true, if the ip and the port are equals"""
-            return self.ip == other_server.ip and self.port == other_server.port
+            return self.address == other_server.address
         return False
 
     @property
-    def client(self, ip=LOCALHOST, port=DPF_DEFAULT_PORT):
+    def client(self):
         return self._client
+
+    @property
+    def address(self):
+        """Address of the server.
+
+        Returns
+        -------
+        address : str
+        """
+        return self._address
 
     @property
     def ip(self):
@@ -510,7 +587,7 @@ class GrpcServer(CServer):
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
     def __init__(self,
-                 ansys_path="",
+                 ansys_path=None,
                  as_global=True,
                  load_operators=True,
                  docker_name=None,
@@ -554,6 +631,7 @@ class InProcessServer(CServer):
     def client(self):
         return None
 
+
 class LegacyGrpcServer(BaseServer):
     """Provides an instance of the DPF server using InProcess gRPC.
     Kept for backward-compatibility with dpf servers <0.5.0.
@@ -583,10 +661,13 @@ class LegacyGrpcServer(BaseServer):
         Whether to launch the server on Windows.
     docker_name : str, optional
         To start DPF server as a docker, specify the docker name here.
+    use_pypim: bool, optional
+        Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
+        Defaults to True.
     """
     def __init__(
         self,
-        ansys_path="",
+        ansys_path=None,
         ip=LOCALHOST,
         port=DPF_DEFAULT_PORT,
         timeout=10,
@@ -594,9 +675,11 @@ class LegacyGrpcServer(BaseServer):
         load_operators=True,
         launch_server=True,
         docker_name=None,
+        use_pypim=True,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
+        from ansys.dpf.core.misc import is_pypim_configured
 
         super().__init__(as_global=as_global)
 
@@ -607,18 +690,27 @@ class LegacyGrpcServer(BaseServer):
         check_valid_ip(ip)
         if not isinstance(port, int):
             raise ValueError("Port must be an integer")
-        import platform
-        if os.name == "posix" and "ubuntu" in platform.platform().lower():
-            raise OSError("DPF does not support Ubuntu")
-        elif launch_server:
-            self._server_id = launch_dpf(ansys_path, ip, port,
-                                         docker_name=docker_name, timeout=timeout)
 
-        self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
+        address = f"{ip}:{port}"
+
+        self._remote_instance = None
+        if launch_server:
+            if is_pypim_configured() and not ansys_path and not docker_name and use_pypim:
+                self._remote_instance = launch_remote_dpf()
+                address = self._remote_instance.services["grpc"].uri
+                # Unset ip and port as it's created by address.
+                ip = None
+                port = None
+            else:
+                self._server_id = launch_dpf(ansys_path, ip, port,
+                                             docker_name=docker_name, timeout=timeout)
+
+        self.channel = grpc.insecure_channel(address)
 
         # TODO: add to PIDs ...
 
-        # store port and ip for later reference
+        # store the address for later reference
+        self._address = address
         self._input_ip = ip
         self._input_port = port
         self.live = True
@@ -706,6 +798,8 @@ class LegacyGrpcServer(BaseServer):
                 for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
                 process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            elif self._remote_instance:
+                self._remote_instance.delete()
             else:
                 try:
                     self._base_service._release_server()

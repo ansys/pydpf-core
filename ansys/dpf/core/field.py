@@ -391,7 +391,7 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, notebook=None, shell_layers=None):
+    def plot(self, notebook=None, shell_layers=None, **kwargs):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -420,9 +420,12 @@ class Field(_FieldBase):
         shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements. The default is ``None``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
         """
-        pl = Plotter(self.meshed_region)
-        pl.plot_contour(self, notebook, shell_layers)
+        pl = Plotter(self.meshed_region, **kwargs)
+        return pl.plot_contour(self, notebook, shell_layers, **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
