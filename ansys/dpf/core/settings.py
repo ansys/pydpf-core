@@ -87,6 +87,7 @@ def _forward_to_gate():
     settings.forward_settings(
         DEFAULT_FILE_CHUNK_SIZE, _common_progress_bar if _progress_bar_is_available() else None)
 
+
 def get_runtime_client_config(server=None):
     """Get the runtime configuration information of Ans.Dpf.GrpcClient
     binary.
@@ -111,3 +112,28 @@ def get_runtime_client_config(server=None):
     """
     base = core.BaseService(server, load_operators=False)
     return base.get_runtime_client_config()
+
+
+def get_runtime_core_config(server=None):
+    """Get the runtime configuration information of Ans.Dpf.GrpcClient
+    binary.
+
+    Parameters
+    ----------
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+
+    Notes
+    -----
+    Available from 4.0 server version.
+
+    Returns
+    -------
+    core_config : RuntimeCoreConfig
+        RuntimeCoreConfig object that can be used to interact
+        with DataProcessingCore configuration.
+
+    """
+    base = core.BaseService(server, load_operators=False)
+    return base.get_runtime_core_config()

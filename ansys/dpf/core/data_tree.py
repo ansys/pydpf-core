@@ -77,7 +77,7 @@ class DataTree:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if not self._server.meet_version("4.0"):
+        if data_tree is None and not self._server.meet_version("4.0"):
             raise errors.DpfVersionNotSupported("4.0")
 
         # step 2: get api

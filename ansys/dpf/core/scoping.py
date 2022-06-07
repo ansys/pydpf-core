@@ -6,6 +6,7 @@ Scoping
 """
 
 import numpy as np
+
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
 from ansys.dpf.core import server as server_module
@@ -141,7 +142,7 @@ class Scoping:
         """
         self._api.scoping_set_ids(self, ids, len(ids))
 
-    def _get_ids(self, np_array=True):
+    def _get_ids(self, np_array=None):
         """
         Returns
         -------
@@ -154,7 +155,9 @@ class Scoping:
         -----
         Print a progress bar.
         """
-        #TO DO: change
+        if np_array == None:
+            from ansys.dpf.core import settings
+            np_array = settings.get_runtime_client_config(self._server).return_arrays
         try:
             vec = dpf_vector.DPFVectorInt(
                 client=self._server.client,
@@ -249,8 +252,13 @@ class Scoping:
 
         Returns
         -------
-        ids : list of int
-            List of IDs to retrieve.
+        ids : DPFArray, list of int
+            List of IDs to retrieve. By default a mutable DPFArray is returned, to change
+            the return type to a list for the complete python session, see
+            :func:`ansys.dpf.core.settings.get_runtime_client_config` and
+            :func:`ansys.dpf.core.runtime_config.RuntimeClientConfig.return_arrays`.
+            To change the return type to a list once, use
+            :func:`ansys.dpf.core.scoping.Scoping._get_ids` with the parameter ``np_array=False``.
 
         Notes
         -----
@@ -379,6 +387,7 @@ class Scoping:
 
         """  # noqa: E501
         return _LocalScoping(self)
+
 
 class _LocalScoping(Scoping):
     """Caches the internal data of the scoping so that it can be modified locally.

@@ -194,8 +194,8 @@ def test_sub_data_tree():
 
 
 @conftest.raises_for_servers_version_under("4.0")
-def test_runtime_client_config(server_clayer_remote_process):
-    client_config = dpf.settings.get_runtime_client_config(server=server_clayer_remote_process)
+def test_runtime_client_config(server_type_remote_process):
+    client_config = dpf.settings.get_runtime_client_config(server=server_type_remote_process)
     use_cache_init = client_config.cache_enabled
     client_config.cache_enabled = False
     use_cache_set = client_config.cache_enabled
@@ -207,6 +207,46 @@ def test_runtime_client_config(server_clayer_remote_process):
     use_cache_set_end = client_config.cache_enabled
     assert use_cache_set_end is use_cache_init
 
+    streaming_buffer_size_init = client_config.streaming_buffer_size
+    client_config.streaming_buffer_size = 100000
+    streaming_buffer_size = client_config.streaming_buffer_size
+    assert streaming_buffer_size == 100000
+    client_config.streaming_buffer_size = streaming_buffer_size_init
+    assert client_config.streaming_buffer_size == streaming_buffer_size_init
+
+    stream_floats_instead_of_doubles_init = client_config.stream_floats_instead_of_doubles
+    client_config.stream_floats_instead_of_doubles = True
+    stream_floats_instead_of_doubles = client_config.stream_floats_instead_of_doubles
+    assert stream_floats_instead_of_doubles == True
+    client_config.stream_floats_instead_of_doubles = stream_floats_instead_of_doubles_init
+    assert client_config.stream_floats_instead_of_doubles == stream_floats_instead_of_doubles_init
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_runtime_client_config_arrays(server_type):
+    client_config = dpf.settings.get_runtime_client_config(server=server_type)
+    return_arrays_init = client_config.return_arrays
+    client_config.return_arrays = False
+    return_arrays = client_config.return_arrays
+    assert return_arrays is False
+    client_config.return_arrays = True
+    return_arrays = client_config.return_arrays
+    assert return_arrays is True
+    client_config.return_arrays = return_arrays_init
+    return_arrays = client_config.return_arrays
+    assert return_arrays is return_arrays_init
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_runtime_core_config(server_type):
+    core_config = dpf.settings.get_runtime_core_config(server=server_type)
+    num_threads_init = core_config.num_threads
+    core_config.num_threads = 4
+    num_threads = core_config.num_threads
+    assert num_threads == 4
+    core_config.num_threads = num_threads_init
+    assert core_config.num_threads == num_threads_init
+
 
 @conftest.raises_for_servers_version_under("4.0")
 def test_unsupported_types_data_tree(server_type):
@@ -214,6 +254,6 @@ def test_unsupported_types_data_tree(server_type):
     with pytest.raises(TypeError):
         data_tree.add(data1=[[1]])
     with pytest.raises(TypeError):
-        data_tree.add(data1=(1,2))
+        data_tree.add(data1=(1, 2))
 
 

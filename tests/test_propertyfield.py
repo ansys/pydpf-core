@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 import copy
+import conftest
 
 from ansys import dpf
 from ansys.dpf import core
@@ -182,6 +183,7 @@ def test_local_property_field():
         assert np.allclose(f._data_pointer, data_pointer[0: len(data_pointer)])
 
 
+@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_data_property_field(server_clayer, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_clayer)
     mesh = model.metadata.meshed_region

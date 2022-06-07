@@ -54,6 +54,26 @@ def test_set_get_ids_long_scoping():
     assert len(scop) == len(ids)
 
 
+def test_get_ids_return_type_scoping(server_type):
+    scop = Scoping(server=server_type)
+    ids = [1, 2, 3, 5, 8, 9, 10]
+    scop.ids = ids
+    assert np.allclose(scop.ids, ids)
+    assert isinstance(scop.ids, np.ndarray)
+    client_config = dpf.core.settings.get_runtime_client_config(server=server_type)
+    return_arrays_init = client_config.return_arrays
+    client_config.return_arrays = False
+    assert np.allclose(scop.ids, ids)
+    assert isinstance(scop.ids, list)
+    client_config.return_arrays = return_arrays_init
+    assert np.allclose(scop.ids, ids)
+    assert isinstance(scop.ids, np.ndarray)
+    assert np.allclose(scop._get_ids(True), ids)
+    assert isinstance(scop._get_ids(True), np.ndarray)
+    assert np.allclose(scop._get_ids(False), ids)
+    assert isinstance(scop._get_ids(False), list)
+
+
 def test_get_location_scoping():
     scop = Scoping()
     scop._set_location("Nodal")
@@ -258,6 +278,7 @@ def test_auto_delete_scoping_local():
         assert s[0] == 1
 
 
+@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_ids_data(server_clayer):
     scop = Scoping(server=server_clayer)
     scop.ids = range(1, int(2e6))

@@ -7,10 +7,13 @@ import logging
 import warnings
 import weakref
 
+import misc
 from ansys.dpf.core import errors
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig
+    RuntimeClientConfig,
+    RuntimeCoreConfig,
     )
 from ansys.dpf.gate import (
     data_processing_capi,
@@ -405,8 +408,25 @@ class BaseService:
                 )
             config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
         else:
-            raise Exception("in process protocol doesn't have any client configuration set")
+            if misc.RUNTIME_CLIENT_CONFIG is None:
+                from ansys.dpf.core import data_tree
+                misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
+                    data_tree=data_tree.DataTree(server=self._server())
+                )
+            config_to_return = misc.RUNTIME_CLIENT_CONFIG
         return config_to_return
+
+    @version_requires("4.0")
+    def get_runtime_core_config(self):
+        if self._server().has_client():
+            data_tree_tmp =\
+                self._api.data_processing_get_global_config_as_data_tree_on_client(
+                    self._server().client)
+
+        else:
+            data_tree_tmp = \
+                self._api.data_processing_get_global_config_as_data_tree()
+        return RuntimeCoreConfig(data_tree=data_tree_tmp, server=self._server())
 
     @property
     def server_info(self):
