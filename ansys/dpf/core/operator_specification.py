@@ -186,7 +186,7 @@ class SpecificationBase:
 
 class Specification(SpecificationBase):
     """Documents an Operator with its description (what the Operator does),
-    its inputs and outputs and some properties
+    its inputs and outputs and some properties.
 
     Examples
     --------

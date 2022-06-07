@@ -13,7 +13,7 @@ Errors
 
 from functools import wraps
 from ansys.dpf.gate.errors import DPFServerException, \
-    DPFServerNullObject, DpfVersionNotSupported, protect_grpc  # noqa: F401
+    DPFServerNullObject, DpfVersionNotSupported  # noqa: F401
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
@@ -92,14 +92,13 @@ class ServerTypeError(NotImplementedError):
 
 
 def protect_source_op_not_found(func):
-    """Capture gRPC server exceptions when a source operator is not found
+    """Capture DPF's Server exceptions when a source operator is not found
     and return a more succinct error message.
     """
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        """Capture gRPC exceptions."""
-        # Capture gRPC exceptions
+        """Capture DPF's Server exceptions."""
         try:
             out = func(*args, **kwargs)
         except DPFServerException as error:

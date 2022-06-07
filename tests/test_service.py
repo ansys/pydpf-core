@@ -5,7 +5,6 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import path_utilities
 from conftest import running_docker
-import conftest
 
 def test_loadmapdloperators(allkindofcomplexity):
     dpf.core.BaseService(load_operators=True)

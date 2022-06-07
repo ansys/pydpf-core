@@ -1064,25 +1064,54 @@ def test_list_operators(server_type):
 
 
 @conftest.raises_for_servers_version_under('3.0')
-def test_get_static_spec_operator(server_type):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type)
+def test_get_static_spec_operator(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name, server=server_type)
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
 
 
+@conftest.raises_for_servers_version_under('4.0')
+def test_get_static_spec_operator_in_proc(server_clayer):
+    if isinstance(server_clayer, dpf.core.server_types.GrpcServer):
+        return
+    l = dpf.core.dpf_operator.available_operator_names(server=server_clayer)
+    for i, name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name, server=server_clayer)
+        assert len(spec.operator_name) > 0
+        l = len(spec.inputs)
+        d = spec.description
+
+
 @conftest.raises_for_servers_version_under('3.0')
-def test_with_progress_operator(allkindofcomplexity, server_type):
-    model = dpf.core.Model(allkindofcomplexity, server=server_type)
+def test_with_progress_operator(allkindofcomplexity, server_type_legacy_grpc):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type_legacy_grpc)
     op = model.results.stress()
     op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type)
-    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type)
-    add3 = dpf.core.operators.math.add_fc(add2, server=server_type)
-    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type_legacy_grpc)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type_legacy_grpc)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type_legacy_grpc)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_type_legacy_grpc)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type_legacy_grpc)
+    add4.progress_bar = True
+    fc = add4.outputs.fields_container()
+    assert len(fc) == 2
+
+
+@conftest.raises_for_servers_version_under('4.0')
+def test_with_progress_operator_in_proc(allkindofcomplexity, server_clayer):
+    if isinstance(server_clayer, dpf.core.server_types.GrpcServer):
+        return
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_clayer)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_clayer)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_clayer)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_clayer)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_clayer)
     add4.progress_bar = True
     fc = add4.outputs.fields_container()
     assert len(fc) == 2

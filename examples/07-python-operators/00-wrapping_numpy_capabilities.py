@@ -35,7 +35,11 @@ import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-dpf.load_library(os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples", "07-python-operators", "plugins"), "py_easy_statistics", "load_operators")
+#dpf.connect_to_server(port=50052)
+operator_file = dpf.upload_file_in_tmp_folder(
+    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples",
+                 "07-python-operators", "plugins", "easy_statistics.py"))
+dpf.load_library(os.path.dirname(operator_file), "py_easy_statistics", "load_operators")
 
 ###############################################################################
 # Once the Operator loaded, it can be instantiated with:
@@ -66,7 +70,7 @@ new_operator = dpf.Operator("easy_statistics")
 # Use the Custom Operator
 # -----------------------
 
-ds = dpf.DataSources(examples.static_rst)
+ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.static_rst))
 displacement = dpf.operators.result.displacement(data_sources=ds)
 norm = dpf.operators.math.norm(displacement)
 new_operator.inputs.connect(norm)

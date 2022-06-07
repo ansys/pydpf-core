@@ -54,8 +54,15 @@ import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+#dpf.connect_to_server(port=50052)
+tmp = dpf.make_tmp_dir_server()
+dpf.upload_files_in_folder(
+    dpf.path_utilities.join(tmp, "average_filter_plugin"),
+    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples",
+                 "07-python-operators", "plugins", "average_filter_plugin")
+)
 dpf.load_library(
-    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples", "07-python-operators", "plugins", "average_filter_plugin"),
+    os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),
     "py_average_filter",
     "load_operators")
 
@@ -88,7 +95,7 @@ new_operator = dpf.Operator("ids_with_data_lower_than_average")
 # Use the Custom Operator
 # -----------------------
 
-ds = dpf.DataSources(examples.static_rst)
+ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.static_rst))
 displacement = dpf.operators.result.displacement(data_sources=ds)
 norm = dpf.operators.math.norm(displacement)
 new_operator.inputs.connect(norm)

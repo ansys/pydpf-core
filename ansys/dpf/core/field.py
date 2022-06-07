@@ -46,7 +46,7 @@ class Field(_FieldBase):
         - ``"ElementalNodal"``
 
     field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
-        Field message generated from a gRPC stub.
+        Field message generated from a gRPC stub, or return by DPF's C clients.
     server : :class:`ansys.dpf.core.server`, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global

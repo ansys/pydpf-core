@@ -74,9 +74,21 @@ import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-dpf.start_local_server()
+#dpf.connect_to_server(port=50052)
+tmp = dpf.make_tmp_dir_server()
+dpf.upload_files_in_folder(
+    dpf.path_utilities.join(tmp, "plugins","gltf_plugin"),
+    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples", "07-python-operators",
+                 "plugins", "gltf_plugin")
+)
+dpf.upload_file(
+    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples", "07-python-operators",
+                 "plugins", "gltf_plugin.xml"),
+    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
+)
+
 dpf.load_library(
-    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples", "07-python-operators", "plugins", "gltf_plugin"),
+    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
     "py_dpf_gltf",
     "load_operators")
 
@@ -99,7 +111,7 @@ new_operator = dpf.Operator("gltf_export")
 import tempfile
 import os
 
-model = dpf.Model(examples.static_rst)
+model = dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst))
 
 mesh = model.metadata.meshed_region
 skin_mesh = dpf.operators.mesh.tri_mesh_skin(mesh=mesh)

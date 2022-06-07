@@ -3,16 +3,14 @@
 
 Operator
 ========
-Provides an interface to the underlying gRPC operator.
 """
 
 import functools
 import logging
-import re
 from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
-from ansys.dpf.core.errors import protect_grpc, DpfVersionNotSupported
+from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core.common import types_enum_to_types
@@ -20,7 +18,8 @@ from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.gate import operator_capi, operator_abstract_api, operator_grpcapi, \
-    data_processing_capi, data_processing_grpcapi, dpf_vector
+    data_processing_capi, data_processing_grpcapi, collection_capi, collection_grpcapi, \
+    dpf_vector, object_handler
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -538,7 +537,6 @@ class Operator:
             elif python_name == "Any":
                 corresponding_pins.append(pin)
 
-    @protect_grpc
     def _sub_result_op(self, name):
         op = Operator(name)
         if self.inputs is not None:
@@ -621,7 +619,8 @@ class Operator:
 
     @staticmethod
     def operator_specification(op_name, server=None):
-        """Put the grpc spec message in self._spec"""
+        """Documents an Operator with its description (what the Operator does),
+        its inputs and outputs and some properties"""
         return Specification(operator_name=op_name, server=server)
 
     @property
@@ -664,7 +663,8 @@ def available_operator_names(server=None):
 
     Notes
     -----
-    Function available with server's version starting at 3.0.
+    Function available with server's version starting at 3.0. Not available for server
+    of type GrpcServer.
 
     """
     from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc
@@ -673,12 +673,33 @@ def available_operator_names(server=None):
 
     if not server.meet_version("3.0"):
         raise DpfVersionNotSupported("3.0")
-    service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
-        operator_pb2.ListAllOperatorsRequest())
-    arr = []
-    for chunk in service:
-        arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
-    return arr
+
+    api = server.get_api_for_type(
+        capi=data_processing_capi.DataProcessingCAPI,
+        grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+    )
+    api.init_data_processing_environment(server)  # creates stub when gRPC
+    coll_api = server.get_api_for_type(
+        capi=collection_capi.CollectionCAPI,
+        grpcapi=collection_grpcapi.CollectionGRPCAPI)
+    coll_api.init_collection_environment(server)
+
+    if server.has_client():
+        coll_obj = object_handler.ObjHandler(
+            data_processing_api=api,
+            internal_obj=api.data_processing_list_operators_as_collection_on_client(
+                server.client
+            ))
+    else:
+        coll_obj = object_handler.ObjHandler(
+            data_processing_api=api,
+            internal_obj=api.data_processing_list_operators_as_collection()
+        )
+    num = coll_api.collection_get_size(coll_obj)
+    out = []
+    for i in range(num):
+        out.append(coll_api.collection_get_string_entry(coll_obj, i))
+    return out
 
 
 def _write_output_type_to_type(output_type):

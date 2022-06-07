@@ -1,1 +1,1 @@
-from operators_loader import load_operators
+from gltf_plugin.operators_loader import load_operators

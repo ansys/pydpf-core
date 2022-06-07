@@ -1,7 +1,6 @@
 """
 Workflow
 ========
-Interface to underlying gRPC workflow.
 """
 import logging
 

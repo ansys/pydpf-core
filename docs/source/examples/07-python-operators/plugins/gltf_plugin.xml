@@ -5,7 +5,7 @@
 		<LOAD_DEFAULT_DPF_SITE>true</LOAD_DEFAULT_DPF_SITE>
 	</Windows>
 	<Linux>
-		<CUSTOM_SITE>$(THIS_XML_FOLDER)/gltf_plugin/assets/deps_linx64.zip:$(CUSTOM_SITE)</CUSTOM_SITE>
+		<CUSTOM_SITE>$(THIS_XML_FOLDER)/gltf_plugin/assets/gltf_sites_linx64.zip:$(CUSTOM_SITE)</CUSTOM_SITE>
 		<LOAD_DEFAULT_DPF_SITE>true</LOAD_DEFAULT_DPF_SITE>
 	</Linux>
 </Environment>
