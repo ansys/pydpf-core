@@ -4,12 +4,14 @@
 Stress gradient normal to a defined node.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to plot a stress gradient normal to a selected node.
+As the example is based on creating a path along the normal, the selected node
+must be on the surface of the geometry.
 A path is created of a defined length.
 
 """
 
 ###############################################################################
-# First, import the DPF-Core module as ``dpf_core`` and import the
+# First, import the DPF-Core module as ``dpf`` and import the
 # included examples file and ``DpfPlotter``
 #
 import matplotlib.pyplot as plt
@@ -22,8 +24,7 @@ from ansys.dpf.core import examples
 # Next, open an example and print out the ``model`` object.  The
 # :class:`Model <ansys.dpf.core.model.Model> class helps to organize access
 # methods for the result by keeping track of the operators and data sources
-# used by the result
-# file.
+# used by the result file.
 #
 # Printing the model displays:
 #
