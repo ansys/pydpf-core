@@ -11,11 +11,11 @@ The standard chosen for this example is the well-known ASME Section VIII Divisio
 
 This example is taken from Workshop 02.1 from Ansys Mechanical Advanced Topics.
 Instead of using several user defined results as it is done in the workshop,
-DPF is able to calculate the triaxial strain limit and compare it with the 
+DPF is able to calculate the triaxial strain limit and compare it with the
 equivalent plastic strain, as specified in Equation 5.7 assuming 0 forming strain.
 
 Please be aware that this is just an example, so it is the user's duty to verify
-that calculation is made according to latest ASME standard. 
+that calculation is made according to latest ASME standard.
 """
 
 # Here we import rst file from Workshop 02.1
@@ -39,7 +39,7 @@ timeScoping.ids = [4]
 # User must go to ASME Section III Division 2 and get parameters alfasl & m2
 # If the user want to replicate same results as the workshop, please introduce these
 # values: alfasl = 2.2 & m2 = .288
-#  
+#
 
 alfasl = input("Please introduce alfasl parameter from ASME\n")
 alfasl = float(alfasl)
@@ -51,7 +51,7 @@ m2 = float(m2)
 # ~~~~~~~~~~~~~~~~
 # Stresses and strains are read. For getting same results as Mechanical, we read
 # Elemental Nodal strains and apply Von Mises invariant. Currently this operator
-# does not have the option to define effective Poisson's ratio. Due to this, 
+# does not have the option to define effective Poisson's ratio. Due to this,
 # a correction factor is applied.
 
 seqv_op = dpf.operators.result.stress_von_mises(time_scoping = timeScoping,
