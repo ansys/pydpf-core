@@ -165,3 +165,16 @@ def find_ansys():
             versions[int(ver_str)] = path
 
     return versions[max(versions.keys())]
+
+def is_pypim_configured():
+    """Check if the environment is configured for PyPIM, without using pypim.
+
+    This method is equivalent to ansys.platform.instancemanagement.is_configured(). It's
+    reproduced here to avoid having hard dependencies.
+
+    Returns
+    -------
+    bool
+        ``True`` if the environment is setup to use the PIM API, ``False`` otherwise.
+    """
+    return "ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG" in os.environ

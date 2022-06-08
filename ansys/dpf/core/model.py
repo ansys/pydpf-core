@@ -24,9 +24,9 @@ class Model:
 
     Parameters
     ----------
-    data_sources : str, dpf.core.DataSources
-        Accepts either a :class:`dpf.core.DataSources` instance or the name of the
-        result file to open. The default is ``None``.
+    data_sources : str, dpf.core.DataSources, os.PathLike
+        Accepts either a :class:`dpf.core.DataSources` instance or the path of the
+        result file to open as an os.PathLike object or a str. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -214,6 +214,16 @@ class Model:
     def plot(self, color="w", show_edges=True, **kwargs):
         """Plot the mesh of the model.
 
+        Parameters
+        ----------
+        color : str
+            color of the mesh faces in PyVista format. The default is white with ``"w"``.
+        show_edges : bool
+            Whether to show the mesh edges. The default is ``True``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
+
         Examples
         --------
         Plot the model using the default options.
@@ -225,9 +235,12 @@ class Model:
         >>> model.plot()
 
         """
-        self.metadata.meshed_region.grid.plot(
-            color=color, show_edges=show_edges, **kwargs
-        )
+        from ansys.dpf.core.plotter import DpfPlotter
+        kwargs["color"] = color
+        kwargs["show_edges"] = show_edges
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(self.metadata.meshed_region, **kwargs)
+        return pl.show_figure(**kwargs)
 
     @property
     def mesh_by_default(self):
@@ -384,9 +397,10 @@ class Metadata:
         return self._stream_provider
 
     def _set_data_sources(self, var_inp):
+        from pathlib import Path
         if isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
-        elif isinstance(var_inp, str):
+        elif isinstance(var_inp, (str, Path)):
             self._data_sources = DataSources(var_inp, server=self._server)
         else:
             self._data_sources = DataSources(server=self._server)

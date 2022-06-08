@@ -34,7 +34,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
 
     Parameters
     ----------
-    filename : str
+    filename : str or os.PathLike
         Filename of the operator library.
 
     name : str, optional
@@ -64,7 +64,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         file path on the client side to upload
 
     new_file_name : str, optional
@@ -103,10 +103,10 @@ def upload_files_in_folder(
 
     Parameters
     ----------
-    to_server_folder_path : str
+    to_server_folder_path : str or os.PathLike
         folder path target where will be uploaded files on the server side
 
-    client_folder_path: str
+    client_folder_path: str or os.PathLike
         folder path where the files that must be uploaded are located
         on client side
 
@@ -133,10 +133,10 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
     Parameters
     ----------
-    server_file_path : str
+    server_file_path : str or os.PathLike
         file path to download on the server side
 
-    to_client_file_path: str
+    to_client_file_path: str or os.PathLike
         file path target where the file will be located client side
 
     server : server.DPFServer, optional
@@ -168,10 +168,10 @@ def download_files_in_folder(
 
     Parameters
     ----------
-    server_folder_path : str
+    server_folder_path : str or os.PathLike
         folder path to download on the server side
 
-    to_client_folder_path: str
+    to_client_folder_path: str or os.PathLike
         folder path target where the files will be located client side
 
     specific_extension (optional) : str
@@ -202,10 +202,10 @@ def upload_file(file_path, to_server_file_path, server=None):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         file path on the client side to upload
 
-    to_server_file_path: str
+    to_server_file_path: str or os.PathLike
         file path target where the file will be located server side
 
     server : server.DPFServer, optional
@@ -321,8 +321,7 @@ class BaseService:
 
             if not state._matured:
                 raise IOError(
-                    f"Unable to connect to DPF instance at {self._server()._input_ip} "
-                    f"{self._server()._input_port}"
+                    f"Unable to connect to DPF instance at {self._server()._address}"
                 )
 
         return stub
@@ -340,15 +339,15 @@ class BaseService:
         request = base_pb2.Empty()
         return self._stub.CreateTmpDir(request).server_file_path
 
-    def load_library(self, filename, name="", symbol="LoadOperators"):
+    def load_library(self, file_path, name="", symbol="LoadOperators"):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
 
         Parameters
         ----------
-        filename : str
-            Filename of the operator library.
+        file_path : str or os.PathLike
+            file_path of the operator library.
 
         name : str, optional
             Library name.  Probably optional
@@ -365,13 +364,13 @@ class BaseService:
         """
         request = base_pb2.PluginRequest()
         request.name = name
-        request.dllPath = filename
+        request.dllPath = str(file_path)
         request.symbol = symbol
         try:
             self._stub.Load(request)
         except Exception as e:
             raise IOError(
-                f'Unable to load library "{filename}". File may not exist or'
+                f'Unable to load library "{str(file_path)}". File may not exist or'
                 f" is missing dependencies:\n{str(e)}"
             )
 
@@ -391,7 +390,7 @@ class BaseService:
 
             code_gen = Operator("python_generator")
             code_gen.connect(1, TARGET_PATH)
-            code_gen.connect(0, filename)
+            code_gen.connect(0, str(file_path))
             code_gen.connect(2, False)
             code_gen.run()
 
@@ -473,10 +472,10 @@ class BaseService:
 
         Parameters
         ----------
-        server_file_path : str
+        server_file_path : str or os.PathLike
             file path to download on the server side
 
-        to_client_file_path: str
+        to_client_file_path: str or os.PathLike
             file path target where the file will be located client side
 
         Notes
@@ -484,7 +483,7 @@ class BaseService:
         Print a progress bar
         """
         request = base_pb2.DownloadFileRequest()
-        request.server_file_path = server_file_path
+        request.server_file_path = str(server_file_path)
         chunks = self._stub.DownloadFile(request)
         bar = None
         tot_size = sys.float_info.max
@@ -517,10 +516,10 @@ class BaseService:
 
         Parameters
         ----------
-        server_folder_path : str
+        server_folder_path : str or os.PathLike
             folder path to download on the server side
 
-        to_client_folder_path: str
+        to_client_folder_path: str or os.PathLike
             folder path target where the files will be located client side
 
         specific_extension (optional) : str
@@ -537,7 +536,7 @@ class BaseService:
 
         """
         request = base_pb2.DownloadFileRequest()
-        request.server_file_path = server_folder_path
+        request.server_file_path = str(server_folder_path)
         chunks = self._stub.DownloadFile(request)
 
         num_files = 1
@@ -562,13 +561,13 @@ class BaseService:
                 ):
                     separator = self._get_separator(server_path)
                     server_subpath = server_path.replace(
-                        server_folder_path + separator, ""
+                        str(server_folder_path) + separator, ""
                     )
                     subdir = ""
                     split = server_subpath.split(separator)
                     n = len(split)
                     i = 0
-                    to_client_folder_path_copy = to_client_folder_path
+                    to_client_folder_path_copy = str(to_client_folder_path)
                     if n > 1:
                         while i < (n - 1):
                             subdir = split[i]
@@ -607,10 +606,10 @@ class BaseService:
 
         Parameters
         ----------
-        to_server_folder_path : str
+        to_server_folder_path : str or os.PathLike
             folder path target where will be uploaded files on the server side
 
-        client_folder_path: str
+        client_folder_path: str or os.PathLike
             folder path where the files that must be uploaded are located
             on client side
 
@@ -633,13 +632,13 @@ class BaseService:
                         f,
                         filename,
                         server_paths,
-                        to_server_folder_path,
+                        str(to_server_folder_path),
                         subdirectory,
                     )
             for file in files:
                 f = os.path.join(root, file)
                 server_paths = self._upload_and_get_server_path(
-                    specific_extension, f, file, server_paths, to_server_folder_path
+                    specific_extension, f, file, server_paths, str(to_server_folder_path)
                 )
             break
         return server_paths
@@ -678,10 +677,10 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str
+        file_path : str or os.PathLike
             file path on the client side to upload
 
-        to_server_file_path: str
+        to_server_file_path: str or os.PathLike
             file path target where the file will be located server side
 
         Returns
@@ -694,9 +693,9 @@ class BaseService:
         Print a progress bar
         """
         if os.stat(file_path).st_size == 0:
-            raise ValueError(file_path + " is empty")
+            raise ValueError(str(file_path) + " is empty")
         return self._stub.UploadFile(
-            self.__file_chunk_yielder(file_path, to_server_file_path)
+            self.__file_chunk_yielder(str(file_path), str(to_server_file_path))
         ).server_file_path
 
     @protect_grpc
@@ -706,7 +705,7 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str
+        file_path : str or os.PathLike
             file path on the client side to upload
 
         new_file_name : str, optional
@@ -727,10 +726,10 @@ class BaseService:
         else:
             file_name = os.path.basename(file_path)
         if os.stat(file_path).st_size == 0:
-            raise ValueError(file_path + " is empty")
+            raise ValueError(str(file_path) + " is empty")
         return self._stub.UploadFile(
             self.__file_chunk_yielder(
-                file_path=file_path, to_server_file_path=file_name, use_tmp_dir=True
+                file_path=str(file_path), to_server_file_path=file_name, use_tmp_dir=True
             )
         ).server_file_path
 

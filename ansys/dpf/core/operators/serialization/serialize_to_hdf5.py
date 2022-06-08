@@ -15,7 +15,7 @@ class serialize_to_hdf5(Operator):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         Output file path with .h5 extension
     export_floats : bool
         Converts double to float to reduce file size
