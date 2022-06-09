@@ -28,7 +28,7 @@ body:
       label: Steps for implementing the feature
       placeholder: Describe how this new feature can be implemented
     validations:
-      required: true
+      required: false
 
   - type: markdown
     attributes:
