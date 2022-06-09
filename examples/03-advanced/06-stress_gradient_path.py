@@ -34,6 +34,7 @@ from ansys.dpf.core import examples
 # - Number of results
 # - Unit
 #
+path = examples.download_hemisphere()
 model = dpf.Model(examples.hemisphere)
 print(model)
 ###############################################################################
