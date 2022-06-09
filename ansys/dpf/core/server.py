@@ -591,9 +591,9 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
             run_cmd = f"{executable} --address {ip} --port {port}"
             path_in_install = "aisol/bin/winx64"
         else:
-            executable = "./Ans.Dpf.Grpc.sh"
-            run_cmd = [executable, f"--address {ip}", f"--port {port}"]
-            path_in_install = "aisol/bin/linx64"
+            executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
+            run_cmd = [executable, f"--address {ip}", f"--port {port}"]  # pragma: no cover
+            path_in_install = "aisol/bin/linx64"  # pragma: no cover
 
         # verify ansys path is valid
         if os.path.isdir(f"{str(ansys_path)}/{path_in_install}"):
