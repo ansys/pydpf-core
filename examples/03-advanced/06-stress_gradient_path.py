@@ -64,7 +64,7 @@ stress_fc = model.results.stress().eqv().outputs.fields_container()
 # Make sure to define ``"Nodal"`` as the requested location, important for the
 # `normals` operator.
 #
-nodal_scoping = dpf.Scoping(location="Nodal")
+nodal_scoping = dpf.Scoping(location=dpf.locations.nodal)
 nodal_scoping.ids = [node_id]
 ###############################################################################
 # Get Skin Mesh because `normals` operator requires Shells as input.
