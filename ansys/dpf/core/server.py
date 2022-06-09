@@ -585,10 +585,12 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
                        docker_name]
     else:
         if os.name == "nt":
-            run_cmd = f"Ans.Dpf.Grpc.bat --address {ip} --port {port}"
+            executable = "Ans.Dpf.Grpc.bat"
+            run_cmd = f"{executable} --address {ip} --port {port}"
             path_in_install = "aisol/bin/winx64"
         else:
-            run_cmd = ["./Ans.Dpf.Grpc.sh", f"--address {ip}", f"--port {port}"]
+            executable = "./Ans.Dpf.Grpc.sh"
+            run_cmd = [executable, f"--address {ip}", f"--port {port}"]
             path_in_install = "aisol/bin/linx64"
 
         # verify ansys path is valid
@@ -601,6 +603,12 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
                 f'Invalid ansys path at "{str(ansys_path)}".  '
                 "Unable to locate the directory containing DPF at "
                 f'"{dpf_run_dir}"'
+            )
+        else:
+            if not os.path.exists(os.path.join(dpf_run_dir, executable)):
+                raise FileNotFoundError(
+                    f'DPF executable not found at "{dpf_run_dir}".  '
+                    f'Unable to locate the executable "{executable}"'
             )
 
     old_dir = os.getcwd()
