@@ -7,7 +7,6 @@ from setuptools import setup
 
 install_requires = ["psutil", "tqdm", "numpy", "ansys-dpf-gate"]
 
-
 # Get version from version info
 filepath = os.path.dirname(__file__)
 __version__ = None
