@@ -404,4 +404,4 @@ def download_hemisphere() -> str:
     'C:/Users/user/AppData/local/temp/hemisphere.rst'
 
     """
-    return _download_file("docs", "hemisphere.rst")
+    return _download_file("hemisphere", "hemisphere.rst")

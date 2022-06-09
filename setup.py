@@ -7,7 +7,6 @@ from setuptools import setup
 
 install_requires = ["psutil", "progressbar2", "numpy", "ansys.grpc.dpf>=0.2.3"]
 
-
 # Get version from version info
 filepath = os.path.dirname(__file__)
 __version__ = None
@@ -62,7 +61,6 @@ setup(
             "model_with_ns.rst",
             "file_cyclic.rst",
             "msup_transient_plate1.rst",
-            "hemisphere.rst",
             "rth/rth_electric.rth",
             "rth/rth_steady.rth",
             "rth/rth_transient.rth",

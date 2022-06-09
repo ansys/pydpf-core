@@ -35,7 +35,8 @@ from ansys.dpf.core import examples
 # - Unit
 #
 path = examples.download_hemisphere()
-model = dpf.Model(examples.hemisphere)
+print(path)
+model = dpf.Model(path)
 print(model)
 ###############################################################################
 # Define the `node_id` normal to which a stress gradient should be plotted.
