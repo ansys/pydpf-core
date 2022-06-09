@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from ansys.dpf import core
@@ -33,6 +35,16 @@ def test_start_local():
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
         core.start_local_server(ansys_path="", use_docker_by_default=False)
+
+
+def test_start_local_failed_executable():
+    from ansys.dpf.core._version import __ansys_version__
+    from ansys.dpf.core.server import find_ansys
+    from pathlib import Path
+    with pytest.raises(FileNotFoundError):
+        ansys_path = Path(os.environ.get("AWP_ROOT" + __ansys_version__,
+                                         find_ansys())).parent.absolute()
+        core.start_local_server(ansys_path=ansys_path)
 
 
 def test_server_ip():

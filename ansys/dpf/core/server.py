@@ -549,6 +549,7 @@ class DpfServer:
 
         return server_meet_version_and_raise(required_version, self, msg)
 
+
 def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -561,6 +562,7 @@ def _find_port_available_for_docker_bind(port):
     while port in used_ports:
         port += 1
     return port
+
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
     if docker_name:
@@ -614,6 +616,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     os.chdir(old_dir)
     return process
+
 
 def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., docker_name=None):
     """Launch Ansys DPF.
