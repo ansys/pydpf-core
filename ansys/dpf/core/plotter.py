@@ -712,31 +712,32 @@ class Plotter:
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
-        background = kwargs.pop("background", None)
-        cpos = kwargs.pop("cpos", None)
-        return_cpos = kwargs.pop("return_cpos", None)
 
         # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
+
         text = kwargs.pop('text', None)
         if text is not None:
             self._internal_plotter._plotter.add_text(text, position='lower_edge')
-        kwargs.pop("title", None)
+
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.add_mesh,
             **kwargs
             )
         self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs_in)
 
+        background = kwargs.pop("background", None)
         if background is not None:
             self._internal_plotter._plotter.set_background(background)
 
+        cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._internal_plotter._plotter.camera_position = cpos
 
         # show result
+        return_cpos = kwargs.pop("return_cpos", None)
         if return_cpos is None:
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._internal_plotter._plotter.show,
@@ -748,7 +749,7 @@ class Plotter:
             version_to_reach = '0.32.0'
             meet_ver = meets_version(pv_version, version_to_reach)
             if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos)
+                return self._internal_plotter._plotter.show(return_cpos=return_cpos, **kwargs_in)
             else:
                 txt = """To use the return_cpos option, please upgrade
                 your pyvista module with a version higher than """
