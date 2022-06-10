@@ -343,6 +343,7 @@ def get_or_create_server(server):
     return _global_server()
 
 
+
 def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -355,3 +356,8 @@ def _find_port_available_for_docker_bind(port):
     while port in used_ports:
         port += 1
     return port
+
+
+
+
+
