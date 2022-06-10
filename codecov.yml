@@ -1,0 +1,21 @@
+comment:
+  layout: "diff"
+  behavior: default
+
+coverage:
+  status:
+    project: false
+    patch:
+      default:
+        # basic
+        target: auto
+        threshold: 10%
+        if_not_found: success
+        if_ci_failed: error
+        if_no_uploads: error
+  ignore:
+    - "examples"  # ignore folder and all its contents
+    - "docs"  # ignore folder and all its contents
+    - "docker"  # ignore folder and all its contents
+    - "tests"  # ignore folder and all its contents
+    - "ansys/dpf/core/operators"  # ignore folder and all its contents

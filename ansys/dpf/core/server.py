@@ -17,7 +17,7 @@ import weakref
 import copy
 
 from ansys import dpf
-from ansys.dpf.core.misc import find_ansys, is_ubuntu
+from ansys.dpf.core.misc import find_ansys, is_ubuntu, is_pypim_configured
 from ansys.dpf.core import errors
 
 from ansys.dpf.core._version import (
@@ -79,6 +79,9 @@ def _global_server():
                 ip = os.environ.get("DPF_IP", LOCALHOST)
                 port = int(os.environ.get("DPF_PORT", DPF_DEFAULT_PORT))
                 connect_to_server(ip, port)
+            elif is_pypim_configured():
+                # DpfServer constructor will start DPF through PyPIM
+                DpfServer(as_global=True, launch_server=True)
             else:
                 start_local_server()
 
@@ -182,15 +185,23 @@ def start_local_server(
     """
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
     if not use_docker:
+        # If no custom path was given in input
+        # First check the environment variable for a custom path
+        if ansys_path is None:
+            ansys_path = os.environ.get("ANSYS_PATH")
+        # Then check for usual installation folders with AWP_ROOT and find_ansys
         if ansys_path is None:
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
+        # If still no install has been found, throw an exception
         if ansys_path is None:
             raise ValueError(
-                "Unable to automatically locate the Ansys path  "
-                f"for version {__ansys_version__}."
-                "Manually enter one when starting the server or set it "
-                'as the environment variable "ANSYS_PATH"'
-            )
+                "Unable to locate any Ansys installation.\n"
+                f'Make sure the "AWP_ROOT{__ansys_version__}" environment variable '
+                f"is set if using ANSYS version {__ansys_version__}.\n"
+                "You can also manually define the path to the ANSYS installation root folder"
+                " of the version you want to use (vXXX folder):\n"
+                '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
+                '- or by setting it by default with the environment variable "ANSYS_PATH"')
 
         # verify path exists
         if not os.path.isdir(ansys_path):
@@ -351,15 +362,23 @@ class DpfServer:
         check_valid_ip(ip)
         if not isinstance(port, int):
             raise ValueError("Port must be an integer")
+        address = "%s:%d" % (ip, port)
 
         if os.name == "posix" and "ubuntu" in platform.platform().lower():
             raise OSError("DPF does not support Ubuntu")
         elif launch_server:
-            self._server_id = launch_dpf(str(ansys_path), ip, port,
-                                         docker_name=docker_name,
-                                         timeout=timeout)
+            if is_pypim_configured() and not ansys_path and not docker_name:
+                self._remote_instance = launch_remote_dpf()
+                address = self._remote_instance.services["grpc"].uri
+                # Unset ip and port as it's created by address.
+                ip = None
+                port = None
+            else:
+                self._server_id = launch_dpf(str(ansys_path), ip, port,
+                                            docker_name=docker_name,
+                                            timeout=timeout)
 
-        self.channel = grpc.insecure_channel("%s:%d" % (ip, port))
+        self.channel = grpc.insecure_channel(address)
 
         # assign to global channel when requested
         if as_global:
@@ -367,7 +386,8 @@ class DpfServer:
 
         # TODO: add to PIDs ...
 
-        # store port and ip for later reference
+        # store the address for later reference
+        self._address = address
         self._input_ip = ip
         self._input_port = port
         self.live = True
@@ -465,6 +485,8 @@ class DpfServer:
                 for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
                 process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            elif hasattr(self, "_remote_instance") and self._remote_instance:
+                self._remote_instance.delete()
             else:
                 p = psutil.Process(self._base_service.server_info["server_process_id"])
                 p.kill()
@@ -527,6 +549,7 @@ class DpfServer:
 
         return server_meet_version_and_raise(required_version, self, msg)
 
+
 def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -539,6 +562,7 @@ def _find_port_available_for_docker_bind(port):
     while port in used_ports:
         port += 1
     return port
+
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
     if docker_name:
@@ -563,11 +587,13 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
                        docker_name]
     else:
         if os.name == "nt":
-            run_cmd = f"Ans.Dpf.Grpc.bat --address {ip} --port {port}"
+            executable = "Ans.Dpf.Grpc.bat"
+            run_cmd = f"{executable} --address {ip} --port {port}"
             path_in_install = "aisol/bin/winx64"
         else:
-            run_cmd = ["./Ans.Dpf.Grpc.sh", f"--address {ip}", f"--port {port}"]
-            path_in_install = "aisol/bin/linx64"
+            executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
+            run_cmd = [executable, f"--address {ip}", f"--port {port}"]  # pragma: no cover
+            path_in_install = "aisol/bin/linx64"  # pragma: no cover
 
         # verify ansys path is valid
         if os.path.isdir(f"{str(ansys_path)}/{path_in_install}"):
@@ -578,14 +604,19 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
             raise NotADirectoryError(
                 f'Invalid ansys path at "{str(ansys_path)}".  '
                 "Unable to locate the directory containing DPF at "
-                f'"{dpf_run_dir}"'
-            )
+                f'"{dpf_run_dir}"')
+        else:
+            if not os.path.exists(os.path.join(dpf_run_dir, executable)):
+                raise FileNotFoundError(
+                    f'DPF executable not found at "{dpf_run_dir}".  '
+                    f'Unable to locate the executable "{executable}"')
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     os.chdir(old_dir)
     return process
+
 
 def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., docker_name=None):
     """Launch Ansys DPF.
@@ -660,12 +691,28 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., doc
             pass
         errstr = "\n".join(errors)
         if "Only one usage of each socket address" in errstr:
-            raise errors.InvalidPortError(f"Port {port} in use")
+            from ansys.dpf.core.errors import InvalidPortError
+            raise InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)
 
     if len(docker_id) > 0:
         return docker_id[0]
 
+def launch_remote_dpf(version = None):
+    try:
+        import ansys.platform.instancemanagement as pypim
+    except ImportError as e:
+        raise ImportError("Launching a remote session of DPF requires the installation"
+                           + " of ansys-platform-instancemanagement") from e
+    version = version or __ansys_version__
+    pim = pypim.connect()
+    instance = pim.create_instance(product_name = "dpf", product_version = version)
+    instance.wait_for_ready()
+    grpc_service = instance.services["grpc"]
+    if grpc_service.headers:
+        LOG.error("Communicating with DPF in this remote environment requires metadata."
+                  + "This is not supported, you will likely encounter errors or limitations.")
+    return instance
 
 def check_ansys_grpc_dpf_version(server, timeout=10.):
     state = grpc.channel_ready_future(server.channel)
@@ -676,8 +723,8 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
 
     if not state._matured:
         raise TimeoutError(
-            f"Failed to connect to {server._input_ip}:" +
-            f"{server._input_port} in {int(timeout)} seconds"
+            f"Failed to connect to {server._address}" +
+            f" in {int(timeout)} seconds"
         )
 
     LOG.debug("Established connection to DPF gRPC")
@@ -685,11 +732,25 @@ def check_ansys_grpc_dpf_version(server, timeout=10.):
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
     if right_grpc_module_version and right_grpc_module_version != grpc_module_version:
-        raise ImportWarning(f"2022R1 Ansys unified install is available. "
-                            f"To use DPF server from Ansys "
-                            f"{server_to_ansys_version.get(server_version, 'Unknown')}"
-                            f" (dpf.SERVER.version=='{server_version}'), "
-                            f"install version {right_grpc_module_version} of ansys-grpc-dpf"
+        compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
+                              f"index.html#client-server-compatibility")
+        raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
+                            f"({server_version} "
+                            f"from Ansys {server_to_ansys_version.get(server_version, 'Unknown')})"
+                            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
+                            f" Please consider using the latest DPF server available in the "
+                            f"2022R1 Ansys unified install.\n"
+                            f"To follow the compatibility guidelines given in "
+                            f"{compatibility_link} while still using DPF server {server_version}, "
+                            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
                             f" with the command: \n"
                             f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
                             )
+        # raise ImportWarning(f"2022R1 Ansys unified install is available. "
+        #                     f"To use DPF server from Ansys "
+        #                     f"{server_to_ansys_version.get(server_version, 'Unknown')}"
+        #                     f" (dpf.SERVER.version=='{server_version}'), "
+        #                     f"install version {right_grpc_module_version} of ansys-grpc-dpf"
+        #                     f" with the command: \n"
+        #                     f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+        #                     )

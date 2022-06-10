@@ -18,9 +18,9 @@ from ansys.dpf.core import examples
 # Create the data sources
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # First create a data sources with the mode shapes and the modal response
-# The expansion is recursive in dpf: first the modal response is red,
+# The expansion is recursive in dpf: first the modal response is read,
 # then, "upstreams" mode shapes are found in the data sources, so they
-# are red and expanded (mode shapes x modal response)
+# are read and expanded (mode shapes x modal response)
 
 msup_files = examples.download_msup_files_to_dict()
 data_sources = dpf.DataSources(msup_files["rfrq"])
