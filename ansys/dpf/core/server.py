@@ -130,7 +130,7 @@ def start_local_server(
     docker_name=None,
     timeout=10.,
     config=None,
-    use_pypim=True
+    use_pypim_by_default=True
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -166,7 +166,7 @@ def start_local_server(
         passes, the connection fails.
     config: ServerConfig, optional
         Manages the type of server connection to use.
-    use_pypim: bool, optional
+    use_pypim_by_default: bool, optional
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
 
@@ -176,7 +176,8 @@ def start_local_server(
     """
     from ansys.dpf.core.misc import is_pypim_configured
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
-    if (not use_docker) and (not is_pypim_configured or not use_pypim):
+    use_pypim = use_pypim_by_default and is_pypim_configured()
+    if not use_docker and not use_pypim:
         # If no custom path was given in input
         # First check the environment variable for a custom path
         if ansys_path is None:
