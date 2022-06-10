@@ -549,6 +549,7 @@ class DpfServer:
 
         return server_meet_version_and_raise(required_version, self, msg)
 
+
 def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -561,6 +562,7 @@ def _find_port_available_for_docker_bind(port):
     while port in used_ports:
         port += 1
     return port
+
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
     if docker_name:
@@ -585,11 +587,13 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
                        docker_name]
     else:
         if os.name == "nt":
-            run_cmd = f"Ans.Dpf.Grpc.bat --address {ip} --port {port}"
+            executable = "Ans.Dpf.Grpc.bat"
+            run_cmd = f"{executable} --address {ip} --port {port}"
             path_in_install = "aisol/bin/winx64"
         else:
-            run_cmd = ["./Ans.Dpf.Grpc.sh", f"--address {ip}", f"--port {port}"]
-            path_in_install = "aisol/bin/linx64"
+            executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
+            run_cmd = [executable, f"--address {ip}", f"--port {port}"]  # pragma: no cover
+            path_in_install = "aisol/bin/linx64"  # pragma: no cover
 
         # verify ansys path is valid
         if os.path.isdir(f"{str(ansys_path)}/{path_in_install}"):
@@ -600,14 +604,19 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
             raise NotADirectoryError(
                 f'Invalid ansys path at "{str(ansys_path)}".  '
                 "Unable to locate the directory containing DPF at "
-                f'"{dpf_run_dir}"'
-            )
+                f'"{dpf_run_dir}"')
+        else:
+            if not os.path.exists(os.path.join(dpf_run_dir, executable)):
+                raise FileNotFoundError(
+                    f'DPF executable not found at "{dpf_run_dir}".  '
+                    f'Unable to locate the executable "{executable}"')
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
     process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     os.chdir(old_dir)
     return process
+
 
 def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10., docker_name=None):
     """Launch Ansys DPF.
