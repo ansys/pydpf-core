@@ -211,6 +211,7 @@ def launch_remote_dpf(version=None):
                   + "This is not supported, you will likely encounter errors or limitations.")
     return instance
 
+
 def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str:str, grpc_module_version:str):
     if right_grpc_module_version_str:
         import re
@@ -503,9 +504,8 @@ class GrpcServer(CServer):
             if is_pypim_configured() and not ansys_path and not docker_name and use_pypim:
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
-                # Unset ip and port as it's created by address.
-                ip = None
-                port = None
+                ip = address.split(":")[-2]
+                port = int(address.split(":")[-1])
             else:
                 self._server_id = launch_dpf(ansys_path, ip, port,
                                              docker_name=docker_name, timeout=timeout)
@@ -698,9 +698,8 @@ class LegacyGrpcServer(BaseServer):
             if is_pypim_configured() and not ansys_path and not docker_name and use_pypim:
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
-                # Unset ip and port as it's created by address.
-                ip = None
-                port = None
+                ip = address.split(":")[-2]
+                port = int(address.split(":")[-1])
             else:
                 self._server_id = launch_dpf(ansys_path, ip, port,
                                              docker_name=docker_name, timeout=timeout)

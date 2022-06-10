@@ -174,8 +174,9 @@ def start_local_server(
     -------
     server : server.ServerBase
     """
+    from ansys.dpf.core.misc import is_pypim_configured
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
-    if not use_docker:
+    if (not use_docker) and (not is_pypim_configured or not use_pypim):
         # If no custom path was given in input
         # First check the environment variable for a custom path
         if ansys_path is None:
@@ -193,10 +194,6 @@ def start_local_server(
                 " of the version you want to use (vXXX folder):\n"
                 '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
                 '- or by setting it by default with the environment variable "ANSYS_PATH"')
-
-        # verify path exists
-        if not os.path.isdir(ansys_path):
-            raise NotADirectoryError(f'Invalid Ansys path "{ansys_path}"')
 
         # parse the version to an int and check for supported
         try:
