@@ -738,10 +738,10 @@ class Plotter:
 
         # show result
         return_cpos = kwargs.pop("return_cpos", None)
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._internal_plotter._plotter.show,
+            **kwargs)
         if return_cpos is None:
-            kwargs_in = _sort_supported_kwargs(
-                bound_method=self._internal_plotter._plotter.show,
-                **kwargs)
             return self._internal_plotter._plotter.show(**kwargs_in)
         else:
             import pyvista as pv
