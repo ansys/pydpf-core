@@ -67,7 +67,7 @@ class _PyVistaPlotter:
             )
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(
-            bound_method=pv.Plotter,
+            bound_method=pv.Plotter.__init__,
             **kwargs)
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
@@ -601,10 +601,7 @@ class Plotter:
     def plot_contour(
             self,
             field_or_fields_container,
-            notebook=None,
             shell_layers=None,
-            off_screen=None,
-            show_axes=True,
             meshed_region=None,
             **kwargs
     ):
@@ -617,20 +614,9 @@ class Plotter:
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or field container that contains the result to plot.
-        notebook : bool, optional
-            Whether to plot a static image within an iPython notebook
-            if available. The default is `None`, in which case an attempt is
-            made to plot a static imaage within an iPython notebook. When ``False``,
-            a plot external to the notebook is generated with an interactive window.
-            When ``True``, a plot is always generated within a notebook.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
-        off_screen : bool, optional
-            Whether to render off screen, which is useful for automated
-            screenshots. The default is ``None``.
-        show_axes : bool, optional
-            Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
@@ -726,43 +712,36 @@ class Plotter:
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
-        background = kwargs.pop("background", None)
-        cpos = kwargs.pop("cpos", None)
-        return_cpos = kwargs.pop("return_cpos", None)
-
-        # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
-        if notebook is not None:
-            self._internal_plotter._plotter.notebook = notebook
-        if off_screen is not None:
-            self._internal_plotter._plotter.off_screen = off_screen
 
         # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
         kwargs.setdefault("stitle", name)
+
         text = kwargs.pop('text', None)
         if text is not None:
             self._internal_plotter._plotter.add_text(text, position='lower_edge')
-        kwargs.pop("title", None)
+
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.add_mesh,
             **kwargs
             )
         self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs_in)
 
+        background = kwargs.pop("background", None)
         if background is not None:
             self._internal_plotter._plotter.set_background(background)
 
+        cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._internal_plotter._plotter.camera_position = cpos
 
         # show result
-        if show_axes:
-            self._internal_plotter._plotter.add_axes()
+        return_cpos = kwargs.pop("return_cpos", None)
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._internal_plotter._plotter.show,
+            **kwargs)
         if return_cpos is None:
-            kwargs_in = _sort_supported_kwargs(
-                bound_method=self._internal_plotter._plotter.show,
-                **kwargs)
             return self._internal_plotter._plotter.show(**kwargs_in)
         else:
             import pyvista as pv
@@ -770,7 +749,7 @@ class Plotter:
             version_to_reach = '0.32.0'
             meet_ver = meets_version(pv_version, version_to_reach)
             if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos)
+                return self._internal_plotter._plotter.show(return_cpos=return_cpos, **kwargs_in)
             else:
                 txt = """To use the return_cpos option, please upgrade
                 your pyvista module with a version higher than """
