@@ -67,7 +67,7 @@ class _PyVistaPlotter:
             )
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(
-            bound_method=pv.Plotter,
+            bound_method=pv.Plotter.__init__,
             **kwargs)
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
