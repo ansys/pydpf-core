@@ -131,7 +131,8 @@ class _PyVistaPlotter:
                   label_text_size=30, label_point_size=20, **kwargs):
         # Get the field name
         name = field.name.split("_")[0]
-        kwargs.setdefault("stitle", name)
+        unit = field.unit
+        kwargs.setdefault("stitle", f"{name} ({unit})")
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
@@ -262,7 +263,9 @@ class _PyVistaPlotter:
         meet_ver = meets_version(pv_version, version_to_reach)
         if meet_ver:
             # use scalar_bar_args
-            scalar_bar_args = {'title': stitle}
+            scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+            if not scalar_bar_args:
+                scalar_bar_args = {'title': stitle}
             kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         else:
             # use stitle
@@ -657,6 +660,7 @@ class Plotter:
                 location = field.location
                 component_count = field.component_count
                 name = field.name.split("_")[0]
+                unit = field.unit
                 break
 
         if location == locations.nodal:
@@ -705,7 +709,7 @@ class Plotter:
         kwargs.setdefault("nan_color", "grey")
 
         # Set the scalar bar title
-        kwargs.setdefault("stitle", name)
+        kwargs.setdefault("stitle", f"{name} ({unit})")
         kwargs = self._internal_plotter._set_scalar_bar_title(kwargs)
 
         # show axes
