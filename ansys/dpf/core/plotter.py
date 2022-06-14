@@ -263,7 +263,9 @@ class _PyVistaPlotter:
         meet_ver = meets_version(pv_version, version_to_reach)
         if meet_ver:
             # use scalar_bar_args
-            scalar_bar_args = {'title': stitle}
+            scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+            if not scalar_bar_args:
+                scalar_bar_args = {'title': stitle}
             kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         else:
             # use stitle
