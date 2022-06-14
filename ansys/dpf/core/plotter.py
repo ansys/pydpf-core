@@ -74,7 +74,7 @@ class _PyVistaPlotter:
 
     def add_mesh(self, meshed_region, **kwargs):
 
-        self._set_scalar_bar_title(kwargs)
+        kwargs = self._set_scalar_bar_title(kwargs)
 
         # Set defaults for PyDPF
         kwargs.setdefault("show_edges", True)
@@ -131,24 +131,10 @@ class _PyVistaPlotter:
                   label_text_size=30, label_point_size=20, **kwargs):
         # Get the field name
         name = field.name.split("_")[0]
-        # Import pyvista
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
-        pv_version = pv.__version__
-        version_to_reach = '0.30.0'
-        meet_ver = meets_version(pv_version, version_to_reach)
-        if meet_ver:
-            # use scalar_bar_args
-            scalar_bar_args = {'title': name}
-            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        else:
-            # use stitle
-            kwargs.setdefault("stitle", name)
+        kwargs.setdefault("stitle", name)
+
+        kwargs = self._set_scalar_bar_title(kwargs)
+
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
@@ -291,6 +277,7 @@ class _PyVistaPlotter:
             else:
                 if self._plotter.scalar_bar.GetTitle() is None:
                     kwargs.setdefault("stitle", stitle)
+        return kwargs
 
 
 class DpfPlotter:
@@ -716,7 +703,15 @@ class Plotter:
         # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
+
+        # Set the scalar bar title
         kwargs.setdefault("stitle", name)
+        kwargs = self._internal_plotter._set_scalar_bar_title(kwargs)
+
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._internal_plotter._plotter.add_axes()
 
         text = kwargs.pop('text', None)
         if text is not None:
