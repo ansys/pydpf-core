@@ -32,7 +32,7 @@ def test_start_local():
 
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
-        core.start_local_server(ansys_path="", use_docker_by_default=False)
+        core.start_local_server(ansys_path="test/", use_docker_by_default=False)
 
 
 def test_server_ip(server_type_remote_process):

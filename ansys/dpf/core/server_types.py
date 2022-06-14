@@ -273,9 +273,16 @@ def check_ansys_grpc_dpf_version(server, timeout):
 class BaseServer(abc.ABC):
     """Abstract class for servers"""
     @abc.abstractmethod
-    def __init__(self, as_global=True):
+    def __init__(self):
         """Base class for all types of servers: grpc, in process...
+        """
+        # TODO: Use _server_id to compare servers for equality?
+        self._server_id = None
+        self._session_instance = None
+        self._base_service_instance = None
 
+    def set_as_global(self, as_global=True):
+        """Set the current server as global if necessary
         Parameters
         ----------
         as_global : bool, optional
@@ -283,11 +290,6 @@ class BaseServer(abc.ABC):
             module. All DPF objects created in this Python session will
             use this IP and port. The default is ``True``.
         """
-        # TODO: Use _server_id to compare servers for equality?
-        self._server_id = None
-        self._session_instance = None
-        self._base_service_instance = None
-
         # assign to global channel when requested
         if as_global:
             core.SERVER = self
@@ -432,10 +434,8 @@ class CServer(BaseServer, ABC):
     """Abstract class for servers going through the DPFClientAPI"""
     def __init__(self,
                  ansys_path=None,
-                 as_global=True,
                  load_operators=True):
-
-        super().__init__(as_global=as_global)
+        super().__init__()
         from ansys.dpf.gate import capi
         ISPOSIX = os.name == "posix"
         name = "DPFClientAPI"
@@ -489,7 +489,7 @@ class GrpcServer(CServer):
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
-        super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)
+        super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         from ansys.dpf.gate.utils import data_processing_core_load_api
 
@@ -518,6 +518,7 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._own_process = launch_server
+        self.set_as_global(as_global=as_global)
 
     @property
     def version(self):
@@ -594,7 +595,7 @@ class InProcessServer(CServer):
                  timeout=None):
 
         # Load DPFClientAPI
-        super().__init__(ansys_path=ansys_path, as_global=as_global, load_operators=load_operators)
+        super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
         from ansys.dpf.gate import data_processing_capi
@@ -602,6 +603,7 @@ class InProcessServer(CServer):
         path = _get_dll_path(name, ansys_path)
         data_processing_core_load_api(path, "common")
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
+        self.set_as_global(as_global=as_global)
 
     @property
     def version(self):
@@ -681,7 +683,7 @@ class LegacyGrpcServer(BaseServer):
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
 
-        super().__init__(as_global=as_global)
+        super().__init__()
 
         # Load Ans.Dpf.Grpc?
         import grpc
@@ -718,6 +720,7 @@ class LegacyGrpcServer(BaseServer):
         self._stubs = {}
 
         check_ansys_grpc_dpf_version(self, timeout)
+        self.set_as_global(as_global=as_global)
 
     @property
     def client(self):
