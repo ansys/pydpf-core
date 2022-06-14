@@ -716,7 +716,23 @@ class Plotter:
         # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
-        kwargs.setdefault("stitle", name)
+
+        import pyvista as pv
+        pv_version = pv.__version__
+        version_to_reach = '0.30.0'
+        meet_ver = meets_version(pv_version, version_to_reach)
+        if meet_ver:
+            # use scalar_bar_args
+            scalar_bar_args = {'title': name}
+            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+        else:
+            # use stitle
+            kwargs.setdefault("stitle", name)
+
+        # show result
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._internal_plotter._plotter.add_axes()
 
         text = kwargs.pop('text', None)
         if text is not None:
