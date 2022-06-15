@@ -18,7 +18,9 @@ concurrency:
 env:
   PYANSYS_OFF_SCREEN: True
   DPF_PORT: 32772
+  PACKAGE_NAME: ansys-dpf-core
   ANSYS_VERSION: 221
+  MODULE: core
 
 jobs:
   test_windows:
