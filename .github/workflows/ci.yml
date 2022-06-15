@@ -146,117 +146,29 @@ jobs:
           TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
           TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
-  build_doc:
-    name: Documentation
-    runs-on: windows-2019
-
-    env:
-      ANSYS_VERSION: 221
+  Build_Doc:
+    name: Build Doc
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v2.1.4
+      - name: "Build Documentation"
+        uses: pyansys/pydpf-actions/build_doc@v2.1
         with:
-          python-version: 3.8
-
-      - id: install-dpf
-        uses: pyansys/pydpf-actions/install-dpf-server@v1
-        with:
+          python-version: "3.8"
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          ANSYS_VERSION : ${{env.ANSYS_VERSION}}
-
-      - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
-      - name: Set SERVER
-        run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
-      - name: Install ansys-dpf-core
-        shell: cmd
-        run: |
-          pip install -r requirements_build.txt
-          python setup.py bdist_wheel
-          FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
-          ECHO %WHEELPATH%
-          cd tests
-          pip install %WHEELPATH%
-          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
-
-      - name: Install documentation packages for Python
-        run: |
-          pip install -r requirements_docs.txt
-
-      - name: Build Documentation
-        shell: cmd
-        run: |
-          cd .ci
-          build_doc.bat > ..\docs\log.txt 2>&1
-        timeout-minutes: 20
-
-      - name: DOCUMENTATION zip artifacts
-        run: |
-          7z a -tzip ./docs/archive/doc-ansys-dpf-core.zip ./docs/build
-        if: always()
-
-      - name: Kill all servers
-        shell: cmd
-        run: |
-          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-          ECHO %ERRORLEVEL%
-          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
+          install_extras: plotting
+          build_extras: ../ansys/dpf/core/log.py ../ansys/dpf/core/help.py ../ansys/dpf/core/mapping_types.py ../ansys/dpf/core/ipconfig.py ../ansys/dpf/core/field_base.py ../ansys/dpf/core/cache.py ../ansys/dpf/core/misc.py ../ansys/dpf/core/check_version.py ../ansys/dpf/core/operators/build.py ../ansys/dpf/core/operators/specification.py ../ansys/dpf/core/vtk_helper.py
         continue-on-error: true
-        if: always()
+        timeout-minutes: 30
 
-      - name: Publish Documentation artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: doc-ansys-dpf-core
-          path: ./docs/archive/doc-ansys-dpf-core.zip
-        if: always()
-
-      - name: Publish Documentation log
-        uses: actions/upload-artifact@v2
-        with:
-          name: doc-ansys-dpf-core-log
-          path: ./docs/*.txt
-        if: always()
-
-      - name: Init git and add docs
+      - name: "Push Documentation"
         if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git init
-          git checkout -b $env:GH_DOC_BRANCH
-          git config --global user.name "pyansys-ci-bot"
-          git config --global user.email "$env:GH_EMAIL"
-          New-Item -ItemType file .nojekyll
-          git add .
-          git commit -m "Documentation generated"
-        env:
-          GH_DOC_BRANCH: gh-pages
-          GH_EMAIL: pyansys.github.bot@ansys.com
-
-      - name: Publish GitHub Pages merge commit
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $env:GH_DOC_BRANCH --force
-        env:
-          GH_DOC_BRANCH: gh-pages
+        uses: pyansys/pydpf-actions/push_doc@v2.1
+        with:
+          PYANSYS_CI_BOT_TOKEN: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+          DOC_REPO: DPF-Core-docs
