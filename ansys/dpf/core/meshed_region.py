@@ -313,8 +313,17 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def _as_vtk(self, as_linear=True, include_ids=False):
+    def warp_by_vector_field(self, warping_field, scaling_factor=1.):
+        from ansys.dpf.core.operators.math import add, scale
+        return add(fieldA=self.nodes.coordinates_field,
+                   fieldB=scale(field=warping_field,
+                                ponderation=scaling_factor
+                                ).outputs.field
+                   ).outputs.field()
+
+    def _as_vtk(self, coordinates, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
+        self._tmpnodes = coordinates.data
         nodes = self.nodes.coordinates_field.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
@@ -362,13 +371,15 @@ class MeshedRegion:
 
         """
         if self._full_grid is None:
-            self._full_grid = self._as_vtk()
+            self._full_grid = self._as_vtk(self.nodes.coordinates_field)
         return self._full_grid
 
     def plot(
             self,
             field_or_fields_container=None,
             shell_layers=None,
+            warping_field=None,
+            scaling_factor=1.0,
             **kwargs
     ):
         """Plot the field or fields container on the mesh.
@@ -397,11 +408,13 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
-            return pl.plot_contour(field_or_fields_container, shell_layers, **kwargs)
+            return pl.plot_contour(field_or_fields_container, shell_layers,
+                                   warping_field=warping_field,
+                                   scaling_factor=scaling_factor, **kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, **kwargs)
+        pl.add_mesh(self, warping_field=warping_field, scaling_factor=scaling_factor, **kwargs)
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):

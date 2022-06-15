@@ -587,3 +587,27 @@ def test_plot_chart(allkindofcomplexity):
     plot_chart(new_fields_container, off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
     remove_picture(picture)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_warped_mesh(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    disp_result = model.results.displacement.on_time_scoping([1])
+    scaling_factor = 0.001
+    mesh.plot(warping_field=disp_result, scaling_factor=scaling_factor)
+    disp_fc = disp_result.eval()
+    disp_field = disp_fc[0]
+    disp_field.plot(warping_field=disp_result, scaling_factor=scaling_factor)
+    mesh.plot(disp_field, warping_field=disp_result, scaling_factor=scaling_factor)
+    split_mesh_op = dpf.core.Operator("split_mesh")
+    split_mesh_op.connect(7, mesh)
+    split_mesh_op.connect(13, "mat")
+    meshes_cont = split_mesh_op.get_output(0, dpf.core.types.meshes_container)
+    meshes_cont.plot(warping_field=disp_result, scaling_factor=scaling_factor)
+    disp_op = dpf.core.Operator("U")
+    disp_op.connect(7, meshes_cont)
+    ds = dpf.core.DataSources(multishells)
+    disp_op.connect(4, ds)
+    disp_fc = disp_op.outputs.fields_container()
+    meshes_cont.plot(disp_fc, warping_field=disp_result, scaling_factor=scaling_factor)

@@ -72,7 +72,7 @@ class _PyVistaPlotter:
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
-    def add_mesh(self, meshed_region, **kwargs):
+    def add_mesh(self, meshed_region, warping_field=None, scaling_factor=1.0, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
@@ -89,9 +89,13 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        grid = meshed_region.grid
+        if not warping_field:
+            grid = meshed_region.grid
+        else:
+            grid = meshed_region._as_vtk(meshed_region.warp_by_vector_field(warping_field,
+                                                                            scaling_factor))
         grid.set_active_scalars(None)
-        self._plotter.add_mesh(meshed_region.grid, **kwargs_in)
+        self._plotter.add_mesh(grid, **kwargs_in)
 
     def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
         label_actors = []
@@ -128,7 +132,8 @@ class _PyVistaPlotter:
         return label_actors
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
-                  label_text_size=30, label_point_size=20, **kwargs):
+                  label_text_size=30, label_point_size=20, warping_field=None, scaling_factor=1.0,
+                  **kwargs):
         # Get the field name
         name = field.name.split("_")[0]
         unit = field.unit
@@ -172,7 +177,11 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        grid = meshed_region.grid
+        if not warping_field:
+            grid = meshed_region.grid
+        else:
+            grid = meshed_region._as_vtk(meshed_region.warp_by_vector_field(warping_field,
+                                                                            scaling_factor))
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -354,7 +363,7 @@ class DpfPlotter:
                                                                     labels=labels,
                                                                     **kwargs))
 
-    def add_mesh(self, meshed_region, **kwargs):
+    def add_mesh(self, meshed_region, warping_field=None, scaling_factor=1.0, **kwargs):
         """Add a mesh to plot.
 
         Parameters
@@ -376,10 +385,15 @@ class DpfPlotter:
         >>> pl.add_mesh(mesh)
 
         """
-        self._internal_plotter.add_mesh(meshed_region=meshed_region, **kwargs)
+        self._internal_plotter.add_mesh(meshed_region=meshed_region,
+                                        warping_field=warping_field,
+                                        scaling_factor=scaling_factor,
+                                        **kwargs)
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
-                  label_text_size=30, label_point_size=20, **kwargs):
+                  label_text_size=30, label_point_size=20,
+                  warping_field=None, scaling_factor=1.0,
+                  **kwargs):
         """Add a field containing data to the plotter.
 
         A meshed_region to plot on can be added.
@@ -419,7 +433,12 @@ class DpfPlotter:
                                          show_min=show_min,
                                          label_text_size=label_text_size,
                                          label_point_size=label_point_size,
+                                         warping_field=warping_field,
+                                         scaling_factor=scaling_factor,
                                          **kwargs)
+
+    def update_mesh(self, mesh, updated_coordinates):
+        self._internal_plotter.update_mesh(mesh, updated_coordinates)
 
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
@@ -593,6 +612,8 @@ class Plotter:
             field_or_fields_container,
             shell_layers=None,
             meshed_region=None,
+            warping_field=None,
+            scaling_factor=1.0,
             **kwargs
     ):
         """Plot the contour result on its mesh support.
@@ -705,6 +726,9 @@ class Plotter:
         # create the plotter and add the meshes
 
         # add meshes
+        kwargs.setdefault("stitle", name)
+        kwargs = self._internal_plotter._set_scalar_bar_title(kwargs)
+
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
@@ -725,7 +749,12 @@ class Plotter:
             bound_method=self._internal_plotter._plotter.add_mesh,
             **kwargs
             )
-        self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs_in)
+        if warping_field:
+            grid = mesh._as_vtk(mesh.warp_by_vector_field(warping_field,
+                                                          scaling_factor))
+        else:
+            grid = mesh.grid
+        self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         background = kwargs.pop("background", None)
         if background is not None:
