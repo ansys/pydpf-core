@@ -1,13 +1,17 @@
-import os
+"""Sphinx documentation configuration file."""
 from datetime import datetime
+import os
 
-import numpy as np
 import pyvista
+import numpy as np
+from pyansys_sphinx_theme import pyansys_logo_black
+
 from ansys.dpf.core import __version__
+
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
-# Ensure that offscreen rendering is used for docs generation
+# Ensure that off-screen rendering is used for docs generation
 pyvista.OFF_SCREEN = True
 # Preferred plotting style for documentation
 # pyvista.set_plot_theme('document')
@@ -22,15 +26,12 @@ pyvista.BUILDING_GALLERY = True
 
 # -- Project information -----------------------------------------------------
 
-project = "PyDPF-Core"
+project = "PyANSYS DPF"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
 
 # The short X.Y version
-version = __version__
-
-# The full version, including alpha/beta/rc tags
-release = __version__
+release = version = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -49,7 +50,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
     "nbsphinx",
-    "sphinx.ext.intersphinx"
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.graphviz"
 ]
 
 # Intersphinx mapping
@@ -87,7 +89,6 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
-
 # -- Sphinx Gallery Options
 from sphinx_gallery.sorting import FileNameSortKey
 
@@ -106,6 +107,8 @@ sphinx_gallery_conf = {
     "within_subsection_order": FileNameSortKey,
     # directory where function granular galleries are stored
     "backreferences_dir": None,
+    # Modules for which function level galleries are created.  In
+    "doc_module": "ansys-dpf-core",
     "image_scrapers": ("pyvista", "matplotlib"),
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
@@ -116,14 +119,27 @@ autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
+
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+#
+# html_theme = 'sphinx_rtd_theme'
+# html_theme = 'pydata_sphinx_theme'
+# html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+# zerovm-sphinx-theme
+
+html_short_title = html_title = "PyDPF-Core"
 html_theme = "pyansys_sphinx_theme"
-html_logo = os.path.join("_static", "pyansys-logo-black-cropped.png")
+html_logo = pyansys_logo_black
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
     "show_prev_next": False,
+    "show_breadcrumbs": True,
+    "additional_breadcrumbs": [
+        ("PyAnsys", "https://docs.pyansys.com/"),
+    ],
     "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
 }
-
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -146,7 +162,7 @@ html_sidebars = {"testing": []}
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "pyansysdoc"
+htmlhelp_basename = "pydpfcoredoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -172,9 +188,9 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "pyansys.tex",
+        "PyDPF-Core.tex",
         "PyAnsys DPF-Core Documentation",
-        f"{author}",
+        author,
         "manual",
     ),
 ]
@@ -184,7 +200,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "pyansys", "PyAnsys DPF-Core Documentation", [author], 1)]
+man_pages = [(master_doc, "PyDPF-Core", "PyAnsys DPF-Core Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -195,7 +211,7 @@ man_pages = [(master_doc, "pyansys", "PyAnsys DPF-Core Documentation", [author],
 texinfo_documents = [
     (
         master_doc,
-        "pyansys",
+        "PyDPF-Core",
         "PyAnsys DPF-Core Documentation",
         author,
         "pyansys",
