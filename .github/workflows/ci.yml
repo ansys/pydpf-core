@@ -163,7 +163,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           build_extras: ../ansys/dpf/core/log.py ../ansys/dpf/core/help.py ../ansys/dpf/core/mapping_types.py ../ansys/dpf/core/ipconfig.py ../ansys/dpf/core/field_base.py ../ansys/dpf/core/cache.py ../ansys/dpf/core/misc.py ../ansys/dpf/core/check_version.py ../ansys/dpf/core/operators/build.py ../ansys/dpf/core/operators/specification.py ../ansys/dpf/core/vtk_helper.py
-        continue-on-error: true
+#        continue-on-error: true
         timeout-minutes: 30
 
       - name: "Push Documentation"
