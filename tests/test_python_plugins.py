@@ -123,7 +123,7 @@ def test_data_tree(load_all_types_plugin):
     op.connect(0, f)
     dt = op.get_output(0, dpf.types.data_tree)
     assert dt is not None
-    assert dt.get_as("name")=="Paul"
+    assert dt.get_as("name") == "Paul"
 
 
 @conftest.raises_for_servers_version_under('4.0')

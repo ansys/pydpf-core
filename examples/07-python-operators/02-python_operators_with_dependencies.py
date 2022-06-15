@@ -127,5 +127,5 @@ new_operator.run()
 print("operator ran successfully")
 
 # %%
-# The gltf Operator output can be downloaded :download:`here<images/thumb/out02.glb>`.
+# The gltf Operator output can be downloaded :download:`here <images/thumb/out02.glb>`.
 

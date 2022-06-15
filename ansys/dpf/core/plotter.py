@@ -300,7 +300,7 @@ class DpfPlotter:
     The current DpfPlotter is a PyVista based object.
 
     That means that PyVista must be installed, and that
-    it supports **kwargs as parameter (the argument
+    it supports kwargs as parameter (the argument
     must be supported by the installed PyVista version).
     More information about the available arguments are
     available at :class:`pyvista.Plotter`.
