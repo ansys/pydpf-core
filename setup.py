@@ -62,7 +62,6 @@ setup(
             "model_with_ns.rst",
             "file_cyclic.rst",
             "msup_transient_plate1.rst",
-            "ASME_SecVIII_Div2.rst"
             "rth/rth_electric.rth",
             "rth/rth_steady.rth",
             "rth/rth_transient.rth",

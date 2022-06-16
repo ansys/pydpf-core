@@ -25,7 +25,8 @@ that calculation is made according to latest ASME standard.
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 
-model = dpf.Model(examples.ASME_SecVIII_Div2)
+path = examples.download_example_asme_result()
+model = dpf.Model(path)
 dataSource = model.metadata.data_sources
 
 timeScoping = dpf.Scoping()
@@ -35,20 +36,22 @@ timeScoping.ids = [4]
 
 ###############################################################################
 # Parameters input
-# ~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~
 # User must go to ASME Section III Division 2 and get parameters alfasl & m2
-# If the user want to replicate same results as the workshop, please introduce these
-# values: alfasl = 2.2 & m2 = .288
+# Below the code if user is going to introduce these parameters manually
+# alfasl = input("Please introduce alfasl parameter from ASME\n")
+# alfasl = float(alfasl)
+# m2 = input("Please introduce m2 parameter from ASME\n")
+# m2 = float(m2)
+# Values for this exercise: alfasl = 2.2 & m2 = .288, same as original
 #
 
-alfasl = input("Please introduce alfasl parameter from ASME\n")
-alfasl = float(alfasl)
-m2 = input("Please introduce m2 parameter from ASME\n")
-m2 = float(m2)
+alfasl = 2.2
+m2 = .288
 
 ###############################################################################
-# Streses & strains
-# ~~~~~~~~~~~~~~~~
+# Stresses & strains
+# ~~~~~~~~~~~~~~~~~~
 # Stresses and strains are read. For getting same results as Mechanical, we read
 # Elemental Nodal strains and apply Von Mises invariant. Currently this operator
 # does not have the option to define effective Poisson's ratio. Due to this,
@@ -93,7 +96,7 @@ eppleqvave = eppleqvave_op.outputs.fields_container()
 
 ###############################################################################
 # Triaxial strain limit calculation
-# ~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # S12=S1+S2
 s12_op = dpf.operators.math.add_fc(fields_container1 = s1,
@@ -131,13 +134,13 @@ strainlimit = strainlimit_op.outputs.field()
 
 ###############################################################################
 # Strain limit condition (less than 1 pass the criteria)
-# ~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 strainratio = dpf.operators.math.component_wise_divide(fieldA = eppleqvave,
                                                        fieldB = strainlimit)
 strainratio = strainratio.outputs.field()
 
 ###############################################################################
 # Strain limit condition is plot
-# ~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 model.metadata.meshed_region.plot(strainratio)
 dpf.server.shutdown_all_session_servers()
