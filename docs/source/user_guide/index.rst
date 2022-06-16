@@ -10,11 +10,16 @@ computation, customization, and remote postprocessing accessible in Python.
 
 The purpose of this User Guide is:
 
+ - To describe basic DPF concepts and terminology (``DPF concepts``).
+
  - To describe the most common DPF entities and how they can help you to access and modify solver data (``DPF Most used entities``).
 
  - To provide you simple ways to tackle the most common use cases (``How to``).
 
 For more advanced API usage, refer to the :ref:`ref_api_section` section and to the :ref:`sphx_glr_examples` section.
+
+.. include::
+   dpf_concepts.rst
 
 .. include::
    main_entities.rst

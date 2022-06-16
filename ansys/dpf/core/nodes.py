@@ -1,4 +1,6 @@
 """
+.. _ref_nodes_apis:
+
 Nodes
 =====
 """

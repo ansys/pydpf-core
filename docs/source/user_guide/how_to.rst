@@ -8,6 +8,7 @@ How to
 
     plotting.rst
     custom_operators.rst
+    xmlfiles.rst
 
 
 .. card-carousel:: 2
@@ -29,3 +30,12 @@ How to
 
        .. image:: ../images/drawings/plugin-logo.png
           :width: 50%
+
+    .. card:: Use DPF XML Files
+       :link: user_guide_xmlfiles
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/xml.png
+ 
