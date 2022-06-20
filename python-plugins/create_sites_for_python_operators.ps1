@@ -27,6 +27,7 @@ if (-Not (Test-Path $dirName)){
 }
 
 Compress-Archive ($tempfolder+"/venv/Lib/site-packages/*") -DestinationPath $zippath -Force
+Start-Process "python" -ArgumentList ("-m zipfile -c $zippath $tempfolder/venv/Lib/site-packages/*")
 
 deactivate
 Remove-Item -Recurse -Force ($tempfolder + "/venv")
