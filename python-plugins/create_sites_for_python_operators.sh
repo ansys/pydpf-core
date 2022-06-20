@@ -47,7 +47,7 @@ echo ${SITES}
 
 if [ -d "${SITES}/__pycache__" ]; then rm -Rf ${SITES}/__pycache__; fi
 DIR="$(dirname "${zippath}")"
-mkdir ${DIR}
+if [ ! -d "${DIR}" ]; then mkdir ${DIR}; fi
 cd ${SITES}
 ls .
 python -m zipfile -c ${zippath} *
