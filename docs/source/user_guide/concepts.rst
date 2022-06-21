@@ -44,7 +44,7 @@ The following example summarizes the concepts above:
 
 .. image:: ../images/drawings/field-breakdown.png
 
-:ref:`Operators<ref_operator` are the only object used to create and transform the data. 
+:ref:`Operators<ref_operator>` are the only object used to create and transform the data.
 An operator is composed of a “core” that handles the calculation, and input 
 and output “pins” (think of an integrated circuit in electronics). These pins 
 enable you to provide input data to each operator. When the operator is 

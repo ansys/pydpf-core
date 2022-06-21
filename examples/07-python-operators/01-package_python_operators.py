@@ -19,27 +19,24 @@ This plugin will hold 2 different Operators:
 # For this more advanced use case, a python package is created.
 # Each Operator implementation derives from :class:`ansys.dpf.core.custom_operator.CustomOperatorBase`
 # and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator` records the Operators of the plugin.
-# The complete package looks like:
+# The python package `average_filter_plugin` is downloaded and displayed here:
 
-# %%
-# .. card:: average_filter_plugin
-#
-#    .. dropdown:: __init__.py
-#
-#       .. literalinclude:: plugins/average_filter_plugin/__init__.py
-#
-#    .. dropdown:: operators.py
-#
-#       .. literalinclude:: plugins/average_filter_plugin/operators.py
-#
-#    .. dropdown:: operators_loader.py
-#
-#       .. literalinclude:: plugins/average_filter_plugin/operators_loader.py
-#
-#    .. dropdown:: common.py
-#
-#       .. literalinclude:: plugins/average_filter_plugin/common.py
-#
+import IPython
+import os
+from ansys.dpf.core import examples
+
+print('\033[1m average_filter_plugin')
+file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
+plugin_folder = None
+GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/examples/first_python_plugins/python-plugins/average_filter_plugin"
+
+for file in file_list:
+    EXAMPLE_FILE = GITHUB_SOURCE_URL + "/average_filter_plugin/" + file
+    operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, file, "python-plugins/average_filter_plugin")
+    plugin_folder = os.path.dirname(operator_file_path)
+    print(f'\033[1m {file}:\n \033[0m')
+    print('\t\t\t'.join(('\n' + str(IPython.display.Code(operator_file_path)).lstrip()).splitlines(True)))
+    print("\n\n")
 
 
 ###############################################################################
@@ -54,12 +51,11 @@ import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-#dpf.connect_to_server(port=50052)
+
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(
     dpf.path_utilities.join(tmp, "average_filter_plugin"),
-    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples",
-                 "07-python-operators", "plugins", "average_filter_plugin")
+    plugin_folder
 )
 dpf.load_library(
     os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),

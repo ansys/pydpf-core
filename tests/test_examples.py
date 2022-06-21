@@ -1,4 +1,6 @@
 """Verify all examples can be accessed or downloaded"""
+import os.path
+
 import pytest
 
 from ansys.dpf.core import Model
@@ -29,7 +31,20 @@ def test_download_all_kinds_of_complexity():
     ],
 )
 def test_examples(example):
-    # get example by string so we can parameterize it without breaking
+    # get example by string, so we can parameterize it without breaking
     # collection
     path = getattr(globals()["examples"], example)
     assert isinstance(Model(path), Model)
+
+
+def test_delete_downloaded_files():
+    path = examples.download_multi_stage_cyclic_result()
+    assert os.path.exists(path)
+    examples.delete_downloads()
+    assert not os.path.exists(path)
+    path = examples.download_multi_stage_cyclic_result()
+    assert os.path.exists(path)
+    assert os.path.exists(examples.simple_bar)
+    assert os.path.exists(examples.static_rst)
+    assert os.path.exists(examples.complex_rst)
+    assert os.path.exists(examples.distributed_msup_folder)

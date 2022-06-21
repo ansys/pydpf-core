@@ -17,12 +17,16 @@ It's a simple example displaying how routines can be wrapped in DPF python plugi
 # and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator` are the 2 necessary steps to create a plugin.
 # The "easy_statistics" Operator will take a Field in input and return the first quartile, the median,
 # the third quartile and the variance. The python Operator and its recording seat in the
-# file plugins/easy_statistics.py. This file is:
+# file plugins/easy_statistics.py. This file `easy_statistics.py` is downloaded and displayed here:
 
-# %%
-# .. literalinclude:: plugins/easy_statistics.py
+from ansys.dpf.core import examples
 
+GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/examples/first_python_plugins/python-plugins"
+EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
+operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, "easy_statistics.py", "python-plugins")
 
+import IPython
+print(IPython.display.Code(operator_file_path))
 
 ###############################################################################
 # Load Plugin
@@ -35,11 +39,8 @@ import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-#dpf.connect_to_server(port=50052)
-operator_file = dpf.upload_file_in_tmp_folder(
-    os.path.join(os.getcwd(), "..", "..", "docs", "source", "examples",
-                 "07-python-operators", "plugins", "easy_statistics.py"))
-dpf.load_library(os.path.dirname(operator_file), "py_easy_statistics", "load_operators")
+operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
+dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
 
 ###############################################################################
 # Once the Operator loaded, it can be instantiated with:

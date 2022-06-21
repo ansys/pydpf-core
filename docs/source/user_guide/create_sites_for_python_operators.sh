@@ -39,7 +39,7 @@ echo "activate venv"
 source ${tempfolder}/venv/bin/activate
 
 echo "install deps"
-python -m pip install -r ${pluginpath}/requirements.txt
+python -m pip install -r ${pluginpath}/requirements.txt --disable-pip-version-check
 
 SITES=$(find ${tempfolder}/venv/ -type d -name "site-packages")
 echo "SITES"
@@ -47,9 +47,9 @@ echo ${SITES}
 
 if [ -d "${SITES}/__pycache__" ]; then rm -Rf ${SITES}/__pycache__; fi
 DIR="$(dirname "${zippath}")"
-mkdir ${DIR}
+if [ ! -d "${DIR}" ]; then mkdir ${DIR}; fi
 cd ${SITES}
 ls .
-zip -r ${zippath} *
+python -m zipfile -c ${zippath} *
 
 rm -r ${tempfolder}/venv

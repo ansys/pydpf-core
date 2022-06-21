@@ -282,7 +282,8 @@ class BaseServer(abc.ABC):
         self._base_service_instance = None
 
     def set_as_global(self, as_global=True):
-        """Set the current server as global if necessary
+        """Set the current server as global if necessary.
+
         Parameters
         ----------
         as_global : bool, optional

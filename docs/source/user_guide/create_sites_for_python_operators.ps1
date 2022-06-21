@@ -15,7 +15,7 @@ Write-Host "activate venv"
 
 
 Write-Host "install deps"
-Start-Process "python" -ArgumentList ("-m pip install -r "+$pluginpath+"\requirements.txt") -NoNewWindow -Wait
+Start-Process "python" -ArgumentList ("-m pip install -r "+$pluginpath+"\requirements.txt --disable-pip-version-check") -NoNewWindow -Wait
 if (Test-Path ($tempfolder + "/venv/Lib/site-packages/__pycache__")){
     Write-Host "remove __pycache__"
     Remove-Item -Recurse -Force ($tempfolder + "/venv/Lib/site-packages/__pycache__")
@@ -25,7 +25,6 @@ echo $dirName
 if (-Not (Test-Path $dirName)){
     New-Item $dirName -Type directory
 }
-
 Compress-Archive ($tempfolder+"/venv/Lib/site-packages/*") -DestinationPath $zippath -Force
 
 deactivate
