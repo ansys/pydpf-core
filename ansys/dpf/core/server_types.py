@@ -22,6 +22,7 @@ from ansys.dpf.core._version import (
     server_to_ansys_version,
     __ansys_version__
 )
+from ansys.dpf.gate import load_api
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -437,19 +438,7 @@ class CServer(BaseServer, ABC):
                  ansys_path=None,
                  load_operators=True):
         super().__init__()
-        from ansys.dpf.gate import capi
-        ISPOSIX = os.name == "posix"
-        name = "DPFClientAPI"
-        if ISPOSIX:
-            name = "DPFClientAPI.so"
-        path = _get_dll_path(name, ansys_path)
-        try:
-            capi.load_api(path)
-        except Exception as e:
-            for arg in e.args:
-                if "v222" in e.args:
-                    raise e
-            raise errors.DpfVersionNotSupported("4.0")
+        self._client_api_path = load_api.load_client_api()
         self._own_process = False
         self.ansys_path = ansys_path
 
@@ -492,11 +481,7 @@ class GrpcServer(CServer):
         from ansys.dpf.core.misc import is_pypim_configured
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
-        from ansys.dpf.gate.utils import data_processing_core_load_api
-
-        name = "Ans.Dpf.GrpcClient"
-        path = _get_dll_path(name, ansys_path)
-        data_processing_core_load_api(path, "remote")
+        self._grpc_client_path = load_api.load_grpc_client()
 
         address = f"{ip}:{port}"
 

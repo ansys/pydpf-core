@@ -230,7 +230,7 @@ def start_local_server(
     timed_out = False
     for _ in range(n_attempts):
         try:
-            server_type = ServerFactory().get_server_type_from_config(config)
+            server_type = ServerFactory().get_server_type_from_config(config, ansys_path)
             server_init_signature = inspect.signature(server_type.__init__)
             if "ip" in server_init_signature.parameters.keys() and \
                     "port" in server_init_signature.parameters.keys():

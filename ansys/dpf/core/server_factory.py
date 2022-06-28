@@ -42,7 +42,7 @@ class ServerFactory:
     """Factory for server type choice depending on current configuration.
     """
     @staticmethod
-    def get_server_type_from_config(config=None):
+    def get_server_type_from_config(config=None, ansys_path=None):
         from ansys.dpf.core.server_types import LegacyGrpcServer, GrpcServer, InProcessServer
         from ansys.dpf.core import SERVER_CONFIGURATION
         if not config:
@@ -57,11 +57,14 @@ class ServerFactory:
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
             import os
             from ansys.dpf.core._version import __ansys_version__
-            ISPOSIX = os.name == "posix"
-            ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
-            SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
-                                       "linx64" if ISPOSIX else "winx64")
-            os.environ["PATH"] += SUB_FOLDERS
+            ISPOSIX = os.name == "posix"           
+            ANSYS_INSTALL = ansys_path
+            if ANSYS_INSTALL is None:
+                ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
+            if ANSYS_INSTALL is not None:
+                SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
+                                           "linx64" if ISPOSIX else "winx64")
+                os.environ["PATH"] += SUB_FOLDERS
             return GrpcServer
         elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:
             return InProcessServer

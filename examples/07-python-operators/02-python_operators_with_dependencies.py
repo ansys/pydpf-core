@@ -143,6 +143,23 @@ new_operator = dpf.Operator("gltf_export")
 # :class:`ansys.dpf.core.operators.mesh.tri_mesh_skin` Operator is used to extract the surface of the mesh in triangles
 # elements.
 
+# %%
+# .. graphviz::
+#
+#    digraph workflow {
+#       graph [pad="0.5", nodesep="0.3", ranksep="0.3"]
+#       node [shape=box, style=filled, fillcolor="#ffcc00", margin="0"];
+#       rankdir=LR;
+#       splines=line;
+#       ds [label="data_sources", shape=box, style=filled, fillcolor=cadetblue2];
+#       ds -> mesh_provider [style=dashed];
+#       mesh_provider -> skin_mesh [splines=ortho];
+#       ds -> displacement [style=dashed];
+#       skin_mesh -> displacement [splines=ortho];
+#       skin_mesh -> gltf_export [splines=ortho];
+#       displacement -> gltf_export [splines=ortho];
+#    }
+
 ###############################################################################
 # Use the Custom Operator
 # -----------------------
