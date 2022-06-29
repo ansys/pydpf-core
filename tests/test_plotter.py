@@ -600,14 +600,10 @@ def test_plot_warped_mesh(multishells):
     disp_field = disp_fc[0]
     disp_field.plot(warp_by=disp_result, scaling_factor=scaling_factor)
     mesh.plot(disp_field, warp_by=disp_result, scaling_factor=scaling_factor)
-    split_mesh_op = dpf.core.Operator("split_mesh")
-    split_mesh_op.connect(7, mesh)
-    split_mesh_op.connect(13, "mat")
-    meshes_cont = split_mesh_op.get_output(0, dpf.core.types.meshes_container)
+    split_op = dpf.core.operators.mesh.split_mesh(mesh=mesh, property="mat")
+    meshes_cont = split_op.get_output(output_type=dpf.core.types.meshes_container)
     meshes_cont.plot(warp_by=disp_result, scaling_factor=scaling_factor)
-    disp_op = dpf.core.Operator("U")
-    disp_op.connect(7, meshes_cont)
-    ds = dpf.core.DataSources(multishells)
-    disp_op.connect(4, ds)
+    disp_op = dpf.core.operators.result.displacement(data_sources=model.metadata.data_sources,
+                                                     mesh=meshes_cont)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc, warp_by=disp_result, scaling_factor=scaling_factor)
