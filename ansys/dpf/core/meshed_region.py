@@ -409,12 +409,14 @@ class MeshedRegion:
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
             return pl.plot_contour(field_or_fields_container, shell_layers,
+                                   show_axes=kwargs.pop("show_axes", True),
                                    warping_field=warping_field,
                                    scaling_factor=scaling_factor, **kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, warping_field=warping_field, scaling_factor=scaling_factor, **kwargs)
+        pl.add_mesh(self, warping_field=warping_field, scaling_factor=scaling_factor,
+                    show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):

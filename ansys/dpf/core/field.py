@@ -271,6 +271,7 @@ class Field(_FieldBase):
         pl = Plotter(self.meshed_region, **kwargs)
         return pl.plot_contour(self, shell_layers, warping_field=warping_field,
                                scaling_factor=scaling_factor,
+                               show_axes=kwargs.pop("show_axes", True),
                                **kwargs)
 
     def resize(self, nentities, datasize):

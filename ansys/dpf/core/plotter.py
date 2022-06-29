@@ -108,6 +108,11 @@ class _PyVistaPlotter:
             grid = meshed_region._as_vtk(meshed_region.warp_by_vector_field(warping_field,
                                                                             scaling_factor))
 
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._plotter.add_axes()
+
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
@@ -143,6 +148,11 @@ class _PyVistaPlotter:
                 label_actors.append(self._plotter.add_point_labels(grid_point,
                                                                    [scalar_at_grid_point],
                                                                    **kwargs_in))
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._plotter.add_axes()
+
         return label_actors
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
@@ -157,6 +167,11 @@ class _PyVistaPlotter:
 
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
+
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._plotter.add_axes()
 
         # get the meshed region location
         if meshed_region is None:

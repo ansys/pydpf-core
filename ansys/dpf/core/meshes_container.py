@@ -87,6 +87,7 @@ class MeshesContainer(Collection):
                 mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
                 pl.add_field(field, mesh_to_send,
                              warping_field=warping_field.on_mesh_scoping(mesh_scoping),
+                             show_axes=kwargs.pop("show_axes", True),
                              scaling_factor=scaling_factor,
                              **kwargs)
         else:
@@ -97,7 +98,7 @@ class MeshesContainer(Collection):
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
                 pl.add_mesh(mesh, warping_field=warping_field, scaling_factor=scaling_factor,
-                            **kwargs)
+                            show_axes=kwargs.pop("show_axes", True), **kwargs)
         # Plot the figure
         return pl.show_figure(**kwargs)
 
