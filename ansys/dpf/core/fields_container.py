@@ -9,6 +9,7 @@ from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.plotter import DpfPlotter as Plotter
 
 
 class FieldsContainer(Collection):
@@ -485,6 +486,26 @@ class FieldsContainer(Collection):
             Scoping containing the time set IDs available in the fields container.
         """
         return self.get_label_scoping("time")
+
+    def animate(self, save_as=None, warp_by=None, scaling_factor=1.0, **kwargs):
+        """Creates an animation based on the fields contained in the fields container.
+
+        This method creates a movie or a gif based on the time ids of a fields container.
+        For kwargs see pyvista.Plotter.open_movie/add_text/show.
+
+        Parameters
+        ----------
+        save_as : name of the file to save the animation to, with its extension, can be gif or mp4.
+        warp_by : result operator, optional
+            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scaling_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        """
+        pl = Plotter(**kwargs)
+        pl.add_fields_container(self)
+        pl.animate(save_as, warping_field=warp_by,
+                   scale_factor=scaling_factor, **kwargs)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
