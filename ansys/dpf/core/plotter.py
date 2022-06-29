@@ -72,6 +72,15 @@ class _PyVistaPlotter:
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
+    def add_scale_factor_legend(self, scaling_factor, **kwargs):
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)
+        _ = kwargs_in.pop("position", None)
+        _ = kwargs_in.pop("font_size", None)
+        _ = kwargs_in.pop("text", None)
+        _ = kwargs_in.pop("color", None)
+        self._plotter.add_text(f"Scale factor: {scaling_factor}", position='upper_right',
+                               font_size=12, **kwargs_in)
+
     def add_mesh(self, meshed_region, warping_field=None, scaling_factor=1.0, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
@@ -79,6 +88,10 @@ class _PyVistaPlotter:
         # Set defaults for PyDPF
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
+
+        # If deformed geometry, print the scale_factor
+        if warping_field:
+            self.add_scale_factor_legend(scaling_factor, **kwargs)
 
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(
@@ -94,6 +107,7 @@ class _PyVistaPlotter:
         else:
             grid = meshed_region._as_vtk(meshed_region.warp_by_vector_field(warping_field,
                                                                             scaling_factor))
+
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
@@ -184,6 +198,10 @@ class _PyVistaPlotter:
                                                                             scaling_factor))
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
+
+        # If deformed geometry, print the scale_factor
+        if warping_field:
+            self.add_scale_factor_legend(scaling_factor, **kwargs)
 
         if show_max or show_min:
             # Get Min-Max for the field
@@ -752,6 +770,7 @@ class Plotter:
         if warping_field:
             grid = mesh._as_vtk(mesh.warp_by_vector_field(warping_field,
                                                           scaling_factor))
+            self._internal_plotter.add_scale_factor_legend(scaling_factor, **kwargs)
         else:
             grid = mesh.grid
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
