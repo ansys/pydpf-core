@@ -335,7 +335,7 @@ class MeshedRegion:
                 "with :\n pip install pyvista>=0.24.0"
             )
 
-        grid = dpf_mesh_to_vtk(nodes, etypes, conn, as_linear)
+        grid = dpf_mesh_to_vtk(self._tmpnodes, etypes, conn, as_linear)
 
         # consider adding this when scoping request is faster
         if include_ids:
