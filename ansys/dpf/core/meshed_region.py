@@ -313,7 +313,7 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def warp_by_vector_field(self, warp_by, scaling_factor=1.):
+    def scale_coordinates_by_result(self, warp_by, scaling_factor=1.):
         from ansys.dpf.core.operators.math import add, scale
         return add(fieldA=self.nodes.coordinates_field,
                    fieldB=scale(field=warp_by,

@@ -105,8 +105,8 @@ class _PyVistaPlotter:
         if not warp_by:
             grid = meshed_region.grid
         else:
-            grid = meshed_region._as_vtk(meshed_region.warp_by_vector_field(warp_by,
-                                                                            scaling_factor))
+            grid = meshed_region._as_vtk(
+                meshed_region.scale_coordinates_by_result(warp_by, scaling_factor))
 
         # show axes
         show_axes = kwargs.pop("show_axes", None)
@@ -209,8 +209,8 @@ class _PyVistaPlotter:
         if not warp_by:
             grid = meshed_region.grid
         else:
-            grid = meshed_region._as_vtk(meshed_region.warp_by_vector_field(warp_by,
-                                                                            scaling_factor))
+            grid = meshed_region._as_vtk(
+                meshed_region.scale_coordinates_by_result(warp_by, scaling_factor))
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
