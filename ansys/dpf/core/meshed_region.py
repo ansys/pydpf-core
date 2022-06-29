@@ -313,10 +313,10 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def warp_by_vector_field(self, warping_field, scaling_factor=1.):
+    def warp_by_vector_field(self, warp_by, scaling_factor=1.):
         from ansys.dpf.core.operators.math import add, scale
         return add(fieldA=self.nodes.coordinates_field,
-                   fieldB=scale(field=warping_field,
+                   fieldB=scale(field=warp_by,
                                 ponderation=scaling_factor
                                 ).outputs.field
                    ).outputs.field()
@@ -378,7 +378,7 @@ class MeshedRegion:
             self,
             field_or_fields_container=None,
             shell_layers=None,
-            warping_field=None,
+            warp_by=None,
             scaling_factor=1.0,
             **kwargs
     ):
@@ -390,6 +390,11 @@ class MeshedRegion:
             Field or fields container to plot. The default is ``None``.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
+        warp_by : result operator, optional
+            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scaling_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -410,12 +415,12 @@ class MeshedRegion:
             pl = Plotter(self, **kwargs)
             return pl.plot_contour(field_or_fields_container, shell_layers,
                                    show_axes=kwargs.pop("show_axes", True),
-                                   warping_field=warping_field,
+                                   warp_by=warp_by,
                                    scaling_factor=scaling_factor, **kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, warping_field=warping_field, scaling_factor=scaling_factor,
+        pl.add_mesh(self, warp_by=warp_by, scaling_factor=scaling_factor,
                     show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 
