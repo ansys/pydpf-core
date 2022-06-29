@@ -313,10 +313,10 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def scale_coordinates_by_result(self, warp_by, scaling_factor=1.):
+    def scale_by_result(self, scale_by_result, scaling_factor=1.):
         from ansys.dpf.core.operators.math import add, scale
         return add(fieldA=self.nodes.coordinates_field,
-                   fieldB=scale(field=warp_by,
+                   fieldB=scale(field=scale_by_result,
                                 ponderation=scaling_factor
                                 ).outputs.field
                    ).outputs.field()
@@ -380,7 +380,7 @@ class MeshedRegion:
             self,
             field_or_fields_container=None,
             shell_layers=None,
-            warp_by=None,
+            scale_by_result=None,
             scaling_factor=1.0,
             **kwargs
     ):
@@ -392,7 +392,7 @@ class MeshedRegion:
             Field or fields container to plot. The default is ``None``.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        warp_by : result operator, optional
+        scale_by_result : result operator, optional
             A result operator to use for warping the plotted mesh. Must output a 3D vector field.
             Defaults to None.
         scaling_factor : float, optional
@@ -417,12 +417,12 @@ class MeshedRegion:
             pl = Plotter(self, **kwargs)
             return pl.plot_contour(field_or_fields_container, shell_layers,
                                    show_axes=kwargs.pop("show_axes", True),
-                                   warp_by=warp_by,
+                                   scale_by_result=scale_by_result,
                                    scaling_factor=scaling_factor, **kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, warp_by=warp_by, scaling_factor=scaling_factor,
+        pl.add_mesh(self, scale_by_result=scale_by_result, scaling_factor=scaling_factor,
                     show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 

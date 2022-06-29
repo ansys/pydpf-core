@@ -39,7 +39,7 @@ class MeshesContainer(Collection):
             self, types.meshed_region, collection=meshes_container, server=self._server
         )
 
-    def plot(self, fields_container=None, warp_by=None, scaling_factor=1.0, **kwargs):
+    def plot(self, fields_container=None, scale_by_result=None, scaling_factor=1.0, **kwargs):
         """Plot the meshes container with a specific result if
         fields_container is specified.
 
@@ -47,7 +47,7 @@ class MeshesContainer(Collection):
         ----------
         fields_container : FieldsContainer, optional
             Data to plot. The default is ``None``.
-        warp_by : result operator, optional
+        scale_by_result : result operator, optional
             A result operator to use for warping the plotted mesh. Must output a 3D vector field.
             Defaults to None.
         scaling_factor : float, optional
@@ -88,12 +88,12 @@ class MeshesContainer(Collection):
                         "Plotting can not proceed. "
                     )
                 field = fields_container[i]
-                if warp_by:
+                if scale_by_result:
                     from ansys.dpf.core.operators import scoping
                     mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
-                    warp_by = warp_by.on_mesh_scoping(mesh_scoping)
+                    scale_by_result = scale_by_result.on_mesh_scoping(mesh_scoping)
                 pl.add_field(field, mesh_to_send,
-                             warp_by=warp_by,
+                             scale_by_result=scale_by_result,
                              show_axes=kwargs.pop("show_axes", True),
                              scaling_factor=scaling_factor,
                              **kwargs)
@@ -104,7 +104,7 @@ class MeshesContainer(Collection):
             for mesh in self:
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
-                pl.add_mesh(mesh, warp_by=warp_by, scaling_factor=scaling_factor,
+                pl.add_mesh(mesh, scale_by_result=scale_by_result, scaling_factor=scaling_factor,
                             show_axes=kwargs.pop("show_axes", True), **kwargs)
         # Plot the figure
         return pl.show_figure(**kwargs)
