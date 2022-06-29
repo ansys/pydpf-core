@@ -238,7 +238,7 @@ class Field(_FieldBase):
         return op.outputs.field()
 
     def plot(self, shell_layers=None,
-             scale_by_result=None, scaling_factor=1.0,
+             scaling_result=None, scaling_factor=1.0,
              **kwargs):
         """Plot the field or fields container on the mesh support if it exists.
 
@@ -264,7 +264,7 @@ class Field(_FieldBase):
         shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements. The default is ``None``.
-        scale_by_result : result operator, optional
+        scaling_result : result operator, optional
             A result operator to use for warping the plotted mesh. Must output a 3D vector field.
             Defaults to None.
         scaling_factor : float, optional
@@ -274,7 +274,7 @@ class Field(_FieldBase):
             arguments, see ``help(pyvista.plot)``.
         """
         pl = Plotter(self.meshed_region, **kwargs)
-        return pl.plot_contour(self, shell_layers, scale_by_result=scale_by_result,
+        return pl.plot_contour(self, shell_layers, scaling_result=scaling_result,
                                scaling_factor=scaling_factor,
                                show_axes=kwargs.pop("show_axes", True),
                                **kwargs)
