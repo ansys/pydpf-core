@@ -14,7 +14,7 @@ from ansys.dpf.core import examples
 # Get and show the initial model
 model = dpf.Model(examples.multishells_rst)
 print(model)
-# model.plot(title='Model', text='Model.plot()')
+model.plot(title='Model', text='Model.plot()')
 
 # Define a scaling factor and a step for the field to be used for warping.
 scaling_factor = 0.001
@@ -27,7 +27,7 @@ disp_result = model.results.displacement.on_time_scoping([step])
 mesh = model.metadata.meshed_region
 mesh.plot(warping_field=disp_result, scaling_factor=scaling_factor,
           title='MeshedRegion', text='MeshedRegion.plot()')
-exit()
+
 # Get the displacement field
 disp_fc = disp_result.eval()
 disp_field = disp_fc[0]
