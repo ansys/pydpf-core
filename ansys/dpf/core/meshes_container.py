@@ -83,10 +83,12 @@ class MeshesContainer(Collection):
                         "Plotting can not proceed. "
                     )
                 field = fields_container[i]
-                from ansys.dpf.core.operators import scoping
-                mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
+                if warping_field:
+                    from ansys.dpf.core.operators import scoping
+                    mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
+                    warping_field = warping_field.on_mesh_scoping(mesh_scoping)
                 pl.add_field(field, mesh_to_send,
-                             warping_field=warping_field.on_mesh_scoping(mesh_scoping),
+                             warping_field=warping_field,
                              show_axes=kwargs.pop("show_axes", True),
                              scaling_factor=scaling_factor,
                              **kwargs)
