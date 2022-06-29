@@ -321,10 +321,12 @@ class MeshedRegion:
                                 ).outputs.field
                    ).outputs.field()
 
-    def _as_vtk(self, coordinates, as_linear=True, include_ids=False):
+    def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
-        self._tmpnodes = coordinates.data
-        nodes = self.nodes.coordinates_field.data
+        if not coordinates:
+            self._tmpnodes = self.nodes.coordinates_field.data
+        else:
+            self._tmpnodes = coordinates.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
         try:
