@@ -405,3 +405,23 @@ def download_hemisphere() -> str:
 
     """
     return _download_file("hemisphere", "hemisphere.rst")
+
+
+def download_example_asme_result() -> str:
+    """Download an example result file from a static analysis and
+    return the download path.
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+    Returns
+    -------
+    str
+        Path to the example file.
+    Examples
+    --------
+    Download an example result file and return the path of the file
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_example_asme_result()
+    >>> path
+    'C:/Users/user/AppData/local/temp/asme_example.rst'
+    """
+    return _download_file("postprocessing", "asme_example.rst")
