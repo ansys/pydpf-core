@@ -148,11 +148,6 @@ class _PyVistaPlotter:
                 label_actors.append(self._plotter.add_point_labels(grid_point,
                                                                    [scalar_at_grid_point],
                                                                    **kwargs_in))
-        # show axes
-        show_axes = kwargs.pop("show_axes", None)
-        if show_axes:
-            self._plotter.add_axes()
-
         return label_actors
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
@@ -479,9 +474,6 @@ class DpfPlotter:
                                          scaling_result=scaling_result,
                                          scaling_factor=scaling_factor,
                                          **kwargs)
-
-    def update_mesh(self, mesh, updated_coordinates):
-        self._internal_plotter.update_mesh(mesh, updated_coordinates)
 
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
