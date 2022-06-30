@@ -480,6 +480,12 @@ class DpfPlotter:
                                          scaling_factor=scaling_factor,
                                          **kwargs)
 
+    def add_fields_container(self, fields_container, warp_by=None, scaling_factor=1.0, **kwargs):
+        self._internal_plotter.add_fields_container(fields_container=fields_container,
+                                                    warp_by=warp_by,
+                                                    scaling_factor=scaling_factor,
+                                                    **kwargs)
+
     def update_mesh(self, mesh, updated_coordinates):
         self._internal_plotter.update_mesh(mesh, updated_coordinates)
 
