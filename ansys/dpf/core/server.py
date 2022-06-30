@@ -188,7 +188,7 @@ def start_local_server(
         # If no custom path was given in input
         # First check the environment variable for a custom path
         if ansys_path is None:
-            ansys_path = os.environ.get("ANSYS_PATH")
+            ansys_path = os.environ.get("ANSYS_DPF_PATH")
         # Then check for usual installation folders with AWP_ROOT and find_ansys
         if ansys_path is None:
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
@@ -201,7 +201,7 @@ def start_local_server(
                 "You can also manually define the path to the ANSYS installation root folder"
                 " of the version you want to use (vXXX folder):\n"
                 '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
-                '- or by setting it by default with the environment variable "ANSYS_PATH"')
+                '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"')
 
         # verify path exists
         if not os.path.isdir(ansys_path):
