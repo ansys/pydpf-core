@@ -502,10 +502,11 @@ class FieldsContainer(Collection):
         scaling_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
         """
-        pl = Plotter(**kwargs)
-        pl.add_fields_container(self)
-        pl.animate(save_as, warping_field=warp_by,
-                   scale_factor=scaling_factor, **kwargs)
+        from animator import Animator
+        anim = Animator(**kwargs)
+        anim.add_fields_container(self)
+        anim.animate(save_as, warping_field=warp_by,
+                     scale_factor=scaling_factor, **kwargs)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
