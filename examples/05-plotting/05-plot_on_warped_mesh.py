@@ -40,18 +40,14 @@ mesh.plot(disp_field, scaling_result=disp_result, scaling_factor=scaling_factor,
           title='MeshedRegion', text='MeshedRegion.plot(disp_field)')
 
 # Split the model by material and plot the deformed MeshesContainer obtained
-split_mesh_op = dpf.Operator("split_mesh")
-split_mesh_op.connect(7, mesh)
-split_mesh_op.connect(13, "mat")
+split_mesh_op = dpf.operators.mesh.split_mesh(mesh=mesh, property="mat")
 meshes_cont = split_mesh_op.get_output(0, dpf.types.meshes_container)
 meshes_cont.plot(scaling_result=disp_result, scaling_factor=scaling_factor,
                  title='MeshesContainer', text='MeshesContainer.plot()')
 
 # Create a corresponding FieldsContainer and plot it on the deformed MeshesContainer
-disp_op = dpf.Operator("U")
-disp_op.connect(7, meshes_cont)
-ds = dpf.DataSources(examples.multishells_rst)
-disp_op.connect(4, ds)
+disp_op = dpf.operators.result.displacement(data_sources=model.metadata.data_sources,
+                                            mesh=meshes_cont)
 disp_fc = disp_op.outputs.fields_container()
 meshes_cont.plot(disp_fc, scaling_result=disp_result, scaling_factor=scaling_factor,
                  title='MeshesContainer', text='MeshesContainer.plot(disp_fc)')
