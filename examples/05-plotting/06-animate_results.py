@@ -13,7 +13,7 @@ from ansys.dpf.core import examples
 
 # Plot the bare mesh of a model
 model = dpf.Model(examples.transient_therm)
-print(model)
+# print(model)
 # model.plot(title='Model', text='Transient thermal model')
 
 # Get the fields_container of interest
