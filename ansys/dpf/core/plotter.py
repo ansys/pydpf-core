@@ -58,13 +58,12 @@ class _PyVistaPlotter:
     """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
         # Import pyvista
+        from vtk_helper import PyVistaImportError
         try:
             import pyvista as pv
         except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
+            raise PyVistaImportError
+
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(
             bound_method=pv.Plotter.__init__,
@@ -249,14 +248,7 @@ class _PyVistaPlotter:
                 raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
 
     def _set_scalar_bar_title(self, kwargs):
-        # Import pyvista
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
+        import pyvista as pv
         stitle = kwargs.pop("stitle", None)
         pv_version = pv.__version__
         version_to_reach = '0.30.0'  # when stitle started to be deprecated
