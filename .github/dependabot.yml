@@ -6,5 +6,5 @@ updates:
     schedule:
       interval: "daily"
     labels:
-      - "Maintenance"
-      - "Dependencies"
+      - "maintenance"
+      - "dependencies"
