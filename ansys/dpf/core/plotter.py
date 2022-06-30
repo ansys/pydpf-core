@@ -483,7 +483,7 @@ class DpfPlotter:
     def add_fields_container(self, fields_container, warp_by=None, scaling_factor=1.0, **kwargs):
         """Add a fields_container containing fields with data to the plotter.
 
-        This is useful for creating animations, as well as for adding multiple fields at once.
+        This is useful for adding multiple fields at once.
         Each field's support will be used. Ensure that the field
         support is a ``meshed_region``.
 
@@ -501,13 +501,9 @@ class DpfPlotter:
             are available at :func:`pyvista.plot`.
 
         """
-        self._internal_plotter.add_fields_container(fields_container=fields_container,
-                                                    warp_by=warp_by,
-                                                    scaling_factor=scaling_factor,
-                                                    **kwargs)
-
-    def update_mesh(self, mesh, updated_coordinates):
-        self._internal_plotter.update_mesh(mesh, updated_coordinates)
+        for field in fields_container:
+            self._internal_plotter.add_field(field, warp_by=warp_by, scaling_factor=scaling_factor,
+                                             **kwargs)
 
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
