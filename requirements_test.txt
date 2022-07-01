@@ -2,7 +2,7 @@ pytest==7.1.2
 pytest-cov==3.0.0
 pytest-rerunfailures==10.2
 matplotlib==3.5.2
-vtk=<9.1.0
+vtk<=9.1.0
 pyvista==0.34.2
 ansys-platform-instancemanagement==1.0.2
 coverage==6.4.1
