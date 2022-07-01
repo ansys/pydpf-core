@@ -16,7 +16,7 @@ class stl_export(Operator):
     Parameters
     ----------
     mesh : MeshedRegion
-    file_path : str or os.PathLike
+    file_path : str
 
 
     Examples
@@ -49,7 +49,7 @@ class stl_export(Operator):
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if file_path is not None:
-            self.inputs.file_path.connect(str(file_path))
+            self.inputs.file_path.connect(file_path)
 
     @staticmethod
     def _spec():

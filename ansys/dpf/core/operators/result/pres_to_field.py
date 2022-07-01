@@ -15,7 +15,7 @@ class pres_to_field(Operator):
 
     Parameters
     ----------
-    filepath : str or os.PathLike
+    filepath : str
         Filepath
 
 

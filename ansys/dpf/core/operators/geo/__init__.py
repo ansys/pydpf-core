@@ -14,3 +14,4 @@ from .integrate_over_elements import integrate_over_elements
 from .mass import mass 
 from .moment_of_inertia import moment_of_inertia 
 from .normals import normals 
+from .prepare_mapping_workflow import prepare_mapping_workflow 

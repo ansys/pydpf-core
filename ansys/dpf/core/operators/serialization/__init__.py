@@ -13,4 +13,3 @@ from .vtk_export import vtk_export
 from .vtk_to_fields import vtk_to_fields 
 from .migrate_file_to_vtk import migrate_file_to_vtk 
 from .serialize_to_hdf5 import serialize_to_hdf5 
-from .gltf_export import gltf_export 

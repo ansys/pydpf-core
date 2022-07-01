@@ -16,7 +16,7 @@ class html_doc(Operator):
 
     Parameters
     ----------
-    output_path : str or os.PathLike, optional
+    output_path : str, optional
         Default is {working
         directory}/dataprocessingdoc.html
 

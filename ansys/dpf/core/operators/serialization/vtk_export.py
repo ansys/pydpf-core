@@ -20,7 +20,7 @@ class vtk_export(Operator):
         with their fields with value 0 or
         faces elements in the mesh with their
         fields with value 1 (default is 0)
-    file_path : str or os.PathLike
+    file_path : str
         Path with vtk extension were the export
         occurs
     mesh : MeshedRegion, optional

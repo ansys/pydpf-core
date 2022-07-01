@@ -16,7 +16,7 @@ class deserializer(Operator):
 
     Parameters
     ----------
-    file_path : str or os.PathLike
+    file_path : str
         File path
 
 
