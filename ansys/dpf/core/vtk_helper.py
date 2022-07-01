@@ -144,7 +144,7 @@ class PyVistaImportError(ModuleNotFoundError):
 
     def __init__(
         self, msg="To use plotting capabilities, please install pyvista "
-                  "with :\n pip install pyvista>=0.24.0"
+                  "with :\n pip install pyvista>=0.32.0"
     ):
         ModuleNotFoundError.__init__(self, msg)
 
