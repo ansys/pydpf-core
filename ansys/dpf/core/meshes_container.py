@@ -39,7 +39,7 @@ class MeshesContainer(Collection):
             self, types.meshed_region, collection=meshes_container, server=self._server
         )
 
-    def plot(self, fields_container=None, scaling_result=None, scaling_factor=1.0, **kwargs):
+    def plot(self, fields_container=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Plot the meshes container with a specific result if
         fields_container is specified.
 
@@ -47,10 +47,10 @@ class MeshesContainer(Collection):
         ----------
         fields_container : FieldsContainer, optional
             Data to plot. The default is ``None``.
-        scaling_result : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scaling_factor : float, optional
+        scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
@@ -88,14 +88,14 @@ class MeshesContainer(Collection):
                         "Plotting can not proceed. "
                     )
                 field = fields_container[i]
-                if scaling_result:
+                if deform_by:
                     from ansys.dpf.core.operators import scoping
                     mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
-                    scaling_result = scaling_result.on_mesh_scoping(mesh_scoping)
+                    deform_by = deform_by.on_mesh_scoping(mesh_scoping)
                 pl.add_field(field, mesh_to_send,
-                             scaling_result=scaling_result,
+                             deform_by=deform_by,
                              show_axes=kwargs.pop("show_axes", True),
-                             scaling_factor=scaling_factor,
+                             scale_factor=scale_factor,
                              **kwargs)
         else:
             # If no field given, associate a random color to each mesh in the container
@@ -104,7 +104,7 @@ class MeshesContainer(Collection):
             for mesh in self:
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
-                pl.add_mesh(mesh, scaling_result=scaling_result, scaling_factor=scaling_factor,
+                pl.add_mesh(mesh, deform_by=deform_by, scale_factor=scale_factor,
                             show_axes=kwargs.pop("show_axes", True), **kwargs)
         # Plot the figure
         return pl.show_figure(**kwargs)

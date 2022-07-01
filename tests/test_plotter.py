@@ -594,16 +594,16 @@ def test_plot_warped_mesh(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
     disp_result = model.results.displacement.on_time_scoping([1])
-    scaling_factor = 0.001
-    mesh.plot(scaling_result=disp_result, scaling_factor=scaling_factor)
+    scale_factor = 0.001
+    mesh.plot(deform_by=disp_result, scale_factor=scale_factor)
     disp_fc = disp_result.eval()
     disp_field = disp_fc[0]
-    disp_field.plot(scaling_result=disp_result, scaling_factor=scaling_factor)
-    mesh.plot(disp_field, scaling_result=disp_result, scaling_factor=scaling_factor)
+    disp_field.plot(deform_by=disp_result, scale_factor=scale_factor)
+    mesh.plot(disp_field, deform_by=disp_result, scale_factor=scale_factor)
     split_op = dpf.core.operators.mesh.split_mesh(mesh=mesh, property="mat")
     meshes_cont = split_op.get_output(output_type=dpf.core.types.meshes_container)
-    meshes_cont.plot(scaling_result=disp_result, scaling_factor=scaling_factor)
+    meshes_cont.plot(deform_by=disp_result, scale_factor=scale_factor)
     disp_op = dpf.core.operators.result.displacement(data_sources=model.metadata.data_sources,
                                                      mesh=meshes_cont)
     disp_fc = disp_op.outputs.fields_container()
-    meshes_cont.plot(disp_fc, scaling_result=disp_result, scaling_factor=scaling_factor)
+    meshes_cont.plot(disp_fc, deform_by=disp_result, scale_factor=scale_factor)

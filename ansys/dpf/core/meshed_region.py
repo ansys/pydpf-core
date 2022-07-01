@@ -313,11 +313,11 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def scaling_result(self, scaling_result, scaling_factor=1.):
+    def deform_by(self, deform_by, scale_factor=1.):
         from ansys.dpf.core.operators.math import add, scale
         return add(fieldA=self.nodes.coordinates_field,
-                   fieldB=scale(field=scaling_result,
-                                ponderation=scaling_factor
+                   fieldB=scale(field=deform_by,
+                                ponderation=scale_factor
                                 ).outputs.field
                    ).outputs.field()
 
@@ -380,8 +380,8 @@ class MeshedRegion:
             self,
             field_or_fields_container=None,
             shell_layers=None,
-            scaling_result=None,
-            scaling_factor=1.0,
+            deform_by=None,
+            scale_factor=1.0,
             **kwargs
     ):
         """Plot the field or fields container on the mesh.
@@ -392,10 +392,10 @@ class MeshedRegion:
             Field or fields container to plot. The default is ``None``.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        scaling_result : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scaling_factor : float, optional
+        scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
@@ -417,12 +417,12 @@ class MeshedRegion:
             pl = Plotter(self, **kwargs)
             return pl.plot_contour(field_or_fields_container, shell_layers,
                                    show_axes=kwargs.pop("show_axes", True),
-                                   scaling_result=scaling_result,
-                                   scaling_factor=scaling_factor, **kwargs)
+                                   deform_by=deform_by,
+                                   scale_factor=scale_factor, **kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, scaling_result=scaling_result, scaling_factor=scaling_factor,
+        pl.add_mesh(self, deform_by=deform_by, scale_factor=scale_factor,
                     show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 

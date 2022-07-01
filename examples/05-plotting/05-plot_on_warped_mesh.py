@@ -17,7 +17,7 @@ print(model)
 model.plot(title='Model', text='Model.plot()')
 
 # Define a scaling factor and a step for the field to be used for warping.
-scaling_factor = 0.001
+scale_factor = 0.001
 step = 1
 
 # Define the result to warp by
@@ -25,7 +25,7 @@ disp_result = model.results.displacement.on_time_scoping([step])
 
 # Get the mesh and plot it as a deformed geometry
 mesh = model.metadata.meshed_region
-mesh.plot(scaling_result=disp_result, scaling_factor=scaling_factor,
+mesh.plot(deform_by=disp_result, scale_factor=scale_factor,
           title='MeshedRegion', text='MeshedRegion.plot()')
 
 # Get the displacement field
@@ -33,21 +33,21 @@ disp_fc = disp_result.eval()
 disp_field = disp_fc[0]
 
 # Plot it on the deformed geometry directly
-disp_field.plot(scaling_result=disp_result, scaling_factor=scaling_factor,
+disp_field.plot(deform_by=disp_result, scale_factor=scale_factor,
                 title='Field', text='Field.plot()')
 # or by applying it to the mesh
-mesh.plot(disp_field, scaling_result=disp_result, scaling_factor=scaling_factor,
+mesh.plot(disp_field, deform_by=disp_result, scale_factor=scale_factor,
           title='MeshedRegion', text='MeshedRegion.plot(disp_field)')
 
 # Split the model by material and plot the deformed MeshesContainer obtained
 split_mesh_op = dpf.operators.mesh.split_mesh(mesh=mesh, property="mat")
 meshes_cont = split_mesh_op.get_output(0, dpf.types.meshes_container)
-meshes_cont.plot(scaling_result=disp_result, scaling_factor=scaling_factor,
+meshes_cont.plot(deform_by=disp_result, scale_factor=scale_factor,
                  title='MeshesContainer', text='MeshesContainer.plot()')
 
 # Create a corresponding FieldsContainer and plot it on the deformed MeshesContainer
 disp_op = dpf.operators.result.displacement(data_sources=model.metadata.data_sources,
                                             mesh=meshes_cont)
 disp_fc = disp_op.outputs.fields_container()
-meshes_cont.plot(disp_fc, scaling_result=disp_result, scaling_factor=scaling_factor,
+meshes_cont.plot(disp_fc, deform_by=disp_result, scale_factor=scale_factor,
                  title='MeshesContainer', text='MeshesContainer.plot(disp_fc)')
