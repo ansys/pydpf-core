@@ -77,7 +77,11 @@ class Animator:
     def __init__(self, **kwargs):
         _InternalAnimatorClass = _InternalAnimatorFactory.get_animator_class()
         self._internal_animator = _InternalAnimatorClass(**kwargs)
-        self.fields_container = None
+        self.workflow = None
+
+    def add_workflow(self, input, output):
+
+
 
     def animate(self, wf_id, frequencies, unit, save_as, **kwargs):
         self._internal_animator.animate_workflow(wf_id, frequencies, unit,
