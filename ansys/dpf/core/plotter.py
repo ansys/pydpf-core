@@ -57,7 +57,7 @@ class _PyVistaPlotter:
     """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
         # Import pyvista
-        from vtk_helper import PyVistaImportError
+        from ansys.dpf.core.vtk_helper import PyVistaImportError
         try:
             import pyvista as pv
         except ModuleNotFoundError:
