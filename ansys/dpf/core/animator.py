@@ -35,7 +35,7 @@ class _PyVistaAnimator:
 
     def animate_workflow(self, wf_id, frequencies, unit, save_as, **kwargs):
         wf = ansys.dpf.core.Workflow.get_recorded_workflow(wf_id)
-
+        print("frequencies", frequencies)
         # Initiate movie or gif file if necessary
         if save_as:
             if save_as.endswith(".gif"):
@@ -45,26 +45,27 @@ class _PyVistaAnimator:
                     bound_method=self._plotter.open_movie, **kwargs)
                 self._plotter.open_movie(save_as, **kwargs_in)
 
-        def render_field(id):
+        def render_field(index):
+            print("Render step", index)
             self._plotter.clear()
-            wf.connect("index", [id])
+            wf.connect("index", [index])
             field = wf.get_output("to_render", ansys.dpf.core.types.field)
-            self.add_field(field)
+            # self.add_field(field)
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **kwargs)
-            self._plotter.add_text(f"t={times[time_id-1]} {unit}", **kwargs_in)
+            self._plotter.add_text(f"t={frequencies[index]} {unit}", **kwargs_in)
 
         try:
             # Write initial frame
-            render_field(time_ids[0])
+            render_field(0)
             # If not off_screen, enable the user to choose the camera position
             if not kwargs.pop("off_screen", None):
                 print('Orient the view, then press "q" to close window and produce movie')
             # Show is necessary even when off_screen to initiate the renderer
-            self.show_figure(auto_close=False, **kwargs)
+            # self.show_figure(auto_close=False, **kwargs)
             self._plotter.write_frame()
             # For each time id
-            for t in time_ids[1:]:
+            for t in range(1, len(frequencies)):
                 render_field(t)
                 self._plotter.write_frame()
         except Exception as e:
