@@ -314,6 +314,20 @@ class MeshedRegion:
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
     def deform_by(self, deform_by, scale_factor=1.):
+        """Deforms the mesh according to a 3D vector field and an additional scale factor.
+
+        Parameters
+        ----------
+        deform_by : Field, FieldsContainer, Result, Operator
+            Used to deform the plotted mesh. Must output a unique 3D vector field.
+            Defaults to None.
+        scale_factor : float, Field, FieldsContainer, optional
+            Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
+            (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
+        Returns
+        -------
+
+        """
         from ansys.dpf.core.operators.math import add, scale
         return add(fieldA=self.nodes.coordinates_field,
                    fieldB=scale(field=deform_by,

@@ -20,19 +20,26 @@ model.plot(title='Model', text='Model.plot()')
 scale_factor = 0.001
 step = 1
 
-# Define the result to warp by
+# Define a result to deform by
 disp_result = model.results.displacement.on_time_scoping([step])
-
-# Get the mesh and plot it as a deformed geometry
-mesh = model.metadata.meshed_region
-mesh.plot(deform_by=disp_result, scale_factor=scale_factor,
-          title='MeshedRegion', text='MeshedRegion.plot()')
-
+disp_op = disp_result()
 # Get the displacement field
 disp_fc = disp_result.eval()
 disp_field = disp_fc[0]
 
-# Plot it on the deformed geometry directly
+# Get the mesh and plot it as a deformed geometry using a Result, an Operator,
+# a Field or a FieldsContainer
+mesh = model.metadata.meshed_region
+mesh.plot(deform_by=disp_result, scale_factor=scale_factor,
+          title='MeshedRegion', text='MeshedRegion.plot()')
+# mesh.plot(deform_by=disp_op, scale_factor=scale_factor,
+#           title='MeshedRegion', text='MeshedRegion.plot()')
+# mesh.plot(deform_by=disp_fc, scale_factor=scale_factor,
+#           title='MeshedRegion', text='MeshedRegion.plot()')
+# mesh.plot(deform_by=disp_field, scale_factor=scale_factor,
+#           title='MeshedRegion', text='MeshedRegion.plot()')
+
+# Plot the displacement field on the deformed geometry directly
 disp_field.plot(deform_by=disp_result, scale_factor=scale_factor,
                 title='Field', text='Field.plot()')
 # or by applying it to the mesh

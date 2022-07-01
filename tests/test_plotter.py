@@ -596,8 +596,12 @@ def test_plot_warped_mesh(multishells):
     disp_result = model.results.displacement.on_time_scoping([1])
     scale_factor = 0.001
     mesh.plot(deform_by=disp_result, scale_factor=scale_factor)
+    disp_op = disp_result()
+    mesh.plot(deform_by=disp_op, scale_factor=scale_factor)
     disp_fc = disp_result.eval()
+    mesh.plot(deform_by=disp_fc, scale_factor=scale_factor)
     disp_field = disp_fc[0]
+    mesh.plot(deform_by=disp_field, scale_factor=scale_factor)
     disp_field.plot(deform_by=disp_result, scale_factor=scale_factor)
     mesh.plot(disp_field, deform_by=disp_result, scale_factor=scale_factor)
     split_op = dpf.core.operators.mesh.split_mesh(mesh=mesh, property="mat")
