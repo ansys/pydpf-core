@@ -18,7 +18,6 @@ from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import meets_version
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -229,49 +228,17 @@ class _PyVistaPlotter:
             self._plotter.camera_position = cpos
 
         # Show depending on return_cpos option
-        return_cpos = kwargs.pop("return_cpos", None)
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.show, **kwargs)
-        if return_cpos is None:
-            return self._plotter.show(**kwargs_in)
-        else:
-            import pyvista as pv
-            pv_version = pv.__version__
-            version_to_reach = '0.32.0'
-            meet_ver = meets_version(pv_version, version_to_reach)
-            if meet_ver:
-                return self._plotter.show(return_cpos=return_cpos, **kwargs_in)
-            else:
-                txt = """To use the return_cpos option, please upgrade
-                your pyvista module with a version higher than """
-                txt += version_to_reach
-                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
+        return self._plotter.show(**kwargs_in)
 
     def _set_scalar_bar_title(self, kwargs):
-        import pyvista as pv
         stitle = kwargs.pop("stitle", None)
-        pv_version = pv.__version__
-        version_to_reach = '0.30.0'  # when stitle started to be deprecated
-        meet_ver = meets_version(pv_version, version_to_reach)
-        if meet_ver:
-            # use scalar_bar_args
-            scalar_bar_args = kwargs.pop("scalar_bar_args", None)
-            if not scalar_bar_args:
-                scalar_bar_args = {'title': stitle}
-            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        else:
-            # use stitle
-            has_attribute_scalar_bar = False
-            try:
-                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
-            except:
-                has_attribute_scalar_bar = False
-
-            if not has_attribute_scalar_bar:
-                kwargs.setdefault("stitle", stitle)
-            else:
-                if self._plotter.scalar_bar.GetTitle() is None:
-                    kwargs.setdefault("stitle", stitle)
+        # use scalar_bar_args
+        scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+        if not scalar_bar_args:
+            scalar_bar_args = {'title': stitle}
+        kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         return kwargs
 
 
@@ -728,24 +695,10 @@ class Plotter:
             self._internal_plotter._plotter.camera_position = cpos
 
         # show result
-        return_cpos = kwargs.pop("return_cpos", None)
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show,
             **kwargs)
-        if return_cpos is None:
-            return self._internal_plotter._plotter.show(**kwargs_in)
-        else:
-            import pyvista as pv
-            pv_version = pv.__version__
-            version_to_reach = '0.32.0'
-            meet_ver = meets_version(pv_version, version_to_reach)
-            if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos, **kwargs_in)
-            else:
-                txt = """To use the return_cpos option, please upgrade
-                your pyvista module with a version higher than """
-                txt += version_to_reach
-                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
+        return self._internal_plotter._plotter.show(**kwargs_in)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
