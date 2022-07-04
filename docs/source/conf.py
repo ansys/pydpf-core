@@ -118,6 +118,7 @@ autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
+html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_theme_options = {
