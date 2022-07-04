@@ -321,8 +321,7 @@ class BaseService:
 
             if not state._matured:
                 raise IOError(
-                    f"Unable to connect to DPF instance at {self._server()._input_ip} "
-                    f"{self._server()._input_port}"
+                    f"Unable to connect to DPF instance at {self._server()._address}"
                 )
 
         return stub

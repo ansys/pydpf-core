@@ -38,10 +38,22 @@ print(model)
 #
 stress_tensor = model.results.stress()
 time_scope = dpf.Scoping()
-time_scope.ids = [1, 2]
+time_scope.ids = [20]  # [1, 2]
 stress_tensor.inputs.time_scoping.connect(time_scope)
 stress_tensor.inputs.requested_location.connect("Nodal")
+# field = stress_tensor.outputs.fields_container.get_data()[0]
 
+norm_op = dpf.Operator("norm_fc")
+norm_op.inputs.connect(stress_tensor.outputs)
+field_norm_stress = norm_op.outputs.fields_container()[0]
+print(field_norm_stress)
+
+norm_op2 = dpf.Operator("norm_fc")
+disp = model.results.displacement()
+disp.inputs.time_scoping.connect(time_scope)
+norm_op2.inputs.connect(disp.outputs)
+field_norm_disp = norm_op2.outputs.fields_container()[0]
+print(field_norm_disp)
 ###############################################################################
 #  Get the meshed region
 #
@@ -52,13 +64,14 @@ mesh_set = model.metadata.meshed_region
 #
 plot = DpfPlotter()
 plot.add_field(
-    stress_tensor.outputs.fields_container.get_data()[1],
+    field_norm_stress,
     meshed_region=mesh_set,
     show_max=True,
     show_min=True,
     label_text_size=15,
     label_point_size=5,
 )
+
 
 # Add custom labels to specific nodes with specific label properties.
 # If label for a node is missing, by default nodal value is shown.
@@ -79,18 +92,18 @@ plot.add_node_labels(
     point_size=20,
 )
 
-my_nodes_2 = [mesh_set.nodes[20], mesh_set.nodes[30]]
-my_labels_2 = ["MyNode3"]
+my_nodes_2 = [mesh_set.nodes[18], mesh_set.nodes[30]]
+my_labels_2 = []  # ["MyNode3"]
 plot.add_node_labels(
     my_nodes_2,
     mesh_set,
     my_labels_2,
-    font_size=30,
+    font_size=15,
     text_color="black",
     font_family="arial",
     shadow=False,
     point_color="white",
-    point_size=30,
+    point_size=15,
 )
 
 # Show figure

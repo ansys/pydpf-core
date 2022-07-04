@@ -47,6 +47,9 @@ class MeshesContainer(Collection):
         ----------
         fields_container : FieldsContainer, optional
             Data to plot. The default is ``None``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
 
         Examples
         --------
@@ -64,9 +67,11 @@ class MeshesContainer(Collection):
         >>> meshes_cont.plot(disp_fc)
 
         """
+        # DPF defaults
         kwargs.setdefault("show_edges", True)
-        notebook = kwargs.pop("notebook", None)
-        pl = DpfPlotter(notebook=notebook)
+        # Initiate plotter
+        pl = DpfPlotter(**kwargs)
+        # If a fields' container is given
         if fields_container is not None:
             for i in range(len(fields_container)):
                 label_space = fields_container.get_label_space(i)
@@ -80,13 +85,15 @@ class MeshesContainer(Collection):
                 field = fields_container[i]
                 pl.add_field(field, mesh_to_send, **kwargs)
         else:
+            # If no field given, associate a random color to each mesh in the container
             from random import random
             random_color = "color" not in kwargs
             for mesh in self:
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
                 pl.add_mesh(mesh, **kwargs)
-        pl.show_figure()
+        # Plot the figure
+        return pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.

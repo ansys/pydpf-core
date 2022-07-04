@@ -18,76 +18,77 @@ from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import meets_version
 
 
-class _InternalPlotter:
+def _sort_supported_kwargs(bound_method, **kwargs):
+    """Filters the kwargs for a given method."""
+    # Ignore warnings unless specified
+    if not sys.warnoptions:
+        import warnings
+        warnings.simplefilter("ignore")
+    # Get supported arguments
+    supported_args = inspect.getfullargspec(bound_method).args
+    kwargs_in = {}
+    kwargs_not_avail = {}
+    # Filter the given arguments
+    for key, item in kwargs.items():
+        if key in supported_args:
+            kwargs_in[key] = item
+        else:
+            kwargs_not_avail[key] = item
+    # Prompt a warning for arguments filtered out
+    if len(kwargs_not_avail) > 0:
+        txt = f"The following arguments are not supported by {bound_method}: "
+        txt += str(kwargs_not_avail)
+        warnings.warn(txt)
+    # Return the accepted arguments
+    return kwargs_in
+
+
+class _InternalPlotterFactory:
+    """
+    Factory for _InternalPlotter based on the backend."""
+    @staticmethod
+    def get_plotter_class():
+        return _PyVistaPlotter
+
+
+class _PyVistaPlotter:
     """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
+        # Import pyvista
+        from ansys.dpf.core.vtk_helper import PyVistaImportError
         try:
             import pyvista as pv
         except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
-        mesh = kwargs.pop("mesh", None)
-        self._plotter = pv.Plotter(**kwargs)
-        if mesh is not None:
-            self._plotter.add_mesh(mesh.grid)
+            raise PyVistaImportError
 
-    def _sort_supported_kwargs(self, bound_method, **kwargs):
-        supported_args = inspect.getargspec(bound_method).args
-        kwargs_in = {}
-        kwargs_not_avail = {}
-        for key, item in kwargs.items():
-            if key in supported_args:
-                kwargs_in[key] = item
-            else:
-                kwargs_not_avail[key] = item
-
-        if len(kwargs_not_avail) > 0:
-            txt = "The following arguments are not supported: "
-            txt += str(kwargs_not_avail)
-            warnings.warn(txt)
-
-        return kwargs_in
+        # Filter kwargs
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=pv.Plotter.__init__,
+            **kwargs)
+        # Initiate pyvista Plotter
+        self._plotter = pv.Plotter(**kwargs_in)
 
     def add_mesh(self, meshed_region, **kwargs):
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
-        pv_version = pv.__version__
-        version_to_reach = '0.30.0' # when stitle started to be deprecated
-        meet_ver = meets_version(pv_version, version_to_reach)
-        if meet_ver:
-            # use scalar_bar_args
-            scalar_bar_args = {'title': 'Mesh'}
-            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        else:
-            # use stitle
-            has_attribute_scalar_bar = False
-            try:
-                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
-            except:
-                has_attribute_scalar_bar = False
 
-            if not has_attribute_scalar_bar:
-                kwargs.setdefault("stitle", "Mesh")
-            else:
-                if self._plotter.scalar_bar.GetTitle() is None:
-                    kwargs.setdefault("stitle", "Mesh")
+        kwargs = self._set_scalar_bar_title(kwargs)
+
+        # Set defaults for PyDPF
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
-        kwargs_in = self._sort_supported_kwargs(
+        # Filter kwargs
+        kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.add_mesh,
             **kwargs
             )
+        # Give the mesh to the pyvista Plotter
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        grid = meshed_region.grid
+        grid.set_active_scalars(None)
         self._plotter.add_mesh(meshed_region.grid, **kwargs_in)
 
     def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
@@ -102,46 +103,44 @@ class _InternalPlotter:
                 label = None
             return label
 
+        # Filter kwargs
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._plotter.add_point_labels,
+            **kwargs
+            )
+        # For all grid_points given
         for index, grid_point in enumerate(grid_points):
+            # Check for existing label at that point
             label_at_grid_point = get_label_at_grid_point(index)
             if label_at_grid_point:
+                # If there is already a label, create the associated actor
                 label_actors.append(self._plotter.add_point_labels(grid_point,
                                                                    [labels[index]],
-                                                                   **kwargs))
+                                                                   **kwargs_in))
             else:
-                scalar_at_index = meshed_region.grid.active_scalars[index]
+                scalar_at_index = meshed_region.grid.active_scalars[node_indexes[index]]
                 scalar_at_grid_point = f"{scalar_at_index:.2f}"
                 label_actors.append(self._plotter.add_point_labels(grid_point,
                                                                    [scalar_at_grid_point],
-                                                                   **kwargs))
+                                                                   **kwargs_in))
         return label_actors
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
                   label_text_size=30, label_point_size=20, **kwargs):
+        # Get the field name
         name = field.name.split("_")[0]
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "To use plotting capabilities, please install pyvista "
-                "with :\n pip install pyvista>=0.24.0"
-            )
-        pv_version = pv.__version__
-        version_to_reach = '0.30.0'
-        meet_ver = meets_version(pv_version, version_to_reach)
-        if meet_ver:
-            # use scalar_bar_args
-            scalar_bar_args = {'title': name}
-            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        else:
-            # use stitle
-            kwargs.setdefault("stitle", name)
+        unit = field.unit
+        kwargs.setdefault("stitle", f"{name} ({unit})")
+
+        kwargs = self._set_scalar_bar_title(kwargs)
+
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
 
         # get the meshed region location
         if meshed_region is None:
             meshed_region = field.meshed_region
+
         location = field.location
         if location == locations.nodal:
             mesh_location = meshed_region.nodes
@@ -163,12 +162,17 @@ class _InternalPlotter:
         ind, mask = mesh_location.map_scoping(field.scoping)
         overall_data[ind] = field.data[mask]
 
-        # plot
-        kwargs_in = self._sort_supported_kwargs(
+        # Filter kwargs for add_mesh
+        kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.add_mesh,
             **kwargs
             )
-        self._plotter.add_mesh(meshed_region.grid, scalars=overall_data, **kwargs_in)
+        # Have to remove any active scalar field from the pre-existing grid object,
+        # otherwise we get two scalar bars when calling several plot_contour on the same mesh
+        # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
+        grid = meshed_region.grid
+        grid.set_active_scalars(None)
+        self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         if show_max or show_min:
             # Get Min-Max for the field
@@ -204,6 +208,11 @@ class _InternalPlotter:
                                            font_size=label_text_size, point_size=label_point_size)
 
     def show_figure(self, **kwargs):
+
+        text = kwargs.pop('text', None)
+        if text is not None:
+            self._plotter.add_text(text, position='lower_edge')
+
         background = kwargs.pop("background", None)
         if background is not None:
             self._plotter.set_background(background)
@@ -213,11 +222,24 @@ class _InternalPlotter:
         if show_axes:
             self._plotter.add_axes()
 
-        kwargs_in = self._sort_supported_kwargs(
-            bound_method=self._plotter.show,
-            **kwargs
-            )
+        # Set cpos
+        cpos = kwargs.pop("cpos", None)
+        if cpos is not None:
+            self._plotter.camera_position = cpos
+
+        # Show depending on return_cpos option
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._plotter.show, **kwargs)
         return self._plotter.show(**kwargs_in)
+
+    def _set_scalar_bar_title(self, kwargs):
+        stitle = kwargs.pop("stitle", None)
+        # use scalar_bar_args
+        scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+        if not scalar_bar_args:
+            scalar_bar_args = {'title': stitle}
+        kwargs.setdefault("scalar_bar_args", scalar_bar_args)
+        return kwargs
 
 
 class DpfPlotter:
@@ -230,7 +252,7 @@ class DpfPlotter:
     it supports **kwargs as parameter (the argument
     must be supported by the installed PyVista version).
     More information about the available arguments are
-    available at :func:`pyvista.plot`.
+    available at :class:`pyvista.Plotter`.
     """
     def __init__(self, **kwargs):
         """Create a DpfPlotter object.
@@ -241,13 +263,13 @@ class DpfPlotter:
         it supports **kwargs as parameter (the argument
         must be supported by the installed PyVista version).
         More information about the available arguments are
-        available at :func:`pyvista.plot`.
+        available at :class:`pyvista.Plotter`.
 
         Parameters
         ----------
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
-            are available at :func:`pyvista.plot`.
+            are available at :class:`pyvista.Plotter`.
 
         Examples
         --------
@@ -255,7 +277,8 @@ class DpfPlotter:
         >>> pl = DpfPlotter(notebook=False)
 
         """
-        self._internal_plotter = _InternalPlotter(**kwargs)
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class()
+        self._internal_plotter = _InternalPlotterClass(**kwargs)
         self._labels = []
 
     @property
@@ -382,7 +405,7 @@ class DpfPlotter:
         return self._internal_plotter.show_figure(**kwargs)
 
 
-def plot_chart(fields_container):
+def plot_chart(fields_container, off_screen=False, screenshot=None):
     """Plot the minimum/maximum result values over time.
 
     This is a valid method if ``time_freq_support`` contains
@@ -390,9 +413,16 @@ def plot_chart(fields_container):
 
     Parameters
     ----------
-    field_container : dpf.core.FieldsContainer
+    fields_container : dpf.core.FieldsContainer
         Fields container that must contains a result for each
         time step of ``time_freq_support``.
+    off_screen : bool, optional
+        Whether to render the image off-screen. Useful for batch workflows.
+        The default is ``False``.
+    screenshot : path-like, optional
+        A file path to which the figure should be saved. The format is inferred from the file
+        extension in the path (defaults to ".png"). The default is ``None``.
+
 
     Examples
     --------
@@ -405,7 +435,7 @@ def plot_chart(fields_container):
 
     """
     p = Plotter(None)
-    return p.plot_chart(fields_container)
+    return p.plot_chart(fields_container, screenshot=screenshot, off_screen=off_screen)
 
 
 class Plotter:
@@ -419,7 +449,8 @@ class Plotter:
     """
 
     def __init__(self, mesh, **kwargs):
-        self._internal_plotter = _InternalPlotter(mesh=mesh, **kwargs)
+        _InternalPlotterClass = _InternalPlotterFactory.get_plotter_class()
+        self._internal_plotter = _InternalPlotterClass(mesh=mesh, **kwargs)
         self._mesh = mesh
 
     def plot_mesh(self, **kwargs):
@@ -441,7 +472,8 @@ class Plotter:
         kwargs.setdefault("show_edges", True)
         return self._mesh.grid.plot(**kwargs)
 
-    def plot_chart(self, fields_container):
+    @staticmethod
+    def plot_chart(fields_container, off_screen=False, screenshot=None):
         """Plot the minimum/maximum result values over time.
 
         This is a valid method if ``time_freq_support`` contains
@@ -452,6 +484,13 @@ class Plotter:
         fields_container : dpf.core.FieldsContainer
             Fields container that must contain a result for each
             time step of ``time_freq_support``.
+        off_screen : bool, optional
+            Used to prevent the figure from showing in a pop-up, useful for batch image generation.
+            Defaults to False.
+        screenshot : str, os.pathLike, optional
+            Path to save the figure to. Defaults to None. If no extension is given, defaults to
+            .png format. See ``help(matplotlib.pyplot.savefig)`` for more information on
+            supported formats.
 
         Examples
         --------
@@ -467,6 +506,7 @@ class Plotter:
         >>> pl = plotter.plot_chart(fc)
 
         """
+        # Import matplotlib.pyplot
         try:
             import matplotlib.pyplot as pyplot
         except ModuleNotFoundError:
@@ -499,15 +539,18 @@ class Plotter:
         substr = fields_container[0].name.split("_")
         pyplot.ylabel(substr[0] + fieldMin.unit)
         pyplot.title(substr[0] + ": min/max values over time")
-        return pyplot.legend()
+        pyplot.legend()
+        f = pyplot.gcf()
+        if screenshot:
+            f.savefig(screenshot)
+        if not off_screen:
+            pyplot.show(block=True)
+        return f
 
     def plot_contour(
             self,
             field_or_fields_container,
-            notebook=None,
             shell_layers=None,
-            off_screen=None,
-            show_axes=True,
             meshed_region=None,
             **kwargs
     ):
@@ -520,20 +563,9 @@ class Plotter:
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or field container that contains the result to plot.
-        notebook : bool, optional
-            Whether to plot a static image within an iPython notebook
-            if available. The default is `None`, in which case an attempt is
-            made to plot a static imaage within an iPython notebook. When ``False``,
-            a plot external to the notebook is generated with an interactive window.
-            When ``True``, a plot is always generated within a notebook.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
-        off_screen : bool, optional
-            Whether to render off screen, which is useful for automated
-            screenshots. The default is ``None``.
-        show_axes : bool, optional
-            Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
@@ -587,6 +619,7 @@ class Plotter:
                 location = field.location
                 component_count = field.component_count
                 name = field.name.split("_")[0]
+                unit = field.unit
                 break
 
         if location == locations.nodal:
@@ -629,48 +662,43 @@ class Plotter:
             overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
-        background = kwargs.pop("background", None)
-        cpos = kwargs.pop("cpos", None)
-        return_cpos = kwargs.pop("return_cpos", None)
-
-        # plotter = pv.Plotter(notebook=notebook, off_screen=off_screen)
-        if notebook is not None:
-            self._internal_plotter._plotter.notebook = notebook
-        if off_screen is not None:
-            self._internal_plotter._plotter.off_screen = off_screen
 
         # add meshes
         kwargs.setdefault("show_edges", True)
         kwargs.setdefault("nan_color", "grey")
-        kwargs.setdefault("stitle", name)
+
+        # Set the scalar bar title
+        kwargs.setdefault("stitle", f"{name} ({unit})")
+        kwargs = self._internal_plotter._set_scalar_bar_title(kwargs)
+
+        # show axes
+        show_axes = kwargs.pop("show_axes", None)
+        if show_axes:
+            self._internal_plotter._plotter.add_axes()
+
         text = kwargs.pop('text', None)
         if text is not None:
             self._internal_plotter._plotter.add_text(text, position='lower_edge')
-        self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs)
 
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._internal_plotter._plotter.add_mesh,
+            **kwargs
+            )
+        self._internal_plotter._plotter.add_mesh(mesh.grid, scalars=overall_data, **kwargs_in)
+
+        background = kwargs.pop("background", None)
         if background is not None:
             self._internal_plotter._plotter.set_background(background)
 
+        cpos = kwargs.pop("cpos", None)
         if cpos is not None:
             self._internal_plotter._plotter.camera_position = cpos
 
         # show result
-        if show_axes:
-            self._internal_plotter._plotter.add_axes()
-        if return_cpos is None:
-            return self._internal_plotter._plotter.show()
-        else:
-            import pyvista as pv
-            pv_version = pv.__version__
-            version_to_reach = '0.32.0'
-            meet_ver = meets_version(pv_version, version_to_reach)
-            if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos)
-            else:
-                txt = """To use the return_cpos option, please upgrade
-                your pyvista module with a version higher than """
-                txt += version_to_reach
-                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
+        kwargs_in = _sort_supported_kwargs(
+            bound_method=self._internal_plotter._plotter.show,
+            **kwargs)
+        return self._internal_plotter._plotter.show(**kwargs_in)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.

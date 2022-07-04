@@ -8,7 +8,7 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
 
@@ -368,10 +368,7 @@ class MeshedRegion:
     def plot(
             self,
             field_or_fields_container=None,
-            notebook=None,
             shell_layers=None,
-            off_screen=None,
-            show_axes=True,
             **kwargs
     ):
         """Plot the field or fields container on the mesh.
@@ -380,16 +377,8 @@ class MeshedRegion:
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or fields container to plot. The default is ``None``.
-        notebook : bool, optional
-            Whether the plotting in the notebook is 2D or 3D. The default is
-            ``None``, in which case the plotting is 2D.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        off_screen : bool, optional
-            Whether to render the plot off screen, which is useful for automated screenshots.
-            The default is "None", in which case the plot renders off screen.
-        show_axes : bool, optional
-            Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -406,20 +395,14 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
-            return pl.plot_contour(
-                field_or_fields_container,
-                notebook,
-                shell_layers,
-                off_screen,
-                show_axes,
-                **kwargs
-            )
+            pl = Plotter(self, **kwargs)
+            return pl.plot_contour(field_or_fields_container, shell_layers, **kwargs)
 
-        # otherwise, simply plot self
-        kwargs["notebook"] = notebook
-        return pl.plot_mesh(**kwargs)
+        # otherwise, simply plot the mesh
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(self, **kwargs)
+        return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
         """Create a deep copy of the meshed region's data on a given server.
