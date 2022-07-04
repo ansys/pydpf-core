@@ -2,11 +2,10 @@
 from datetime import datetime
 import os
 
-import pyvista
 import numpy as np
-from pyansys_sphinx_theme import pyansys_logo_black
-
+import pyvista
 from ansys.dpf.core import __version__
+from ansys_sphinx_theme import pyansys_logo_black
 
 
 # Manage errors
@@ -26,7 +25,7 @@ pyvista.BUILDING_GALLERY = True
 
 # -- Project information -----------------------------------------------------
 
-project = "PyANSYS DPF"
+project = "PyDPF-Core"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
 
@@ -119,17 +118,7 @@ autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-# html_theme = 'sphinx_rtd_theme'
-# html_theme = 'pydata_sphinx_theme'
-# html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-# zerovm-sphinx-theme
-
-html_short_title = html_title = "PyDPF-Core"
-html_theme = "pyansys_sphinx_theme"
+html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
