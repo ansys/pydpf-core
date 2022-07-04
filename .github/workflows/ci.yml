@@ -24,8 +24,6 @@ jobs:
     name: Windows
     runs-on: windows-2019
 
-    env:
-
     steps:
       - uses: actions/checkout@v2
 
@@ -167,9 +165,6 @@ jobs:
   build_doc:
     name: Documentation
     runs-on: windows-2019
-
-    env:
-      ANSYS_VERSION: 221
 
     steps:
       - uses: actions/checkout@v2
