@@ -5,7 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ["psutil", "progressbar2", "numpy", "ansys.grpc.dpf>=0.2.3", "protobuf<=3.20.1"]
+install_requires = ["psutil", "progressbar2", "numpy", "ansys.grpc.dpf>=0.2.3", "protobuf<4.21.3"]
 
 # Get version from version info
 filepath = os.path.dirname(__file__)
