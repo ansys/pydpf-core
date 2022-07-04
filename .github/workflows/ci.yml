@@ -58,7 +58,7 @@ jobs:
           python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
       - name: WHEEL publish artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ansys_dpf_core_wheel
           path: ./dist/*
@@ -95,7 +95,7 @@ jobs:
         continue-on-error: true
 
       - name: Publish Doc Test Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ansys_dpf_core_doctest
           path: junit/test-doctests-results.xml
@@ -128,7 +128,7 @@ jobs:
         uses: codecov/codecov-action@v2
 
       - name: Publish Test Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ansys_dpf_core_pytest
           path: tests/junit/test-results*.xml
@@ -224,14 +224,14 @@ jobs:
         if: always()
 
       - name: Publish Documentation artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core
           path: ./docs/archive/doc-ansys-dpf-core.zip
         if: always()
 
       - name: Publish Documentation log
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core-log
           path: ./docs/*.txt
