@@ -1,8 +1,8 @@
-pytest==7.1.2
-pytest-cov==3.0.0
-pytest-rerunfailures==10.2
+pytest
+pytest-cov
+pytest-rerunfailures
 matplotlib==3.2
-vtk<=9.1.0
-pyvista==0.34.2
-ansys-platform-instancemanagement==1.0.2
-coverage==6.4.1
+vtk<9.1.0
+pyvista>=0.24.0
+ansys-platform-instancemanagement~=1.0
+coverage
