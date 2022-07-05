@@ -360,10 +360,7 @@ class MeshedRegion:
     def plot(
             self,
             field_or_fields_container=None,
-            notebook=None,
             shell_layers=None,
-            off_screen=None,
-            show_axes=True,
             **kwargs
     ):
         """Plot the field or fields container on the mesh.
@@ -372,16 +369,8 @@ class MeshedRegion:
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or fields container to plot. The default is ``None``.
-        notebook : bool, optional
-            Whether the plotting in the notebook is 2D or 3D. The default is
-            ``None``, in which case the plotting is 2D.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        off_screen : bool, optional
-            Whether to render the plot off screen, which is useful for automated screenshots.
-            The default is "None", in which case the plot renders off screen.
-        show_axes : bool, optional
-            Whether to show a VTK axes widget. The default is ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -400,15 +389,11 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
-            return pl.plot_contour(field_or_fields_container, notebook,
-                                   shell_layers, off_screen, show_axes, **kwargs)
+            return pl.plot_contour(field_or_fields_container, shell_layers, **kwargs)
 
         # otherwise, simply plot the mesh
-        kwargs["off_screen"] = off_screen
-        kwargs["notebook"] = notebook
         pl = DpfPlotter(**kwargs)
         pl.add_mesh(self, **kwargs)
-        kwargs["show_axes"] = show_axes
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):

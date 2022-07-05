@@ -2,19 +2,23 @@ name: GitHub Actions
 
 on:
   pull_request:
-    branches-ignore:
-      - "*no-ci"
-
+     branches-ignore:
+       - '*no-ci*'
   push:
     tags:
       - "*"
     branches:
       - master
+      - "release*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   PACKAGE_NAME: ansys-dpf-core
-  ANSYS_VERSION: 221
   MODULE: core
+  ANSYS_VERSION: 221
 
 jobs:
   Build_and_Test:
@@ -23,14 +27,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8"]
-        os: ["windows-2019", "ubuntu-latest"]
+        python-version: ["3.8"]
+        os: ["windows-latest"]
 
     steps:
       - uses: actions/checkout@v2
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.0
+        uses: pyansys/pydpf-actions/build_package@v2.1
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
@@ -43,6 +47,18 @@ jobs:
         uses: pyansys/pydpf-actions/test_package@v2.1
         with:
           MODULE: ${{env.MODULE}}
+
+      - name: 'Upload to PyPi'
+        if: contains(github.ref, 'refs/tags')
+        shell: cmd
+        run: |
+          pip install twine
+          python setup.py sdist
+          twine upload --skip-existing dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
+          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
 
   Build_Doc:
     name: Build Doc
