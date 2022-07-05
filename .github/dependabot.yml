@@ -8,6 +8,8 @@ updates:
     labels:
       - "maintenance"
       - "dependencies"
+    ignore:
+      - dependency-name: "vtk"
       
   - package-ecosystem: "github-actions"
     directory: "/"
