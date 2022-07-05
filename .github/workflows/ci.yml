@@ -44,7 +44,7 @@ jobs:
           install_extras: plotting
 
       - name: "Test Package"
-        uses: pyansys/pydpf-actions/test_package@v2.0
+        uses: pyansys/pydpf-actions/test_package@v2.1
         with:
           MODULE: ${{env.MODULE}}
 
