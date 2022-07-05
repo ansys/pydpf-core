@@ -9,59 +9,45 @@ on:
       - "*"
     branches:
       - master
-      - "release*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
-  PYANSYS_OFF_SCREEN: True
-  DPF_PORT: 32772
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  ANSYS_VERSION: 221
 
 jobs:
-  test_windows:
-    name: Windows
-    runs-on: windows-2019
-
-    env:
-      ANSYS_VERSION: 221
+  Build_and_Test:
+    name: WindowsBuild and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v2.1.4
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.1
         with:
-          python-version: 3.8
-
-      - id: install-dpf 
-        uses: pyansys/pydpf-actions/install-dpf-server@v1
-        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          ANSYS_VERSION : ${{env.ANSYS_VERSION}}
+          install_extras: plotting
 
-      - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: |
-          echo AWP_ROOT$env:ANSYS_VERSION
-          echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+#      - name: "Test Package"
+#        uses: pyansys/pydpf-actions/test_package@v2.0
+#        with:
+#          MODULE: ${{env.MODULE}}
 
-      - name: Install ansys-dpf-core
-        shell: cmd
-        run: |
-          pip install -r requirements_build.txt
-          python setup.py bdist_wheel
-          FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
-          ECHO %WHEELPATH%
-          cd tests
-          pip install %WHEELPATH%
-          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
-
-      - name: WHEEL publish artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys_dpf_core_wheel
-          path: ./dist/*
+####################################################################
 
       - name: Install OpenGL
         run: |
