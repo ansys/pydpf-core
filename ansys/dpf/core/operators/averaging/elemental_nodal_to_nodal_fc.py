@@ -31,6 +31,9 @@ class elemental_nodal_to_nodal_fc(Operator):
         Average only on these nodes, if it is scoping
         container, the label must correspond
         to the one of the fields container
+    extend_to_mid_nodes : bool, optional
+        Compute mid nodes (when available) by
+        averaging neighbour primary nodes
 
 
     Examples
@@ -49,6 +52,8 @@ class elemental_nodal_to_nodal_fc(Operator):
     >>> op.inputs.should_average.connect(my_should_average)
     >>> my_scoping = dpf.Scoping()
     >>> op.inputs.scoping.connect(my_scoping)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc(
@@ -56,10 +61,12 @@ class elemental_nodal_to_nodal_fc(Operator):
     ...     mesh=my_mesh,
     ...     should_average=my_should_average,
     ...     scoping=my_scoping,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
+    >>> result_weights = op.outputs.weights()
     """
 
     def __init__(
@@ -68,6 +75,7 @@ class elemental_nodal_to_nodal_fc(Operator):
         mesh=None,
         should_average=None,
         scoping=None,
+        extend_to_mid_nodes=None,
         config=None,
         server=None,
     ):
@@ -84,6 +92,8 @@ class elemental_nodal_to_nodal_fc(Operator):
             self.inputs.should_average.connect(should_average)
         if scoping is not None:
             self.inputs.scoping.connect(scoping)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
 
     @staticmethod
     def _spec():
@@ -125,6 +135,13 @@ class elemental_nodal_to_nodal_fc(Operator):
         container, the label must correspond
         to the one of the fields container""",
                 ),
+                4: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Compute mid nodes (when available) by
+        averaging neighbour primary nodes""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -132,6 +149,16 @@ class elemental_nodal_to_nodal_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                ),
+                1: PinSpecification(
+                    name="weights",
+                    type_names=[
+                        "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+                    ],
+                    optional=False,
+                    document="""Gives for each node, the number of times it
+        was found in the elemental nodal
+        field. can be used to average later.""",
                 ),
             },
         )
@@ -192,6 +219,8 @@ class InputsElementalNodalToNodalFc(_Inputs):
     >>> op.inputs.should_average.connect(my_should_average)
     >>> my_scoping = dpf.Scoping()
     >>> op.inputs.scoping.connect(my_scoping)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     """
 
     def __init__(self, op: Operator):
@@ -210,6 +239,10 @@ class InputsElementalNodalToNodalFc(_Inputs):
             elemental_nodal_to_nodal_fc._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._scoping)
+        self._extend_to_mid_nodes = Input(
+            elemental_nodal_to_nodal_fc._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
 
     @property
     def fields_container(self):
@@ -295,6 +328,27 @@ class InputsElementalNodalToNodalFc(_Inputs):
         """
         return self._scoping
 
+    @property
+    def extend_to_mid_nodes(self):
+        """Allows to connect extend_to_mid_nodes input to the operator.
+
+        Compute mid nodes (when available) by
+        averaging neighbour primary nodes
+
+        Parameters
+        ----------
+        my_extend_to_mid_nodes : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
+
 
 class OutputsElementalNodalToNodalFc(_Outputs):
     """Intermediate class used to get outputs from
@@ -306,6 +360,7 @@ class OutputsElementalNodalToNodalFc(_Outputs):
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
     >>> # Connect inputs : op.inputs. ...
     >>> result_fields_container = op.outputs.fields_container()
+    >>> result_weights = op.outputs.weights()
     """
 
     def __init__(self, op: Operator):
@@ -314,6 +369,8 @@ class OutputsElementalNodalToNodalFc(_Outputs):
             elemental_nodal_to_nodal_fc._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._fields_container)
+        self._weights = Output(elemental_nodal_to_nodal_fc._spec().output_pin(1), 1, op)
+        self._outputs.append(self._weights)
 
     @property
     def fields_container(self):
@@ -331,3 +388,21 @@ class OutputsElementalNodalToNodalFc(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
+    @property
+    def weights(self):
+        """Allows to get weights output of the operator
+
+        Returns
+        ----------
+        my_weights : Class Dataprocessing::Dpftypecollection&lt;Class
+        Dataprocessing::Cpropertyfield&gt;
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_weights = op.outputs.weights()
+        """  # noqa: E501
+        return self._weights

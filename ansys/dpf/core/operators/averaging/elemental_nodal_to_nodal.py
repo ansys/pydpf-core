@@ -25,6 +25,9 @@ class elemental_nodal_to_nodal(Operator):
         Each nodal value is divided by the number of
         elements linked to this node (default
         is true for discrete quantities)
+    extend_to_mid_nodes : bool, optional
+        Compute mid nodes (when available) by
+        averaging neighbour primary nodes
     mesh : MeshedRegion, optional
 
 
@@ -42,6 +45,8 @@ class elemental_nodal_to_nodal(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_should_average = bool()
     >>> op.inputs.should_average.connect(my_should_average)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
 
@@ -50,11 +55,13 @@ class elemental_nodal_to_nodal(Operator):
     ...     field=my_field,
     ...     mesh_scoping=my_mesh_scoping,
     ...     should_average=my_should_average,
+    ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
+    >>> result_weight = op.outputs.weight()
     """
 
     def __init__(
@@ -62,6 +69,7 @@ class elemental_nodal_to_nodal(Operator):
         field=None,
         mesh_scoping=None,
         should_average=None,
+        extend_to_mid_nodes=None,
         mesh=None,
         config=None,
         server=None,
@@ -75,6 +83,8 @@ class elemental_nodal_to_nodal(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if should_average is not None:
             self.inputs.should_average.connect(should_average)
+        if extend_to_mid_nodes is not None:
+            self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
@@ -106,6 +116,13 @@ class elemental_nodal_to_nodal(Operator):
         elements linked to this node (default
         is true for discrete quantities)""",
                 ),
+                4: PinSpecification(
+                    name="extend_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Compute mid nodes (when available) by
+        averaging neighbour primary nodes""",
+                ),
                 7: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
@@ -119,6 +136,14 @@ class elemental_nodal_to_nodal(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                ),
+                1: PinSpecification(
+                    name="weight",
+                    type_names=["property_field"],
+                    optional=False,
+                    document="""Gives for each node, the number of times it
+        was found in the elemental nodal
+        field. can be used to average later.""",
                 ),
             },
         )
@@ -175,6 +200,8 @@ class InputsElementalNodalToNodal(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_should_average = bool()
     >>> op.inputs.should_average.connect(my_should_average)
+    >>> my_extend_to_mid_nodes = bool()
+    >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     """
@@ -191,6 +218,10 @@ class InputsElementalNodalToNodal(_Inputs):
             elemental_nodal_to_nodal._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._should_average)
+        self._extend_to_mid_nodes = Input(
+            elemental_nodal_to_nodal._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._extend_to_mid_nodes)
         self._mesh = Input(elemental_nodal_to_nodal._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
 
@@ -258,6 +289,27 @@ class InputsElementalNodalToNodal(_Inputs):
         return self._should_average
 
     @property
+    def extend_to_mid_nodes(self):
+        """Allows to connect extend_to_mid_nodes input to the operator.
+
+        Compute mid nodes (when available) by
+        averaging neighbour primary nodes
+
+        Parameters
+        ----------
+        my_extend_to_mid_nodes : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
+        >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
+        """
+        return self._extend_to_mid_nodes
+
+    @property
     def mesh(self):
         """Allows to connect mesh input to the operator.
 
@@ -286,12 +338,15 @@ class OutputsElementalNodalToNodal(_Outputs):
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
     >>> # Connect inputs : op.inputs. ...
     >>> result_field = op.outputs.field()
+    >>> result_weight = op.outputs.weight()
     """
 
     def __init__(self, op: Operator):
         super().__init__(elemental_nodal_to_nodal._spec().outputs, op)
         self._field = Output(elemental_nodal_to_nodal._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
+        self._weight = Output(elemental_nodal_to_nodal._spec().output_pin(1), 1, op)
+        self._outputs.append(self._weight)
 
     @property
     def field(self):
@@ -309,3 +364,20 @@ class OutputsElementalNodalToNodal(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    @property
+    def weight(self):
+        """Allows to get weight output of the operator
+
+        Returns
+        ----------
+        my_weight : PropertyField
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_weight = op.outputs.weight()
+        """  # noqa: E501
+        return self._weight

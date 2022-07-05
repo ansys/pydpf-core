@@ -132,12 +132,14 @@ from .cyclic_analytic_usum_max import cyclic_analytic_usum_max
 from .cyclic_analytic_seqv_max import cyclic_analytic_seqv_max 
 from .poynting_vector import poynting_vector 
 from .poynting_vector_surface import poynting_vector_surface 
+from .nodal_to_global import nodal_to_global 
 from .nodal_averaged_elastic_strains import nodal_averaged_elastic_strains 
 from .add_rigid_body_motion import add_rigid_body_motion 
 from .nodal_averaged_equivalent_elastic_strain import nodal_averaged_equivalent_elastic_strain 
 from .run import run 
 from .cyclic_expanded_velocity import cyclic_expanded_velocity 
 from .cyclic_expanded_el_strain import cyclic_expanded_el_strain 
+from .cyclic_expanded_temperature import cyclic_expanded_temperature 
 from .nodal_averaged_thermal_strains import nodal_averaged_thermal_strains 
 from .nodal_averaged_plastic_strains import nodal_averaged_plastic_strains 
 from .nodal_averaged_thermal_swelling_strains import nodal_averaged_thermal_swelling_strains 
@@ -146,8 +148,9 @@ from .nodal_averaged_creep_strains import nodal_averaged_creep_strains
 from .nodal_averaged_equivalent_thermal_strains import nodal_averaged_equivalent_thermal_strains 
 from .nodal_averaged_equivalent_plastic_strain import nodal_averaged_equivalent_plastic_strain 
 from .nodal_averaged_equivalent_creep_strain import nodal_averaged_equivalent_creep_strain 
-from .euler_nodes import euler_nodes 
 from .nmisc import nmisc 
+from .global_to_nodal import global_to_nodal 
+from .euler_nodes import euler_nodes 
 from .enf_rotation_by_euler_nodes import enf_rotation_by_euler_nodes 
 from .cms_matrices_provider import cms_matrices_provider 
 from .coordinate_system import coordinate_system 
@@ -168,4 +171,7 @@ from .cyclic_expanded_enf import cyclic_expanded_enf
 from .cyclic_volume import cyclic_volume 
 from .cyclic_strain_energy import cyclic_strain_energy 
 from .total_mass import total_mass 
+from .mapdl_material_properties import mapdl_material_properties 
+from .mapdl_section import mapdl_section 
+from .cyclic_expanded_heat_flux import cyclic_expanded_heat_flux 
 from .migrate_to_h5dpf import migrate_to_h5dpf 

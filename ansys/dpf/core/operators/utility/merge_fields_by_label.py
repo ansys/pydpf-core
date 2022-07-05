@@ -22,7 +22,7 @@ class merge_fields_by_label(Operator):
     merged_field_support : AbstractFieldSupport, optional
         The fieldscontainer's support that has
         already been merged.
-    sumMerge : bool, optional
+    sum_merge : bool, optional
         Default is false. if true redundant
         quantities are summed instead of
         being ignored.
@@ -42,15 +42,15 @@ class merge_fields_by_label(Operator):
     >>> op.inputs.label.connect(my_label)
     >>> my_merged_field_support = dpf.AbstractFieldSupport()
     >>> op.inputs.merged_field_support.connect(my_merged_field_support)
-    >>> my_sumMerge = bool()
-    >>> op.inputs.sumMerge.connect(my_sumMerge)
+    >>> my_sum_merge = bool()
+    >>> op.inputs.sum_merge.connect(my_sum_merge)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_fields_by_label(
     ...     fields_container=my_fields_container,
     ...     label=my_label,
     ...     merged_field_support=my_merged_field_support,
-    ...     sumMerge=my_sumMerge,
+    ...     sum_merge=my_sum_merge,
     ... )
 
     >>> # Get output data
@@ -63,7 +63,7 @@ class merge_fields_by_label(Operator):
         fields_container=None,
         label=None,
         merged_field_support=None,
-        sumMerge=None,
+        sum_merge=None,
         config=None,
         server=None,
     ):
@@ -78,8 +78,8 @@ class merge_fields_by_label(Operator):
             self.inputs.label.connect(label)
         if merged_field_support is not None:
             self.inputs.merged_field_support.connect(merged_field_support)
-        if sumMerge is not None:
-            self.inputs.sumMerge.connect(sumMerge)
+        if sum_merge is not None:
+            self.inputs.sum_merge.connect(sum_merge)
 
     @staticmethod
     def _spec():
@@ -108,7 +108,7 @@ class merge_fields_by_label(Operator):
         already been merged.""",
                 ),
                 3: PinSpecification(
-                    name="sumMerge",
+                    name="sum_merge",
                     type_names=["bool"],
                     optional=True,
                     document="""Default is false. if true redundant
@@ -186,8 +186,8 @@ class InputsMergeFieldsByLabel(_Inputs):
     >>> op.inputs.label.connect(my_label)
     >>> my_merged_field_support = dpf.AbstractFieldSupport()
     >>> op.inputs.merged_field_support.connect(my_merged_field_support)
-    >>> my_sumMerge = bool()
-    >>> op.inputs.sumMerge.connect(my_sumMerge)
+    >>> my_sum_merge = bool()
+    >>> op.inputs.sum_merge.connect(my_sum_merge)
     """
 
     def __init__(self, op: Operator):
@@ -202,8 +202,8 @@ class InputsMergeFieldsByLabel(_Inputs):
             merge_fields_by_label._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._merged_field_support)
-        self._sumMerge = Input(merge_fields_by_label._spec().input_pin(3), 3, op, -1)
-        self._inputs.append(self._sumMerge)
+        self._sum_merge = Input(merge_fields_by_label._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._sum_merge)
 
     @property
     def fields_container(self):
@@ -265,8 +265,8 @@ class InputsMergeFieldsByLabel(_Inputs):
         return self._merged_field_support
 
     @property
-    def sumMerge(self):
-        """Allows to connect sumMerge input to the operator.
+    def sum_merge(self):
+        """Allows to connect sum_merge input to the operator.
 
         Default is false. if true redundant
         quantities are summed instead of
@@ -274,17 +274,17 @@ class InputsMergeFieldsByLabel(_Inputs):
 
         Parameters
         ----------
-        my_sumMerge : bool
+        my_sum_merge : bool
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_fields_by_label()
-        >>> op.inputs.sumMerge.connect(my_sumMerge)
+        >>> op.inputs.sum_merge.connect(my_sum_merge)
         >>> # or
-        >>> op.inputs.sumMerge(my_sumMerge)
+        >>> op.inputs.sum_merge(my_sum_merge)
         """
-        return self._sumMerge
+        return self._sum_merge
 
 
 class OutputsMergeFieldsByLabel(_Outputs):
