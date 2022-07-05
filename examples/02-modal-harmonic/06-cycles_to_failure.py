@@ -83,7 +83,7 @@ snData[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2.
 
 # Comment the two following lines if solving the mapdl problem first.
 from ansys.dpf.core import examples
-rst = examples.cyclic_to_failure
+rst = examples.download_cyclic_to_failure()
 #
 
 # Import the result as a DPF Model object.
