@@ -313,9 +313,34 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def _as_vtk(self, as_linear=True, include_ids=False):
+    def deform_by(self, deform_by, scale_factor=1.):
+        """Deforms the mesh according to a 3D vector field and an additional scale factor.
+
+        Parameters
+        ----------
+        deform_by : Field, FieldsContainer, Result, Operator
+            Used to deform the plotted mesh. Must output a unique 3D vector field.
+            Defaults to None.
+        scale_factor : float, Field, FieldsContainer, optional
+            Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
+            (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
+        Returns
+        -------
+
+        """
+        from ansys.dpf.core.operators.math import add, scale
+        return add(fieldA=self.nodes.coordinates_field,
+                   fieldB=scale(field=deform_by,
+                                ponderation=scale_factor
+                                ).outputs.field
+                   ).outputs.field()
+
+    def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
-        nodes = self.nodes.coordinates_field.data
+        if not coordinates:
+            self._tmpnodes = self.nodes.coordinates_field.data
+        else:
+            self._tmpnodes = coordinates.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
         try:
@@ -326,7 +351,7 @@ class MeshedRegion:
                 "with :\n pip install pyvista>=0.24.0"
             )
 
-        grid = dpf_mesh_to_vtk(nodes, etypes, conn, as_linear)
+        grid = dpf_mesh_to_vtk(self._tmpnodes, etypes, conn, as_linear)
 
         # consider adding this when scoping request is faster
         if include_ids:
@@ -362,13 +387,15 @@ class MeshedRegion:
 
         """
         if self._full_grid is None:
-            self._full_grid = self._as_vtk()
+            self._full_grid = self._as_vtk(self.nodes.coordinates_field)
         return self._full_grid
 
     def plot(
             self,
             field_or_fields_container=None,
             shell_layers=None,
+            deform_by=None,
+            scale_factor=1.0,
             **kwargs
     ):
         """Plot the field or fields container on the mesh.
@@ -379,6 +406,11 @@ class MeshedRegion:
             Field or fields container to plot. The default is ``None``.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -397,11 +429,15 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
-            return pl.plot_contour(field_or_fields_container, shell_layers, **kwargs)
+            return pl.plot_contour(field_or_fields_container, shell_layers,
+                                   show_axes=kwargs.pop("show_axes", True),
+                                   deform_by=deform_by,
+                                   scale_factor=scale_factor, **kwargs)
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, **kwargs)
+        pl.add_mesh(self, deform_by=deform_by, scale_factor=scale_factor,
+                    show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
