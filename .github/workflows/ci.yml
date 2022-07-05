@@ -21,7 +21,7 @@ env:
 
 jobs:
   Build_and_Test:
-    name: WindowsBuild and Test
+    name: Build and Test
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
