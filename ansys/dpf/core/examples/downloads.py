@@ -3,7 +3,6 @@ import shutil
 import os
 import urllib.request
 
-
 EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/"
 
 
@@ -22,7 +21,8 @@ def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities
     # First check if file has already been downloaded
-    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename))
+    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory,
+                              os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
         return path_utilities.to_server_os(local_path_no_zip.replace(
@@ -380,3 +380,48 @@ def download_extrapolation_2d_result() -> dict:
     }
 
     return dict
+
+
+def download_hemisphere() -> str:
+    """Download an example result file from a static analysis and
+    return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_hemisphere()
+    >>> path
+    'C:/Users/user/AppData/local/temp/hemisphere.rst'
+
+    """
+    return _download_file("hemisphere", "hemisphere.rst")
+
+
+def download_example_asme_result() -> str:
+    """Download an example result file from a static analysis and
+    return the download path.
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+    Returns
+    -------
+    str
+        Path to the example file.
+    Examples
+    --------
+    Download an example result file and return the path of the file
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_example_asme_result()
+    >>> path
+    'C:/Users/user/AppData/local/temp/asme_example.rst'
+    """
+    return _download_file("postprocessing", "asme_example.rst")

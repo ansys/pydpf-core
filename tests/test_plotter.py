@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from ansys import dpf
@@ -5,35 +7,69 @@ from ansys.dpf import core
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
+from ansys.dpf.core.plotter import plot_chart
 from conftest import running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from ansys.dpf.core.plotter import Plotter as DpfPlotter
+    from ansys.dpf.core.plotter import DpfPlotter, Plotter
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
 else:
     HAS_PYVISTA = False
 
 
+def remove_picture(picture):
+    if os.path.exists(os.path.join(os.getcwd(), picture)):
+        os.remove(os.path.join(os.getcwd(), picture))
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_on_model(plate_msup):
+    model = Model(plate_msup)
+    model.plot()
+    picture = 'model_plot.png'
+    remove_picture(picture)
+    model.plot(off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
+
+
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_chart_plotter(plate_msup):
     model = Model(plate_msup)
-    mesh = model.metadata.meshed_region
     tfq = model.metadata.time_freq_support
     timeids = list(range(1, tfq.n_sets + 1))
     disp = model.results.displacement()
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, dpf.core.types.fields_container)
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     ret = pl.plot_chart(new_fields_container)
     assert ret
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_mesh_bare_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_mesh_field_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    stress = model.results.stress()
+    stress.inputs.requested_location.connect("Nodal")
+    f = stress.outputs.fields_container()[0]
+    mesh.plot(f)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_on_mesh(allkindofcomplexity):
     model = Model(allkindofcomplexity)
-    pl = DpfPlotter(model.metadata.meshed_region)
-    cpos = pl.plot_mesh()
+    pl = DpfPlotter()
+    pl.add_mesh(model.metadata.meshed_region)
+    pl.show_figure()
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -45,11 +81,11 @@ def test_plotter_on_field(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     field = fc[1]
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     fields_container = dpf.core.FieldsContainer()
     fields_container.add_label("time")
     fields_container.add_field({"time": 1}, field)
-    cpos = pl.plot_contour(fields_container)
+    pl.plot_contour(fields_container)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -60,7 +96,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op = Operator("to_elemental_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
 
@@ -72,7 +108,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op = Operator("to_nodal_fc")
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     cpos = pl.plot_contour(fc)
 
 
@@ -86,6 +122,11 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     mesh.plot(fc)
+    picture = 'mesh_plot.png'
+    remove_picture(picture)
+    mesh.plot(fc, off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -112,6 +153,11 @@ def test_field_nodal_plot(allkindofcomplexity):
     fc = avg_op.outputs.fields_container()
     f = fc[1]
     f.plot()
+    picture = 'field_plot.png'
+    remove_picture(picture)
+    f.plot(off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -169,6 +215,23 @@ def test_field_shell_plot_scoping_elemental(multishells):
     s = avg.outputs.fields_container()
     f = s[1]
     f.plot(shell_layers=core.shell_layers.top)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_throw_shell_layers(multishells):
+    model = core.Model(multishells)
+    stress = model.results.stress()
+    scoping = core.Scoping()
+    scoping.location = "Elemental"
+    l = list(range(3000, 4500))
+    scoping.ids = l
+    stress.inputs.mesh_scoping.connect(scoping)
+    avg = core.Operator("to_elemental_fc")
+    avg.inputs.fields_container.connect(stress.outputs.fields_container)
+    s = avg.outputs.fields_container()
+    f = s[1]
+    with pytest.raises(TypeError):
+        f.plot(shell_layers="test")
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -251,7 +314,7 @@ def test_plot_contour_using_vtk_file(complex_model):
     model = core.Model(complex_model)
     stress = model.results.displacement()
     fc = stress.outputs.fields_container()
-    pl = DpfPlotter(model.metadata.meshed_region)
+    pl = Plotter(model.metadata.meshed_region)
     pl._plot_contour_using_vtk_file(fc)
 
 
@@ -269,6 +332,11 @@ def test_plot_meshes_container_1(multishells):
     disp_op.connect(4, ds)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc)
+    picture = 'meshes_cont_plot.png'
+    remove_picture(picture)
+    meshes_cont.plot(disp_fc, off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -478,10 +546,44 @@ def test_plot_node_labels(multishells):
     pl = DpfPlotter()
     pl.add_field(field_m, mesh_m)
     my_nodes_1 = [mesh_m.nodes[0], mesh_m.nodes[10]]
-    my_labels_1 = ["MyNode1", "MyNode2"]
+    my_labels_1 = ["MyNode1"]
     pl.add_node_labels(my_nodes_1, mesh_m, my_labels_1,
                        italic=True, bold=True,
                        font_size=26, text_color="white",
                        font_family="courier", shadow=True,
                        point_color="grey", point_size=20)
+    a = pl.labels[0]
+    assert len(a) == 2
     pl.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_cpos_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    mesh.plot(cpos='xy')
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_return_cpos_plot(multishells):
+    model = core.Model(multishells)
+    mesh = model.metadata.meshed_region
+    ret = mesh.plot(return_cpos=True)
+    assert ret
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_chart(allkindofcomplexity):
+    from ansys.dpf.core import types
+    model = Model(allkindofcomplexity)
+    tfq = model.metadata.time_freq_support
+    timeids = list(range(1, tfq.n_sets + 1))
+    disp = model.results.displacement()
+    disp.inputs.time_scoping.connect(timeids)
+    new_fields_container = disp.get_output(0, types.fields_container)
+    plot_chart(new_fields_container)
+    picture = 'plot_chart.png'
+    remove_picture(picture)
+    plot_chart(new_fields_container, off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
