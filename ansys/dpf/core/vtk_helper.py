@@ -139,6 +139,16 @@ VTK_LINEAR_MAPPING = np.array(
 )  # kAnsBeam4 = 31,
 
 
+class PyVistaImportError(ModuleNotFoundError):
+    """Error raised when PyVista could not be imported during plotting."""
+
+    def __init__(
+        self, msg="To use plotting capabilities, please install pyvista "
+                  "with :\n pip install pyvista>=0.32.0"
+    ):
+        ModuleNotFoundError.__init__(self, msg)
+
+
 def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     """Return a pyvista unstructured grid given DPF node and element
     definitions.

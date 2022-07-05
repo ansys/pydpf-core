@@ -1,3 +1,0 @@
-VERSION=v2021.2
-REPO=docker.pkg.github.com/pyansys/dpf-core
-IMAGE=$REPO/dpf:$VERSION
