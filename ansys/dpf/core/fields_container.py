@@ -517,6 +517,9 @@ class FieldsContainer(Collection):
         wf.set_input_name("index", forward_index.inputs.any)
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(fc)
+
+        # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
+
         wf.set_input_name("indices", extract_field_op.inputs.indeces)  # Have to do it this way
         wf.connect("indices", forward_index)  # Otherwise not accepted
         # Add the operators to the workflow
