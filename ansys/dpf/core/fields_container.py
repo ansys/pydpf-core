@@ -487,7 +487,7 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def animate(self, save_as=None, warp_by=None, scaling_factor=1.0, **kwargs):
+    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Creates an animation based on the fields contained in the fields container.
 
         This method creates a movie or a gif based on the time ids of a fields container.
@@ -496,69 +496,48 @@ class FieldsContainer(Collection):
         Parameters
         ----------
         save_as : name of the file to save the animation to, with its extension, can be gif or mp4.
-        warp_by : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scaling_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        scale_factor : float, optional
+            Scale factor to apply when warping the mesh. Defaults to 1.0.
         """
         from ansys.dpf.core.animator import Animator
         # Initiate an Animator
         anim = Animator(**kwargs)
+        # Take the norm of the fields if vector
+        if self[0].component_count > 1:
+            fc = dpf.core.operators.math.norm_fc(self)
+        else:
+            fc = self
         # Create a workflow defining the result to render at each step of the animation
         wf = dpf.core.Workflow()
-        # Here we add an operator to extract the field at the specified step
-        extract_field_op = dpf.core.operators.utility.extract_field()
+        # First define the workflow index input
         forward_index = dpf.core.operators.utility.forward()
+        wf.set_input_name("index", forward_index.inputs.any)
+        # Define the field extraction using the fields_container and indices
+        extract_field_op = dpf.core.operators.utility.extract_field(fc)
+        wf.set_input_name("indices", extract_field_op.inputs.indeces)  # Have to do it this way
+        wf.connect("indices", forward_index)  # Otherwise not accepted
+        # Add the operators to the workflow
         wf.add_operators([extract_field_op, forward_index])
 
-        # Define the two main inputs (the field_container and the index to render)
-        wf.set_input_name("input", extract_field_op.inputs.fields_container)
-        wf.set_input_name("index", forward_index.inputs.any)
+        # If warping is activated or None
+        if deform_by is not False:
+            if deform_by is None:
+                # By default, set deform_by as self if nodal 3D vector field
+                if self[0].location == dpf.core.common.locations.nodal and \
+                        self[0].component_count == 3:
+                    deform_by = self
 
-        wf.set_input_name("indices", extract_field_op.inputs.indeces)
-        wf.connect("indices", forward_index)
-        # Connect the current FieldContainer as input to the workflow
-        wf.connect("input", self)
-        if warp_by:
-            addition = dpf.core.operators.math.add()
-            scaling = dpf.core.operators.math.scale()
-            get_coordinates = dpf.core.operators.mesh.node_coordinates()
-            get_mesh = dpf.core.operators.mesh.from_field()
-            extract_field_scale = dpf.core.operators.utility.extract_field()
-            wf.add_operators([addition, scaling, get_coordinates, get_mesh, extract_field_scale])
-
-            # Expose input pins and connect
-            wf.set_input_name("field_for_mesh", get_mesh.inputs.field)
-            wf.connect("field_for_mesh", extract_field_op)
-            wf.set_input_name("mesh_for_coord", get_coordinates.inputs.mesh)
-            wf.connect("mesh_for_coord", get_mesh)
-            wf.set_input_name("coordinates", addition.inputs.fieldA)
-            wf.connect("coordinates", get_coordinates)
-            wf.set_input_name("index_to_scale", extract_field_scale.inputs.indeces)
-            wf.connect("index_to_scale", forward_index)
-            wf.set_input_name("field_to_scale", extract_field_scale.inputs.fields_container)
-            wf.connect("field_to_scale", warp_by)
-            wf.set_input_name("field_for_scale", scaling.inputs.field)
-            wf.connect("field_for_scale", extract_field_scale)
-            wf.set_input_name("scaling_factor", scaling.inputs.ponderation)
-            wf.connect("scaling_factor", scaling_factor)
-            wf.set_input_name("scaling_field", addition.inputs.fieldB)
-            wf.connect("scaling_field", scaling)
-
-            # Expose output
-            wf.set_output_name("to_render", addition.outputs.field)
-        else:
-            wf.set_output_name("to_render", extract_field_op.outputs.field)
+        wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf_id = wf.record()
-        print(wf_id)
         if not self.has_label("time"):
-            frequencies = self.time_freq_support.complex_frequencies.data
-            unit = None
+            frequencies = self.time_freq_support.complex_frequencies
         else:
-            frequencies = self.time_freq_support.time_frequencies.data
-            unit = self.time_freq_support.time_frequencies.unit
-        anim.animate(wf_id, frequencies, unit, save_as, **kwargs)
+            frequencies = self.time_freq_support.time_frequencies
+
+        anim.animate(wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.

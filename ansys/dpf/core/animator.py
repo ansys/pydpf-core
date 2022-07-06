@@ -6,7 +6,7 @@ This module contains the DPF animator class.
 Contains classes used to animate results based on workflows using PyVista.
 """
 import ansys.dpf.core
-from ansys.dpf.core.plotter import _sort_supported_kwargs
+from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
 
 
 class _InternalAnimatorFactory:
@@ -17,7 +17,7 @@ class _InternalAnimatorFactory:
         return _PyVistaAnimator
 
 
-class _PyVistaAnimator:
+class _PyVistaAnimator(_PyVistaPlotter):
     """This _InternalAnimator class is based on PyVista"""
     def __init__(self, **kwargs):
         # Import pyvista
@@ -33,9 +33,12 @@ class _PyVistaAnimator:
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
-    def animate_workflow(self, wf_id, frequencies, unit, save_as, **kwargs):
+    def animate_workflow(self, wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs):
+        # Retrieve the workflow to animate
         wf = ansys.dpf.core.Workflow.get_recorded_workflow(wf_id)
-        print("frequencies", frequencies)
+        # Extract useful information from the given frequencies Field
+        unit = frequencies.unit
+        frequencies = frequencies.data
         # Initiate movie or gif file if necessary
         if save_as:
             if save_as.endswith(".gif"):
@@ -44,16 +47,21 @@ class _PyVistaAnimator:
                 kwargs_in = _sort_supported_kwargs(
                     bound_method=self._plotter.open_movie, **kwargs)
                 self._plotter.open_movie(save_as, **kwargs_in)
+        freq_kwargs = kwargs.pop("freq_kwargs", {})
+        freq_fmt = freq_kwargs.pop("fmt", "")
 
         def render_field(index):
-            print("Render step", index)
+            # print("Render step", index)
             self._plotter.clear()
             wf.connect("index", [index])
             field = wf.get_output("to_render", ansys.dpf.core.types.field)
-            # self.add_field(field)
+            deform = deform_by[index] if deform_by else None
+            self.add_field(field, deform_by=deform, scale_factor=scale_factor, **kwargs)
             kwargs_in = _sort_supported_kwargs(
-                bound_method=self._plotter.add_text, **kwargs)
-            self._plotter.add_text(f"t={frequencies[index]} {unit}", **kwargs_in)
+                bound_method=self._plotter.add_text, **freq_kwargs)
+            str_template = "t={0:{2}} {1}"
+            self._plotter.add_text("t={0:{2}} {1}".format(frequencies[index], unit, freq_fmt),
+                                   **kwargs_in)
 
         try:
             # Write initial frame
@@ -62,14 +70,17 @@ class _PyVistaAnimator:
             if not kwargs.pop("off_screen", None):
                 print('Orient the view, then press "q" to close window and produce movie')
             # Show is necessary even when off_screen to initiate the renderer
-            # self.show_figure(auto_close=False, **kwargs)
-            self._plotter.write_frame()
+            self.show_figure(auto_close=False)
+            if save_as:
+                self._plotter.write_frame()
             # For each time id
             for t in range(1, len(frequencies)):
                 render_field(t)
-                self._plotter.write_frame()
+                if save_as:
+                    self._plotter.write_frame()
         except Exception as e:
             print(e)
+            raise
         self._plotter.close()
 
 
@@ -80,10 +91,11 @@ class Animator:
         self.workflow = None
 
     def add_workflow(self, input, output):
+        pass
 
-
-
-    def animate(self, wf_id, frequencies, unit, save_as, **kwargs):
-        self._internal_animator.animate_workflow(wf_id, frequencies, unit,
+    def animate(self, wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs):
+        self._internal_animator.animate_workflow(wf_id, frequencies,
                                                  save_as=save_as,
+                                                 deform_by=deform_by,
+                                                 scale_factor=scale_factor,
                                                  **kwargs)
