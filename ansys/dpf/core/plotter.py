@@ -18,7 +18,6 @@ from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import meets_version
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -58,7 +57,7 @@ class _PyVistaPlotter:
     """The _InternalPlotter class is based on PyVista."""
     def __init__(self, **kwargs):
         # Import pyvista
-        from vtk_helper import PyVistaImportError
+        from ansys.dpf.core.vtk_helper import PyVistaImportError
         try:
             import pyvista as pv
         except ModuleNotFoundError:
@@ -71,16 +70,16 @@ class _PyVistaPlotter:
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
-    def add_scale_factor_legend(self, scaling_factor, **kwargs):
+    def add_scale_factor_legend(self, scale_factor, **kwargs):
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)
         _ = kwargs_in.pop("position", None)
         _ = kwargs_in.pop("font_size", None)
         _ = kwargs_in.pop("text", None)
         _ = kwargs_in.pop("color", None)
-        self._plotter.add_text(f"Scale factor: {scaling_factor}", position='upper_right',
+        self._plotter.add_text(f"Scale factor: {scale_factor}", position='upper_right',
                                font_size=12, **kwargs_in)
 
-    def add_mesh(self, meshed_region, warp_by=None, scaling_factor=1.0, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
@@ -89,8 +88,8 @@ class _PyVistaPlotter:
         kwargs.setdefault("nan_color", "grey")
 
         # If deformed geometry, print the scale_factor
-        if warp_by:
-            self.add_scale_factor_legend(scaling_factor, **kwargs)
+        if deform_by:
+            self.add_scale_factor_legend(scale_factor, **kwargs)
 
         # Filter kwargs
         kwargs_in = _sort_supported_kwargs(
@@ -101,11 +100,11 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if not warp_by:
+        if not deform_by:
             grid = meshed_region.grid
         else:
             grid = meshed_region._as_vtk(
-                meshed_region.scale_coordinates_by_result(warp_by, scaling_factor))
+                meshed_region.deform_by(deform_by, scale_factor))
 
         # show axes
         show_axes = kwargs.pop("show_axes", None)
@@ -147,15 +146,10 @@ class _PyVistaPlotter:
                 label_actors.append(self._plotter.add_point_labels(grid_point,
                                                                    [scalar_at_grid_point],
                                                                    **kwargs_in))
-        # show axes
-        show_axes = kwargs.pop("show_axes", None)
-        if show_axes:
-            self._plotter.add_axes()
-
         return label_actors
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
-                  label_text_size=30, label_point_size=20, warp_by=None, scaling_factor=1.0,
+                  label_text_size=30, label_point_size=20, deform_by=None, scale_factor=1.0,
                   **kwargs):
         # Get the field name
         name = field.name.split("_")[0]
@@ -205,17 +199,17 @@ class _PyVistaPlotter:
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
-        if not warp_by:
+        if not deform_by:
             grid = meshed_region.grid
         else:
             grid = meshed_region._as_vtk(
-                meshed_region.scale_coordinates_by_result(warp_by, scaling_factor))
+                meshed_region.deform_by(deform_by, scale_factor))
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         # If deformed geometry, print the scale_factor
-        if warp_by:
-            self.add_scale_factor_legend(scaling_factor, **kwargs)
+        if deform_by:
+            self.add_scale_factor_legend(scale_factor, **kwargs)
 
         if show_max or show_min:
             # Get Min-Max for the field
@@ -271,49 +265,17 @@ class _PyVistaPlotter:
             self._plotter.camera_position = cpos
 
         # Show depending on return_cpos option
-        return_cpos = kwargs.pop("return_cpos", None)
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._plotter.show, **kwargs)
-        if return_cpos is None:
-            return self._plotter.show(**kwargs_in)
-        else:
-            import pyvista as pv
-            pv_version = pv.__version__
-            version_to_reach = '0.32.0'
-            meet_ver = meets_version(pv_version, version_to_reach)
-            if meet_ver:
-                return self._plotter.show(return_cpos=return_cpos, **kwargs_in)
-            else:
-                txt = """To use the return_cpos option, please upgrade
-                your pyvista module with a version higher than """
-                txt += version_to_reach
-                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
+        return self._plotter.show(**kwargs_in)
 
     def _set_scalar_bar_title(self, kwargs):
-        import pyvista as pv
         stitle = kwargs.pop("stitle", None)
-        pv_version = pv.__version__
-        version_to_reach = '0.30.0'  # when stitle started to be deprecated
-        meet_ver = meets_version(pv_version, version_to_reach)
-        if meet_ver:
-            # use scalar_bar_args
-            scalar_bar_args = kwargs.pop("scalar_bar_args", None)
-            if not scalar_bar_args:
-                scalar_bar_args = {'title': stitle}
-            kwargs.setdefault("scalar_bar_args", scalar_bar_args)
-        else:
-            # use stitle
-            has_attribute_scalar_bar = False
-            try:
-                has_attribute_scalar_bar = hasattr(self._plotter, 'scalar_bar')
-            except:
-                has_attribute_scalar_bar = False
-
-            if not has_attribute_scalar_bar:
-                kwargs.setdefault("stitle", stitle)
-            else:
-                if self._plotter.scalar_bar.GetTitle() is None:
-                    kwargs.setdefault("stitle", stitle)
+        # use scalar_bar_args
+        scalar_bar_args = kwargs.pop("scalar_bar_args", None)
+        if not scalar_bar_args:
+            scalar_bar_args = {'title': stitle}
+        kwargs.setdefault("scalar_bar_args", scalar_bar_args)
         return kwargs
 
 
@@ -388,17 +350,17 @@ class DpfPlotter:
                                                                     labels=labels,
                                                                     **kwargs))
 
-    def add_mesh(self, meshed_region, warp_by=None, scaling_factor=1.0, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.
 
         Parameters
         ----------
         meshed_region : MeshedRegion
             MeshedRegion to plot.
-        warp_by : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scaling_factor : float, optional
+        scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
@@ -416,13 +378,13 @@ class DpfPlotter:
 
         """
         self._internal_plotter.add_mesh(meshed_region=meshed_region,
-                                        warp_by=warp_by,
-                                        scaling_factor=scaling_factor,
+                                        deform_by=deform_by,
+                                        scale_factor=scale_factor,
                                         **kwargs)
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
                   label_text_size=30, label_point_size=20,
-                  warp_by=None, scaling_factor=1.0,
+                  deform_by=None, scale_factor=1.0,
                   **kwargs):
         """Add a field containing data to the plotter.
 
@@ -441,10 +403,10 @@ class DpfPlotter:
             Label the point with the maximum value.
         show_min : bool, optional
             Label the point with the minimum value.
-        warp_by : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scaling_factor : float, optional
+        scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
@@ -468,8 +430,8 @@ class DpfPlotter:
                                          show_min=show_min,
                                          label_text_size=label_text_size,
                                          label_point_size=label_point_size,
-                                         warp_by=warp_by,
-                                         scaling_factor=scaling_factor,
+                                         deform_by=deform_by,
+                                         scale_factor=scale_factor,
                                          **kwargs)
 
     def add_fields_container(self, fields_container, warp_by=None, scaling_factor=1.0, **kwargs):
@@ -669,8 +631,8 @@ class Plotter:
             field_or_fields_container,
             shell_layers=None,
             meshed_region=None,
-            warp_by=None,
-            scaling_factor=1.0,
+            deform_by=None,
+            scale_factor=1.0,
             **kwargs
     ):
         """Plot the contour result on its mesh support.
@@ -685,10 +647,10 @@ class Plotter:
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements.
-        warp_by : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
             Defaults to None.
-        scaling_factor : float, optional
+        scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
@@ -811,10 +773,9 @@ class Plotter:
             bound_method=self._internal_plotter._plotter.add_mesh,
             **kwargs
             )
-        if warp_by:
-            grid = mesh._as_vtk(mesh.warp_by_vector_field(warp_by,
-                                                          scaling_factor))
-            self._internal_plotter.add_scale_factor_legend(scaling_factor, **kwargs)
+        if deform_by:
+            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor))
+            self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
             grid = mesh.grid
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
@@ -828,24 +789,10 @@ class Plotter:
             self._internal_plotter._plotter.camera_position = cpos
 
         # show result
-        return_cpos = kwargs.pop("return_cpos", None)
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show,
             **kwargs)
-        if return_cpos is None:
-            return self._internal_plotter._plotter.show(**kwargs_in)
-        else:
-            import pyvista as pv
-            pv_version = pv.__version__
-            version_to_reach = '0.32.0'
-            meet_ver = meets_version(pv_version, version_to_reach)
-            if meet_ver:
-                return self._internal_plotter._plotter.show(return_cpos=return_cpos, **kwargs_in)
-            else:
-                txt = """To use the return_cpos option, please upgrade
-                your pyvista module with a version higher than """
-                txt += version_to_reach
-                raise core.errors.DpfVersionNotSupported(version_to_reach, txt)
+        return self._internal_plotter._plotter.show(**kwargs_in)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
         """Plot the contour result on its mesh support.
