@@ -269,7 +269,8 @@ class _PyVistaPlotter:
             bound_method=self._plotter.show, **kwargs)
         return self._plotter.show(**kwargs_in)
 
-    def _set_scalar_bar_title(self, kwargs):
+    @staticmethod
+    def _set_scalar_bar_title(kwargs):
         stitle = kwargs.pop("stitle", None)
         # use scalar_bar_args
         scalar_bar_args = kwargs.pop("scalar_bar_args", None)
