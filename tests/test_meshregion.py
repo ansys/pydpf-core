@@ -39,11 +39,20 @@ def test_vtk_grid_from_model(simple_bar_model):
     assert all(grid.celltypes == vtk.VTK_HEXAHEDRON)
 
 
+def test_meshed_region_available_property_fields(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    properties = ['connectivity', 'elprops', 'eltype', 'apdl_element_type', 'section', 'mat']
+    assert mesh.available_property_fields == properties
+
+
 def test_get_element_type_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     assert mesh.elements.element_by_index(1).type.value == 11
     assert mesh.elements.element_by_index(1).type == dpf.core.element_types.Hex8
     assert mesh.elements.element_by_index(1).shape == "solid"
+
+    element_types = mesh.property_field(dpf.core.common.elemental_properties.element_type)
+    assert element_types.data[0] == dpf.core.element_types.Hex8
 
 
 def test_get_set_unit_meshedregion(simple_bar_model):
@@ -264,6 +273,11 @@ def test_connectivity_meshed_region():
     nodal_conne = mesh.nodes.nodal_connectivity_field
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
+
+    mesh_connectivity = mesh.property_field(dpf.core.common.elemental_properties.connectivity)
+    assert np.allclose(mesh_connectivity.data, connectivity.data)
+    mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
+    assert np.allclose(mesh_nodal.data, nodal_conne.data)
 
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
