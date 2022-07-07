@@ -225,6 +225,23 @@ class MeshedRegion:
         """
         return self._stub.List(self._message).available_prop
 
+    def property_field(self, property_name):
+        """Property field getter. It can be coordinates (field),
+        element types (property field)...
+
+        Returns
+        -------
+        field_or_property_field : core.Field or core.PropertyField
+        """
+        request = meshed_region_pb2.ListPropertyRequest()
+        request.mesh.CopyFrom(self._message)
+        request.property_type.property_name.property_name = property_name
+        fieldOut = self._stub.ListProperty(request)
+        if fieldOut.datatype == u"int":
+            return property_field.PropertyField(server=self._server, property_field=fieldOut)
+        else:
+            return field.Field(server=self._server, field=fieldOut)
+
     @property
     def available_named_selections(self):
         """List of available named selections.
