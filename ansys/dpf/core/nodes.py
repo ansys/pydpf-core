@@ -9,6 +9,7 @@ from ansys.grpc.dpf import meshed_region_pb2
 from ansys import dpf
 from ansys.dpf.core.common import nodal_properties
 from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.check_version import version_requires
 
 
 class Node:
@@ -218,6 +219,22 @@ class Nodes:
 
         """
         return self._get_coordinates_field()
+
+    @coordinates_field.setter
+    @version_requires("3.0")
+    def coordinates_field(self, value):
+        """Coordinates field setter.
+
+        Parameters
+        ----------
+        value : Field
+            Field that contains coordinates
+        """
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = nodal_properties.coordinates
+        request.field.CopyFrom(value._message)
+        self._mesh._stub.SetField(request)
 
     @property
     def nodal_connectivity_field(self):
