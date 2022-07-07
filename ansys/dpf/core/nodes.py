@@ -262,6 +262,22 @@ class Nodes:
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
+    @nodal_connectivity_field.setter
+    @version_requires("3.0")
+    def nodal_connectivity_field(self, value):
+        """Connectivity field setter.
+
+        Parameters
+        ----------
+        value : PropertyField
+            PropertyField that contains nodal connectivity value
+        """
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = nodal_properties.nodal_connectivity
+        request.field.CopyFrom(value._message)
+        self._mesh._stub.SetField(request)
+
     @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""
