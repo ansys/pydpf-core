@@ -45,7 +45,7 @@ def test_meshed_region_available_property_fields(simple_bar_model):
     assert mesh.available_property_fields == properties
 
 
-def test_element_type_meshedregion(simple_bar_model):
+def test_get_element_type_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     assert mesh.elements.element_by_index(1).type.value == 11
     assert mesh.elements.element_by_index(1).type == dpf.core.element_types.Hex8
@@ -53,13 +53,6 @@ def test_element_type_meshedregion(simple_bar_model):
 
     types = mesh.property_field(dpf.core.common.elemental_properties.element_type)
     assert np.allclose(types.data, np.full_like(types.data, 11))
-
-    new_data = types.data
-    new_data[0] = 0
-    types.data = new_data
-    mesh.elements.element_types_field = types
-    types = mesh.elements.element_types_field
-    assert types.data[0] == 0
 
 
 def test_get_set_unit_meshedregion(simple_bar_model):
@@ -94,7 +87,7 @@ def test_get_element_meshedregion(simple_bar_model):
     assert node.coordinates == [0.1, 1.6, 0.1]
 
 
-def test_coordinates_field_meshedregion(simple_bar_model):
+def test_get_coordinates_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     nodescoping = mesh.nodes.scoping
     field_coordinates = mesh.nodes.coordinates_field
@@ -106,12 +99,24 @@ def test_coordinates_field_meshedregion(simple_bar_model):
     coordinates = mesh.property_field(dpf.core.common.nodal_properties.coordinates)
     assert np.allclose(coordinates.data, field_coordinates.data)
 
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_set_coordinates_field_meshedregion(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    field_coordinates = mesh.nodes.coordinates_field
     new_data = field_coordinates.data
     new_data[0] = [0.0, 0.0, 0.0]
     field_coordinates.data = new_data
     mesh.nodes.coordinates_field = field_coordinates
     field_coordinates = mesh.nodes.coordinates_field
     assert np.allclose(field_coordinates.data[0], [0.0, 0.0, 0.0])
+
+    new_data[0] = [1.0, 1.0, 1.0]
+    field_coordinates.data = new_data
+    mesh.set_property_field(dpf.core.common.nodal_properties.coordinates, field_coordinates)
+    field_coordinates = mesh.nodes.coordinates_field
+    assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
 
 
 def test_get_element_types_field_meshedregion(simple_bar_model):
@@ -123,7 +128,26 @@ def test_get_element_types_field_meshedregion(simple_bar_model):
     assert field_element_types.component_count == 1
 
 
-def test_materials_field_meshedregion(simple_bar_model):
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_set_element_types_field_meshedregion(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    field_element_types = mesh.elements.element_types_field
+    new_data = field_element_types.data
+    new_data[0] = 0
+    field_element_types.data = new_data
+    mesh.elements.element_types_field = field_element_types
+    types = mesh.elements.element_types_field
+    assert types.data[0] == 0
+
+    new_data[0] = 1
+    field_element_types.data = new_data
+    mesh.set_property_field(dpf.core.common.elemental_properties.element_type, field_element_types)
+    field_element_types = mesh.elements.element_types_field
+    assert field_element_types.data[0] == 1
+
+
+def test_get_materials_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     elemcoping = mesh.elements.scoping
     field_mat = mesh.elements.materials_field
@@ -134,12 +158,24 @@ def test_materials_field_meshedregion(simple_bar_model):
     materials = mesh.property_field(dpf.core.common.elemental_properties.material)
     assert np.allclose(materials.data, field_mat.data)
 
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_set_materials_field_meshedregion(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    materials = mesh.property_field(dpf.core.common.elemental_properties.material)
     new_data = materials.data
     new_data[0] = 0
     materials.data = new_data
     mesh.elements.materials_field = materials
     types = mesh.elements.materials_field
     assert types.data[0] == 0
+
+    new_data[0] = 1
+    materials.data = new_data
+    mesh.set_property_field(dpf.core.common.elemental_properties.material, materials)
+    materials = mesh.elements.materials_field
+    assert materials.data[0] == 1
 
 
 def test_get_connectivities_field_meshedregion(simple_bar_model):
@@ -156,18 +192,22 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
-def test_set_connectivities_field_meshed_region():
-    mesh = test_create_all_shaped_meshed_region()
-
+def test_set_connectivities_field_meshed_region(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
     connectivity = mesh.elements.connectivities_field
     new_connectivity_data = connectivity.data
-    new_connectivity_data[0] = 1
-    new_connectivity_data[1] = 0
+    assert new_connectivity_data[0] == 1053
+    new_connectivity_data[0] = 0
     connectivity.data = new_connectivity_data
     mesh.elements.connectivities_field = connectivity
-    assert np.allclose(connectivity.get_entity_data_by_id(1), [1, 0, 2, 3])
-    assert np.allclose(connectivity.get_entity_data(0), [1, 0, 2, 3])
-    assert np.allclose(mesh.elements.element_by_id(1).connectivity, [1, 0, 2, 3])
+    connectivity = mesh.elements.connectivities_field
+    assert connectivity.data[0] == 0
+
+    new_connectivity_data[0] = 1
+    connectivity.data = new_connectivity_data
+    mesh.set_property_field(dpf.core.common.elemental_properties.connectivity, connectivity)
+    connectivity = mesh.elements.connectivities_field
+    assert connectivity.data[0] == 1
 
 
 def test_get_nodes_meshedregion(simple_bar_model):
@@ -287,6 +327,18 @@ def test_named_selection_mesh(allkindofcomplexity):
     scop = mesh.named_selection("_CM86UX_XP")
     assert len(scop) == 481
     assert scop.location == dpf.core.locations().nodal
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_set_named_selection_mesh(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    name = "test"
+    scoping = dpf.core.Scoping()
+    mesh.set_named_selection_scoping(name, scoping)
+    ns = mesh.available_named_selections
+    assert "test" in ns
 
 
 def test_create_meshed_region():
