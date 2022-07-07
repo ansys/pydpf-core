@@ -533,14 +533,20 @@ class FieldsContainer(Collection):
                         self[0].component_count == 3:
                     deform_by = self
 
-        wf.set_output_name("to_render", extract_field_op.outputs.field)
-        wf_id = wf.record()
+        # wf.set_output_name("to_render", extract_field_op.outputs.field)
+        # wf_id = wf.record()
         if not self.has_label("time"):
             frequencies = self.time_freq_support.complex_frequencies
         else:
             frequencies = self.time_freq_support.time_frequencies
 
-        anim.animate(wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs)
+        anim.add_workflow(input={"scale_factor": scale_op.input.ponderation,
+                                 "frequencies": extract_field_op.inputs.indeces},
+                          output={"deform_by": scale_op.output.field,
+                                  "to_render": extract_field_op.outputs.field})
+
+        anim.animate(input={"frequencies": frequencies}, output="to_render",
+                     save_as=save_as, **kwargs)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.

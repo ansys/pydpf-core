@@ -5,7 +5,7 @@ This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
 """
-import ansys.dpf.core
+import ansys.dpf.core as core
 from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
 
 
@@ -35,7 +35,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
     def animate_workflow(self, wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs):
         # Retrieve the workflow to animate
-        wf = ansys.dpf.core.Workflow.get_recorded_workflow(wf_id)
+        wf = core.Workflow.get_recorded_workflow(wf_id)
         # Extract useful information from the given frequencies Field
         unit = frequencies.unit
         frequencies = frequencies.data
@@ -54,7 +54,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             # print("Render step", index)
             self._plotter.clear()
             wf.connect("index", [index])
-            field = wf.get_output("to_render", ansys.dpf.core.types.field)
+            field = wf.get_output("to_render", core.types.field)
             deform = deform_by[index] if deform_by else None
             self.add_field(field, deform_by=deform, scale_factor=scale_factor, **kwargs)
             kwargs_in = _sort_supported_kwargs(
@@ -90,11 +90,23 @@ class Animator:
         self._internal_animator = _InternalAnimatorClass(**kwargs)
         self.workflow = None
 
-    def add_workflow(self, input, output):
-        pass
+    def add_workflow(self, input=None, output=None, workflow=None):
+        if not workflow and not (input and output):
+            raise ValueError("Either a workflow or an input and output are required.")
+        if workflow:
+            self.workflow = workflow
+        else:
+            if (input is None) or (output is None):
+                raise ValueError("input and output must both be given.")
+            workflow = core.Workflow()
+            if
+            for i in input.keys():
+                workflow.set_input_name(i, input[i])
+            for o in output.keys():
+                workflow.set_output_name(o, output[o])
 
-    def animate(self, wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs):
-        self._internal_animator.animate_workflow(wf_id, frequencies,
+    def animate(self, input, save_as, deform_by, scale_factor, **kwargs):
+        self._internal_animator.animate_workflow(input,
                                                  save_as=save_as,
                                                  deform_by=deform_by,
                                                  scale_factor=scale_factor,
