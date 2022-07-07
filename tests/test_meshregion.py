@@ -258,9 +258,20 @@ def test_connectivity_meshed_region():
     assert np.allclose(connectivity.get_entity_data(0), [0, 1, 2, 3])
     assert np.allclose(mesh.elements.element_by_id(1).connectivity, [0, 1, 2, 3])
 
+    new_connectivity_data = connectivity.data
+    new_connectivity_data[0] = 1
+    new_connectivity_data[1] = 0
+    connectivity.data = new_connectivity_data
+    mesh.elements.connectivities_field = connectivity
+    assert np.allclose(connectivity.get_entity_data_by_id(1), [1, 0, 2, 3])
+    assert np.allclose(connectivity.get_entity_data(0), [1, 0, 2, 3])
+    assert np.allclose(mesh.elements.element_by_id(1).connectivity, [1, 0, 2, 3])
+
+
     nodal_conne = mesh.nodes.nodal_connectivity_field
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
+
 
 
 def test_create_all_shaped_meshed_region():
