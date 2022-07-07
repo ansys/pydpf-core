@@ -75,8 +75,8 @@ jobs:
         with:
           python-version: 3.8
 
-      - id: install-dpf
-        uses: pyansys/pydpf-actions/install-dpf-server@v2.0
+      - name: "Install DPF"
+        uses: pyansys/pydpf-actions/install-dpf-server@v2.1
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           ANSYS_VERSION : ${{env.ANSYS_VERSION}}
