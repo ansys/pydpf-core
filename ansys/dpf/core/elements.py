@@ -534,6 +534,22 @@ class Elements:
         """
         return self._mesh.field_of_properties(elemental_properties.material)
 
+    @materials_field.setter
+    @version_requires("3.0")
+    def materials_field(self, property_field):
+        """Materials field setter.
+
+        Parameters
+        ----------
+        property_field : PropertyField
+            PropertyField that contains materials value
+        """
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = elemental_properties.material
+        request.field.CopyFrom(property_field._message)
+        self._mesh._stub.SetField(request)
+
     @property
     def connectivities_field(self):
         """Field containing for each element ID the node indices connected to the element.
