@@ -12,6 +12,7 @@ from ansys.dpf.core import nodes, scoping
 from ansys.dpf.core.common import __write_enum_doc__, locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.check_version import version_requires
 
 
 class Element:
@@ -492,6 +493,22 @@ class Elements:
 
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
+
+    @element_types_field.setter
+    @version_requires("3.0")
+    def element_types_field(self, property_field):
+        """Element types field setter.
+
+        Parameters
+        ----------
+        property_field : PropertyField
+            PropertyField that contains element type values
+        """
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = elemental_properties.element_type
+        request.field.CopyFrom(property_field._message)
+        self._mesh._stub.SetField(request)
 
     @property
     @protect_grpc
