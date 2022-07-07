@@ -216,6 +216,16 @@ class MeshedRegion:
         return _description(self._message, self._server)
 
     @property
+    def available_property_fields(self):
+        """Returns a list of available property fields
+
+        Returns
+        -------
+        available_property_fields : list str
+        """
+        return self._stub.List(self._message).available_prop
+
+    @property
     def available_named_selections(self):
         """List of available named selections.
 
