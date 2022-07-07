@@ -117,6 +117,9 @@ def test_get_materials_field_meshedregion(simple_bar_model):
     assert field_mat.size == elemcoping.size
     assert field_mat.component_count == 1
 
+    materials = mesh.property_field(dpf.core.common.elemental_properties.material)
+    assert np.allclose(materials.data, field_mat.data)
+
 
 def test_get_connectivities_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
