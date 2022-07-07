@@ -133,6 +133,22 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
     assert np.allclose(connectivity.data, field_connect.data)
 
 
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_set_connectivities_field_meshed_region():
+    mesh = test_create_all_shaped_meshed_region()
+
+    connectivity = mesh.elements.connectivities_field
+    new_connectivity_data = connectivity.data
+    new_connectivity_data[0] = 1
+    new_connectivity_data[1] = 0
+    connectivity.data = new_connectivity_data
+    mesh.elements.connectivities_field = connectivity
+    assert np.allclose(connectivity.get_entity_data_by_id(1), [1, 0, 2, 3])
+    assert np.allclose(connectivity.get_entity_data(0), [1, 0, 2, 3])
+    assert np.allclose(mesh.elements.element_by_id(1).connectivity, [1, 0, 2, 3])
+
+
 def test_get_nodes_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     node = mesh.nodes.node_by_id(1)
@@ -280,26 +296,8 @@ def test_connectivity_meshed_region():
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
 
-    mesh_connectivity = mesh.property_field(dpf.core.common.elemental_properties.connectivity)
-    assert np.allclose(mesh_connectivity.data, connectivity.data)
     mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
     assert np.allclose(mesh_nodal.data, nodal_conne.data)
-
-
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_set_connectivity_meshed_region():
-    mesh = test_create_all_shaped_meshed_region()
-
-    connectivity = mesh.elements.connectivities_field
-    new_connectivity_data = connectivity.data
-    new_connectivity_data[0] = 1
-    new_connectivity_data[1] = 0
-    connectivity.data = new_connectivity_data
-    mesh.elements.connectivities_field = connectivity
-    assert np.allclose(connectivity.get_entity_data_by_id(1), [1, 0, 2, 3])
-    assert np.allclose(connectivity.get_entity_data(0), [1, 0, 2, 3])
-    assert np.allclose(mesh.elements.element_by_id(1).connectivity, [1, 0, 2, 3])
 
 
 def test_create_all_shaped_meshed_region():
