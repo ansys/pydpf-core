@@ -96,6 +96,9 @@ def test_get_coordinates_field_meshedregion(simple_bar_model):
     assert np.allclose(field_coordinates.data[0], [0.1, 2.9, 0.1])
     assert np.allclose(mesh.grid.points, field_coordinates.data)
 
+    coordinates = mesh.property_field(dpf.core.common.nodal_properties.coordinates)
+    assert np.allclose(coordinates.data, field_coordinates.data)
+
 
 def test_get_element_types_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
