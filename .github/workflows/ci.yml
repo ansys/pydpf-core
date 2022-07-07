@@ -107,11 +107,10 @@ jobs:
           pip install -r requirements_docs.txt
 
       - name: "Build sphinx doc"
-        shell: cmd
+        shell: bash
         run: |
-          cd .ci
-          set SPHINX_APIDOC_OPTIONS=inherited-members
-          call sphinx-apidoc -o ../docs/source/api ../ansys -f --implicit-namespaces --separate  --no-headings
+          export SPHINX_APIDOC_OPTIONS=inherited-members
+          sphinx-apidoc -o docs/source/api ansys -f --implicit-namespaces --separate --no-headings
 
       - name: "Build HTML Documentation"
         shell: bash
