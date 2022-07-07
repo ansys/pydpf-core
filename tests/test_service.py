@@ -1,10 +1,12 @@
 import os
 
 import pytest
+import conftest
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
 from conftest import running_docker
+
 
 def test_loadmapdloperators(allkindofcomplexity):
     dpf.core.BaseService(load_operators=True)
@@ -251,18 +253,24 @@ def test_dpf_join(server_type):
     elif os_server == 'nt':
         assert conc == "temp\\file.rst"
 
+
+@conftest.raises_for_servers_version_under("4.0")
 def test_load_api_without_awp_root():
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
+    
     awp_root_name = "AWP_ROOT" + dpf.core._version.__ansys_version__
     awp_root_save = os.environ.get(
         awp_root_name, None
     )
+    
     # without awp_root
     del os.environ[awp_root_name]
     # start CServer
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    serv = dpf.core.start_local_server(config=conf, as_global=False,
-                                   ansys_path=awp_root_save)
+    serv = dpf.core.connect_to_server(config=conf, as_global=False,
+                                  ip=loc_serv.ip, port=loc_serv.port)
     
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
@@ -272,7 +280,11 @@ def test_load_api_without_awp_root():
     
     # reset awp_root
     os.environ[awp_root_name] = awp_root_save
-    
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
 def test_load_api_with_awp_root():
     # with awp_root
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
@@ -288,6 +300,30 @@ def test_load_api_with_awp_root():
         dpf_inner_path = os.path.join("aisol", "dll", "linx64")
     assert dpf_inner_path in serv_2._client_api_path
     assert dpf_inner_path in serv_2._grpc_client_path
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
+def test_load_api_with_awp_root_2():
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
+    
+    # start CServer
+    conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+    serv = dpf.core.connect_to_server(config=conf, as_global=False,
+                                  ip=loc_serv.ip, port=loc_serv.port)
+    
+    assert serv._client_api_path is not None
+    assert serv._grpc_client_path is not None
+    ISPOSIX = os.name == "posix"
+    if not ISPOSIX:
+        dpf_inner_path = os.path.join("aisol", "bin", "winx64")
+    else:
+        dpf_inner_path = os.path.join("aisol", "dll", "linx64")
+    assert dpf_inner_path in serv._client_api_path
+    assert dpf_inner_path in serv._grpc_client_path
 
 
 if __name__ == "__main__":

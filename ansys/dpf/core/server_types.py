@@ -438,7 +438,7 @@ class CServer(BaseServer, ABC):
                  ansys_path=None,
                  load_operators=True):
         super().__init__()
-        self._client_api_path = load_api.load_client_api()
+        self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
         self._own_process = False
         self.ansys_path = ansys_path
 
@@ -481,7 +481,7 @@ class GrpcServer(CServer):
         from ansys.dpf.core.misc import is_pypim_configured
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
-        self._grpc_client_path = load_api.load_grpc_client()
+        self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
 
         address = f"{ip}:{port}"
 
