@@ -51,8 +51,8 @@ def test_get_element_type_meshedregion(simple_bar_model):
     assert mesh.elements.element_by_index(1).type == dpf.core.element_types.Hex8
     assert mesh.elements.element_by_index(1).shape == "solid"
 
-    element_types = mesh.property_field(dpf.core.common.elemental_properties.element_type)
-    assert element_types.data[0] == dpf.core.element_types.Hex8
+    types = mesh.property_field(dpf.core.common.elemental_properties.element_type).data
+    assert np.allclose(types, np.full_like(types, 11))
 
 
 def test_get_set_unit_meshedregion(simple_bar_model):
