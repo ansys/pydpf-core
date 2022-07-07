@@ -220,21 +220,25 @@ class Nodes:
         """
         return self._get_coordinates_field()
 
+    @protect_grpc
+    def _property_field_setter(self, property_field, property_type):
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = property_type
+        request.field.CopyFrom(property_field._message)
+        self._mesh._stub.SetField(request)
+
     @coordinates_field.setter
     @version_requires("3.0")
-    def coordinates_field(self, value):
+    def coordinates_field(self, property_field):
         """Coordinates field setter.
 
         Parameters
         ----------
-        value : Field
+        property_field : Field
             Field that contains coordinates
         """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = nodal_properties.coordinates
-        request.field.CopyFrom(value._message)
-        self._mesh._stub.SetField(request)
+        self._property_field_setter(property_field, nodal_properties.coordinates)
 
     @property
     def nodal_connectivity_field(self):
@@ -264,19 +268,15 @@ class Nodes:
 
     @nodal_connectivity_field.setter
     @version_requires("3.0")
-    def nodal_connectivity_field(self, value):
+    def nodal_connectivity_field(self, property_field):
         """Connectivity field setter.
 
         Parameters
         ----------
-        value : PropertyField
+        property_field : PropertyField
             PropertyField that contains nodal connectivity value
         """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = nodal_properties.nodal_connectivity
-        request.field.CopyFrom(value._message)
-        self._mesh._stub.SetField(request)
+        self._property_field_setter(property_field, nodal_properties.nodal_connectivity)
 
     @protect_grpc
     def _get_coordinates_field(self):
