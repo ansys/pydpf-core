@@ -116,6 +116,7 @@ jobs:
         shell: bash
         working-directory: docs
         run: |
+          export TEMP=${{ runner.temp }}
           make clean
           make html
 
