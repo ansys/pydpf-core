@@ -578,6 +578,22 @@ class Elements:
         """Retrieve the connectivities field."""
         return self._mesh.field_of_properties(elemental_properties.connectivity)
 
+    @connectivities_field.setter
+    @version_requires("3.0")
+    def connectivities_field(self, property_field):
+        """Connectivity field setter.
+
+        Parameters
+        ----------
+        property_field : PropertyField
+            PropertyField that contains connectivity value
+        """
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = elemental_properties.connectivity
+        request.field.CopyFrom(property_field._message)
+        self._mesh._stub.SetField(request)
+
     @property
     def n_elements(self) -> int:
         """Number of elements"""
