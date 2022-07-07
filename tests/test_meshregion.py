@@ -4,6 +4,9 @@ import vtk
 
 from ansys import dpf
 
+from ansys.dpf.core.check_version import meets_version, get_server_version
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+
 
 @pytest.fixture()
 def simple_bar_model(simple_bar):
@@ -258,6 +261,24 @@ def test_connectivity_meshed_region():
     assert np.allclose(connectivity.get_entity_data(0), [0, 1, 2, 3])
     assert np.allclose(mesh.elements.element_by_id(1).connectivity, [0, 1, 2, 3])
 
+    nodal_conne = mesh.nodes.nodal_connectivity_field
+    assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
+    assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
+
+    new_connectivity_data = nodal_conne.data
+    new_connectivity_data[0] = 1
+    nodal_conne.data = new_connectivity_data
+    mesh.nodes.nodal_connectivity_field = nodal_conne
+    assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
+    assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
+
+
+@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
+                    reason='Requires server version higher than 3.0')
+def test_set_connectivity_meshed_region():
+    mesh = test_create_all_shaped_meshed_region()
+
+    connectivity = mesh.elements.connectivities_field
     new_connectivity_data = connectivity.data
     new_connectivity_data[0] = 1
     new_connectivity_data[1] = 0
@@ -267,11 +288,7 @@ def test_connectivity_meshed_region():
     assert np.allclose(connectivity.get_entity_data(0), [1, 0, 2, 3])
     assert np.allclose(mesh.elements.element_by_id(1).connectivity, [1, 0, 2, 3])
 
-
     nodal_conne = mesh.nodes.nodal_connectivity_field
-    assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
-    assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
-
     new_connectivity_data = nodal_conne.data
     new_connectivity_data[0] = 1
     nodal_conne.data = new_connectivity_data
