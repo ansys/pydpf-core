@@ -81,15 +81,12 @@ jobs:
           ANSYS_VERSION : ${{env.ANSYS_VERSION}}
 
       - name: "Install local package"
-        shell: cmd
-        run: |
-          pip install -r requirements_build.txt
-          python setup.py bdist_wheel
-          FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
-          ECHO %WHEELPATH%
-          cd tests
-          pip install %WHEELPATH%
-          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+        uses: pyansys/pydpf-actions/install-package@v2.0
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
 
       - name: Install OpenGL
         run: |
