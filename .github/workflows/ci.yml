@@ -110,7 +110,13 @@ jobs:
         shell: cmd
         run: |
           cd .ci
-          build_doc.bat > ..\docs\log.txt 2>&1
+          set SPHINX_APIDOC_OPTIONS=inherited-members
+          call sphinx-apidoc -o ../docs/source/api ../ansys -f --implicit-namespaces --separate  --no-headings
+          pushd .
+          cd ../docs/
+          call make clean
+          call make html
+          popd
         timeout-minutes: 20
 
       - name: "Zip Documentation"
