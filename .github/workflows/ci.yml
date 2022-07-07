@@ -120,6 +120,13 @@ jobs:
           make clean
           make html
 
+      - name: "Build PDF Documentation"
+        shell: bash
+        working-directory: docs
+        run: |
+          export TEMP=${{ runner.temp }}
+          make pdf 
+
       - name: "Zip Documentation"
         uses: vimtor/action-zip@v1
         with:
