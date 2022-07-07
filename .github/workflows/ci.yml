@@ -105,6 +105,7 @@ jobs:
       - name: "Install documentation requirements"
         run: |
           pip install -r requirements_docs.txt
+          pip install pygments
 
       - name: "Build sphinx doc"
         shell: bash
@@ -125,6 +126,7 @@ jobs:
         working-directory: docs
         run: |
           export TEMP=${{ runner.temp }}
+          pygmentize -S default -f latex > build/latex/_static/pygments.css
           make pdf 
 
       - name: "Zip Documentation"
