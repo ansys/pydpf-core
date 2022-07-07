@@ -242,6 +242,23 @@ class MeshedRegion:
         else:
             return field.Field(server=self._server, field=fieldOut)
 
+    @version_requires("3.0")
+    def set_property_field(self, property_name, value):
+        """Property field setter. It can be coordinates (field),
+        element types (property field)...
+
+        Parameters
+        ----------
+        property_name : str
+            property name of the field to set
+        value : PropertyField or Field
+        """
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._message)
+        request.property_type.property_name.property_name = property_name
+        request.field.CopyFrom(value._message)
+        self._stub.SetField(request)
+
     @property
     def available_named_selections(self):
         """List of available named selections.
