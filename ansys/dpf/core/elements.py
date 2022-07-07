@@ -494,6 +494,14 @@ class Elements:
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
 
+    @protect_grpc
+    def _property_field_setter(self, property_field, property_type):
+        request = meshed_region_pb2.SetFieldRequest()
+        request.mesh.CopyFrom(self._mesh._message)
+        request.property_type.property_name.property_name = property_type
+        request.field.CopyFrom(property_field._message)
+        self._mesh._stub.SetField(request)
+
     @element_types_field.setter
     @version_requires("3.0")
     def element_types_field(self, property_field):
@@ -504,11 +512,7 @@ class Elements:
         property_field : PropertyField
             PropertyField that contains element type values
         """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = elemental_properties.element_type
-        request.field.CopyFrom(property_field._message)
-        self._mesh._stub.SetField(request)
+        self._property_field_setter(property_field, elemental_properties.element_type)
 
     @property
     @protect_grpc
@@ -544,11 +548,7 @@ class Elements:
         property_field : PropertyField
             PropertyField that contains materials value
         """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = elemental_properties.material
-        request.field.CopyFrom(property_field._message)
-        self._mesh._stub.SetField(request)
+        self._property_field_setter(property_field, elemental_properties.material)
 
     @property
     def connectivities_field(self):
@@ -588,11 +588,7 @@ class Elements:
         property_field : PropertyField
             PropertyField that contains connectivity value
         """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = elemental_properties.connectivity
-        request.field.CopyFrom(property_field._message)
-        self._mesh._stub.SetField(request)
+        self._property_field_setter(property_field, elemental_properties.connectivity)
 
     @property
     def n_elements(self) -> int:
