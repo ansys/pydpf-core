@@ -123,14 +123,14 @@ def test_get_materials_field_meshedregion(simple_bar_model):
 
 def test_get_connectivities_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    elemcoping = mesh.elements.scoping
     field_connect = mesh.elements.connectivities_field
     assert field_connect.data[0] == 1053
     assert field_connect.component_count == 1
     assert np.allclose(
         field_connect.get_entity_data(1),
-        [1053, 1062, 1143, 1134, 2492, 2491, 2482, 2483],
-    )
+        [1053, 1062, 1143, 1134, 2492, 2491, 2482, 2483])
+    connectivity = mesh.property_field(dpf.core.common.elemental_properties.connectivity)
+    assert np.allclose(connectivity.data, field_connect.data)
 
 
 def test_get_nodes_meshedregion(simple_bar_model):
