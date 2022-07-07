@@ -117,6 +117,7 @@ class Nodes:
 
     def __init__(self, mesh):
         self._mesh = mesh
+        self._server = self._mesh._server
         self._mapping_id_to_index = None
 
     def __str__(self):
