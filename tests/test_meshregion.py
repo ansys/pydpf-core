@@ -87,7 +87,7 @@ def test_get_element_meshedregion(simple_bar_model):
     assert node.coordinates == [0.1, 1.6, 0.1]
 
 
-def test_get_coordinates_field_meshedregion(simple_bar_model):
+def test_coordinates_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     nodescoping = mesh.nodes.scoping
     field_coordinates = mesh.nodes.coordinates_field
@@ -98,6 +98,13 @@ def test_get_coordinates_field_meshedregion(simple_bar_model):
 
     coordinates = mesh.property_field(dpf.core.common.nodal_properties.coordinates)
     assert np.allclose(coordinates.data, field_coordinates.data)
+
+    new_data = field_coordinates.data
+    new_data[0] = [0.0, 0.0, 0.0]
+    field_coordinates.data = new_data
+    mesh.nodes.coordinates_field = field_coordinates
+    field_coordinates = mesh.nodes.coordinates_field
+    assert np.allclose(field_coordinates.data[0], [0.0, 0.0, 0.0])
 
 
 def test_get_element_types_field_meshedregion(simple_bar_model):
