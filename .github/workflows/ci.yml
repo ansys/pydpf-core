@@ -112,7 +112,6 @@ jobs:
           cd .ci
           set SPHINX_APIDOC_OPTIONS=inherited-members
           call sphinx-apidoc -o ../docs/source/api ../ansys -f --implicit-namespaces --separate  --no-headings
-          pushd .
 
       - name: "Build HTML Documentation"
         shell: bash
@@ -120,7 +119,6 @@ jobs:
         run: |
           make clean
           make html
-          popd
 
       - name: "Zip Documentation"
         run: |
