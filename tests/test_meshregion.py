@@ -265,13 +265,6 @@ def test_connectivity_meshed_region():
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
 
-    new_connectivity_data = nodal_conne.data
-    new_connectivity_data[0] = 1
-    nodal_conne.data = new_connectivity_data
-    mesh.nodes.nodal_connectivity_field = nodal_conne
-    assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
-    assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
-
 
 @pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
                     reason='Requires server version higher than 3.0')
