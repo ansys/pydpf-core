@@ -123,7 +123,7 @@ def test_get_element_types_field_meshedregion(simple_bar_model):
     assert field_element_types.component_count == 1
 
 
-def test_get_materials_field_meshedregion(simple_bar_model):
+def test_materials_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     elemcoping = mesh.elements.scoping
     field_mat = mesh.elements.materials_field
@@ -133,6 +133,13 @@ def test_get_materials_field_meshedregion(simple_bar_model):
 
     materials = mesh.property_field(dpf.core.common.elemental_properties.material)
     assert np.allclose(materials.data, field_mat.data)
+
+    new_data = materials.data
+    new_data[0] = 0
+    materials.data = new_data
+    mesh.elements.materials_field = materials
+    types = mesh.elements.materials_field
+    assert types.data[0] == 0
 
 
 def test_get_connectivities_field_meshedregion(simple_bar_model):
