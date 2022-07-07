@@ -31,7 +31,7 @@ Assume that you are importing the ``pydpf-core`` module:
 
     from ansys.dpf import core as dpf
 
-If an error lists missing modules, see the compatibility paragraph of :ref:`ref_getting_started`.
+If an error lists missing modules, see the compatibility paragraph of :ref:`_ref_getting_started`.
 The module `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ should always be synchronized with its server
 version.
 
@@ -73,7 +73,7 @@ Getting and Setting a Field's Data
 Accessing or modifying field data :py:class:`Field<ansys.dpf.core.field.Field>` entity by entity can
 be slow if the field's size is large or if the server is far from the Python client. To improve performance,
 use :py:meth:`as_local_field()<ansys.dpf.core.field.Field.as_local_field>` in a context manager.
-An example can be found in :ref:`ref_use_local_data_example`.
+An example can be found in :ref:`_ref_use_local_data_example`.
 
 Slow Autocompletion in Notebooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

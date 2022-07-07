@@ -1,4 +1,4 @@
-.. _ref_docker:
+.. _docker:
 
 ************************
 Using DPF Through Docker

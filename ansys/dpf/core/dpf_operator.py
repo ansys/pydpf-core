@@ -135,16 +135,18 @@ class Operator:
         ----------
         pin : int
             Number of the input pin.
-
-        inpt : str, int, double, bool, list of int, list of doubles, Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion, MeshesContainer, DataSources
-            Operator Object to connect to.
-
+        inpt : str, int, double, bool, list of int, list of doubles,
+               Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion,
+               MeshesContainer, DataSources, Operator, os.PathLike
+            Object to connect to.
         pin_out : int, optional
-            If the input is an operator, the output pin of the input operator. The default is ``0``.
+            If the input is an operator, the output pin of the input operator. The
+            default is ``0``.
 
         Examples
         --------
-        Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
+        Compute the minimum of displacement by chaining the ``"U"``
+        and ``"min_max_fc"`` operators.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples

@@ -19,7 +19,7 @@ equivalent of a list of fields. It is holds a vector of fields.
 In this example, the fields container is returned from the 
 ``elastic_strain`` operator:
 
-.. code-block::
+.. code-block:: python
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
@@ -68,7 +68,7 @@ fields container has one field by time set.
 
 Access the fields from the fields contains using these methods:
 
-.. code-block::
+.. code-block:: python
 
     len(fields)
 
@@ -82,21 +82,21 @@ Access the fields from the fields contains using these methods:
     
 Return a field based on its index:
 
-.. code-block::
+.. code-block:: python
 
     field_first_time = fields[0]
     field_last_time = fields[19]
 
 Return a field based on its time set ID:
 
-.. code-block::
+.. code-block:: python
 
     field = fields.get_field_by_time_id(1)
 
 Alternatively, to access fields for more complex requests, use the 
 ``get_field`` method with the identifier of the requested field:
 
-.. code-block::
+.. code-block:: python
     
     field = fields.get_field({'time': 1})
     print(field)
@@ -116,7 +116,7 @@ Alternatively, to access fields for more complex requests, use the
 Or in a more real-word example:
 
 
-.. code-block::
+.. code-block:: python
 
     model = dpf.Model(examples.download_all_kinds_of_complexity())
     epel = model.results.elastic_strain.on_all_time_freqs.split_by_shape
@@ -149,7 +149,7 @@ Or in a more real-word example:
 Reference the available time frequency support to determine which
 time complex IDs are available in the fields container:
 
-.. code-block::
+.. code-block:: python
 
     model = dpf.Model(examples.msup_transient)
     epel = model.results.elastic_strain.on_all_time_freqs
@@ -203,7 +203,7 @@ location, and more.
 
 You can get an overview of a field's metadata by printing the field:
 
-.. code-block::
+.. code-block:: python
 
     field = fields[0]
     print(field)
@@ -232,7 +232,7 @@ includes the location (such as ``Elemental``, ``Nodal``, or
 
 To access the scoping of the field, use the ``scoping`` attribute:
 
-.. code::
+.. code:: python
 
     >>> print(field.scoping)
     >>> print('field.scoping.ids:', field.scoping.ids)
@@ -271,7 +271,7 @@ the data stored, the location of the field, number of components, and
 the units of the data:
 
     
-.. code::
+.. code:: python
 
     >>> stress = model.results.stress
     >>> field = stress.eval()[0]
@@ -321,7 +321,7 @@ that is needed.
 If you need to access the entire array of data, request
 that the data be returned as a ``numpy`` array:
 
-.. code::
+.. code:: python
 
     >>> array = field.data
     >>> array
@@ -349,7 +349,7 @@ If you need to request an individual node or element,
 request it using either the ``get_entity_data`` or
 ``get_entity_data_by_id`` methods:
 
-.. code::
+.. code:: python
 
     Get the data from the first element in the field.
 
@@ -397,7 +397,7 @@ or nodes, they should not be used when looping over the entire array. For effici
 a field's data can be recovered locally before sending a large number of requests:
 :
 
-.. code-block::
+.. code-block:: python
 
     with field.as_local_field() as f:
         for i in range(1,100):
@@ -417,7 +417,7 @@ can instead compute the maximum directly from the field itself.
 This example uses the ``'min_max'``operator to compute the maximum of 
 the field while returning the field:
 
-.. code::
+.. code:: python
 
     Compute the maximum of the field within DPF and return the result
     a numpy array
@@ -436,7 +436,7 @@ the field while returning the field:
 Here is an example of using the ``elemental_mean`` operator to compute the 
 average of a field:
 
-.. code-block::
+.. code-block:: python
 
     from ansys.dpf.core import operators as ops
     avg_op = ops.averaging.elemental_mean(field)

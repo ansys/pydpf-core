@@ -30,6 +30,13 @@ class Scoping:
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the the global server.
 
+    Attributes
+    ----------
+    ids : list of int
+        List of IDs to include in the scoping.
+    location : str
+        Location of the IDs, such as ``"Nodal"`` or ``"Elemental"``.
+
     Examples
     --------
     Create a mesh scoping.

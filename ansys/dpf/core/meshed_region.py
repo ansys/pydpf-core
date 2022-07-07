@@ -29,6 +29,14 @@ class MeshedRegion:
         The default is ``None``, in which case an attempt is made to use the
         global server.
 
+    Attributes
+    ----------
+    nodes : Nodes
+        Entity containing all nodal properties.
+
+    elements : Elements
+        Entity containing all elemental properties.
+
     Examples
     --------
     Extract a meshed region from a model.

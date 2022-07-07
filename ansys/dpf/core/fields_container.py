@@ -338,13 +338,12 @@ class FieldsContainer(Collection):
     def add_field_by_time_id(self, field, timeid=1):
         """Add or update a field at a requested time ID.
 
-        Parameters
-        ----------
-        field : Field
-            DPF field to add or update.
+         Parameters
+         ----------
+         field : Field
+             DPF field to add or update.
         timeid: int, optional
-            Time ID for the requested time set. The default is ``1``.
-
+             Time ID for the requested time set. The default is ``1``.
         """
         labels = self.labels
         if not self.has_label("time") and (
