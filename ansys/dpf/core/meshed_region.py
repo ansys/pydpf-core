@@ -11,6 +11,8 @@ from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
+from ansys.dpf.core.check_version import server_meet_version, version_requires
+
 
 @class_handling_cache
 class MeshedRegion:
@@ -268,6 +270,22 @@ class MeshedRegion:
                     "only implemented for meshed region created from a "
                     "model for server version 2.0. Please update your server."
                 )
+
+    @version_requires("3.0")
+    def set_named_selection_scoping(self, named_selection_name, scoping):
+        """Named selection scoping setter.
+
+        Parameters
+        ----------
+        named_selection_name : str
+            named selection name
+        scoping : Scoping
+        """
+        request = meshed_region_pb2.SetNamedSelectionRequest()
+        request.mesh.CopyFrom(self._message)
+        request.named_selection = named_selection_name
+        request.scoping.CopyFrom(scoping._message)
+        self._stub.SetNamedSelection(request)
 
     def _set_stream_provider(self, stream_provider):
         self._stream_provider = stream_provider
