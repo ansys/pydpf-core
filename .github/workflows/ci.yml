@@ -120,9 +120,10 @@ jobs:
           make html
 
       - name: "Zip Documentation"
-        run: |
-          7z a -tzip ./docs/archive/doc-ansys-dpf-core.zip ./docs/build
-        if: always()
+        uses: vimtor/action-zip@v1
+        with:
+          files: docs/build
+          dest: docs/archive/doc-ansys-dpf-core.zip
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.1
