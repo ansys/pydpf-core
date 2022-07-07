@@ -70,7 +70,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Python
+########################################################################
+
+      - name: "Setup Python"
         uses: actions/setup-python@v4.0.0
         with:
           python-version: 3.8
@@ -87,7 +89,7 @@ jobs:
       - name: Set SERVER
         run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-      - name: Install ansys-dpf-core
+      - name: "Install local package"
         shell: cmd
         run: |
           pip install -r requirements_build.txt
@@ -112,18 +114,18 @@ jobs:
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
 
-      - name: Install documentation packages for Python
+      - name: "Install documentation requirements"
         run: |
           pip install -r requirements_docs.txt
 
-      - name: Build Documentation
+      - name: "Build sphinx doc"
         shell: cmd
         run: |
           cd .ci
           build_doc.bat > ..\docs\log.txt 2>&1
         timeout-minutes: 20
 
-      - name: DOCUMENTATION zip artifacts
+      - name: "Zip Documentation"
         run: |
           7z a -tzip ./docs/archive/doc-ansys-dpf-core.zip ./docs/build
         if: always()
@@ -131,19 +133,21 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.1
 
-      - name: Publish Documentation artifact
+      - name: "Upload Documentation"
         uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core
           path: ./docs/archive/doc-ansys-dpf-core.zip
         if: always()
 
-      - name: Publish Documentation log
+      - name: "Upload Documentation Build log"
         uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core-log
           path: ./docs/*.txt
         if: always()
+
+###################################################################
 
       - name: Init git and add docs
         if: contains(github.ref, 'refs/tags')
