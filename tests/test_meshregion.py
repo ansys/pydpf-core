@@ -287,6 +287,10 @@ def test_set_connectivity_meshed_region():
     assert np.allclose(connectivity.get_entity_data_by_id(1), [1, 0, 2, 3])
     assert np.allclose(connectivity.get_entity_data(0), [1, 0, 2, 3])
     assert np.allclose(mesh.elements.element_by_id(1).connectivity, [1, 0, 2, 3])
+    new_connectivity_data[0] = 0
+    new_connectivity_data[1] = 1
+    connectivity.data = new_connectivity_data
+    mesh.elements.connectivities_field = connectivity
 
     nodal_conne = mesh.nodes.nodal_connectivity_field
     new_connectivity_data = nodal_conne.data
