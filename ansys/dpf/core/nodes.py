@@ -267,18 +267,6 @@ class Nodes:
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
-    @nodal_connectivity_field.setter
-    @version_requires("3.0")
-    def nodal_connectivity_field(self, property_field):
-        """Connectivity field setter.
-
-        Parameters
-        ----------
-        property_field : PropertyField
-            PropertyField that contains nodal connectivity value
-        """
-        self._property_field_setter(property_field, nodal_properties.nodal_connectivity)
-
     @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""
