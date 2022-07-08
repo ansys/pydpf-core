@@ -84,7 +84,8 @@ jobs:
       - name: "Release Package to TestPyPi"
         uses: pyansys/pydpf-actions/release_package@v2.1
         with:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
+          TEST: "true"
 
   Release:
     runs-on: ubuntu-latest
