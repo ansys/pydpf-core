@@ -3,13 +3,11 @@ name: GitHub Actions
 on:
   pull_request:
      branches-ignore:
-       - '*no-ci*'
+      - '*no-ci*'
+      - "release*"
   push:
-    tags:
-      - "*"
     branches:
       - master
-      - "release*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -48,29 +46,6 @@ jobs:
         with:
           MODULE: ${{env.MODULE}}
 
-      - name: 'Publish distribution 📦 to PyPI'
-        if: contains(github.ref, 'refs/tags')
-        shell: cmd
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
-          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-        run: |
-          pip install twine
-          python setup.py sdist
-          twine upload --skip-existing dist/*.whl
-          twine upload --skip-existing dist/*.tar.gz
-#         /!\ Do NOT publish to Pypi the zip containing the wheelhouses
-
-      - name: "Release"
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            dist/*.whl
-            dist/*.tar.gz
-            dist/*.pdf
-            dist/*.zip
-
   build_doc:
     name: Documentation
     runs-on: ubuntu-latest
@@ -104,12 +79,3 @@ jobs:
         env:
           GH_DOC_BRANCH: gh-pages
           GH_EMAIL: pyansys.github.bot@ansys.com
-
-      - name: Publish GitHub Pages merge commit
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $env:GH_DOC_BRANCH --force
-        env:
-          GH_DOC_BRANCH: gh-pages
