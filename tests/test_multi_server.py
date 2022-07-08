@@ -7,10 +7,12 @@ from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 
-@pytest.fixture(scope="module", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)]
-                if (isinstance(server._global_server(), server_types.InProcessServer)) else [
+@pytest.fixture(scope="module", params=[
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+] if (isinstance(server._global_server(), server_types.InProcessServer)) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if isinstance(server._global_server(), server_types.GrpcServer) else [
+    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if \
+        isinstance(server._global_server(), server_types.GrpcServer) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 ])
 def other_remote_server(request):
@@ -158,7 +160,7 @@ def test_model_cyc_support_multi_server(cyc_models):
             cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
             .ids , cyc_support2.expand_element_id(1,
                                                    cyc_support2.sectors_set_for_expansion()
-                                                   ).ids
+                                                  ).ids
     )
 
 

@@ -87,9 +87,11 @@ def test_upload_download(allkindofcomplexity, tmpdir):
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process):
+def test_download_folder(allkindofcomplexity, plate_msup, multishells, tmpdir,
+                         server_type_remote_process):
     tmpdir = str(tmpdir)
-    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity, server=server_type_remote_process)
+    file = dpf.core.upload_file_in_tmp_folder(allkindofcomplexity,
+                                              server=server_type_remote_process)
     file = dpf.core.upload_file_in_tmp_folder(plate_msup, server=server_type_remote_process)
     file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
     parent_path = os.path.dirname(file)
@@ -152,7 +154,8 @@ def test_downloadinfolder_uploadinfolder(multishells, tmpdir, server_type_remote
     # download it
     new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
     os.mkdir(new_tmpdir)
-    out = dpf.core.download_files_in_folder(TARGET_PATH, new_tmpdir, server=server_type_remote_process)
+    out = dpf.core.download_files_in_folder(TARGET_PATH, new_tmpdir,
+                                            server=server_type_remote_process)
     # check if the architecture of the download is ok
     path1_check = os.path.join(new_tmpdir, os.path.basename(multishells))
     path2_check = os.path.join(new_tmpdir, "subdirA", os.path.basename(multishells))
@@ -259,25 +262,25 @@ def test_load_api_without_awp_root():
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
-    
+
     awp_root_name = "AWP_ROOT" + dpf.core._version.__ansys_version__
     awp_root_save = os.environ.get(
         awp_root_name, None
     )
-    
+
     # without awp_root
     del os.environ[awp_root_name]
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(config=conf, as_global=False,
                                   ip=loc_serv.ip, port=loc_serv.port)
-    
+
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
     dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
-    
+
     # reset awp_root
     os.environ[awp_root_name] = awp_root_save
 
@@ -290,7 +293,7 @@ def test_load_api_with_awp_root():
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv_2 = dpf.core.start_local_server(config=conf, as_global=False)
-    
+
     assert serv_2._client_api_path is not None
     assert serv_2._grpc_client_path is not None
     ISPOSIX = os.name == "posix"
@@ -309,12 +312,12 @@ def test_load_api_with_awp_root_2():
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
-    
+
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(config=conf, as_global=False,
                                   ip=loc_serv.ip, port=loc_serv.port)
-    
+
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
     ISPOSIX = os.name == "posix"

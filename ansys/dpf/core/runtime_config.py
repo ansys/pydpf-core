@@ -170,6 +170,3 @@ class RuntimeCoreConfig(_RuntimeConfig):
     @num_threads.setter
     def num_threads(self, value):
         self._data_tree.add(num_threads=int(value))
-
-
-

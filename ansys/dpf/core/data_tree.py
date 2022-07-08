@@ -140,7 +140,10 @@ class DataTree:
                     if self._server.has_client():
                         coll_obj = object_handler.ObjHandler(
                             data_processing_api=self._core_api,
-                            internal_obj=self._coll_api.collection_of_string_new_local(self._server.client))
+                            internal_obj=self._coll_api.collection_of_string_new_local(
+                                self._server.client
+                            )
+                        )
                     else:
                         coll_obj = object_handler.ObjHandler(
                             data_processing_api=self._core_api,

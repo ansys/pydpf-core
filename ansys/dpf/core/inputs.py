@@ -196,7 +196,8 @@ class _Inputs:
         Parameters
         ----------
         inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
-        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport,
+        Outputs, os.PathLike
             Input of the operator.
 
         """

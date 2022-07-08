@@ -14,8 +14,6 @@ from ansys.dpf.gate import (
     field_definition_capi,
     field_definition_grpcapi,
     integral_types,
-    data_processing_capi,
-    data_processing_grpcapi,
 )
 
 

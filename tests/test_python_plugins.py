@@ -6,8 +6,8 @@ from ansys.dpf import core as dpf
 import conftest
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core import server_types
-from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, CustomConfigOptionSpec, \
-    PinSpecification
+from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, \
+    CustomConfigOptionSpec, PinSpecification
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     pytest.skip('Requires server version higher than 4.0', allow_module_level=True)
@@ -16,8 +16,8 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 @pytest.fixture(scope="module")
 def load_all_types_plugin():
     current_dir = os.getcwd()
-    return dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"), "py_test_types",
-                            "load_operators")
+    return dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"),
+                            "py_test_types", "load_operators")
 
 
 def test_integral_types(load_all_types_plugin):
@@ -64,7 +64,9 @@ def test_property_field(load_all_types_plugin):
     f.data = np.ones((9), dtype=np.int32)
     op = dpf.Operator("custom_forward_property_field")
     op.connect(0, f)
-    assert np.allclose(op.get_output(0, dpf.types.property_field).data, np.ones((9), dtype=np.int32))
+    assert np.allclose(
+        op.get_output(0, dpf.types.property_field).data, np.ones((9), dtype=np.int32)
+    )
 
 
 def test_scoping(load_all_types_plugin):
@@ -80,7 +82,9 @@ def test_fields_container(load_all_types_plugin):
     fc = dpf.fields_container_factory.over_time_freq_fields_container([f])
     op = dpf.Operator("custom_forward_fields_container")
     op.connect(0, fc)
-    assert np.allclose(op.get_output(0, dpf.types.fields_container)[0].data, np.ones((3, 3), dtype=np.float))
+    assert np.allclose(
+        op.get_output(0, dpf.types.fields_container)[0].data, np.ones((3, 3), dtype=np.float)
+    )
     assert op.get_output(0, dpf.types.fields_container)[0].location == "Elemental"
 
 
@@ -129,8 +133,8 @@ def test_data_tree(load_all_types_plugin):
 @conftest.raises_for_servers_version_under('4.0')
 def test_syntax_error():
     current_dir = os.getcwd()
-    dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "syntax_error_plugin"), "py_raising",
-                     "load_operators")
+    dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "syntax_error_plugin"),
+                     "py_raising", "load_operators")
     op = dpf.Operator("raising")
     with pytest.raises(DPFServerException) as ex:
         op.run()
@@ -143,17 +147,21 @@ def test_create_op_specification():
     local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
     spec.description = "Add a custom value to all the data of an input Field"
-    spec.inputs = {0: PinSpecification("field", [dpf.Field], "Field on which float value is added."),
+    spec.inputs = {0: PinSpecification("field", [dpf.Field],
+                                       "Field on which float value is added."),
                    1: PinSpecification("to_add", [float], "Data to add.")}
-    spec.outputs = {0: PinSpecification("field", [dpf.Field], "Field on which the float value is added.")}
+    spec.outputs = {0: PinSpecification("field", [dpf.Field],
+                                        "Field on which the float value is added.")}
     spec.properties = SpecificationProperties("custom add to field", "math")
-    spec.config_specification = [CustomConfigOptionSpec("work_by_index", False, "iterate over indices")]
+    spec.config_specification = [CustomConfigOptionSpec("work_by_index", False,
+                                                        "iterate over indices")]
     assert spec.description == "Add a custom value to all the data of an input Field"
     assert len(spec.inputs) == 2
     assert spec.inputs[0].name == "field"
     assert spec.inputs[0].type_names == ["field"]
     assert spec.inputs[1].document == "Data to add."
-    assert spec.outputs[0] == PinSpecification("field", [dpf.Field], "Field on which the float value is added.")
+    assert spec.outputs[0] == PinSpecification("field", [dpf.Field],
+                                               "Field on which the float value is added.")
     assert spec.properties["exposure"] == "public"
     assert spec.properties["category"] == "math"
     assert spec.config_specification["work_by_index"].document == "iterate over indices"
@@ -164,7 +172,8 @@ def test_create_op_specification():
 def test_create_config_op_specification():
     local_server = server_types.InProcessServer(as_global=False)
     spec = CustomSpecification(server=local_server)
-    spec.config_specification = [CustomConfigOptionSpec("work_by_index", False, "iterate over indices")]
+    spec.config_specification = [CustomConfigOptionSpec("work_by_index", False,
+                                                        "iterate over indices")]
     spec.config_specification = [CustomConfigOptionSpec("other", 1, "bla")]
     spec.config_specification = [CustomConfigOptionSpec("other2", 1.5, "blo")]
     spec.config_specification = [CustomConfigOptionSpec("other3", 1., "blo")]
@@ -197,8 +206,8 @@ def test_create_properties_specification():
 @conftest.raises_for_servers_version_under('4.0')
 def test_custom_op_with_spec():
     current_dir = os.getcwd()
-    dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins"), "py_operator_with_spec",
-                     "load_operators")
+    dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins"),
+                     "py_operator_with_spec", "load_operators")
     op = dpf.Operator("custom_add_to_field")
     assert "Add a custom value to all the data of an input Field" in str(op)
     assert "Field on which float value is added" in str(op.inputs)

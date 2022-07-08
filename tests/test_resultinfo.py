@@ -70,7 +70,9 @@ def test_result_info_memory_leaks(model):
     for i in range(1000):
         gc.collect()
         metadata = model.metadata
-        res = metadata.result_info  # Still leaking, but maybe from the Operator.connect in Metadata._load_result_info()
+        res = metadata.result_info
+        # Still leaking, but maybe from the Operator.connect
+        # in Metadata._load_result_info()
         u = res.unit_system_name
         c = res.cyclic_support
         # v = res.solver_version

@@ -25,7 +25,8 @@ def export(path, vertices, indices, texture_data=[]):
             pygltflib.Mesh(
                 primitives=[
                     pygltflib.Primitive(
-                        attributes=pygltflib.Attributes(POSITION=1, TEXCOORD_0=2), indices=0, material=0
+                        attributes=pygltflib.Attributes(POSITION=1, TEXCOORD_0=2),
+                        indices=0, material=0
                     )
                 ]
             )
@@ -46,8 +47,9 @@ def export(path, vertices, indices, texture_data=[]):
         ],
         materials=[
             pygltflib.Material(
-                pbrMetallicRoughness=pygltflib.PbrMetallicRoughness(baseColorTexture=pygltflib.TextureInfo(index=0),
-                                                                    metallicFactor=0, roughnessFactor=1)
+                pbrMetallicRoughness=pygltflib.PbrMetallicRoughness(
+                    baseColorTexture=pygltflib.TextureInfo(index=0),
+                    metallicFactor=0, roughnessFactor=1)
             )
         ],
         accessors=[
@@ -97,7 +99,8 @@ def export(path, vertices, indices, texture_data=[]):
         ],
         buffers=[
             pygltflib.Buffer(
-                byteLength=len(indices_binary_blob) + len(vertices_binary_blob) + len(uv_binary_blob)
+                byteLength=len(indices_binary_blob) + len(vertices_binary_blob)
+                           + len(uv_binary_blob)
             )
         ],
     )

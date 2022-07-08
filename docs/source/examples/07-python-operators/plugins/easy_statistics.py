@@ -13,8 +13,12 @@ class EasyStatistics(CustomOperatorBase):
     @property
     def specification(self) -> CustomSpecification:
         spec = CustomSpecification()
-        spec.description = "Compute the first quartile, the median, the third quartile and the variance of a scalar Field with numpy"
-        spec.inputs = {0: PinSpecification("field", [dpf.Field, dpf.FieldsContainer], "scalar Field on which the statistics quantities is computed.")}
+        spec.description = "Compute the first quartile, the median, the third quartile and" \
+                           " the variance of a scalar Field with numpy"
+        spec.inputs = {
+            0: PinSpecification("field", [dpf.Field, dpf.FieldsContainer],
+                                "scalar Field on which the statistics quantities is computed."),
+        }
         spec.outputs = {
             0: PinSpecification("first_quartile", [float]),
             1: PinSpecification("median", [float]),

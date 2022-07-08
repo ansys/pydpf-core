@@ -399,7 +399,9 @@ class BaseService:
                             f"Unable to download the python generated code with error: {e.args}"
                         )
             else:
-                __generate_code(TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol)
+                __generate_code(
+                    TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
+                )
 
     def get_runtime_client_config(self):
         if self._server().has_client():

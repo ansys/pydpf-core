@@ -1,5 +1,5 @@
 from ansys.dpf import core as dpf
-from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
+from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator  # noqa: F401
 from ansys.dpf.core.operator_specification import CustomSpecification, SpecificationProperties, \
     PinSpecification
 
@@ -14,7 +14,8 @@ class CustomOperator(CustomOperatorBase):
         spec = CustomSpecification()
         spec.description = "What the Operator does."
         spec.inputs = {
-            0: PinSpecification("name_of_pin_0", [dpf.Field, dpf.FieldsContainer], "Describe pin 0."),
+            0: PinSpecification("name_of_pin_0", [dpf.Field, dpf.FieldsContainer],
+                                "Describe pin 0."),
         }
         spec.outputs = {
             0: PinSpecification("name_of_pin_0", [dpf.Field], "Describe pin 0."),
