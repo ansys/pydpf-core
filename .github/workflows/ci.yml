@@ -87,7 +87,7 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          generate_dpf: "False"
+          generate_pdf: "False"
         timeout-minutes: 30
 
       - name: Init git and add docs
