@@ -3,7 +3,7 @@ import subprocess
 import psutil
 import sys
 from ansys import dpf
-from ansys.dpf.core import path_utilities, errors, server_types
+from ansys.dpf.core import errors, server_types
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
@@ -135,12 +135,13 @@ def test_shutting_down_when_deleted_legacy():
     for proc in psutil.process_iter():
         if proc.name() == "Ans.Dpf.Grpc.exe":
             num_dpf_exe += 1
-    subprocess.check_call([sys.executable, "-c",
-                           "from ansys.dpf import core as dpf;"
-                           "from ansys.dpf.core import examples;"
-                           "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
-                           "model = dpf.Model(examples.static_rst);"
-                           ])
+    subprocess.check_call([
+        sys.executable, "-c",
+        "from ansys.dpf import core as dpf;"
+        "from ansys.dpf.core import examples;"
+        "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
+        "model = dpf.Model(examples.static_rst);"
+    ])
 
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
@@ -156,12 +157,13 @@ def test_shutting_down_when_deleted():
     for proc in psutil.process_iter():
         if proc.name() == "Ans.Dpf.Grpc.exe":
             num_dpf_exe += 1
-    subprocess.check_call([sys.executable, "-c",
-                           "from ansys.dpf import core as dpf;"
-                           "from ansys.dpf.core import examples;"
-                           "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
-                           "model = dpf.Model(examples.static_rst);"
-                           ])
+    subprocess.check_call([
+        sys.executable, "-c",
+        "from ansys.dpf import core as dpf;"
+        "from ansys.dpf.core import examples;"
+        "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
+        "model = dpf.Model(examples.static_rst);"
+    ])
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if proc.name() == "Ans.Dpf.Grpc.exe":

@@ -28,9 +28,10 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
-                                                    f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
-                                                    ':/tmp/test_files"'
+        core.server_types.RUNNING_DOCKER["args"] += \
+            ' -v "' \
+            f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
+            ':/tmp/test_files"'
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
@@ -164,8 +165,12 @@ def engineering_data_sources():
     return ds
 
 
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(get_server_version(core._global_server()), "4.0")
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
+    get_server_version(core._global_server()), "4.0"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
+    get_server_version(core._global_server()), "3.0"
+)
 
 
 def raises_for_servers_version_under(version):
@@ -188,9 +193,11 @@ def raises_for_servers_version_under(version):
 
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
-    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-                                             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-                                             ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
+    @pytest.fixture(scope="session", params=[
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
+    ],
                     ids=[
                         "ansys-grpc-dpf",
                         "gRPC CLayer",
@@ -199,9 +206,10 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     def server_type(request):
         return core.start_local_server(config=request.param, as_global=False)
 
-
-    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-                                             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+    @pytest.fixture(scope="session", params=[
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+    ],
                     ids=[
                         "ansys-grpc-dpf",
                         "gRPC CLayer",
@@ -214,8 +222,9 @@ else:
     def server_type():
         return core.start_local_server(as_global=False)
 
-
-    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+    @pytest.fixture(scope="session", params=[
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    ],
                     ids=[
                         "ansys-grpc-dpf",
                     ])
@@ -223,7 +232,9 @@ else:
         return core.start_local_server(config=request.param, as_global=False)
 
 
-@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+@pytest.fixture(scope="session", params=[
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+],
                 ids=[
                     "gRPC CLayer",
                 ])
@@ -231,8 +242,10 @@ def server_clayer_remote_process(request):
     return core.start_local_server(config=request.param, as_global=False)
 
 
-@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-                                         ServerConfig(protocol=None, legacy=False)],
+@pytest.fixture(scope="session", params=[
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ServerConfig(protocol=None, legacy=False)
+],
                 ids=[
                     "gRPC CLayer",
                     "in Process CLayer"

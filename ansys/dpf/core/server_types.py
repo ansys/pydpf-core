@@ -29,6 +29,7 @@ from ansys.dpf.core._version import (
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
 import logging
+
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
 DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
@@ -83,7 +84,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
         else:
             run_cmd = ["docker run",
                        "-d",
-                       f"-p"+f"{port}:{docker_server_port}",
+                       f"-p" + f"{port}:{docker_server_port}",
                        RUNNING_DOCKER['args'],
                        f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples"'
                        f"-e DOCKER_SERVER_PORT={docker_server_port}",
@@ -186,7 +187,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
 
         if time.time() > t_timeout:
             if timedout:
-                raise TimeoutError(f"Server did not start in {timeout+timeout} seconds")
+                raise TimeoutError(f"Server did not start in {timeout + timeout} seconds")
             timedout = True
             t_timeout += timeout
 
@@ -223,7 +224,7 @@ def launch_remote_dpf(version=None):
     return instance
 
 
-def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str:str, grpc_module_version:str):
+def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_module_version: str):
     if right_grpc_module_version_str:
         import re
         from packaging.version import parse as parse_version
@@ -283,6 +284,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
 
 class BaseServer(abc.ABC):
     """Abstract class for servers"""
+
     @abc.abstractmethod
     def __init__(self):
         """Base class for all types of servers: grpc, in process...
@@ -446,6 +448,7 @@ class BaseServer(abc.ABC):
 
 class CServer(BaseServer, ABC):
     """Abstract class for servers going through the DPFClientAPI"""
+
     def __init__(self,
                  ansys_path=None,
                  load_operators=True):
@@ -479,6 +482,7 @@ class GrpcClient:
 
 class GrpcServer(CServer):
     """Server using the gRPC communication protocol"""
+
     def __init__(self,
                  ansys_path=None,
                  ip=LOCALHOST,
@@ -598,13 +602,13 @@ class GrpcServer(CServer):
 
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
+
     def __init__(self,
                  ansys_path=None,
                  as_global=True,
                  load_operators=True,
                  docker_name=None,
                  timeout=None):
-
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
@@ -678,17 +682,18 @@ class LegacyGrpcServer(BaseServer):
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
     """
+
     def __init__(
-        self,
-        ansys_path=None,
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        timeout=10,
-        as_global=True,
-        load_operators=True,
-        launch_server=True,
-        docker_name=None,
-        use_pypim=True,
+            self,
+            ansys_path=None,
+            ip=LOCALHOST,
+            port=DPF_DEFAULT_PORT,
+            timeout=10,
+            as_global=True,
+            load_operators=True,
+            launch_server=True,
+            docker_name=None,
+            use_pypim=True,
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -740,8 +745,12 @@ class LegacyGrpcServer(BaseServer):
         self._core_api = data_processing_grpcapi.DataProcessingGRPCAPI
         self._core_api.init_data_processing_environment(self)
         from ansys.grpc.dpf import base_pb2
-        self._preparing_shutdown_func = (data_processing_grpcapi._get_stub(self).PrepareShutdown, base_pb2.Empty())
-        self._shutdown_func = (data_processing_grpcapi._get_stub(self).ReleaseServer, base_pb2.Empty())
+        self._preparing_shutdown_func = (
+            data_processing_grpcapi._get_stub(self).PrepareShutdown, base_pb2.Empty()
+        )
+        self._shutdown_func = (
+            data_processing_grpcapi._get_stub(self).ReleaseServer, base_pb2.Empty()
+        )
 
     @property
     def client(self):
@@ -816,7 +825,7 @@ class LegacyGrpcServer(BaseServer):
         if not self._info_instance:
             self._info_instance = self._base_service.server_info
         return self._info_instance
-    
+
     def shutdown(self):
         if self._own_process and self.live:
             try:
@@ -838,7 +847,10 @@ class LegacyGrpcServer(BaseServer):
                 except Exception as e:
                     try:
                         if self.meet_version("4.0"):
-                            warnings.warn("couldn't properly release server: " + str(e.args) + "\n Killing process.")
+                            warnings.warn(
+                                f"couldn't properly release server: {str(e.args)}"
+                                ".\n Killing process."
+                            )
                         p = psutil.Process(self.info["server_process_id"])
                         p.kill()
                         time.sleep(0.01)
@@ -861,6 +873,7 @@ class LegacyGrpcServer(BaseServer):
             super().__del__()
         except:
             warnings.warn(traceback.format_exc())
+
 
 # Python 3.10
 # from typing import TypeAlias

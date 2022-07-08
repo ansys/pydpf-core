@@ -667,7 +667,6 @@ def available_operator_names(server=None):
     of type GrpcServer.
 
     """
-    from ansys.grpc.dpf import operator_pb2, operator_pb2_grpc
     if server is None:
         server = server_module._global_server()
 

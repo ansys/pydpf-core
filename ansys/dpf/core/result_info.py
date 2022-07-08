@@ -6,8 +6,7 @@ import traceback
 import warnings
 
 from enum import Enum, unique
-from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types, \
-    data_processing_capi, data_processing_grpcapi
+from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import available_result
 from ansys.dpf.core.cyclic_support import CyclicSupport

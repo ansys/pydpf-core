@@ -38,4 +38,3 @@ def test_server_ip(server_type_remote_process):
     assert server_type_remote_process.info["server_ip"] != None
     assert server_type_remote_process.info["server_port"] != None
     assert server_type_remote_process.info["server_version"] != None
-

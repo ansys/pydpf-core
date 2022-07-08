@@ -30,7 +30,8 @@ def test_createbycopy_scoping(server_type):
 
 
 def test_create_scoping_with_ids_location(server_type):
-    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental, server=server_type)
+    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental,
+                   server=server_type)
     assert scop._internal_obj
     assert np.allclose(scop.ids, [1, 2, 3, 5, 8, 9, 10])
     assert scop.location == dpf.core.locations.elemental

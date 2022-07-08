@@ -3,10 +3,14 @@
 
 Write user defined Operators as a package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how more complex DPF python plugins of Operators can be created as standard python packages.
-The benefits of writing packages instead of simple scripts are: componentization (split the code in several
-python modules or files), distribution (with packages, standard python tools can be used to upload and
-download packages) and documentation (READMEs, docs, tests and examples can be added to the package).
+This example shows how more complex DPF python plugins of Operators can be
+created as standard python packages.
+The benefits of writing packages instead of simple scripts are:
+componentization (split the code in several
+python modules or files), distribution (with packages,
+standard python tools can be used to upload and
+download packages) and documentation (READMEs, docs, tests and
+examples can be added to the package).
 
 This plugin will hold 2 different Operators:
   - One returning all the scoping ids having data higher than the average
@@ -17,8 +21,10 @@ This plugin will hold 2 different Operators:
 # Write Operator
 # --------------
 # For this more advanced use case, a python package is created.
-# Each Operator implementation derives from :class:`ansys.dpf.core.custom_operator.CustomOperatorBase`
-# and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator` records the Operators of the plugin.
+# Each Operator implementation derives from
+# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase`
+# and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator`
+# records the Operators of the plugin.
 # The python package `average_filter_plugin` is downloaded and displayed here:
 
 import os
@@ -27,11 +33,14 @@ from ansys.dpf.core import examples
 print('\033[1m average_filter_plugin')
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
 plugin_folder = None
-GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/examples/first_python_plugins/python-plugins/average_filter_plugin"
+GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/" \
+                    "examples/first_python_plugins/python-plugins/average_filter_plugin"
 
 for file in file_list:
     EXAMPLE_FILE = GITHUB_SOURCE_URL + "/average_filter_plugin/" + file
-    operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, file, "python-plugins/average_filter_plugin")
+    operator_file_path = examples.downloads._retrieve_file(
+        EXAMPLE_FILE, file, "python-plugins/average_filter_plugin"
+    )
     plugin_folder = os.path.dirname(operator_file_path)
     print(f'\033[1m {file}:\n \033[0m')
     with open(operator_file_path, "r") as f:
@@ -44,9 +53,11 @@ for file in file_list:
 # Load Plugin
 # -----------
 # Once a python plugin is written as a package, it can be loaded with the function
-# :py:func:`ansys.dpf.core.core.load_library` taking as first argument the path to the directory of the plugin,
+# :py:func:`ansys.dpf.core.core.load_library` taking as first argument the
+# path to the directory of the plugin,
 # as second argument ``py_`` + any name identifying the plugin,
-# and as last argument the function's name exposed in the __init__ file and used to record operators.
+# and as last argument the function's name exposed in the __init__ file
+# and used to record operators.
 
 import os
 from ansys.dpf import core as dpf
@@ -71,8 +82,8 @@ new_operator = dpf.Operator("ids_with_data_lower_than_average")
 ###############################################################################
 # To use this new Operator, a workflow computing the norm of the displacement
 # is connected to the "ids_with_data_lower_than_average" Operator.
-# Methods of the class ``ids_with_data_lower_than_average`` are dynamically added thanks to the Operator's
-# specification.
+# Methods of the class ``ids_with_data_lower_than_average`` are dynamically
+# added thanks to the Operator's specification.
 
 # %%
 # .. graphviz::

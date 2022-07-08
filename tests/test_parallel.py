@@ -4,7 +4,8 @@ from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 from ansys.dpf import core as dpf
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Requires server version higher than 4.0')
 def test_num_threads():
     op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
     c = op.config

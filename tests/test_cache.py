@@ -1,5 +1,5 @@
-from ansys.dpf import core as dpf
-from ansys.dpf.core.check_version import server_meet_version
+# from ansys.dpf import core as dpf
+# from ansys.dpf.core.check_version import server_meet_version
 
 
 # def test_unit_mesh_cache(simple_bar):
@@ -60,4 +60,3 @@ from ansys.dpf.core.check_version import server_meet_version
 #         assert len(res_info._cache.cached) == 2
 #     else:
 #         assert len(res_info._cache.cached) == 1
-

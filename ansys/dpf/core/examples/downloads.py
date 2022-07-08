@@ -2,7 +2,6 @@
 Downloads
 =========
 Download example datasets from https://github.com/pyansys/example-data"""
-import shutil
 import os
 import urllib.request
 import warnings
@@ -26,7 +25,9 @@ def delete_downloads():
                         os.remove(os.path.join(root, name))
                         print(f"deleting {os.path.join(root, name)}")
                     except Exception as e:
-                        warnings.warn(f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}")
+                        warnings.warn(
+                            f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}"
+                        )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
         if len(dirs) == 0 and len(files) == 0:
             try:

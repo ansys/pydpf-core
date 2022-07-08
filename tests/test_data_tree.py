@@ -31,7 +31,8 @@ def test_add_single_data_data_tree(server_type):
 @conftest.raises_for_servers_version_under("4.0")
 def test_add_multiple_data_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
-    data_tree.add(int=1, double=1., string="hello", list_int=[1, 2], list_double=[1.5, 2.5], list_string=["hello", "bye"])
+    data_tree.add(int=1, double=1., string="hello",
+                  list_int=[1, 2], list_double=[1.5, 2.5], list_string=["hello", "bye"])
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
@@ -255,5 +256,3 @@ def test_unsupported_types_data_tree(server_type):
         data_tree.add(data1=[[1]])
     with pytest.raises(TypeError):
         data_tree.add(data1=(1, 2))
-
-

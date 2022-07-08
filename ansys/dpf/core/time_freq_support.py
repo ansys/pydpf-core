@@ -7,12 +7,13 @@ TimeFreqSupport
 import traceback
 import warnings
 
+from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
+    support_grpcapi, support_capi
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
-    support_grpcapi, support_capi, data_processing_capi, data_processing_grpcapi
 
 
 class TimeFreqSupport:
