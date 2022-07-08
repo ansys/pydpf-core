@@ -41,7 +41,7 @@ def test_vtk_grid_from_model(simple_bar_model):
 
 def test_meshed_region_available_property_fields(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    properties = ['connectivity', 'elprops', 'eltype', 'apdl_element_type', 'section', 'mat']
+    properties = ['connectivity', 'elprops', 'eltype', 'apdl_element_type', 'mat']
     assert mesh.available_property_fields == properties
 
 
