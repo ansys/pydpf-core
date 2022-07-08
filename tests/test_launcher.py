@@ -33,8 +33,8 @@ def test_start_local_failed_executable():
 def test_server_ip(server_type_remote_process):
     assert server_type_remote_process.ip != None
     assert server_type_remote_process.port != None
-    assert server_type_remote_process.version != Nonedef test_server_ip():
-    assert assert server_type_remote_process.info["server_process_id"] != None
+    assert server_type_remote_process.version != None
+    assert server_type_remote_process.info["server_process_id"] != None
     assert server_type_remote_process.info["server_ip"] != None
     assert server_type_remote_process.info["server_port"] != None
     assert server_type_remote_process.info["server_version"] != None
