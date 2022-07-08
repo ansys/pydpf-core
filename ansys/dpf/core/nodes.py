@@ -13,7 +13,8 @@ from ansys.dpf.core.check_version import version_requires
 
 
 class Node:
-    """Encapsulates all properties of a node in the mesh.
+    """
+    Encapsulates all properties of a node in the mesh.
 
     A node is created from the :class:`ansys.dpf.core.elements` or
     :class:`ansys.dpf.core.meshed_region` class.
@@ -64,7 +65,8 @@ class Node:
 
     @property
     def coordinates(self):
-        """Cartesian coordinates of the node.
+        """
+        Cartesian coordinates of the node.
 
         Examples
         --------
@@ -80,7 +82,8 @@ class Node:
 
     @property
     def nodal_connectivity(self):
-        """Elements indices connected to the node.
+        """
+        Elements indices connected to the node.
 
         Returns
         -------
@@ -96,7 +99,8 @@ class Node:
 
 
 class Nodes:
-    """Provides a collection of DPF nodes.
+    """
+    Provides a collection of DPF nodes.
 
     Parameters
     ----------
@@ -144,7 +148,8 @@ class Nodes:
 
     @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
-        """Retrieves the node by its ID or index.
+        """
+        Retrieves the node by its ID or index.
 
         Parameters
         ----------
@@ -169,7 +174,8 @@ class Nodes:
 
     @property
     def scoping(self):
-        """Scoping of the nodes.
+        """
+        Scoping of the nodes.
 
         Returns
         -------
@@ -198,7 +204,8 @@ class Nodes:
 
     @property
     def coordinates_field(self):
-        """Coordinates field.
+        """
+        Coordinates field.
 
         Returns
         -------
@@ -232,7 +239,8 @@ class Nodes:
     @coordinates_field.setter
     @version_requires("3.0")
     def coordinates_field(self, property_field):
-        """Coordinates field setter.
+        """
+        Coordinates field setter.
 
         Parameters
         ----------
@@ -243,7 +251,8 @@ class Nodes:
 
     @property
     def nodal_connectivity_field(self):
-        """Nodal connectivity field
+        """
+        Nodal connectivity field
 
         Field containing each node ID for the elements indices
         connected to the given node.
@@ -283,7 +292,8 @@ class Nodes:
         return self._mapping_id_to_index
 
     def map_scoping(self, external_scope):
-        """Retrieve the indices to map the scoping of these elements to the scoping of a field.
+        """
+        Retrieve the indices to map the scoping of these elements to the scoping of a field.
 
         Parameters
         ----------
@@ -326,7 +336,8 @@ class Nodes:
         return ind, mask
 
     def add_node(self, id, coordinates):
-        """Add a node in the mesh.
+        """
+        Add a node in the mesh.
 
         Parameters
         ----------
@@ -343,7 +354,8 @@ class Nodes:
         self._mesh._stub.Add(request)
 
     def add_nodes(self, num):
-        """Add a number of nodes in the mesh.
+        """
+        Add a number of nodes in the mesh.
 
         This method yields a number of nodes that you can define.
 
@@ -377,7 +389,8 @@ class Nodes:
 
 
 class NodeAdder:
-    """Adds a new node to a meshed region.
+    """
+    Adds a new node to a meshed region.
 
     Attributes
     ----------
