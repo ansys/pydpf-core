@@ -7,6 +7,9 @@ from pkgutil import iter_modules
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True
+RETURN_ARRAYS = True
+
+RUNTIME_CLIENT_CONFIG = None
 
 # ANSYS CPython Workbench environment may not have scooby installed.
 try:
@@ -166,12 +169,11 @@ def find_ansys():
 
     return versions[max(versions.keys())]
 
+
 def is_pypim_configured():
     """Check if the environment is configured for PyPIM, without using pypim.
-
     This method is equivalent to ansys.platform.instancemanagement.is_configured(). It's
     reproduced here to avoid having hard dependencies.
-
     Returns
     -------
     bool

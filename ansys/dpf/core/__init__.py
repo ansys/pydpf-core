@@ -31,7 +31,13 @@ from ansys.dpf.core.server import (
 )
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.common import types, natures, locations, shell_layers
+from ansys.dpf.core.common import (
+    types,
+    natures,
+    locations,
+    shell_layers,
+    config_options
+    )
 from ansys.dpf.core import help
 from ansys.dpf.core.core import (
     BaseService,
@@ -51,6 +57,7 @@ from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor
+from ansys.dpf.core.data_tree import DataTree
 from ansys.dpf.core import operators
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core import (
@@ -72,9 +79,10 @@ os.environ["QT_STYLE_OVERRIDE"] = ""
 USER_DATA_PATH = None
 LOCAL_DOWNLOADED_EXAMPLES_PATH = None
 try:
-    import appdirs
+    import pkgutil
 
-    USER_DATA_PATH = appdirs.user_data_dir("ansys-dpf-core")
+    spec = pkgutil.get_loader("ansys.dpf.core")
+    USER_DATA_PATH = os.path.dirname(spec.get_filename())
     if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
         os.makedirs(USER_DATA_PATH)
 
@@ -85,7 +93,9 @@ except:  # pragma: no cover
     pass
 
 SERVER = None
+SERVER_CONFIGURATION = None
 
 _server_instances = []
 
 settings.set_default_pyvista_config()
+settings._forward_to_gate()

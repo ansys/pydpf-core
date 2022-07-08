@@ -6,6 +6,7 @@ Used to verify if the server version is a minimum value.
 
 from ansys.dpf.core import errors as dpf_errors
 import sys
+import weakref
 from functools import wraps
 
 
@@ -31,13 +32,13 @@ def server_meet_version(required_version, server):
 
 def server_meet_version_and_raise(required_version, server, msg=None):
     """Check if a given server version matches with a required version and raise
-    an execepton if it doesn not match.
+    an exception if it does not match.
 
     Parameters
     ----------
     required_version : str
         Required version to compare with the server version.
-    server : :class:`ansys.dpf.core.server`
+    server : :class:`dpf.core.server_types.BaseServer`
         DPF server object.
     msg : str, optional
         Message contained in the raised exception if the versions do
@@ -114,10 +115,9 @@ def get_server_version(server=None):
     str
         Server version.
     """
-    from ansys.dpf import core
-
     if server is None:
-        version = core.SERVER.version
+        from ansys.dpf.core import SERVER # to keep here, cannot import in __del__
+        version = SERVER.version
     else:
         version = server.version
     return version
@@ -173,7 +173,11 @@ def version_requires(min_version):
         @wraps(func)
         def wrapper(self, *args, **kwargs):
             """Call the original function"""
-            server = self._server
+
+            if isinstance(self._server, weakref.ref):
+                server = self._server()
+            else:
+                server = self._server
             func_name = func.__name__
 
             # particular cases

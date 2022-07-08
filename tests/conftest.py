@@ -4,18 +4,22 @@ Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
 import os
+import functools
 
 import pytest
 
+import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+from ansys.dpf.core.check_version import meets_version, get_server_version
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
-running_docker = core.server.RUNNING_DOCKER["use_docker"]
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
 
-local_test_repo = False
+local_test_repo = True
 
 if os.name == "posix":
     import ssl
@@ -24,9 +28,9 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        core.server.RUNNING_DOCKER["args"] += ' -v "' \
-                                              f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
-                                              ':/tmp/test_files"'
+        core.server_types.RUNNING_DOCKER["args"] += ' -v "' \
+                                                    f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
+                                                    ':/tmp/test_files"'
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
@@ -158,6 +162,92 @@ def engineering_data_sources():
     )
     ds.add_file_path(resolve_test_file("ds.dat", "engineeringData"), "dat")
     return ds
+
+
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(get_server_version(core._global_server()), "4.0")
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
+
+
+def raises_for_servers_version_under(version):
+    """Launch the test normally if the server version is equal or higher than the "version"
+    parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
+    error.
+    """
+    def decorator(func):
+        @pytest.mark.xfail(not meets_version(get_server_version(core._global_server()), version),
+                           reason=f'Requires server version greater than or equal to {version}',
+                           raises=core.errors.DpfVersionNotSupported,
+                           )
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+                                             ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                        "gRPC CLayer",
+                        "in Process CLayer"
+                    ])
+    def server_type(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                        "gRPC CLayer",
+                    ])
+    def server_type_remote_process(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
+else:
+    @pytest.fixture(scope="session")
+    def server_type():
+        return core.start_local_server(as_global=False)
+
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
+    def server_type_remote_process(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
+
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+                ids=[
+                    "gRPC CLayer",
+                ])
+def server_clayer_remote_process(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
+
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+                                         ServerConfig(protocol=None, legacy=False)],
+                ids=[
+                    "gRPC CLayer",
+                    "in Process CLayer"
+                ])
+def server_clayer(request):
+    return core.start_local_server(config=request.param, as_global=False)
+
+
+@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                      legacy=True)],
+                ids=[
+                    "ansys-grpc-dpf",
+                ])
+def server_type_legacy_grpc(request):
+    return core.start_local_server(config=request.param, as_global=False)
 
 
 class LocalServers:

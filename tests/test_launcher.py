@@ -17,7 +17,7 @@ def test_start_local():
 
 def test_start_local_failed():
     with pytest.raises(NotADirectoryError):
-        core.start_local_server(ansys_path="", use_docker_by_default=False)
+        core.start_local_server(ansys_path="test/", use_docker_by_default=False)
 
 
 def test_start_local_failed_executable():
@@ -30,11 +30,12 @@ def test_start_local_failed_executable():
         core.start_local_server(ansys_path=path)
 
 
-def test_server_ip():
-    assert core.SERVER.ip is not None
-    assert core.SERVER.port is not None
-    assert core.SERVER.version is not None
-    assert core.SERVER.info["server_process_id"] is not None
-    assert core.SERVER.info["server_ip"] is not None
-    assert core.SERVER.info["server_port"] is not None
-    assert core.SERVER.info["server_version"] is not None
+def test_server_ip(server_type_remote_process):
+    assert server_type_remote_process.ip != None
+    assert server_type_remote_process.port != None
+    assert server_type_remote_process.version != None
+    assert server_type_remote_process.info["server_process_id"] != None
+    assert server_type_remote_process.info["server_ip"] != None
+    assert server_type_remote_process.info["server_port"] != None
+    assert server_type_remote_process.info["server_version"] != None
+

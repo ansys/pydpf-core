@@ -13,10 +13,12 @@ from ansys.dpf.core import Operator
 from ansys.dpf.core.common import types
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.results import Results, CommonResults
-from ansys.dpf.core.server import LOG
+from ansys.dpf.core.server_types import LOG
 from ansys.dpf.core import misc
 from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core._model_helpers import __connect_op__
 from grpc._channel import _InactiveRpcError
+from ansys.dpf.core.check_version import version_requires
 
 
 class Model:
@@ -150,29 +152,18 @@ class Model:
 
         """
         if not self._results:
+            args = [self.metadata, self.mesh_by_default]
             if misc.DYNAMIC_RESULTS:
                 try:
-                    self._results = Results(self)
+                    self._results = Results(*args)
                     if len(self._results) == 0:
-                        self._results = CommonResults(self)
+                        self._results = CommonResults(*args)
                 except Exception as e:
-                    self._results = CommonResults(self)
+                    self._results = CommonResults(*args)
                     LOG.debug(str(e))
             else:
-                self._results = CommonResults(self)
+                self._results = CommonResults(*args)
         return self._results
-
-    def __connect_op__(self, op):
-        """Connect the data sources or the streams to the operator."""
-        if self.metadata._stream_provider is not None and hasattr(op.inputs, "streams"):
-            op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources is not None and hasattr(
-                op.inputs, "data_sources"
-        ):
-            op.inputs.data_sources.connect(self.metadata._data_sources)
-
-        if self.mesh_by_default and self.metadata.mesh_provider and hasattr(op.inputs, "mesh"):
-            op.inputs.mesh.connect(self.metadata.mesh_provider)
 
     def operator(self, name):
         """Operator associated with the data sources of this model.
@@ -198,7 +189,7 @@ class Model:
 
         """
         op = Operator(name=name, server=self._server)
-        self.__connect_op__(op)
+        __connect_op__(op, self.metadata, self.mesh_by_default)
         return op
 
     def __str__(self):
@@ -270,6 +261,7 @@ class Metadata:
         self._server = server
         self._set_data_sources(data_sources)
         self._meshed_region = None
+        self._meshes_container = None
         self._result_info = None
         self._stream_provider = None
         self._time_freq_support = None
@@ -479,6 +471,46 @@ class Metadata:
         self._cache_result_info()
 
         return self._result_info
+
+    @property
+    @version_requires("4.0")
+    def meshes_container(self):
+        """Meshes container instance.
+
+        Returns
+        -------
+        meshes : ansys.dpf.core.MeshesContainer
+            Meshes
+        """
+        if self._meshes_container is None:
+            self._meshes_container = self.meshes_provider.get_output(0, types.meshes_container)
+
+        return self._meshes_container
+
+    @property
+    @version_requires("4.0")
+    def meshes_provider(self):
+        """Meshes provider operator
+
+        This operator reads a meshes container (with potentially time or space varying meshes)
+        from the result files.
+
+        Returns
+        -------
+        meshes_provider : ansys.dpf.core.Operator
+            Meshes provider operator.
+
+        Notes
+        -----
+        Underlying operator symbol is
+        "meshes_provider" operator
+        """
+        meshes_provider = Operator("meshes_provider", server=self._server)
+        if self._stream_provider:
+            meshes_provider.inputs.connect(self._stream_provider.outputs)
+        else:
+            meshes_provider.inputs.connect(self.data_sources)
+        return meshes_provider
 
     @property
     def available_named_selections(self):

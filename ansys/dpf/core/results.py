@@ -11,6 +11,7 @@ import functools
 from ansys.dpf.core import Operator
 from ansys.dpf.core import errors
 from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core._model_helpers import __connect_op__
 from ansys.dpf.core.custom_fields_container import (
     ElShapeFieldsContainer,
     BodyFieldsContainer,
@@ -85,15 +86,16 @@ class Results:
 
     """  # noqa: E501
 
-    def __init__(self, model):
-        self.__class__ = type(Results.__name__ + str(id(self)), (Results,), {})
-
-        self._result_info = model.metadata.result_info
-        self._model = model
-        self._connect_operators()
+    def __init__(self, metadata, mesh_by_default=True, generate_ops=True):
+        self._result_info = metadata.result_info
+        self._metadata = metadata
+        self._mesh_by_default = mesh_by_default
+        if generate_ops:
+            self.__class__ = type(Results.__name__ + str(id(self)), (Results,), {})
+            self._connect_operators()
 
     def __result__(self, result_type, *args):
-        return Result(self._model, result_type)
+        return Result(self._metadata, self._mesh_by_default, result_type)
 
     def _connect_operators(self):
         """Dynamically add operators for results.
@@ -121,7 +123,7 @@ class Results:
         for result_type in self._result_info:
             try:
                 doc = Operator(
-                    result_type.operator_name, server=self._model._server
+                    result_type.operator_name, server=self._result_info._server
                 ).__str__()
                 bound_method = self.__result__
                 method2 = functools.partial(bound_method, result_type)
@@ -186,11 +188,12 @@ class Result:
 
     """
 
-    def __init__(self, model, result_info):
-        self._model = model
+    def __init__(self, metadata, mesh_by_default, result_info):
+        self._metadata = metadata
         self._time_scoping = None
         self._mesh_scoping = None
         self._location = None
+        self._mesh_by_default = mesh_by_default
         if isinstance(result_info, str):
             from ansys.dpf.core.available_result import available_result_from_name
             self._result_info = available_result_from_name(result_info)
@@ -203,21 +206,21 @@ class Result:
             # create the operator to read its documentation
             # if the operator doesn't exist, the method will not be added
             doc = Operator(
-                self._result_info.operator_name, server=self._model._server
+                self._result_info.operator_name, server=self._metadata._server
             ).__str__()
             self.__doc__ = doc
             if hasattr(operators, "result") and hasattr(
                 operators.result, self._result_info.name
             ):
                 self._operator = getattr(operators.result, self._result_info.name)(
-                    server=self._model._server
+                    server=self._metadata._server
                 )
             else:
                 self._operator = Operator(
-                    self._result_info.operator_name, server=self._model._server
+                    self._result_info.operator_name, server=self._metadata._server
                 )
             self._operator._add_sub_res_operators(self._result_info.sub_results)
-            self._model.__connect_op__(self._operator)
+            __connect_op__(self._operator, self._metadata, self._mesh_by_default)
         except errors.DPFServerException:
             pass
         except Exception as e:
@@ -262,9 +265,9 @@ class Result:
         """
         fc = self.__call__().outputs.fields_container()
         if self._specific_fc_type == "shape":
-            fc = ElShapeFieldsContainer(fields_container=fc, server=fc._server)
+            fc = ElShapeFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         elif self._specific_fc_type == "body":
-            fc = BodyFieldsContainer(fields_container=fc, server=fc._server)
+            fc = BodyFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         return fc
 
     @property
@@ -286,7 +289,7 @@ class Result:
 
         """
         self._time_scoping = list(
-            range(1, len(self._model.metadata.time_freq_support.time_frequencies) + 1)
+            range(1, len(self._metadata.time_freq_support.time_frequencies) + 1)
         )
         return self
 
@@ -330,7 +333,7 @@ class Result:
 
         """
         self._time_scoping = len(
-            self._model.metadata.time_freq_support.time_frequencies
+            self._metadata.time_freq_support.time_frequencies
         )
         return self
 
@@ -397,7 +400,7 @@ class Result:
 
         """
 
-        self._mesh_scoping = self._model.metadata.named_selection(named_selection)
+        self._mesh_scoping = self._metadata.named_selection(named_selection)
         return self
 
     @property
@@ -466,7 +469,7 @@ class Result:
         self._mesh_scoping.inputs.requested_location(
             self._result_info.native_scoping_location
         )
-        self._mesh_scoping.inputs.mesh(self._model.metadata.mesh_provider)
+        self._mesh_scoping.inputs.mesh(self._metadata.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
         if previous_mesh_scoping:
             try:
@@ -513,7 +516,7 @@ class Result:
             mesh_scoping = Scoping(
                 ids=mesh_scoping,
                 location=self._result_info.native_scoping_location,
-                server=self._model._server,
+                server=self._metadata._server,
             )
 
         self._mesh_scoping = mesh_scoping
@@ -563,15 +566,14 @@ class CommonResults(Results):
     Used to allow type hints and auto completion for the method:'results'
     of the class:'Results'.
     """
-    def __init__(self, model):
-        self._model = model
+    def __init__(self, metadata, mesh_by_default):
+        super().__init__(metadata, mesh_by_default, False)
         self._op_map_rev = dict(displacement="displacement",
                                 stress="stress",
                                 elastic_strain="elastic_strain",
                                 structural_temperature="structural_temperature",
                                 temperature="temperature",
                                 electric_potential="electric_potential")
-        self._result_info = model.metadata.result_info
 
     @property
     def displacement(self):

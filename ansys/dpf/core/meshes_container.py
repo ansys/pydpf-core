@@ -4,9 +4,8 @@ MeshesContainer
 ===============
 Contains classes associated with the DPF MeshesContainer.
 """
-from ansys import dpf
+from ansys.dpf.core import meshed_region
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core.common import types
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import errors as dpf_errors
 
@@ -27,17 +26,17 @@ class MeshesContainer(Collection):
     """
 
     def __init__(self, meshes_container=None, server=None):
-        """Initialize the scoping with either an optional scoping
-        message or by connecting to a stub. """
-        if server is None:
-            server = dpf.core._global_server()
-
-        self._server = server
-        self._stub = self._connect()
-
-        Collection.__init__(
-            self, types.meshed_region, collection=meshes_container, server=self._server
+        super().__init__(
+            collection=meshes_container, server=server
         )
+        if self._internal_obj is None:
+            if self._server.has_client():
+                self._internal_obj = self._api.collection_of_mesh_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.collection_of_mesh_new()
+
+    def create_subtype(self, obj_by_copy):
+        return meshed_region.MeshedRegion(mesh=obj_by_copy, server=self._server)
 
     def plot(self, fields_container=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Plot the meshes container with a specific result if

@@ -1,3 +1,11 @@
+"""
+.. _ref_examples:
+
+Result Files Examples
+=====================
+Examples result files.
+"""
+
 import os
 import inspect
 

@@ -52,7 +52,7 @@ Ansys 2021 R2.  For more information on getting a licensed copy of Ansys,
 visit the `Ansys website <https://www.ansys.com/>`_.
 
 
-.. _basic-gallery:
+.. _getting_started:
 
 Installation
 ~~~~~~~~~~~~

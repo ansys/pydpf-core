@@ -4,9 +4,11 @@ from unittest.mock import create_autospec
 import ansys.platform.instancemanagement as pypim
 import grpc
 import pytest
+
 from ansys.dpf import core
-from ansys.dpf.core import server
-from ansys.dpf.core.server import DpfServer, __ansys_version__
+from ansys.dpf.core import server_types
+from ansys.dpf.core.server import __ansys_version__
+from ansys.dpf.core.server_factory import ServerFactory, ServerConfig
 
 
 def test_start_remote(monkeypatch):
@@ -14,7 +16,7 @@ def test_start_remote(monkeypatch):
 
     # Start a local DPF server and create a mock PyPIM pretending it is starting it
     local_server = core.start_local_server(as_global=False)
-    server_address = local_server._address
+    server_address = f"{local_server.ip}:{local_server.port}"
     mock_instance = pypim.Instance(
         definition_name="definitions/fake-dpf",
         name="instances/fake-dpf",
@@ -40,7 +42,8 @@ def test_start_remote(monkeypatch):
     monkeypatch.setenv("ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG", "/fake/config.json")
 
     # Call the generic startup sequence with no indication on how to launch it
-    server = DpfServer(as_global=False)
+    server_type = ServerFactory().get_server_type_from_config(ServerConfig())
+    server = server_type(as_global=False)
 
     # It detected the environment and connected to pypim
     assert mock_connect.called
@@ -68,5 +71,5 @@ def test_start_remote_failed(monkeypatch):
     # launch_remote_dpf() without the requirements installed.
     monkeypatch.setitem(sys.modules, "ansys.platform.instancemanagement", None)
     with pytest.raises(ImportError) as exc:
-        server.launch_remote_dpf()
+        server_types.launch_remote_dpf()
     assert "ansys-platform-instancemanagement" in str(exc)
