@@ -304,11 +304,35 @@ class MeshedRegion:
     #     self._internal_obj = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def _as_vtk(self, as_linear=True, include_ids=False):
+    def deform_by(self, deform_by, scale_factor=1.):
+        """Deforms the mesh according to a 3D vector field and an additional scale factor.
+
+        Parameters
+        ----------
+        deform_by : Field, FieldsContainer, Result, Operator
+            Used to deform the plotted mesh. Must output a unique 3D vector field.
+            Defaults to None.
+        scale_factor : float, Field, FieldsContainer, optional
+            Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
+            (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
+        Returns
+        -------
+
+        """
+        from ansys.dpf.core.operators.math import add, scale
+        scale_op = scale(field=deform_by, ponderation=scale_factor)
+        return add(fieldA=self.nodes.coordinates_field,
+                   fieldB=scale_op.outputs.field
+                   ).eval()
+
+    def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
         # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays (
-        self._tmpnodes = self.nodes.coordinates_field.data
+        # All of those now return DPFArrays
+        if not coordinates:
+            self._tmpnodes = self.nodes.coordinates_field.data
+        else:
+            self._tmpnodes = coordinates.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
         try:
@@ -357,16 +381,15 @@ class MeshedRegion:
 
         """
         if self._full_grid is None:
-            self._full_grid = self._as_vtk()
+            self._full_grid = self._as_vtk(self.nodes.coordinates_field)
         return self._full_grid
 
     def plot(
             self,
             field_or_fields_container=None,
-            notebook=None,
             shell_layers=None,
-            off_screen=None,
-            show_axes=True,
+            deform_by=None,
+            scale_factor=1.0,
             **kwargs
     ):
         """Plot the field or fields container on the mesh.
@@ -375,16 +398,13 @@ class MeshedRegion:
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or fields container to plot. The default is ``None``.
-        notebook : bool, optional
-            Whether the plotting in the notebook is 2D or 3D. The default is
-            ``None``, in which case the plotting is 2D.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        off_screen : bool, optional
-            Whether to render the plot off screen, which is useful for automated screenshots.
-            The default is "None", in which case the plot renders off screen.
-        show_axes : bool, optional
-            Whether to show a VTK axes widget. The default is ``True``.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -403,15 +423,15 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
-            return pl.plot_contour(field_or_fields_container, notebook,
-                                   shell_layers, off_screen, show_axes, **kwargs)
+            return pl.plot_contour(field_or_fields_container, shell_layers,
+                                   show_axes=kwargs.pop("show_axes", True),
+                                   deform_by=deform_by,
+                                   scale_factor=scale_factor, **kwargs)
 
         # otherwise, simply plot the mesh
-        kwargs["off_screen"] = off_screen
-        kwargs["notebook"] = notebook
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, **kwargs)
-        kwargs["show_axes"] = show_axes
+        pl.add_mesh(self, deform_by=deform_by, scale_factor=scale_factor,
+                    show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):

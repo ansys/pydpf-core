@@ -391,7 +391,9 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, notebook=None, shell_layers=None, **kwargs):
+    def plot(self, shell_layers=None,
+             deform_by=None, scale_factor=1.0,
+             **kwargs):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -413,19 +415,23 @@ class Field(_FieldBase):
 
         Parameters
         ----------
-        notebook : bool, optional
-            Whether the plotting is in the notebook as
-            a static image or is a dynamic plot outside of the
-            notebook. The default is ``None``.
         shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements. The default is ``None``.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
         """
         pl = Plotter(self.meshed_region, **kwargs)
-        return pl.plot_contour(self, notebook, shell_layers, **kwargs)
+        return pl.plot_contour(self, shell_layers, deform_by=deform_by,
+                               scale_factor=scale_factor,
+                               show_axes=kwargs.pop("show_axes", True),
+                               **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.

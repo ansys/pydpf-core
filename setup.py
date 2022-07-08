@@ -5,8 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ["psutil", "tqdm", "numpy", "ansys-dpf-gate"]
-
+install_requires = ["psutil", "tqdm", "numpy", "ansys-dpf-gate", "protobuf<=3.20.1"]
 
 # Get version from version info
 filepath = os.path.dirname(__file__)
@@ -86,7 +85,7 @@ setup(
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
     install_requires=install_requires,
     extras_require={
-        "plotting": ["pyvista>=0.24.0", "matplotlib==3.2"],
+        "plotting": ["pyvista>=0.32.0", "matplotlib>=3.2"],
         "reporting": ["scooby"],
     },
     url="https://github.com/pyansys/pydpf-core",
