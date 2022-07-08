@@ -16,6 +16,7 @@ from ansys.dpf.core.results import Results, CommonResults
 from ansys.dpf.core.server_types import LOG
 from ansys.dpf.core import misc
 from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core._model_helpers import __connect_op__
 from grpc._channel import _InactiveRpcError
 from ansys.dpf.core.check_version import version_requires
 
@@ -151,29 +152,18 @@ class Model:
 
         """
         if not self._results:
+            args = [self.metadata, self.mesh_by_default]
             if misc.DYNAMIC_RESULTS:
                 try:
-                    self._results = Results(self)
+                    self._results = Results(*args)
                     if len(self._results) == 0:
-                        self._results = CommonResults(self)
+                        self._results = CommonResults(*args)
                 except Exception as e:
-                    self._results = CommonResults(self)
+                    self._results = CommonResults(*args)
                     LOG.debug(str(e))
             else:
-                self._results = CommonResults(self)
+                self._results = CommonResults(*args)
         return self._results
-
-    def __connect_op__(self, op):
-        """Connect the data sources or the streams to the operator."""
-        if self.metadata._stream_provider is not None and hasattr(op.inputs, "streams"):
-            op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources is not None and hasattr(
-                op.inputs, "data_sources"
-        ):
-            op.inputs.data_sources.connect(self.metadata._data_sources)
-
-        if self.mesh_by_default and self.metadata.mesh_provider and hasattr(op.inputs, "mesh"):
-            op.inputs.mesh.connect(self.metadata.mesh_provider)
 
     def operator(self, name):
         """Operator associated with the data sources of this model.
@@ -199,7 +189,7 @@ class Model:
 
         """
         op = Operator(name=name, server=self._server)
-        self.__connect_op__(op)
+        __connect_op__(op, self.metadata, self.mesh_by_default)
         return op
 
     def __str__(self):

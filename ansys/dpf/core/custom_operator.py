@@ -9,6 +9,7 @@ Contains utilities allowing you to implement and record custom Python operators.
 import abc
 import ctypes
 import numpy
+import traceback
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import (
@@ -188,7 +189,6 @@ class CustomOperatorBase:
             try:
                 self.run()
             except:
-                import traceback
                 external_operator_api.external_operator_put_exception(self._operator_data, 4,
                                                                       str(traceback.format_exc()))
 

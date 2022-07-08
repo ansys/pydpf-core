@@ -5,6 +5,7 @@ Inputs
 ======
 """
 
+import weakref
 from textwrap import wrap
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import _Outputs, Output
@@ -31,7 +32,7 @@ class Input:
 
     def __init__(self, spec, pin, operator, count_ellipsis=-1):
         self._spec = spec
-        self._operator = operator
+        self._operator = weakref.ref(operator)
         self._pin = pin
         self._count_ellipsis = count_ellipsis
         self._python_expected_types = []
@@ -85,7 +86,7 @@ class Input:
             return
 
         corresponding_pins = []
-        self._operator._find_outputs_corresponding_pins(
+        self._operator()._find_outputs_corresponding_pins(
             self._python_expected_types, inpt, self._pin, corresponding_pins
         )
         if len(corresponding_pins) > 1:
@@ -113,21 +114,21 @@ class Input:
         from ansys.dpf.core.results import Result
 
         if isinstance(inpt, _Outputs):
-            self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
-            self._operator.inputs._connected_inputs[self._pin] = {
-                corresponding_pins[0][1]: inpt._operator
+            self._operator().connect(self._pin, inpt._operator(), corresponding_pins[0][1])
+            self._operator().inputs._connected_inputs[self._pin] = {
+                corresponding_pins[0][1]: inpt._operator()
             }
         elif isinstance(inpt, Output):
-            self._operator.connect(self._pin, inpt._operator, inpt._pin)
-            self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
+            self._operator().connect(self._pin, inpt._operator(), inpt._pin)
+            self._operator().inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
         elif isinstance(inpt, Result):
-            self._operator.connect(self._pin, inpt(), corresponding_pins[0][1])
-            self._operator.inputs._connected_inputs[self._pin] = {
+            self._operator().connect(self._pin, inpt(), corresponding_pins[0][1])
+            self._operator().inputs._connected_inputs[self._pin] = {
                 corresponding_pins[0][1]: inpt()
                 }
         else:
-            self._operator.connect(self._pin, inpt)
-            self._operator.inputs._connected_inputs[self._pin] = inpt
+            self._operator().connect(self._pin, inpt)
+            self._operator().inputs._connected_inputs[self._pin] = inpt
 
         self.__inc_if_ellipsis()
 
@@ -161,8 +162,8 @@ class Input:
     def __inc_if_ellipsis(self):
         if self._count_ellipsis >= 0:
             self._count_ellipsis += 1
-            if isinstance(self._operator.inputs, _Inputs):
-                self._operator.inputs._add_input(
+            if isinstance(self._operator().inputs, _Inputs):
+                self._operator().inputs._add_input(
                     self._pin + self._count_ellipsis, self._spec, self._count_ellipsis
                 )
 
@@ -170,7 +171,7 @@ class Input:
 class _Inputs:
     def __init__(self, dict_inputs, operator):
         self._dict_inputs = dict_inputs
-        self._operator = operator
+        self._operator = weakref.ref(operator)
         self._inputs = []
         self._connected_inputs = {}
 
@@ -216,7 +217,7 @@ class _Inputs:
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
-            self._operator._find_outputs_corresponding_pins(
+            self._operator()._find_outputs_corresponding_pins(
                 input_pin._python_expected_types,
                 inpt,
                 input_pin._pin,
@@ -241,29 +242,29 @@ class _Inputs:
 
         from ansys.dpf.core.results import Result
         if isinstance(inpt, Output):
-            self._operator.connect(corresponding_pins[0], inpt._operator, inpt._pin)
-            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: inpt._operator}
+            self._operator().connect(corresponding_pins[0], inpt._operator(), inpt._pin)
+            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: inpt._operator()}
         elif isinstance(inpt, _Outputs):
-            self._operator.connect(
-                corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1]
+            self._operator().connect(
+                corresponding_pins[0][0], inpt._operator(), corresponding_pins[0][1]
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
-                corresponding_pins[0][1]: inpt._operator
+                corresponding_pins[0][1]: inpt._operator()
             }
         elif isinstance(inpt, Result):
-            self._operator.connect(
+            self._operator().connect(
                 corresponding_pins[0][0], inpt(), corresponding_pins[0][1]
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
                 corresponding_pins[0][1]: inpt()
             }
         else:
-            self._operator.connect(corresponding_pins[0], inpt)
+            self._operator().connect(corresponding_pins[0], inpt)
             self._connected_inputs[corresponding_pins[0]] = inpt
 
     def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:
-            class_input = Input(spec, pin, self._operator, count_ellipsis)
+            class_input = Input(spec, pin, self._operator(), count_ellipsis)
             class_input.__doc__ = spec.name
             if not hasattr(self, class_input.name):
                 setattr(self, class_input.name, class_input)

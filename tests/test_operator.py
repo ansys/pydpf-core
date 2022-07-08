@@ -1224,6 +1224,13 @@ def test_delete_operator(server_type):
         op.connect(0, 1)
 
 
+def test_memory_outputs_operator(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    stress_fc = model.results.stress().eqv().eval()
+    assert len(stress_fc) == 2
+
+
 def test_delete_auto_operator(server_type):
     op = dpf.core.Operator("min_max", server=server_type)
 

@@ -115,10 +115,9 @@ def get_server_version(server=None):
     str
         Server version.
     """
-    from ansys.dpf import core
-
     if server is None:
-        version = core.SERVER.version
+        from ansys.dpf.core import SERVER # to keep here, cannot import in __del__
+        version = SERVER.version
     else:
         version = server.version
     return version

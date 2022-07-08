@@ -5,7 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ["psutil", "progressbar2", "numpy", "ansys-dpf-gate"]
+install_requires = ["psutil", "tqdm", "numpy", "ansys-dpf-gate"]
 
 
 # Get version from version info

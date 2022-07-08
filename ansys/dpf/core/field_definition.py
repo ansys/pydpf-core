@@ -3,6 +3,9 @@ FieldDefinition
 ================
 """
 
+import traceback
+import warnings
+
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.dimensionality import Dimensionality
@@ -11,6 +14,8 @@ from ansys.dpf.gate import (
     field_definition_capi,
     field_definition_grpcapi,
     integral_types,
+    data_processing_capi,
+    data_processing_grpcapi,
 )
 
 
@@ -171,6 +176,6 @@ class FieldDefinition:
 
     def __del__(self):
         try:
-            self._stub.Delete(self._messageDefinition)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

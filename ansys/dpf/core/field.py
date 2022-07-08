@@ -111,7 +111,7 @@ class Field(_FieldBase):
         """Initialize the field either with an optional field message or
         by connecting to a stub.
         """
-        super().__init__(nentities, nature, location, False, field, server)
+        super().__init__(nentities, nature, location, field, server)
         self._field_definition = self._load_field_definition()
 
     @property
@@ -791,4 +791,5 @@ class _LocalField(_LocalFieldBase, Field):
 
     def __init__(self, field):
         self._is_property_field = False
-        super().__init__(field)
+        Field.__init__(self, field=field)
+        _LocalFieldBase.__init__(self, field)

@@ -62,7 +62,7 @@ class PropertyField(_FieldBase):
         property_field=None,
         server=None,
     ):
-        super().__init__(nentities, nature, location, True, property_field, server)
+        super().__init__(nentities, nature, location, property_field, server)
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -296,4 +296,5 @@ class _LocalPropertyField(_LocalFieldBase, PropertyField):
 
     def __init__(self, field):
         self._is_property_field = True
-        super().__init__(field)
+        PropertyField.__init__(self, property_field=field)
+        _LocalFieldBase.__init__(self, field)

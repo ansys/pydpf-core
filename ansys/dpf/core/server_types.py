@@ -10,19 +10,23 @@ import os
 import socket
 import subprocess
 import time
+import warnings
+import traceback
+import types
 from abc import ABC
 from threading import Thread
 
 import psutil
 
 import ansys.dpf.core as core
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, session
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
     server_to_ansys_version,
     __ansys_version__
 )
-from ansys.dpf.gate import load_api
+from ansys.dpf.gate import load_api, data_processing_grpcapi
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -331,6 +335,9 @@ class BaseServer(abc.ABC):
         """
         return self._base_service.server_info
 
+    def _del_session(self):
+        self._session_instance = None
+
     @property
     def _session(self):
         if not self._session_instance:
@@ -402,8 +409,6 @@ class BaseServer(abc.ABC):
         bool
             ``True`` if the server version meets the requirement.
         """
-        from ansys.dpf.core.check_version import server_meet_version
-
         return server_meet_version(required_version, self)
 
     def __str__(self):
@@ -422,14 +427,15 @@ class BaseServer(abc.ABC):
             if id(core.SERVER) == id(self):
                 core.SERVER = None
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
         try:
-            for i, server in enumerate(core._server_instances):
-                if server() == self:
-                    core._server_instances.remove(server)
+            if core._server_instances is not None:
+                for i, server in enumerate(core._server_instances):
+                    if server() == self:
+                        core._server_instances.remove(server)
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
 
 class CServer(BaseServer, ABC):
@@ -451,11 +457,12 @@ class CServer(BaseServer, ABC):
 
     def __del__(self):
         try:
+            self._del_session()
             if self._own_process:
                 self.shutdown()
             super().__del__()
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
 
 class GrpcClient:
@@ -504,6 +511,7 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._own_process = launch_server
+        self._create_shutdown_funcs()
         self.set_as_global(as_global=as_global)
 
     @property
@@ -522,12 +530,23 @@ class GrpcServer(CServer):
         api = data_processing_capi.DataProcessingCAPI
         return api.data_processing_get_os_on_client(self.client)
 
-    def shutdown(self):
+    def _create_shutdown_funcs(self):
         from ansys.dpf.gate import data_processing_capi
+        api = data_processing_capi.DataProcessingCAPI
+        self._preparing_shutdown_func = (api.data_processing_prepare_shutdown, self.client)
+        self._shutdown_func = (api.data_processing_release_server, self.client)
+
+    def shutdown(self):
         if self._remote_instance:
             self._remote_instance.delete()
-        api = data_processing_capi.DataProcessingCAPI
-        api.data_processing_release_server(self.client)
+        try:
+            self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+        except Exception as e:
+            warnings.warn("couldn't prepare shutdown: " + e.args)
+        try:
+            self._shutdown_func[0](self._shutdown_func[1])
+        except Exception as e:
+            warnings.warn("couldn't shutdown server: " + e.args)
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
@@ -668,9 +687,10 @@ class LegacyGrpcServer(BaseServer):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
-
         super().__init__()
 
+        self._info_instance = None
+        self.modules = types.SimpleNamespace()
         # Load Ans.Dpf.Grpc?
         import grpc
 
@@ -705,8 +725,17 @@ class LegacyGrpcServer(BaseServer):
         self._own_process = launch_server
         self._stubs = {}
 
+        self._create_shutdown_funcs()
+
         check_ansys_grpc_dpf_version(self, timeout)
         self.set_as_global(as_global=as_global)
+
+    def _create_shutdown_funcs(self):
+        self._core_api = data_processing_grpcapi.DataProcessingGRPCAPI
+        self._core_api.init_data_processing_environment(self)
+        from ansys.grpc.dpf import base_pb2
+        self._preparing_shutdown_func = (data_processing_grpcapi._get_stub(self).PrepareShutdown, base_pb2.Empty())
+        self._shutdown_func = (data_processing_grpcapi._get_stub(self).ReleaseServer, base_pb2.Empty())
 
     @property
     def client(self):
@@ -738,7 +767,7 @@ class LegacyGrpcServer(BaseServer):
         ip : str
         """
         try:
-            return self._base_service.server_info["server_ip"]
+            return self.info["server_ip"]
         except:
             return ""
 
@@ -751,7 +780,7 @@ class LegacyGrpcServer(BaseServer):
         port : int
         """
         try:
-            return self._base_service.server_info["server_port"]
+            return self.info["server_port"]
         except:
             return 0
 
@@ -763,7 +792,7 @@ class LegacyGrpcServer(BaseServer):
         -------
         version : str
         """
-        return self._base_service.server_info["server_version"]
+        return self.info["server_version"]
 
     @property
     def os(self):
@@ -774,11 +803,20 @@ class LegacyGrpcServer(BaseServer):
         os : str
             "nt" or "posix"
         """
-        return self._base_service.server_info["os"]
+        return self.info["os"]
 
+    @property
+    def info(self):
+        if not self._info_instance:
+            self._info_instance = self._base_service.server_info
+        return self._info_instance
+    
     def shutdown(self):
-        if self._own_process and self.live and self._base_service:
-            self._base_service._prepare_shutdown()
+        if self._own_process and self.live:
+            try:
+                self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't prepare shutdown: " + str(e.args))
             if self.on_docker:
                 run_cmd = f"docker stop {self._server_id}"
                 process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -790,14 +828,16 @@ class LegacyGrpcServer(BaseServer):
                 self._remote_instance.delete()
             else:
                 try:
-                    self._base_service._release_server()
-                except:
+                    self._shutdown_func[0](self._shutdown_func[1])
+                except Exception as e:
                     try:
-                        p = psutil.Process(self._base_service.server_info["server_process_id"])
+                        if self.meet_version("4.0"):
+                            warnings.warn("couldn't properly release server: " + str(e.args) + "\n Killing process.")
+                        p = psutil.Process(self.info["server_process_id"])
                         p.kill()
                         time.sleep(0.01)
                     except:
-                        pass
+                        warnings.warn(traceback.format_exc())
 
             self.live = False
 
@@ -809,11 +849,12 @@ class LegacyGrpcServer(BaseServer):
 
     def __del__(self):
         try:
+            self._del_session()
             if self._own_process:
                 self.shutdown()
             super().__del__()
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
 # Python 3.10
 # from typing import TypeAlias

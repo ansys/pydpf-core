@@ -10,7 +10,7 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.model import Model
 
-def scoping_by_load_step(load_step, server=None):
+def scoping_by_load_step(load_step:int, server=None):
     """Create a specific ``ansys.dpf.core.Scoping`` for a given load step.
 
     The returned scoping describes a specific time frequency support element
@@ -34,7 +34,7 @@ def scoping_by_load_step(load_step, server=None):
     return scoping
 
 
-def scoping_by_load_steps(load_steps, server=None):
+def scoping_by_load_steps(load_steps:list, server=None):
     """Create a specific :class:`ansys.dpf.core.Scoping` for a given list of load steps.
 
     The returned scoping describes a specific time frequency support element

@@ -5,6 +5,9 @@ Scoping
 =======
 """
 
+import traceback
+import warnings
+
 import numpy as np
 
 from ansys.dpf.core.check_version import version_requires
@@ -58,11 +61,23 @@ class Scoping:
         """
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
+        self._api = self._server.get_api_for_type(
+            capi=scoping_capi.ScopingCAPI,
+            grpcapi=scoping_grpcapi.ScopingGRPCAPI
+        )
+        # step3: init environment
+        self._api.init_scoping_environment(self)  # creates stub when gRPC
 
         # step2: if object exists, take the instance, else create it
         if scoping is not None:
             if isinstance(scoping, Scoping):
                 self._server = scoping._server
+                self._api = self._server.get_api_for_type(
+                    capi=scoping_capi.ScopingCAPI,
+                    grpcapi=scoping_grpcapi.ScopingGRPCAPI
+                )
+                # step3: init environment
+                self._api.init_scoping_environment(self)  # creates stub when gRPC
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
@@ -83,21 +98,6 @@ class Scoping:
             self.ids = ids
         if location:
             self.location = location
-
-    @property
-    def _server(self):
-        return self._server_instance
-
-    @_server.setter
-    def _server(self, value):
-        self._server_instance = value
-        # step 2: get api
-        self._api = self._server_instance.get_api_for_type(
-            capi=scoping_capi.ScopingCAPI,
-            grpcapi=scoping_grpcapi.ScopingGRPCAPI
-        )
-        # step3: init environment
-        self._api.init_scoping_environment(self)  # creates stub when gRPC
 
     def _count(self):
         """
@@ -291,17 +291,10 @@ class Scoping:
 
     def __del__(self):
         try:
-            #get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
-            )
-            core_api.init_data_processing_environment(self)
-
-            #delete
-            core_api.data_processing_delete_shared_object(self)
-        except:
-            pass
+            self._deleter_func[0](self._deleter_func[1](self))
+        except Exception as e:
+            print(str(e.args), str(self._deleter_func[0]))
+            warnings.warn(traceback.format_exc())
 
     def __iter__(self):
         return self.ids.__iter__()
@@ -402,15 +395,12 @@ class _LocalScoping(Scoping):
     """
 
     def __init__(self, scoping):
-        self._api = scoping._api
-        self._internal_obj = scoping._internal_obj
-        self._server = scoping._server
-        self._owner_scoping = scoping
-        self.__cache_data__()
+        super(_LocalScoping, self).__init__(scoping=scoping)
+        self.__cache_data__(scoping)
 
-    def __cache_data__(self):
-        self._scoping_ids_copy = self._owner_scoping._get_ids(False)
-        self._location = self._owner_scoping.location
+    def __cache_data__(self, owner_scoping):
+        self._scoping_ids_copy = owner_scoping._get_ids(False)
+        self._location = owner_scoping.location
         self.__init_map__()
 
     def __init_map__(self):
@@ -557,4 +547,5 @@ class _LocalScoping(Scoping):
         if not hasattr(self, "_is_exited") or not self._is_exited:
             self._is_exited = True
             self.release_data()
+        super(_LocalScoping, self).__del__()
         pass

@@ -7,11 +7,11 @@ Common
 
 """
 import re
+import sys
 from enum import Enum
 import numpy as np
 from ansys.dpf.core.misc import module_exists
-from ansys.dpf.gate.common import locations  # noqa: F401
-
+from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
 
 def _camel_to_snake_case(name):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
@@ -225,33 +225,36 @@ class DefinitionLabels:
     complex = "complex"
 
 
+class TqdmProgressBar(ProgressBarBase):
+    def __init__(self, text, unit, tot_size=None):
+        import tqdm
+        super().__init__(text, tot_size)
+        bar_format = '{l_bar}{bar}| {n_fmt} {unit}' \
+            if self.tot_size is None else '{l_bar}{bar}| {n_fmt}/{total_fmt} {unit}'
+        self.bar = tqdm.tqdm(desc=text, total=tot_size, unit=unit, file=sys.stdout,
+                             bar_format=bar_format, ncols=100)
+
+    def update(self, current_value):
+        if self.tot_size is None:
+            self.bar.total = current_value*2
+        self.bar.update(current_value-self.current)
+        self.current = current_value
+
+    @staticmethod
+    def progress_available():
+        return module_exists("tqdm")
+
+
 def _progress_bar_is_available():
-    return module_exists("progressbar")
+    return TqdmProgressBar.progress_available()
 
 
 def _common_progress_bar(text, unit, tot_size=None):
-    import progressbar
-    if tot_size:
-        widgets = [
-            progressbar.FormatLabel(f"{text}: %(value)d of %(max_value)d {unit} "),
-            progressbar.Percentage(),
-            progressbar.Bar(),
-        ]
-        return progressbar.ProgressBar(widgets=widgets, max_value=tot_size)
-    else:
-        widgets = [
-            progressbar.FormatLabel(f"{text}: %(value)d {unit}"),
-            progressbar.RotatingMarker(),
-        ]
-        return progressbar.ProgressBar(
-            widgets=widgets, max_value=progressbar.UnknownLength
-        )
+    return TqdmProgressBar(text, unit, tot_size)
 
 
 def _common_percentage_progress_bar(text):
-    import progressbar
-    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
-    return progressbar.ProgressBar(widgets=widgets, max_value=100)
+    return TqdmProgressBar(text, "%", 100)
 
 
 def _get_size_of_list(list):

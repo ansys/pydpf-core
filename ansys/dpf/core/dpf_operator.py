@@ -8,6 +8,9 @@ Operator
 import functools
 import logging
 import os
+import traceback
+import warnings
+
 from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
@@ -186,7 +189,7 @@ class Operator:
         elif isinstance(inpt, Operator):
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
-            self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
+            self._api.operator_connect_operator_output(self, pin, inpt._operator(), inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
             if server_meet_version("3.0", self._server):
@@ -445,15 +448,9 @@ class Operator:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         """Describe the entity.

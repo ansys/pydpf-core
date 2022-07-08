@@ -5,6 +5,8 @@ DataTree
 ========
 """
 import enum
+import traceback
+import warnings
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
@@ -71,9 +73,7 @@ class DataTree:
         # __set_attr__ method has been overridden, self._common_keys is used to list the "real"
         # names used as its class attributes
         self._common_keys = ["_common_keys", "_server", "_internal_obj", "_owner_data_tree",
-                             "_dict", "_api_instance"]
-        
-
+                             "_dict", "_api_instance", "_deleter_func"]
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
@@ -468,9 +468,11 @@ class DataTree:
 
     def __del__(self):
         try:
-            self._core_api.data_processing_delete_shared_object(self)
+            obj = self._deleter_func[1](self)
+            if obj is not None:
+                self._deleter_func[0](obj)
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
 
 class _LocalDataTree(DataTree):

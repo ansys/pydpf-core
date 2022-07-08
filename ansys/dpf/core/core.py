@@ -445,8 +445,8 @@ class BaseService:
         serv_ip = ""
         serv_port = integral_types.MutableInt32(-1)
         proc_id = ""
-        serv_ver_maj = integral_types.MutableInt32(-1);
-        serv_ver_min = integral_types.MutableInt32(-1);
+        serv_ver_maj = integral_types.MutableInt32(-1)
+        serv_ver_min = integral_types.MutableInt32(-1)
         serv_os = ""
         # ip/port
         if self._server().has_client():

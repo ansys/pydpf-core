@@ -5,6 +5,8 @@ Contains classes associated with the DPF collection.
 
 """
 import abc
+import warnings
+import traceback
 
 import numpy as np
 
@@ -431,9 +433,9 @@ class Collection:
         try:
             # delete
             if not self.owned:
-                self._data_processing_core_api.data_processing_delete_shared_object(self)
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def _get_ownership(self):
         self.owned = True

@@ -25,8 +25,9 @@ GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/examples/first_py
 EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
 operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, "easy_statistics.py", "python-plugins")
 
-import IPython
-print(IPython.display.Code(operator_file_path))
+with open(operator_file_path, "r") as f:
+    for line in f.readlines():
+        print('\t\t\t' + line)
 
 ###############################################################################
 # Load Plugin

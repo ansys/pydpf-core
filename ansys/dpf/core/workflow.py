@@ -5,6 +5,8 @@ Workflow
 ========
 """
 import logging
+import traceback
+import warnings
 
 from enum import Enum
 from ansys import dpf
@@ -134,7 +136,7 @@ class Workflow:
         elif isinstance(inpt, dpf_operator.Operator):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
-            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
+            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator(), inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
             if server_meet_version("3.0", self._server):
@@ -307,7 +309,7 @@ class Workflow:
         for arg in args:
             if isinstance(arg, inputs.Input):
                 pin = arg._pin
-                operator = arg._operator
+                operator = arg._operator()
             elif isinstance(arg, dpf_operator.Operator):
                 operator = arg
             elif isinstance(arg, int):
@@ -342,7 +344,7 @@ class Workflow:
         for arg in args:
             if isinstance(arg, outputs.Output):
                 pin = arg._pin
-                operator = arg._operator
+                operator = arg._operator()
             elif isinstance(arg, dpf_operator.Operator):
                 operator = arg
             elif isinstance(arg, int):
@@ -654,16 +656,9 @@ class Workflow:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         """Describe the entity.

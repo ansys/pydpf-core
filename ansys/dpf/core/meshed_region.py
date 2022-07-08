@@ -2,6 +2,9 @@
 MeshedRegion
 ============
 """
+import traceback
+import warnings
+
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import locations, types
@@ -195,15 +198,9 @@ class MeshedRegion:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         from ansys.dpf.core.core import _description

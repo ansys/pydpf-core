@@ -230,7 +230,7 @@ def test_model_meshes_container(simple_bar):
 def test_model_meshes_provider(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)
-    meshes = model.metadata.meshes_provider.outputs.meshes()
+    meshes = model.metadata.meshes_provider.eval()
     assert len(meshes) == 1
     assert meshes[0].nodes.n_nodes == 3751
 

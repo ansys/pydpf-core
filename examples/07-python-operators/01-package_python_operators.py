@@ -21,7 +21,6 @@ This plugin will hold 2 different Operators:
 # and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator` records the Operators of the plugin.
 # The python package `average_filter_plugin` is downloaded and displayed here:
 
-import IPython
 import os
 from ansys.dpf.core import examples
 
@@ -35,7 +34,9 @@ for file in file_list:
     operator_file_path = examples.downloads._retrieve_file(EXAMPLE_FILE, file, "python-plugins/average_filter_plugin")
     plugin_folder = os.path.dirname(operator_file_path)
     print(f'\033[1m {file}:\n \033[0m')
-    print('\t\t\t'.join(('\n' + str(IPython.display.Code(operator_file_path)).lstrip()).splitlines(True)))
+    with open(operator_file_path, "r") as f:
+        for line in f.readlines():
+            print('\t\t\t' + line)
     print("\n\n")
 
 

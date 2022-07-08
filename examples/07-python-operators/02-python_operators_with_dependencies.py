@@ -21,7 +21,6 @@ and exports the mesh and the norm of the input field in a gltf file located at t
 # and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator` records the Operators of the plugin.
 # The python package `gltf_plugin` is downloaded and displayed here:
 
-import IPython
 import os
 from ansys.dpf.core import examples
 
@@ -38,7 +37,9 @@ for file in file_list:
 
     print(f'\033[1m {file}\n \033[0m')
     if (os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml") and file != "gltf_plugin/gltf_export.py":
-        print('\t\t\t'.join(('\n' + str(IPython.display.Code(operator_file_path)).lstrip()).splitlines(True)))
+        with open(operator_file_path, "r") as f:
+            for line in f.readlines():
+                print('\t\t\t' + line)
         print("\n\n")
         if plugin_path is None:
             plugin_path = os.path.dirname(operator_file_path)
@@ -55,7 +56,9 @@ for file in file_list:
 # To simplify this step, a requirements file can be added in the plugin, like:
 #
 print(f'\033[1m gltf_plugin/requirements.txt: \n \033[0m')
-print('\t', IPython.display.Code(os.path.join(plugin_path, "requirements.txt")))
+with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
+    for line in f.readlines():
+        print('\t\t\t' + line)
 
 
 # %%
@@ -79,8 +82,6 @@ print('\t', IPython.display.Code(os.path.join(plugin_path, "requirements.txt")))
 #    create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip
 
 
-import subprocess
-
 if os.name == "nt" and not os.path.exists(os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')):
     CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
     cmd_file = examples.downloads._retrieve_file(CMD_FILE_URL, "create_sites_for_python_operators.ps1",
@@ -88,6 +89,7 @@ if os.name == "nt" and not os.path.exists(os.path.join(plugin_path, 'assets', 'g
     run_cmd = f"powershell {cmd_file}"
     args = f" -pluginpath \"{plugin_path}\" -zippath {os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')}"
     print(run_cmd + args)
+    import subprocess
     process = subprocess.run(run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if process.stderr:
         raise RuntimeError(

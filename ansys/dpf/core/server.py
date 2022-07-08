@@ -10,6 +10,8 @@ import subprocess
 import weakref
 import copy
 import inspect
+import warnings
+import traceback
 from ansys import dpf
 
 from ansys.dpf.core.misc import find_ansys, is_ubuntu
@@ -27,6 +29,7 @@ def shutdown_global_server():
         if dpf.core.SERVER is not None:
             dpf.core.SERVER.__del__()
     except:
+        warnings.warn(traceback.format_exc())
         pass
 
 

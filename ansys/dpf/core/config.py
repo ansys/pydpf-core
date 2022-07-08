@@ -4,6 +4,8 @@ Operator Configuration
 """
 
 import functools
+import warnings
+import traceback
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -249,14 +251,7 @@ class Config:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
-        from ansys.dpf.gate import data_processing_capi, data_processing_grpcapi
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

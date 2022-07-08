@@ -187,27 +187,6 @@ def raises_for_servers_version_under(version):
     return decorator
 
 
-
-
-def raises_for_servers_version_under(version):
-    """Launch the test normally if the server version is equal or higher than the "version"
-    parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
-    error.
-    """
-    def decorator(func):
-        @pytest.mark.xfail(not meets_version(get_server_version(core._global_server()), version),
-                           reason=f'Requires server version greater than or equal to {version}',
-                           raises=core.errors.DpfVersionNotSupported,
-                           )
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            func(*args, **kwargs)
-
-        return wrapper
-
-    return decorator
-
-
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
                                              ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
