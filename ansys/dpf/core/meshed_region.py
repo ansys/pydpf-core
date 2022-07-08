@@ -320,11 +320,10 @@ class MeshedRegion:
 
         """
         from ansys.dpf.core.operators.math import add, scale
+        scale_op = scale(field=deform_by, ponderation=scale_factor)
         return add(fieldA=self.nodes.coordinates_field,
-                   fieldB=scale(field=deform_by,
-                                ponderation=scale_factor
-                                ).outputs.field
-                   ).outputs.field()
+                   fieldB=scale_op.outputs.field
+                   ).eval()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
