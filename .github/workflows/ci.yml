@@ -62,7 +62,7 @@ jobs:
 
   build_doc:
     name: Documentation
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -126,9 +126,8 @@ jobs:
         working-directory: docs
         run: |
           export TEMP=${{ runner.temp }}
+          pygmentize -S default -f latex > build/latex/_static/pygments.css
           make pdf 
-
-#          pygmentize -S default -f latex > build/latex/_static/pygments.css
 
       - name: "Zip Documentation"
         uses: vimtor/action-zip@v1
