@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs
-   :inherited-members:

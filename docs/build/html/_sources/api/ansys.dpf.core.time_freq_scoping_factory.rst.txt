@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.time_freq_scoping_factory
-   :inherited-members:

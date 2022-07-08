@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.averaging.to_elemental_fc
-   :inherited-members:

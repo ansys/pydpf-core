@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.min_max_over_time
-   :inherited-members:

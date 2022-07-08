@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.mesh.make_sphere_levelset
-   :inherited-members:

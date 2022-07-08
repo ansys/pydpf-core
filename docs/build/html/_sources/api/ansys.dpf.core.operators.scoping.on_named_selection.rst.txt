@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.scoping.on_named_selection
-   :inherited-members:

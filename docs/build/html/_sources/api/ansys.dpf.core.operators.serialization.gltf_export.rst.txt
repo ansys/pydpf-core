@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.serialization.gltf_export
-   :inherited-members:

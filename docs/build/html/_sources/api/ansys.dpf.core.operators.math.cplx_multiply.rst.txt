@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.cplx_multiply
-   :inherited-members:

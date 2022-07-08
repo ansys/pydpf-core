@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.utility.txt_file_to_dpf
-   :inherited-members:

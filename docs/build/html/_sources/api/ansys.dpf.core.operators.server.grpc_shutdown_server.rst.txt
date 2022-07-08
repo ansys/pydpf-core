@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.server.grpc_shutdown_server
-   :inherited-members:

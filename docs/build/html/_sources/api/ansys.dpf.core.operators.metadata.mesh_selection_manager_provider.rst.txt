@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.metadata.mesh_selection_manager_provider
-   :inherited-members:

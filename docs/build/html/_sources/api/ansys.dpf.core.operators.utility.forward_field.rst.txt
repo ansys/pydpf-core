@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.utility.forward_field
-   :inherited-members:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.mesh.point_cloud_search
-   :inherited-members:

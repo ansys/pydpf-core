@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.thermal_strain_principal_1
-   :inherited-members:

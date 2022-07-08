@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.logic.custom_set_out_np_int
-   :inherited-members:
