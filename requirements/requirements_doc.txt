@@ -1,0 +1,12 @@
+ansys-sphinx-theme==0.4.2
+imageio-ffmpeg==0.4.7
+imageio==2.19.3
+nbsphinx==0.8.9
+numpydoc==1.4.0
+pypandoc==1.8.1
+pytest-sphinx==0.4.0
+Sphinx==5.0.2
+sphinx-autobuild==2021.3.14
+sphinx-copybutton==0.5.0
+sphinx-gallery==0.10.1
+sphinx-notfound-page==0.8
