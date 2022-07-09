@@ -61,3 +61,11 @@ source = ["ansys/dpf"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::FutureWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore::DeprecationWarning",
+]
+norecursedirs = "*"
