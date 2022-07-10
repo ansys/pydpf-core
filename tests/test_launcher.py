@@ -1,5 +1,7 @@
 import os
+
 import pytest
+
 from ansys.dpf import core
 
 
@@ -21,12 +23,13 @@ def test_start_local_failed():
 
 
 def test_start_local_failed_executable():
+    from pathlib import Path
+
     from ansys.dpf.core._version import __ansys_version__
     from ansys.dpf.core.server import find_ansys
-    from pathlib import Path
+
     with pytest.raises(FileNotFoundError):
-        path = Path(os.environ.get("AWP_ROOT" + __ansys_version__,
-                                   find_ansys())).parent.absolute()
+        path = Path(os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())).parent.absolute()
         core.start_local_server(ansys_path=path)
 
 

@@ -2,15 +2,17 @@
 MeshedRegion
 ============
 """
+from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
+
 from ansys import dpf
-from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core import field, property_field, scoping
+from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
+from ansys.dpf.core.common import elemental_properties, locations, nodal_properties, types
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
-from ansys.dpf.core.cache import class_handling_cache
-from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
+
 
 @class_handling_cache
 class MeshedRegion:
@@ -313,7 +315,7 @@ class MeshedRegion:
     #     self._message = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def deform_by(self, deform_by, scale_factor=1.):
+    def deform_by(self, deform_by, scale_factor=1.0):
         """Deforms the mesh according to a 3D vector field and an additional scale factor.
 
         Parameters
@@ -329,11 +331,11 @@ class MeshedRegion:
 
         """
         from ansys.dpf.core.operators.math import add, scale
-        return add(fieldA=self.nodes.coordinates_field,
-                   fieldB=scale(field=deform_by,
-                                ponderation=scale_factor
-                                ).outputs.field
-                   ).outputs.field()
+
+        return add(
+            fieldA=self.nodes.coordinates_field,
+            fieldB=scale(field=deform_by, ponderation=scale_factor).outputs.field,
+        ).outputs.field()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
@@ -391,12 +393,12 @@ class MeshedRegion:
         return self._full_grid
 
     def plot(
-            self,
-            field_or_fields_container=None,
-            shell_layers=None,
-            deform_by=None,
-            scale_factor=1.0,
-            **kwargs
+        self,
+        field_or_fields_container=None,
+        shell_layers=None,
+        deform_by=None,
+        scale_factor=1.0,
+        **kwargs
     ):
         """Plot the field or fields container on the mesh.
 
@@ -429,15 +431,24 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
-            return pl.plot_contour(field_or_fields_container, shell_layers,
-                                   show_axes=kwargs.pop("show_axes", True),
-                                   deform_by=deform_by,
-                                   scale_factor=scale_factor, **kwargs)
+            return pl.plot_contour(
+                field_or_fields_container,
+                shell_layers,
+                show_axes=kwargs.pop("show_axes", True),
+                deform_by=deform_by,
+                scale_factor=scale_factor,
+                **kwargs
+            )
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, deform_by=deform_by, scale_factor=scale_factor,
-                    show_axes=kwargs.pop("show_axes", True), **kwargs)
+        pl.add_mesh(
+            self,
+            deform_by=deform_by,
+            scale_factor=scale_factor,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs
+        )
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
@@ -473,9 +484,7 @@ class MeshedRegion:
         """
         node_ids = self.nodes.scoping.ids
         element_ids = self.elements.scoping.ids
-        mesh = MeshedRegion(
-            num_nodes=len(node_ids), num_elements=len(element_ids), server=server
-        )
+        mesh = MeshedRegion(num_nodes=len(node_ids), num_elements=len(element_ids), server=server)
         with self.nodes.coordinates_field.as_local_field() as coord:
             for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
                 node.id = node_ids[i]
@@ -544,5 +553,5 @@ class MeshedRegion:
     _to_cache = {
         _get_unit: [_set_unit],
         _get_available_named_selections: None,
-        named_selection: None
+        named_selection: None,
     }

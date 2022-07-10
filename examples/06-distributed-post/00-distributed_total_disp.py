@@ -43,8 +43,10 @@ print("ports:", ports)
 # Here we show how we could send files in temporary directory if we were not
 # in shared memory
 files = examples.download_distributed_files()
-server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
-                     dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1])]
+server_file_paths = [
+    dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
+    dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1]),
+]
 
 ###############################################################################
 # Create the operators on the servers

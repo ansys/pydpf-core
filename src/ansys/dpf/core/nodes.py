@@ -3,8 +3,8 @@ Nodes
 =====
 """
 
-import numpy as np
 from ansys.grpc.dpf import meshed_region_pb2
+import numpy as np
 
 from ansys import dpf
 from ansys.dpf.core.common import nodal_properties

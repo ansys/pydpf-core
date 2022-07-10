@@ -8,12 +8,13 @@ Scoping
 import array
 import sys
 
+from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
 import numpy as np
+
+from ansys.dpf.core import misc
+from ansys.dpf.core.cache import _setter
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import _common_progress_bar, locations
-from ansys.dpf.core import misc
-from ansys.grpc.dpf import base_pb2, scoping_pb2, scoping_pb2_grpc
-from ansys.dpf.core.cache import _setter
 
 
 class Scoping:
@@ -140,9 +141,7 @@ class Scoping:
         if server_meet_version("2.1", self._server):
             self._stub.UpdateIds(_data_chunk_yielder(request, ids), metadata=metadata)
         else:
-            self._stub.UpdateIds(
-                _data_chunk_yielder(request, ids, 8.0e6), metadata=metadata
-            )
+            self._stub.UpdateIds(_data_chunk_yielder(request, ids, 8.0e6), metadata=metadata)
 
     def _get_ids(self, np_array=False):
         """
@@ -385,6 +384,7 @@ class Scoping:
         """  # noqa: E501
         return _LocalScoping(self)
 
+
 class _LocalScoping(Scoping):
     """Caches the internal data of the scoping so that it can be modified locally.
 
@@ -493,7 +493,7 @@ class _LocalScoping(Scoping):
         """
         init_size = self._count()
         if init_size <= index:
-            for i in range(init_size, index+1):
+            for i in range(init_size, index + 1):
                 self._scoping_ids_copy.append(-1)
         self._scoping_ids_copy[index] = scopingid
         self._mapper[scopingid] = index
@@ -501,7 +501,7 @@ class _LocalScoping(Scoping):
     @_setter
     def append(self, id):
         self._scoping_ids_copy.append(id)
-        self._mapper[id] = len(self)-1
+        self._mapper[id] = len(self) - 1
 
     def _get_id(self, index):
         """Retrieve the index that the scoping ID is located on.
@@ -563,9 +563,7 @@ def _data_chunk_yielder(request, data, chunk_size=None):
     length = data.size
     need_progress_bar = length > 1e6
     if need_progress_bar:
-        bar = _common_progress_bar(
-            "Sending data...", unit=data.dtype.name, tot_size=length
-        )
+        bar = _common_progress_bar("Sending data...", unit=data.dtype.name, tot_size=length)
         bar.start()
     sent_length = 0
     if length == 0:
@@ -575,7 +573,7 @@ def _data_chunk_yielder(request, data, chunk_size=None):
     if length - sent_length < unitary_size:
         unitary_size = length - sent_length
     while sent_length < length:
-        currentcopy = data[sent_length: sent_length + unitary_size]
+        currentcopy = data[sent_length : sent_length + unitary_size]
         request.array = currentcopy.tobytes()
         sent_length = sent_length + unitary_size
         if length - sent_length < unitary_size:

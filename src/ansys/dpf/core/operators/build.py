@@ -1,25 +1,24 @@
 """Build static source operators from DPF server."""
 import copy
-import os
 from datetime import datetime
+import os
 from textwrap import wrap
 
 import black
 import chevron
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import common
 from ansys.dpf.core.dpf_operator import available_operator_names
-from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import _make_printable_type
 
 
 def build_docstring(specification):
     """Used to generate class docstrings."""
     docstring = ""
     if specification.description:
-        docstring += "\n".join(
-            wrap(specification.description, subsequent_indent="    ")
-        )
+        docstring += "\n".join(wrap(specification.description, subsequent_indent="    "))
         docstring += "\n\n"
     docstring = docstring.rstrip()
     return docstring.replace('"', "'")
@@ -63,9 +62,7 @@ def build_pin_data(pins, output=False):
             type_names = update_type_names_for_ellipsis(type_names)
         docstring_types = map_types(type_names)
         parameter_types = " or ".join(docstring_types)
-        parameter_types = "\n".join(
-            wrap(parameter_types, subsequent_indent="        ", width=60)
-        )
+        parameter_types = "\n".join(wrap(parameter_types, subsequent_indent="        ", width=60))
 
         pin_name = specification.name
         pin_name = pin_name.replace("<", "_")
@@ -83,7 +80,7 @@ def build_pin_data(pins, output=False):
         pin_data = {
             "id": id,
             "name": pin_name,
-            "pin_name": pin_name, # Base pin name, without numbers for when pin is ellipsis
+            "pin_name": pin_name,  # Base pin name, without numbers for when pin is ellipsis
             "has_types": len(type_names) >= 1,
             "multiple_types": multiple_types,
             "printable_type_names": printable_type_names,
@@ -119,9 +116,7 @@ def build_pin_data(pins, output=False):
     return data
 
 
-def build_operator(
-    specification, operator_name, class_name, capital_class_name, category
-):
+def build_operator(specification, operator_name, class_name, capital_class_name, category):
 
     input_pins = []
     if specification.inputs:

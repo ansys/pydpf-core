@@ -3,10 +3,11 @@
 Created on 12/06/2021, 14:29:21.
 """
 from warnings import warn
+
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
-from ansys.dpf.core.outputs import Output, _Outputs
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class compute_elastic_strain_X(Operator):
@@ -320,39 +321,25 @@ class InputsComputeElasticStrainX(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_elastic_strain_X._spec().inputs, op)
-        self._time_scoping = Input(
-            compute_elastic_strain_X._spec().input_pin(0), 0, op, -1
-        )
+        self._time_scoping = Input(compute_elastic_strain_X._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._time_scoping)
         self._scoping = Input(compute_elastic_strain_X._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._scoping)
-        self._streams_container = Input(
-            compute_elastic_strain_X._spec().input_pin(3), 3, op, -1
-        )
+        self._streams_container = Input(compute_elastic_strain_X._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._streams_container)
-        self._data_sources = Input(
-            compute_elastic_strain_X._spec().input_pin(4), 4, op, -1
-        )
+        self._data_sources = Input(compute_elastic_strain_X._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
-        self._extrapolate = Input(
-            compute_elastic_strain_X._spec().input_pin(5), 5, op, -1
-        )
+        self._extrapolate = Input(compute_elastic_strain_X._spec().input_pin(5), 5, op, -1)
         self._inputs.append(self._extrapolate)
-        self._nonlinear = Input(
-            compute_elastic_strain_X._spec().input_pin(6), 6, op, -1
-        )
+        self._nonlinear = Input(compute_elastic_strain_X._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._nonlinear)
         self._abstract_meshed_region = Input(
             compute_elastic_strain_X._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._abstract_meshed_region)
-        self._requested_location = Input(
-            compute_elastic_strain_X._spec().input_pin(9), 9, op, -1
-        )
+        self._requested_location = Input(compute_elastic_strain_X._spec().input_pin(9), 9, op, -1)
         self._inputs.append(self._requested_location)
-        self._displacement = Input(
-            compute_elastic_strain_X._spec().input_pin(10), 10, op, -1
-        )
+        self._displacement = Input(compute_elastic_strain_X._spec().input_pin(10), 10, op, -1)
         self._inputs.append(self._displacement)
 
     @property
@@ -575,9 +562,7 @@ class OutputsComputeElasticStrainX(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(compute_elastic_strain_X._spec().outputs, op)
-        self._fields_container = Output(
-            compute_elastic_strain_X._spec().output_pin(0), 0, op
-        )
+        self._fields_container = Output(compute_elastic_strain_X._spec().output_pin(0), 0, op)
         self._outputs.append(self._fields_container)
 
     @property

@@ -33,8 +33,10 @@ remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_serve
 # in shared memory
 
 files = examples.download_distributed_files()
-server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
-                     dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1])]
+server_file_paths = [
+    dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
+    dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1]),
+]
 
 ###############################################################################
 # First operator chain.

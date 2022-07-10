@@ -39,10 +39,8 @@ field_coord.scoping.ids = list(range(1, len(coordinates) + 1))
 ###############################################################################
 # Let's now compute the mapped data using the mapping operator
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=stress_fc,
-    coordinates=field_coord,
-    create_support=True,
-    mesh=mesh)
+    fields_container=stress_fc, coordinates=field_coord, create_support=True, mesh=mesh
+)
 fields_mapped = mapping_operator.outputs.fields_container()
 
 ###############################################################################
@@ -55,8 +53,7 @@ mesh_m = field_m.meshed_region
 pl = DpfPlotter()
 
 pl.add_field(field_m, mesh_m)
-pl.add_mesh(mesh, style="surface", show_edges=True,
-            color="w", opacity=0.3)
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 
 # Finally we plot the result
 pl.show_figure(show_axes=True)

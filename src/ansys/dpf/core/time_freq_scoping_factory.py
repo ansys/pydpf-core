@@ -10,6 +10,7 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.model import Model
 
+
 def scoping_by_load_step(load_step, server=None):
     """Create a specific ``ansys.dpf.core.Scoping`` for a given load step.
 
@@ -110,9 +111,7 @@ def scoping_by_sets(cumulative_sets, server=None):
     return scoping
 
 
-def scoping_by_step_and_substep(
-        load_step_id, subset_id, time_freq_support
-):
+def scoping_by_step_and_substep(load_step_id, subset_id, time_freq_support):
     """Create a specific :class:`ansys.dpf.core.Scoping` for a given step and subset.
 
     The returned scoping describes a specific time frequency support element for a given
@@ -133,9 +132,8 @@ def scoping_by_step_and_substep(
     """
     set_index = time_freq_support.get_cumulative_index(load_step_id - 1, subset_id - 1)
     scoping = Scoping(
-        ids=[set_index + 1],
-        location=locations.time_freq,
-        server=time_freq_support._server)
+        ids=[set_index + 1], location=locations.time_freq, server=time_freq_support._server
+    )
     return scoping
 
 
@@ -161,9 +159,7 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     -------
     scoping : Scoping
         Scoping based on a given step/substep of a model's time_freq_support."""
-    return scoping_by_step_and_substep(
-        load_step_id, subset_id, model.metadata.time_freq_support
-    )
+    return scoping_by_step_and_substep(load_step_id, subset_id, model.metadata.time_freq_support)
 
 
 def scoping_on_all_time_freqs(tf_support_or_model):
@@ -184,4 +180,5 @@ def scoping_on_all_time_freqs(tf_support_or_model):
     return Scoping(
         ids=range(1, len(tf_support_or_model.time_frequencies) + 1),
         location=locations.time_freq,
-        server=tf_support_or_model._server)
+        server=tf_support_or_model._server,
+    )

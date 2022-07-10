@@ -47,8 +47,8 @@ print("ports:", ports)
 # Choose the file path.
 
 base_path = examples.distributed_msup_folder
-files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
-files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
+files = [base_path + r"/file0.mode", base_path + r"/file1.mode"]
+files_aux = [base_path + r"/file0.rst", base_path + r"/file1.rst"]
 
 ###############################################################################
 # Create the operators on the servers
@@ -77,14 +77,11 @@ for i, server in enumerate(remote_servers):
 merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(base_path + r'/file_load_1.rfrq')
+ds = dpf.DataSources(base_path + r"/file_load_1.rfrq")
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-expansion = ops.math.modal_superposition(
-    solution_in_modal_space=response,
-    modal_basis=merge_fields
-)
+expansion = ops.math.modal_superposition(solution_in_modal_space=response, modal_basis=merge_fields)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################

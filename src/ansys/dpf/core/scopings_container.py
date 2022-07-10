@@ -35,9 +35,7 @@ class ScopingsContainer(Collection):
         self._server = server
         self._stub = self._connect()
 
-        Collection.__init__(
-            self, types.scoping, collection=scopings_container, server=self._server
-        )
+        Collection.__init__(self, types.scoping, collection=scopings_container, server=self._server)
 
     def get_scopings(self, label_space):
         """Returns the scopings at a requested label space

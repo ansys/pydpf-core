@@ -1,12 +1,14 @@
 import numpy as np
 import pytest
 
+from ansys.dpf.core import (
+    fields_container_factory,
+    fields_factory,
+    mesh_scoping_factory,
+    time_freq_scoping_factory,
+)
 from ansys.dpf.core import Model
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_container_factory
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core import mesh_scoping_factory
-from ansys.dpf.core import time_freq_scoping_factory
 from ansys.dpf.core.common import locations
 
 
@@ -74,9 +76,7 @@ def test_over_time_freq_fields_container_1():
 def test_over_time_freq_fields_container_2():
     f1 = fields_factory.create_vector_field(24, 4)
     f2 = fields_factory.create_vector_field(32, 4, location=locations.elemental)
-    fc = fields_container_factory.over_time_freq_fields_container(
-        {0.43: f1, 1.12: f2}, "Hz"
-    )
+    fc = fields_container_factory.over_time_freq_fields_container({0.43: f1, 1.12: f2}, "Hz")
     labels = fc.labels
     assert labels == ["time"]
     assert len(fc) == 2
@@ -95,9 +95,7 @@ def test_over_time_freq_complex_fields_container_1():
     f2 = fields_factory.create_scalar_field(31)
     f1_im = fields_factory.create_scalar_field(25)
     f2_im = fields_factory.create_scalar_field(31)
-    fc = fields_container_factory.over_time_freq_complex_fields_container(
-        [f1, f2], [f1_im, f2_im]
-    )
+    fc = fields_container_factory.over_time_freq_complex_fields_container([f1, f2], [f1_im, f2_im])
     labels = fc.labels
     assert labels == ["complex", "time"]
     assert len(fc) == 4

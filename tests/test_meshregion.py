@@ -437,9 +437,7 @@ def test_mesh_deep_copy(allkindofcomplexity):
     assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
     assert copy.elements.scoping.ids == mesh.elements.scoping.ids
     assert copy.unit == mesh.unit
-    assert np.allclose(
-        copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
-    )
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
     assert np.allclose(
         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
     )
@@ -467,9 +465,7 @@ def test_mesh_deep_copy2(simple_bar_model):
     assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
     assert copy.elements.scoping.ids == mesh.elements.scoping.ids
     assert copy.unit == mesh.unit
-    assert np.allclose(
-        copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
-    )
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
     assert np.allclose(
         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
     )

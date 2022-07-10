@@ -1,6 +1,7 @@
-import os
 import glob
+import os
 import pathlib
+
 from ansys.dpf import core
 
 core.settings.disable_off_screen_rendering()
@@ -14,7 +15,4 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             print("\n\n--------------------------------------------------\n")
             print(file)
             print("--------------------------------------------------\n")
-            exec(
-                open(file, mode="r", encoding="utf8").read(),
-                globals(),
-                globals())
+            exec(open(file, mode="r", encoding="utf8").read(), globals(), globals())

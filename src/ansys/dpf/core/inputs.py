@@ -1,7 +1,8 @@
 from textwrap import wrap
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.outputs import _Outputs, Output
+
 from ansys.dpf import core
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class Input:
@@ -46,6 +47,7 @@ class Input:
             Input of the operator.
         """
         from pathlib import Path
+
         # always convert ranges to lists
         if isinstance(inpt, range):
             inpt = list(inpt)
@@ -63,10 +65,7 @@ class Input:
             inpt = str(inpt)
 
         input_type_name = type(inpt).__name__
-        if not (
-            input_type_name in self._python_expected_types
-            or ["Outputs", "Output", "Any"]
-        ):
+        if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
                 print(types, end=" ")
             print("types are expected for", self._spec.name, "pin")
@@ -93,9 +92,7 @@ class Input:
                 f"The input operator for the {self._spec.name} pin be "
                 "one of the following types:\n"
             )
-            err_str += "\n".join(
-                [f"- {py_type}" for py_type in self._python_expected_types]
-            )
+            err_str += "\n".join([f"- {py_type}" for py_type in self._python_expected_types])
             raise TypeError(err_str)
 
         from ansys.dpf.core.results import Result
@@ -110,9 +107,7 @@ class Input:
             self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
         elif isinstance(inpt, Result):
             self._operator.connect(self._pin, inpt(), corresponding_pins[0][1])
-            self._operator.inputs._connected_inputs[self._pin] = {
-                corresponding_pins[0][1]: inpt()
-                }
+            self._operator.inputs._connected_inputs[self._pin] = {corresponding_pins[0][1]: inpt()}
         else:
             self._operator.connect(self._pin, inpt)
             self._operator.inputs._connected_inputs[self._pin] = inpt
@@ -189,6 +184,7 @@ class _Inputs:
             Input of the operator.
         """
         from pathlib import Path
+
         corresponding_pins = []
         if isinstance(inpt, core.Operator):
             if hasattr(inpt, "outputs"):
@@ -216,9 +212,7 @@ class _Inputs:
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
                     pin = pin[0]
-                err_str += (
-                    "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
-                )
+                err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
             raise ValueError(err_str)
 
         if len(corresponding_pins) == 0:
@@ -229,6 +223,7 @@ class _Inputs:
             raise TypeError(err_str)
 
         from ansys.dpf.core.results import Result
+
         if isinstance(inpt, Output):
             self._operator.connect(corresponding_pins[0], inpt._operator, inpt._pin)
             self._connected_inputs[corresponding_pins[0]] = {inpt._pin: inpt._operator}
@@ -240,12 +235,8 @@ class _Inputs:
                 corresponding_pins[0][1]: inpt._operator
             }
         elif isinstance(inpt, Result):
-            self._operator.connect(
-                corresponding_pins[0][0], inpt(), corresponding_pins[0][1]
-            )
-            self._connected_inputs[corresponding_pins[0][0]] = {
-                corresponding_pins[0][1]: inpt()
-            }
+            self._operator.connect(corresponding_pins[0][0], inpt(), corresponding_pins[0][1])
+            self._connected_inputs[corresponding_pins[0][0]] = {corresponding_pins[0][1]: inpt()}
         else:
             self._operator.connect(corresponding_pins[0], inpt)
             self._connected_inputs[corresponding_pins[0]] = inpt

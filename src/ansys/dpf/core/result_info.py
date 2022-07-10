@@ -4,15 +4,15 @@ ResultInfo
 """
 from enum import Enum
 
-from ansys import dpf
 from ansys.grpc.dpf import result_info_pb2, result_info_pb2_grpc
+
+from ansys import dpf
 from ansys.dpf.core import available_result
-from ansys.dpf.core.mapping_types import map_unit_system
-from ansys.dpf.core.cyclic_support import CyclicSupport
-from ansys.dpf.core.common import __write_enum_doc__
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-
+from ansys.dpf.core.common import __write_enum_doc__
+from ansys.dpf.core.cyclic_support import CyclicSupport
+from ansys.dpf.core.mapping_types import map_unit_system
 
 names = [m for m in result_info_pb2.PhysicsType.keys()]
 physics_types = Enum("physics_types", names)
@@ -82,12 +82,13 @@ class ResultInfo:
                 + "Available results:\n"
             )
             for res in self.available_results:
-                line = ["", "-", f'{res.name}: {res.native_location} {res.physical_name}']
+                line = ["", "-", f"{res.name}: {res.native_location} {res.physical_name}"]
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
             return txt
         except:
             from ansys.dpf.core.core import _description
+
             return _description(self._message, self._server)
 
     @property

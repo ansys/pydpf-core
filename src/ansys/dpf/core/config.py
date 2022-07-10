@@ -5,9 +5,10 @@ Operator Configuration
 
 import functools
 
+from ansys.grpc.dpf import operator_config_pb2, operator_config_pb2_grpc
+
 from ansys import dpf
 from ansys.dpf.core.errors import protect_grpc
-from ansys.grpc.dpf import operator_config_pb2, operator_config_pb2_grpc
 
 
 class Config:
@@ -103,9 +104,7 @@ class Config:
         elif isinstance(config_value, float):
             option_request.double = config_value
         else:
-            raise TypeError(
-                "str, int, float are the accepted types for configuration options."
-            )
+            raise TypeError("str, int, float are the accepted types for configuration options.")
 
         request.options.extend([option_request])
         self._stub.Update(request)

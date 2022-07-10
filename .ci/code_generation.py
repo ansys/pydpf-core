@@ -1,9 +1,10 @@
-from ansys.dpf import core
-import os
 import glob
+import os
 from pathlib import Path
-import time
 import shutil
+import time
+
+from ansys.dpf import core
 
 if os.name == "posix":
     LIB_TO_GENERATE = [

@@ -1,10 +1,11 @@
-import os
 from datetime import datetime
+import os
 
+from ansys_sphinx_theme import pyansys_logo_black
 import numpy as np
 import pyvista
+
 from ansys.dpf.core import __version__
-from ansys_sphinx_theme import pyansys_logo_black
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -50,7 +51,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
     "nbsphinx",
-    "sphinx.ext.intersphinx"
+    "sphinx.ext.intersphinx",
 ]
 
 # Intersphinx mapping
@@ -122,7 +123,7 @@ html_logo = pyansys_logo_black
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
     "show_prev_next": False,
-    "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
+    "logo_link": "https://dpfdocs.pyansys.com/",  # navigate to the main page
 }
 
 

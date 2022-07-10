@@ -1,9 +1,8 @@
 """Miscellaneous functions for the DPF module."""
-import platform
 import glob
 import os
 from pkgutil import iter_modules
-
+import platform
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True
@@ -17,9 +16,7 @@ except ImportError:
         """Placeholder for Scooby report."""
 
         def __init__(self, *args, **kwargs):
-            raise ImportError(
-                "Install `scooby` with `pip install scooby` to use " "this feature"
-            )
+            raise ImportError("Install `scooby` with `pip install scooby` to use " "this feature")
 
 
 def module_exists(module_name):
@@ -165,6 +162,7 @@ def find_ansys():
             versions[int(ver_str)] = path
 
     return versions[max(versions.keys())]
+
 
 def is_pypim_configured():
     """Check if the environment is configured for PyPIM, without using pypim.

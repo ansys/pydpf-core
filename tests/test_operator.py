@@ -9,7 +9,7 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.check_version import get_server_version, meets_version
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
@@ -197,8 +197,8 @@ def test_inputs_outputs_1_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-            meshed_region.elements.connectivities_field.data.size
-            == meshed_region.elements.connectivities_field.size
+        meshed_region.elements.connectivities_field.data.size
+        == meshed_region.elements.connectivities_field.size
     )
 
 
@@ -514,9 +514,7 @@ def test_operator_several_output_types(plate_msup):
     op.inputs.unit_name("mm")
     f = op.outputs.converted_entity_as_field()
     assert f.unit == "mm"
-    assert np.allclose(
-        f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000
-    )
+    assert np.allclose(f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000)
 
     model = dpf.core.Model(plate_msup)
     din = model.metadata.meshed_region.nodes.coordinates_field.data
@@ -623,9 +621,7 @@ def test_operator_set_config():
     op.inputs.fieldA.connect(inpt)
     op.inputs.fieldB.connect(inpt2)
     out = op.outputs.field()
-    assert np.allclose(out.data, np.array([[2., 4., 6.],
-                                           [8., 10., 12.],
-                                           [14., 16., 18.]]))
+    assert np.allclose(out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]]))
 
     conf.set_work_by_index_option(False)
     op = dpf.core.Operator("add", conf)
@@ -685,8 +681,9 @@ def test_connect_model(plate_msup):
     assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_connect_get_output_int_list_operator():
     d = list(range(0, 100000))
     op = dpf.core.operators.utility.forward(d)
@@ -694,8 +691,9 @@ def test_connect_get_output_int_list_operator():
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_connect_get_output_double_list_operator():
     d = list(np.ones(100000))
     op = dpf.core.operators.utility.forward(d)
@@ -733,8 +731,9 @@ def test_connect_result2(plate_msup):
     assert len(out) == len(out2)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_connect_get_output_int_list_operator():
     d = list(range(0, 10000000))
     op = dpf.core.operators.utility.forward(d)
@@ -742,8 +741,9 @@ def test_connect_get_output_int_list_operator():
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_connect_get_output_double_list_operator():
     d = list(np.ones(10000000))
     op = dpf.core.operators.utility.forward(d)
@@ -761,9 +761,7 @@ def test_operator_several_output_types(plate_msup):
     op.inputs.unit_name("mm")
     f = op.outputs.converted_entity_as_field()
     assert f.unit == "mm"
-    assert np.allclose(
-        f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000
-    )
+    assert np.allclose(f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000)
 
     model = dpf.core.Model(plate_msup)
     din = model.metadata.meshed_region.nodes.coordinates_field.data
@@ -827,9 +825,7 @@ def test_add_operator_operator():
     out = add.outputs.fields_container()
     assert len(out) == 1
     assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # operator + float
     add = forward + 1.0
@@ -862,9 +858,7 @@ def test_add_operator_operator():
     out = add.outputs.fields_container()
     assert len(out) == 1
     assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # operator + float
     add = forward + 1.0
@@ -1018,18 +1012,20 @@ def test_dot_operator_operator():
     assert np.allclose(out[0].data, -field.data)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_list_operators():
     l = dpf.core.dpf_operator.available_operator_names()
     assert len(l) > 400
-    assert 'merge::result_info' in l
-    assert 'unit_convert' in l
-    assert 'stream_provider' in l
+    assert "merge::result_info" in l
+    assert "unit_convert" in l
+    assert "stream_provider" in l
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_get_static_spec_operator():
     l = dpf.core.dpf_operator.available_operator_names()
     for i, name in enumerate(l):
@@ -1039,8 +1035,9 @@ def test_get_static_spec_operator():
         assert len(spec.description) > 0
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_with_progress_operator(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     op = model.results.stress()
@@ -1055,18 +1052,20 @@ def test_with_progress_operator(allkindofcomplexity):
     assert len(fc) == 2
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_list_operators():
     l = dpf.core.dpf_operator.available_operator_names()
     assert len(l) > 400
-    assert 'merge::result_info' in l
-    assert 'unit_convert' in l
-    assert 'stream_provider' in l
+    assert "merge::result_info" in l
+    assert "unit_convert" in l
+    assert "stream_provider" in l
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_get_static_spec_operator():
     l = dpf.core.dpf_operator.available_operator_names()
     for i, name in enumerate(l):
@@ -1076,8 +1075,9 @@ def test_get_static_spec_operator():
         assert len(spec.description) > 0
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_with_progress_operator(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     op = model.results.stress()

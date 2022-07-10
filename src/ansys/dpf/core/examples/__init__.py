@@ -1,2 +1,2 @@
-from .examples import *
 from .downloads import *
+from .examples import *

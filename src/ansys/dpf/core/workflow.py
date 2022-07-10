@@ -5,11 +5,12 @@ Interface to underlying gRPC workflow.
 """
 import logging
 
+from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.grpc.dpf import base_pb2, workflow_pb2, workflow_pb2_grpc
+from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -62,8 +63,9 @@ class Workflow:
 
         self._message = workflow
 
-        remote_copy_needed = server_meet_version("3.0", self._server) \
-                             and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
+        remote_copy_needed = server_meet_version("3.0", self._server) and isinstance(
+            workflow, workflow_pb2.RemoteCopyRequest
+        )
         if isinstance(workflow, str):
             self.__create_from_stream(workflow)
         elif workflow is None or remote_copy_needed:
@@ -144,14 +146,10 @@ class Workflow:
             else:
                 out = self._stub.Get(request)
             return dpf_operator._convertOutputMessageToPythonInstance(
-                out,
-                output_type,
-                self._server
+                out, output_type, self._server
             )
         else:
-            raise ValueError(
-                "please specify an output type to get the workflow's output"
-            )
+            raise ValueError("please specify an output type to get the workflow's output")
 
     def set_input_name(self, name, *args):
         """Set the name of the input pin of the workflow to expose it for future connection.
@@ -441,17 +439,20 @@ class Workflow:
             if isinstance(output_input_names, tuple):
                 request.input_to_output.append(
                     workflow_pb2.InputToOutputChainRequest(
-                        output_name=output_input_names[0],
-                        input_name=output_input_names[1]))
+                        output_name=output_input_names[0], input_name=output_input_names[1]
+                    )
+                )
             elif isinstance(output_input_names, dict):
                 for key in output_input_names:
                     request.input_to_output.append(
                         workflow_pb2.InputToOutputChainRequest(
-                            output_name=key,
-                            input_name=output_input_names[key]))
+                            output_name=key, input_name=output_input_names[key]
+                        )
+                    )
             else:
-                raise TypeError("output_input_names argument is expect"
-                                "to be either a str tuple or a str dict")
+                raise TypeError(
+                    "output_input_names argument is expect" "to be either a str tuple or a str dict"
+                )
 
         self._stub.Connect(request)
 
@@ -522,8 +523,10 @@ class Workflow:
             request.address = address
             return Workflow(workflow=request, server=self._server)
         else:
-            raise ValueError("a connection address (either with address input"
-                             "or both ip and port inputs) or a server is required")
+            raise ValueError(
+                "a connection address (either with address input"
+                "or both ip and port inputs) or a server is required"
+            )
 
     def _connect(self):
         """Connect to the gRPC service."""
@@ -548,8 +551,9 @@ class Workflow:
 
     @protect_grpc
     def __send_init_request(self, workflow):
-        if server_meet_version("3.0", self._server) \
-                and isinstance(workflow, workflow_pb2.RemoteCopyRequest):
+        if server_meet_version("3.0", self._server) and isinstance(
+            workflow, workflow_pb2.RemoteCopyRequest
+        ):
             request = workflow_pb2.CreateRequest()
             request.remote_copy.CopyFrom(workflow)
         else:

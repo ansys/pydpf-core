@@ -1,22 +1,22 @@
 import numpy as np
+import pyvista as pv
 from vtk import (
-    VTK_VERTEX,
-    VTK_LINE,
-    VTK_TRIANGLE,
-    VTK_QUAD,
-    VTK_TETRA,
     VTK_HEXAHEDRON,
-    VTK_WEDGE,
+    VTK_LINE,
     VTK_PYRAMID,
+    VTK_QUAD,
     VTK_QUADRATIC_EDGE,
-    VTK_QUADRATIC_TRIANGLE,
-    VTK_QUADRATIC_QUAD,
-    VTK_QUADRATIC_TETRA,
     VTK_QUADRATIC_HEXAHEDRON,
     VTK_QUADRATIC_PYRAMID,
+    VTK_QUADRATIC_QUAD,
+    VTK_QUADRATIC_TETRA,
+    VTK_QUADRATIC_TRIANGLE,
+    VTK_TETRA,
+    VTK_TRIANGLE,
+    VTK_VERTEX,
+    VTK_WEDGE,
     vtkVersion,
 )
-import pyvista as pv
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
 
@@ -143,8 +143,9 @@ class PyVistaImportError(ModuleNotFoundError):
     """Error raised when PyVista could not be imported during plotting."""
 
     def __init__(
-        self, msg="To use plotting capabilities, please install pyvista "
-                  "with :\n pip install pyvista>=0.32.0"
+        self,
+        msg="To use plotting capabilities, please install pyvista "
+        "with :\n pip install pyvista>=0.32.0",
     ):
         ModuleNotFoundError.__init__(self, msg)
 

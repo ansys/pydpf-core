@@ -3,7 +3,7 @@ PropertyField
 =============
 """
 
-from ansys.dpf.core.common import natures, locations
+from ansys.dpf.core.common import locations, natures
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 
 

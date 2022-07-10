@@ -4,9 +4,10 @@ Check the matching for a client/server pair.
 Used to verify if the server version is a minimum value.
 """
 
-from ansys.dpf.core import errors as dpf_errors
-import sys
 from functools import wraps
+import sys
+
+from ansys.dpf.core import errors as dpf_errors
 
 
 def server_meet_version(required_version, server):
@@ -142,9 +143,7 @@ def version_tuple(ver):
         split_ver.append("0")
 
     if len(split_ver) > 3:
-        raise ValueError(
-            "Version strings containing more than three parts " "cannot be parsed"
-        )
+        raise ValueError("Version strings containing more than three parts " "cannot be parsed")
 
     vals = []
     for item in split_ver:
@@ -166,9 +165,7 @@ def version_requires(min_version):
     def decorator(func):
         # first arg *must* be a tuple containing the version
         if not isinstance(min_version, str):
-            raise TypeError(
-                "version_requires decorator must be a string with a dot separator."
-            )
+            raise TypeError("version_requires decorator must be a string with a dot separator.")
 
         @wraps(func)
         def wrapper(self, *args, **kwargs):
@@ -179,6 +176,7 @@ def version_requires(min_version):
             # particular cases
             # scoping._set_ids case, must be checked in a particular way
             from ansys.dpf.core import scoping
+
             if func_name == "_set_ids" and isinstance(self, scoping.Scoping):
                 ids = args[0]
                 size = len(ids)

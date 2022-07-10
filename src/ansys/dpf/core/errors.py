@@ -1,5 +1,6 @@
-from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 from functools import wraps
+
+from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
@@ -28,9 +29,7 @@ class DpfVersionNotSupported(RuntimeError):
 class DpfValueError(ValueError):
     """Error raised when a specific DPF error value must be defined."""
 
-    def __init__(
-        self, msg="A value that has been set leads to incorrect DPF behavior."
-    ):
+    def __init__(self, msg="A value that has been set leads to incorrect DPF behavior."):
         ValueError.__init__(self, msg)
 
 
@@ -39,11 +38,7 @@ class InvalidTypeError(ValueError):
 
     def __init__(self, data_type, parameter_name):
         msg = (
-            "A "
-            + data_type
-            + " must be used for the following parameter: "
-            + parameter_name
-            + "."
+            "A " + data_type + " must be used for the following parameter: " + parameter_name + "."
         )
         ValueError.__init__(self, msg)
 

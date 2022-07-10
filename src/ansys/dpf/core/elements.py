@@ -5,11 +5,11 @@ Elements
 
 from enum import Enum
 
-import numpy as np
 from ansys.grpc.dpf import meshed_region_pb2
+import numpy as np
 
 from ansys.dpf.core import nodes, scoping
-from ansys.dpf.core.common import __write_enum_doc__, locations, elemental_properties
+from ansys.dpf.core.common import __write_enum_doc__, elemental_properties, locations
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.errors import protect_grpc
 
@@ -343,9 +343,7 @@ class Elements:
             yield add
             element_request = meshed_region_pb2.ElementRequest(id=add.id)
             element_request.connectivity.extend(add.connectivity)
-            element_request.shape = meshed_region_pb2.ElementShape.Value(
-                add.shape.upper()
-            )
+            element_request.shape = meshed_region_pb2.ElementShape.Value(add.shape.upper())
             request.elements.append(element_request)
         self._mesh._stub.Add(request)
 
@@ -447,9 +445,7 @@ class Elements:
         elementOut = self._mesh._stub.GetElement(request)
         nodesOut = []
         for node in elementOut.nodes:
-            nodesOut.append(
-                nodes.Node(self._mesh, node.id, node.index, node.coordinates)
-            )
+            nodesOut.append(nodes.Node(self._mesh, node.id, node.index, node.coordinates))
         return Element(self._mesh, elementOut.id, elementOut.index, nodesOut)
 
     @property
@@ -621,9 +617,7 @@ class Elements:
         bool
 
         """
-        return self._mesh._stub.List(
-            self._mesh._message
-        ).element_shape_info.has_shell_elements
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_shell_elements
 
     @property
     def has_solid_elements(self) -> bool:
@@ -634,9 +628,7 @@ class Elements:
         bool
 
         """
-        return self._mesh._stub.List(
-            self._mesh._message
-        ).element_shape_info.has_solid_elements
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_solid_elements
 
     @property
     def has_beam_elements(self) -> bool:
@@ -647,9 +639,7 @@ class Elements:
         bool
 
         """
-        return self._mesh._stub.List(
-            self._mesh._message
-        ).element_shape_info.has_beam_elements
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_beam_elements
 
     @property
     def has_point_elements(self) -> bool:
@@ -660,9 +650,7 @@ class Elements:
         bool
 
         """
-        return self._mesh._stub.List(
-            self._mesh._message
-        ).element_shape_info.has_point_elements
+        return self._mesh._stub.List(self._mesh._message).element_shape_info.has_point_elements
 
 
 class ElementAdder:
@@ -865,12 +853,8 @@ class element_types(Enum):
     @staticmethod
     def _descriptors():
         return {
-            element_types.General: ElementDescriptor(
-                element_types.General, "General", "general"
-            ),
-            element_types.All: ElementDescriptor(
-                element_types.All, "Unknown", "unknown"
-            ),
+            element_types.General: ElementDescriptor(element_types.General, "General", "general"),
+            element_types.All: ElementDescriptor(element_types.All, "Unknown", "unknown"),
             element_types.Tet10: ElementDescriptor(
                 element_types.Tet10,
                 "Quadratic 10-nodes Tetrahedron",
@@ -1121,9 +1105,7 @@ class element_types(Enum):
             element_types.NumElementTypes: ElementDescriptor(
                 element_types.NumElementTypes, "NumElementTypes", "numElementTypes"
             ),
-            element_types.Unknown: ElementDescriptor(
-                element_types.Unknown, "Unknown", "unknown"
-            ),
+            element_types.Unknown: ElementDescriptor(element_types.Unknown, "Unknown", "unknown"),
             element_types.EMagLine: ElementDescriptor(
                 element_types.EMagLine, "EMagLine", "EMagLine", "beam"
             ),
@@ -1145,18 +1127,10 @@ class element_types(Enum):
             element_types.Surface8: ElementDescriptor(
                 element_types.Surface8, "Surface8", "surface8", "shell"
             ),
-            element_types.Edge2: ElementDescriptor(
-                element_types.Edge2, "Edge2", "edge2", "beam"
-            ),
-            element_types.Edge3: ElementDescriptor(
-                element_types.Edge3, "Edge3", "edge3", "beam"
-            ),
-            element_types.Beam3: ElementDescriptor(
-                element_types.Beam3, "Beam3", "beam3", "beam"
-            ),
-            element_types.Beam4: ElementDescriptor(
-                element_types.Beam4, "Beam4", "beam4", "beam"
-            ),
+            element_types.Edge2: ElementDescriptor(element_types.Edge2, "Edge2", "edge2", "beam"),
+            element_types.Edge3: ElementDescriptor(element_types.Edge3, "Edge3", "edge3", "beam"),
+            element_types.Beam3: ElementDescriptor(element_types.Beam3, "Beam3", "beam3", "beam"),
+            element_types.Beam4: ElementDescriptor(element_types.Beam4, "Beam4", "beam4", "beam"),
             element_types.GeneralPlaceholder: ElementDescriptor(
                 element_types.GeneralPlaceholder,
                 "GeneralPlaceholder",

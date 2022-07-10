@@ -15,10 +15,11 @@ A path is created of a defined length.
 # included examples file and ``DpfPlotter``
 #
 import matplotlib.pyplot as plt
+
 from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core import examples
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
@@ -84,8 +85,7 @@ normal_vec_out_field = normal.outputs.field.get_data()
 # using `math.scale` operator inwards in the geometry, to get the path
 # direction.
 #
-normal_vec_in_field = ops.math.scale(field=normal_vec_out_field,
-                                     ponderation=-1.0)
+normal_vec_in_field = ops.math.scale(field=normal_vec_out_field, ponderation=-1.0)
 normal_vec_in = normal_vec_in_field.outputs.field.get_data().data[0]
 ###############################################################################
 # Get Nodal coordinates, they serve as the first point on the line.
@@ -101,8 +101,7 @@ fz = lambda t: line_fp[2] + normal_vec_in[2] * t
 ###############################################################################
 # Create coordinates using 3D line equation-
 #
-coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in
-               range(int(depth / delta))]
+coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in range(int(depth / delta))]
 flat_coordinates = [entry for data in coordinates for entry in data]
 ###############################################################################
 # Create Field for coordinates of the path.
@@ -113,10 +112,8 @@ field_coord.scoping.ids = list(range(1, len(coordinates) + 1))
 ###############################################################################
 # Let's now map results on the path.
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=stress_fc,
-    coordinates=field_coord,
-    create_support=True,
-    mesh=mesh)
+    fields_container=stress_fc, coordinates=field_coord, create_support=True, mesh=mesh
+)
 fields_mapped = mapping_operator.outputs.fields_container()
 ###############################################################################
 # Here, we request the mapped field data and its mesh
@@ -137,9 +134,7 @@ plt.show()
 # `mesh` - original mesh
 pl = DpfPlotter()
 pl.add_field(field_m, mesh_m)
-pl.add_mesh(mesh, style="surface", show_edges=True,
-            color="w", opacity=0.3)
-pl.show_figure(show_axes=True, cpos=[
-    (62.687, 50.119, 67.247),
-    (5.135, 6.458, -0.355),
-    (-0.286, 0.897, -0.336)])
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+pl.show_figure(
+    show_axes=True, cpos=[(62.687, 50.119, 67.247), (5.135, 6.458, -0.355), (-0.286, 0.897, -0.336)]
+)

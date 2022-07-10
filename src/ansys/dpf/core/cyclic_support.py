@@ -3,9 +3,10 @@ Cyclic Support
 ==============
 """
 
+from ansys.grpc.dpf import cyclic_support_pb2, cyclic_support_pb2_grpc
+
 from ansys import dpf
 from ansys.dpf.core.scoping import Scoping
-from ansys.grpc.dpf import cyclic_support_pb2, cyclic_support_pb2_grpc
 
 
 class CyclicSupport:
@@ -130,9 +131,7 @@ class CyclicSupport:
 
         """
         return Scoping(
-            scoping=self._stub.List(self._message)
-            .stage_infos[stage_num]
-            .base_nodes_scoping,
+            scoping=self._stub.List(self._message).stage_infos[stage_num].base_nodes_scoping,
             server=self._server,
         )
 
@@ -160,9 +159,7 @@ class CyclicSupport:
 
         """
         return Scoping(
-            scoping=self._stub.List(self._message)
-            .stage_infos[stage_num]
-            .base_elements_scoping,
+            scoping=self._stub.List(self._message).stage_infos[stage_num].base_elements_scoping,
             server=self._server,
         )
 
@@ -193,9 +190,7 @@ class CyclicSupport:
 
         """
         return Scoping(
-            scoping=self._stub.List(self._message)
-            .stage_infos[stage_num]
-            .sectors_for_expansion,
+            scoping=self._stub.List(self._message).stage_infos[stage_num].sectors_for_expansion,
             server=self._server,
         )
 
@@ -237,9 +232,7 @@ class CyclicSupport:
         request.stage_num = stage_num
         if sectors:
             request.sectors_to_expand.CopyFrom(sectors._message)
-        return Scoping(
-            scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server
-        )
+        return Scoping(scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server)
 
     def expand_element_id(self, element_id, sectors=None, stage_num=0):
         """Retrieves the element IDs corresponding to the base sector element ID given in the input
@@ -279,9 +272,7 @@ class CyclicSupport:
         request.stage_num = stage_num
         if sectors:
             request.sectors_to_expand.CopyFrom(sectors._message)
-        return Scoping(
-            scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server
-        )
+        return Scoping(scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server)
 
     def _connect(self):
         """Connect to the grpc service"""

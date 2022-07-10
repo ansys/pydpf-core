@@ -4,15 +4,11 @@ import numpy as np
 import pytest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
+from ansys.dpf.core import Field, FieldsContainer, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import examples
-from ansys.dpf.core import fields_factory
+from ansys.dpf.core import examples, fields_factory
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.custom_fields_container import (
-    ElShapeFieldsContainer,
-    BodyFieldsContainer,
-)
+from ansys.dpf.core.custom_fields_container import BodyFieldsContainer, ElShapeFieldsContainer
 
 
 @pytest.fixture()
@@ -56,9 +52,7 @@ def test_set_get_field_fields_container():
         fieldid = fc.get_field({"time": i + 1, "complex": 0})._message.id
         assert fieldid != 0
         assert fc.get_field(i)._message.id != 0
-        assert (
-                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
-        )
+        assert fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
         assert fc[i]._message.id != 0
 
 
@@ -84,9 +78,7 @@ def test_set_get_field_fields_container_new_label():
         fieldid = fc.get_field({"time": i + 1, "complex": 0})._message.id
         assert fieldid != 0
         assert fc.get_field(i)._message.id != 0
-        assert (
-                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
-        )
+        assert fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._message.id != 0
         assert fc[i]._message.id != 0
         assert fc.get_label_space(i) == {"time": i + 1, "complex": 0}
     fc.add_label("shape")
@@ -358,9 +350,7 @@ def test_mat_time_fc():
     fc = model.results.stress.on_all_time_freqs.split_by_body.eval()
     assert isinstance(fc, BodyFieldsContainer)
     assert len(fc.get_fields_by_mat_id(45)) == 45
-    assert np.allclose(
-        fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data
-    )
+    assert np.allclose(fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data)
     assert len(fc.get_mat_scoping().ids) == 32
 
 
@@ -386,9 +376,7 @@ def test_add_operator_fields_container():
     out = add.outputs.fields_container()
     assert len(out) == 2
     assert out[0].scoping.ids == [1, 2]
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # fc + float
     add = fc + 1.0

@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
@@ -549,14 +550,10 @@ def test_local_elemental_nodal_array_field_append():
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
-            f.append(
-                np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i
-            )
+            f.append(np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i)
     field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
     for i in range(1, num_entities + 1):
-        field.append(
-            np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i
-        )
+        field.append(np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i)
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
@@ -568,9 +565,7 @@ def test_local_elemental_nodal_array_field_append():
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
-            f.append(
-                np.array([0.1 * i, 0.2 * i, 0.3 * i, 0.1 * i, 0.2 * i, 0.3 * i]), i
-            )
+            f.append(np.array([0.1 * i, 0.2 * i, 0.3 * i, 0.1 * i, 0.2 * i, 0.3 * i]), i)
 
     assert np.allclose(field.data, field_to_local.data)
     assert np.allclose(field.scoping.ids, field_to_local.scoping.ids)
@@ -586,17 +581,13 @@ def test_local_get_entity_data():
         for i in range(1, num_entities + 1):
             f.append(np.array([[0.1 * i, 0.2 * i, 0.3 * i]]), i)
             assert np.allclose(f.get_entity_data(i - 1), [[0.1 * i, 0.2 * i, 0.3 * i]])
-            assert np.allclose(
-                f.get_entity_data_by_id(i), [[0.1 * i, 0.2 * i, 0.3 * i]]
-            )
+            assert np.allclose(f.get_entity_data_by_id(i), [[0.1 * i, 0.2 * i, 0.3 * i]])
         assert hasattr(f, "_is_set") is True
 
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             assert np.allclose(f.get_entity_data(i - 1), [[0.1 * i, 0.2 * i, 0.3 * i]])
-            assert np.allclose(
-                f.get_entity_data_by_id(i), [[0.1 * i, 0.2 * i, 0.3 * i]]
-            )
+            assert np.allclose(f.get_entity_data_by_id(i), [[0.1 * i, 0.2 * i, 0.3 * i]])
 
         assert hasattr(f, "_is_set") is False
 
@@ -608,9 +599,7 @@ def test_local_elemental_nodal_get_entity_data():
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
-            f.append(
-                np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i
-            )
+            f.append(np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i)
             assert np.allclose(
                 f.get_entity_data(i - 1),
                 [[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]],
@@ -641,9 +630,7 @@ def test_auto_delete_field_local():
         num_entities, location=dpf.core.locations.elemental_nodal
     )
     field_to_local.append([3.0, 4.0, 5.0], 1)
-    fc = dpf.core.fields_container_factory.over_time_freq_fields_container(
-        [field_to_local]
-    )
+    fc = dpf.core.fields_container_factory.over_time_freq_fields_container([field_to_local])
     field_to_local = None
     with fc[0].as_local_field() as f:
         assert np.allclose(f.get_entity_data(0), [3.0, 4.0, 5.0])
@@ -704,12 +691,8 @@ def test_get_set_data_elemental_nodal_local_field():
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
     assert np.allclose(field_to_local._data_pointer, [0, 6])
-    assert np.allclose(
-        field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]
-    )
-    assert np.allclose(
-        field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
-    )
+    assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+    assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
     with field_to_local.as_local_field() as f:
         f.data = [0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.4]
@@ -729,17 +712,11 @@ def test_get_set_data_elemental_nodal_local_field():
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
     assert np.allclose(field_to_local._data_pointer, [0, 6])
-    assert np.allclose(
-        field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]
-    )
-    assert np.allclose(
-        field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
-    )
+    assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+    assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
     with field_to_local.as_local_field() as f:
-        f.data = np.array(
-            [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
-        )
+        f.data = np.array([[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
         f._data_pointer = [0, 6]
         f.scoping_ids = [1, 2]
         assert np.allclose(
@@ -756,12 +733,8 @@ def test_get_set_data_elemental_nodal_local_field():
         [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]],
     )
     assert np.allclose(field_to_local._data_pointer, [0, 6])
-    assert np.allclose(
-        field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]
-    )
-    assert np.allclose(
-        field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
-    )
+    assert np.allclose(field_to_local.get_entity_data(0), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
+    assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
 
 def test_get_set_scoping_local_field():
@@ -861,9 +834,7 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
     assert copy.nodes.scoping.ids == mesh.nodes.scoping.ids
     assert copy.elements.scoping.ids == mesh.elements.scoping.ids
     assert copy.unit == mesh.unit
-    assert np.allclose(
-        copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
-    )
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
     assert np.allclose(
         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
     )
@@ -928,9 +899,7 @@ def test_add_operator_field():
     out = add.outputs.field()
     assert len(out) == 6
     assert out.scoping.ids == [1, 2]
-    assert np.allclose(
-        out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # field + float
     add = field + 1.0

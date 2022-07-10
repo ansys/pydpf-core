@@ -50,9 +50,7 @@ def test_set_get_scoping_scopings_container(elshape_body_sc):
         assert scopingid != 0
         assert sc.get_scoping(i)._message.id != 0
         assert sc.get_scoping({"elshape": i + 1, "body": 0})._message.id != 0
-        assert sc.get_scoping({"elshape": i + 1, "body": 0}).ids == list(
-            range(0, i + 1)
-        )
+        assert sc.get_scoping({"elshape": i + 1, "body": 0}).ids == list(range(0, i + 1))
         assert sc[i]._message.id != 0
 
 
@@ -66,9 +64,7 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
         assert sc.get_scoping({"elshape": i + 1, "body": 0})._message.id != 0
         assert sc[i]._message.id != 0
         assert sc.get_label_space(i) == {"elshape": i + 1, "body": 0}
-        assert sc.get_scoping({"elshape": i + 1, "body": 0}).ids == list(
-            range(0, i + 1)
-        )
+        assert sc.get_scoping({"elshape": i + 1, "body": 0}).ids == list(range(0, i + 1))
     sc.add_label("time")
     for i in range(0, 20):
         mscop = {"elshape": i + 1, "body": 0, "time": 1}
@@ -85,9 +81,7 @@ def test_set_get_scoping_scopings_container_new_label(elshape_body_sc):
         assert sc.get_scoping({"elshape": i + 1, "body": 0, "time": 1}).ids == list(
             range(0, i + 10)
         )
-        assert sc.get_scoping({"elshape": i + 1, "time": 1}).ids == list(
-            range(0, i + 10)
-        )
+        assert sc.get_scoping({"elshape": i + 1, "time": 1}).ids == list(range(0, i + 10))
 
 
 def test_get_item_scoping_scopings_container(elshape_body_sc):

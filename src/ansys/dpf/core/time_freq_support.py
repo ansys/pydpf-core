@@ -2,16 +2,12 @@
 TimeFreqSupport
 ===============
 """
+from ansys.grpc.dpf import base_pb2, support_pb2, time_freq_support_pb2, time_freq_support_pb2_grpc
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.errors import protect_grpc
-from ansys.grpc.dpf import (
-    base_pb2,
-    support_pb2,
-    time_freq_support_pb2,
-    time_freq_support_pb2_grpc,
-)
 
 
 class TimeFreqSupport:
@@ -403,30 +399,32 @@ class TimeFreqSupport:
         list_response = self._stub.List(request)
         out = {}
         if list_response.HasField("freq_real"):
-            out["freq_real"] = dpf.core.Field(
-                server=self._server, field=list_response.freq_real)
+            out["freq_real"] = dpf.core.Field(server=self._server, field=list_response.freq_real)
         if list_response.HasField("freq_complex"):
             out["freq_complex"] = dpf.core.Field(
-                server=self._server, field=list_response.freq_complex)
+                server=self._server, field=list_response.freq_complex
+            )
         if list_response.HasField("rpm"):
-            out["rpm"] = dpf.core.Field(
-                server=self._server, field=list_response.rpm)
+            out["rpm"] = dpf.core.Field(server=self._server, field=list_response.rpm)
         if list_response.HasField("cyc_harmonic_index"):
             out["cyc_harmonic_index"] = dpf.core.Field(
-                server=self._server, field=list_response.cyc_harmonic_index)
-        if hasattr(list_response, "cyclic_harmonic_index_scoping") and\
-                list_response.HasField("cyclic_harmonic_index_scoping"):
+                server=self._server, field=list_response.cyc_harmonic_index
+            )
+        if hasattr(list_response, "cyclic_harmonic_index_scoping") and list_response.HasField(
+            "cyclic_harmonic_index_scoping"
+        ):
             out["cyclic_harmonic_index_scoping"] = dpf.core.Scoping(
-                server=self._server, scoping=list_response.cyclic_harmonic_index_scoping)
+                server=self._server, scoping=list_response.cyclic_harmonic_index_scoping
+            )
         return out
 
     def append_step(
-            self,
-            step_id,
-            step_time_frequencies,
-            step_complex_frequencies=None,
-            rpm_value=None,
-            step_harmonic_indices=None,
+        self,
+        step_id,
+        step_time_frequencies,
+        step_complex_frequencies=None,
+        rpm_value=None,
+        step_harmonic_indices=None,
     ):
         """Append a step with all its field values in the time frequencies support.
         The RPM value is a step (or load step)-based value.
@@ -511,9 +509,7 @@ class TimeFreqSupport:
                 self._set_harmonic_indices_at_stage(0, step_harmonic_indices, step_id)
             elif isinstance(step_harmonic_indices, dict):
                 for key in step_harmonic_indices:
-                    self._set_harmonic_indices_at_stage(
-                        key, step_harmonic_indices[key], step_id
-                    )
+                    self._set_harmonic_indices_at_stage(key, step_harmonic_indices[key], step_id)
             else:
                 raise dpf_errors.InvalidTypeError("list/dict", "step_harmonic_indices")
 
@@ -542,9 +538,7 @@ class TimeFreqSupport:
         i = 0
         while True:
             try:
-                tf.set_harmonic_indices(
-                    self.get_harmonic_indices(i).deep_copy(server=server), i
-                )
+                tf.set_harmonic_indices(self.get_harmonic_indices(i).deep_copy(server=server), i)
                 i += 1
             except:
                 break
@@ -573,9 +567,7 @@ class TimeFreqSupport:
 
     def _connect(self):
         """Connect to the gRPC service."""
-        return time_freq_support_pb2_grpc.TimeFreqSupportServiceStub(
-            self._server.channel
-        )
+        return time_freq_support_pb2_grpc.TimeFreqSupportServiceStub(self._server.channel)
 
     def __del__(self):
         try:

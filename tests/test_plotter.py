@@ -12,8 +12,9 @@ from conftest import running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from ansys.dpf.core.plotter import DpfPlotter, Plotter
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
+
+    from ansys.dpf.core.plotter import DpfPlotter, Plotter
 else:
     HAS_PYVISTA = False
 
@@ -27,7 +28,7 @@ def remove_picture(picture):
 def test_plotter_on_model(plate_msup):
     model = Model(plate_msup)
     model.plot()
-    picture = 'model_plot.png'
+    picture = "model_plot.png"
     remove_picture(picture)
     model.plot(off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
@@ -122,7 +123,7 @@ def test_plot_fieldscontainer_on_mesh(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     mesh.plot(fc)
-    picture = 'mesh_plot.png'
+    picture = "mesh_plot.png"
     remove_picture(picture)
     mesh.plot(fc, off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
@@ -153,7 +154,7 @@ def test_field_nodal_plot(allkindofcomplexity):
     fc = avg_op.outputs.fields_container()
     f = fc[1]
     f.plot()
-    picture = 'field_plot.png'
+    picture = "field_plot.png"
     remove_picture(picture)
     f.plot(off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
@@ -332,7 +333,7 @@ def test_plot_meshes_container_1(multishells):
     disp_op.connect(4, ds)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc)
-    picture = 'meshes_cont_plot.png'
+    picture = "meshes_cont_plot.png"
     remove_picture(picture)
     meshes_cont.plot(disp_fc, off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
@@ -342,6 +343,7 @@ def test_plot_meshes_container_1(multishells):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plot_meshes_container_2(multishells):
     from ansys.dpf import core
+
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
     split_mesh_op = core.Operator("split_mesh")
@@ -384,6 +386,7 @@ def test_plotter_add_mesh(multishells):
     split_mesh_op.connect(13, "mat")
     meshes_cont = split_mesh_op.get_output(0, core.types.meshes_container)
     from ansys.dpf.core.plotter import DpfPlotter
+
     pl = DpfPlotter()
     for i in range(len(meshes_cont) - 10):
         pl.add_mesh(meshes_cont[i])
@@ -397,8 +400,12 @@ def create_mesh_and_field_mapped(multishells):
     disp_fc = model.results.displacement().outputs.fields_container()
     field = disp_fc[0]
     # coordinates field to map
-    coordinates = [[-0.02, 0.006, 0.014], [-0.02, 0.006, 0.012],
-                   [-0.018, 0.006, 0.012], [-0.018, 0.006, 0.014]]
+    coordinates = [
+        [-0.02, 0.006, 0.014],
+        [-0.02, 0.006, 0.012],
+        [-0.018, 0.006, 0.012],
+        [-0.018, 0.006, 0.014],
+    ]
     field_coord = core.Field()
     field_coord.location = core.locations.nodal
     field_coord.data = coordinates
@@ -503,12 +510,12 @@ def test_plot_path_2(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped(multishells)
     # create plotter, add fields and plot
     from ansys.dpf.core.plotter import DpfPlotter
+
     pl = DpfPlotter()
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m, show_max=True, show_min=True)
-    pl.add_field(field, mesh, style="wireframe", show_edges=True,
-                 color="w", opacity=0.3)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3)
     pl.show_figure()
 
 
@@ -517,12 +524,12 @@ def test_plot_path_3(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
     # create plotter, add fields and plot
     from ansys.dpf.core.plotter import DpfPlotter
+
     pl = DpfPlotter()
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m)
-    pl.add_field(field, mesh, style="wireframe", show_edges=True,
-                 color="w", opacity=0.3)
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3)
     pl.show_figure()
 
 
@@ -531,10 +538,19 @@ def test_plot_min_max_labels(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
     # create plotter, add fields and plot
     from ansys.dpf.core.plotter import DpfPlotter
+
     pl = DpfPlotter()
     pl.add_field(field_m, mesh_m)
-    pl.add_field(field, mesh, style="wireframe", show_edges=True,
-                 color="w", opacity=0.3, show_max=True, show_min=True)
+    pl.add_field(
+        field,
+        mesh,
+        style="wireframe",
+        show_edges=True,
+        color="w",
+        opacity=0.3,
+        show_max=True,
+        show_min=True,
+    )
     pl.show_figure()
 
 
@@ -543,15 +559,24 @@ def test_plot_node_labels(multishells):
     field, field_m, mesh, mesh_m = create_mesh_and_field_mapped_2(multishells)
     # create plotter, add fields and plot
     from ansys.dpf.core.plotter import DpfPlotter
+
     pl = DpfPlotter()
     pl.add_field(field_m, mesh_m)
     my_nodes_1 = [mesh_m.nodes[0], mesh_m.nodes[10]]
     my_labels_1 = ["MyNode1"]
-    pl.add_node_labels(my_nodes_1, mesh_m, my_labels_1,
-                       italic=True, bold=True,
-                       font_size=26, text_color="white",
-                       font_family="courier", shadow=True,
-                       point_color="grey", point_size=20)
+    pl.add_node_labels(
+        my_nodes_1,
+        mesh_m,
+        my_labels_1,
+        italic=True,
+        bold=True,
+        font_size=26,
+        text_color="white",
+        font_family="courier",
+        shadow=True,
+        point_color="grey",
+        point_size=20,
+    )
     a = pl.labels[0]
     assert len(a) == 2
     pl.show_figure()
@@ -561,7 +586,7 @@ def test_plot_node_labels(multishells):
 def test_cpos_plot(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
-    mesh.plot(cpos='xy')
+    mesh.plot(cpos="xy")
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -575,6 +600,7 @@ def test_return_cpos_plot(multishells):
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
 def test_plot_chart(allkindofcomplexity):
     from ansys.dpf.core import types
+
     model = Model(allkindofcomplexity)
     tfq = model.metadata.time_freq_support
     timeids = list(range(1, tfq.n_sets + 1))
@@ -582,7 +608,7 @@ def test_plot_chart(allkindofcomplexity):
     disp.inputs.time_scoping.connect(timeids)
     new_fields_container = disp.get_output(0, types.fields_container)
     plot_chart(new_fields_container)
-    picture = 'plot_chart.png'
+    picture = "plot_chart.png"
     remove_picture(picture)
     plot_chart(new_fields_container, off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
@@ -607,7 +633,8 @@ def test_plot_warped_mesh(multishells):
     split_op = dpf.core.operators.mesh.split_mesh(mesh=mesh, property="mat")
     meshes_cont = split_op.get_output(output_type=dpf.core.types.meshes_container)
     meshes_cont.plot(deform_by=disp_result, scale_factor=scale_factor)
-    disp_op = dpf.core.operators.result.displacement(data_sources=model.metadata.data_sources,
-                                                     mesh=meshes_cont)
+    disp_op = dpf.core.operators.result.displacement(
+        data_sources=model.metadata.data_sources, mesh=meshes_cont
+    )
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc, deform_by=disp_result, scale_factor=scale_factor)

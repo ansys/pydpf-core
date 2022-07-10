@@ -6,8 +6,9 @@ Data Sources
 """
 import os
 
+from ansys.grpc.dpf import base_pb2, data_sources_pb2, data_sources_pb2_grpc
+
 from ansys import dpf
-from ansys.grpc.dpf import data_sources_pb2, data_sources_pb2_grpc, base_pb2
 from ansys.dpf.core.errors import protect_grpc
 
 

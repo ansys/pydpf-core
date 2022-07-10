@@ -1,12 +1,11 @@
-
 """
 settings
 ========
 Customize the behavior of the module.
 """
 
-from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
+from ansys.dpf.core.misc import module_exists
 
 
 def disable_off_screen_rendering() -> None:
@@ -48,12 +47,13 @@ def disable_interpreter_properties_evaluation() -> bool:
     """
     if module_exists("jedi"):
         import jedi
+
         jedi.Interpreter._allow_descriptor_getattr_default = False
         return True
     return False
 
 
-def set_upload_chunk_size(num_bytes = misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
+def set_upload_chunk_size(num_bytes=misc.DEFAULT_FILE_CHUNK_SIZE) -> None:
     misc.DEFAULT_FILE_CHUNK_SIZE = num_bytes
 
 

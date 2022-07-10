@@ -4,8 +4,10 @@ AvailableResult
 """
 
 from warnings import warn
+
 from ansys.grpc.dpf import available_result_pb2, base_pb2
-from ansys.dpf.core.common import _remove_spaces, _make_as_function_name
+
+from ansys.dpf.core.common import _make_as_function_name, _remove_spaces
 
 
 class AvailableResult:
@@ -44,12 +46,12 @@ class AvailableResult:
 
     def __str__(self):
         txt = (
-                self.name
-                + "\n"
-                + 'Operator name: "%s"\n' % self.operator_name
-                + "Number of components: %d\n" % self.n_components
-                + "Dimensionality: %s\n" % self.dimensionality
-                + "Homogeneity: %s\n" % self.homogeneity
+            self.name
+            + "\n"
+            + 'Operator name: "%s"\n' % self.operator_name
+            + "Number of components: %d\n" % self.n_components
+            + "Dimensionality: %s\n" % self.dimensionality
+            + "Homogeneity: %s\n" % self.homogeneity
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit

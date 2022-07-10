@@ -5,13 +5,14 @@ Field
 =====
 """
 
+from ansys.grpc.dpf import base_pb2, field_pb2
+
 from ansys import dpf
 from ansys.dpf.core import errors, meshed_region, time_freq_support
 from ansys.dpf.core.common import locations, natures, types
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.plotter import Plotter
-from ansys.grpc.dpf import base_pb2, field_pb2
 
 
 class Field(_FieldBase):
@@ -237,9 +238,7 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, shell_layers=None,
-             deform_by=None, scale_factor=1.0,
-             **kwargs):
+    def plot(self, shell_layers=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -274,10 +273,14 @@ class Field(_FieldBase):
             arguments, see ``help(pyvista.plot)``.
         """
         pl = Plotter(self.meshed_region, **kwargs)
-        return pl.plot_contour(self, shell_layers, deform_by=deform_by,
-                               scale_factor=scale_factor,
-                               show_axes=kwargs.pop("show_axes", True),
-                               **kwargs)
+        return pl.plot_contour(
+            self,
+            shell_layers,
+            deform_by=deform_by,
+            scale_factor=scale_factor,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs
+        )
 
     def resize(self, nentities, datasize):
         """Allocate memory.
@@ -423,8 +426,7 @@ class Field(_FieldBase):
             return meshed_region.MeshedRegion(mesh=message, server=self._server)
         except:
             raise RuntimeError(
-                "The field's support is not a mesh. "
-                "Try to retrieve the time frequency support."
+                "The field's support is not a mesh. " "Try to retrieve the time frequency support."
             )
 
     def _get_time_freq_support(self):
@@ -440,13 +442,9 @@ class Field(_FieldBase):
         request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
         try:
             message = self._stub.GetSupport(request)
-            return time_freq_support.TimeFreqSupport(
-                time_freq_support=message, server=self._server
-            )
+            return time_freq_support.TimeFreqSupport(time_freq_support=message, server=self._server)
         except:
-            raise RuntimeError(
-                "The field's support is not a timefreqsupport.  Try a mesh."
-            )
+            raise RuntimeError("The field's support is not a timefreqsupport.  Try a mesh.")
 
     def _set_support(self, support, support_type: str):
         request = field_pb2.SetSupportRequest()
@@ -528,9 +526,7 @@ class Field(_FieldBase):
         """
         from ansys.dpf.core import dpf_operator, operators
 
-        if hasattr(operators, "math") and hasattr(
-            operators.math, "generalized_inner_product"
-        ):
+        if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product"):
             op = operators.math.generalized_inner_product(server=self._server)
         else:
             op = dpf_operator.Operator("generalized_inner_product", server=self._server)

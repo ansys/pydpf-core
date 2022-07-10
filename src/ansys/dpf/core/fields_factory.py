@@ -5,13 +5,13 @@ fields_factory
 Contains functions to simplify creating fields.
 """
 
-from ansys.dpf import core
-from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import Field
-from ansys.dpf.core.dimensionality import Dimensionality
-from ansys.grpc.dpf import field_pb2, field_pb2_grpc, base_pb2
-
+from ansys.grpc.dpf import base_pb2, field_pb2, field_pb2_grpc
 import numpy as np
+
+from ansys.dpf import core
+from ansys.dpf.core import Field
+from ansys.dpf.core.common import locations, natures
+from ansys.dpf.core.dimensionality import Dimensionality
 
 
 def field_from_array(arr):
@@ -35,8 +35,7 @@ def field_from_array(arr):
         raise TypeError("Array must be a numeric type")
 
     shp_err = ValueError(
-        "Array must be either contain 1 dimension or "
-        "2 dimensions with three components."
+        "Array must be either contain 1 dimension or " "2 dimensions with three components."
     )
     if arr.ndim == 1:
         nature = natures.scalar
@@ -60,9 +59,7 @@ def field_from_array(arr):
     return field
 
 
-def create_matrix_field(
-    num_entities, num_lines, num_col, location=locations.nodal, server=None
-):
+def create_matrix_field(num_entities, num_lines, num_col, location=locations.nodal, server=None):
     """Create a matrix :class:`ansys.dpf.core.Field`.
 
     This field contain entities that have a matrix format. This is a "reserve" mechanism,
@@ -110,7 +107,7 @@ def create_matrix_field(
         location,
         num_col,
         num_lines,
-        )
+    )
 
 
 def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
@@ -270,9 +267,7 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     >>> field = fields_factory.create_vector_field(3, 5)
 
     """
-    return _create_field(
-        server, natures.vector, num_entities, location, ncomp_n=num_comp
-    )
+    return _create_field(server, natures.vector, num_entities, location, ncomp_n=num_comp)
 
 
 def _connect(server):
@@ -283,9 +278,7 @@ def _connect(server):
     return stub
 
 
-def _create_field(
-    server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0
-):
+def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
     """Create a specific :class:`ansys.dpf.core.Field`.
 
     This is a "reserve" mechanism, not a resize one. This means that you

@@ -59,9 +59,7 @@ stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2, ponderation=-1.
 # Add load cases
 #
 field_lc1 = stress_tensor.outputs.fields_container.get_data()[0]
-stress_tensor_combi = dpf.operators.math.add(
-    fieldA=field_lc1, fieldB=stress_tensor_lc2_sc
-)
+stress_tensor_combi = dpf.operators.math.add(fieldA=field_lc1, fieldB=stress_tensor_lc2_sc)
 
 ###############################################################################
 # Principal Stresses are the Eigenvalues of the stress tensor.

@@ -6,9 +6,9 @@ server into account to create path.
 """
 
 import os
+from pathlib import Path
 
 from ansys.dpf.core import server as server_module
-from pathlib import Path
 
 
 def join(*args, **kwargs):
@@ -57,12 +57,13 @@ def join(*args, **kwargs):
     if len(parts) == 0:
         return ""
     separator = "\\"
-    if current_os == 'posix':
+    if current_os == "posix":
         separator = "/"
     path_to_return = parts[0]
     for ipath in range(1, len(parts)):
         path_to_return += separator + parts[ipath]
     return path_to_return
+
 
 def to_server_os(path, server=None):
     path = str(path)
@@ -70,12 +71,13 @@ def to_server_os(path, server=None):
         server = server_module._global_server()
     if not server:
         return path
-    if server.os == 'posix':
+    if server.os == "posix":
         return path.replace("\\", "/")
     else:
         return path.replace("/", "\\")
 
-def downloaded_example_path(server = None):
+
+def downloaded_example_path(server=None):
     on_docker = server_module.RUNNING_DOCKER["use_docker"]
     if not server:
         server = server_module._global_server()
@@ -85,4 +87,5 @@ def downloaded_example_path(server = None):
         return "/tmp/downloaded_examples"
     else:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+
         return LOCAL_DOWNLOADED_EXAMPLES_PATH

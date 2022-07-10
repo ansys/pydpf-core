@@ -11,14 +11,15 @@ import logging
 import re
 from typing import NamedTuple
 
+from ansys.grpc.dpf import base_pb2, operator_pb2, operator_pb2_grpc
+
 from ansys.dpf.core import server as serverlib
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
-from ansys.grpc.dpf import base_pb2, operator_pb2, operator_pb2_grpc
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -380,10 +381,9 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(
-            self, type_names, inpt, pin, corresponding_pins
-    ):
+    def _find_outputs_corresponding_pins(self, type_names, inpt, pin, corresponding_pins):
         from ansys.dpf.core.results import Result
+
         for python_name in type_names:
             # appears to be an issue on Linux.  This check is here
             # because cpp mappings are a single type mapping and
@@ -488,14 +488,10 @@ class Operator:
         """
         from ansys.dpf.core import dpf_operator, operators
 
-        if hasattr(operators, "math") and hasattr(
-                operators.math, "generalized_inner_product_fc"
-        ):
+        if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
-            op = dpf_operator.Operator(
-                "generalized_inner_product_fc", server=self._server
-            )
+            op = dpf_operator.Operator("generalized_inner_product_fc", server=self._server)
         op.connect(0, self)
         op.connect(1, value)
         return op
@@ -539,11 +535,9 @@ class PinSpecification(NamedTuple):
 
     @staticmethod
     def _get_copy(other, changed_types):
-        return PinSpecification(other.name,
-                                changed_types,
-                                other.optional,
-                                other.document,
-                                other.ellipsis)
+        return PinSpecification(
+            other.name, changed_types, other.optional, other.document, other.ellipsis
+        )
 
 
 class OperatorSpecification(NamedTuple):
@@ -557,29 +551,23 @@ class OperatorSpecification(NamedTuple):
     def _fill_from_message(op_name, message: operator_pb2.Specification):
         tmpinputs = {}
         for key, inp in message.map_input_pin_spec.items():
-            tmpinputs[key] = PinSpecification(inp.name,
-                                              inp.type_names,
-                                              inp.optional,
-                                              inp.document,
-                                              inp.ellipsis)
+            tmpinputs[key] = PinSpecification(
+                inp.name, inp.type_names, inp.optional, inp.document, inp.ellipsis
+            )
 
         tmpoutputs = {}
         for key, inp in message.map_output_pin_spec.items():
-            tmpoutputs[key] = PinSpecification(inp.name,
-                                               inp.type_names,
-                                               inp.optional,
-                                               inp.document,
-                                               inp.ellipsis)
+            tmpoutputs[key] = PinSpecification(
+                inp.name, inp.type_names, inp.optional, inp.document, inp.ellipsis
+            )
 
         if hasattr(message, "properties"):
             properties = dict(message.properties)
         else:
             properties = dict()
-        return OperatorSpecification(op_name,
-                                     message.description,
-                                     properties,
-                                     tmpinputs,
-                                     tmpoutputs)
+        return OperatorSpecification(
+            op_name, message.description, properties, tmpinputs, tmpoutputs
+        )
 
     def __str__(self):
         out = ""
@@ -605,10 +593,11 @@ def available_operator_names(server=None):
     if server is None:
         server = serverlib._global_server()
     service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
-        operator_pb2.ListAllOperatorsRequest())
+        operator_pb2.ListAllOperatorsRequest()
+    )
     arr = []
     for chunk in service:
-        arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
+        arr.extend(re.split(r"[\x00-\x08]", chunk.array.decode("utf-8")))
     return arr
 
 
@@ -626,11 +615,11 @@ def _write_output_type_to_proto_style(output_type, request):
             stype = "collection"
             subtype = "meshed_region"
         elif hasattr(types, "vec_int") and output_type == types.vec_int:
-            stype = 'collection'
-            subtype = 'int'
+            stype = "collection"
+            subtype = "int"
         elif hasattr(types, "vec_double") and output_type == types.vec_double:
-            stype = 'collection'
-            subtype = 'double'
+            stype = "collection"
+            subtype = "double"
         else:
             stype = output_type.name
     elif isinstance(output_type, list):
@@ -645,11 +634,11 @@ def _write_output_type_to_proto_style(output_type, request):
 
 def _convertOutputMessageToPythonInstance(out, output_type, server):
     from ansys.dpf.core import (
+        collection,
         cyclic_support,
         data_sources,
         field,
         fields_container,
-        collection,
         meshed_region,
         meshes_container,
         property_field,
@@ -677,21 +666,15 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
     elif out.HasField("collection"):
         toconvert = out.collection
         if output_type == types.fields_container:
-            return fields_container.FieldsContainer(
-                server=server, fields_container=toconvert
-            )
+            return fields_container.FieldsContainer(server=server, fields_container=toconvert)
         elif output_type == types.scopings_container:
-            return scopings_container.ScopingsContainer(
-                server=server, scopings_container=toconvert
-            )
+            return scopings_container.ScopingsContainer(server=server, scopings_container=toconvert)
         elif output_type == types.meshes_container:
-            return meshes_container.MeshesContainer(
-                server=server, meshes_container=toconvert
-            )
+            return meshes_container.MeshesContainer(server=server, meshes_container=toconvert)
         elif output_type == types.vec_int or output_type == types.vec_double:
-            return collection.Collection(server=server,
-                                         collection=toconvert
-                                         )._get_integral_entries()
+            return collection.Collection(
+                server=server, collection=toconvert
+            )._get_integral_entries()
     elif out.HasField("scoping"):
         toconvert = out.scoping
         return scoping.Scoping(scoping=toconvert, server=server)
@@ -703,9 +686,7 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
         return result_info.ResultInfo(result_info=toconvert, server=server)
     elif out.HasField("time_freq_support"):
         toconvert = out.time_freq_support
-        return time_freq_support.TimeFreqSupport(
-            server=server, time_freq_support=toconvert
-        )
+        return time_freq_support.TimeFreqSupport(server=server, time_freq_support=toconvert)
     elif out.HasField("data_sources"):
         toconvert = out.data_sources
         return data_sources.DataSources(server=server, data_sources=toconvert)
@@ -718,6 +699,8 @@ def _convertOutputMessageToPythonInstance(out, output_type, server):
 
 
 def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
+    from pathlib import Path
+
     from ansys.dpf.core import (
         collection,
         cyclic_support,
@@ -726,10 +709,10 @@ def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
         meshed_region,
         model,
         scoping,
-        workflow,
         time_freq_support,
+        workflow,
     )
-    from pathlib import Path
+
     if isinstance(inpt, str):
         request.str = inpt
     elif isinstance(inpt, Path):

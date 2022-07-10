@@ -90,7 +90,7 @@ print(model.metadata.available_named_selections)
 ###############################################################################
 # Get the ``mesh_scoping`` of a named selection:
 
-mesh_scoping = model.metadata.named_selection('_CM82')
+mesh_scoping = model.metadata.named_selection("_CM82")
 print(mesh_scoping)
 
 ###############################################################################
@@ -100,13 +100,13 @@ model.metadata.meshed_region.plot(volume)
 
 ###############################################################################
 # Equivalent to:
-volume = model.results.elemental_volume.on_named_selection('_CM82')
+volume = model.results.elemental_volume.on_named_selection("_CM82")
 
 ###############################################################################
 # Equivalent to:
 ns_provider = dpf.operators.scoping.on_named_selection(
     requested_location=dpf.locations.elemental,
-    named_selection_name='_CM82',
+    named_selection_name="_CM82",
     data_sources=model,
 )
 volume = model.results.elemental_volume(mesh_scoping=ns_provider).eval()
@@ -160,8 +160,8 @@ scopings_container.add_scoping(
 
 ###############################################################################
 elemental_stress = model.results.stress.on_location(dpf.locations.elemental)(
-    mesh_scoping=scopings_container) \
-    .eval()
+    mesh_scoping=scopings_container
+).eval()
 print(elemental_stress)
 
 for field in elemental_stress:

@@ -3,8 +3,9 @@ FieldDefinition
 ================
 """
 
-from ansys import dpf
 from ansys.grpc.dpf import base_pb2, field_definition_pb2, field_definition_pb2_grpc
+
+from ansys import dpf
 from ansys.dpf.core.common import natures, shell_layers
 from ansys.dpf.core.dimensionality import Dimensionality
 
@@ -68,9 +69,7 @@ class FieldDefinition:
             ``LayerIndependent`` is returned for fields unrelated to layers.
         """
         enum_val = self._stub.List(self._messageDefinition).shell_layers
-        return shell_layers(
-            enum_val.real - 1
-        )  # +1 is added to the proto enum to have notset as 0
+        return shell_layers(enum_val.real - 1)  # +1 is added to the proto enum to have notset as 0
 
     @property
     def dimensionality(self):
@@ -81,9 +80,7 @@ class FieldDefinition:
         dimensionality : Dimensionality
             Nature and size of the elementary data.
         """
-        val = self._stub.List(
-            self._messageDefinition
-        ).dimensionnality  # typo exists on server side
+        val = self._stub.List(self._messageDefinition).dimensionnality  # typo exists on server side
         return Dimensionality(val.size, natures(val.nature.real))
 
     @unit.setter
@@ -102,9 +99,7 @@ class FieldDefinition:
     def dimensionality(self, value):
         self._modify_field_def(dimensionality=value)
 
-    def _modify_field_def(
-        self, unit=None, location=None, dimensionality=None, shell_layer=None
-    ):
+    def _modify_field_def(self, unit=None, location=None, dimensionality=None, shell_layer=None):
         request = field_definition_pb2.FieldDefinitionUpdateRequest()
         request.field_definition.CopyFrom(self._messageDefinition)
         if unit != None:

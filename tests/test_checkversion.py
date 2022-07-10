@@ -1,7 +1,6 @@
 import pytest
 
-from ansys.dpf.core import Model
-from ansys.dpf.core import check_version
+from ansys.dpf.core import Model, check_version
 from ansys.dpf.core import errors as dpf_errors
 
 

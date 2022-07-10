@@ -6,9 +6,9 @@ FieldsContainer
 Contains classes associated with the DPF FieldsContainer.
 """
 from ansys import dpf
+from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.common import types
-from ansys.dpf.core import errors as dpf_errors
 
 
 class FieldsContainer(Collection):
@@ -75,9 +75,7 @@ class FieldsContainer(Collection):
         self._component_index = None  # component index
         self._component_info = None  # for norm/max/min
 
-        Collection.__init__(
-            self, types.field, collection=fields_container, server=self._server
-        )
+        Collection.__init__(self, types.field, collection=fields_container, server=self._server)
 
     def get_fields_by_time_complex_ids(self, timeid=None, complexid=None):
         """Retrieve fields at a requested time ID or complex ID.
@@ -239,9 +237,7 @@ class FieldsContainer(Collection):
             Fields corresponding to the request.
         """
         if not self.has_label("time"):
-            raise dpf_errors.DpfValueError(
-                "The fields container is not based on time scoping."
-            )
+            raise dpf_errors.DpfValueError("The fields container is not based on time scoping.")
 
         if self.has_label("complex"):
             label_space = self.__time_complex_label_space__(timeid, 0)
@@ -347,8 +343,7 @@ class FieldsContainer(Collection):
         """
         labels = self.labels
         if not self.has_label("time") and (
-            len(self.labels) == 0
-            or (len(self.labels) == 1 and self.has_label("complex"))
+            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if len(self.labels) == 1:
@@ -371,21 +366,12 @@ class FieldsContainer(Collection):
             Time ID for the requested time set. The default is ``1``.
         """
         if not self.has_label("time") and (
-            len(self.labels) == 0
-            or (len(self.labels) == 1 and self.has_label("complex"))
+            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
-        if (
-            not self.has_label("complex")
-            and len(self.labels) == 1
-            and self.has_label("time")
-        ):
+        if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):
             self.add_label("complex")
-        if (
-            self.has_label("time")
-            and self.has_label("complex")
-            and len(self.labels) == 2
-        ):
+        if self.has_label("time") and self.has_label("complex") and len(self.labels) == 2:
             super()._add_entry({"time": timeid, "complex": 1}, field)
         else:
             raise dpf_errors.DpfValueError(
@@ -493,8 +479,7 @@ class FieldsContainer(Collection):
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
             op = operators.math.add_fc(self, fields_b, server=self._server)
@@ -511,8 +496,7 @@ class FieldsContainer(Collection):
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
             op = operators.math.minus_fc(server=self._server)
@@ -525,8 +509,7 @@ class FieldsContainer(Collection):
     def __pow__(self, value):
         if value != 2:
             raise ValueError('DPF only the value is "2" supported')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
             op = operators.math.sqr_fc(server=self._server)
@@ -543,17 +526,12 @@ class FieldsContainer(Collection):
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
-        if hasattr(operators, "math") and hasattr(
-            operators.math, "generalized_inner_product_fc"
-        ):
+        if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
-            op = dpf_operator.Operator(
-                "generalized_inner_product_fc", server=self._server
-            )
+            op = dpf_operator.Operator("generalized_inner_product_fc", server=self._server)
         op.connect(0, self)
         op.connect(1, value)
         return op

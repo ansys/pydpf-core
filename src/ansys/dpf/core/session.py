@@ -7,12 +7,12 @@ import logging
 import weakref
 
 from ansys import dpf
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import _common_percentage_progress_bar
 from ansys.dpf.core.errors import protect_grpc
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel('DEBUG')
+LOG.setLevel("DEBUG")
 
 
 class Session:
@@ -39,11 +39,13 @@ class Session:
     def _connect(self):
         """Connect to the grpc service"""
         from ansys.grpc.dpf import session_pb2_grpc
+
         return session_pb2_grpc.SessionServiceStub(self._server.channel)
 
     @protect_grpc
     def __send_init_request(self):
         from ansys.grpc.dpf import session_pb2
+
         request = session_pb2.CreateSessionRequest()
         self._message = self._stub.Create(request)
 
@@ -62,6 +64,7 @@ class Session:
             name given to the workflow
         """
         from ansys.grpc.dpf import session_pb2
+
         request = session_pb2.AddRequest()
         request.session.CopyFrom(self._message)
         request.wf.CopyFrom(workflow._message)
@@ -87,6 +90,7 @@ class Session:
             name given to the workflow
         """
         from ansys.grpc.dpf import session_pb2
+
         request = session_pb2.AddRequest()
         request.session.CopyFrom(self._message)
         request.op_output.op.CopyFrom(operator._message)

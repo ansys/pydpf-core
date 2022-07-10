@@ -95,9 +95,8 @@ merge_use_pass.inputs.fields_containers1(response)
 merge_use_pass.inputs.fields_containers2(response2fc)
 
 expansion = ops.math.modal_superposition(
-    solution_in_modal_space=merge_use_pass,
-    modal_basis=merge_fields
-    )
+    solution_in_modal_space=merge_use_pass, modal_basis=merge_fields
+)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################

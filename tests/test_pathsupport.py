@@ -1,9 +1,10 @@
 # Tests specific to pathlib.Path support as path argument instead of str
-import pytest
 import functools
+from pathlib import Path
+
+import pytest
 
 from ansys import dpf
-from pathlib import Path
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 

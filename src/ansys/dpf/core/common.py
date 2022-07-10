@@ -2,11 +2,11 @@
 Common
 ======
 """
-import re
 from enum import Enum
+import re
 
-import progressbar
 from ansys.grpc.dpf import base_pb2, field_definition_pb2
+import progressbar
 
 
 def _camel_to_snake_case(name):
@@ -22,15 +22,17 @@ def _remove_spaces(name):
 
 def _make_as_function_name(name):
     out = name.lower()
-    out = out.replace(" ", "_").\
-        replace("-", "_").\
-        replace("/", "_").\
-        replace(".", "_").\
-        replace(":", "_").\
-        replace(";", "_").\
-        replace(",", "_").\
-        replace("(", "").\
-        replace(")", "")
+    out = (
+        out.replace(" ", "_")
+        .replace("-", "_")
+        .replace("/", "_")
+        .replace(".", "_")
+        .replace(":", "_")
+        .replace(";", "_")
+        .replace(",", "_")
+        .replace("(", "")
+        .replace(")", "")
+    )
     return out
 
 
@@ -163,6 +165,7 @@ class elemental_properties:
     apdl_element_type = "apdl_element_type"
         apdl element type property data is provided
     """
+
     element_shape = "elshape"
     element_type = "eltype"
     connectivity = "connectivity"
@@ -189,6 +192,7 @@ class nodal_properties:
     nodal_connectivity = "reverse_connectivity"
         nodal connectivity property data is provided
     """
+
     coordinates = "coordinates"
     nodal_connectivity = "reverse_connectivity"
 
@@ -218,11 +222,9 @@ def _common_progress_bar(text, unit, tot_size=None):
             progressbar.FormatLabel(f"{text}: %(value)d {unit}"),
             progressbar.RotatingMarker(),
         ]
-        return progressbar.ProgressBar(
-            widgets=widgets, max_value=progressbar.UnknownLength
-        )
+        return progressbar.ProgressBar(widgets=widgets, max_value=progressbar.UnknownLength)
 
 
 def _common_percentage_progress_bar(text):
-    widgets = [progressbar.FormatLabel(f'{text}: %(value)d %%'), progressbar.Bar()]
+    widgets = [progressbar.FormatLabel(f"{text}: %(value)d %%"), progressbar.Bar()]
     return progressbar.ProgressBar(widgets=widgets, max_value=100)

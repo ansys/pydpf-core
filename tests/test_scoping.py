@@ -4,7 +4,7 @@ import pytest
 from ansys import dpf
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.check_version import get_server_version, meets_version
 
 serv = dpf.core.start_local_server("127.0.0.1", 50075)
 SERVER_VERSION_HIGHER_THAN_2_0 = meets_version(get_server_version(serv), "2.1")

@@ -1,6 +1,6 @@
 """Download example datasets from https://github.com/pyansys/example-data"""
-import shutil
 import os
+import shutil
 import urllib.request
 
 EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/"
@@ -9,6 +9,7 @@ EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/
 def delete_downloads():
     """Delete all downloaded examples to free space or update the files"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+
     shutil.rmtree(LOCAL_DOWNLOADED_EXAMPLES_PATH)
     os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
 
@@ -20,14 +21,16 @@ def _get_file_url(directory, filename):
 def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities
+
     # First check if file has already been downloaded
-    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory,
-                              os.path.basename(filename))
+    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        return path_utilities.to_server_os(local_path_no_zip.replace(
-            LOCAL_DOWNLOADED_EXAMPLES_PATH,
-            path_utilities.downloaded_example_path()))
+        return path_utilities.to_server_os(
+            local_path_no_zip.replace(
+                LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities.downloaded_example_path()
+            )
+        )
 
     # grab the correct url retriever
     urlretrieve = urllib.request.urlretrieve
@@ -38,9 +41,9 @@ def _retrieve_file(url, filename, directory):
 
     # Perform download
     _, resp = urlretrieve(url, local_path)
-    return path_utilities.to_server_os(local_path.replace(
-        LOCAL_DOWNLOADED_EXAMPLES_PATH,
-        path_utilities.downloaded_example_path()))
+    return path_utilities.to_server_os(
+        local_path.replace(LOCAL_DOWNLOADED_EXAMPLES_PATH, path_utilities.downloaded_example_path())
+    )
 
 
 def _download_file(directory, filename):

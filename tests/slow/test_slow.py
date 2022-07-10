@@ -1,9 +1,10 @@
-import pytest
 import numpy as np
+import pytest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core.custom_fields_container import ElShapeFieldsContainer
+
 
 def check_fc(fc, fc2):
     for i, f in enumerate(fc):
@@ -17,6 +18,7 @@ def check_fc(fc, fc2):
         assert np.allclose(f.scoping.ids, ftocheck.scoping.ids)
     idenfc = dpf.operators.logic.identical_fc(fc, fc2.deep_copy())
     assert idenfc.outputs.boolean()
+
 
 @pytest.fixture()
 def all_kind_of_complexity_models(local_server):

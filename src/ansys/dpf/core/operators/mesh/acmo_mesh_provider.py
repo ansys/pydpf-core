@@ -3,10 +3,11 @@
 Created on 12/06/2021, 14:29:17.
 """
 from warnings import warn
+
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
-from ansys.dpf.core.outputs import Output, _Outputs
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
+from ansys.dpf.core.outputs import Output, _Outputs
 
 
 class acmo_mesh_provider(Operator):
@@ -163,9 +164,7 @@ class InputsAcmoMeshProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(acmo_mesh_provider._spec().inputs, op)
-        self._streams_container = Input(
-            acmo_mesh_provider._spec().input_pin(3), 3, op, -1
-        )
+        self._streams_container = Input(acmo_mesh_provider._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._streams_container)
         self._data_sources = Input(acmo_mesh_provider._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)

@@ -1,5 +1,5 @@
-import os
 import inspect
+import os
 
 if os.environ.get("DPF_DOCKER", "").lower() == "true":
     # must pass a path that can be accessed by a docker image with
@@ -18,4 +18,4 @@ steady_therm = os.path.join(_module_path, "rth", "rth_steady.rth")
 transient_therm = os.path.join(_module_path, "rth", "rth_transient.rth")
 msup_transient = os.path.join(_module_path, "msup_transient_plate1.rst")
 simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
-distributed_msup_folder = os.path.join(_module_path, 'msup_distributed')
+distributed_msup_folder = os.path.join(_module_path, "msup_distributed")

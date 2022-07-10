@@ -34,7 +34,7 @@ reals = {}
 ims = {}
 for k, f in enumerate(freq):
     omega = 2.0 * math.pi * f
-    omega2 = omega ** 2
+    omega2 = omega**2
     real = fK0 + fM0 * omega2
     imag = fC0 * omega
     reals[f] = real.outputs.field()

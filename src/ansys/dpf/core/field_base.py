@@ -1,24 +1,23 @@
-from ansys.grpc.dpf import field_pb2, base_pb2, field_pb2_grpc
-from ansys.dpf.core import scoping
-from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import errors
+from ansys.grpc.dpf import base_pb2, field_pb2, field_pb2_grpc
+import numpy as np
+
+from ansys.dpf.core import errors, scoping
 from ansys.dpf.core import server as serverlib
 from ansys.dpf.core.cache import _setter
-
-import numpy as np
+from ansys.dpf.core.common import locations, natures
 
 
 class _FieldBase:
     """Contains base APIs for all implementations that follow DPF's field concept."""
 
     def __init__(
-            self,
-            nentities=0,
-            nature=natures.vector,
-            location=locations.nodal,
-            is_property_field=False,
-            field=None,
-            server=None,
+        self,
+        nentities=0,
+        nature=natures.vector,
+        location=locations.nodal,
+        is_property_field=False,
+        field=None,
+        server=None,
     ):
         """Initialize the field either with an optional field message or by connecting to a stub."""
         if server is None:
@@ -413,9 +412,7 @@ class _FieldBase:
         metadata = [("size_int", f"{len(data)}")]
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
-        self._stub.UpdateDataPointer(
-            scoping._data_chunk_yielder(request, data), metadata=metadata
-        )
+        self._stub.UpdateDataPointer(scoping._data_chunk_yielder(request, data), metadata=metadata)
 
     @property
     def data(self):
@@ -490,10 +487,9 @@ class _FieldBase:
         else:
             if isinstance(data, (np.ndarray, np.generic)):
                 if (
-                        0 != self.size
-                        and self.component_count > 1
-                        and data.size // self.component_count
-                        != data.size / self.component_count
+                    0 != self.size
+                    and self.component_count > 1
+                    and data.size // self.component_count != data.size / self.component_count
                 ):
                     raise ValueError(
                         f"An array of shape {self.shape} is expected and "
@@ -506,9 +502,7 @@ class _FieldBase:
             metadata = [("float_or_double", "double"), ("size_double", f"{len(data)}")]
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(self._message)
-        self._stub.UpdateData(
-            scoping._data_chunk_yielder(request, data), metadata=metadata
-        )
+        self._stub.UpdateData(scoping._data_chunk_yielder(request, data), metadata=metadata)
 
 
 class _LocalFieldBase(_FieldBase):
@@ -608,11 +602,9 @@ class _LocalFieldBase(_FieldBase):
             first_index = self._ncomp * index
             last_index = self._ncomp * (index + 1) - 1
         if self._is_property_field:
-            array = np.array(
-                self._data_copy[first_index: last_index + 1], dtype=np.int32
-            )
+            array = np.array(self._data_copy[first_index : last_index + 1], dtype=np.int32)
         else:
-            array = np.array(self._data_copy[first_index: last_index + 1])
+            array = np.array(self._data_copy[first_index : last_index + 1])
 
         if self._ncomp > 1:
             return array.reshape((array.size // self._ncomp, self._ncomp))
@@ -689,9 +681,7 @@ class _LocalFieldBase(_FieldBase):
                 data = np.array(data, dtype=np.int32)
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
-        if (len(data) > 0 and isinstance(data, list)) or isinstance(
-                data, (np.ndarray, np.generic)
-        ):
+        if (len(data) > 0 and isinstance(data, list)) or isinstance(data, (np.ndarray, np.generic)):
             data = np.array(data).flatten().tolist()
 
         data_size = len(self._data_copy)
@@ -706,9 +696,7 @@ class _LocalFieldBase(_FieldBase):
             else:
                 data_size = len(data)
             if data_size > self._ncomp:
-                self._data_pointer_copy = [
-                    i * self._ncomp for i in range(0, self._num_entities)
-                ]
+                self._data_pointer_copy = [i * self._ncomp for i in range(0, self._num_entities)]
                 self._has_data_pointer = True
 
     def data_as_list(self):

@@ -1,8 +1,7 @@
 """Verify all examples can be accessed or downloaded"""
 import pytest
 
-from ansys.dpf.core import Model
-from ansys.dpf.core import examples
+from ansys.dpf.core import Model, examples
 
 
 def test_download_all_kinds_of_complexity_modal():

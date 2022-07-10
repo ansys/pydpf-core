@@ -8,8 +8,7 @@ import os
 import pytest
 
 from ansys.dpf import core
-from ansys.dpf.core import examples
-from ansys.dpf.core import path_utilities
+from ansys.dpf.core import examples, path_utilities
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
@@ -24,9 +23,9 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        core.server.RUNNING_DOCKER["args"] += ' -v "' \
-                                              f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
-                                              ':/tmp/test_files"'
+        core.server.RUNNING_DOCKER["args"] += (
+            ' -v "' f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' ':/tmp/test_files"'
+        )
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
@@ -47,17 +46,13 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             test_files_path = os.path.join(test_path, "testfiles")
             filename = os.path.join(test_files_path, additional_path, basename)
             if not os.path.isfile(filename):
-                raise FileNotFoundError(
-                    f"Unable to locate {basename} at {test_files_path}"
-                )
+                raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
             return filename
     elif os.environ.get("AWP_UNIT_TEST_FILES", False):
         if running_docker:
             return path_utilities.join("/tmp/test_files", "python", additional_path, basename)
         test_files_path = os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
-        filename = os.path.join(
-            test_files_path, os.path.join(additional_path, basename)
-        )
+        filename = os.path.join(test_files_path, os.path.join(additional_path, basename))
         if not os.path.isfile(filename):
             raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
         return filename
@@ -153,9 +148,7 @@ def d3plot():
 def engineering_data_sources():
     """Resolve the path of the "model_with_ns.rst" result file."""
     ds = core.DataSources(resolve_test_file("file.rst", "engineeringData"))
-    ds.add_file_path(
-        resolve_test_file("MatML.xml", "engineeringData"), "EngineeringData"
-    )
+    ds.add_file_path(resolve_test_file("MatML.xml", "engineeringData"), "EngineeringData")
     ds.add_file_path(resolve_test_file("ds.dat", "engineeringData"), "dat")
     return ds
 

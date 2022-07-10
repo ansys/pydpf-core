@@ -4,20 +4,20 @@ Collection
 Contains classes associated with the DPF collection.
 
 """
-import numpy as np
 from typing import NamedTuple
 
-from ansys import dpf
 from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
-from ansys.dpf.core.core import base_pb2
+import numpy as np
+
+from ansys import dpf
+from ansys.dpf.core import scoping, server
 from ansys.dpf.core.common import types
-from ansys.dpf.core.scoping import Scoping, scoping_pb2
+from ansys.dpf.core.core import base_pb2
+from ansys.dpf.core.errors import protect_grpc
 from ansys.dpf.core.field import Field, field_pb2
 from ansys.dpf.core.meshed_region import MeshedRegion, meshed_region_pb2
+from ansys.dpf.core.scoping import Scoping, scoping_pb2
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core import server
-from ansys.dpf.core import scoping
 
 
 class Collection:
@@ -41,7 +41,7 @@ class Collection:
 
     """
 
-    def __init__(self, dpf_type=None, collection=None, server: server.DpfServer=None):
+    def __init__(self, dpf_type=None, collection=None, server: server.DpfServer = None):
         if server is None:
             server = dpf.core._global_server()
 
@@ -242,21 +242,26 @@ class Collection:
                     list_out.append(
                         _CollectionEntry(
                             label_space=label_space,
-                            entry=Scoping(scoping=unpacked_msg, server=self._server)))
+                            entry=Scoping(scoping=unpacked_msg, server=self._server),
+                        )
+                    )
                 elif self._type == types.field:
                     unpacked_msg = field_pb2.Field()
                     obj.dpf_type.Unpack(unpacked_msg)
                     list_out.append(
                         _CollectionEntry(
                             label_space=label_space,
-                            entry=Field(field=unpacked_msg, server=self._server)))
+                            entry=Field(field=unpacked_msg, server=self._server),
+                        )
+                    )
                 elif self._type == types.meshed_region:
                     unpacked_msg = meshed_region_pb2.MeshedRegion()
                     obj.dpf_type.Unpack(unpacked_msg)
                     list_out.append(
                         _CollectionEntry(
                             label_space=label_space,
-                            entry=MeshedRegion(mesh=unpacked_msg, server=self._server))
+                            entry=MeshedRegion(mesh=unpacked_msg, server=self._server),
+                        )
                     )
 
         if len(list_out) == 0:
@@ -425,7 +430,7 @@ class Collection:
         else:
             input = np.array(list(input), dtype=dtype)
 
-        metadata = [(u"size_bytes", f"{input.size * input.itemsize}")]
+        metadata = [("size_bytes", f"{input.size * input.itemsize}")]
         request = collection_pb2.UpdateAllDataRequest()
         request.collection.CopyFrom(self._message)
 
@@ -435,12 +440,12 @@ class Collection:
         request = collection_pb2.GetAllDataRequest()
         request.collection.CopyFrom(self._message)
         if self._type == types.int:
-            data_type = u"int"
+            data_type = "int"
             dtype = np.int32
         else:
-            data_type = u"double"
+            data_type = "double"
             dtype = np.float
-        service = self._stub.GetAllData(request, metadata=[(u"float_or_double", data_type)])
+        service = self._stub.GetAllData(request, metadata=[("float_or_double", data_type)])
         return scoping._data_get_chunk_(dtype, service)
 
     def _connect(self):
@@ -483,6 +488,7 @@ class Collection:
     def __iter__(self):
         for i in range(len(self)):
             yield self[i]
+
 
 class _CollectionEntry(NamedTuple):
     label_space: dict
