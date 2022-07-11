@@ -21,6 +21,16 @@ env:
   ANSYS_VERSION: 221
 
 jobs:
+  Script:
+    name: Script
+    runs-on: "windows-latest"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Print env"
+        shell: bash
+        run: echo "$GITHUB_CONTEXT"
+
   Build_and_Test:
     name: Build and Test
     runs-on: ${{ matrix.os }}
