@@ -29,6 +29,8 @@ jobs:
 
       - name: "Print env"
         shell: bash
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
   Build_and_Test:
