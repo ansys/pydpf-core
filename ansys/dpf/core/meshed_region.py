@@ -6,7 +6,7 @@ import traceback
 import warnings
 
 from ansys.dpf.core import scoping, field, property_field
-from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import locations, types
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
@@ -208,6 +208,51 @@ class MeshedRegion:
         return _description(self._internal_obj, self._server)
 
     @property
+    def available_property_fields(self):
+        """
+        Returns a list of available property fields
+
+        Returns
+        -------
+        available_property_fields : list str
+        """
+        available_property_fields = []
+        n_property_field = self._api.meshed_region_get_num_available_property_field(self)
+        for index in range(n_property_field):
+            available_property_fields.append(self._api.meshed_region_get_property_field_name(self,
+                                                                                             index))
+        return available_property_fields
+
+    def property_field(self, property_name):
+        """
+        Property field getter. It can be coordinates (field),
+        element types (property field)...
+
+        Returns
+        -------
+        field_or_property_field : core.Field or core.PropertyField
+        """
+        fieldOut = self._api.meshed_region_get_property_field(self, property_name)
+        if fieldOut.datatype == u"int":
+            return property_field.PropertyField(server=self._server, property_field=fieldOut)
+        else:
+            return field.Field(server=self._server, field=fieldOut)
+
+    @version_requires("3.0")
+    def set_property_field(self, property_name, value):
+        """
+        Property field setter. It can be coordinates (field),
+        element types (property field)...
+
+        Parameters
+        ----------
+        property_name : str
+            property name of the field to set
+        value : PropertyField or Field
+        """
+        self._api.meshed_region_set_property_field(self, property_name, value)
+
+    @property
     def available_named_selections(self):
         """List of available named selections.
 
@@ -259,6 +304,20 @@ class MeshedRegion:
                     "only implemented for meshed region created from a "
                     "model for server version 2.0. Please update your server."
                 )
+
+    @version_requires("3.0")
+    def set_named_selection_scoping(self, named_selection_name, scoping):
+        """
+        Named selection scoping setter.
+
+        Parameters
+        ----------
+        named_selection_name : str
+            named selection name
+        scoping : Scoping
+        """
+        return self._api.meshed_region_set_named_selection_scoping(self,
+                                                                   named_selection_name, scoping)
 
     def _set_stream_provider(self, stream_provider):
         self._stream_provider = stream_provider

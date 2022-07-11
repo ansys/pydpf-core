@@ -6,6 +6,7 @@ Nodes
 """
 import numpy as np
 from ansys.dpf.core.common import nodal_properties, locations
+from ansys.dpf.core.check_version import version_requires
 
 
 class Node:
@@ -220,6 +221,19 @@ class Nodes:
 
         """
         return self._get_coordinates_field()
+
+    @coordinates_field.setter
+    @version_requires("3.0")
+    def coordinates_field(self, property_field):
+        """
+        Coordinates field setter.
+
+        Parameters
+        ----------
+        property_field : Field
+            Field that contains coordinates
+        """
+        self._mesh._api.meshed_region_set_coordinates_field(property_field)
 
     @property
     def nodal_connectivity_field(self):
