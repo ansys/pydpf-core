@@ -6,7 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "ansys-dpf-core"
 version = "0.4.dev0"
 description = "Data Processing Framework"
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.7"
 license = {file = "LICENSE"}
 authors = [
