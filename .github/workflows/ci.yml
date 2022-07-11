@@ -27,7 +27,7 @@ jobs:
       matrix:
         python-version: ["3.8"]
         os: ["windows-latest"]
-    if: !contains(github.ref, 'refs/heads/release')
+    if: ${{ !contains(github.ref, 'release') }}
     steps:
       - uses: actions/checkout@v3
 
