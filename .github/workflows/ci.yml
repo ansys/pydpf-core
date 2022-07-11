@@ -4,7 +4,7 @@ on:
   pull_request:
      branches-ignore:
        - '*no-ci*'
-       - '*release*'
+       - 'release/**'
   push:
     branches:
       - master
