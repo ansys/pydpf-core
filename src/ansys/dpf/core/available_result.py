@@ -3,7 +3,6 @@ AvailableResult
 ===============
 """
 
-from warnings import warn
 
 from ansys.grpc.dpf import available_result_pb2, base_pb2
 

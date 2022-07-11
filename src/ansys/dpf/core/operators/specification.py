@@ -1,8 +1,3 @@
-import os
-
-from ansys import dpf
-
-
 class PinSpecification:
     def __init__(self, name=None, type_names=None, optional=None, document=None, ellipsis=None):
         self.name = name

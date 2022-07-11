@@ -2,7 +2,7 @@
 
 Created on 12/06/2021, 14:29:18.
 """
-from warnings import warn
+
 
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
