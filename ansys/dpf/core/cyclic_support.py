@@ -192,7 +192,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.sectors_set_for_expansion(stage_num=1).ids)
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        [...0... 1... 2... 3... 4... 5... 6... 7... 8... 9... 10... 11]
 
         """
         sectors_for_expansion = self._api.cyclic_support_get_sectors_scoping(self, stage_num)
@@ -224,7 +224,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.expand_node_id(1,stage_num=0).ids)
-        [1, 3596, 5816, 8036, 10256, 12476]
+        [...1... 3596... 5816... 8036... 10256... 12476]
 
         """
         if sectors is None:
@@ -262,7 +262,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.expand_element_id(1,stage_num=0).ids)
-        [1, 1558, 2533, 3508, 4483, 5458]
+        [...1... 1558... 2533... 3508... 4483... 5458]
 
         """
         if sectors is None:
