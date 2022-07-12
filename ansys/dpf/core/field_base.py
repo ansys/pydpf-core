@@ -363,8 +363,8 @@ class _FieldBase:
         >>> field.data
         array([[1., 2., 3.],
                [1., 2., 3.]])
-        >>> field.scoping.ids
-        [1, 2]
+        >>> field.scoping.ids # doctest: +ELLIPSIS
+        ...[1, 2]...
 
         """
         pass
