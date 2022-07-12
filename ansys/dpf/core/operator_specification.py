@@ -304,8 +304,8 @@ class Specification(SpecificationBase):
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> 4 in operator.specification.inputs.keys()
         True
-        >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], optional=False, document='result file path container, used if no streams are set', ellipsis=False)  # noqa: E501
+        >>> operator.specification.inputs[4] # doctest: +ELLIPSIS
+        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False)
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -325,7 +325,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], optional=False, document='', ellipsis=False)}  # noqa: E501
+        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False)}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
