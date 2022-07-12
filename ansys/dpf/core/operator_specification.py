@@ -287,7 +287,7 @@ class Specification(SpecificationBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.scale_by_field()
-        >>> operator.specification.description # doctest: +ELLIPSIS
+        >>> operator.specification.description
         "Scales a field (in 0) by a scalar field (in 1). If one field's ... the entire other field."
         """
         if self._internal_obj is not None:
@@ -308,7 +308,7 @@ class Specification(SpecificationBase):
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> 4 in operator.specification.inputs.keys()
         True
-        >>> operator.specification.inputs[4] # doctest: +ELLIPSIS
+        >>> operator.specification.inputs[4]
         PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False)
         """
         if self._map_input_pin_spec is None:

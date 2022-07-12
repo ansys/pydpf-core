@@ -155,7 +155,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> from ansys.dpf.core import examples
     >>> import os
     >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
-    >>> dpf.download_file(file_path, examples.static_rst) # doctest: +ELLIPSIS
+    >>> dpf.download_file(file_path, examples.static_rst)
     <BLANKLINE>
     Downloading...: 0%| ... | ... KB
     Downloading...: 100%|#...#| ... KB

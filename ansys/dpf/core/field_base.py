@@ -363,7 +363,7 @@ class _FieldBase:
         >>> field.data
         array([[1., 2., 3.],
                [1., 2., 3.]])
-        >>> field.scoping.ids # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
+        >>> field.scoping.ids
         <BLANKLINE>
         ...[1, 2]...
 
