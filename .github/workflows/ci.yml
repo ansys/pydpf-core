@@ -86,10 +86,14 @@ jobs:
         run: echo "SERVER=$env:AWP_ROOT221"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: "Install gatebin Windows"
-        run: pip install .\.github\workflows\ansys_dpf_gatebin-0.1.dev1-py3-none-win_amd64.whl
+        working-directory: .github\workflows
+        run: pip install ansys_dpf_gatebin-0.1.dev1-py3-none-win_amd64.whl
 
       - name: "Install pygate"
-        run: pip install .\.github\workflows\ansys_dpf_gate-0.1.dev1-py3-none-any.whl
+        working-directory: .github\workflows
+        run: |
+          pip install ansys_dpf_gate-0.1.dev1-py3-none-any.whl
+          pip install ansys_grpc_dpf-0.5.dev1-py3-none-any.whl
 
       - name: Install ansys-dpf-core
         shell: cmd
