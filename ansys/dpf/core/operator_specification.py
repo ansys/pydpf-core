@@ -259,7 +259,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.add()
         >>> operator.specification.properties
-        {'plugin': 'core', 'category': 'math', 'user_name': '+', 'exposure': 'public'}
+        {'category': 'math', 'exposure': 'public', 'plugin': 'core', 'user_name': '+'}
         """
         if self._properties is None:
             temp_properties = dict()

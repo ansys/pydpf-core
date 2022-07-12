@@ -285,7 +285,7 @@ class Result:
         >>> model = dpf.Model(examples.msup_transient)
         >>> disp = model.results.displacement
         >>> disp.on_all_time_freqs.eval().get_label_scoping("time").ids
-
+        <BLANKLINE>
         ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]...
 
         """
@@ -309,7 +309,7 @@ class Result:
         >>> model = dpf.Model(examples.msup_transient)
         >>> disp = model.results.displacement
         >>> disp.on_first_time_freq.eval().get_label_scoping("time").ids
-
+        <BLANKLINE>
         ...[1]...
 
         """
@@ -331,7 +331,7 @@ class Result:
         >>> model = dpf.Model(examples.msup_transient)
         >>> disp = model.results.displacement
         >>> disp.on_last_time_freq.eval().get_label_scoping("time").ids
-
+        <BLANKLINE>
         ...[20]...
 
         """
@@ -424,7 +424,7 @@ class Result:
         >>> len(fc_disp)
         11
         >>> fc_disp.get_mat_scoping().ids
-
+        <BLANKLINE>
         ...[1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15]...
         >>> disp_mat_10 = fc_disp.get_field_by_mat_id(10)
 
