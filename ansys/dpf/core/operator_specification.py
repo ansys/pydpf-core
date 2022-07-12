@@ -271,10 +271,10 @@ class Specification(SpecificationBase):
                     )
                     prop = self._api.operator_specification_get_properties(self, property_key)
                     temp_properties[property_key] = prop
-        # Reorder the properties for consistency
-        self._properties = dict()
-        for key in sorted(temp_properties.keys):
-            self._properties[key] = temp_properties[key]
+            # Reorder the properties for consistency
+            self._properties = dict()
+            for key in sorted(temp_properties.keys()):
+                self._properties[key] = temp_properties[key]
         return self._properties
 
     @property
