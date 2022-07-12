@@ -142,9 +142,11 @@ class ConfigOptionSpec:
     >>> operator = dpf.operators.math.add()
     >>> config_spec = operator.specification.config_specification
     >>> config_spec.keys()
-    dict_keys(['binary_operation', 'inplace', 'mutex', 'num_threads', 'permissive', 'run_in_parallel', 'use_cache', 'work_by_index'])  # noqa: E501
+    dict_keys(['binary_operation', 'inplace', 'mutex', 'num_threads', 'permissive', \
+    'run_in_parallel', 'use_cache', 'work_by_index'])
     >>> config_spec['inplace']
-    ConfigOptionSpec(name='inplace', type_names=['bool'], default_value_str='false', document='The output is written over the input to save memory if this config is set to true.')  # noqa: E501
+    ConfigOptionSpec(name='inplace', type_names=['bool'], default_value_str='false', \
+    document='The output is written over the input to save memory if this config is set to true.')
 
     """
 
