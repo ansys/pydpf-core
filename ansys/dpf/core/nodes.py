@@ -114,6 +114,7 @@ class Nodes:
 
     def __init__(self, mesh):
         self._mesh = mesh
+        self._server = mesh._server
         self._mapping_id_to_index = None
 
     def __str__(self):
@@ -233,7 +234,7 @@ class Nodes:
         property_field : Field
             Field that contains coordinates
         """
-        self._mesh._api.meshed_region_set_coordinates_field(property_field)
+        self._mesh.set_coordinates_field(property_field)
 
     @property
     def nodal_connectivity_field(self):

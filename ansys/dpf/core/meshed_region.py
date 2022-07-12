@@ -7,7 +7,7 @@ import warnings
 
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import locations, types
+from ansys.dpf.core.common import locations, types, nodal_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
@@ -232,11 +232,7 @@ class MeshedRegion:
         -------
         field_or_property_field : core.Field or core.PropertyField
         """
-        fieldOut = self._api.meshed_region_get_property_field(self, property_name)
-        if fieldOut.datatype == u"int":
-            return property_field.PropertyField(server=self._server, property_field=fieldOut)
-        else:
-            return field.Field(server=self._server, field=fieldOut)
+        return self.field_of_properties(property_name)
 
     @version_requires("3.0")
     def set_property_field(self, property_name, value):
@@ -250,7 +246,21 @@ class MeshedRegion:
             property name of the field to set
         value : PropertyField or Field
         """
-        self._api.meshed_region_set_property_field(self, property_name, value)
+        if property_name is nodal_properties.coordinates:
+            self.set_coordinates_field(value)
+        else:
+            self._api.meshed_region_set_property_field(self, property_name, value)
+
+    @version_requires("3.0")
+    def set_coordinates_field(self, coordinates_field):
+        """
+        Coordinates field setter.
+
+        Parameters
+        ----------
+        coordinates_field : PropertyField or Field
+        """
+        self._api.meshed_region_set_coordinates_field(self, coordinates_field)
 
     @property
     def available_named_selections(self):
@@ -565,7 +575,6 @@ class MeshedRegion:
         ...     dpf.common.elemental_properties.connectivity)
         >>> coordinates = meshed_region.field_of_properties(dpf.common.nodal_properties.coordinates)
         """
-        from ansys.dpf.core.common import nodal_properties
         if property_name is nodal_properties.coordinates:
             field_out = self._api.meshed_region_get_coordinates_field(self)
             return field.Field(server=self._server, field=field_out)

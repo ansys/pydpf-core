@@ -39,7 +39,7 @@ def test_vtk_grid_from_model(simple_bar_model):
 
 def test_meshed_region_available_property_fields(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    properties = ['connectivity', 'elprops', 'eltype', 'apdl_element_type', 'mat']
+    properties = ['connectivity', 'elprops', 'eltype', 'apdl_element_type', 'section', 'mat']
     assert mesh.available_property_fields == properties
 
 
@@ -111,7 +111,7 @@ def test_set_coordinates_field_meshedregion(simple_bar_model):
 
     new_data[0] = [1.0, 1.0, 1.0]
     field_coordinates.data = new_data
-    mesh.set_property_field(dpf.core.common.nodal_properties.coordinates, field_coordinates)
+    mesh.set_coordinates_field(field_coordinates)
     field_coordinates = mesh.nodes.coordinates_field
     assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
 
