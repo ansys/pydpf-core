@@ -65,9 +65,6 @@ jobs:
     name: Documentation
     runs-on: windows-latest
 
-    env:
-      ANSYS_VERSION: 221
-
     steps:
       - uses: actions/checkout@v3
 
