@@ -156,8 +156,9 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> import os
     >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
     >>> dpf.download_file(file_path, examples.static_rst) # doctest: +ELLIPSIS
-    Downloading...:   0%| ... | 0/327.68 KB
-    Downloading...: 100%|# ... #| 327.68/327.68 KB
+    <BLANKLINE>
+    Downloading...: 0%| ... | ... KB
+    Downloading...: 100%|#...#| ... KB
 
     """
     base = BaseService(server, load_operators=False)
