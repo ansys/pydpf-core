@@ -74,7 +74,7 @@ jobs:
 
   build_doc:
     name: Documentation
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     env:
       ANSYS_VERSION: 221
