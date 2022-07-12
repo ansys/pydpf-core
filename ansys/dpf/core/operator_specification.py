@@ -260,7 +260,7 @@ class Specification(SpecificationBase):
         {'plugin': 'core', 'category': 'math', 'user_name': '+', 'exposure': 'public'}
         """
         if self._properties is None:
-            self._properties = dict()
+            temp_properties = dict()
             if self._internal_obj is not None:
                 num_properties = self._api.operator_specification_get_num_properties(self)
                 for i_property in range(num_properties):
@@ -268,7 +268,11 @@ class Specification(SpecificationBase):
                         self, i_property
                     )
                     prop = self._api.operator_specification_get_properties(self, property_key)
-                    self._properties[property_key] = prop
+                    temp_properties[property_key] = prop
+        # Reorder the properties for consistency
+        self._properties = dict()
+        for key in sorted(temp_properties.keys):
+            self._properties[key] = temp_properties[key]
         return self._properties
 
     @property
