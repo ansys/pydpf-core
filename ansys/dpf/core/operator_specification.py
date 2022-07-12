@@ -283,8 +283,8 @@ class Specification(SpecificationBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.scale_by_field()
-        >>> operator.specification.description
-        "Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field."  # noqa: E501
+        >>> operator.specification.description # doctest: +ELLIPSIS
+        "Scales a field (in 0) by a scalar field (in 1). If one field's ... the entire other field."
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
