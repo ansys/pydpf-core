@@ -33,6 +33,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "Install gatebin Windows"
+        if: contains(matrix.os, "win")
+        run: pip install .\.github\workflows\ansys_dpf_gatebin-0.1.dev1-py3-none-linux_x86_64.whl
+
+      - name: "Install gatebin Linux"
+        if: contains(matrix.os, "lin")
+        run: pip install .\.github\workflows\ansys_dpf_gatebin-0.1.dev1-py3-none-win_amd64.whl
+
+      - name: "Install pygate"
+        run: pip install .\.github\workflows\ansys_dpf_gate-0.1.dev1-py3-none-any.whl
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.1
         with:
