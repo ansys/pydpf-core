@@ -95,7 +95,8 @@ class TimeFreqSupport:
         >>> time_freq_support = model.metadata.time_freq_support
         >>> freq = time_freq_support.time_frequencies
         >>> freq.data
-        array([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
+
+        ...rray([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
                0.099975  , 0.119975  , 0.139975  , 0.159975  , 0.179975  ,
                0.199975  , 0.218975  , 0.238975  , 0.258975  , 0.278975  ,
                0.298975  , 0.318975  , 0.338975  , 0.358975  , 0.378975  ,

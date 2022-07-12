@@ -366,7 +366,7 @@ class Workflow:
         >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> max_op = dpf.Operator("min_max")
-        >>> workflow.add_operator([disp_op,max_op])
+        >>> workflow.add_operators([disp_op, max_op])
 
         """
         if isinstance(operators, list):
