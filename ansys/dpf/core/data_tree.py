@@ -25,7 +25,8 @@ from ansys.dpf.gate import (
 
 
 class DataTree:
-    """Represents an entity mapping attributes names to values.
+    """
+    Represents an entity mapping attributes names to values.
 
     Parameters
     ----------
@@ -43,9 +44,9 @@ class DataTree:
 
     >>> from ansys.dpf import core as dpf
     >>> data_tree = dpf.DataTree({"num_entities":3, "list_of_raws":[1,2,3,4], "name": "George"})
-    >>> data_tree.get_as("name", dpf.types.string)
+    >>> data_tree.get_as("name",dpf.types.string)
     'George'
-    >>> data_tree.get_as("list_of_raws", dpf.types.vec_int)
+    >>> data_tree.get_as("list_of_raws",dpf.types.vec_int)
     [1, 2, 3, 4]
 
     Create a data tree with add.
@@ -400,7 +401,7 @@ class DataTree:
         """
         return self._api.dpf_data_tree_has_attribute(self, entry)
 
-    def get_as(self, name, type=types.string):
+    def get_as(self, name, type_to_return=types.string):
         """
         Returns an attribute value by its name in the required type.
 
@@ -408,7 +409,7 @@ class DataTree:
         ----------
         name : str
             Name of the attribute to return
-        type : types
+        type_to_return : types
             Type of the attribute to return. String is supported for all attributes.
 
         Returns
@@ -422,35 +423,35 @@ class DataTree:
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
         >>> data_tree.get_as("id")
         '3'
-        >>> data_tree.get_as("id", dpf.types.int)
+        >>> data_tree.get_as("id",dpf.types.int)
         3
-        >>> data_tree.get_as("qualities", dpf.types.vec_string)
+        >>> data_tree.get_as("qualities",dpf.types.vec_string)
         ['nice', 'funny']
 
         """
         out = None
-        if type == types.int:
+        if type_to_return == types.int:
             out = integral_types.MutableInt32()
             self._api.dpf_data_tree_get_int_attribute(self, name, out)
             out = int(out)
-        elif type == types.double:
+        elif type_to_return == types.double:
             out = integral_types.MutableDouble()
             self._api.dpf_data_tree_get_double_attribute(self, name, out)
             out = float(out)
-        elif type == types.string:
+        elif type_to_return == types.string:
             out = integral_types.MutableString(1)
             size = integral_types.MutableInt32(0)
             self._api.dpf_data_tree_get_string_attribute(self, name, out, size)
             out = str(out)
-        elif type == types.vec_double:
+        elif type_to_return == types.vec_double:
             out = integral_types.MutableListDouble()
             self._api.dpf_data_tree_get_vec_double_attribute(self, name, out, out.internal_size)
             out = out.tolist()
-        elif type == types.vec_int:
+        elif type_to_return == types.vec_int:
             out = integral_types.MutableListInt32()
             self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
             out = out.tolist()
-        elif type == types.vec_string:
+        elif type_to_return == types.vec_string:
             coll_obj = object_handler.ObjHandler(
                 data_processing_api=self._core_api,
                 internal_obj=self._api.dpf_data_tree_get_string_collection_attribute(self, name)
@@ -459,7 +460,7 @@ class DataTree:
             out = []
             for i in range(num):
                 out.append(self._coll_api.collection_get_string_entry(coll_obj, i))
-        elif type == types.data_tree:
+        elif type_to_return == types.data_tree:
             obj = self._api.dpf_data_tree_get_sub_tree(self, name)
             out = DataTree(data_tree=obj, server=self._server)
         return out
@@ -518,7 +519,7 @@ class _LocalDataTree(DataTree):
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, tb):
+    def __exit__(self, type_to_use, value, tb):
         if tb is None:
             self._is_exited = True
             self.release_data()
@@ -529,4 +530,3 @@ class _LocalDataTree(DataTree):
         if not hasattr(self, "_is_exited") or not self._is_exited:
             self._is_exited = True
             self.release_data()
-        pass
