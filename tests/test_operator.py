@@ -914,76 +914,76 @@ def test_add_operator_operator(server_type):
     assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
-def test_minus_operator_operator(server_type):
-    field = dpf.core.fields_factory.create_3d_vector_field(2, server=server_type)
-    field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-    field.scoping.ids = [1, 2]
-
-    ####forward field
-    # operator with field out
-    forward = ops.utility.forward_field(field, server=server_type)
-    add = forward - forward
-    assert type(add) == ops.math.minus_fc
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.zeros((2, 3)))
-
-    # operator - field
-    add = forward - field
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.zeros((2, 3)))
-
-    # operator - list
-    add = forward - [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
-
-    # operator - float
-    add = forward - 1.0
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
-
-    ####forward fields container
-    # operator with field out
-    forward = ops.utility.forward_fields_container(field, server=server_type)
-    add = forward - forward
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.zeros((2, 3)))
-
-    # operator- field
-    add = forward - field
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.zeros((2, 3)))
-
-    # operator - list
-    add = forward - [0.0, 1.0, 2.0]
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert len(out) == 1
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
-
-    # operator - float
-    add = forward - 1.0
-    assert isinstance(add, ops.math.minus_fc)
-    out = add.outputs.fields_container()
-    assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
+# def test_minus_operator_operator(server_type):
+#     field = dpf.core.fields_factory.create_3d_vector_field(2, server=server_type)
+#     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+#     field.scoping.ids = [1, 2]
+#
+#     ####forward field
+#     # operator with field out
+#     forward = ops.utility.forward_field(field, server=server_type)
+#     add = forward - forward
+#     assert type(add) == ops.math.minus_fc
+#     out = add.outputs.fields_container()
+#     assert len(out) == 1
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.zeros((2, 3)))
+#
+#     # operator - field
+#     add = forward - field
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert len(out) == 1
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.zeros((2, 3)))
+#
+#     # operator - list
+#     add = forward - [0.0, 1.0, 2.0]
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert len(out) == 1
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
+#
+#     # operator - float
+#     add = forward - 1.0
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
+#
+#     ####forward fields container
+#     # operator with field out
+#     forward = ops.utility.forward_fields_container(field, server=server_type)
+#     add = forward - forward
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert len(out) == 1
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.zeros((2, 3)))
+#
+#     # operator- field
+#     add = forward - field
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert len(out) == 1
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.zeros((2, 3)))
+#
+#     # operator - list
+#     add = forward - [0.0, 1.0, 2.0]
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert len(out) == 1
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
+#
+#     # operator - float
+#     add = forward - 1.0
+#     assert isinstance(add, ops.math.minus_fc)
+#     out = add.outputs.fields_container()
+#     assert np.allclose(out[0].scoping.ids, [1, 2])
+#     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
 def test_dot_operator_operator(server_type):
