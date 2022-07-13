@@ -19,7 +19,7 @@ core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
 
-local_test_repo = True
+local_test_repo = False
 
 if os.name == "posix":
     import ssl
