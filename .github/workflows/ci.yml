@@ -70,7 +70,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.0.0
+        uses: actions/setup-python@v4.1.0
         with:
           python-version: 3.8
 
@@ -99,7 +99,7 @@ jobs:
       - name: Install ansys-dpf-core
         shell: cmd
         run: |
-          pip install -r requirements_build.txt
+          pip install -r requirements/requirements_build.txt
           python setup.py bdist_wheel
           FOR /F %%a in ('dir /s/b dist\*.whl') do SET WHEELPATH=%%a
           ECHO %WHEELPATH%
@@ -123,7 +123,7 @@ jobs:
 
       - name: Install documentation packages for Python
         run: |
-          pip install -r requirements_docs.txt
+          pip install -r requirements/requirements_docs.txt
 
       - name: Build Documentation
         shell: cmd
