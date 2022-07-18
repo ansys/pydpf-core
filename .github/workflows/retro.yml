@@ -3,12 +3,10 @@ name: Retro-Compatibility check
 on:
   schedule:  # UTC at 0400
     - cron: '0 4 * * *'
-  push:
-    branches:
-      - "retro/*"
   pull_request:
     branches:
       - "retro/*"
+      - "release/*"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
