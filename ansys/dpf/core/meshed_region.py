@@ -230,7 +230,7 @@ class MeshedRegion:
         -------
         available_property_fields : list str
         """
-        return self._stub.List(self._message).available_prop
+        return sorted(self._stub.List(self._message).available_prop)
 
     def property_field(self, property_name):
         """
