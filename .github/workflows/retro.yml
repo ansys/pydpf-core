@@ -1,0 +1,43 @@
+name: Retro-Compatibility check
+
+on:
+  schedule:  # UTC at 0400
+    - cron: '0 4 * * *'
+  push:
+    branches:
+      - "retro/*"
+  pull_request:
+    branches:
+      - "retro/*"
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+
+jobs:
+  all_pythons_221:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
+        os: [ "windows-latest", "ubuntu-latest" ]
+    env:
+      ANSYS_VERSION: 221
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.1
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+
+      - name: "Test Package"
+        uses: pyansys/pydpf-actions/test_package@v2.1
+        with:
+          MODULE: ${{env.MODULE}}
