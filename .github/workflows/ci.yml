@@ -48,6 +48,7 @@ jobs:
         uses: pyansys/pydpf-actions/test_package@v2.2
         with:
           MODULE: ${{env.MODULE}}
+          DEBUG: True
 
       - name: 'Upload to PyPi'
         if: contains(github.ref, 'refs/tags')
