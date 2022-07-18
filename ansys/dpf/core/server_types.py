@@ -453,9 +453,9 @@ class CServer(BaseServer, ABC):
                  ansys_path=None,
                  load_operators=True):
         super().__init__()
-        self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
         self._own_process = False
         self.ansys_path = ansys_path
+        self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
 
     @property
     def available_api_types(self):
@@ -499,6 +499,7 @@ class GrpcServer(CServer):
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
+        self._own_process = launch_server
 
         address = f"{ip}:{port}"
 
@@ -520,7 +521,6 @@ class GrpcServer(CServer):
         self._input_ip = ip
         self._input_port = port
         self.live = True
-        self._own_process = launch_server
         self._create_shutdown_funcs()
         self.set_as_global(as_global=as_global)
 
@@ -699,6 +699,8 @@ class LegacyGrpcServer(BaseServer):
         super().__init__()
 
         self._info_instance = None
+        self._own_process = launch_server
+        self.live = False
         self.modules = types.SimpleNamespace()
         # Load Ans.Dpf.Grpc?
         import grpc
@@ -731,7 +733,6 @@ class LegacyGrpcServer(BaseServer):
         self._input_port = port
         self.live = True
         self.ansys_path = ansys_path
-        self._own_process = launch_server
         self._stubs = {}
 
         self._create_shutdown_funcs()
