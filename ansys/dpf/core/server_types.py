@@ -432,13 +432,13 @@ class BaseServer(abc.ABC):
 
     def __del__(self):
         try:
-            if id(core.SERVER) == id(self):
+            if hasattr(core, "SERVER") and id(core.SERVER) == id(self):
                 core.SERVER = None
         except:
             warnings.warn(traceback.format_exc())
 
         try:
-            if core._server_instances is not None:
+            if hasattr(core, "_server_instances") and core._server_instances is not None:
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
                         core._server_instances.remove(server)
@@ -639,10 +639,8 @@ class InProcessServer(CServer):
         pass
 
     def __eq__(self, other_server):
-        """Return true, if ***** are equals"""
-        if isinstance(other_server, InProcessServer):
-            raise NotImplementedError
-        return False
+        """Return true, if the ip and the port are equals"""
+        return isinstance(other_server, InProcessServer)
 
     @property
     def client(self):
