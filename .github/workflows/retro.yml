@@ -14,7 +14,7 @@ env:
   MODULE: core
 
 jobs:
-  all_pythons_221:
+  Retro_221:
     if: startsWith(github.head_ref, 'release/') || startsWith(github.head_ref, 'retro/')
     runs-on: ${{ matrix.os }}
     strategy:
