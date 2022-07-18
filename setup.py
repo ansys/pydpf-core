@@ -80,7 +80,7 @@ setup(
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
     install_requires=install_requires,
     extras_require={
-        "plotting": ["vtk==9.0.3", "pyvista>=0.32.0", "matplotlib>=3.2"],
+        "plotting": ["pyvista>=0.32.0", "matplotlib>=3.2"],
         "reporting": ["scooby"],
     },
     url="https://github.com/pyansys/pydpf-core",
