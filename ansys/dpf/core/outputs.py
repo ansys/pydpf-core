@@ -30,7 +30,7 @@ class Output:
     """
     def __init__(self, spec, pin, operator):
         self._spec = spec
-        self._operator = operator
+        self._operator = weakref.ref(operator)
         self._pin = pin
         self._python_expected_types = []
         for cpp_type in self._spec.type_names:
