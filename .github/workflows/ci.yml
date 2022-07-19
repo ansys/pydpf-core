@@ -105,7 +105,7 @@ jobs:
           ECHO %WHEELPATH%
           cd tests
           pip install %WHEELPATH%
-          python -c "from ansys.dpf import core; print(core.Report(gpu=False))"
+          python -c "from ansys.dpf import core"
 
       - name: Install OpenGL
         run: |
