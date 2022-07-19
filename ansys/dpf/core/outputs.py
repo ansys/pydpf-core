@@ -50,7 +50,7 @@ class Output:
         elif type_output == "meshes_container":
             type_output = types.meshes_container
 
-        return self._operator().get_output(self._pin, type_output)
+        return self._operator.get_output(self._pin, type_output)
 
     def __call__(self):
         return self.get_data()
