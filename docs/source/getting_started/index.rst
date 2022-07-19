@@ -134,4 +134,3 @@ Optional package dependencies can be installed for specific usage:
 
 - `Matplotlib <https://pypi.org/project/matplotlib/>`_ for chart plotting
 - `PyVista <https://pypi.org/project/pyvista/>`_ for 3D plotting
-- `Scooby <https://pypi.org/project/scooby/>`_ for dependency reports

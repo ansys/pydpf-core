@@ -432,13 +432,13 @@ class BaseServer(abc.ABC):
 
     def __del__(self):
         try:
-            if id(core.SERVER) == id(self):
+            if hasattr(core, "SERVER") and id(core.SERVER) == id(self):
                 core.SERVER = None
         except:
             warnings.warn(traceback.format_exc())
 
         try:
-            if core._server_instances is not None:
+            if hasattr(core, "_server_instances") and core._server_instances is not None:
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
                         core._server_instances.remove(server)
@@ -453,9 +453,9 @@ class CServer(BaseServer, ABC):
                  ansys_path=None,
                  load_operators=True):
         super().__init__()
-        self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
         self._own_process = False
         self.ansys_path = ansys_path
+        self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
 
     @property
     def available_api_types(self):
@@ -499,6 +499,7 @@ class GrpcServer(CServer):
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
+        self._own_process = launch_server
 
         address = f"{ip}:{port}"
 
@@ -520,7 +521,6 @@ class GrpcServer(CServer):
         self._input_ip = ip
         self._input_port = port
         self.live = True
-        self._own_process = launch_server
         self._create_shutdown_funcs()
         self.set_as_global(as_global=as_global)
 
@@ -639,10 +639,8 @@ class InProcessServer(CServer):
         pass
 
     def __eq__(self, other_server):
-        """Return true, if ***** are equals"""
-        if isinstance(other_server, InProcessServer):
-            raise NotImplementedError
-        return False
+        """Return true, if the ip and the port are equals"""
+        return isinstance(other_server, InProcessServer)
 
     @property
     def client(self):
@@ -701,6 +699,8 @@ class LegacyGrpcServer(BaseServer):
         super().__init__()
 
         self._info_instance = None
+        self._own_process = launch_server
+        self.live = False
         self.modules = types.SimpleNamespace()
         # Load Ans.Dpf.Grpc?
         import grpc
@@ -733,7 +733,6 @@ class LegacyGrpcServer(BaseServer):
         self._input_port = port
         self.live = True
         self.ansys_path = ansys_path
-        self._own_process = launch_server
         self._stubs = {}
 
         self._create_shutdown_funcs()

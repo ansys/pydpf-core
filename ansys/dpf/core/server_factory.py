@@ -1,21 +1,20 @@
 """
 Server factory, server configuration and communication protocols
 ================================================================
+
 Contains the server factory as well as the communication
 protocols and server configurations available.
 """
 
 
 class CommunicationProtocols:
-    """Defines available communication protocols
-    """
+    """Defines available communication protocols"""
     gRPC = "gRPC"
     InProcess = "InProcess"
 
 
 class ServerConfig:
-    """Provides an instance of ServerConfig object to manage the server type used
-    """
+    """Provides an instance of ServerConfig object to manage the server type used"""
     def __init__(self, protocol=CommunicationProtocols.gRPC, legacy=True):
         self.legacy = legacy
         if not protocol:
@@ -31,16 +30,14 @@ class ServerConfig:
 
 
 class AvailableServerConfigs:
-    """Defines available server configurations
-    """
+    """Defines available server configurations"""
     LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
     InProcessServer = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
     GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
 
 
 class ServerFactory:
-    """Factory for server type choice depending on current configuration.
-    """
+    """Factory for server type choice depending on current configuration."""
     @staticmethod
     def get_server_type_from_config(config=None, ansys_path=None):
         from ansys.dpf.core.server_types import LegacyGrpcServer, GrpcServer, InProcessServer
