@@ -50,8 +50,7 @@ def _get_dll_path(name, ansys_path=None):
         ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
     else:
         ANSYS_INSTALL = ansys_path
-    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
-                               "linx64" if ISPOSIX else "winx64")
+    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, load_api._get_path_in_install())
     if ISPOSIX:
         name = "lib" + name
     return os.path.join(SUB_FOLDERS, name)
@@ -66,6 +65,27 @@ def check_valid_ip(ip):
         socket.inet_aton(ip)
     except OSError:
         raise ValueError(f'Invalid IP address "{ip}"')
+
+
+def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install = None):
+    if path_in_install is None:
+        path_in_install = load_api._get_path_in_install()
+    if os.path.isdir(f"{ansys_path}/{path_in_install}"):
+        dpf_run_dir = f"{ansys_path}/{path_in_install}"
+    else:
+        dpf_run_dir = f"{ansys_path}"
+    if not os.path.isdir(dpf_run_dir):
+        raise NotADirectoryError(
+            f'Invalid ansys path at "{ansys_path}".  '
+            "Unable to locate the directory containing DPF at "
+            f'"{dpf_run_dir}"'
+        )
+    else:
+        if not os.path.exists(os.path.join(dpf_run_dir, executable)):
+            raise FileNotFoundError(
+                f'DPF executable not found at "{dpf_run_dir}".  '
+                f'Unable to locate the executable "{executable}"')
+    return dpf_run_dir
 
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
@@ -93,27 +113,11 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
             run_cmd = f"{executable} --address {ip} --port {port}"
-            path_in_install = "aisol/bin/winx64"
         else:
             executable = "./Ans.Dpf.Grpc.sh"  # pragma: no cover
             run_cmd = [executable, f"--address {ip}", f"--port {port}"]  # pragma: no cover
-            path_in_install = "aisol/bin/linx64"  # pragma: no cover
-
-        # verify ansys path is valid
-        if os.path.isdir(f"{ansys_path}/{path_in_install}"):
-            dpf_run_dir = f"{ansys_path}/{path_in_install}"
-        else:
-            dpf_run_dir = f"{ansys_path}"
-        if not os.path.isdir(dpf_run_dir):
-            raise NotADirectoryError(
-                f'Invalid ansys path at "{ansys_path}".  '
-                "Unable to locate the directory containing DPF at "
-                f'"{dpf_run_dir}"')
-        else:
-            if not os.path.exists(os.path.join(dpf_run_dir, executable)):
-                raise FileNotFoundError(
-                    f'DPF executable not found at "{dpf_run_dir}".  '
-                    f'Unable to locate the executable "{executable}"')
+        path_in_install = load_api._get_path_in_install(internal_folder="bin")
+        dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
