@@ -120,13 +120,13 @@ class TestServer:
         client = server.client
 
 
-def test_busy_port():
-    if not dpf.core.SERVER:
-        start_local_server()
-    busy_port = dpf.core.SERVER.port
+def test_busy_port(remote_config_server_type):
+    my_serv = start_local_server(config=remote_config_server_type)
+    busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
         server_types.launch_dpf(ansys_path=dpf.core.misc.find_ansys(), port=busy_port)
-    server = start_local_server(as_global=False, port=busy_port)
+    server = start_local_server(as_global=False, port=busy_port,
+                                config=remote_config_server_type)
     assert server.port != busy_port
 
 
