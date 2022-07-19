@@ -222,43 +222,43 @@ def test_field_definition_field(allkindofcomplexity):
     assert f.location == dpf.core.locations.nodal
 
 
-# def test_field_definition_modif_field(allkindofcomplexity):
-#     dataSource = dpf.core.DataSources()
-#     dataSource.set_result_file_path(allkindofcomplexity)
-#     op = dpf.core.Operator("U")
-#     op.connect(4, dataSource)
-#
-#     fcOut = op.get_output(0, dpf.core.types.fields_container)
-#     f = fcOut[0]
-#     fielddef = f.field_definition
-#     assert fielddef.unit == "m"
-#     assert fielddef.location == dpf.core.locations.nodal
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [3]
-#     assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
-#
-#     fielddef.unit = "mm"
-#     assert fielddef.unit == "mm"
-#     fielddef.location = dpf.core.locations.elemental
-#     assert fielddef.location == dpf.core.locations.elemental
-#     fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.scalar
-#     assert fielddef.dimensionality.dim == [1]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
-#     assert fielddef.dimensionality.dim == [3, 3]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [3]
-#
-#     fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
-#     assert fielddef.dimensionality.nature == dpf.core.natures.vector
-#     assert fielddef.dimensionality.dim == [4]
-#
-#     fielddef.shell_layers = dpf.core.shell_layers.bottom
-#     assert fielddef.shell_layers == dpf.core.shell_layers.bottom
+def test_field_definition_modif_field(allkindofcomplexity):
+    dataSource = dpf.core.DataSources()
+    dataSource.set_result_file_path(allkindofcomplexity)
+    op = dpf.core.Operator("U")
+    op.connect(4, dataSource)
+
+    fcOut = op.get_output(0, dpf.core.types.fields_container)
+    f = fcOut[0]
+    fielddef = f.field_definition
+    assert fielddef.unit == "m"
+    assert fielddef.location == dpf.core.locations.nodal
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
+    assert fielddef.shell_layers == dpf.core.shell_layers.layerindependent
+
+    fielddef.unit = "mm"
+    assert fielddef.unit == "mm"
+    fielddef.location = dpf.core.locations.elemental
+    assert fielddef.location == dpf.core.locations.elemental
+    fielddef.dimensionality = dpf.core.Dimensionality.scalar_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.scalar
+    assert fielddef.dimensionality.dim == [1]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.tensor_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.symmatrix
+    assert fielddef.dimensionality.dim == [3, 3]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_3d_dim()
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [3]
+
+    fielddef.dimensionality = dpf.core.Dimensionality.vector_dim(4)
+    assert fielddef.dimensionality.nature == dpf.core.natures.vector
+    assert fielddef.dimensionality.dim == [4]
+
+    fielddef.shell_layers = dpf.core.shell_layers.bottom
+    assert fielddef.shell_layers == dpf.core.shell_layers.bottom
 
 
 def test_field_definition_set_in_field(allkindofcomplexity):
