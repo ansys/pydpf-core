@@ -15,7 +15,7 @@ env:
 
 jobs:
   Retro_221:
-    if: startsWith(github.head_ref, 'master') || contains(github.head_ref, '*retro*')
+    if: startsWith(github.head_ref, 'master') || contains(github.head_ref, 'retro')
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
