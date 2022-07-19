@@ -25,8 +25,7 @@ from ansys.dpf.gate import (
 
 
 class DataTree:
-    """
-    Represents an entity mapping attributes names to values.
+    """Represents an entity mapping attributes names to values.
 
     Parameters
     ----------
@@ -44,9 +43,9 @@ class DataTree:
 
     >>> from ansys.dpf import core as dpf
     >>> data_tree = dpf.DataTree({"num_entities":3, "list_of_raws":[1,2,3,4], "name": "George"})
-    >>> data_tree.get_as("name",dpf.types.string)
+    >>> data_tree.get_as("name", dpf.types.string)
     'George'
-    >>> data_tree.get_as("list_of_raws",dpf.types.vec_int)
+    >>> data_tree.get_as("list_of_raws", dpf.types.vec_int)
     [1, 2, 3, 4]
 
     Create a data tree with add.
@@ -423,9 +422,9 @@ class DataTree:
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
         >>> data_tree.get_as("id")
         '3'
-        >>> data_tree.get_as("id",dpf.types.int)
+        >>> data_tree.get_as("id", dpf.types.int)
         3
-        >>> data_tree.get_as("qualities",dpf.types.vec_string)
+        >>> data_tree.get_as("qualities", dpf.types.vec_string)
         ['nice', 'funny']
 
         """
