@@ -2,7 +2,8 @@
 
 ## Unit Testing
 
-Once ansys-dpf-core package is installed (see README.md), unit tests can be run by installing the testing requirements with `pip install -r requirements_test.txt` and then running pytest with:
+Once ansys-dpf-core package is installed (see README.md), unit tests can be run
+by installing the testing requirements with `pip install -r requirements/requirements_test.txt` and then running pytest with:
 
 ```
 pytest
