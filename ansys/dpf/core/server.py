@@ -18,7 +18,8 @@ from ansys.dpf.core.misc import find_ansys, is_ubuntu
 from ansys.dpf.core import errors
 
 from ansys.dpf.core._version import (
-    __ansys_version__
+    __ansys_version__,
+    __previous_ansys_versions__
 )
 from ansys.dpf.core.server_factory import ServerConfig, ServerFactory
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
@@ -188,6 +189,11 @@ def start_local_server(
         # Then check for usual installation folders with AWP_ROOT and find_ansys
         if ansys_path is None:
             ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
+        if ansys_path is None:
+            for version in sorted(__previous_ansys_versions__, reverse=True):
+                ansys_path = os.environ.get("AWP_ROOT" + version)
+                if ansys_path:
+                    break
         # If still no install has been found, throw an exception
         if ansys_path is None:
             raise ValueError(

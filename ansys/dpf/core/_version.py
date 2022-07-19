@@ -6,6 +6,8 @@ __version__ = ".".join(map(str, version_info))
 __ansys_version__ = "222"
 min_server_version = "2.0"
 
+__previous_ansys_versions__ = ["221"]
+
 server_to_ansys_grpc_dpf_version = {
     "1.0": "0.2.2",
     "2.0": "0.3.0",
