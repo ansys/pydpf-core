@@ -41,8 +41,8 @@ def test_simple_remote_workflow(simple_bar, local_server):
     remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
 
     local_wf.connect_with(remote_workflow, ("out", "in"))
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [2.52368345e-05])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [2.52368345e-05])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -86,8 +86,8 @@ def test_multi_process_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf)
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -133,8 +133,8 @@ def test_multi_process_connect_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf, ("distrib", "distrib" + str(i)))
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -181,8 +181,8 @@ def test_multi_process_connect_operator_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf, ("distrib", "distrib" + str(i)))
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -229,8 +229,8 @@ def test_multi_process_getoutput_remote_workflow():
         tmp = wf.get_output("distrib", core.types.fields_container)
         local_wf.connect("distrib" + str(i), tmp)
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -288,8 +288,8 @@ def test_multi_process_chain_remote_workflow():
     for i, wf in enumerate(workflows):
         remote_workflow.connect_with(wf, ("distrib", "distrib" + str(i)))
 
-    max = remote_workflow.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = remote_workflow.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -369,8 +369,8 @@ def test_multi_process_local_remote_local_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf, ("distrib", "distrib" + str(i)))
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -400,8 +400,8 @@ def test_multi_process_transparent_api_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf)
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -431,8 +431,8 @@ def test_multi_process_with_names_transparent_api_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf, ("distrib", "distrib" + str(i)))
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -465,8 +465,8 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf)
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -500,8 +500,8 @@ def test_multi_process_transparent_api_connect_local_op_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf)
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -532,8 +532,8 @@ def test_multi_process_transparent_api_create_on_local_remote_workflow():
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(remote_wf, ("distrib", "distrib" + str(i)))
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
@@ -562,8 +562,8 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(remote_wf, ("distrib", "distrib" + str(i)))
 
-    max = local_wf.get_output("tot_output", core.types.field)
-    assert np.allclose(max.data, [10.03242272])
+    max_field = local_wf.get_output("tot_output", core.types.field)
+    assert np.allclose(max_field.data, [10.03242272])
 
 
 @pytest.mark.skipif(not meets_version(get_server_version(core._global_server()), "4.0"),

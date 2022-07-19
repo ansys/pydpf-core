@@ -660,7 +660,8 @@ class Workflow:
 
     def __del__(self):
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
+            if self._internal_obj is not None and self._internal_obj != "None":
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
 
