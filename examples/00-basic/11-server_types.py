@@ -84,3 +84,6 @@ grpc_field = dpf.fields_factory.create_scalar_field(2)
 grpc_field.append([1.], 1)
 grpc_field.append([2.], 2)
 print(grpc_field, type(grpc_field._server), grpc_field._server)
+
+# Go back to default config:
+dpf.SERVER_CONFIGURATION = None
