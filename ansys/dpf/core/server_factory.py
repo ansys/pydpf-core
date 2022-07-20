@@ -6,6 +6,7 @@ Contains the server factory as well as the communication
 protocols and server configurations available.
 """
 
+from ansys.dpf.gate.load_api import _get_path_in_install
 
 class CommunicationProtocols:
     """Defines available communication protocols"""
@@ -53,14 +54,12 @@ class ServerFactory:
             return LegacyGrpcServer
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
             import os
-            from ansys.dpf.core._version import __ansys_version__
-            ISPOSIX = os.name == "posix"
+            from ansys.dpf.core._version import __ansys_version__        
             ANSYS_INSTALL = ansys_path
             if ANSYS_INSTALL is None:
                 ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
             if ANSYS_INSTALL is not None:
-                SUB_FOLDERS = os.path.join(ANSYS_INSTALL, "aisol", "dll" if ISPOSIX else "bin",
-                                           "linx64" if ISPOSIX else "winx64")
+                SUB_FOLDERS = os.path.join(ANSYS_INSTALL, _get_path_in_install())
                 os.environ["PATH"] += SUB_FOLDERS
             return GrpcServer
         elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:

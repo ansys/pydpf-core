@@ -257,7 +257,11 @@ def test_dpf_join(server_type):
         assert conc == "temp\\file.rst"
 
 
-@conftest.raises_for_servers_version_under("4.0")
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN,
+                    reason='This test must have gatebin installed')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
 def test_load_api_without_awp_root():
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
@@ -316,7 +320,7 @@ def test_load_api_with_awp_root_2():
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(config=conf, as_global=False,
-                                      ip=loc_serv.ip, port=loc_serv.port)
+                                  ip=loc_serv.ip, port=loc_serv.port)
 
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
@@ -346,7 +350,7 @@ def test_load_api_without_awp_root_no_gatebin():
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     with pytest.raises(ModuleNotFoundError):
         serv = dpf.core.connect_to_server(config=conf, as_global=False,
-                                          ip=loc_serv.ip, port=loc_serv.port)
+                                  ip=loc_serv.ip, port=loc_serv.port)
 
     # reset awp_root
     os.environ[awp_root_name] = awp_root_save

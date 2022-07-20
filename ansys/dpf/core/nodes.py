@@ -6,6 +6,7 @@ Nodes
 """
 import numpy as np
 from ansys.dpf.core.common import nodal_properties, locations
+from ansys.dpf.core.check_version import version_requires
 
 
 class Node:
@@ -113,6 +114,7 @@ class Nodes:
 
     def __init__(self, mesh):
         self._mesh = mesh
+        self._server = mesh._server
         self._mapping_id_to_index = None
 
     def __str__(self):
@@ -220,6 +222,19 @@ class Nodes:
 
         """
         return self._get_coordinates_field()
+
+    @coordinates_field.setter
+    @version_requires("3.0")
+    def coordinates_field(self, property_field):
+        """
+        Coordinates field setter.
+
+        Parameters
+        ----------
+        property_field : Field
+            Field that contains coordinates
+        """
+        self._mesh.set_coordinates_field(property_field)
 
     @property
     def nodal_connectivity_field(self):
