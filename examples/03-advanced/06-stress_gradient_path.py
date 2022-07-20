@@ -59,7 +59,7 @@ mesh = model.metadata.meshed_region
 ###############################################################################
 # Get Equivalent stress fields container.
 #
-stress_fc = model.results.stress().eqv().outputs.fields_container()
+stress_fc = model.results.stress().eqv().eval()
 ###############################################################################
 # Define Nodal scoping.
 # Make sure to define ``"Nodal"`` as the requested location, important for the
