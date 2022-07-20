@@ -618,11 +618,12 @@ class InProcessServer(CServer):
         path = _get_dll_path(name, ansys_path)
         try:
             data_processing_core_load_api(path, "common")
-        except:
+        except Exception as e:
             if not os.path.isdir(os.path.dirname(path)):
              raise NotADirectoryError(
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
+            raise e
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
 

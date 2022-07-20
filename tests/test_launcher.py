@@ -1,8 +1,10 @@
 import os
-import time
 
 import pytest
 import psutil
+import subprocess
+import sys
+import io
 from ansys.dpf import core
 
 
@@ -40,11 +42,6 @@ class TestServerConfigs:
             core.SERVER = None
 
         request.addfinalizer(reset_server)
-
-    def test_start_local_wrong_ansys_path(self, server_config):
-        with pytest.raises(NotADirectoryError):
-            core.start_local_server(ansys_path="test/", use_docker_by_default=False,
-                                    config=server_config, as_global=False)
 
     def test_start_local_custom_ansys_path(self, server_config):
         path = os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
@@ -84,6 +81,34 @@ class TestServerConfigs:
             os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] = awp_root
             os.unsetenv("ANSYS_DPF_PATH")
             raise e
+
+    def test_start_local_wrong_ansys_path(self, server_config):
+        if server_config != core.AvailableServerConfigs.InProcessServer:
+            def test_start_local_wrong_ansys_path(self, server_config):
+                with pytest.raises(NotADirectoryError):
+                    core.start_local_server(ansys_path="test/", use_docker_by_default=False,
+                                            config=server_config, as_global=False)
+        # the test for in process should be done in another process because if dataProcessingCore
+        # is already loaded, no error will be raised
+        else:
+            process = subprocess.Popen(
+                [
+                    sys.executable,
+                    "-c",
+                    "from ansys.dpf import core\n"
+                    "try:\n"
+                    "    core.start_local_server(ansys_path='test/', use_docker_by_default=False,"
+                    "config=core.server_factory.AvailableServerConfigs.InProcessServer, as_global=False)\n"
+                    "except NotADirectoryError:\n"
+                    "    exit()\n"
+                    "raise Exception('should have raised NotADirectoryError')\n"
+                ]
+                , stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            errors = ""
+            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
+                errors += line
+            if process.returncode != None:
+                raise Exception(errors)
 
 
 def test_start_local_failed_executable():
