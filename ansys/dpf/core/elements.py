@@ -10,6 +10,7 @@ from ansys.dpf.core import nodes, scoping
 from ansys.dpf.core.common import locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
+from ansys.dpf.core.check_version import version_requires
 
 
 class Element:
@@ -238,6 +239,7 @@ class Elements:
 
     def __init__(self, mesh):
         self._mesh = mesh
+        self._server = mesh._server
         self._mapping_id_to_index = None
 
     def __str__(self):
@@ -487,6 +489,19 @@ class Elements:
         """
         return self._mesh.field_of_properties(elemental_properties.element_type)
 
+    @element_types_field.setter
+    @version_requires("3.0")
+    def element_types_field(self, property_field):
+        """
+        Element types field setter.
+
+        Parameters
+        ----------
+        property_field : PropertyField
+            PropertyField that contains element type values
+        """
+        self._mesh.set_property_field(elemental_properties.element_type, property_field)
+
     @property
     def materials_field(self):
         """Field of all material IDs.
@@ -509,6 +524,19 @@ class Elements:
 
         """
         return self._mesh.field_of_properties(elemental_properties.material)
+
+    @materials_field.setter
+    @version_requires("3.0")
+    def materials_field(self, material_field):
+        """
+        Materials field setter.
+
+        Parameters
+        ----------
+        material_field : PropertyField
+            PropertyField that contains materials value
+        """
+        self._mesh.set_property_field(elemental_properties.material, material_field)
 
     @property
     def connectivities_field(self):
@@ -533,9 +561,22 @@ class Elements:
         """
         return self._get_connectivities_field()
 
+    @connectivities_field.setter
+    @version_requires("3.0")
+    def connectivities_field(self, property_field):
+        """
+        Connectivity field setter.
+
+        Parameters
+        ----------
+        property_field : PropertyField
+            PropertyField that contains connectivity value
+        """
+        self._mesh.set_property_field(elemental_properties.connectivity, property_field)
+
     def _get_connectivities_field(self):
         """Retrieve the connectivities field."""
-        return self._mesh.field_of_properties(elemental_properties.connectivity)
+        return self._mesh.property_field(elemental_properties.connectivity)
 
     @property
     def n_elements(self) -> int:

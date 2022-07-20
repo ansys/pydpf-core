@@ -257,7 +257,11 @@ def test_dpf_join(server_type):
         assert conc == "temp\\file.rst"
 
 
-@conftest.raises_for_servers_version_under("4.0")
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN,
+                    reason='This test must have gatebin installed')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
 def test_load_api_without_awp_root():
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
@@ -285,6 +289,8 @@ def test_load_api_without_awp_root():
     os.environ[awp_root_name] = awp_root_save
 
 
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN,
+                    reason='This test must have gatebin installed')
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='GrpcServer class is '
                            'supported starting server version 4.0')
@@ -296,6 +302,73 @@ def test_load_api_with_awp_root():
 
     assert serv_2._client_api_path is not None
     assert serv_2._grpc_client_path is not None
+    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
+    assert dpf_inner_path in serv_2._client_api_path
+    assert dpf_inner_path in serv_2._grpc_client_path
+
+
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN,
+                    reason='This test must have gatebin installed')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
+def test_load_api_with_awp_root_2():
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
+    
+    # start CServer
+    conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+    serv = dpf.core.connect_to_server(config=conf, as_global=False,
+                                  ip=loc_serv.ip, port=loc_serv.port)
+    
+    assert serv._client_api_path is not None
+    assert serv._grpc_client_path is not None
+    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
+    assert dpf_inner_path in serv._client_api_path
+    assert dpf_inner_path in serv._grpc_client_path
+
+
+@pytest.mark.skipif(conftest.IS_USING_GATEBIN,
+                    reason='This test must not have gatebin installed')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
+def test_load_api_without_awp_root_no_gatebin():
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
+    
+    awp_root_name = "AWP_ROOT" + dpf.core._version.__ansys_version__
+    awp_root_save = os.environ.get(
+        awp_root_name, None
+    )
+    
+    # without awp_root
+    del os.environ[awp_root_name]
+    # start CServer
+    conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+    with pytest.raises(ModuleNotFoundError):
+        serv = dpf.core.connect_to_server(config=conf, as_global=False,
+                                  ip=loc_serv.ip, port=loc_serv.port)
+    
+    # reset awp_root
+    os.environ[awp_root_name] = awp_root_save
+
+
+@pytest.mark.skipif(conftest.IS_USING_GATEBIN,
+                    reason='This test must no have gatebin installed')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='GrpcServer class is '
+                           'supported starting server version 4.0')
+def test_load_api_with_awp_root_no_gatebin():
+    # with awp_root
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+    serv_2 = dpf.core.start_local_server(config=conf, as_global=False)
+    
+    assert serv_2._client_api_path is not None
+    assert serv_2._grpc_client_path is not None
     ISPOSIX = os.name == "posix"
     if not ISPOSIX:
         dpf_inner_path = os.path.join("aisol", "bin", "winx64")
@@ -305,10 +378,12 @@ def test_load_api_with_awp_root():
     assert dpf_inner_path in serv_2._grpc_client_path
 
 
+@pytest.mark.skipif(conftest.IS_USING_GATEBIN,
+                    reason='This test must not have gatebin installed')
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='GrpcServer class is '
                            'supported starting server version 4.0')
-def test_load_api_with_awp_root_2():
+def test_load_api_with_awp_root_2_no_gatebin():
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
