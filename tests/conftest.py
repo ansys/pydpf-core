@@ -6,6 +6,7 @@ pytest as a session fixture
 import os
 import functools
 
+import psutil
 import pytest
 
 import ansys.dpf.core.server_types
@@ -15,6 +16,7 @@ from ansys.dpf.core import path_utilities
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
 from ansys.dpf.gate.load_api import _try_use_gatebin
+import warnings
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
@@ -175,6 +177,7 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
 
 IS_USING_GATEBIN = _try_use_gatebin()
 
+
 def raises_for_servers_version_under(version):
     """Launch the test normally if the server version is equal or higher than the "version"
     parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
@@ -244,10 +247,19 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     def remote_config_server_type(request):
         return request.param
 
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
+    def server_type_legacy_grpc(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
 else:
     @pytest.fixture(scope="session")
     def server_type():
-        return core.start_local_server(as_global=False)
+        return core._global_server()
 
     @pytest.fixture(scope="session", params=[
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
@@ -256,7 +268,7 @@ else:
                         "ansys-grpc-dpf",
                     ])
     def server_type_remote_process(request):
-        return core.start_local_server(config=request.param, as_global=False)
+        return core._global_server()
 
     @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
                                                           legacy=True)],
@@ -273,6 +285,11 @@ else:
                     ])
     def remote_config_server_type(request):
         return request.param
+
+
+    @pytest.fixture(scope="session")
+    def server_type_legacy_grpc(request):
+        return core._global_server()
 
 
 @pytest.fixture(scope="session", params=[
@@ -294,15 +311,6 @@ def server_clayer_remote_process(request):
                     "in Process CLayer"
                 ])
 def server_clayer(request):
-    return core.start_local_server(config=request.param, as_global=False)
-
-
-@pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
-                                                      legacy=True)],
-                ids=[
-                    "ansys-grpc-dpf",
-                ])
-def server_type_legacy_grpc(request):
     return core.start_local_server(config=request.param, as_global=False)
 
 
@@ -338,3 +346,17 @@ local_servers = LocalServers()
 @pytest.fixture()
 def local_server():
     return local_servers[0]
+
+
+@pytest.fixture(autouse=False)
+def count_servers(request):
+    """Count servers once we are finished."""
+
+    def count_servers():
+        num_dpf_exe = 0
+        for proc in psutil.process_iter():
+            if proc.name() == "Ans.Dpf.Grpc.exe":
+                num_dpf_exe += 1
+        warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
+
+    request.addfinalizer(count_servers)
