@@ -188,12 +188,14 @@ def start_local_server(
             ansys_path = os.environ.get("ANSYS_DPF_PATH")
         # Then check for usual installation folders with AWP_ROOT and find_ansys
         if ansys_path is None:
-            ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
+            ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
         if ansys_path is None:
             for version in sorted(__previous_ansys_versions__, reverse=True):
                 ansys_path = os.environ.get("AWP_ROOT" + version)
                 if ansys_path:
                     break
+        if ansys_path is None:
+            ansys_path = find_ansys()
         # If still no install has been found, throw an exception
         if ansys_path is None:
             raise ValueError(
