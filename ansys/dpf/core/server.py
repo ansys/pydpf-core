@@ -14,13 +14,9 @@ import warnings
 import traceback
 from ansys import dpf
 
-from ansys.dpf.core.misc import find_ansys, is_ubuntu
+from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
 from ansys.dpf.core import errors
 
-from ansys.dpf.core._version import (
-    __ansys_version__,
-    __previous_ansys_versions__
-)
 from ansys.dpf.core.server_factory import ServerConfig, ServerFactory
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
 
@@ -182,31 +178,7 @@ def start_local_server(
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
     use_pypim = use_pypim_by_default and is_pypim_configured()
     if not use_docker and not use_pypim:
-        # If no custom path was given in input
-        # First check the environment variable for a custom path
-        if ansys_path is None:
-            ansys_path = os.environ.get("ANSYS_DPF_PATH")
-        # Then check for usual installation folders with AWP_ROOT and find_ansys
-        if ansys_path is None:
-            ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
-        if ansys_path is None:
-            for version in sorted(__previous_ansys_versions__, reverse=True):
-                ansys_path = os.environ.get("AWP_ROOT" + version)
-                if ansys_path:
-                    break
-        if ansys_path is None:
-            ansys_path = find_ansys()
-        # If still no install has been found, throw an exception
-        if ansys_path is None:
-            raise ValueError(
-                "Unable to locate any Ansys installation.\n"
-                f'Make sure the "AWP_ROOT{__ansys_version__}" environment variable '
-                f"is set if using ANSYS version {__ansys_version__}.\n"
-                "You can also manually define the path to the ANSYS installation root folder"
-                " of the version you want to use (vXXX folder):\n"
-                '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
-                '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"')
-
+        ansys_path = get_ansys_path(ansys_path)
         # parse the version to an int and check for supported
         try:
             ver = int(str(ansys_path)[-3:])
