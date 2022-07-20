@@ -21,10 +21,8 @@ CLayer Ans.Dpf.GrpcClient.
  module ansys.grpc.dpf.
 
 """
-from numpy.distutils.command.config import config
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Start Servers with custom ServerConfig
