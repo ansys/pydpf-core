@@ -45,7 +45,7 @@ def _get_dll_path(name, ansys_path=None):
     from ansys.dpf.core import _version
     ISPOSIX = os.name == "posix"
     if ansys_path is None:
-        ansys_path = os.environ.get("ANSYS_PATH")
+        ansys_path = os.environ.get("ANSYS_DPF_PATH")
     if ansys_path is None:
         ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
     else:
@@ -616,7 +616,13 @@ class InProcessServer(CServer):
         from ansys.dpf.gate import data_processing_capi
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
-        data_processing_core_load_api(path, "common")
+        try:
+            data_processing_core_load_api(path, "common")
+        except:
+            if not os.path.isdir(os.path.dirname(path)):
+             raise NotADirectoryError(
+                    f"DPF directory not found at {os.path.dirname(path)}"
+                    f"Unable to locate the following file: {path}")
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
 
