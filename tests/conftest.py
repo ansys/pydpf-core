@@ -245,10 +245,6 @@ else:
         return core.start_local_server(config=request.param, as_global=False)
 
 
-    )
-
-    )
-
 @pytest.fixture(
     scope="session",
     params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
