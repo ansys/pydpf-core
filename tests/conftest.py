@@ -247,7 +247,6 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     def remote_config_server_type(request):
         return request.param
 
-
     @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
                                                           legacy=True)],
                     ids=[
@@ -285,7 +284,6 @@ else:
                     ])
     def remote_config_server_type(request):
         return request.param
-
 
     @pytest.fixture(scope="session")
     def server_type_legacy_grpc(request):
