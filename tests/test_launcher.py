@@ -116,7 +116,7 @@ class TestServerConfigs:
 
 def test_start_local_failed_executable():
     from ansys.dpf.core._version import __ansys_version__
-    from ansys.dpf.core.server import find_ansys
+    from ansys.dpf.core.misc import find_ansys
     from pathlib import Path
     with pytest.raises(FileNotFoundError):
         path = Path(os.environ.get("AWP_ROOT" + __ansys_version__,
