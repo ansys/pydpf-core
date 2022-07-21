@@ -136,9 +136,14 @@ Dependencies
 DPF-Core dependencies are automatically checked when packages are 
 installed. The package dependencies are:
 
-- `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ (gRPC code generated from protobufs)
+- `ansys.dpf.gate <https://pypi.org/project/ansys-dpf-gate/>`_ (Gate to DPF C API or python
+  grpc API). Dependencies of gate are (and/or depending on the server configuration):
+    - `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ (gRPC code generated from
+      protobufs)
+    - `ansys.dpf.gatebin <https://pypi.org/project/ansys-dpf-gatebin/>`_ (os specific binaries
+      with DPF C APIs)
 - `psutil <https://pypi.org/project/psutil/>`_
-- `progressbar2 <https://pypi.org/project/progressbar2/>`_
+- `tqdm <https://pypi.org/project/tqdm/>`_
 
 Optional Dependencies
 ~~~~~~~~~~~~~~~~~~~~~
