@@ -14,6 +14,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.gate.load_api import _try_use_gatebin
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
@@ -172,6 +173,7 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
     get_server_version(core._global_server()), "3.0"
 )
 
+IS_USING_GATEBIN = _try_use_gatebin()
 
 def raises_for_servers_version_under(version):
     """Launch the test normally if the server version is equal or higher than the "version"
