@@ -459,6 +459,11 @@ class CServer(BaseServer, ABC):
         super().__init__()
         self._own_process = False
         self.ansys_path = ansys_path
+        warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
+                                  f"trying to load api with {ansys_path}"
+                                  f""
+                                  f""
+                                  f""))
         self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
 
     @property
@@ -628,8 +633,6 @@ class InProcessServer(CServer):
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
-        if not self.meet_version("4.0"):
-            raise errors.DpfVersionNotSupported("4.0")
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
 
