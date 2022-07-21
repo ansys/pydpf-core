@@ -269,53 +269,6 @@ class MeshedRegion:
         self._api.meshed_region_set_coordinates_field(self, coordinates_field)
 
     @property
-    def available_property_fields(self):
-        """
-        Returns a list of available property fields
-
-        Returns
-        -------
-        available_property_fields : list str
-        """
-        return sorted(self._stub.List(self._message).available_prop)
-
-    def property_field(self, property_name):
-        """
-        Property field getter. It can be coordinates (field),
-        element types (property field)...
-
-        Returns
-        -------
-        field_or_property_field : core.Field or core.PropertyField
-        """
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._message)
-        request.property_type.property_name.property_name = property_name
-        fieldOut = self._stub.ListProperty(request)
-        if fieldOut.datatype == u"int":
-            return property_field.PropertyField(server=self._server, property_field=fieldOut)
-        else:
-            return field.Field(server=self._server, field=fieldOut)
-
-    @version_requires("3.0")
-    def set_property_field(self, property_name, value):
-        """
-        Property field setter. It can be coordinates (field),
-        element types (property field)...
-
-        Parameters
-        ----------
-        property_name : str
-            property name of the field to set
-        value : PropertyField or Field
-        """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._message)
-        request.property_type.property_name.property_name = property_name
-        request.field.CopyFrom(value._message)
-        self._stub.SetField(request)
-
-    @property
     def available_named_selections(self):
         """
         List of available named selections.
