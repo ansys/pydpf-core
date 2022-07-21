@@ -3,6 +3,10 @@ import platform
 import glob
 import os
 from pkgutil import iter_modules
+from ansys.dpf.core._version import (
+    __ansys_version__,
+    __previous_ansys_versions__
+)
 
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
@@ -55,6 +59,34 @@ def is_ubuntu():
     if os.name == "posix":
         return "ubuntu" in platform.platform().lower()
     return False
+
+
+def get_ansys_path(ansys_path):
+    # If no custom path was given in input
+    # First check the environment variable for a custom path
+    if ansys_path is None:
+        ansys_path = os.environ.get("ANSYS_DPF_PATH")
+    # Then check for usual installation folders with AWP_ROOT and find_ansys
+    if ansys_path is None:
+        ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
+    if ansys_path is None:
+        for version in sorted(__previous_ansys_versions__, reverse=True):
+            ansys_path = os.environ.get("AWP_ROOT" + version)
+            if ansys_path:
+                break
+    if ansys_path is None:
+        ansys_path = find_ansys()
+    # If still no install has been found, throw an exception
+    if ansys_path is None:
+        raise ValueError(
+            "Unable to locate any Ansys installation.\n"
+            f'Make sure the "AWP_ROOT{__ansys_version__}" environment variable '
+            f"is set if using ANSYS version {__ansys_version__}.\n"
+            "You can also manually define the path to the ANSYS installation root folder"
+            " of the version you want to use (vXXX folder):\n"
+            '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
+            '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"')
+    return ansys_path
 
 
 def find_ansys():

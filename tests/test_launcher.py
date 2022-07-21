@@ -1,6 +1,7 @@
 import os
 
 import pytest
+import conftest
 import psutil
 import subprocess
 import sys
@@ -32,6 +33,7 @@ server_configs_names = ["InProcessServer",
                         ]
 
 
+@conftest.raises_for_servers_version_under("4.0")
 @pytest.mark.parametrize("server_config", server_configs, ids=server_configs_names, scope="class")
 class TestServerConfigs:
     @pytest.fixture(scope="class", autouse=True)
@@ -66,7 +68,7 @@ class TestServerConfigs:
             p = psutil.Process(server.info["server_process_id"])
             assert os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] in p.cwd()
 
-    def test_start_local_ansys_path_environement_variable(self, server_config):
+    def test_start_local_ansys_path_environment_variable(self, server_config):
         awp_root = os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
         try:
             os.environ["ANSYS_DPF_PATH"] = awp_root
