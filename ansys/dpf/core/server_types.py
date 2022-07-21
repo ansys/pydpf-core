@@ -628,6 +628,8 @@ class InProcessServer(CServer):
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
+        if not self.meet_version("4.0"):
+            raise errors.DpfVersionNotSupported("4.0")
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
 
