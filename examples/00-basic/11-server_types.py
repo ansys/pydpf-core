@@ -14,11 +14,11 @@ Until Ansys 2022R1, only gRPC communication using python module ansys.grpc.dpf i
 
 - :class:`ansys.dpf.core.server_types.InProcessServer` loading DPF in Process.
 
-- :class:`ansys.dpf.core.server_types.GrpcServer` using gRPC communication through DPF gRPC
-CLayer Ans.Dpf.GrpcClient.
+- :class:`ansys.dpf.core.server_types.GrpcServer` using gRPC communication through DPF
+  gRPC CLayer Ans.Dpf.GrpcClient.
 
 - :class:`ansys.dpf.core.server_types.LegacyGrpcServer` using gRPC communication through the python
- module ansys.grpc.dpf.
+  module ansys.grpc.dpf.
 
 """
 

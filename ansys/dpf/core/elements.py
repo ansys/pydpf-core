@@ -601,19 +601,6 @@ class Elements:
         """Retrieve the connectivities field."""
         return self._mesh.property_field(elemental_properties.connectivity)
 
-    @connectivities_field.setter
-    @version_requires("3.0")
-    def connectivities_field(self, property_field):
-        """
-        Connectivity field setter.
-
-        Parameters
-        ----------
-        property_field : PropertyField
-            PropertyField that contains connectivity value
-        """
-        self._property_field_setter(property_field, elemental_properties.connectivity)
-
     @property
     def n_elements(self) -> int:
         """Number of elements"""

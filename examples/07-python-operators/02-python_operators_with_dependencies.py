@@ -14,9 +14,9 @@ see :ref:`ref_python_plugin_package`.
 This plugin will hold an Operator which implementation depends on a
 third party python module named
 `gltf <https://pypi.org/project/gltf/>`_. This Operator takes a path,
- a mesh and 3D vector field in input
-and exports the mesh and the norm of the input field in a gltf file
-located at the given path.
+a mesh and 3D vector field in input and exports the mesh and the norm of the input
+field in a gltf file located at the given path.
+
 """
 
 ###############################################################################
@@ -40,12 +40,12 @@ file_list = ["gltf_plugin/__init__.py", "gltf_plugin/operators.py",
 plugin_path = None
 GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/" \
                     "" \
-                    "examples/first_python_plugins/python-plugins"
+                    "examples/first_python_plugins/python_plugins"
 
 for file in file_list:
     EXAMPLE_FILE = GITHUB_SOURCE_URL + "/gltf_plugin/" + file
     operator_file_path = examples.downloads._retrieve_file(
-        EXAMPLE_FILE, file, os.path.join("python-plugins", os.path.dirname(file)))
+        EXAMPLE_FILE, file, os.path.join("python_plugins", os.path.dirname(file)))
 
     print(f'\033[1m {file}\n \033[0m')
     if (os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml") \
@@ -90,7 +90,7 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 #
 # - -pythonexe : path to a python executable of your choice.
 # - -tempfolder : path to a temporary folder to work on, default is the environment variable
-#    ``TEMP`` on Windows and /tmp/ on Linux.
+#   ``TEMP`` on Windows and /tmp/ on Linux.
 #
 # For windows powershell, call::
 #
@@ -105,7 +105,7 @@ if os.name == "nt" and \
         not os.path.exists(os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')):
     CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
     cmd_file = examples.downloads._retrieve_file(
-        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python-plugins")
+        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins")
     run_cmd = f"powershell {cmd_file}"
     args = f" -pluginpath \"{plugin_path}\" " \
            f"-zippath {os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')}"
@@ -122,7 +122,7 @@ elif os.name == "posix" and \
         not os.path.exists(os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')):
     CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.sh"
     cmd_file = examples.downloads._retrieve_file(
-        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python-plugins"
+        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
     run_cmd = f"{cmd_file}"
     args = f" -pluginpath \"{plugin_path}\" " \
