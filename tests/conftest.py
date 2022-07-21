@@ -348,7 +348,7 @@ def local_server():
     return local_servers[0]
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def count_servers(request):
     """Count servers once we are finished."""
 
@@ -358,6 +358,5 @@ def count_servers(request):
             if proc.name() == "Ans.Dpf.Grpc.exe":
                 num_dpf_exe += 1
         warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
-        assert num_dpf_exe == 1
 
     request.addfinalizer(count_servers)
