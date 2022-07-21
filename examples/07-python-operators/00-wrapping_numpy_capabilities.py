@@ -26,10 +26,10 @@ It's a simple example displaying how routines can be wrapped in DPF python plugi
 from ansys.dpf.core import examples
 
 GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/" \
-                    "raw/examples/first_python_plugins/python-plugins"
+                    "raw/examples/first_python_plugins/python_plugins"
 EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
 operator_file_path = examples.downloads._retrieve_file(
-    EXAMPLE_FILE, "easy_statistics.py", "python-plugins"
+    EXAMPLE_FILE, "easy_statistics.py", "python_plugins"
 )
 
 with open(operator_file_path, "r") as f:
