@@ -4,13 +4,6 @@
 }
 
 
-html[data-theme="light"] {
-  .bd-content .sd-card .sd-card-body, .bd-content .sd-card .sd-card-footer {
-    background-color: rgb(255, 255, 255);
-  }
-}
-html[data-theme="dark"] {
-  .bd-content .sd-card .sd-card-body, .bd-content .sd-card .sd-card-footer {
-    background-color: rgb(0, 0, 0);
-  }
+.bd-content .sd-card .sd-card-body, .bd-content .sd-card .sd-card-footer {
+    background-color: transparent;
 }
