@@ -106,7 +106,7 @@ class ServerFactory:
             return LegacyGrpcServer
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
             import os
-            from ansys.dpf.core._version import __ansys_version__        
+            from ansys.dpf.core._version import __ansys_version__
             ANSYS_INSTALL = ansys_path
             if ANSYS_INSTALL is None:
                 ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
