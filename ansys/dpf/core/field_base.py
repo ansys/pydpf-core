@@ -366,7 +366,8 @@ class _FieldBase:
         array([[1., 2., 3.],
                [1., 2., 3.]])
         >>> field.scoping.ids
-        [1, 2]
+        <BLANKLINE>
+        ...[1, 2]...
 
         """
         pass

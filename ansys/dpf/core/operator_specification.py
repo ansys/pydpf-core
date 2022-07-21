@@ -142,9 +142,11 @@ class ConfigOptionSpec:
     >>> operator = dpf.operators.math.add()
     >>> config_spec = operator.specification.config_specification
     >>> config_spec.keys()
-    dict_keys(['binary_operation', 'inplace', 'mutex', 'num_threads', 'permissive', 'run_in_parallel', 'use_cache', 'work_by_index'])  # noqa: E501
+    dict_keys(['binary_operation', 'inplace', 'mutex', 'num_threads', 'permissive', \
+    'run_in_parallel', 'use_cache', 'work_by_index'])
     >>> config_spec['inplace']
-    ConfigOptionSpec(name='inplace', type_names=['bool'], default_value_str='false', document='The output is written over the input to save memory if this config is set to true.')  # noqa: E501
+    ConfigOptionSpec(name='inplace', type_names=['bool'], default_value_str='false', \
+    document='The output is written over the input to save memory if this config is set to true.')
 
     """
 
@@ -257,10 +259,10 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.add()
         >>> operator.specification.properties
-        {'plugin': 'core', 'category': 'math', 'user_name': '+', 'exposure': 'public'}
+        {'category': 'math', 'exposure': 'public', 'plugin': 'core', 'user_name': '+'}
         """
         if self._properties is None:
-            self._properties = dict()
+            temp_properties = dict()
             if self._internal_obj is not None:
                 num_properties = self._api.operator_specification_get_num_properties(self)
                 for i_property in range(num_properties):
@@ -268,7 +270,11 @@ class Specification(SpecificationBase):
                         self, i_property
                     )
                     prop = self._api.operator_specification_get_properties(self, property_key)
-                    self._properties[property_key] = prop
+                    temp_properties[property_key] = prop
+            # Reorder the properties for consistency
+            self._properties = dict()
+            for key in sorted(temp_properties.keys()):
+                self._properties[key] = temp_properties[key]
         return self._properties
 
     @property
@@ -284,7 +290,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.scale_by_field()
         >>> operator.specification.description
-        "Scales a field (in 0) by a scalar field (in 1). If one field's scoping has 'overall' location, then these field's values are applied on the entire other field."  # noqa: E501
+        "Scales a field (in 0) by a scalar field (in 1). If one field's ... the entire other field."
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
@@ -305,7 +311,7 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], optional=False, document='result file path container, used if no streams are set', ellipsis=False)  # noqa: E501
+        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False)
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -325,7 +331,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], optional=False, document='', ellipsis=False)}  # noqa: E501
+        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False)}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
