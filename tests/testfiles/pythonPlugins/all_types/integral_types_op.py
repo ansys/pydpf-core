@@ -100,7 +100,7 @@ class SetOutVecDoubleOperator(CustomOperatorBase):
 class SetOutNpArrayIntOperator(CustomOperatorBase):
     def run(self):
         import numpy
-        out = numpy.ones((100,2), dtype=numpy.int)
+        out = numpy.ones((100,2), dtype=numpy.int32)
         self.set_output(0, out)
         self.set_succeeded()
 
