@@ -14,9 +14,9 @@ see :ref:`ref_python_plugin_package`.
 This plugin will hold an Operator which implementation depends on a
 third party python module named
 `gltf <https://pypi.org/project/gltf/>`_. This Operator takes a path,
- a mesh and 3D vector field in input
-and exports the mesh and the norm of the input field in a gltf file
-located at the given path.
+a mesh and 3D vector field in input and exports the mesh and the norm of the input
+field in a gltf file located at the given path.
+
 """
 
 ###############################################################################
