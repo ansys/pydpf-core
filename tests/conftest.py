@@ -16,7 +16,7 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
 from ansys.dpf.gate.load_api import _try_use_gatebin
 
-ACCEPTABLE_FAILURE_RATE = 1
+ACCEPTABLE_FAILURE_RATE = 0
 
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
