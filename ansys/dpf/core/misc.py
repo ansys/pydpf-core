@@ -61,7 +61,7 @@ def is_ubuntu():
     return False
 
 
-def get_ansys_path(ansys_path):
+def get_ansys_path(ansys_path=None):
     # If no custom path was given in input
     # First check the environment variable for a custom path
     if ansys_path is None:
