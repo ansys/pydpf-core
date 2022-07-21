@@ -121,7 +121,6 @@ def test_set_coordinates_field_meshedregion(simple_bar_model):
     assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
 
 
-
 def test_get_element_types_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     elemcoping = mesh.elements.scoping
@@ -147,7 +146,6 @@ def test_set_element_types_field_meshedregion(simple_bar_model):
     mesh.set_property_field(dpf.core.common.elemental_properties.element_type, field_element_types)
     field_element_types = mesh.elements.element_types_field
     assert field_element_types.data[0] == 1
-
 
 
 def test_get_materials_field_meshedregion(simple_bar_model):
@@ -178,7 +176,6 @@ def test_set_materials_field_meshedregion(simple_bar_model):
     mesh.set_property_field(dpf.core.common.elemental_properties.material, materials)
     materials = mesh.elements.materials_field
     assert materials.data[0] == 1
-
 
 
 def test_get_connectivities_field_meshedregion(simple_bar_model):
