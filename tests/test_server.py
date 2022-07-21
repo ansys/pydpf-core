@@ -121,7 +121,7 @@ class TestServer:
         client = server.client
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="issue on Linux, it seems two processes can be called on the same port")
+@pytest.mark.skipif(os.name == 'posix', reason="lin issue: 2 processes can be run with same port")
 def test_busy_port():
     if not dpf.core.SERVER:
         start_local_server()
