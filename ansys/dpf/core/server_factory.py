@@ -9,13 +9,42 @@ protocols and server configurations available.
 from ansys.dpf.gate.load_api import _get_path_in_install
 
 class CommunicationProtocols:
-    """Defines available communication protocols"""
+    """Defines available communication protocols
+
+    Attributes
+    ----------
+    gRPC = "gRPC"
+        Client/Server communication via gRPC.
+
+    InProcess = "InProcess"
+        Load DPF's libraries in the Python process, communicates via a CLayer (shared memory).
+    """
     gRPC = "gRPC"
     InProcess = "InProcess"
 
 
 class ServerConfig:
-    """Provides an instance of ServerConfig object to manage the server type used"""
+    """Provides an instance of ServerConfig object to manage the server type used
+
+    Parameters
+    ----------
+    protocol : CommunicationProtocols
+    legacy : bool
+
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> in_process_config = dpf.ServerConfig(
+    ...     protocol=None, legacy=False)
+    >>> grpc_config = dpf.ServerConfig(
+    ...     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=False)
+    >>> legacy_grpc_config = dpf.ServerConfig(
+    ...     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=True)
+    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
+    >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
+    >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
+
+    """
     def __init__(self, protocol=CommunicationProtocols.gRPC, legacy=True):
         self.legacy = legacy
         if not protocol:
@@ -31,7 +60,30 @@ class ServerConfig:
 
 
 class AvailableServerConfigs:
-    """Defines available server configurations"""
+    """Defines available server configurations
+
+    Attributes
+    ----------
+    LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
+       Using gRPC communication through the python module ansys.grpc.dpf.
+
+    InProcess = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
+        Loading DPF in Process.
+
+    GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
+        Using gRPC communication through DPF gRPC CLayer Ans.Dpf.GrpcClient.
+
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> in_process_config = dpf.AvailableServerConfigs.InProcessServer
+    >>> grpc_config = dpf.AvailableServerConfigs.GrpcServer
+    >>> legacy_grpc_config = dpf.AvailableServerConfigs.LegacyGrpcServer
+    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
+    >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
+    >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
+
+    """
     LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
     InProcessServer = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
     GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
