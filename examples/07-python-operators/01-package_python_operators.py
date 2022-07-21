@@ -34,12 +34,12 @@ print('\033[1m average_filter_plugin')
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
 plugin_folder = None
 GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/" \
-                    "examples/first_python_plugins/python-plugins/average_filter_plugin"
+                    "examples/first_python_plugins/python_plugins/average_filter_plugin"
 
 for file in file_list:
     EXAMPLE_FILE = GITHUB_SOURCE_URL + "/average_filter_plugin/" + file
     operator_file_path = examples.downloads._retrieve_file(
-        EXAMPLE_FILE, file, "python-plugins/average_filter_plugin"
+        EXAMPLE_FILE, file, "python_plugins/average_filter_plugin"
     )
     plugin_folder = os.path.dirname(operator_file_path)
     print(f'\033[1m {file}:\n \033[0m')
