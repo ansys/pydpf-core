@@ -5,6 +5,9 @@ import vtk
 from ansys import dpf
 import conftest
 
+from ansys.dpf.core.check_version import meets_version, get_server_version
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+
 
 @pytest.fixture()
 def simple_bar_model(simple_bar, server_type):
@@ -118,6 +121,7 @@ def test_set_coordinates_field_meshedregion(simple_bar_model):
     assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
 
 
+
 def test_get_element_types_field_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     elemcoping = mesh.elements.scoping
@@ -143,6 +147,7 @@ def test_set_element_types_field_meshedregion(simple_bar_model):
     mesh.set_property_field(dpf.core.common.elemental_properties.element_type, field_element_types)
     field_element_types = mesh.elements.element_types_field
     assert field_element_types.data[0] == 1
+
 
 
 def test_get_materials_field_meshedregion(simple_bar_model):
@@ -173,6 +178,7 @@ def test_set_materials_field_meshedregion(simple_bar_model):
     mesh.set_property_field(dpf.core.common.elemental_properties.material, materials)
     materials = mesh.elements.materials_field
     assert materials.data[0] == 1
+
 
 
 def test_get_connectivities_field_meshedregion(simple_bar_model):
@@ -353,6 +359,9 @@ def test_connectivity_meshed_region(server_type):
     nodal_conne = mesh.nodes.nodal_connectivity_field
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
+
+    mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
+    assert np.allclose(mesh_nodal.data, nodal_conne.data)
 
     mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
     assert np.allclose(mesh_nodal.data, nodal_conne.data)
