@@ -2,7 +2,7 @@
 .. _ref_ASME_SecVIII_Div2:
 
 ASME Section VIII Division 2: pressure vessels
-----------------------------
+----------------------------------------------
 This example demonstrates how PyDPF might be used to postprocess a Mechanical
 model according to an international standard.
 

@@ -6,7 +6,10 @@ from ansys import dpf
 import conftest
 
 from ansys.dpf.core.check_version import meets_version, get_server_version
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(
+    get_server_version(dpf.core._global_server()), "3.0"
+)
 
 
 @pytest.fixture()
@@ -42,7 +45,7 @@ def test_vtk_grid_from_model(simple_bar_model):
 
 def test_meshed_region_available_property_fields(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
-    properties = ['connectivity', 'elprops', 'eltype', 'apdl_element_type', 'mat']
+    properties = ["connectivity", "elprops", "eltype", "apdl_element_type", "mat"]
     properties_to_check = mesh.available_property_fields
     for p in properties:
         assert p in properties_to_check
@@ -143,7 +146,9 @@ def test_set_element_types_field_meshedregion(simple_bar_model):
 
     new_data[0] = 1
     field_element_types.data = new_data
-    mesh.set_property_field(dpf.core.common.elemental_properties.element_type, field_element_types)
+    mesh.set_property_field(
+        dpf.core.common.elemental_properties.element_type, field_element_types
+    )
     field_element_types = mesh.elements.element_types_field
     assert field_element_types.data[0] == 1
 
@@ -185,8 +190,11 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
     assert field_connect.component_count == 1
     assert np.allclose(
         field_connect.get_entity_data(1),
-        [1053, 1062, 1143, 1134, 2492, 2491, 2482, 2483])
-    connectivity = mesh.property_field(dpf.core.common.elemental_properties.connectivity)
+        [1053, 1062, 1143, 1134, 2492, 2491, 2482, 2483],
+    )
+    connectivity = mesh.property_field(
+        dpf.core.common.elemental_properties.connectivity
+    )
     assert np.allclose(connectivity.data, field_connect.data)
 
 
@@ -232,6 +240,7 @@ def test_delete_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     mesh = None
     import gc
+
     gc.collect()
     with pytest.raises(Exception):
         mesh.nodes[0]
@@ -338,10 +347,14 @@ def test_connectivity_meshed_region(server_type):
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
 
-    mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
+    mesh_nodal = mesh.property_field(
+        dpf.core.common.nodal_properties.nodal_connectivity
+    )
     assert np.allclose(mesh_nodal.data, nodal_conne.data)
 
-    mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
+    mesh_nodal = mesh.property_field(
+        dpf.core.common.nodal_properties.nodal_connectivity
+    )
     assert np.allclose(mesh_nodal.data, nodal_conne.data)
 
 
@@ -395,8 +408,10 @@ def test_create_all_shaped_meshed_region(server_type):
 def test_create_with_yield_meshed_region(server_type):
     ref_mesh = test_create_all_shaped_meshed_region(server_type)
     mesh = dpf.core.MeshedRegion(
-        num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements,
-        server=server_type)
+        num_nodes=ref_mesh.nodes.n_nodes,
+        num_elements=ref_mesh.elements.n_elements,
+        server=server_type,
+    )
     index = 0
     for node in mesh.nodes.add_nodes(ref_mesh.nodes.n_nodes):
         ref_node = ref_mesh.nodes.node_by_index(index)
@@ -435,8 +450,10 @@ def test_create_with_yield_meshed_region(server_type):
 def test_create_by_copy_meshed_region(server_type):
     ref_mesh = test_create_all_shaped_meshed_region(server_type)
     mesh = dpf.core.MeshedRegion(
-        num_nodes=ref_mesh.nodes.n_nodes, num_elements=ref_mesh.elements.n_elements,
-        server=server_type)
+        num_nodes=ref_mesh.nodes.n_nodes,
+        num_elements=ref_mesh.elements.n_elements,
+        server=server_type,
+    )
     index = 0
     for node in ref_mesh.nodes:
         ref_node = ref_mesh.nodes.node_by_index(index)
@@ -576,10 +593,14 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
     )
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Bug in server version lower than 4.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Bug in server version lower than 4.0",
+)
 def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
-    mesh = dpf.core.Model(allkindofcomplexity, server=server_type).metadata.meshed_region
+    mesh = dpf.core.Model(
+        allkindofcomplexity, server=server_type
+    ).metadata.meshed_region
     has_semi_par = False
     el = mesh.elements[0]
     assert dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity)

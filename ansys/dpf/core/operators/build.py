@@ -143,7 +143,7 @@ def build_operator(
     data = {
         "operator_name": operator_name,
         "class_name": class_name,
-        "class_name_underlining": len(class_name)*"-",
+        "class_name_underlining": len(class_name)*"=",
         "capital_class_name": capital_class_name,
         "docstring": docstring,
         "specification_description": specification_description,
