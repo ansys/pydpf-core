@@ -556,11 +556,11 @@ class GrpcServer(CServer):
         try:
             self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
         except Exception as e:
-            warnings.warn("couldn't prepare shutdown: " + e.args)
+            warnings.warn("couldn't prepare shutdown: " + str(e.args))
         try:
             self._shutdown_func[0](self._shutdown_func[1])
         except Exception as e:
-            warnings.warn("couldn't shutdown server: " + e.args)
+            warnings.warn("couldn't shutdown server: " + str(e.args))
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
