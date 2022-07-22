@@ -459,11 +459,6 @@ class CServer(BaseServer, ABC):
         super().__init__()
         self._own_process = False
         self.ansys_path = ansys_path
-        warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
-                                  f"trying to load api with {ansys_path}"
-                                  f""
-                                  f""
-                                  f""))
         self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
 
     @property
