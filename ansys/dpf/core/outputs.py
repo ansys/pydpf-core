@@ -108,6 +108,12 @@ class _Outputs:
                     docstr += "\n"
         return docstr
 
+    def _hold_op_ref(self):
+        self._operator_ref = self._operator()
+
+    def _stop_holding_op_ref(self):
+        self._operator_ref = None
+
 
 def _clearRepeatedMessage(message):
     try:

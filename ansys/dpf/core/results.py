@@ -91,6 +91,7 @@ class Results:
         if generate_ops:
             self.__class__ = type(Results.__name__ + str(id(self)), (Results,), {})
             self._connect_operators(result_info)
+        self._str = str(result_info)
 
     def __result__(self, result_type, *args):
         return Result(self._connector, self._mesh_by_default, result_type, self._server)
@@ -135,7 +136,7 @@ class Results:
                 raise e
 
     def __str__(self):
-        return str(self._result_info)
+        return self._str
 
     def __iter__(self):
         for key in self._op_map_rev:
@@ -218,8 +219,8 @@ class Result:
                 self._operator = Operator(
                     self._result_info.operator_name, server=self._server
                 )
-            self._operator._add_sub_res_operators(self._result_info.sub_results)
             self._connector.__connect_op__(self._operator, self._mesh_by_default)
+            self._operator._add_sub_res_operators(self._result_info.sub_results)
         except errors.DPFServerException:
             pass
         except Exception as e:
@@ -289,7 +290,7 @@ class Result:
 
         """
         self._time_scoping = list(
-            range(1, len(self._metadata.time_freq_support.time_frequencies) + 1)
+            range(1, len(self._connector.time_freq_support.time_frequencies) + 1)
         )
         return self
 
@@ -335,7 +336,7 @@ class Result:
 
         """
         self._time_scoping = len(
-            self._metadata.time_freq_support.time_frequencies
+            self._connector.time_freq_support.time_frequencies
         )
         return self
 
@@ -402,7 +403,7 @@ class Result:
 
         """
 
-        self._mesh_scoping = self._metadata.named_selection(named_selection)
+        self._mesh_scoping = self._connector.named_selection(named_selection)
         return self
 
     @property
@@ -472,7 +473,7 @@ class Result:
         self._mesh_scoping.inputs.requested_location(
             self._result_info.native_scoping_location
         )
-        self._mesh_scoping.inputs.mesh(self._metadata.mesh_provider)
+        self._mesh_scoping.inputs.mesh(self._connector.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
         if previous_mesh_scoping:
             try:
@@ -519,7 +520,7 @@ class Result:
             mesh_scoping = Scoping(
                 ids=mesh_scoping,
                 location=self._result_info.native_scoping_location,
-                server=self._metadata._server,
+                server=self._server,
             )
 
         self._mesh_scoping = mesh_scoping

@@ -21,7 +21,6 @@ from grpc._channel import _InactiveRpcError
 from ansys.dpf.core.check_version import version_requires
 
 
-
 class Model:
     """Connects to a gRPC DPF server and allows access to a result using the DPF framework.
 
@@ -153,7 +152,8 @@ class Model:
 
         """
         if not self._results:
-            args = [self.metadata._build_connector(), self.metadata.result_info, self.mesh_by_default, self._server]
+            args = [self.metadata._build_connector(), self.metadata.result_info,
+                    self.mesh_by_default, self._server]
             if misc.DYNAMIC_RESULTS:
                 try:
                     self._results = Results(*args)
@@ -190,7 +190,7 @@ class Model:
 
         """
         op = Operator(name=name, server=self._server)
-        __connect_op__(op, self.metadata, self.mesh_by_default)
+        self.metadata._build_connector().__connect_op__(op, self.mesh_by_default)
         return op
 
     def __str__(self):
@@ -266,6 +266,8 @@ class Metadata:
         self._result_info = None
         self._stream_provider = None
         self._time_freq_support = None
+        self._mesh_selection_manager = None
+        self._mesh_provider_cached_instance = None
         self._cache_streams_provider()
 
     def _cache_result_info(self):
@@ -448,9 +450,13 @@ class Metadata:
 
         """
         try:
-            tmp = Operator("MeshSelectionManagerProvider", server=self._server)
-            tmp.inputs.connect(self._stream_provider.outputs)
-            tmp.run()
+            if self._mesh_selection_manager is None:
+                self._mesh_selection_manager = Operator(
+                    "MeshSelectionManagerProvider",
+                    server=self._server
+                )
+                self._mesh_selection_managerinputs.connect(self._stream_provider.outputs)
+                self._mesh_selection_manager.run()
         except:
             pass
         mesh_provider = Operator("MeshProvider", server=self._server)
@@ -459,6 +465,12 @@ class Metadata:
         else:
             mesh_provider.inputs.connect(self.data_sources)
         return mesh_provider
+
+    @property
+    def _mesh_provider_cached(self):
+        if self._mesh_provider_cached_instance is None:
+            self._mesh_provider_cached_instance =self.mesh_provider
+        return self._mesh_provider_cached_instance
 
     @property
     @protect_source_op_not_found
@@ -538,8 +550,4 @@ class Metadata:
         return self.meshed_region.named_selection(named_selection)
 
     def _build_connector(self):
-        return DataSourcesOrStreamsConnector(
-            self.data_sources,
-            self._stream_provider,
-            self.mesh_provider
-        )
+        return DataSourcesOrStreamsConnector(self)

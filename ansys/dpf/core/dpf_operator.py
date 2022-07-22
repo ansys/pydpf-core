@@ -28,14 +28,23 @@ from ansys.dpf.gate import operator_capi, operator_abstract_api, operator_grpcap
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
 
+
 class _SubOperator:
     def __init__(self, op_name, op_to_connect):
         self.op_name = op_name
-        self.op_to_connect = weakref.ref(op_to_connect)
+        self.op = Operator(self.op_name, server=op_to_connect._server)
+        if op_to_connect.inputs is not None:
+            for key in op_to_connect.inputs._connected_inputs:
+                inpt = op_to_connect.inputs._connected_inputs[key]
+                if type(inpt).__name__ == "dict":
+                    for keyout in inpt:
+                        if inpt[keyout]() is not None:
+                            self.op.connect(key, inpt[keyout](), keyout)
+                else:
+                    self.op.connect(key, inpt())
 
     def __call__(self):
-        op = Operator(self.op_name)
-        op.inputs.connect(self.op_to_connect().outputs)
+        return self.op
 
 
 class Operator:
@@ -147,7 +156,10 @@ class Operator:
         """
 
         for result_type in sub_results:
-            setattr(self, result_type["name"], _SubOperator(result_type["operator name"], self))
+            try:
+                setattr(self, result_type["name"], _SubOperator(result_type["operator name"], self))
+            except KeyError:
+                pass
 
     @property
     @version_requires("3.0")
@@ -424,7 +436,14 @@ class Operator:
         >>> disp_fc = disp_op.outputs.fields_container()
 
         """
+        if self._outputs:
+            self._outputs._hold_op_ref()
         return self._outputs
+
+    @outputs.deleter
+    def outputs(self):
+        if self._outputs:
+            self._outputs._stop_holding_op_ref()
 
     @staticmethod
     def default_config(name, server=None):
@@ -458,7 +477,7 @@ class Operator:
             if self._internal_obj is not None:
                 self._deleter_func[0](self._deleter_func[1](self))
         except:
-            warnings.warn(traceback.format_exc())
+            warnings.warn(self.name + traceback.format_exc())
 
     def __str__(self):
         """Describe the entity.

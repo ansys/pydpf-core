@@ -113,14 +113,24 @@ class Input:
 
         from ansys.dpf.core.results import Result
 
+
         if isinstance(inpt, _Outputs):
             self._operator().connect(self._pin, inpt._operator(), corresponding_pins[0][1])
+            self._operator().inputs._connected_inputs[self._pin] = {
+                corresponding_pins[0][1]: weakref.ref(inpt._operator())
+            }
         elif isinstance(inpt, Output):
             self._operator().connect(self._pin, inpt._operator(), inpt._pin)
+            self._operator().inputs._connected_inputs[self._pin] = {inpt._pin: weakref.ref(inpt)}
         elif isinstance(inpt, Result):
             self._operator().connect(self._pin, inpt(), corresponding_pins[0][1])
+            self._operator().inputs._connected_inputs[self._pin] = {
+                corresponding_pins[0][1]: weakref.ref(inpt)
+                }
         else:
             self._operator().connect(self._pin, inpt)
+            self._operator().inputs._connected_inputs[self._pin] = weakref.ref(inpt) \
+                if hasattr(inpt, "__weakref__") else inpt
 
         self.__inc_if_ellipsis()
 
@@ -165,6 +175,7 @@ class _Inputs:
         self._dict_inputs = dict_inputs
         self._operator = weakref.ref(operator)
         self._inputs = []
+        self._connected_inputs = {}
 
     def __str__(self):
         docstr = "Available inputs:\n"
@@ -234,16 +245,25 @@ class _Inputs:
         from ansys.dpf.core.results import Result
         if isinstance(inpt, Output):
             self._operator().connect(corresponding_pins[0], inpt._operator(), inpt._pin)
+            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: weakref.ref(inpt._operator())}
         elif isinstance(inpt, _Outputs):
             self._operator().connect(
                 corresponding_pins[0][0], inpt._operator(), corresponding_pins[0][1]
             )
+            self._connected_inputs[corresponding_pins[0][0]] = {
+                corresponding_pins[0][1]: weakref.ref(inpt._operator())
+            }
         elif isinstance(inpt, Result):
             self._operator().connect(
                 corresponding_pins[0][0], inpt(), corresponding_pins[0][1]
             )
+            self._connected_inputs[corresponding_pins[0][0]] = {
+                corresponding_pins[0][1]: weakref.ref(inpt)
+            }
         else:
             self._operator().connect(corresponding_pins[0], inpt)
+            self._connected_inputs[corresponding_pins[0]] = weakref.ref(inpt) \
+                if hasattr(inpt, "__weakref__") else inpt
 
     def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:
