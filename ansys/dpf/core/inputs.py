@@ -115,12 +115,12 @@ class Input:
 
 
         if isinstance(inpt, _Outputs):
-            self._operator().connect(self._pin, inpt._operator(), corresponding_pins[0][1])
+            self._operator().connect(self._pin, inpt._operator, corresponding_pins[0][1])
             self._operator().inputs._connected_inputs[self._pin] = {
-                corresponding_pins[0][1]: weakref.ref(inpt._operator())
+                corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Output):
-            self._operator().connect(self._pin, inpt._operator(), inpt._pin)
+            self._operator().connect(self._pin, inpt._operator, inpt._pin)
             self._operator().inputs._connected_inputs[self._pin] = {inpt._pin: weakref.ref(inpt)}
         elif isinstance(inpt, Result):
             self._operator().connect(self._pin, inpt(), corresponding_pins[0][1])
@@ -244,14 +244,14 @@ class _Inputs:
 
         from ansys.dpf.core.results import Result
         if isinstance(inpt, Output):
-            self._operator().connect(corresponding_pins[0], inpt._operator(), inpt._pin)
-            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: weakref.ref(inpt._operator())}
+            self._operator().connect(corresponding_pins[0], inpt._operator, inpt._pin)
+            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: weakref.ref(inpt._operator)}
         elif isinstance(inpt, _Outputs):
             self._operator().connect(
-                corresponding_pins[0][0], inpt._operator(), corresponding_pins[0][1]
+                corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1]
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
-                corresponding_pins[0][1]: weakref.ref(inpt._operator())
+                corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Result):
             self._operator().connect(

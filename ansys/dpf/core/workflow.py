@@ -136,7 +136,7 @@ class Workflow:
         elif isinstance(inpt, dpf_operator.Operator):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
-            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator(), inpt._pin)
+            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
             if server_meet_version("3.0", self._server):
@@ -344,7 +344,7 @@ class Workflow:
         for arg in args:
             if isinstance(arg, outputs.Output):
                 pin = arg._pin
-                operator = arg._operator()
+                operator = arg._operator
             elif isinstance(arg, dpf_operator.Operator):
                 operator = arg
             elif isinstance(arg, int):

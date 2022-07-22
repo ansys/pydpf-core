@@ -92,7 +92,6 @@ class Operator:
         self._internal_obj = None
         self._description = None
         self._inputs = None
-        self._outputs = None
 
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
@@ -116,8 +115,6 @@ class Operator:
         # add dynamic inputs
         if len(self._spec.inputs) > 0 and self._inputs is None:
             self._inputs = Inputs(self._spec.inputs, self)
-        if len(self._spec.outputs) != 0 and self._outputs is None:
-            self._outputs = Outputs(self._spec.outputs, self)
 
         # step4: if object exists: take instance (config)
         if config:
@@ -160,6 +157,15 @@ class Operator:
                 setattr(self, result_type["name"], _SubOperator(result_type["operator name"], self))
             except KeyError:
                 pass
+
+    @property
+    def _outputs(self):
+        if self._spec and len(self._spec.outputs) != 0:
+            return Outputs(self._spec.outputs, self)
+
+    @_outputs.setter
+    def _outputs(self, value):
+        pass
 
     @property
     @version_requires("3.0")
@@ -208,7 +214,7 @@ class Operator:
         elif isinstance(inpt, Operator):
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
-            self._api.operator_connect_operator_output(self, pin, inpt._operator(), inpt._pin)
+            self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
             if server_meet_version("3.0", self._server):
@@ -436,14 +442,14 @@ class Operator:
         >>> disp_fc = disp_op.outputs.fields_container()
 
         """
-        if self._outputs:
-            self._outputs._hold_op_ref()
+        # if self._outputs:
+        #     self._outputs._hold_op_ref()
         return self._outputs
-
-    @outputs.deleter
-    def outputs(self):
-        if self._outputs:
-            self._outputs._stop_holding_op_ref()
+    #
+    # @outputs.deleter
+    # def outputs(self):
+    #     if self._outputs:
+    #         self._outputs._stop_holding_op_ref()
 
     @staticmethod
     def default_config(name, server=None):
