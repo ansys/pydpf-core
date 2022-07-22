@@ -9,7 +9,6 @@ import logging
 import os
 import traceback
 import warnings
-import weakref
 
 from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version

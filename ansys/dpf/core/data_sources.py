@@ -52,7 +52,7 @@ class DataSources:
         self._api = self._server.get_api_for_type(capi=data_sources_capi.DataSourcesCAPI,
                                                   grpcapi=data_sources_grpcapi.DataSourcesGRPCAPI)
 
-        # step3: init environement
+        # step3: init environment
         self._api.init_data_sources_environment(self)  # creates stub when gRPC
 
         # step4: if object exists: take instance, else create it:

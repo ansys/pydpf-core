@@ -312,7 +312,7 @@ class BaseService:
             grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
         )
 
-        # step3: init environement
+        # step3: init environment
         self._api.init_data_processing_environment(self)  # creates stub when gRPC
 
     def make_tmp_dir_server(self):

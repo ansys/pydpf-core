@@ -459,7 +459,7 @@ class Workflow:
         else:
             wf._internal_obj = wf._api.work_flow_get_by_identifier(id)
         if wf._internal_obj is None:
-            raise Exception("Unable to get this worklfow from the registry")
+            raise Exception("Unable to get this workflow from the registry")
         return wf
 
     @property

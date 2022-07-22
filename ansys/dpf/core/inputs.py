@@ -113,7 +113,6 @@ class Input:
 
         from ansys.dpf.core.results import Result
 
-
         if isinstance(inpt, _Outputs):
             self._operator().connect(self._pin, inpt._operator, corresponding_pins[0][1])
             self._operator().inputs._connected_inputs[self._pin] = {

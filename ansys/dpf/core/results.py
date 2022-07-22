@@ -84,7 +84,9 @@ class Results:
 
     """  # noqa: E501
 
-    def __init__(self, connector, result_info, mesh_by_default=True, server=None, generate_ops=True):
+    def __init__(
+            self, connector, result_info, mesh_by_default=True, server=None, generate_ops=True
+    ):
         self._connector = connector
         self._mesh_by_default = mesh_by_default
         self._server = server

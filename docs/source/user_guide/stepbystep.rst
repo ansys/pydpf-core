@@ -179,7 +179,7 @@ Defining Operators
 ~~~~~~~~~~~~~~~~~~
 An operator definition consists of three steps:
 
-- Operator instanciation
+- Operator instantiation
 - Input definition
 - Output storage
 

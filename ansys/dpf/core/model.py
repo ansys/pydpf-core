@@ -469,7 +469,7 @@ class Metadata:
     @property
     def _mesh_provider_cached(self):
         if self._mesh_provider_cached_instance is None:
-            self._mesh_provider_cached_instance =self.mesh_provider
+            self._mesh_provider_cached_instance = self.mesh_provider
         return self._mesh_provider_cached_instance
 
     @property
