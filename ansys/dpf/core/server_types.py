@@ -459,12 +459,10 @@ class CServer(BaseServer, ABC):
         super().__init__()
         self._own_process = False
         self.ansys_path = ansys_path
-        from datetime import datetime
-        current_time = datetime.now().strftime("%H:%M:%S")
         warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
                                   f"trying to load api with {ansys_path}"
                                   f""
-                                  f"{current_time}"
+                                  f""
                                   f""))
         self._client_api_path = load_api.load_client_api(ansys_path=ansys_path)
 
@@ -622,12 +620,10 @@ class InProcessServer(CServer):
                  timeout=None):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
-        from datetime import datetime
-        current_time = datetime.now().strftime("%H:%M:%S")
         warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
                                   f"LOADED API WITH {self._client_api_path}"
                                   f""
-                                  f"{current_time}"
+                                  f""
                                   f""))
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
@@ -642,11 +638,10 @@ class InProcessServer(CServer):
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
-        current_time = datetime.now().strftime("%H:%M:%S")
         warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
                                   f"LOADED DPC WITH {path}"
                                   f""
-                                  f"{current_time}"
+                                  f""
                                   f""))
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
