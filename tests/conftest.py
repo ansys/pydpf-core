@@ -212,7 +212,11 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
         ids=["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
     )
     def server_type(request):
-        return core.start_local_server(config=request.param, as_global=False)
+        server = core.start_local_server(config=request.param, as_global=False)
+        if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+            core.settings.get_runtime_client_config().cache_enabled = False
+        return server
+
 
     @pytest.fixture(
         scope="session",
@@ -226,13 +230,17 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
         ],
     )
     def server_type_remote_process(request):
-        return core.start_local_server(config=request.param, as_global=False)
+        server = core.start_local_server(config=request.param, as_global=False)
+        if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+            core.settings.get_runtime_client_config().cache_enabled = False
+        return server
 
 else:
 
     @pytest.fixture(scope="session")
     def server_type():
         return core.start_local_server(as_global=False)
+
 
     @pytest.fixture(
         scope="session",
@@ -253,7 +261,10 @@ else:
     ],
 )
 def server_clayer_remote_process(request):
-    return core.start_local_server(config=request.param, as_global=False)
+    server = core.start_local_server(config=request.param, as_global=False)
+    if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+        core.settings.get_runtime_client_config().cache_enabled = False
+    return server
 
 
 @pytest.fixture(
@@ -265,8 +276,10 @@ def server_clayer_remote_process(request):
     ids=["gRPC CLayer", "in Process CLayer"],
 )
 def server_clayer(request):
-    return core.start_local_server(config=request.param, as_global=False)
-
+    server = core.start_local_server(config=request.param, as_global=False)
+    if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+        core.settings.get_runtime_client_config().cache_enabled = False
+    return server
 
 @pytest.fixture(
     scope="session",
