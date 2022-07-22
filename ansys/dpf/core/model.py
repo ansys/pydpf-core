@@ -16,9 +16,10 @@ from ansys.dpf.core.results import Results, CommonResults
 from ansys.dpf.core.server_types import LOG
 from ansys.dpf.core import misc
 from ansys.dpf.core.errors import protect_source_op_not_found
-from ansys.dpf.core._model_helpers import __connect_op__
+from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
 from grpc._channel import _InactiveRpcError
 from ansys.dpf.core.check_version import version_requires
+
 
 
 class Model:
@@ -152,7 +153,7 @@ class Model:
 
         """
         if not self._results:
-            args = [self.metadata, self.mesh_by_default]
+            args = [self.metadata._build_connector(), self.metadata.result_info, self.mesh_by_default, self._server]
             if misc.DYNAMIC_RESULTS:
                 try:
                     self._results = Results(*args)
@@ -535,3 +536,10 @@ class Metadata:
         named_selection : :class:`ansys.dpf.core.scoping.Scoping`
         """
         return self.meshed_region.named_selection(named_selection)
+
+    def _build_connector(self):
+        return DataSourcesOrStreamsConnector(
+            self.data_sources,
+            self._stream_provider,
+            self.mesh_provider
+        )
