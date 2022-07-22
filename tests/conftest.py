@@ -283,7 +283,9 @@ def server_clayer(request):
 
 @pytest.fixture(
     scope="session",
-    params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+    params=[
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    ],
     ids=[
         "ansys-grpc-dpf",
     ],
