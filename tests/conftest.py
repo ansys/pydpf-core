@@ -16,6 +16,8 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
 from ansys.dpf.gate.load_api import _try_use_gatebin
 
+ACCEPTABLE_FAILURE_RATE = 0
+
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
@@ -34,6 +36,18 @@ if running_docker:
             f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}'
             ':/tmp/test_files"'
         )
+
+@pytest.hookimpl()
+def pytest_sessionfinish(session, exitstatus):
+    if os.name == 'posix':
+        # accept ACCEPTABLE_FAILURE_RATE percent of failure on Linux
+        if exitstatus != pytest.ExitCode.TESTS_FAILED:
+            return
+        failure_rate = (100.0 * session.testsfailed) / session.testscollected
+        if failure_rate <= ACCEPTABLE_FAILURE_RATE:
+            session.exitstatus = 0
+    else:
+        return exitstatus
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):

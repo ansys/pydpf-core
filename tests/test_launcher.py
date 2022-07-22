@@ -6,6 +6,7 @@ import subprocess
 import sys
 import io
 from ansys.dpf import core
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 
 def test_start_local():
@@ -20,17 +21,25 @@ def test_start_local():
     assert starting_server == id(core.SERVER)
 
 
-server_configs = [
-    core.AvailableServerConfigs.InProcessServer,
-    core.AvailableServerConfigs.GrpcServer,
-    core.AvailableServerConfigs.LegacyGrpcServer,
-]
+server_configs = (
+    [
+        core.AvailableServerConfigs.InProcessServer,
+        core.AvailableServerConfigs.GrpcServer,
+        core.AvailableServerConfigs.LegacyGrpcServer,
+    ]
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+    else [core.AvailableServerConfigs.LegacyGrpcServer]
+)
 
-server_configs_names = [
-    "InProcessServer",
-    "GrpcServer",
-    "LegacyGrpcServer",
-]
+server_configs_names = (
+    [
+        "InProcessServer",
+        "GrpcServer",
+        "LegacyGrpcServer",
+    ]
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+    else ["LegacyGrpcServer"]
+)
 
 
 @pytest.mark.parametrize(
@@ -46,9 +55,16 @@ class TestServerConfigs:
 
         request.addfinalizer(reset_server)
 
+    @pytest.mark.skipif(
+        not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+        reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
+    )
     def test_start_local_custom_ansys_path(self, server_config):
         path = os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
-        os.unsetenv("AWP_ROOT" + str(core._version.__ansys_version__))
+        try:
+            os.unsetenv("AWP_ROOT" + str(core._version.__ansys_version__))
+        except:
+            del os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
         try:
             server = core.start_local_server(
                 ansys_path=path,
@@ -60,9 +76,13 @@ class TestServerConfigs:
             if server_config != core.AvailableServerConfigs.InProcessServer:
                 p = psutil.Process(server.info["server_process_id"])
                 assert path in p.cwd()
-            os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] = path
+            os.environ[
+                "AWP_ROOT" + str(core._version.__ansys_version__)
+            ] = path
         except Exception as e:
-            os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] = path
+            os.environ[
+                "AWP_ROOT" + str(core._version.__ansys_version__)
+            ] = path
             raise e
 
     def test_start_local_no_ansys_path(self, server_config):
@@ -72,25 +92,49 @@ class TestServerConfigs:
         assert isinstance(server.os, str)
         if server_config != core.AvailableServerConfigs.InProcessServer:
             p = psutil.Process(server.info["server_process_id"])
+            ver_to_check = core._version.server_to_ansys_version[str(server.version)]
+            ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
             assert (
-                os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] in p.cwd()
+                os.environ["AWP_ROOT" + ver_to_check]
+                in p.cwd()
             )
 
+    @pytest.mark.skipif(
+        not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+        reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
+    )
     def test_start_local_ansys_path_environement_variable(self, server_config):
-        awp_root = os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
+        awp_root = os.environ[
+            "AWP_ROOT" + str(core._version.__ansys_version__)
+        ]
         try:
             os.environ["ANSYS_DPF_PATH"] = awp_root
-            os.unsetenv("AWP_ROOT" + str(core._version.__ansys_version__))
+            try:
+                os.unsetenv("AWP_ROOT" + str(core._version.__ansys_version__))
+            except:
+                del os.environ[
+                    "AWP_ROOT" + str(core._version.__ansys_version__)
+                ]
             server = core.start_local_server(
                 use_docker_by_default=False, config=server_config
             )
             assert isinstance(server.os, str)
-            os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] = awp_root
-            os.unsetenv("ANSYS_DPF_PATH")
+            os.environ[
+                "AWP_ROOT" + str(core._version.__ansys_version__)
+            ] = awp_root
+            try:
+                os.unsetenv("ANSYS_DPF_PATH")
+            except:
+                del os.environ["ANSYS_DPF_PATH"]
 
         except Exception as e:
-            os.environ["AWP_ROOT" + str(core._version.__ansys_version__)] = awp_root
-            os.unsetenv("ANSYS_DPF_PATH")
+            os.environ[
+                "AWP_ROOT" + str(core._version.__ansys_version__)
+            ] = awp_root
+            try:
+                os.unsetenv("ANSYS_DPF_PATH")
+            except:
+                del os.environ["ANSYS_DPF_PATH"]
             raise e
 
     def test_start_local_wrong_ansys_path(self, server_config):

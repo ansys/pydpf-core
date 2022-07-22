@@ -2,6 +2,7 @@ import pytest
 import subprocess
 import psutil
 import sys
+import os
 from ansys import dpf
 from ansys.dpf.core import errors, server_types
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
@@ -120,6 +121,7 @@ class TestServer:
         client = server.client
 
 
+@pytest.mark.skipif(os.name == 'posix', reason="lin issue: 2 processes can be run with same port")
 def test_busy_port():
     if not dpf.core.SERVER:
         start_local_server()
