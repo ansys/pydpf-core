@@ -620,6 +620,11 @@ class InProcessServer(CServer):
                  timeout=None):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
+        warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
+                                  f"LOADED API WITH {self._client_api_path}"
+                                  f""
+                                  f""
+                                  f""))
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
         from ansys.dpf.gate import data_processing_capi
@@ -629,10 +634,15 @@ class InProcessServer(CServer):
             data_processing_core_load_api(path, "common")
         except Exception as e:
             if not os.path.isdir(os.path.dirname(path)):
-             raise NotADirectoryError(
+                raise NotADirectoryError(
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
+        warnings.warn(UserWarning(f"=================!!!!!!!!!!!!========="
+                                  f"LOADED DPC WITH {path}"
+                                  f""
+                                  f""
+                                  f""))
         data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
 
