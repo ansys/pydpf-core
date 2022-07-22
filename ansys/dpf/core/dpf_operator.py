@@ -5,11 +5,11 @@ Operator
 ========
 """
 
-import functools
 import logging
 import os
 import traceback
 import warnings
+import weakref
 
 from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version
@@ -27,6 +27,15 @@ from ansys.dpf.gate import operator_capi, operator_abstract_api, operator_grpcap
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
+
+class _SubOperator:
+    def __init__(self, op_name, op_to_connect):
+        self.op_name = op_name
+        self.op_to_connect = weakref.ref(op_to_connect)
+
+    def __call__(self):
+        op = Operator(self.op_name)
+        op.inputs.connect(self.op_to_connect().outputs)
 
 
 class Operator:
@@ -138,9 +147,7 @@ class Operator:
         """
 
         for result_type in sub_results:
-            bound_method = self._sub_result_op.__get__(self, self.__class__)
-            method2 = functools.partial(bound_method, name=result_type["operator name"])
-            setattr(self, result_type["name"], method2)
+            setattr(self, result_type["name"], _SubOperator(result_type["operator name"], self))
 
     @property
     @version_requires("3.0")
@@ -537,18 +544,6 @@ class Operator:
                     corresponding_pins.append(pin)
             elif python_name == "Any":
                 corresponding_pins.append(pin)
-
-    def _sub_result_op(self, name):
-        op = Operator(name)
-        if self.inputs is not None:
-            for key in self.inputs._connected_inputs:
-                inpt = self.inputs._connected_inputs[key]
-                if type(inpt).__name__ == "dict":
-                    for keyout in inpt:
-                        op.connect(key, inpt[keyout], keyout)
-                else:
-                    op.connect(key, inpt)
-        return op
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
