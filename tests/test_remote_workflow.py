@@ -23,7 +23,7 @@ def cleanup(request):
             num_dpf_exe += 1
     warnings.warn(str(num_dpf_exe) + " running servers before shutdown")
     local_servers.clear()
-    core.shutdown_all_session_servers()
+    core.server.shutdown_all_session_servers()
     num_dpf_exe = 0
     for proc in psutil.process_iter():
         if proc.name() == "Ans.Dpf.Grpc.exe":
