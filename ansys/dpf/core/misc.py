@@ -4,8 +4,7 @@ import glob
 import os
 from pkgutil import iter_modules
 from ansys.dpf.core._version import (
-    __ansys_version__,
-    __previous_ansys_versions__
+    __ansys_version__
 )
 
 
@@ -62,6 +61,20 @@ def is_ubuntu():
 
 
 def get_ansys_path(ansys_path=None):
+    """Give input path back if given, else look for ANSYS_DPF_PATH, then AWP_ROOT+__ansys_version__,
+    then calls for find_ansys as a last resort.
+
+    Parameters
+    ----------
+    ansys_path : str
+        Full path to an Ansys installation to use.
+
+    Returns
+    -------
+    ansys_path : str
+        Full path to an Ansys installation.
+
+    """
     # If no custom path was given in input
     # First check the environment variable for a custom path
     if ansys_path is None:
@@ -69,11 +82,6 @@ def get_ansys_path(ansys_path=None):
     # Then check for usual installation folders with AWP_ROOT and find_ansys
     if ansys_path is None:
         ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
-    if ansys_path is None:
-        for version in sorted(__previous_ansys_versions__, reverse=True):
-            ansys_path = os.environ.get("AWP_ROOT" + version)
-            if ansys_path:
-                break
     if ansys_path is None:
         ansys_path = find_ansys()
     # If still no install has been found, throw an exception
@@ -90,7 +98,8 @@ def get_ansys_path(ansys_path=None):
 
 
 def find_ansys():
-    """Search the standard installation location to find the path to the latest Ansys installation.
+    """Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
+    location to find the path to the latest Ansys installation.
 
     Returns
     -------
@@ -109,6 +118,17 @@ def find_ansys():
     >>> path = find_ansys()
 
     """
+    versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
+    for version in sorted(versions, reverse=True):
+        if not version.isnumeric():
+            continue
+        if version == __ansys_version__:
+            continue
+        elif version < __ansys_version__:
+            ansys_path = os.environ.get("AWP_ROOT" + version)
+            if ansys_path:
+                return ansys_path
+
     base_path = None
     if os.name == "nt":
         base_path = os.path.join(os.environ["PROGRAMFILES"], "ANSYS INC")
