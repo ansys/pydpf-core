@@ -475,7 +475,7 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
     assert np.allclose(max_field.data, [10.03242272])
 
 
-@pytest.mark.xfail(raises=ServerTypeError)
+@pytest.mark.xfail(reason="Unstable test")
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason='Connecting data from different servers is '
                            'supported starting server version 3.0')
