@@ -10,6 +10,10 @@ from conftest import local_servers
 import conftest
 
 
+@pytest.fixture(scope="module", autouse=True)
+def cleanup(self, request):
+    local_servers.clear()
+
 @pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason='Connecting data from different servers is '
