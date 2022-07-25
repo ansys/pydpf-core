@@ -455,7 +455,7 @@ class Metadata:
                     "MeshSelectionManagerProvider",
                     server=self._server
                 )
-                self._mesh_selection_managerinputs.connect(self._stream_provider.outputs)
+                self._mesh_selection_manager.inputs.connect(self._stream_provider.outputs)
                 self._mesh_selection_manager.run()
         except:
             pass

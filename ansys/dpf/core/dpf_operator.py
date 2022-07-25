@@ -441,14 +441,7 @@ class Operator:
         >>> disp_fc = disp_op.outputs.fields_container()
 
         """
-        # if self._outputs:
-        #     self._outputs._hold_op_ref()
         return self._outputs
-    #
-    # @outputs.deleter
-    # def outputs(self):
-    #     if self._outputs:
-    #         self._outputs._stop_holding_op_ref()
 
     @staticmethod
     def default_config(name, server=None):
@@ -482,7 +475,7 @@ class Operator:
             if self._internal_obj is not None:
                 self._deleter_func[0](self._deleter_func[1](self))
         except:
-            warnings.warn(self.name + traceback.format_exc())
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         """Describe the entity.
