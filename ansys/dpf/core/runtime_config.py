@@ -159,7 +159,7 @@ class RuntimeCoreConfig(_RuntimeConfig):
 
     >>> from ansys.dpf import core as dpf
     >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer
-    ...    , as_global=False))
+    ...    , as_global=False)
     >>> core_config = dpf.settings.get_runtime_core_config(server=server)
     >>> num_threads = core_config.num_threads
     >>> core_config.num_threads = num_threads # or 3, 6, ...
