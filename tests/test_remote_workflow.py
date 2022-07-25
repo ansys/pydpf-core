@@ -17,11 +17,9 @@ def cleanup(request):
 
 
 @pytest.mark.xfail(raises=ServerTypeError)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason='Connecting data from different servers is '
-           'supported starting server version 3.0'
-)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Connecting data from different servers is '
+                           'supported starting server version 3.0')
 def test_simple_remote_workflow(simple_bar, local_server):
     data_sources1 = core.DataSources(simple_bar)
     wf = core.Workflow()
