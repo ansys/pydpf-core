@@ -86,6 +86,7 @@ setup(
     install_requires=install_requires,
     extras_require={
         "plotting": ["pyvista>=0.32.0", "matplotlib>=3.2"],
+        "client_binaries": ["ansys-dpf-gatebin"],
     },
     url="https://github.com/pyansys/pydpf-core",
     license='MIT',
