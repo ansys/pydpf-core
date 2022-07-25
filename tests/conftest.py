@@ -337,17 +337,6 @@ def server_clayer(request):
     return core.start_local_server(config=request.param, as_global=False)
 
 
-@pytest.fixture(
-    scope="session",
-    params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-    ids=[
-        "ansys-grpc-dpf",
-    ],
-)
-def server_type_legacy_grpc(request):
-    return core.start_local_server(config=request.param, as_global=False)
-
-
 class LocalServers:
     def __init__(self):
         self._local_servers = []
