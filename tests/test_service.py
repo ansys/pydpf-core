@@ -42,7 +42,7 @@ def test_loadplugin(server_type):
     assert loaded
 
 
-def test_launch_server_not_install():
+def test_launch_server_full_path():
     ansys_path = os.environ.get(
         "AWP_ROOT" + dpf.core._version.__ansys_version__, dpf.core.misc.find_ansys()
     )

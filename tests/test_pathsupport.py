@@ -18,7 +18,7 @@ def test_addpath_data_sources_path(allkindofcomplexity):
     path = Path(allkindofcomplexity)
     data_sources = dpf.core.DataSources()
     data_sources.add_file_path(path)
-    print(data_sources)
+    # print(data_sources)
 
 
 def test_print_data_sources_path(allkindofcomplexity):

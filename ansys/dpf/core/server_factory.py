@@ -8,6 +8,7 @@ protocols and server configurations available.
 
 from ansys.dpf.gate.load_api import _get_path_in_install
 
+
 class CommunicationProtocols:
     """Defines available communication protocols
 

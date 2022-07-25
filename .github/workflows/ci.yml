@@ -43,6 +43,7 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+          wheelhouse: "false"
 
       - name: "Test Package"
         uses: pyansys/pydpf-actions/test_package@v2.2.dev0
@@ -75,7 +76,7 @@ jobs:
           python-version: 3.8
 
       - id: install-dpf
-        uses: pyansys/pydpf-actions/install-dpf-server@v2.0
+        uses: pyansys/pydpf-actions/install-dpf-server@v2.2
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           ANSYS_VERSION : ${{env.ANSYS_VERSION}}
@@ -125,6 +126,9 @@ jobs:
         run: |
           pip install -r requirements/requirements_docs.txt
 
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
       - name: Build Documentation
         shell: cmd
         run: |
@@ -132,14 +136,8 @@ jobs:
           build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
         timeout-minutes: 20
 
-      - name: Kill all servers
-        shell: cmd
-        run: |
-          tasklist /FI "IMAGENAME eq Ans.Dpf.Grpc.exe" 2>NUL | find /I /N "Ans.Dpf.Grpc.exe">NUL
-          ECHO %ERRORLEVEL%
-          if "%ERRORLEVEL%"=="0"(taskkill /f /im Ans.Dpf.Grpc.exe)
-        continue-on-error: true
-        if: always()
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
       - name: Publish Documentation artifact
         uses: actions/upload-artifact@v3

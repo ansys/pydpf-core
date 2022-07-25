@@ -10,6 +10,7 @@ import copy
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 import conftest
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0, \
@@ -341,9 +342,7 @@ def test_outputs_bool_operator(server_type):
 
 def find_mapdl():
     try:
-        path = os.environ.get("ANSYS_PATH")
-        if not path:
-            path = dpf.core.misc.find_ansys()
+        path = get_ansys_path()
         if dpf.core.SERVER.os == "nt":
             exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
             return os.path.isfile(exe)
@@ -533,7 +532,6 @@ def test_connect_time_scoping(plate_msup, server_type):
 
 
 def test_connect_model(plate_msup, server_type):
-    print(plate_msup)
     model = dpf.core.Model(plate_msup, server=server_type)
     u = dpf.core.Operator("U", server=server_type)
     u.inputs.connect(model)
@@ -669,7 +667,7 @@ def test_operator_set_config(server_type):
     inpt2.unit = "m"
 
     conf = dpf.core.Config("add", server=server_type)
-    print(conf)
+    # print(conf)
     conf.set_work_by_index_option(True)
     op = dpf.core.Operator("add", conf, server=server_type)
     op.inputs.fieldA.connect(inpt)
