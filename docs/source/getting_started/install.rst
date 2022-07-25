@@ -19,6 +19,14 @@ To use PyDPF-Core with Ansys 2021 R1, you must install PyDPF-Core with:
 
    pip install ansys-dpf-core<0.3.0
 
+To use PyDPF-Core on a machine where there is no Ansys installation, you must
+install PyDPF-Core with:
+
+.. code::
+
+   pip install ansys-dpf-core[client_binaries]
+
+
 If you are unable to install this module on the host machine due to
 network isolation, download the latest or a specific release wheel at `DPF-Core
 GitHub <https://https://github.com/pyansys/DPF-Core>`_ or from PyPi at
