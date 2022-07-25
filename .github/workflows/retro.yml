@@ -43,4 +43,4 @@ jobs:
         uses: pyansys/pydpf-actions/test_package@v2.2.dev0
         with:
           MODULE: ${{env.MODULE}}
-          DOCTEST: false
+          DOCTEST: "false"
