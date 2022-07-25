@@ -41,7 +41,8 @@ class RuntimeClientConfig(_RuntimeConfig):
     Get runtime configuration for Client.
 
     >>> from ansys.dpf import core as dpf
-    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer)
+    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer
+    ...    , as_global=False)
     >>> client_config = dpf.settings.get_runtime_client_config(server=server)
     >>> cache_enabled = client_config.cache_enabled
     >>> stream_floats_instead_of_doubles = client_config.stream_floats_instead_of_doubles
@@ -157,7 +158,8 @@ class RuntimeCoreConfig(_RuntimeConfig):
     Get runtime configuration for DataProcessingCore.
 
     >>> from ansys.dpf import core as dpf
-    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer)
+    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer
+    ...    , as_global=False)
     >>> core_config = dpf.settings.get_runtime_core_config(server=server)
     >>> num_threads = core_config.num_threads
     >>> core_config.num_threads = num_threads # or 3, 6, ...

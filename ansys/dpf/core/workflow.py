@@ -60,8 +60,8 @@ class Workflow:
     >>> from ansys.dpf.core import examples
     >>> data_src = dpf.DataSources(examples.multishells_rst)
     >>> workflow.connect("data_sources", data_src)
-    >>> min = workflow.get_output("min", dpf.types.field)
-    >>> max = workflow.get_output("max", dpf.types.field)
+    >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
+    >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
 
     """
 
@@ -127,8 +127,8 @@ class Workflow:
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> workflow.connect("data_sources", data_src)
-        >>> min = workflow.get_output("min", dpf.types.field)
-        >>> max = workflow.get_output("max", dpf.types.field)
+        >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
+        >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
 
         """
         if inpt is self:
@@ -336,7 +336,7 @@ class Workflow:
         >>> disp_op = model.results.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)
-        >>> fc = workflow.get_output("contour", dpf.types.fields_container)
+        >>> fc = workflow.get_output("contour", dpf.types.fields_container) # doctest: +SKIP
 
         """
         pin = 0
