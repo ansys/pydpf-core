@@ -40,7 +40,7 @@ jobs:
           wheelhouse: "false"
 
       - name: "Test Package"
-        uses: pyansys/pydpf-actions/test_package@v2.2.1
+        uses: pyansys/pydpf-actions/test_package@v2.2.dev0
         with:
           MODULE: ${{env.MODULE}}
           DOCTEST: "false"
