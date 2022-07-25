@@ -43,13 +43,65 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          wheelhouse: "false"
+          wheelhouse: false
 
-      - name: "Test Package"
-        uses: pyansys/pydpf-actions/test_package@v2.2
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2
         with:
-          MODULE: ${{env.MODULE}}
-          DEBUG: True
+          DEBUG: true
+
+      - name: "Test Docstrings"
+        uses: pyansys/pydpf-actions/test_docstrings@v2.2
+        with:
+          MODULE: ${{env.MODULE}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+
+      - name: "Separate long Core tests"
+        shell: pwsh
+        run: |
+          New-Item -Path ".\" -Name "local_server_test" -ItemType "directory"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_launcher.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_local_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_workflow.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\local_server_test\"
+          Remove-Item -Path "tests\test_server.py"
+          Remove-Item -Path "tests\test_launcher.py"
+          Remove-Item -Path "tests\test_local_server.py"
+          Remove-Item -Path "tests\test_multi_server.py"
+          Remove-Item -Path "tests\test_workflow.py"
+          Remove-Item -Path "tests\test_remote_workflow.py"
+          Remove-Item -Path "tests\test_remote_operator.py"
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API 2"
+        shell: bash
+        working-directory: local_server_test
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PACKAGE_NAME }}_pytest
+          path: tests/junit/test-results.xml
+
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v2
 
       - name: 'Upload to PyPi'
         if: contains(github.ref, 'refs/tags')
