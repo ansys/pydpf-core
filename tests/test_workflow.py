@@ -709,6 +709,7 @@ def test_create_on_other_server_with_address2_workflow(local_server):
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
     conftest.local_servers.clear()
+    local_server = conftest.local_servers[0]
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
