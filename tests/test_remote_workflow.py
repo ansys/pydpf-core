@@ -1,9 +1,5 @@
-import warnings
-
 import numpy as np
 import pytest
-import psutil
-
 
 from ansys.dpf import core
 from ansys.dpf.core import examples
@@ -18,6 +14,7 @@ import conftest
 def cleanup(request):
     local_servers.clear()
     core.server.shutdown_all_session_servers()
+
 
 @pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
