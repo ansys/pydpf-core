@@ -1,5 +1,8 @@
+import warnings
+
 import numpy as np
 import pytest
+import psutil
 
 
 from ansys.dpf import core
@@ -11,8 +14,14 @@ from conftest import local_servers
 import conftest
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def cleanup(request):
+    warnings.warn("cleaning up local_servers")
+    num_dpf_exe = 0
+    for proc in psutil.process_iter():
+        if proc.name() == "Ans.Dpf.Grpc.exe":
+            num_dpf_exe += 1
+    warnings.warn(str(num_dpf_exe) + " running servers")
     local_servers.clear()
 
 @pytest.mark.xfail(raises=ServerTypeError)

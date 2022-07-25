@@ -213,10 +213,11 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     )
     def server_type(request):
         server = core.start_local_server(config=request.param, as_global=False)
-        if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+        if request.param == ServerConfig(
+            protocol=CommunicationProtocols.gRPC, legacy=False
+        ):
             core.settings.get_runtime_client_config(server).cache_enabled = False
         return server
-
 
     @pytest.fixture(
         scope="session",
@@ -231,8 +232,10 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     )
     def server_type_remote_process(request):
         server = core.start_local_server(config=request.param, as_global=False)
-        if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
-            core.settings.get_runtime_client_config(server).cache_enabled = False
+        if request.param == ServerConfig(
+            protocol=CommunicationProtocols.gRPC, legacy=False
+        ):
+            core.settings.get_runtime_client_config(server).cache_enabled = True
         return server
 
 else:
@@ -240,7 +243,6 @@ else:
     @pytest.fixture(scope="session")
     def server_type():
         return core.start_local_server(as_global=False)
-
 
     @pytest.fixture(
         scope="session",
@@ -262,9 +264,11 @@ else:
 )
 def server_clayer_remote_process(request):
     server = core.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+    if request.param == ServerConfig(
+        protocol=CommunicationProtocols.gRPC, legacy=False
+    ):
         client = core.settings.get_runtime_client_config(server)
-        client.cache_enabled = False
+        client.cache_enabled = True
     return server
 
 
@@ -278,15 +282,16 @@ def server_clayer_remote_process(request):
 )
 def server_clayer(request):
     server = core.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
+    if request.param == ServerConfig(
+        protocol=CommunicationProtocols.gRPC, legacy=False
+    ):
         core.settings.get_runtime_client_config(server).cache_enabled = False
     return server
 
+
 @pytest.fixture(
     scope="session",
-    params=[
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
-    ],
+    params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
     ids=[
         "ansys-grpc-dpf",
     ],
