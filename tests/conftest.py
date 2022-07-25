@@ -255,6 +255,17 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
         return server
 
     @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf config",
+                        "gRPC CLayer config"
+                    ])
+    def remote_config_server_type(request):
+        return request.param
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
                                                           legacy=True)],
                     ids=[
                         "ansys-grpc-dpf",
@@ -277,6 +288,14 @@ else:
     )
     def server_type_remote_process(request):
         return core._global_server()
+
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
+    def remote_config_server_type(request):
+        return request.param
 
     @pytest.fixture(scope="session")
     def server_type_legacy_grpc(request):
