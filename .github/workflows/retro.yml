@@ -36,11 +36,11 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          wheel: "false"
-          wheelhouse: "false"
+          wheel: true
+          wheelhouse: false
 
       - name: "Test Package"
         uses: pyansys/pydpf-actions/test_package@v2.2
         with:
           MODULE: ${{env.MODULE}}
-          DOCTEST: "false"
+          DOCTEST: true
