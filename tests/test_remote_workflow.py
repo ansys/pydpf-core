@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core.errors import ServerTypeError
@@ -11,7 +12,7 @@ import conftest
 
 
 @pytest.fixture(scope="module", autouse=True)
-def cleanup(self, request):
+def cleanup(request):
     local_servers.clear()
 
 @pytest.mark.xfail(raises=ServerTypeError)
