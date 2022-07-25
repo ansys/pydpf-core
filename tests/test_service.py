@@ -42,6 +42,21 @@ def test_loadplugin(server_type):
     assert loaded
 
 
+def test_launch_server_full_path():
+    ansys_path = os.environ.get(
+        "AWP_ROOT" + dpf.core._version.__ansys_version__, dpf.core.misc.find_ansys()
+    )
+    if os.name == "nt":
+        path = os.path.join(ansys_path, "aisol", "bin", "winx64")
+    else:
+        path = os.path.join(ansys_path, "aisol", "bin", "linx64")
+
+    print("trying to launch on ", path)
+    print(os.listdir(path))
+    server = dpf.core.start_local_server(as_global=False, ansys_path=path)
+    assert "server_port" in server.info
+
+
 def transfer_to_local_path(path):
     return os.path.normpath(
         path.replace(
