@@ -39,10 +39,9 @@ if running_docker:
             ':/tmp/test_files"'
         )
 
-
 @pytest.hookimpl()
 def pytest_sessionfinish(session, exitstatus):
-    if os.name == "posix":
+    if os.name == 'posix':
         # accept ACCEPTABLE_FAILURE_RATE percent of failure on Linux
         if exitstatus != pytest.ExitCode.TESTS_FAILED:
             return
@@ -255,36 +254,36 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
             core.settings.get_runtime_client_config(server).cache_enabled = True
         return server
 
-    @pytest.fixture(
-        scope="session",
-        params=[
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-            ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
-        ],
-        ids=["ansys-grpc-dpf config", "gRPC CLayer config", "in Process CLayer config"],
-    )
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=False),
+                                             ServerConfig(protocol=CommunicationProtocols.InProcess,
+                                                          legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf config",
+                        "gRPC CLayer config",
+                        "in Process CLayer config"
+                    ])
     def config_server_type(request):
         return request.param
 
-    @pytest.fixture(
-        scope="session",
-        params=[
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ],
-        ids=["ansys-grpc-dpf config", "gRPC CLayer config"],
-    )
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True),
+                                             ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=False)],
+                    ids=[
+                        "ansys-grpc-dpf config",
+                        "gRPC CLayer config"
+                    ])
     def remote_config_server_type(request):
         return request.param
 
-    @pytest.fixture(
-        scope="session",
-        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-        ids=[
-            "ansys-grpc-dpf",
-        ],
-    )
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
     def server_type_legacy_grpc(request):
         return core.start_local_server(config=request.param, as_global=False)
 
@@ -304,23 +303,19 @@ else:
     def server_type_remote_process(request):
         return core._global_server()
 
-    @pytest.fixture(
-        scope="session",
-        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-        ids=[
-            "ansys-grpc-dpf",
-        ],
-    )
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
     def config_server_type(request):
         return request.param
 
-    @pytest.fixture(
-        scope="session",
-        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-        ids=[
-            "ansys-grpc-dpf",
-        ],
-    )
+    @pytest.fixture(scope="session", params=[ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                          legacy=True)],
+                    ids=[
+                        "ansys-grpc-dpf",
+                    ])
     def remote_config_server_type(request):
         return request.param
 
