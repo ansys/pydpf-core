@@ -21,8 +21,14 @@ def cleanup(request):
     for proc in psutil.process_iter():
         if proc.name() == "Ans.Dpf.Grpc.exe":
             num_dpf_exe += 1
-    warnings.warn(str(num_dpf_exe) + " running servers")
+    warnings.warn(str(num_dpf_exe) + " running servers before shutdown")
     local_servers.clear()
+    core.shutdown_all_session_servers()
+    num_dpf_exe = 0
+    for proc in psutil.process_iter():
+        if proc.name() == "Ans.Dpf.Grpc.exe":
+            num_dpf_exe += 1
+    warnings.warn(str(num_dpf_exe) + " running servers after shutdown")
 
 @pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
