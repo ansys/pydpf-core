@@ -164,6 +164,8 @@ class Operator:
 
     @_outputs.setter
     def _outputs(self, value):
+        # the Operator should not hold a reference on its outputs because outputs hold a reference
+        # on the Operator
         pass
 
     @property
