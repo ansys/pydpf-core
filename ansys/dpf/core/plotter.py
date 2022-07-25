@@ -13,8 +13,6 @@ import numpy as np
 import inspect
 import warnings
 
-import pyvista.core
-
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
@@ -133,9 +131,10 @@ class _PyVistaPlotter:
             bound_method=self._plotter.add_point_labels,
             **kwargs
             )
+        import pyvista.core.pointset as pointset
         # The scalar data used will be the one of the last field added.
         for data_set in self._plotter._datasets:
-            if type(data_set) is pyvista.core.pointset.UnstructuredGrid:
+            if type(data_set) is pointset.UnstructuredGrid:
                 active_scalars = data_set.active_scalars
         # For all grid_points given
         for index, grid_point in enumerate(grid_points):
