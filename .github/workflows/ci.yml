@@ -45,6 +45,14 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
+      - name: "Path to Python plugin libraries"
+        if: runner.os == 'Linux'
+        shell: python
+        run: |
+          import os
+          lib_path = os.path.join(os.getcwd(), "commonfiles/CPython/3_7/linx64/Release/python/lib"
+          os.environ["LD_LIBRARY_PATH"]+=f":{lib_path}"
+
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
         with:

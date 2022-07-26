@@ -16,10 +16,6 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 @pytest.fixture(scope="module")
 def load_all_types_plugin():
     current_dir = os.getcwd()
-    library_path = os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types")
-    import sys
-    sys.path.append(library_path)
-    from all_types import load_operators
     return dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"),
                             "py_test_types", "load_operators")
 
