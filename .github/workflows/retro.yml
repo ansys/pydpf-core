@@ -37,7 +37,8 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheel: false
-
+          extra-pip-args: "--pre --find-links .github/workflows/"
+          
       - name: "Install ansys-grpc-dpf==0.4.0"
         shell: pwsh
         run: |
