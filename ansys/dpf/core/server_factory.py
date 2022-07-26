@@ -59,6 +59,9 @@ class ServerConfig:
             text += f" (legacy gRPC)"
         return text
 
+    def __eq__(self, other):
+        return self.legacy == other.legacy and self.protocol == other.protocol
+
 
 class AvailableServerConfigs:
     """Defines available server configurations

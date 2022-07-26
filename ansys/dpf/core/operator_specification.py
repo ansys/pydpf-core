@@ -198,7 +198,7 @@ class Specification(SpecificationBase):
     >>> # or
     >>> spec = dpf.Operator.operator_specification("U")
 
-    Get the specification of an instanciated operator
+    Get the specification of an instantiated operator
     >>> from ansys.dpf import core as dpf
     >>> operator = dpf.operators.result.displacement()
     >>> spec = operator.specification

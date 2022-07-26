@@ -6,11 +6,6 @@ import conftest
 from ansys import dpf
 
 
-@pytest.fixture(scope="module", autouse=True)
-def clear_local_server():
-    conftest.local_servers.clear()
-
-
 def test_create_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     assert wf._internal_obj
@@ -660,6 +655,8 @@ def test_create_on_other_server2_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_ip_workflow(local_server):
+    conftest.local_servers.clear()
+    local_server = conftest.local_servers[0]
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -677,6 +674,8 @@ def test_create_on_other_server_with_ip_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_address_workflow(local_server):
+    conftest.local_servers.clear()
+    local_server = conftest.local_servers[0]
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -693,6 +692,8 @@ def test_create_on_other_server_with_address_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_address2_workflow(local_server):
+    conftest.local_servers.clear()
+    local_server = conftest.local_servers[0]
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -709,6 +710,8 @@ def test_create_on_other_server_with_address2_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
+    conftest.local_servers.clear()
+    local_server = conftest.local_servers[0]
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
