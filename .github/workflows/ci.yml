@@ -53,7 +53,7 @@ jobs:
       - name: "Test Docstrings"
         uses: pyansys/pydpf-actions/test_docstrings@v2.2
         with:
-          MODULE: ${{env.MODULE}
+          MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
 
       - name: "Separate long Core tests"
