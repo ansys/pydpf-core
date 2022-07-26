@@ -36,6 +36,8 @@ jobs:
         shell: bash
         working-directory: .github/workflows
         run: |
+          pwd 
+          ls
           pip install ansys-dpf-gate --find-links . --pre -v
 
   Build_and_Test:
