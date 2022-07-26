@@ -234,7 +234,7 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
         from packaging.version import parse as parse_version
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)
         right_version_numbers = right_grpc_module_version_str[
-                                right_version_first_numbers.start():-1]
+                                right_version_first_numbers.start():]
         compare = "==" if right_version_first_numbers.start() == 0 else \
             right_grpc_module_version_str[0:right_version_first_numbers.start()].strip()
         if compare == "==":
@@ -282,7 +282,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
                             f"{compatibility_link} while still using DPF server {server_version}, "
                             f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
                             f" with the command: \n"
-                            f"     pip install ansys-grpc-dpf=={right_grpc_module_version}"
+                            f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
                             )
 
 
@@ -754,13 +754,7 @@ class LegacyGrpcServer(BaseServer):
     def _create_shutdown_funcs(self):
         self._core_api = data_processing_grpcapi.DataProcessingGRPCAPI
         self._core_api.init_data_processing_environment(self)
-        from ansys.grpc.dpf import base_pb2
-        self._preparing_shutdown_func = (
-            data_processing_grpcapi._get_stub(self).PrepareShutdown, base_pb2.Empty()
-        )
-        self._shutdown_func = (
-            data_processing_grpcapi._get_stub(self).ReleaseServer, base_pb2.Empty()
-        )
+        self._core_api.bind_delete_server_func(self)
 
     @property
     def client(self):
