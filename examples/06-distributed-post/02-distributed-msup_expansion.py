@@ -34,7 +34,12 @@ from ansys.dpf.core import operators as ops
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
-remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+remote_servers = [
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrcpServer),
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrcpServer),
+]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
