@@ -19,7 +19,7 @@ from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 @class_handling_cache
 class MeshedRegion:
     """
-    Represents a mesh from DPF. test
+    Represents a mesh from DPF.
 
     Parameters
     ----------
