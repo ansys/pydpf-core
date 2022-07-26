@@ -131,11 +131,15 @@ class _PyVistaPlotter:
             bound_method=self._plotter.add_point_labels,
             **kwargs
             )
-        import pyvista.core.pointset as pointset
+        import pyvista as pv
         # The scalar data used will be the one of the last field added.
-        for data_set in self._plotter._datasets:
-            if type(data_set) is pointset.UnstructuredGrid:
-                active_scalars = data_set.active_scalars
+        from packaging.version import parse
+        if parse(pv.__version__) >= parse("0.35.2"):
+            for data_set in self._plotter._datasets:
+                if type(data_set) is pv.core.pointset.UnstructuredGrid:
+                    active_scalars = data_set.active_scalars
+        else:
+            active_scalars = meshed_region.grid.active_scalars
         # For all grid_points given
         for index, grid_point in enumerate(grid_points):
             # Check for existing label at that point
