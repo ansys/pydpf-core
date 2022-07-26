@@ -29,7 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.8"]
-        os: ["windows-latest", "ubuntu-18.04", "ubuntu-20.04", "ubuntu-22.04"]
+        os: ["windows-latest", "ubuntu-18.04"]
 
     steps:
       - uses: actions/checkout@v3
@@ -44,12 +44,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
-
-      - name: "Path to Python plugin libraries"
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/commonfiles/CPython/3_7/linx64/Release/python/lib" >> $GITHUB_ENV
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
