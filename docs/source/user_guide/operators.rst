@@ -321,7 +321,7 @@ These operators provide for reading data from solver files or from standard file
 - For Fluent and CFX, CAS.H5, DAT.H5, RES, and FLPRJ files are supported.
 - For Abaqus, ODB files are supported.
 
-To read these fciles, different readers are implemented as plugins. 
+To read these files, different readers are implemented as plugins.
 Plugins can be loaded on demand in any DPF's scripting language with the "load library" methods. 
 File readers can be used generically thanks to DPF's result providers, which means that the same operators can be used for any file types.
 
