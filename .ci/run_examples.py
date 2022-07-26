@@ -33,5 +33,3 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             except core.errors.ServerTypeError as e:
                 if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
                     raise e
-
-

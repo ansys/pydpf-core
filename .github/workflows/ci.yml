@@ -245,6 +245,20 @@ jobs:
           wheelhouse: false
           extra-pip-args: "--pre --find-links .github/workflows/"
 
+      - name: Install OpenGL
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
+      - name: Install test offscreen rendering
+        run: |
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
+
       - name: "Check sanity with gatebin"
         shell: bash
         run: |
@@ -264,15 +278,26 @@ jobs:
           export DPF_SERVER_TYPE=INPROCESS
           python .ci/run_examples.py
 
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+
       - name: "Check sanity without gatebin GRPC"
         shell: bash
         run: |
           export DPF_SERVER_TYPE=GRPC
           python .ci/run_examples.py
 
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
       - name: "Check sanity without gatebin LEGACYGRPC"
         shell: bash
         run: |
           export DPF_SERVER_TYPE=LEGACYGRPC
           python .ci/run_examples.py
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
 
