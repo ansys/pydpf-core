@@ -145,7 +145,10 @@ def average_then_compute_von_mises(analysis):
 # Plotting the results
 # ~~~~~~~~~~~~~~~~~~~~
 # Finally, we can plot both Von Mises stress fields side
-# by side to see how they compare to each other.
+# by side to see how they compare to each other. The first image
+# displays the results when the equivalent stresses are calculated
+# first, while the second one shows the case when the averaging is
+# done first.
 
 max1 = compute_von_mises_then_average(analysis)
 max2 = average_then_compute_von_mises(analysis)
