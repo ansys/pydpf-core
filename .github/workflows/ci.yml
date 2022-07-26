@@ -44,7 +44,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
-          extra-pip-args: "--pre --find-links .github/workflows/"
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
@@ -150,7 +149,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
-          extra-pip-args: "--pre --find-links .github/workflows/"
 
       - name: Install OpenGL
         run: |
