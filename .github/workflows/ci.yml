@@ -267,6 +267,7 @@ jobs:
       - name: "Check sanity with gatebin"
         shell: cmd
         run: |
+          echo on
           cd .ci
           dir .
           python run_examples.py
