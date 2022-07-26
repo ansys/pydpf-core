@@ -4,8 +4,10 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from ansys.dpf.core import examples
-from ansys.dpf.core import misc
+from ansys.dpf.core import examples, misc
+from ansys.dpf.core.errors import ServerTypeError
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+
 
 NO_PLOTTING = True
 
@@ -17,7 +19,11 @@ if misc.module_exists("pyvista"):
 
 @pytest.fixture()
 def static_model():
-    return dpf.core.Model(dpf.core.upload_file_in_tmp_folder(examples.static_rst))
+    try:
+        path = dpf.core.upload_file_in_tmp_folder(examples.static_rst)
+    except ServerTypeError:
+        path = examples.static_rst
+    return dpf.core.Model(path)
 
 
 def test_model_from_data_source(simple_bar):
@@ -185,7 +191,7 @@ def test_result_time_scoping(plate_msup):
     )
 
 
-def test_result_splitted_subset(allkindofcomplexity):
+def test_result_split_subset(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     vol = model.results.elemental_volume
     assert len(vol.split_by_body.eval()) == 11
@@ -210,6 +216,25 @@ def test_result_not_dynamic(plate_msup):
     assert fc[0].unit == "Pa"
     dis = model.results.displacement().eval()
     dpf.core.settings.set_dynamic_available_results_capability(True)
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Requires server version higher than 4.0')
+def test_model_meshes_container(simple_bar):
+    data_source = dpf.core.DataSources(simple_bar)
+    model = dpf.core.Model(data_source)
+    assert len(model.metadata.meshes_container) == 1
+    assert model.metadata.meshes_container[0].nodes.n_nodes == 3751
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Requires server version higher than 4.0')
+def test_model_meshes_provider(simple_bar):
+    data_source = dpf.core.DataSources(simple_bar)
+    model = dpf.core.Model(data_source)
+    meshes = model.metadata.meshes_provider.eval()
+    assert len(meshes) == 1
+    assert meshes[0].nodes.n_nodes == 3751
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):

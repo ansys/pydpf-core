@@ -5,33 +5,37 @@ import weakref
 
 import numpy as np
 import pytest
+import copy
 
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.misc import get_ansys_path
+from ansys.dpf.core.operator_specification import Specification
+import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0, \
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
 
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(dpf.core._global_server()), "3.0")
+
+def test_create_operator(server_type):
+    op = dpf.core.Operator("min_max", server=server_type)
+    assert op._internal_obj
 
 
-def test_create_operator():
-    op = dpf.core.Operator("min_max")
-    assert op._message.id
+def test_invalid_operator_name(server_type):
+    # with pytest.raises(errors.DPFServerException):
+    with pytest.raises(Exception):
+        dpf.core.Operator("not-an-operator", server=server_type)
 
 
-def test_invalid_operator_name():
-    with pytest.raises(errors.DPFServerException):
-        dpf.core.Operator("not-an-operator")
-
-
-def test_connect_field_operator():
-    op = dpf.core.Operator("min_max")
-    inpt = dpf.core.Field(nentities=3)
+def test_connect_field_operator(server_type):
+    op = dpf.core.Operator("min_max", server=server_type)
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = [1, 2, 3]
     inpt.data = data
     inpt.scoping = scop
@@ -58,15 +62,15 @@ def test_connect_list_operator_builtin(velocity_acceleration):
     assert fields.get_available_ids_for_label() == [1, 2]
 
 
-def test_connect_fieldscontainer_operator():
-    op = dpf.core.Operator("min_max_fc")
-    fc = dpf.core.FieldsContainer()
+def test_connect_fieldscontainer_operator(server_type):
+    op = dpf.core.Operator("min_max_fc", server=server_type)
+    fc = dpf.core.FieldsContainer(server=server_type)
     fc.labels = ["time", "complex"]
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = list(range(1, 11))
     for i in range(0, 20):
         mscop = {"time": i + 1, "complex": 0}
-        field = dpf.core.Field(nentities=10)
+        field = dpf.core.Field(nentities=10, server=server_type)
         field.scoping = scop
         field.data = np.zeros(len(field.scoping) * 3)
         fc.add_field(mscop, field)
@@ -75,8 +79,8 @@ def test_connect_fieldscontainer_operator():
     assert fOut.data.size == 60
 
 
-def test_connect_bool_operator():
-    op = dpf.core.Operator("S")
+def test_connect_bool_operator(server_type):
+    op = dpf.core.Operator("S", server=server_type)
     op.connect(5, True)
 
 
@@ -85,48 +89,89 @@ def test_print_operator():
     print(op)
 
 
-def test_connect_scoping_operator():
-    op = dpf.core.Operator("Rescope")
-    scop = dpf.core.Scoping()
+def test_connect_get_out_all_types_operator(server_type):
+    forward = ops.utility.forward(server=server_type)
+    to_connect = [1, 1.5, "hello", True,
+                  dpf.core.Field(server=server_type),
+                  # dpf.core.PropertyField(server=server_type),
+                  dpf.core.FieldsContainer(server=server_type),
+                  dpf.core.MeshesContainer(server=server_type),
+                  dpf.core.ScopingsContainer(server=server_type),
+                  dpf.core.DataSources("file.rst", server=server_type),
+                  # dpf.core.CyclicSupport(server=server_type),
+                  # dpf.core.MeshedRegion(server=server_type),
+                  dpf.core.TimeFreqSupport(server=server_type),
+                  dpf.core.Workflow(server=server_type),
+                  dpf.core.DataTree(server=server_type),
+                  ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
+        else [1, 1.5, "hello", True,
+              dpf.core.Field(server=server_type),
+              # dpf.core.PropertyField(server=server_type),
+              dpf.core.FieldsContainer(server=server_type),
+              dpf.core.MeshesContainer(server=server_type),
+              dpf.core.ScopingsContainer(server=server_type),
+              dpf.core.DataSources("file.rst", server=server_type),
+              # dpf.core.CyclicSupport(server=server_type),
+              # dpf.core.MeshedRegion(server=server_type),
+              dpf.core.TimeFreqSupport(server=server_type),
+              dpf.core.Workflow(server=server_type),
+              ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 else [1, 1.5, "hello", True,
+              dpf.core.Field(server=server_type),
+              # dpf.core.PropertyField(server=server_type),
+              dpf.core.FieldsContainer(server=server_type),
+              dpf.core.MeshesContainer(server=server_type),
+              dpf.core.ScopingsContainer(server=server_type),
+              dpf.core.DataSources("file.rst", server=server_type)
+              ]
+
+    for i, data in enumerate(to_connect):
+        forward.connect(i, data)
+    for i, data in enumerate(to_connect):
+        assert forward.get_output(i, type(data)) is not None
+
+
+def test_connect_scoping_operator(server_type):
+    op = dpf.core.Operator("Rescope", server=server_type)
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = list(range(1, 11))
-    field = dpf.core.Field(nentities=10)
+    field = dpf.core.Field(nentities=10, server=server_type)
     field.scoping = scop
     field.data = np.zeros(len(field.scoping) * 3)
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = list(range(1, 11))
-    scop2 = dpf.core.Scoping()
+    scop2 = dpf.core.Scoping(server=server_type)
     scop2.ids = list(range(1, 5))
     op.connect(0, field)
     op.connect(1, scop2)
     fOut = op.get_output(0, dpf.core.types.field)
     scopOut = fOut.scoping
-    assert scopOut.ids == list(range(1, 5))
+    assert np.allclose(scopOut.ids, list(range(1, 5)))
 
 
-def test_connect_datasources_operator(fields_container_csv):
-    op = dpf.core.Operator("csv_to_field")
-    data_sources = dpf.core.DataSources()
+def test_connect_datasources_operator(fields_container_csv, server_type):
+    op = dpf.core.Operator("csv_to_field", server=server_type)
+    data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(fields_container_csv)
     op.connect(4, data_sources)
     fcOut = op.get_output(0, dpf.core.types.fields_container)
     assert len(fcOut.get_available_ids_for_label()) == 4
 
 
-def test_connect_operator_operator():
-    op = dpf.core.Operator("norm")
-    inpt = dpf.core.Field(nentities=3)
+def test_connect_operator_operator(server_type):
+    op = dpf.core.Operator("norm", server=server_type)
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = [1, 2, 3]
     inpt.data = data
     inpt.scoping = scop
     op.connect(0, inpt)
-    op2 = dpf.core.Operator("component_selector")
+    op2 = dpf.core.Operator("component_selector", server=server_type)
     op2.connect(0, op, 0)
     op2.connect(1, 0)
     fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
-    op2 = dpf.core.Operator("component_selector")
+    op2 = dpf.core.Operator("component_selector", server=server_type)
 
     # attempt to connect without specifying a pin
     # with pytest.raises(Exception):
@@ -138,21 +183,21 @@ def test_connect_operator_operator():
     assert len(fOut.data) == 3
 
 
-def test_connect_operator_output_operator():
-    op = dpf.core.Operator("norm")
-    inpt = dpf.core.Field(nentities=3)
+def test_connect_operator_output_operator(server_type):
+    op = dpf.core.Operator("norm", server=server_type)
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = [1, 2, 3]
     inpt.data = data
     inpt.scoping = scop
     op.connect(0, inpt)
-    op2 = dpf.core.Operator("component_selector")
+    op2 = dpf.core.Operator("component_selector", server=server_type)
     op2.connect(0, op, 0)
     op2.connect(1, 0)
     fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
-    op2 = dpf.core.Operator("component_selector")
+    op2 = dpf.core.Operator("component_selector", server=server_type)
 
     # attempt to connect without specifying a pin
     # with pytest.raises(Exception):
@@ -164,11 +209,11 @@ def test_connect_operator_output_operator():
     assert len(fOut.data) == 3
 
 
-def test_eval_operator():
-    op = dpf.core.Operator("min_max")
-    inpt = dpf.core.Field(nentities=3)
+def test_eval_operator(server_type):
+    op = dpf.core.Operator("min_max", server=server_type)
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     data = range(1, 10)
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = [1, 2, 3]
     inpt.data = data
     inpt.scoping = scop
@@ -265,39 +310,39 @@ def test_inputs_outputs_4_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     assert meshed_region.elements.connectivities_field.size
 
 
-def test_inputs_int_operator(cyclic_lin_rst, cyclic_ds):
-    data_sources = dpf.core.DataSources()
+def test_inputs_int_operator(cyclic_lin_rst, cyclic_ds, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
-    op = dpf.core.Operator("mapdl::rst::U")
+    op = dpf.core.Operator("mapdl::rst::U", server=server_type)
     op.inputs.connect(data_sources)
     op.inputs.read_cyclic.connect(1)
-    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic")
+    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic", server=server_type)
     support.inputs.connect(data_sources)
-    expand = dpf.core.Operator("cyclic_expansion")
+    expand = dpf.core.Operator("cyclic_expansion", server=server_type)
     expand.inputs.connect(support.outputs.cyclic_support)
     expand.inputs.connect(op.outputs.fields_container)
     fc = expand.outputs.fields_container()
     assert isinstance(fc, dpf.core.FieldsContainer)
 
 
-def test_outputs_bool_operator():
-    inpt = dpf.core.Field(nentities=3)
+def test_outputs_bool_operator(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     scop.ids = [1, 2, 3]
     inpt.data = data
     inpt.scoping = scop
-    op = dpf.core.Operator("AreFieldsIdentical")
+    op = dpf.core.Operator("AreFieldsIdentical", server=server_type)
     op.inputs.fieldA(inpt)
     op.inputs.fieldB(inpt)
     out = op.outputs.boolean()
-    assert out == True
+    assert out is True
 
 
 def find_mapdl():
     try:
-        path = dpf.core.misc.find_ansys()
+        path = get_ansys_path()
         if dpf.core.SERVER.os == "nt":
             exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
             return os.path.isfile(exe)
@@ -310,10 +355,10 @@ def find_mapdl():
 
 
 @pytest.mark.skipif(not find_mapdl(), reason="requires mapdl solver in install")
-def test_inputs_outputs_datasources_operator(cyclic_ds):
-    data_sources = dpf.core.DataSources()
+def test_inputs_outputs_datasources_operator(cyclic_ds, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cyclic_ds)
-    op = dpf.core.Operator("mapdl::run")
+    op = dpf.core.Operator("mapdl::run", server=server_type)
     op.inputs.connect(data_sources)
     dsout = op.outputs.data_sources()
     assert dsout is not None
@@ -373,11 +418,11 @@ def test_subresults_operator(cyclic_lin_rst, cyclic_ds):
 #     assert isinstance(fc, dpf.core.FieldsContainer)
 
 
-def test_inputs_outputs_list_operator(cyclic_lin_rst, cyclic_ds):
-    data_sources = dpf.core.DataSources()
+def test_inputs_outputs_list_operator(cyclic_lin_rst, cyclic_ds, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(cyclic_lin_rst)
     data_sources.add_file_path(cyclic_ds)
-    op = dpf.core.Operator("mapdl::rst::U")
+    op = dpf.core.Operator("mapdl::rst::U", server=server_type)
     op.inputs.connect(data_sources)
     op.inputs.time_scoping.connect([1, 2, 3, 8])
     fc = op.outputs.fields_container()
@@ -450,10 +495,10 @@ def test_inputs_outputs_meshes_container(allkindofcomplexity):
     assert len(fc) == 4
 
 
-def test_inputs_connect_op(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+def test_inputs_connect_op(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     u = model.results.displacement()
-    norm = dpf.core.Operator("norm_fc")
+    norm = dpf.core.Operator("norm_fc", server=server_type)
     norm.inputs.connect(u)
     fc = norm.outputs.fields_container()
     assert len(fc) == 1
@@ -464,8 +509,8 @@ def test_inputs_connect_op(allkindofcomplexity):
     assert fc[0].data[0] == 1.1118681761302609e-05
 
 
-def test_connect_time_scoping(plate_msup):
-    model = dpf.core.Model(plate_msup)
+def test_connect_time_scoping(plate_msup, server_type):
+    model = dpf.core.Model(plate_msup, server=server_type)
     u = model.results.displacement()
     u.inputs.time_scoping.connect(0.015)
     fc = u.outputs.fields_container()
@@ -486,9 +531,9 @@ def test_connect_time_scoping(plate_msup):
     assert np.allclose(fc[0].data[0], [1.62364553e-14, 1.47628321e-04, 1.96440004e-06])
 
 
-def test_connect_model(plate_msup):
-    model = dpf.core.Model(plate_msup)
-    u = dpf.core.Operator("U")
+def test_connect_model(plate_msup, server_type):
+    model = dpf.core.Model(plate_msup, server=server_type)
+    u = dpf.core.Operator("U", server=server_type)
     u.inputs.connect(model)
     u.inputs.time_scoping.connect(0.015)
     fc = u.outputs.fields_container()
@@ -504,12 +549,12 @@ def test_connect_model(plate_msup):
     assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
 
 
-def test_operator_several_output_types(plate_msup):
-    inpt = dpf.core.Field(nentities=3)
+def test_operator_several_output_types(plate_msup, server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt.scoping.ids = [1, 2, 3]
     inpt.unit = "m"
-    op = dpf.core.Operator("unit_convert")
+    op = dpf.core.Operator("unit_convert", server=server_type)
     op.inputs.entity_to_convert(inpt)
     op.inputs.unit_name("mm")
     f = op.outputs.converted_entity_as_field()
@@ -518,7 +563,7 @@ def test_operator_several_output_types(plate_msup):
         f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000
     )
 
-    model = dpf.core.Model(plate_msup)
+    model = dpf.core.Model(plate_msup, server=server_type)
     din = model.metadata.meshed_region.nodes.coordinates_field.data
 
     assert model.metadata.meshed_region.nodes.coordinates_field.unit == "m"
@@ -531,18 +576,18 @@ def test_operator_several_output_types(plate_msup):
     assert np.allclose(m.nodes.coordinates_field.data, np.array(din) * 1000)
 
 
-def test_operator_several_output_types2():
-    inpt = dpf.core.Field(nentities=3)
+def test_operator_several_output_types2(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt.scoping.ids = [1, 2, 3]
     inpt.unit = "m"
-    uc = dpf.core.Operator("Rescope")
+    uc = dpf.core.Operator("Rescope", server=server_type)
     uc.inputs.fields(inpt)
     uc.inputs.mesh_scoping(dpf.core.Scoping(ids=[1, 2]))
     f = uc.outputs.fields_as_field()
     assert np.allclose(f.data.flatten("C"), [1, 2, 3, 4, 5, 6])
 
-    fc = dpf.core.FieldsContainer()
+    fc = dpf.core.FieldsContainer(server=server_type)
     fc.labels = ["time"]
     fc.add_field({"time": 1}, inpt)
 
@@ -551,8 +596,8 @@ def test_operator_several_output_types2():
     assert np.allclose(fc2[0].data.flatten("C"), [1, 2, 3, 4, 5, 6])
 
 
-def test_create_operator_config():
-    conf = dpf.core.Config()
+def test_create_operator_config(server_type):
+    conf = dpf.core.Config(server=server_type)
     assert conf.config_option_documentation("mutex") == ""
     assert conf.available_config_options == []
     conf.set_config_option("mutex", 3)
@@ -561,11 +606,16 @@ def test_create_operator_config():
     assert conf.options == {"mutex": "3"}
 
 
-def test_operator_config():
-    op = dpf.core.Operator("min_max")
+def test_operator_config(server_type):
+    # print("---> CREATING OPERATOR <----")
+    op = dpf.core.Operator("min_max", server=server_type)
+    # print("---> CALLING OP.CONFIG <----")
     conf = op.config
     assert hasattr(conf, "get_mutex_option")
     assert hasattr(conf, "set_mutex_option")
+    # print("==============test===================")
+    # print("Conf", conf)
+    # print("Conf.mutex", conf.config_option_documentation("mutex"))
     assert "multiple threads" in conf.config_option_documentation("mutex")
     assert conf.config_option_value("mutex") == "false"
     assert conf.get_mutex_option() == "false"
@@ -577,8 +627,8 @@ def test_operator_config():
     assert conf.options["mutex"] == "true"
 
 
-def test_operator_config_2():
-    op = dpf.core.Operator("add_fc")
+def test_operator_config_2(server_type):
+    op = dpf.core.Operator("add_fc", server=server_type)
     conf = op.config
     assert hasattr(conf, "get_mutex_option")
     assert hasattr(conf, "set_mutex_option")
@@ -605,21 +655,21 @@ def test_operator_config_2():
     assert conf.get_binary_operation_option() == "2"
 
 
-def test_operator_set_config():
-    inpt = dpf.core.Field(nentities=3)
+def test_operator_set_config(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt.scoping.ids = [1, 2, 3]
     inpt.unit = "m"
 
-    inpt2 = dpf.core.Field(nentities=3)
+    inpt2 = dpf.core.Field(nentities=3, server=server_type)
     inpt2.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt2.scoping.ids = [3, 4, 5]
     inpt2.unit = "m"
 
-    conf = dpf.core.Config("add")
-    print(conf)
+    conf = dpf.core.Config("add", server=server_type)
+    # print(conf)
     conf.set_work_by_index_option(True)
-    op = dpf.core.Operator("add", conf)
+    op = dpf.core.Operator("add", conf, server=server_type)
     op.inputs.fieldA.connect(inpt)
     op.inputs.fieldB.connect(inpt2)
     out = op.outputs.field()
@@ -628,7 +678,7 @@ def test_operator_set_config():
                                            [14., 16., 18.]]))
 
     conf.set_work_by_index_option(False)
-    op = dpf.core.Operator("add", conf)
+    op = dpf.core.Operator("add", conf, server=server_type)
     op.inputs.fieldA.connect(inpt)
     op.inputs.fieldB.connect(inpt2)
     out = op.outputs.field()
@@ -647,7 +697,7 @@ def test_operator_set_config():
     )
 
     inpt2.unit = "Pa"
-    conf = dpf.core.Operator.default_config("add")
+    conf = dpf.core.Operator.default_config("add", server=server_type)
     conf.set_permissive_option(True)
     op.config = conf
     op.inputs.fieldB.connect(inpt2)
@@ -667,88 +717,76 @@ def test_operator_set_config():
     )
 
 
-def test_connect_model(plate_msup):
-    model = dpf.core.Model(plate_msup)
-    u = dpf.core.Operator("U")
-    u.inputs.connect(model)
-    u.inputs.time_scoping.connect(0.015)
-    fc = u.outputs.fields_container()
-    assert len(fc) == 1
-    assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
-    u.inputs.data_sources(model)
-    fc = u.outputs.fields_container()
-    assert len(fc) == 1
-    assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
-    u.connect(4, model)
-    fc = u.outputs.fields_container()
-    assert len(fc) == 1
-    assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
-
-
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_connect_get_output_int_list_operator():
+@conftest.raises_for_servers_version_under('3.0')
+def test_connect_get_output_int_list_operator(server_type):
     d = list(range(0, 100000))
-    op = dpf.core.operators.utility.forward(d)
+    op = dpf.core.operators.utility.forward(d, server=server_type)
     dout = op.get_output(0, dpf.core.types.vec_int)
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_connect_get_output_double_list_operator():
+@conftest.raises_for_servers_version_under('3.0')
+def test_connect_get_output_double_list_operator(server_type):
     d = list(np.ones(100000))
-    op = dpf.core.operators.utility.forward(d)
+    op = dpf.core.operators.utility.forward(d, server=server_type)
     dout = op.get_output(0, dpf.core.types.vec_double)
     assert np.allclose(d, dout)
 
 
-def test_connect_result(plate_msup):
-    model = dpf.core.Model(plate_msup)
+def test_connect_result(plate_msup, server_type):
+    model = dpf.core.Model(plate_msup, server=server_type)
     stress = model.results.stress
-    eqv = ops.invariant.von_mises_eqv_fc(stress)
+    eqv = ops.invariant.von_mises_eqv_fc(stress, server=server_type)
     out = eqv.outputs.fields_container()
-    eqv = ops.invariant.von_mises_eqv_fc()
+    eqv = ops.invariant.von_mises_eqv_fc(server=server_type)
     eqv.inputs.fields_container.connect(stress)
     out2 = eqv.outputs.fields_container()
     assert len(out) == len(out2)
-    eqv = ops.invariant.von_mises_eqv_fc()
+    eqv = ops.invariant.von_mises_eqv_fc(server=server_type)
     eqv.inputs.connect(stress)
     out2 = eqv.outputs.fields_container()
     assert len(out) == len(out2)
 
 
-def test_connect_result2(plate_msup):
-    model = dpf.core.Model(plate_msup)
+def test_connect_result2(plate_msup, server_type):
+    model = dpf.core.Model(plate_msup, server=server_type)
     disp = model.results.displacement
-    norm = ops.math.norm_fc(disp)
+    norm = ops.math.norm_fc(disp, server=server_type)
     out = norm.outputs.fields_container()
-    norm = ops.math.norm_fc()
+    norm = ops.math.norm_fc(server=server_type)
     norm.inputs.fields_container.connect(disp)
     out2 = norm.outputs.fields_container()
     assert len(out) == len(out2)
-    norm = ops.math.norm_fc()
+    norm = ops.math.norm_fc(server=server_type)
     norm.inputs.connect(disp)
     out2 = norm.outputs.fields_container()
     assert len(out) == len(out2)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_connect_get_output_int_list_operator():
-    d = list(range(0, 10000000))
-    op = dpf.core.operators.utility.forward(d)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Bug in server version lower than 3.0')
+def test_connect_get_output_int_list_operator(server_type):
+    d = list(range(0, 1000000))
+    op = dpf.core.operators.utility.forward(d, server=server_type)
     dout = op.get_output(0, dpf.core.types.vec_int)
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_connect_get_output_double_list_operator():
-    d = list(np.ones(10000000))
-    op = dpf.core.operators.utility.forward(d)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Bug in server version lower than 3.0')
+def test_connect_get_output_double_list_operator(server_type):
+    d = list(np.ones(1000000))
+    op = dpf.core.operators.utility.forward(d, server=server_type)
     dout = op.get_output(0, dpf.core.types.vec_double)
     assert np.allclose(d, dout)
+
+
+@conftest.raises_for_servers_version_under('4.0')
+def test_connect_get_output_data_tree_operator():
+    d = dpf.core.DataTree({"name": "Paul"})
+    op = dpf.core.operators.utility.forward(d)
+    dout = op.get_output(0, dpf.core.types.data_tree)
+    assert dout.get_as("name") == "Paul"
 
 
 def test_operator_several_output_types(plate_msup):
@@ -766,7 +804,7 @@ def test_operator_several_output_types(plate_msup):
     )
 
     model = dpf.core.Model(plate_msup)
-    din = model.metadata.meshed_region.nodes.coordinates_field.data
+    din = copy.deepcopy(model.metadata.meshed_region.nodes.coordinates_field.data)
 
     assert model.metadata.meshed_region.nodes.coordinates_field.unit == "m"
 
@@ -778,18 +816,18 @@ def test_operator_several_output_types(plate_msup):
     assert np.allclose(m.nodes.coordinates_field.data, np.array(din) * 1000)
 
 
-def test_operator_several_output_types2():
-    inpt = dpf.core.Field(nentities=3)
+def test_operator_several_output_types2(server_type):
+    inpt = dpf.core.Field(nentities=3, server=server_type)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt.scoping.ids = [1, 2, 3]
     inpt.unit = "m"
-    uc = dpf.core.Operator("Rescope")
+    uc = dpf.core.Operator("Rescope", server=server_type)
     uc.inputs.fields(inpt)
-    uc.inputs.mesh_scoping(dpf.core.Scoping(ids=[1, 2]))
+    uc.inputs.mesh_scoping(dpf.core.Scoping(ids=[1, 2], server=server_type))
     f = uc.outputs.fields_as_field()
     assert np.allclose(f.data.flatten("C"), [1, 2, 3, 4, 5, 6])
 
-    fc = dpf.core.FieldsContainer()
+    fc = dpf.core.FieldsContainer(server=server_type)
     fc.labels = ["time"]
     fc.add_field({"time": 1}, inpt)
 
@@ -798,19 +836,19 @@ def test_operator_several_output_types2():
     assert np.allclose(fc2[0].data.flatten("C"), [1, 2, 3, 4, 5, 6])
 
 
-def test_add_operator_operator():
-    field = dpf.core.fields_factory.create_3d_vector_field(2)
+def test_add_operator_operator(server_type):
+    field = dpf.core.fields_factory.create_3d_vector_field(2, server=server_type)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
 
     ####forward field
     # operator with field out
-    forward = ops.utility.forward_field(field)
+    forward = ops.utility.forward_field(field, server=server_type)
     add = forward + forward
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + field
@@ -818,7 +856,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + list
@@ -826,7 +864,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(
         out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
     )
@@ -835,17 +873,17 @@ def test_add_operator_operator():
     add = forward + 1.0
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
     ####forward fields container
     # operator with field out
-    forward = ops.utility.forward_fields_container(field)
+    forward = ops.utility.forward_fields_container(field, server=server_type)
     add = forward + forward
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + field
@@ -853,7 +891,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array(field.data) * 2.0)
 
     # operator + list
@@ -861,7 +899,7 @@ def test_add_operator_operator():
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(
         out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
     )
@@ -870,23 +908,23 @@ def test_add_operator_operator():
     add = forward + 1.0
     assert isinstance(add, ops.math.add_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
 
 
-def test_minus_operator_operator():
-    field = dpf.core.fields_factory.create_3d_vector_field(2)
+def test_minus_operator_operator(server_type):
+    field = dpf.core.fields_factory.create_3d_vector_field(2, server=server_type)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
 
     ####forward field
     # operator with field out
-    forward = ops.utility.forward_field(field)
+    forward = ops.utility.forward_field(field, server=server_type)
     add = forward - forward
     assert type(add) == ops.math.minus_fc
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator - field
@@ -894,7 +932,7 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator - list
@@ -902,24 +940,24 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
 
     # operator - float
     add = forward - 1.0
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
     ####forward fields container
     # operator with field out
-    forward = ops.utility.forward_fields_container(field)
+    forward = ops.utility.forward_fields_container(field, server=server_type)
     add = forward - forward
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator- field
@@ -927,7 +965,7 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.zeros((2, 3)))
 
     # operator - list
@@ -935,30 +973,30 @@ def test_minus_operator_operator():
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[0.0, 0.0, 0.0], [3.0, 3.0, 3.0]]))
 
     # operator - float
     add = forward - 1.0
     assert isinstance(add, ops.math.minus_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([[-1.0, 0.0, 1.0], [2.0, 3.0, 4.0]]))
 
 
-def test_dot_operator_operator():
-    field = dpf.core.fields_factory.create_3d_vector_field(2)
+def test_dot_operator_operator(server_type):
+    field = dpf.core.fields_factory.create_3d_vector_field(2, server=server_type)
     field.data = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
     field.scoping.ids = [1, 2]
 
     ####forward field
     # operator with field out
-    forward = ops.utility.forward_field(field)
+    forward = ops.utility.forward_field(field, server=server_type)
     add = forward * forward
     assert type(add) == ops.math.generalized_inner_product_fc
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator * field
@@ -966,7 +1004,7 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator * list
@@ -974,24 +1012,24 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 14.0]))
 
     # operator * float
     add = forward * -1.0
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, -field.data)
 
     ####forward fields container
     # operator with field out
-    forward = ops.utility.forward_fields_container(field)
+    forward = ops.utility.forward_fields_container(field, server=server_type)
     add = forward * forward
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator* field
@@ -999,7 +1037,7 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 50.0]))
 
     # operator * list
@@ -1007,103 +1045,197 @@ def test_dot_operator_operator():
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
     assert len(out) == 1
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, np.array([5.0, 14.0]))
 
     # operator * float
     add = forward * -1.0
     assert isinstance(add, ops.math.generalized_inner_product_fc)
     out = add.outputs.fields_container()
-    assert out[0].scoping.ids == [1, 2]
+    assert np.allclose(out[0].scoping.ids, [1, 2])
     assert np.allclose(out[0].data, -field.data)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_list_operators():
-    l = dpf.core.dpf_operator.available_operator_names()
+@conftest.raises_for_servers_version_under('3.0')
+def test_list_operators(server_type):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type)
     assert len(l) > 400
     assert 'merge::result_info' in l
     assert 'unit_convert' in l
     assert 'stream_provider' in l
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_get_static_spec_operator():
-    l = dpf.core.dpf_operator.available_operator_names()
+@conftest.raises_for_servers_version_under('3.0')
+def test_get_static_spec_operator(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name)
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_with_progress_operator(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+@conftest.raises_for_servers_version_under('4.0')
+def test_get_static_spec_operator_in_proc(server_clayer):
+    if isinstance(server_clayer, dpf.core.server_types.GrpcServer):
+        return
+    l = dpf.core.dpf_operator.available_operator_names(server=server_clayer)
+    for i, name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name, server=server_clayer)
+        assert len(spec.operator_name) > 0
+        l = len(spec.inputs)
+        d = spec.description
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_with_progress_operator(allkindofcomplexity, server_type_legacy_grpc):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type_legacy_grpc)
     op = model.results.stress()
     op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm)
-    add2 = dpf.core.operators.math.add_fc(add, add)
-    add3 = dpf.core.operators.math.add_fc(add2)
-    add4 = dpf.core.operators.math.add_fc(add3, add3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type_legacy_grpc)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type_legacy_grpc)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type_legacy_grpc)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_type_legacy_grpc)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type_legacy_grpc)
     add4.progress_bar = True
     fc = add4.outputs.fields_container()
     assert len(fc) == 2
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_list_operators():
-    l = dpf.core.dpf_operator.available_operator_names()
+@conftest.raises_for_servers_version_under('4.0')
+def test_with_progress_operator_in_proc(allkindofcomplexity, server_clayer):
+    if isinstance(server_clayer, dpf.core.server_types.GrpcServer):
+        return
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_clayer)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_clayer)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_clayer)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_clayer)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_clayer)
+    add4.progress_bar = True
+    fc = add4.outputs.fields_container()
+    assert len(fc) == 2
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_list_operators(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     assert len(l) > 400
     assert 'merge::result_info' in l
     assert 'unit_convert' in l
     assert 'stream_provider' in l
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_get_static_spec_operator():
-    l = dpf.core.dpf_operator.available_operator_names()
+@conftest.raises_for_servers_version_under('3.0')
+def test_get_static_spec_operator(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name)
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_with_progress_operator(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+@conftest.raises_for_servers_version_under('3.0')
+def test_with_progress_operator(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     op = model.results.stress()
     op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm)
-    add2 = dpf.core.operators.math.add_fc(add, add)
-    add3 = dpf.core.operators.math.add_fc(add2)
-    add4 = dpf.core.operators.math.add_fc(add3, add3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_type)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type)
     add4.progress_bar = True
     fc = add4.outputs.fields_container()
     assert len(fc) == 2
 
 
-def test_delete_operator():
-    op = dpf.core.Operator("min_max")
-    op.__del__()
+def test_operator_specification_simple(server_type):
+    spec = Specification(operator_name="U", server=server_type)
+    assert "displacement" in spec.description
+    assert "result file path" in spec.inputs[4].document
+    assert "field" in spec.outputs[0].type_names[0]
+
+
+def test_operator_specification_none(server_type):
+    op = dpf.core.Operator("mapdl::rst::MeshProvider", server=server_type)
+    assert op.specification.description == ""
+    assert op.specification.inputs == {}
+    assert op.specification.outputs == {}
+    assert op.specification.properties == {}
+    inputs_dir = dir(op.inputs)
+    for i in inputs_dir:
+        if not i[0] == "_":
+            assert False
+    outputs_dir = dir(op.outputs)
+    for i in outputs_dir:
+        if not i[0] == "_":
+            assert False
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_generated_operator_specification(server_type):
+    op = ops.result.displacement(server=server_type)
+    spec = op.specification
+    assert spec is not None
+    assert "displacement" in spec.description
+    assert "path" in spec.inputs[4].document
+
+
+def test_operator_config_specification_simple(server_type):
+    spec = Specification(operator_name="add", server=server_type)
+    conf_spec = spec.config_specification
+    if server_type.os != "posix":
+        assert 'enum dataProcessing::EBinaryOperation' in conf_spec['binary_operation'].type_names
+    assert conf_spec['binary_operation'].default_value_str == "1"
+    assert "Intersection" in conf_spec['binary_operation'].document
+    assert 'run_in_parallel' in conf_spec
+    assert 'index' in conf_spec['work_by_index'].document
+    assert 'id' in conf_spec['work_by_index'].document
+
+
+def test_generated_operator_config_specification_simple(server_type):
+    op = ops.math.add(server=server_type)
+    spec = op.specification
+    conf_spec = spec.config_specification
+    if server_type.os != "posix":
+        assert 'enum dataProcessing::EBinaryOperation' in conf_spec['binary_operation'].type_names
+    assert conf_spec['binary_operation'].default_value_str == "1"
+    assert "Intersection" in conf_spec['binary_operation'].document
+    assert 'run_in_parallel' in conf_spec
+    assert 'index' in conf_spec['work_by_index'].document
+    assert 'id' in conf_spec['work_by_index'].document
+
+
+def test_operator_exception():
+    ds = dpf.core.DataSources(r"dummy/file.rst")
+    op = ops.result.displacement(data_sources=ds)
+    with pytest.raises(errors.DPFServerException):
+        op.eval()
+
+
+def test_delete_operator(server_type):
+    op = dpf.core.Operator("min_max", server=server_type)
+    op = None
     with pytest.raises(Exception):
         op.connect(0, 1)
 
 
-def test_delete_auto_operator():
-    op = dpf.core.Operator("min_max")
+def test_memory_outputs_operator(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    stress_fc = model.results.stress().eqv().eval()
+    assert len(stress_fc) == 2
+
+
+def test_delete_auto_operator(server_type):
+    op = dpf.core.Operator("min_max", server=server_type)
 
     op_ref = weakref.ref(op)
 
-    del op
+    op = None
     gc.collect()
     assert op_ref() is None

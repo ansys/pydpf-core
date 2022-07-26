@@ -1,14 +1,12 @@
 """
+.. _ref_nodes_apis:
+
 Nodes
 =====
 """
-
 import numpy as np
-from ansys.grpc.dpf import meshed_region_pb2
-
-from ansys import dpf
-from ansys.dpf.core.common import nodal_properties
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.common import nodal_properties, locations
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.check_version import version_requires
 
 
@@ -25,7 +23,7 @@ class Node:
         Mesh region that the node is contained in.
     nodeid : int
         ID of the node.
-    nodeindex : int
+    index : int
         Index of the node.
     coordinates : list
         List of ``[x, y, z]`` coordinates for the node.
@@ -121,7 +119,7 @@ class Nodes:
 
     def __init__(self, mesh):
         self._mesh = mesh
-        self._server = self._mesh._server
+        self._server = mesh._server
         self._mapping_id_to_index = None
 
     def __str__(self):
@@ -146,7 +144,6 @@ class Nodes:
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeindex=index)
 
-    @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
         """
         Retrieves the node by its ID or index.
@@ -163,14 +160,20 @@ class Nodes:
         node : ansys.dpf.core.meshed_region.Node
             Requested node
         """
-        request = meshed_region_pb2.GetRequest()
-        request.mesh.CopyFrom(self._mesh._message)
         if nodeindex is None:
-            request.id = nodeid
-        else:
-            request.index = nodeindex
-        nodeOut = self._mesh._stub.GetNode(request)
-        return Node(self._mesh, nodeOut.id, nodeOut.index, nodeOut.coordinates)
+            nodeindex = self._mesh._api.meshed_region_get_node_index(self._mesh, nodeid)
+        elif nodeid is None:
+            nodeid = self._mesh._api.meshed_region_get_node_id(self._mesh, nodeindex)
+        node_coordinates = [self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=0),
+                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=1),
+                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=2)]
+        return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 
     @property
     def scoping(self):
@@ -195,12 +198,12 @@ class Nodes:
         3
 
         """
-        return self._mesh._get_scoping(loc=dpf.core.locations.nodal)
+        return self._mesh._get_scoping(loc=locations.nodal)
 
     @property
     def n_nodes(self):
         """Number of nodes."""
-        return self._mesh._stub.List(self._mesh._message).num_nodes
+        return self._mesh._api.meshed_region_get_num_nodes(self._mesh)
 
     @property
     def coordinates_field(self):
@@ -228,14 +231,6 @@ class Nodes:
         """
         return self._get_coordinates_field()
 
-    @protect_grpc
-    def _property_field_setter(self, property_field, property_type):
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._mesh._message)
-        request.property_type.property_name.property_name = property_type
-        request.field.CopyFrom(property_field._message)
-        self._mesh._stub.SetField(request)
-
     @coordinates_field.setter
     @version_requires("3.0")
     def coordinates_field(self, property_field):
@@ -247,7 +242,7 @@ class Nodes:
         property_field : Field
             Field that contains coordinates
         """
-        self._property_field_setter(property_field, nodal_properties.coordinates)
+        self._mesh.set_coordinates_field(property_field)
 
     @property
     def nodal_connectivity_field(self):
@@ -276,7 +271,6 @@ class Nodes:
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
-    @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""
         return self._mesh.field_of_properties(nodal_properties.coordinates)
@@ -347,11 +341,7 @@ class Nodes:
         coordinates : list[float]
             List of ``[x, y, z]`` coordinates for the node.
         """
-        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
-        node_request = meshed_region_pb2.NodeRequest(id=id)
-        node_request.coordinates.extend(coordinates)
-        request.nodes.append(node_request)
-        self._mesh._stub.Add(request)
+        self._mesh._api.meshed_region_add_node(self._mesh, coordinates, id)
 
     def add_nodes(self, num):
         """
@@ -378,26 +368,15 @@ class Nodes:
         ...     node.coordinates = [float(i), float(i), 0.0]
 
         """
-        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
         for i in range(0, num):
             add = NodeAdder()
             yield add
-            node_request = meshed_region_pb2.NodeRequest(id=add.id)
-            node_request.coordinates.extend(add.coordinates)
-            request.nodes.append(node_request)
-        self._mesh._stub.Add(request)
+            self._mesh._api.meshed_region_add_node(self._mesh, add.coordinates, add.id)
 
 
 class NodeAdder:
     """
     Adds a new node to a meshed region.
-
-    Attributes
-    ----------
-    id : int
-
-    coordinates : list of doubles
-        List of ``[x, y, z]'' coordinates.
 
     Examples
     --------

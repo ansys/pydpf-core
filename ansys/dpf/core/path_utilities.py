@@ -7,6 +7,7 @@ server into account to create path.
 
 import os
 
+import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from pathlib import Path
 
@@ -20,10 +21,10 @@ def join(*args, **kwargs):
 
     Parameters
     ----------
-    args : str, os.PathLike, DPFServer
+    args : str, os.PathLike, LegacyGrpcServer
         Path to join and optionally a server.
 
-    kwargs : DPFServer
+    kwargs : LegacyGrpcServer
         server=.
 
     server : Server
@@ -38,16 +39,16 @@ def join(*args, **kwargs):
     server = None
     parts = []
     for a in args:
-        if isinstance(a, (str, Path)) and Path(a) != Path(""):
+        if isinstance(a, (str, Path)) and len(a) > 0:
             parts.append(str(a))
-        elif isinstance(a, server_module.DpfServer):
+        elif isinstance(a, dpf.core.server_types.LegacyGrpcServer):
             server = a
     if "server" in kwargs:
         server = kwargs["server"]
     if not server:
         server = server_module._global_server()
     if not server:
-        if server_module.RUNNING_DOCKER["use_docker"]:
+        if dpf.core.server_types.RUNNING_DOCKER["use_docker"]:
             current_os = "posix"
         else:
             return os.path.join(*args)
@@ -76,7 +77,7 @@ def to_server_os(path, server=None):
         return path.replace("/", "\\")
 
 def downloaded_example_path(server = None):
-    on_docker = server_module.RUNNING_DOCKER["use_docker"]
+    on_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
     if not server:
         server = server_module._global_server()
     if server:

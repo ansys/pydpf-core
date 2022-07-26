@@ -31,7 +31,7 @@ Assume that you are importing the ``pydpf-core`` module:
 
     from ansys.dpf import core as dpf
 
-If an error lists missing modules, see the compatibility paragraph of :ref:`_ref_getting_started`.
+If an error lists missing modules, see the compatibility paragraph of :ref:`ref_getting_started`.
 The module `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ should always be synchronized with its server
 version.
 
@@ -40,7 +40,7 @@ Using the Model
 
 Invalid UTF-8 Error
 ~~~~~~~~~~~~~~~~~~~
-Assume that you are trying to access the py:class:`Model<ansys.dpf.core.model.Model>`.
+Assume that you are trying to access the :class:`ansys.dpf.core.model.Model`.
 The following error can be raised:
 
 .. code-block:: default
@@ -49,7 +49,7 @@ The following error can be raised:
     String field 'ansys.api.dpf.result_info.v0.ResultInfoResponse.user_name' contains invalid UTF-8 
     data when serializing a protocol buffer. Use the 'bytes' type if you intend to send raw bytes.
 
-This will prevent the model from being accessed. To avoid a this error, ensure that you are using
+This will prevent the model from being accessed. To avoid this error, ensure that you are using
 a PyDPF-Core version higher than 0.3.2. In this case, a warning will still be raised, but it should not 
 prevent the use of the Model. 
 
@@ -73,7 +73,7 @@ Getting and Setting a Field's Data
 Accessing or modifying field data :py:class:`Field<ansys.dpf.core.field.Field>` entity by entity can
 be slow if the field's size is large or if the server is far from the Python client. To improve performance,
 use :py:meth:`as_local_field()<ansys.dpf.core.field.Field.as_local_field>` in a context manager.
-An example can be found in :ref:`_ref_use_local_data_example`.
+An example can be found in :ref:`ref_use_local_data_example`.
 
 Slow Autocompletion in Notebooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

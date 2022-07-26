@@ -1,0 +1,148 @@
+from ansys.dpf.core.custom_operator import CustomOperatorBase
+from ansys.dpf.core import field, scoping, fields_container, meshes_container, scopings_container,\
+    property_field, data_sources, types, workflow, data_tree
+
+
+class ForwardFieldOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, field.Field)
+        f = self.get_input(0, types.field)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_field"
+
+
+class ForwardScopingOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, scoping.Scoping)
+        f = self.get_input(0, types.scoping)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_scoping"
+
+
+class ForwardFieldsContainerOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, fields_container.FieldsContainer)
+        f = self.get_input(0, types.fields_container)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_fields_container"
+
+
+class ForwardMeshesContainerOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, meshes_container.MeshesContainer)
+        f = self.get_input(0, types.meshes_container)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_meshes_container"
+
+
+class ForwardScopingsContainerOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, scopings_container.ScopingsContainer)
+        f = self.get_input(0, types.scopings_container)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_scopings_container"
+
+
+class ForwardPropertyFieldOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, property_field.PropertyField)
+        f = self.get_input(0, types.property_field)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_property_field"
+
+
+class ForwardDataSourcesOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, data_sources.DataSources)
+        f = self.get_input(0, types.data_sources)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_data_sources"
+
+
+class ForwardWorkflowOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, workflow.Workflow)
+        f = self.get_input(0, types.workflow)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_workflow"
+
+
+class ForwardDataTreeOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, data_tree.DataTree)
+        assert not f is None
+        f = self.get_input(0, types.data_tree)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_data_tree"

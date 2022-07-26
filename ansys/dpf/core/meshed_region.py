@@ -2,15 +2,18 @@
 MeshedRegion
 ============
 """
-from ansys import dpf
+import traceback
+import warnings
+
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
+from ansys.dpf.core.common import locations, types, nodal_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
-from ansys.grpc.dpf import meshed_region_pb2, meshed_region_pb2_grpc
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
 @class_handling_cache
@@ -30,14 +33,6 @@ class MeshedRegion:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-
-    Attributes
-    ----------
-    nodes : Nodes
-        Entity containing all nodal properties.
-
-    elements : Elements
-        Entity containing all elemental properties.
 
     Examples
     --------
@@ -68,25 +63,30 @@ class MeshedRegion:
     """
 
     def __init__(self, num_nodes=None, num_elements=None, mesh=None, server=None):
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        if server is None:
-            server = dpf.core._global_server()
+        # step 2: get api
+        self._api = self._server.get_api_for_type(
+            capi=meshed_region_capi.MeshedRegionCAPI,
+            grpcapi=meshed_region_grpcapi.MeshedRegionGRPCAPI,
+        )
 
-        self._server = server
-        self._stub = self._connect()
+        # step3: init environment
+        self._api.init_meshed_region_environment(self)  # creates stub when gRPC
 
-        if isinstance(mesh, MeshedRegion):
-            self._message = mesh._mesh
-        elif isinstance(mesh, meshed_region_pb2.MeshedRegion):
-            self._message = mesh
-        elif mesh is None:
-            self.__send_init_request(num_nodes, num_elements)
-        else:  # support_pb2.Support
-            self._message = meshed_region_pb2.MeshedRegion()
-            if isinstance(self._message.id, int):
-                self._message.id = mesh.id
+        # step4: if object exists: take instance, else create it:
+        # object_name -> protobuf.message, DPFObject*
+        if mesh is not None:
+            self._internal_obj = mesh
+        else:
+            # if no mesh object, create one
+            if self._server.has_client():
+                self._internal_obj = self._api.meshed_region_new_on_client(
+                    self._server.client
+                )
             else:
-                self._message.id.CopyFrom(mesh.id)
+                self._internal_obj = self._api.meshed_region_new()
 
         self._full_grid = None
         self._elements = None
@@ -104,9 +104,12 @@ class MeshedRegion:
         scoping : Scoping
             ids of the elements or nodes of the mesh
         """
-        request = meshed_region_pb2.GetScopingRequest(mesh=self._message)
-        request.loc.location = loc
-        out = self._stub.GetScoping(request)
+        if loc is locations.nodal:
+            out = self._api.meshed_region_get_shared_nodes_scoping(self)
+        elif loc is locations.elemental:
+            out = self._api.meshed_region_get_shared_elements_scoping(self)
+        else:
+            raise TypeError(f"Location {loc} is not recognized.")
         return scoping.Scoping(scoping=out, server=self._server)
 
     @property
@@ -191,7 +194,7 @@ class MeshedRegion:
         -------
         unit : str
         """
-        return self._stub.List(self._message).unit
+        return self._api.meshed_region_get_unit(self)
 
     def _set_unit(self, unit):
         """
@@ -201,25 +204,18 @@ class MeshedRegion:
         ----------
         unit: str
         """
-        request = meshed_region_pb2.UpdateMeshedRegionRequest()
-        request.meshed_region.CopyFrom(self._message)
-        request.unit = unit
-        return self._stub.UpdateRequest(request)
+        return self._api.meshed_region_set_unit(self, unit)
 
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
-
-    def _connect(self):
-        """Connect to the gRPC service containing the reader."""
-        return meshed_region_pb2_grpc.MeshedRegionServiceStub(self._server.channel)
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         from ansys.dpf.core.core import _description
 
-        return _description(self._message, self._server)
+        return _description(self._internal_obj, self._server)
 
     @property
     def available_property_fields(self):
@@ -230,7 +226,15 @@ class MeshedRegion:
         -------
         available_property_fields : list str
         """
-        return sorted(self._stub.List(self._message).available_prop)
+        available_property_fields = []
+        n_property_field = self._api.meshed_region_get_num_available_property_field(
+            self
+        )
+        for index in range(n_property_field):
+            available_property_fields.append(
+                self._api.meshed_region_get_property_field_name(self, index)
+            )
+        return available_property_fields
 
     def property_field(self, property_name):
         """
@@ -241,14 +245,7 @@ class MeshedRegion:
         -------
         field_or_property_field : core.Field or core.PropertyField
         """
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._message)
-        request.property_type.property_name.property_name = property_name
-        fieldOut = self._stub.ListProperty(request)
-        if fieldOut.datatype == u"int":
-            return property_field.PropertyField(server=self._server, property_field=fieldOut)
-        else:
-            return field.Field(server=self._server, field=fieldOut)
+        return self.field_of_properties(property_name)
 
     @version_requires("3.0")
     def set_property_field(self, property_name, value):
@@ -262,11 +259,21 @@ class MeshedRegion:
             property name of the field to set
         value : PropertyField or Field
         """
-        request = meshed_region_pb2.SetFieldRequest()
-        request.mesh.CopyFrom(self._message)
-        request.property_type.property_name.property_name = property_name
-        request.field.CopyFrom(value._message)
-        self._stub.SetField(request)
+        if property_name is nodal_properties.coordinates:
+            self.set_coordinates_field(value)
+        else:
+            self._api.meshed_region_set_property_field(self, property_name, value)
+
+    @version_requires("3.0")
+    def set_coordinates_field(self, coordinates_field):
+        """
+        Coordinates field setter.
+
+        Parameters
+        ----------
+        coordinates_field : PropertyField or Field
+        """
+        self._api.meshed_region_set_coordinates_field(self, coordinates_field)
 
     @property
     def available_named_selections(self):
@@ -287,12 +294,13 @@ class MeshedRegion:
         -------
         named_selections : list str
         """
-        if hasattr(self._stub, "ListNamedSelections"):
-            request = meshed_region_pb2.ListNamedSelectionsRequest()
-            request.mesh.CopyFrom(self._message)
-            return self._stub.ListNamedSelections(request).named_selections
-        else:
-            return self._stub.List(self._message).named_selections
+        named_selections = []
+        n_selections = self._api.meshed_region_get_num_available_named_selection(self)
+        for index in range(n_selections):
+            named_selections.append(
+                self._api.meshed_region_get_named_selection_name(self, index)
+            )
+        return named_selections
 
     def named_selection(self, named_selection):
         """
@@ -308,9 +316,9 @@ class MeshedRegion:
         named_selection : Scoping
         """
         if server_meet_version("2.1", self._server):
-            request = meshed_region_pb2.GetScopingRequest(mesh=self._message)
-            request.named_selection = named_selection
-            out = self._stub.GetScoping(request)
+            out = self._api.meshed_region_get_named_selection_scoping(
+                self, named_selection
+            )
             return scoping.Scoping(scoping=out, server=self._server)
         else:
             if hasattr(self, "_stream_provider"):
@@ -338,11 +346,9 @@ class MeshedRegion:
             named selection name
         scoping : Scoping
         """
-        request = meshed_region_pb2.SetNamedSelectionRequest()
-        request.mesh.CopyFrom(self._message)
-        request.named_selection = named_selection_name
-        request.scoping.CopyFrom(scoping._message)
-        self._stub.SetNamedSelection(request)
+        return self._api.meshed_region_set_named_selection_scoping(
+            self, named_selection_name, scoping
+        )
 
     def _set_stream_provider(self, stream_provider):
         self._stream_provider = stream_provider
@@ -385,10 +391,10 @@ class MeshedRegion:
     #     name = None
     #     if self._name:
     #         name = 'Skin of %s' % self._name
-    #     self._message = skin.get_output(0, types.meshed_region)
+    #     self._internal_obj = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def deform_by(self, deform_by, scale_factor=1.):
+    def deform_by(self, deform_by, scale_factor=1.0):
         """
         Deforms the mesh according to a 3D vector field and an additional scale factor.
 
@@ -405,14 +411,16 @@ class MeshedRegion:
 
         """
         from ansys.dpf.core.operators.math import add, scale
-        return add(fieldA=self.nodes.coordinates_field,
-                   fieldB=scale(field=deform_by,
-                                ponderation=scale_factor
-                                ).outputs.field
-                   ).outputs.field()
+
+        scale_op = scale(field=deform_by, ponderation=scale_factor)
+        return add(
+            fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field
+        ).eval()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
+        # Quick fix required to hold onto the data as PyVista does not make a copy.
+        # All of those now return DPFArrays
         if not coordinates:
             self._tmpnodes = self.nodes.coordinates_field.data
         else:
@@ -431,8 +439,10 @@ class MeshedRegion:
 
         # consider adding this when scoping request is faster
         if include_ids:
-            grid["node_ids"] = self.nodes.scoping.ids
-            grid["element_ids"] = self.elements.scoping.ids
+            self._nodeids = self.elements.scoping.ids
+            self._elementids = self.nodes.scoping.ids
+            grid["node_ids"] = self._elementids
+            grid["element_ids"] = self._nodeids
 
         return grid
 
@@ -468,12 +478,12 @@ class MeshedRegion:
         return self._full_grid
 
     def plot(
-            self,
-            field_or_fields_container=None,
-            shell_layers=None,
-            deform_by=None,
-            scale_factor=1.0,
-            **kwargs
+        self,
+        field_or_fields_container=None,
+        shell_layers=None,
+        deform_by=None,
+        scale_factor=1.0,
+        **kwargs,
     ):
         """
         Plot the field or fields container on the mesh.
@@ -507,15 +517,24 @@ class MeshedRegion:
         """
         if field_or_fields_container is not None:
             pl = Plotter(self, **kwargs)
-            return pl.plot_contour(field_or_fields_container, shell_layers,
-                                   show_axes=kwargs.pop("show_axes", True),
-                                   deform_by=deform_by,
-                                   scale_factor=scale_factor, **kwargs)
+            return pl.plot_contour(
+                field_or_fields_container,
+                shell_layers,
+                show_axes=kwargs.pop("show_axes", True),
+                deform_by=deform_by,
+                scale_factor=scale_factor,
+                **kwargs,
+            )
 
         # otherwise, simply plot the mesh
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self, deform_by=deform_by, scale_factor=scale_factor,
-                    show_axes=kwargs.pop("show_axes", True), **kwargs)
+        pl.add_mesh(
+            self,
+            deform_by=deform_by,
+            scale_factor=scale_factor,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs,
+        )
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
@@ -568,14 +587,6 @@ class MeshedRegion:
         mesh.unit = self.unit
         return mesh
 
-    def __send_init_request(self, num_nodes=0, num_elements=0):
-        request = meshed_region_pb2.CreateRequest()
-        if num_nodes:
-            request.num_nodes_reserved = num_nodes
-        if num_elements:
-            request.num_elements_reserved = num_elements
-        self._message = self._stub.Create(request)
-
     def field_of_properties(self, property_name):
         """
         Returns the ``Field`` or ``PropertyField`` associated
@@ -600,29 +611,22 @@ class MeshedRegion:
         ...     dpf.common.elemental_properties.connectivity)
         >>> coordinates = meshed_region.field_of_properties(dpf.common.nodal_properties.coordinates)
         """
-        request = meshed_region_pb2.ListPropertyRequest()
-        request.mesh.CopyFrom(self._message)
-        if hasattr(request, "property_type"):
-            request.property_type.property_name.property_name = property_name
-        elif property_name in nodal_properties._nodal_property_type_dict:
-            request.nodal_property = meshed_region_pb2.NodalPropertyType.Value(
-                nodal_properties._nodal_property_type_dict[property_name]
-            )
-        elif property_name in elemental_properties._elemental_property_type_dict:
-            request.elemental_property = meshed_region_pb2.ElementalPropertyType.Value(
-                elemental_properties._elemental_property_type_dict[property_name]
-            )
-        else:
-            raise ValueError(property_name + " property is not supported")
-
-        field_out = self._stub.ListProperty(request)
-        if field_out.datatype == "int":
-            return property_field.PropertyField(server=self._server, property_field=field_out)
-        else:
+        if property_name is nodal_properties.coordinates:
+            field_out = self._api.meshed_region_get_coordinates_field(self)
             return field.Field(server=self._server, field=field_out)
-
-    _to_cache = {
-        _get_unit: [_set_unit],
-        _get_available_named_selections: None,
-        named_selection: None
-    }
+        else:
+            field_out = self._api.meshed_region_get_property_field(self, property_name)
+            if isinstance(field_out, int):
+                res = property_field.PropertyField(
+                    server=self._server, property_field=field_out
+                )
+                return res
+            else:
+                if field_out.datatype == "int":
+                    return property_field.PropertyField(
+                        server=self._server, property_field=field_out
+                    )
+                else:
+                    # Not sure we go through here since the only datatype not int is coordinates,
+                    # which is already dealt with previously.
+                    return field.Field(server=self._server, field=field_out)

@@ -179,7 +179,7 @@ creating a pull request. The following tests will be executed after
 any commit or pull request, so we ask that you perform the following
 sequence locally to track down any new issues from your changes.
 
-To test the the core API, be sure to have ANSYS 2021R1 or newer
+To test the core API, be sure to have ANSYS 2021R1 or newer
 installed.  Next, install the testing requirements with:
 
 .. code::

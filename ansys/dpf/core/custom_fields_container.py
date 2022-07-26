@@ -7,11 +7,12 @@ These new classes offer helpers to access data for specific usage, such as
 results split by body or split by material.
 """
 from ansys.dpf.core.fields_container import FieldsContainer
-from ansys.grpc.dpf import meshed_region_pb2
+from ansys.dpf.core import elements
 
 
 class ElShapeFieldsContainer(FieldsContainer):
-    """Represents a fields container with fields split by an element shape.
+    """
+    Represents a fields container with fields split by an element shape.
 
     Instances of this class are created when a model result is split by an
     element shape, such as a solid, shell, or beam.
@@ -43,10 +44,11 @@ class ElShapeFieldsContainer(FieldsContainer):
             self.add_label("elshape")
 
     def solid_fields(self, timeid=None, complexid=None):
-        """Retrieve a list of all fields with solid element shapes.
+        """
+        Retrieve a list of all fields with solid element shapes.
 
-        You can filter the list of fields with solid element shapes
-        based on a given time, complex type, or both.
+        You can filter the list of fields with solid element shapes based on a given time,
+        complex type, or both.
 
         Parameters
         ----------
@@ -63,6 +65,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Examples
         --------
+
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> model = dpf.Model(examples.download_all_kinds_of_complexity_modal())
@@ -74,7 +77,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SOLID")
+        label_space["elshape"] = elements._element_shapes.SOLID.value
         return self.get_fields(label_space)
 
     def shell_fields(self, timeid=None, complexid=None):
@@ -109,7 +112,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SHELL")
+        label_space["elshape"] = elements._element_shapes.SHELL.value
         return self.get_fields(label_space)
 
     def beam_fields(self, timeid=None, complexid=None):
@@ -144,7 +147,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("BEAM")
+        label_space["elshape"] = elements._element_shapes.BEAM.value
         return self.get_fields(label_space)
 
     def solid_field(self, timeid=None, complexid=None):
@@ -163,7 +166,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -176,7 +179,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SOLID")
+        label_space["elshape"] = elements._element_shapes.SOLID.value
         return self.get_field(label_space)
 
     def shell_field(self, timeid=None, complexid=None):
@@ -196,7 +199,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -209,7 +212,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("SHELL")
+        label_space["elshape"] = elements._element_shapes.SHELL.value
         return self.get_field(label_space)
 
     def beam_field(self, timeid=None, complexid=None):
@@ -228,7 +231,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -241,7 +244,7 @@ class ElShapeFieldsContainer(FieldsContainer):
 
         """
         label_space = self.__time_complex_label_space__(timeid, complexid)
-        label_space["elshape"] = meshed_region_pb2.ElementShape.Value("BEAM")
+        label_space["elshape"] = elements._element_shapes.BEAM.value
         return self.get_field(label_space)
 
 
@@ -282,7 +285,6 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_fields_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a list of all fields for a material ID.
-
         You can filter the list of fields for a material ID based on
         a given time, complex type, or both.
 
@@ -320,8 +322,7 @@ class BodyFieldsContainer(FieldsContainer):
 
     def get_field_by_mat_id(self, matid, timeid=None, complexid=None):
         """Retrieve a field with a given material ID.
-
-         You can filter the field based on a given time, complex type, or both.
+        You can filter the field based on a given time, complex type, or both.
 
         Parameters
         ----------
@@ -336,7 +337,7 @@ class BodyFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Field <ansys.dpf.core.field>'
+        :class:`Field <ansys.dpf.core.field>`
             Field corresponding to the request.
 
         Examples
@@ -357,7 +358,7 @@ class BodyFieldsContainer(FieldsContainer):
 
         Returns
         -------
-        :class:`Scoping <ansys.dpf.core.scoping>'
+        :class:`Scoping <ansys.dpf.core.scoping>`
             Field corresponding to the request.
             Scoping containing the material IDs available in the fields container.
         """

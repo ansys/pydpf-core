@@ -4,24 +4,32 @@
 User Guide
 ==========
 
-DPF-Core is a Python client API for easily accessing DPF (Data Processing Framework) 
+PyDPF-Core is a Python client API for easily accessing DPF (Data Processing Framework)
 postprocessing capabilities. The ``ansys.dpf.core`` package makes highly efficient 
 computation, customization, and remote postprocessing accessible in Python.
 
-These sections describe the most common DPF entities:
+The purpose of this User Guide is:
 
-- :ref:`user_guide_model` provides the model for accessing results and metadata from result files.
-- :ref:`ref_user_guide_operators` provide the objects for creating and transforming data.
-- :ref:`ref_user_guide_fields_container` provide the main simulation data container with fields.
+ - To describe basic DPF concepts and terminology (``DPF concepts``).
 
-Additionally, :ref:`user_guide_plotting` describes how to plot results via PyVista.
+ - To describe the most common DPF entities and how they can help you to access and modify solver data (``DPF Most used entities``).
+
+ - To provide you simple ways to tackle the most common use cases (``How to``).
+
+For more advanced API usage, refer to the :ref:`ref_api_section` section and to the :ref:`sphx_glr_examples` section.
+
+.. include::
+   dpf_concepts.rst
+
+.. include::
+   main_entities.rst
+
+.. include::
+   how_to.rst
+
+
+Troubleshooting
+~~~~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 2
-   :hidden:
-
-   model
-   operators
-   fields_container
-   plotting
    troubleshooting

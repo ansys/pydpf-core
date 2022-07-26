@@ -3,23 +3,16 @@ import platform
 import glob
 import os
 from pkgutil import iter_modules
+from ansys.dpf.core._version import (
+    __ansys_version__
+)
 
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True
+RETURN_ARRAYS = True
 
-# ANSYS CPython Workbench environment may not have scooby installed.
-try:
-    from scooby import Report as ScoobyReport
-except ImportError:
-
-    class ScoobyReport:
-        """Placeholder for Scooby report."""
-
-        def __init__(self, *args, **kwargs):
-            raise ImportError(
-                "Install `scooby` with `pip install scooby` to use " "this feature"
-            )
+RUNTIME_CLIENT_CONFIG = None
 
 
 def module_exists(module_name):
@@ -32,59 +25,6 @@ def module_exists(module_name):
 
     """
     return module_name in (name for loader, name, ispkg in iter_modules())
-
-
-class Report(ScoobyReport):
-    """Generate a report of the installed packages for DPF-Core."""
-
-    def __init__(self, additional=None, ncol=3, text_width=80, sort=False, gpu=True):
-        """Generate a :class:`scooby.Report` instance.
-
-        Parameters
-        ----------
-        additional : list(ModuleType), list(str)
-            List of packages or package names to add to the output information.
-        ncol : int, optional
-            Number of package columns in the HTML table. This parameter has effect
-            only if ``mode='HTML'`` or ``mode='html'``. The default is ``3``.
-        text_width : int, optional
-            Width of the text for non-HTML display modes. The default is ``80``.
-        sort : bool, optional
-            Whether to sort the packages alphabetically. The default is "False``.
-        gpu : bool, optional
-            Whether to gather information about the GPU. The default is ``True``.
-            If rendering issues are experiencd, set to ``False`` to safely generate
-            the report.
-
-        """
-
-        # Mandatory packages.
-        core = ["ansys.grpc.dpf"]
-
-        # Optional packages.
-        optional = []
-
-        # Information about the GPU - bare except in case there is a rendering
-        # bug that the user is trying to report.
-        if gpu:
-            from pyvista.utilities.errors import GPUInfo
-
-            try:
-                extra_meta = [(t[1], t[0]) for t in GPUInfo().get_info()]
-            except:
-                extra_meta = ("GPU Details", "error")
-        else:
-            extra_meta = ("GPU Details", "None")
-
-        super().__init__(
-            additional=additional,
-            core=core,
-            optional=optional,
-            ncol=ncol,
-            text_width=text_width,
-            sort=sort,
-            extra_meta=extra_meta,
-        )
 
 
 def is_float(string):
@@ -120,8 +60,46 @@ def is_ubuntu():
     return False
 
 
+def get_ansys_path(ansys_path=None):
+    """Give input path back if given, else look for ANSYS_DPF_PATH, then AWP_ROOT+__ansys_version__,
+    then calls for find_ansys as a last resort.
+
+    Parameters
+    ----------
+    ansys_path : str
+        Full path to an Ansys installation to use.
+
+    Returns
+    -------
+    ansys_path : str
+        Full path to an Ansys installation.
+
+    """
+    # If no custom path was given in input
+    # First check the environment variable for a custom path
+    if ansys_path is None:
+        ansys_path = os.environ.get("ANSYS_DPF_PATH")
+    # Then check for usual installation folders with AWP_ROOT and find_ansys
+    if ansys_path is None:
+        ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
+    if ansys_path is None:
+        ansys_path = find_ansys()
+    # If still no install has been found, throw an exception
+    if ansys_path is None:
+        raise ValueError(
+            "Unable to locate any Ansys installation.\n"
+            f'Make sure the "AWP_ROOT{__ansys_version__}" environment variable '
+            f"is set if using ANSYS version {__ansys_version__}.\n"
+            "You can also manually define the path to the ANSYS installation root folder"
+            " of the version you want to use (vXXX folder):\n"
+            '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
+            '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"')
+    return ansys_path
+
+
 def find_ansys():
-    """Search the standard installation location to find the path to the latest Ansys installation.
+    """Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
+    location to find the path to the latest Ansys installation.
 
     Returns
     -------
@@ -140,6 +118,15 @@ def find_ansys():
     >>> path = find_ansys()
 
     """
+    versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
+    for version in sorted(versions, reverse=True):
+        if not version.isnumeric():
+            continue
+        elif version < __ansys_version__:
+            ansys_path = os.environ.get("AWP_ROOT" + version)
+            if ansys_path:
+                return ansys_path
+
     base_path = None
     if os.name == "nt":
         base_path = os.path.join(os.environ["PROGRAMFILES"], "ANSYS INC")
@@ -166,12 +153,11 @@ def find_ansys():
 
     return versions[max(versions.keys())]
 
+
 def is_pypim_configured():
     """Check if the environment is configured for PyPIM, without using pypim.
-
     This method is equivalent to ansys.platform.instancemanagement.is_configured(). It's
     reproduced here to avoid having hard dependencies.
-
     Returns
     -------
     bool
