@@ -2,7 +2,7 @@ pypandoc==1.8.1
 matplotlib==3.5.2
 vtk<9.1.0
 pyvista==0.35.1
-imageio==2.19.5
+imageio==2.20.0
 imageio-ffmpeg==0.4.7
 Sphinx==5.1.0
 nbsphinx==0.8.9
