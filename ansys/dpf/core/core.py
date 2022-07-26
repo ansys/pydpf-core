@@ -359,6 +359,7 @@ class BaseService:
         file_path = str(file_path)
         import os
         warnings.warn(UserWarning("LD_LIBRARY_PATH = ", os.environ.get("LD_LIBRARY_PATH")))
+        warnings.warn(UserWarning("LD_PRELOAD = ", os.environ.get("LD_PRELOAD")))
         if self._server().has_client():
             self._internal_obj = self._api.data_processing_load_library_on_client(
                 sLibraryKey=name,
