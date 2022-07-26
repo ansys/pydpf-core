@@ -1,5 +1,5 @@
 """
-.. _compute_and_average:
+.. _ref_compute_and_average:
 
 Averaging order
 ~~~~~~~~~~~~~~~
@@ -156,14 +156,10 @@ max2 = average_then_compute_von_mises(analysis)
 ###############################################################################
 diff = (max1 - max2) / max2 * 100
 
-print("Max stress when Von Mises is calculated first: {:.2f} Pa".format(max1))
-print("Max stress when stress averaging is done first: {:.2f} Pa".format(max2))
-print(
-    "The maximum Von Mises stress value is {:.2f}% higher when \
-the averaging is done after the calculations.".format(
-        diff
-    )
-)
+print("Max stress when Von Mises is computed first: {:.2f} Pa".format(max1))
+print("Max stress when the stress averaging is done first: {:.2f} Pa".format(max2))
+print("The maximum Von Mises stress value is {:.2f}% higher when \
+the averaging is done after the calculations.".format(diff))
 
 ###############################################################################
 # As we can see, even though both workflows apply the same steps to the same initial data,

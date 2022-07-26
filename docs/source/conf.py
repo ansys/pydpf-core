@@ -50,7 +50,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
     "nbsphinx",
-    "sphinx.ext.intersphinx"
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.graphviz"
 ]
 
 # Intersphinx mapping
