@@ -477,6 +477,7 @@ class DataTree:
 
     def __del__(self):
         try:
+            # needs a proper deleter only when real datatree and not dict
             if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
                 if obj is not None:
