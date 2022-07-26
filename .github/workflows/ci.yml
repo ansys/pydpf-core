@@ -238,6 +238,15 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: "Check sanity with gatebin"
+        shell: python
+        run: |
+          print("hello")
+
+      - name: "Check sanity with gatebin"
+        shell: python
+        run: .ci/run_examples.py
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
