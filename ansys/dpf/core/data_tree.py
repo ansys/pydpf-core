@@ -83,13 +83,15 @@ class DataTree:
         # step 2: get api
         self._api_instance = None  # see property self._api
 
-        # step3: init environment
-        self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
-
         # step4: if object exists, take the instance, else create it
         if data_tree is not None:
+            if not isinstance(data_tree, dict):
+                # step3: init environment
+                self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
             self._internal_obj = data_tree
         else:
+            # step3: init environment
+            self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
             if self._server.has_client():
                 self._internal_obj = self._api.dpf_data_tree_new_on_client(self._server.client)
             else:
