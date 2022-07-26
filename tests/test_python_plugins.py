@@ -14,27 +14,8 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 
 
 @pytest.fixture(scope="module")
-def remove_ld_preload(request):
-    """Count servers once we are finished."""
-
-    def ld_preload():
-        if os.name == 'posix':
-            os.environ["LD_PRELOAD"] = os.environ["LD_PRELOAD"].split(":", 1)[1]
-
-    request.addfinalizer(ld_preload)
-
-
-@pytest.fixture(scope="module")
 def load_all_types_plugin():
     current_dir = os.getcwd()
-
-    if os.name == 'posix':
-        ld_preload = os.environ.get("LD_PRELOAD")
-        libffi = "/commonfiles/CPython/3_7/linx64/Release/python/lib/libffi.so.6"
-        os.environ["LD_PRELOAD"] = current_dir + libffi
-        if ld_preload:
-            os.environ["LD_PRELOAD"] += ":" + ld_preload
-
     return dpf.load_library(os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"),
                             "py_test_types", "load_operators")
 
