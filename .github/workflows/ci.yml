@@ -25,6 +25,7 @@ jobs:
   Build_and_Test:
     name: Build and Test
     runs-on: ${{ matrix.os }}
+    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -130,6 +131,7 @@ jobs:
   build_doc:
     name: Documentation
     runs-on: windows-latest
+    if: false
 
     steps:
       - uses: actions/checkout@v3
@@ -238,15 +240,6 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: "Check sanity with gatebin"
-        shell: python
-        run: |
-          print("hello")
-
-      - name: "Check sanity with gatebin"
-        shell: python
-        run: .ci/run_examples.py
-
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
@@ -272,6 +265,39 @@ jobs:
           .ci/setup_headless_display.sh
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
+          
+
+      - name: "Check sanity with gatebin"
+        shell: python
+        run: |
+          import os
+          import glob
+          import pathlib
+          from ansys.dpf import core
+          
+          print("starting")
+          
+          core.settings.disable_off_screen_rendering()
+          
+          actual_path = os.getcwd()
+          print(os.path.join(actual_path, os.path.pardir, "examples"))
+          
+          for root, subdirectories, files in os.walk(os.path.join(actual_path, "examples")):
+            for subdirectory in subdirectories:
+                subdir = os.path.join(root, subdirectory)
+                for file in glob.iglob(os.path.join(subdir, "*.py")):
+                    print("\n\n--------------------------------------------------\n")
+                    print(file)
+                    print("--------------------------------------------------\n")
+                    try:
+                        exec(
+                            open(file, mode="r", encoding="utf8").read(),
+                            globals(),
+                            globals())
+                    except core.errors.ServerTypeError as e:
+                        if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
+                            raise e
+
 
       - name: "Check sanity with gatebin"
         shell: cmd
