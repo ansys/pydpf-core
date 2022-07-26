@@ -49,7 +49,7 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          echo "LD_PRELOAD=$PWD/commonfiles/CPython/3_7/linx64/Release/python/lib/libffi.so.6" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=$PWD/commonfiles/CPython/3_7/linx64/Release/python/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
