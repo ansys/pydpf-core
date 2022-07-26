@@ -46,11 +46,11 @@ jobs:
           wheelhouse: false
           extra-pip-args: "--pre --find-links .github/workflows/"
 
-      - name: "Path to Python plugin libraries"
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/commonfiles/CPython/3_7/linx64/Release/python/lib" >> $GITHUB_ENV
+#      - name: "Path to Python plugin libraries"
+#        if: runner.os == 'Linux'
+#        shell: bash
+#        run: |
+#          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/commonfiles/CPython/3_7/linx64/Release/python/lib" >> $GITHUB_ENV
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
