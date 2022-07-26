@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: "Install pygate"
         shell: bash
-        working-directory: .github\workflows
+        working-directory: .github/workflows
         run: |
           pip install ansys-dpf-gate --find-links . --pre -v
 
