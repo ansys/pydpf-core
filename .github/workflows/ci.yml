@@ -44,7 +44,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
-          extra-pip-args: "--find-links .github/workflows/"
+          extra-pip-args: "--find-links .github/workflows/" 
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
