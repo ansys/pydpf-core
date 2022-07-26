@@ -275,6 +275,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     )
     def server_type_legacy_grpc(request):
         return core.start_local_server(config=request.param, as_global=False)
+
 else:
 
     @pytest.fixture(scope="session")
@@ -338,6 +339,8 @@ def server_clayer(request):
     ):
         core.settings.get_runtime_client_config(server).cache_enabled = False
     return server
+
+
 class LocalServers:
     def __init__(self):
         self._local_servers = []
