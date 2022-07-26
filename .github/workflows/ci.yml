@@ -139,16 +139,8 @@ jobs:
         with:
           python-version: 3.8
 
-      - id: install-dpf
-        uses: pyansys/pydpf-actions/install-dpf-server@v2.2
-        with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          ANSYS_VERSION : ${{env.ANSYS_VERSION}}
-
-      - name: Set AWP_ROOT$env:ANSYS_VERSION
-        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.install-dpf.outputs.SERVER }}"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
       - name: "Build Package"
+        id: build-package
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
           python-version: ${{ matrix.python-version }}
@@ -159,6 +151,9 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           extra-pip-args: "--pre --find-links .github/workflows/"
+
+      - name: Set AWP_ROOT$env:ANSYS_VERSION
+        run: echo "AWP_ROOT$env:ANSYS_VERSION=${{ steps.build-package.SERVER }}"  | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Install OpenGL
         run: |

@@ -758,9 +758,14 @@ class LegacyGrpcServer(BaseServer):
         self._preparing_shutdown_func = (
             data_processing_grpcapi._get_stub(self).PrepareShutdown, base_pb2.Empty()
         )
-        self._shutdown_func = (
-            data_processing_grpcapi._get_stub(self).ReleaseServer, base_pb2.Empty()
-        )
+        if hasattr(data_processing_grpcapi._get_stub(self), "ReleaseServer"):
+            self._shutdown_func = (
+                data_processing_grpcapi._get_stub(self).ReleaseServer, base_pb2.Empty()
+            )
+        else:
+            self._shutdown_func = (
+                None, None
+            )
 
     @property
     def client(self):
