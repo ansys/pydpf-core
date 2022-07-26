@@ -477,9 +477,10 @@ class DataTree:
 
     def __del__(self):
         try:
-            obj = self._deleter_func[1](self)
-            if obj is not None:
-                self._deleter_func[0](obj)
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 

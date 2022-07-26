@@ -50,12 +50,12 @@ jobs:
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
         with:
           DEBUG: true
-#
-#      - name: "Test Docstrings"
-#        uses: pyansys/pydpf-actions/test_docstrings@v2.2
-#        with:
-#          MODULE: ${{env.MODULE}}
-#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+
+      - name: "Test Docstrings"
+        uses: pyansys/pydpf-actions/test_docstrings@v2.2
+        with:
+          MODULE: ${{env.MODULE}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
 
       - name: "Separate long Core tests"
         shell: pwsh
@@ -78,24 +78,24 @@ jobs:
           Remove-Item -Path "tests\test_workflow.py"
           Remove-Item -Path "tests\test_remote_workflow.py"
           Remove-Item -Path "tests\test_remote_operator.py"
-#
-#      - name: "Test API"
-#        shell: bash
-#        working-directory: tests
-#        run: |
-#          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
-#
-#      - name: "Kill all servers"
-#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
-#
-#      - name: "Test API 2"
-#        shell: bash
-#        working-directory: local_server_test
-#        run: |
-#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-#
-#      - name: "Kill all servers"
-#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API 2"
+        shell: bash
+        working-directory: local_server_test
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
       - name: "Test API 3"
         shell: bash
