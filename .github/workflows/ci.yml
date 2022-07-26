@@ -265,9 +265,10 @@ jobs:
           python .ci/display_test.py
 
       - name: "Check sanity with gatebin"
-        shell: bash
+        shell: cmd
         run: |
-          python .ci/run_examples.py
+          cd .ci
+          python run_examples.py
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -278,29 +279,32 @@ jobs:
           pip uninstall -y ansys-dpf-gatebin
 
       - name: "Check sanity without gatebin INPROCESS"
-        shell: bash
+        shell: cmd
         run: |
           export DPF_SERVER_TYPE=INPROCESS
-          python .ci/run_examples.py
+          cd .ci
+          python run_examples.py
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
 
       - name: "Check sanity without gatebin GRPC"
-        shell: bash
+        shell: cmd
         run: |
           export DPF_SERVER_TYPE=GRPC
-          python .ci/run_examples.py
+          cd .ci
+          python run_examples.py
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
       - name: "Check sanity without gatebin LEGACYGRPC"
-        shell: bash
+        shell: cmd
         run: |
           export DPF_SERVER_TYPE=LEGACYGRPC
-          python .ci/run_examples.py
+          cd .ci
+          python run_examples.py
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
