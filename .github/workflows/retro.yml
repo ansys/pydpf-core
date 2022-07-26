@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
@@ -37,6 +37,12 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheel: false
+          extra-pip-args: "--find-links .github/workflows/"
+          
+      - name: "Install ansys-grpc-dpf==0.4.0"
+        shell: pwsh
+        run: |
+          pip install ansys-grpc-dpf==0.4.0
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
