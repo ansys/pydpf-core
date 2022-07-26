@@ -103,7 +103,7 @@ class TestServerConfigs:
         not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
-    def test_start_local_ansys_path_environement_variable(self, server_config):
+    def test_start_local_ansys_path_environment_variable(self, server_config):
         awp_root = os.environ[
             "AWP_ROOT" + str(core._version.__ansys_version__)
         ]
@@ -171,27 +171,24 @@ class TestServerConfigs:
             errors = ""
             for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
                 errors += line
-            if process.returncode != None:
+            if process.returncode is not None:
                 raise Exception(errors)
 
 
 def test_start_local_failed_executable():
-    from ansys.dpf.core._version import __ansys_version__
-    from ansys.dpf.core.misc import find_ansys
+    from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
 
     with pytest.raises(FileNotFoundError):
-        path = Path(
-            os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
-        ).parent.absolute()
+        path = Path(get_ansys_path()).parent.absolute()
         core.start_local_server(ansys_path=path)
 
 
 def test_server_ip(server_type_remote_process):
-    assert server_type_remote_process.ip != None
-    assert server_type_remote_process.port != None
-    assert server_type_remote_process.version != None
-    assert server_type_remote_process.info["server_process_id"] != None
-    assert server_type_remote_process.info["server_ip"] != None
-    assert server_type_remote_process.info["server_port"] != None
-    assert server_type_remote_process.info["server_version"] != None
+    assert server_type_remote_process.ip is not None
+    assert server_type_remote_process.port is not None
+    assert server_type_remote_process.version is not None
+    assert server_type_remote_process.info["server_process_id"] is not None
+    assert server_type_remote_process.info["server_ip"] is not None
+    assert server_type_remote_process.info["server_port"] is not None
+    assert server_type_remote_process.info["server_version"] is not None

@@ -8,6 +8,7 @@ protocols and server configurations available.
 
 from ansys.dpf.gate.load_api import _get_path_in_install
 
+
 class CommunicationProtocols:
     """Defines available communication protocols
 
@@ -57,6 +58,9 @@ class ServerConfig:
         if self.legacy:
             text += f" (legacy gRPC)"
         return text
+
+    def __eq__(self, other):
+        return self.legacy == other.legacy and self.protocol == other.protocol
 
 
 class AvailableServerConfigs:
