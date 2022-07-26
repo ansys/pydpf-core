@@ -34,6 +34,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "Path to Python plugin libraries"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/commonfiles/CPython/3_7/linx64/Release/python/lib
+          echo $LD_LIBRARY_PATH
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2
         with:
@@ -44,12 +51,6 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
-
-      - name: "Path to Python plugin libraries"
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/commonfiles/CPython/3_7/linx64/Release/python/lib
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
