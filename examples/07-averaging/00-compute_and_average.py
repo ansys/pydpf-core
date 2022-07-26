@@ -12,14 +12,12 @@ stresses that come from the results file to a Nodal position and only then calcu
 the Von Mises stresses.
 These workflows can be better visualized in the images below:
 
-.. graphviz::
-
-    digraph foo {
-        graph [pad="0", nodesep="0.3", ranksep="0.3"]
+.. graphviz:: digraph foo {
+        graph [pad="0", nodesep="0.3", ranksep="0.3"];
         node [shape=box, style=filled, fillcolor="#ffcc0", margin="0"];
         rankdir=LR;
         splines=line;
-        node [fixedsize=true,width=2.5]
+        node [fixedsize=true,width=2.5];
 
         stress01 [label="stress"];
         stress02 [label="stress"];
@@ -33,7 +31,7 @@ These workflows can be better visualized in the images below:
 
             ds01 -> stress01 [style=dashed];
             stress01 -> vm01;
-            vm01 -> avg01
+            vm01 -> avg01;
 
             label="Compute Von Mises then average stresses";
             style=filled;
@@ -45,7 +43,7 @@ These workflows can be better visualized in the images below:
 
             ds02 -> stress02 [style=dashed];
             stress02 -> avg02;
-            avg02 -> vm02
+            avg02 -> vm02;
 
             label="Average stresses then compute Von Mises";
             style=filled;
