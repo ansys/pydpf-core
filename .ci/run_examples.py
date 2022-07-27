@@ -6,7 +6,8 @@ import pathlib, subprocess, sys
 
 print("starting")
 
-core.settings.disable_off_screen_rendering()
+os.environ["PYVISTA_OFF_SCREEN"] = "true"
+os.environ["MPLBACKEND"] = "Agg"
 
 actual_path = pathlib.Path(__file__).parent.absolute()
 print(os.path.join(actual_path, os.path.pardir, "examples"))
