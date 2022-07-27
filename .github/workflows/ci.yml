@@ -49,7 +49,7 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          wheelhouse: false
+          wheelhouse: true
           extra-pip-args: ${{ env.extra }}
 
       - name: "Prepare Testing Environment"
