@@ -138,6 +138,11 @@ jobs:
         with:
           python-version: 3.8
           cache: pip
+          cache-dependency-path: |
+            requirements/requirements_docs.txt
+            .ci/requirements_test_xvfb.txt
+            requirements/requirements_build.txt
+            setup.py
 
       - name: "Build Package"
         id: build-package
