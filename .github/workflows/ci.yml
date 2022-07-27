@@ -34,6 +34,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "Add gatebin to install for Linux"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          echo "extra=dpf-standalone/v${{env.ANSYS_VERSION}}/ansys_dpf_gatebin-0.1.dev1-py3-none-manylinux_2_17_x86_64.whl" >> $GITHUB_ENV
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
@@ -44,7 +50,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
-          extra-pip-args: dpf-standalone/v${{env.ANSYS_VERSION}}/ansys_dpf_gatebin-0.1.dev1-py3-none-manylinux_2_17_x86_64.whl
+          extra-pip-args: ${{ env.extra }}
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
