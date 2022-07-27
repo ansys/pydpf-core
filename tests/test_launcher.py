@@ -11,7 +11,6 @@ from conftest import (
     DPF_SERVER_TYPE,
 )
 
-
 def test_start_local():
     if not core.SERVER:
         core.start_local_server()
@@ -22,7 +21,6 @@ def test_start_local():
     server.shutdown()
     # ensure global channel didn't change
     assert starting_server == id(core.SERVER)
-
 
 server_configs = (
     [
@@ -177,13 +175,13 @@ class TestServerConfigs:
                 raise Exception(errors)
 
 
-def test_start_local_failed_executable():
+def test_start_local_failed_executable(remote_config_server_type):
     from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
 
     with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()
-        core.start_local_server(ansys_path=path)
+        core.start_local_server(ansys_path=path, config=remote_config_server_type)
 
 
 def test_server_ip(server_type_remote_process):
