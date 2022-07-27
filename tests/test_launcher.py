@@ -204,11 +204,11 @@ def test_start_with_dpf_server_type_env():
     else:
         if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
             # test for v222 and higher
-            os.environ[dpf_server_type_str] = "GRPC_CLAYER"
+            os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
             assert isinstance(my_serv, core.server_types.GrpcServer)
 
-            os.environ[dpf_server_type_str] = "LEGACY"
+            os.environ[dpf_server_type_str] = "LEGACYGRPC"
             my_serv_2 = core.start_local_server(as_global=False)
             assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
 
@@ -219,11 +219,11 @@ def test_start_with_dpf_server_type_env():
             del os.environ[dpf_server_type_str]
         else:
             # test for v221 and lower
-            os.environ[dpf_server_type_str] = "GRPC_CLAYER"
+            os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
             assert isinstance(my_serv, core.server_types.LegacyGrpcServer)
 
-            os.environ[dpf_server_type_str] = "LEGACY"
+            os.environ[dpf_server_type_str] = "LEGACYGRPC"
             my_serv_2 = core.start_local_server(as_global=False)
             assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
 

@@ -27,8 +27,8 @@ class CommunicationProtocols:
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used.
     The default parameters can be overwritten using the DPF_SERVER_TYPE environment
-    variable. DPF_SERVER_TYPE=INPROCESS_CLAYER, DPF_SERVER_TYPE=LEGACY,
-    DPF_SERVER_TYPE=GRPC_CLAYER can be used.
+    variable. DPF_SERVER_TYPE=INPROCESS, DPF_SERVER_TYPE=GRPC,
+    DPF_SERVER_TYPE=LEGACYGRPC can be used.
 
     Parameters
     ----------
@@ -60,7 +60,7 @@ class ServerConfig:
     Use the environment variable to set the default server configuration.
 
     >>> import os
-    >>> os.environ["DPF_SERVER_TYPE"] = "INPROCESS_CLAYER"
+    >>> os.environ["DPF_SERVER_TYPE"] = "INPROCESS"
     >>> dpf.start_local_server()
 
     """
@@ -90,19 +90,19 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
     import os
     DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
     if DPF_SERVER_TYPE:
-        if DPF_SERVER_TYPE == "INPROCESS_CLAYER":
+        if DPF_SERVER_TYPE == "INPROCESS":
             _protocol = CommunicationProtocols.InProcess
             _legacy = False
-        elif DPF_SERVER_TYPE == "GRPC_CLAYER":
+        elif DPF_SERVER_TYPE == "GRPC":
             _protocol = CommunicationProtocols.gRPC
             _legacy = False
-        elif DPF_SERVER_TYPE == "LEGACY":
+        elif DPF_SERVER_TYPE == "LEGACYGRPC":
             _protocol = CommunicationProtocols.gRPC
             _legacy = True
         else:
             raise NotImplementedError(f"DPF_SERVER_TYPE environment variable must "
-                                      f"be set to one of the following: INPROCESS_CLAYER, "
-                                      f"GRPC_CLAYER, LEGACY.")
+                                      f"be set to one of the following: INPROCESS, "
+                                      f"GRPC, LEGACYGRPC.")
     return ServerConfig(protocol=_protocol, legacy=_legacy)
 
 class AvailableServerConfigs:
