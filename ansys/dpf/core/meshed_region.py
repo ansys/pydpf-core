@@ -133,9 +133,7 @@ class MeshedRegion:
         DPF Elements object with 8 elements
 
         """
-        if self._elements is None:
-            self._elements = Elements(self)
-        return self._elements
+        return Elements(self)
 
     @property
     def nodes(self):
@@ -158,9 +156,7 @@ class MeshedRegion:
         81
 
         """
-        if self._nodes is None:
-            self._nodes = Nodes(self)
-        return self._nodes
+        return Nodes(self)
 
     @property
     def unit(self):
