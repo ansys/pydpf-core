@@ -28,6 +28,9 @@ class CommunicationProtocols:
     InProcess = "InProcess"
 
 
+DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.gRPC
+DEFAULT_LEGACY = True
+
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used.
     The default parameters can be overwritten using the DPF_SERVER_TYPE environment
@@ -69,7 +72,7 @@ class ServerConfig:
 
     """
 
-    def __init__(self, protocol=CommunicationProtocols.gRPC, legacy=True):
+    def __init__(self, protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY):
         self.legacy = legacy
         if not protocol:
             self.protocol = CommunicationProtocols.InProcess
@@ -90,8 +93,8 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
     if server_lower_than_or_equal_to_0_3:
         return ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 
-    _legacy = True
-    _protocol = CommunicationProtocols.gRPC
+    _legacy = DEFAULT_LEGACY
+    _protocol = DEFAULT_COMMUNICATION_PROTOCOL
     import os
 
     DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
