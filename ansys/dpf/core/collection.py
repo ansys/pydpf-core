@@ -41,11 +41,6 @@ class Collection:
         default is ``None``, in which case an attempt is made to use the global
         server.
 
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> coll = dpf.Collection(dpf.types.field)
-
     """
 
     def __init__(self, collection=None,
