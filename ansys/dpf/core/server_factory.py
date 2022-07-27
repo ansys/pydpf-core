@@ -69,7 +69,8 @@ class ServerConfig:
 
     >>> import os
     >>> os.environ["DPF_SERVER_TYPE"] = "INPROCESS"
-    >>> in_process_server_using_variable = dpf.start_local_server()
+    >>> dpf.start_local_server()
+    <ansys.dpf.core.server_types.InProcessServer object at ...>
 
     """
 
