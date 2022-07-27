@@ -435,7 +435,6 @@ class BaseServer(abc.ABC):
         return not self.__eq__(other_server)
 
     def __del__(self):
-        warnings.warn(UserWarning(f"Deleting (super): {self}"))
         try:
             if hasattr(core, "SERVER") and id(core.SERVER) == id(self):
                 core.SERVER = None
