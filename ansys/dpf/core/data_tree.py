@@ -258,7 +258,7 @@ class DataTree:
             server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
             op.inputs.path.connect(server_path)
             op.run()
-            return core.download_file(server_path, path)
+            return core.download_file(server_path, path, server=self._server)
         else:
             return op.get_output(0, core.types.string)
 
@@ -297,7 +297,7 @@ class DataTree:
             server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
             op.inputs.path.connect(server_path)
             op.run()
-            return core.download_file(server_path, path)
+            return core.download_file(server_path, path, server=self._server)
         else:
             return op.get_output(0, core.types.string)
 
