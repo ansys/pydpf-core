@@ -282,7 +282,6 @@ jobs:
         run: |
           cd .ci
           python run_non_regression_examples.py
-        if: always()
         env:
           DPF_SERVER_TYPE: INPROCESS
 
@@ -295,7 +294,6 @@ jobs:
         run: |
           cd .ci
           python run_non_regression_examples.py
-        if: always()
         env:
           DPF_SERVER_TYPE: GRPC
 
@@ -307,7 +305,6 @@ jobs:
         run: |
           cd .ci
           python run_non_regression_examples.py
-        if: always()
         env:
           DPF_SERVER_TYPE: LEGACYGRPC
 
