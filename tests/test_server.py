@@ -139,14 +139,14 @@ def test_shutting_down_when_deleted_legacy():
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
             num_dpf_exe += 1
-    subprocess.check_call([
+    out = subprocess.check_output([
         sys.executable, "-c",
         "from ansys.dpf import core as dpf;"
         "from ansys.dpf.core import examples;"
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
         "model = dpf.Model(examples.static_rst);"
     ])
-
+    warnings.warn(UserWarning("Output of test_shutting_down_when_deleted: "+out))
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -161,14 +161,13 @@ def test_shutting_down_when_deleted():
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
             num_dpf_exe += 1
-    out = subprocess.check_output([
+    subprocess.check_call([
         sys.executable, "-c",
         "from ansys.dpf import core as dpf;"
         "from ansys.dpf.core import examples;"
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
         "model = dpf.Model(examples.static_rst);"
     ])
-    warnings.warn(UserWarning("Output of test_shutting_down_when_deleted: "+out))
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
