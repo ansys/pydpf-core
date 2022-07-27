@@ -218,3 +218,97 @@ jobs:
           git push -u origin $env:GH_DOC_BRANCH --force
         env:
           GH_DOC_BRANCH: gh-pages
+
+  run_examples:
+    name: Run Examples with/without bin
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["windows-latest"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheelhouse: false
+
+      - name: Install OpenGL
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
+      - name: Install test offscreen rendering
+        run: |
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
+
+      - name: "Check examples with gatebin"
+        shell: cmd
+        run: |
+          echo on
+          cd .ci
+          dir .
+          python run_examples.py
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Uninstall gatebin"
+        shell: bash
+        run: |
+          pip uninstall -y ansys-dpf-gatebin
+
+      - name: "Check sanity without gatebin INPROCESS"
+        shell: cmd
+        run: |
+          cd .ci
+          python run_non_regression_examples.py
+        env:
+          DPF_SERVER_TYPE: INPROCESS
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+
+      - name: "Check sanity without gatebin GRPC"
+        shell: cmd
+        run: |
+          cd .ci
+          python run_non_regression_examples.py
+        env:
+          DPF_SERVER_TYPE: GRPC
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Check sanity without gatebin LEGACYGRPC"
+        shell: cmd
+        run: |
+          cd .ci
+          python run_non_regression_examples.py
+        env:
+          DPF_SERVER_TYPE: LEGACYGRPC
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+

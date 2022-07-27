@@ -60,7 +60,9 @@ class ServerConfig:
         return text
 
     def __eq__(self, other):
-        return self.legacy == other.legacy and self.protocol == other.protocol
+        if isinstance(other, ServerConfig):
+            return self.legacy == other.legacy and self.protocol == other.protocol
+        return False
 
 
 class AvailableServerConfigs:
