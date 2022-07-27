@@ -139,30 +139,40 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "Install DPF"
+        id: set-server-path
+        uses: pyansys/pydpf-actions/install-dpf-server@v2.2.dev1
+        with:
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          ANSYS_VERSION : ${{env.ANSYS_VERSION}}
+
       - name: Setup Python
         uses: actions/setup-python@v4.1.0
         with:
           python-version: 3.8
+          cache: pip
+        run: |
+          pip install -r requirements/requirements_build.txt
+          python setup.py bdist_wheel
+          export WHEEL_NAME=`ls dist/*.whl`
+          echo ${WHEEL_NAME}
+          pip install ${WHEEL_NAME}[plotting]
+          pip install -r requirements/requirements_docs.txt
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
 
-      - name: Cache pip
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements/requirements_docs*.txt') }}
-          restore-keys: |
-            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
-
-      - name: "Build Package"
-        id: build-package
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheelhouse: false
+#      - name: "Build Package"
+#        id: build-package
+#        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#          wheelhouse: false
 
       - name: Install OpenGL
         run: |
@@ -172,18 +182,8 @@ jobs:
           git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
-
       - name: Setup Graphviz
         uses: ts-graphviz/setup-graphviz@v1
-
-      - name: Install documentation packages for Python
-        run: |
-          pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -252,24 +252,6 @@ jobs:
         uses: actions/setup-python@v4.1.0
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Linux pip cache
-        uses: actions/cache@v2
-        if: runner.os == 'Linux'
-        with:
-          path: ~/.cache/pip
-          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements/requirements_tests.txt') }}
-          restore-keys: |
-            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
-
-      - name: Window pip cache
-        uses: actions/cache@v2
-        if: runner.os == 'Windows'
-        with:
-          path: ~\AppData\Local\pip\Cache
-          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements/requirements_tests*.txt') }}
-          restore-keys: |
-            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
 
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
