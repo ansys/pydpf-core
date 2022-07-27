@@ -66,13 +66,14 @@ def transfer_to_local_path(path):
     )
 
 
-def test_upload_download(allkindofcomplexity, tmpdir):
+def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
-        transfer_to_local_path(allkindofcomplexity)
+        transfer_to_local_path(allkindofcomplexity),
+        server = server_type_remote_process
     )
-    dataSource = dpf.core.DataSources(file)
-    op = dpf.core.Operator("S")
+    dataSource = dpf.core.DataSources(file, server=server_type_remote_process)
+    op = dpf.core.Operator("S", server=server_type_remote_process)
     op.connect(4, dataSource)
 
     fcOut = op.get_output(0, dpf.core.types.fields_container)
@@ -82,10 +83,10 @@ def test_upload_download(allkindofcomplexity, tmpdir):
 
     dir = os.path.dirname(file)
     vtk_path = os.path.join(dir, "file.vtk")
-    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut)
+    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut, server=server_type_remote_process)
     vtk.run()
 
-    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"))
+    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"), server=server_type_remote_process)
     assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
 
 
