@@ -6,7 +6,10 @@ Contains the server factory as well as the communication
 protocols and server configurations available.
 """
 
-from ansys.dpf.gate.load_api import _get_path_in_install, _find_outdated_ansys_version
+from ansys.dpf.gate.load_api import (
+    _get_path_in_install,
+    _find_outdated_ansys_version,
+)
 
 
 class CommunicationProtocols:
@@ -20,6 +23,7 @@ class CommunicationProtocols:
     InProcess = "InProcess"
         Load DPF's libraries in the Python process, communicates via a CLayer (shared memory).
     """
+
     gRPC = "gRPC"
     InProcess = "InProcess"
 
@@ -64,6 +68,7 @@ class ServerConfig:
     >>> dpf.start_local_server()
 
     """
+
     def __init__(self, protocol=CommunicationProtocols.gRPC, legacy=True):
         self.legacy = legacy
         if not protocol:
@@ -88,6 +93,7 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
     _legacy = True
     _protocol = CommunicationProtocols.gRPC
     import os
+
     DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
     if DPF_SERVER_TYPE:
         if DPF_SERVER_TYPE == "INPROCESS":
@@ -100,10 +106,13 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
             _protocol = CommunicationProtocols.gRPC
             _legacy = True
         else:
-            raise NotImplementedError(f"DPF_SERVER_TYPE environment variable must "
-                                      f"be set to one of the following: INPROCESS, "
-                                      f"GRPC, LEGACYGRPC.")
+            raise NotImplementedError(
+                f"DPF_SERVER_TYPE environment variable must "
+                f"be set to one of the following: INPROCESS, "
+                f"GRPC, LEGACYGRPC."
+            )
     return ServerConfig(protocol=_protocol, legacy=_legacy)
+
 
 class AvailableServerConfigs:
     """Defines available server configurations
@@ -130,17 +139,26 @@ class AvailableServerConfigs:
     >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
 
     """
+
     LegacyGrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=True)
-    InProcessServer = ServerConfig(CommunicationProtocols.InProcess, legacy=False)
+    InProcessServer = ServerConfig(
+        CommunicationProtocols.InProcess, legacy=False
+    )
     GrpcServer = ServerConfig(CommunicationProtocols.gRPC, legacy=False)
 
 
 class ServerFactory:
     """Factory for server type choice depending on current configuration."""
+
     @staticmethod
     def get_server_type_from_config(config=None, ansys_path=None):
-        from ansys.dpf.core.server_types import LegacyGrpcServer, GrpcServer, InProcessServer
+        from ansys.dpf.core.server_types import (
+            LegacyGrpcServer,
+            GrpcServer,
+            InProcessServer,
+        )
         from ansys.dpf.core import SERVER_CONFIGURATION
+
         if not config:
             config = SERVER_CONFIGURATION
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
@@ -151,17 +169,28 @@ class ServerFactory:
             config = SERVER_CONFIGURATION
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer
-        elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
+        elif (
+            config.protocol == CommunicationProtocols.gRPC
+            and not config.legacy
+        ):
             import os
             from ansys.dpf.core._version import __ansys_version__
+
             ANSYS_INSTALL = ansys_path
             if ANSYS_INSTALL is None:
-                ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
+                ANSYS_INSTALL = os.environ.get(
+                    "AWP_ROOT" + str(__ansys_version__), None
+                )
             if ANSYS_INSTALL is not None:
-                SUB_FOLDERS = os.path.join(ANSYS_INSTALL, _get_path_in_install())
+                SUB_FOLDERS = os.path.join(
+                    ANSYS_INSTALL, _get_path_in_install()
+                )
                 os.environ["PATH"] += SUB_FOLDERS
             return GrpcServer
-        elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:
+        elif (
+            config.protocol == CommunicationProtocols.InProcess
+            and not config.legacy
+        ):
             return InProcessServer
         else:
             raise NotImplementedError("Server config not available.")
