@@ -198,6 +198,27 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
     assert np.allclose(connectivity.data, field_connect.data)
 
 
+@conftest.raises_for_servers_version_under("3.0")
+def test_set_connectivities_field_meshed_region(simple_bar_model):
+    mesh = simple_bar_model.metadata.meshed_region
+    connectivity = mesh.elements.connectivities_field
+    new_connectivity_data = connectivity.data
+    assert new_connectivity_data[0] == 1053
+    new_connectivity_data[0] = 0
+    connectivity.data = new_connectivity_data
+    mesh.elements.connectivities_field = connectivity
+    connectivity = mesh.elements.connectivities_field
+    assert connectivity.data[0] == 0
+
+    new_connectivity_data[0] = 1
+    connectivity.data = new_connectivity_data
+    mesh.set_property_field(
+        dpf.core.common.elemental_properties.connectivity, connectivity
+    )
+    connectivity = mesh.elements.connectivities_field
+    assert connectivity.data[0] == 1
+
+
 def test_get_nodes_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     node = mesh.nodes.node_by_id(1)

@@ -26,11 +26,15 @@ from ansys.dpf.core import operators as ops
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
+global_server = dpf.start_local_server(
+    as_global=True, config=dpf.AvailableServerConfigs.GrpcServer
+)
+
 remote_servers = [
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrcpServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrcpServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
 ]
 
 ###############################################################################

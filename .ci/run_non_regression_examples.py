@@ -44,6 +44,7 @@ for path in list_tests:
                 subprocess.check_call([sys.executable, file])
             except Exception as e:
                 sys.stderr.write(str(e.args))
+                raise e
     else:
         print("\n\n--------------------------------------------------\n")
         print(path)
@@ -52,4 +53,5 @@ for path in list_tests:
             subprocess.check_call([sys.executable, path])
         except Exception as e:
             sys.stderr.write(str(e.args))
+            raise e
 
