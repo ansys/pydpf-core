@@ -21,6 +21,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    if: false
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it

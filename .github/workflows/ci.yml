@@ -238,17 +238,19 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheelhouse: false
-          extra-pip-args: "--pre --find-links .github/workflows/"
+      - name: Install python packages
+        run: |
+          pip install . plotting
+#      - name: "Build Package"
+#        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#          wheelhouse: false
 
       - name: Install OpenGL
         run: |
@@ -269,9 +271,20 @@ jobs:
         shell: python
         run: |
           import os
+          print("os")
+          with open("file.log","a") as f:
+              f.write("import os\n")
           import glob
+          print("glob")
+          with open("file.log","a") as f:
+              f.write("import glob\n")
           import pathlib
+          print("pathlib")
+          with open("file.log","a") as f:
+              f.write("import pathlib\n")
           from ansys.dpf import core
+          with open("file.log","a") as f:
+              f.write("import core\n")
           
           print("starting")
           
@@ -295,6 +308,13 @@ jobs:
                     except core.errors.ServerTypeError as e:
                         if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
                             raise e
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: log_python
+          path: file.log
+        if: always()
 
 
       - name: "Check sanity with gatebin"
