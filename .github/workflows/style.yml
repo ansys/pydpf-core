@@ -38,16 +38,7 @@ jobs:
         uses: actions/setup-python@v4.1.0
         with:
           python-version: 3.8
-
-      - name: Linux pip cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements/requirements_style.txt') }}
-          restore-keys: |
-            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
-
-      - name: Install style requirements
+          cache: pip
         run: |
           pip install -r requirements/requirements_style.txt --disable-pip-version-check
 
