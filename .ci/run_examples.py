@@ -42,3 +42,4 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
                 subprocess.check_call([sys.executable, file])
             except Exception as e:
                 sys.stderr.write(str(e.args))
+        quit()
