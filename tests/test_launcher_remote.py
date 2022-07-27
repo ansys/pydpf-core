@@ -8,14 +8,17 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import server_types
 from ansys.dpf.core.misc import __ansys_version__
-from ansys.dpf.core.server_factory import ServerFactory, ServerConfig
+from ansys.dpf.core.server_factory import ServerFactory
 
 
 def test_start_remote(monkeypatch):
     # Test for the Product Instance Management API integration
 
     # Start a local DPF server and create a mock PyPIM pretending it is starting it
-    local_server = core.start_local_server(as_global=False)
+    from ansys.dpf import core
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    local_server = core.start_local_server(as_global=False, config=conf)
     server_address = f"{local_server.ip}:{local_server.port}"
     mock_instance = pypim.Instance(
         definition_name="definitions/fake-dpf",
@@ -42,7 +45,7 @@ def test_start_remote(monkeypatch):
     monkeypatch.setenv("ANSYS_PLATFORM_INSTANCEMANAGEMENT_CONFIG", "/fake/config.json")
 
     # Call the generic startup sequence with no indication on how to launch it
-    server_type = ServerFactory().get_server_type_from_config(ServerConfig())
+    server_type = ServerFactory().get_server_type_from_config(conf)
     server = server_type(as_global=False)
 
     # It detected the environment and connected to pypim
