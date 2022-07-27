@@ -49,9 +49,11 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
+    "sphinx_design",
     "nbsphinx",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.graphviz"
+    "sphinx.ext.graphviz",
+    "enum_tools.autoenum",
+    "sphinx.ext.intersphinx"
 ]
 
 # Intersphinx mapping
@@ -131,6 +133,12 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'custom.css',
+]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

@@ -1,4 +1,3 @@
 wheel==0.37.1
-scooby==0.5.12
 chevron==0.14.0
 black==22.6.0

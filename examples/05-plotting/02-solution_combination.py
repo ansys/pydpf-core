@@ -17,7 +17,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
-# :class:`Model <ansys.dpf.core.model.Model> class helps to organize access
+# :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
 # methods for the result by keeping track of the operators and data sources
 # used by the result
 # file.
@@ -34,7 +34,7 @@ print(model)
 
 ###############################################################################
 # Get the stress tensor and connect time scoping.
-# Make sure to define ``"Nodal"`` as the requested location,
+# Make sure to define ``Nodal`` as the requested location,
 # as the labels are supported only for Nodal results.
 #
 stress_tensor = model.results.stress()
@@ -46,8 +46,7 @@ stress_tensor.inputs.requested_location.connect("Nodal")
 ###############################################################################
 # This code performs solution combination on two load cases.
 # =>LC1 - LC2
-# You can access individual loadcases as the fields of a fields_container for `stress_tensor`
-#
+# You can access individual loadcases as the fields of a fields_container for ``stress_tensor``.
 # LC1: stress_tensor.outputs.fields_container.get_data()[0]
 # LC2: stress_tensor.outputs.fields_container.get_data()[1]
 #

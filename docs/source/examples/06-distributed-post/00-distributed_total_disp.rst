@@ -21,7 +21,7 @@
 .. _ref_distributed_total_disp:
 
 Post processing of displacement on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
@@ -100,7 +100,7 @@ Print the ips and ports
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50054, 50055]
+    ports: [50057, 50058]
 
 
 
@@ -128,7 +128,7 @@ in shared memory
 .. GENERATED FROM PYTHON SOURCE LINES 50-57
 
 Create the operators on the servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 On each server we create two new operators for 'displacement' and 'norm'
 computations and define their data sources. The displacement operator
 receives data from the data file in its respective server. And the norm
@@ -157,7 +157,7 @@ output of this one.
 .. GENERATED FROM PYTHON SOURCE LINES 66-68
 
 Create a merge_fields_containers operator able to merge the results
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. GENERATED FROM PYTHON SOURCE LINES 68-71
 
@@ -176,7 +176,7 @@ Create a merge_fields_containers operator able to merge the results
 .. GENERATED FROM PYTHON SOURCE LINES 72-74
 
 Connect the operators together and get the output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. GENERATED FROM PYTHON SOURCE LINES 74-82
 
@@ -216,7 +216,7 @@ Connect the operators together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.022 seconds)
+   **Total running time of the script:** ( 0 minutes  0.711 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_00-distributed_total_disp.py:

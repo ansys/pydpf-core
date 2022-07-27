@@ -3,8 +3,17 @@ PropertyField
 =============
 """
 
-from ansys.dpf.core.common import natures, locations
+import numpy as np
+from ansys.dpf.core.common import natures, locations, _get_size_of_list
+from ansys.dpf.core import scoping, dimensionality
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
+from ansys.dpf.gate import (
+    property_field_abstract_api,
+    property_field_capi,
+    property_field_grpcapi,
+    dpf_array,
+    dpf_vector
+)
 
 
 class PropertyField(_FieldBase):
@@ -53,7 +62,28 @@ class PropertyField(_FieldBase):
         property_field=None,
         server=None,
     ):
-        super().__init__(nentities, nature, location, True, property_field, server)
+        super().__init__(nentities, nature, location, property_field, server)
+
+    @property
+    def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
+        if not self._api_instance:
+            self._api_instance = self._server.get_api_for_type(
+                capi=property_field_capi.PropertyFieldCAPI,
+                grpcapi=property_field_grpcapi.PropertyFieldGRPCAPI
+            )
+        return self._api_instance
+
+    @staticmethod
+    def _field_create_internal_obj(api: property_field_abstract_api.PropertyFieldAbstractAPI,
+                                   client, nature, nentities,
+                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+        dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
+        if client is not None:
+            return api.csproperty_field_new_on_client(
+                client, nentities, nentities*dim.component_count
+            )
+        else:
+            return api.csproperty_field_new(nentities, nentities * dim.component_count)
 
     @property
     def location(self):
@@ -113,6 +143,108 @@ class PropertyField(_FieldBase):
                 "Property field location is based on scoping, and scoping is not defined"
             )
 
+    @property
+    def component_count(self):
+        return self._api.csproperty_field_elementary_data_size(self)
+
+    @property
+    def elementary_data_count(self):
+        return self._api.csproperty_field_get_number_elementary_data(self)
+
+    @property
+    def size(self):
+        return self._api.csproperty_field_get_data_size(self)
+
+    def _set_scoping(self, scoping):
+        self._api.csproperty_field_set_cscoping(self, scoping)
+
+    def _get_scoping(self):
+        return scoping.Scoping(
+            scoping=self._api.csproperty_field_get_cscoping(self),
+            server=self._server
+        )
+
+    def get_entity_data(self, index):
+        try:
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            self._api.csproperty_field_get_entity_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, index
+            )
+            data = dpf_array.DPFArray(vec)
+
+        except NotImplementedError:
+            data = self._api.csproperty_field_get_entity_data(self, index)
+        n_comp = self.component_count
+        if n_comp != 1 and data.size != 0:
+            data.shape = (data.size // n_comp, n_comp)
+        return data
+
+    def get_entity_data_by_id(self, id):
+        try:
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            self._api.csproperty_field_get_entity_data_by_id_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, id)
+            data = dpf_array.DPFArray(vec)
+        except NotImplementedError:
+            index = self.scoping.index(id)
+            if index < 0:
+                raise ValueError(f"The ID {id} must be greater than 0.")
+            data = self.get_entity_data(index)
+        n_comp = self.component_count
+        if n_comp != 1 and data.size != 0:
+            data.shape = (data.size // n_comp, n_comp)
+        return data
+
+    def append(self, data, scopingid):
+        self._api.csproperty_field_push_back(self, scopingid, _get_size_of_list(data), data)
+
+    def _get_data_pointer(self):
+        try:
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            self._api.csproperty_field_get_data_pointer_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
+            return dpf_array.DPFArray(vec)
+
+        except NotImplementedError:
+            return self._api.csproperty_field_get_data_pointer(self, True)
+
+    def _set_data_pointer(self, data):
+        return self._api.csproperty_field_set_data_pointer(self, _get_size_of_list(data), data)
+
+    def _get_data(self, np_array=True):
+        try:
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            self._api.csproperty_field_get_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
+            data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
+        except NotImplementedError:
+            data = self._api.csproperty_field_get_data(self, np_array)
+        n_comp = self.component_count
+        if np_array and n_comp != 1 and data.size != 0:
+            data.shape = (data.size // n_comp, n_comp)
+        return data
+
+    def _set_data(self, data):
+        if isinstance(data, (np.ndarray, np.generic)):
+            if (
+                    0 != self.size
+                    and self.component_count > 1
+                    and data.size // self.component_count
+                    != data.size / self.component_count
+            ):
+                raise ValueError(
+                    f"An array of shape {self.shape} is expected and "
+                    f"shape {data.shape} was input"
+                )
+
+            if data.dtype != np.int32:
+                copy = np.empty_like(data, shape=data.shape, dtype=np.int32)
+                copy[:] = data
+                data = copy
+        return self._api.csproperty_field_set_data(self, _get_size_of_list(data), data)
+
     def as_local_field(self):
         """Create a deep copy of the field locally.
 
@@ -163,4 +295,6 @@ class _LocalPropertyField(_LocalFieldBase, PropertyField):
     """
 
     def __init__(self, field):
-        super().__init__(field)
+        self._is_property_field = True
+        PropertyField.__init__(self, property_field=field)
+        _LocalFieldBase.__init__(self, field)

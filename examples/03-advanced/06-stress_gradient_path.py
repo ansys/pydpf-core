@@ -22,7 +22,7 @@ from ansys.dpf.core import examples
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object.  The
-# :class:`Model <ansys.dpf.core.model.Model> class helps to organize access
+# :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
 # methods for the result by keeping track of the operators and data sources
 # used by the result file.
 #
@@ -59,7 +59,7 @@ mesh = model.metadata.meshed_region
 ###############################################################################
 # Get Equivalent stress fields container.
 #
-stress_fc = model.results.stress().eqv().outputs.fields_container()
+stress_fc = model.results.stress().eqv().eval()
 ###############################################################################
 # Define Nodal scoping.
 # Make sure to define ``"Nodal"`` as the requested location, important for the
@@ -99,7 +99,7 @@ fx = lambda t: line_fp[0] + normal_vec_in[0] * t
 fy = lambda t: line_fp[1] + normal_vec_in[1] * t
 fz = lambda t: line_fp[2] + normal_vec_in[2] * t
 ###############################################################################
-# Create coordinates using 3D line equation-
+# Create coordinates using 3D line equation.
 #
 coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in
                range(int(depth / delta))]

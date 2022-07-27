@@ -1,20 +1,32 @@
+"""
+.. _ref_outputs:
+
+Outputs
+=======
+"""
+
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.common import types
-from ansys.grpc.dpf import operator_pb2
+from ansys.dpf.core.operator_specification import PinSpecification
 import re
 
 
 class Output:
     """
-    Parameters
-    ----------
-    spec :
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to evaluate and get outputs of the Operator.
 
-    pin :
-
-    operator :
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> isinstance(disp_op.outputs.fields_container, dpf.inputs.Output)
+    True
+    >>> fc = disp_op.outputs.fields_container()
     """
-
     def __init__(self, spec, pin, operator):
         self._spec = spec
         self._operator = operator
@@ -27,8 +39,9 @@ class Output:
         """Retrieves the output of the operator."""
         type_output = self._spec.type_names[0]
         if type_output == "abstract_meshed_region":
-            type_output = "meshed_region"
-
+            type_output = types.meshed_region
+        elif type_output == "abstract_data_tree":
+            type_output = types.data_tree
         elif type_output == "fields_container":
             type_output = types.fields_container
         elif type_output == "scopings_container":
@@ -113,26 +126,25 @@ def _make_printable_type(type):
 
 
 def _modify_output_spec_with_one_type(output_spec, type):
-    from ansys.dpf.core.dpf_operator import PinSpecification
-    if isinstance(output_spec, operator_pb2.PinSpecification):
-        spec = (
-            operator_pb2.PinSpecification()
-        )  # create a copy of the pin spec with only one type
-        spec.CopyFrom(output_spec)
-        _clearRepeatedMessage(spec.type_names)
-        spec.type_names.extend([type])
-    else:
-        spec = PinSpecification._get_copy(output_spec, [type])
-
+    spec = PinSpecification._get_copy(output_spec, [type])
     return spec
 
 
 class Outputs(_Outputs):
     """
-    dict_outputs : dict
-        Dictionary of outputs.
-    operator :
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to list the available :class:`ansys.dpf.core.outputs.Output` s of the Operator.
 
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> isinstance(disp_op.outputs, dpf.inputs._Outputs)
+    True
+    >>> fc = disp_op.outputs.fields_container()
     """
 
     def __init__(self, dict_outputs, operator):
