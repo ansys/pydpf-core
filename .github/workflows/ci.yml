@@ -262,58 +262,6 @@ jobs:
           .ci/setup_headless_display.sh
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
-          
-
-      - name: "Check sanity with gatebin"
-        shell: python
-        run: |
-          import os
-          import sys, subprocess
-          print("os")
-          with open("file.log","a") as f:
-              f.write("import os\n")
-          import glob
-          print("glob")
-          with open("file.log","a") as f:
-              f.write("import glob\n")
-          import pathlib
-          print("pathlib")
-          with open("file.log","a") as f:
-              f.write("import pathlib\n")
-          from ansys.dpf import core
-          with open("file.log","a") as f:
-              f.write("import core\n")
-          
-          print("starting")
-          
-          core.settings.disable_off_screen_rendering()
-          
-          actual_path = os.getcwd()
-          print(os.path.join(actual_path, os.path.pardir, "examples"))
-          
-          last_subdir =None
-          for root, subdirectories, files in os.walk(os.path.join(actual_path, "examples")):
-            for subdirectory in subdirectories:
-                subdir = os.path.join(root, subdirectory)
-                for file in glob.iglob(os.path.join(subdir, "*.py")):
-                    if last_subdir is not None and last_subdir != subdir:
-                      quit()
-                    last_subdir = subdir
-                    print("\n\n--------------------------------------------------\n")
-                    print(file)
-                    print("--------------------------------------------------\n")
-                    try:
-                      subprocess.check_call([sys.executable, file])
-                    except Exception as e:
-                      sys.stderr.write(str(e.args))
-
-      - name: Publish artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: log_python
-          path: file.log
-        if: always()
-
 
       - name: "Check sanity with gatebin"
         shell: cmd
@@ -334,10 +282,11 @@ jobs:
       - name: "Check sanity without gatebin INPROCESS"
         shell: cmd
         run: |
-          export DPF_SERVER_TYPE=INPROCESS
           cd .ci
           python run_examples.py
         if: always()
+        env:
+          DPF_SERVER_TYPE: INPROCESS
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -346,10 +295,11 @@ jobs:
       - name: "Check sanity without gatebin GRPC"
         shell: cmd
         run: |
-          export DPF_SERVER_TYPE=GRPC
           cd .ci
           python run_examples.py
         if: always()
+        env:
+          DPF_SERVER_TYPE: GRPC
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -357,10 +307,11 @@ jobs:
       - name: "Check sanity without gatebin LEGACYGRPC"
         shell: cmd
         run: |
-          export DPF_SERVER_TYPE=LEGACYGRPC
           cd .ci
           python run_examples.py
         if: always()
+        env:
+          DPF_SERVER_TYPE: LEGACYGRPC
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
