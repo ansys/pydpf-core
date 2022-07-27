@@ -268,6 +268,7 @@ jobs:
         shell: python
         run: |
           import os
+          import sys, subprocess
           print("os")
           with open("file.log","a") as f:
               f.write("import os\n")
@@ -298,13 +299,9 @@ jobs:
                     print(file)
                     print("--------------------------------------------------\n")
                     try:
-                        exec(
-                            open(file, mode="r", encoding="utf8").read(),
-                            globals(),
-                            globals())
-                    except core.errors.ServerTypeError as e:
-                        if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
-                            raise e
+                      subprocess.check_call([sys.executable, file])
+                    except Exception as e:
+                      sys.stderr.write(str(e.args))
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3
@@ -336,6 +333,7 @@ jobs:
           export DPF_SERVER_TYPE=INPROCESS
           cd .ci
           python run_examples.py
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -347,6 +345,7 @@ jobs:
           export DPF_SERVER_TYPE=GRPC
           cd .ci
           python run_examples.py
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -357,6 +356,7 @@ jobs:
           export DPF_SERVER_TYPE=LEGACYGRPC
           cd .ci
           python run_examples.py
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
