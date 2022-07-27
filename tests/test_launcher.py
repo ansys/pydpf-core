@@ -213,10 +213,12 @@ def test_start_with_dpf_server_type_env():
             os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
             assert isinstance(my_serv, core.server_types.GrpcServer)
+            my_serv.shutdown()
 
             os.environ[dpf_server_type_str] = "LEGACYGRPC"
             my_serv_2 = core.start_local_server(as_global=False)
             assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+            my_serv_2.shutdown()
 
             os.environ[dpf_server_type_str] = "bla"
             with pytest.raises(NotImplementedError):
@@ -228,13 +230,16 @@ def test_start_with_dpf_server_type_env():
             os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
             assert isinstance(my_serv, core.server_types.LegacyGrpcServer)
+            my_serv.shutdown()
 
             os.environ[dpf_server_type_str] = "LEGACYGRPC"
             my_serv_2 = core.start_local_server(as_global=False)
             assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+            my_serv_2.shutdown()
 
             os.environ[dpf_server_type_str] = "bla"
-            my_serv_2 = core.start_local_server(as_global=False)
-            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+            my_serv_3 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_3, core.server_types.LegacyGrpcServer)
+            my_serv_3.shutdown()
 
             del os.environ[dpf_server_type_str]
