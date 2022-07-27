@@ -31,6 +31,7 @@ class CommunicationProtocols:
 DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.gRPC
 DEFAULT_LEGACY = True
 
+
 class ServerConfig:
     """Provides an instance of ServerConfig object to manage the server type used.
     The default parameters can be overwritten using the DPF_SERVER_TYPE environment
@@ -72,7 +73,9 @@ class ServerConfig:
 
     """
 
-    def __init__(self, protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY):
+    def __init__(
+        self, protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY
+    ):
         self.legacy = legacy
         if not protocol:
             self.protocol = CommunicationProtocols.InProcess
