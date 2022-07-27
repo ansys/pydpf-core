@@ -133,8 +133,8 @@ class _PyVistaPlotter:
             )
         import pyvista as pv
         # The scalar data used will be the one of the last field added.
-        from packaging.version import parse
-        if parse(pv.__version__) >= parse("0.35.2"):
+        from distutils.version import LooseVersion
+        if LooseVersion(pv.__version__) >= LooseVersion("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars

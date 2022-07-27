@@ -231,22 +231,24 @@ def launch_remote_dpf(version=None):
 def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_module_version: str):
     if right_grpc_module_version_str:
         import re
-        from packaging.version import parse as parse_version
+        from distutils import version
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)
         right_version_numbers = right_grpc_module_version_str[
                                 right_version_first_numbers.start():]
         compare = "==" if right_version_first_numbers.start() == 0 else \
             right_grpc_module_version_str[0:right_version_first_numbers.start()].strip()
+        grpc_module_version = version.LooseVersion(grpc_module_version)
+        right_version_numbers = version.LooseVersion(right_version_numbers)
         if compare == "==":
-            return parse_version(grpc_module_version) == parse_version(right_version_numbers)
+            return grpc_module_version == right_version_numbers
         elif compare == ">=":
-            return parse_version(grpc_module_version) >= parse_version(right_version_numbers)
+            return grpc_module_version >= right_version_numbers
         elif compare == ">":
-            return parse_version(grpc_module_version) > parse_version(right_version_numbers)
+            return grpc_module_version > right_version_numbers
         elif compare == "<=":
-            return parse_version(grpc_module_version) <= parse_version(right_version_numbers)
+            return grpc_module_version <= right_version_numbers
         elif compare == "<":
-            return parse_version(grpc_module_version) < parse_version(right_version_numbers)
+            return grpc_module_version < right_version_numbers
     return True
 
 
