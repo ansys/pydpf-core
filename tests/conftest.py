@@ -345,16 +345,20 @@ class LocalServers:
         self._max_iter = 3
 
     def __getitem__(self, item):
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+        else:
+            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
-                self._local_servers.append(core.start_local_server(as_global=False))
+                self._local_servers.append(core.start_local_server(as_global=False, config=conf))
         try:
             self._local_servers[item].info
             return self._local_servers[item]
         except:
             for iter in range(0, self._max_iter):
                 try:
-                    self._local_servers[item] = core.start_local_server(as_global=False)
+                    self._local_servers[item] = core.start_local_server(as_global=False, config=conf)
                     self._local_servers[item].info
                     break
                 except:
