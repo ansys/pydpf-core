@@ -1,10 +1,9 @@
 import os
 import glob
-import pathlib
 from ansys.dpf import core
-import pathlib, subprocess, sys
-
-print("starting")
+import pathlib
+import subprocess
+import sys
 
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
@@ -29,17 +28,7 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             print("\n\n--------------------------------------------------\n")
             print(file)
             print("--------------------------------------------------\n")
-            # try:
-            #     exec(
-            #         open(file, mode="r", encoding="utf8").read(),
-            #         globals(),
-            #         globals())
-            # except core.errors.ServerTypeError as e:
-            #     if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
-            #         raise e
-            #
             try:
                 subprocess.check_call([sys.executable, file])
             except Exception as e:
                 sys.stderr.write(str(e.args))
-        quit()

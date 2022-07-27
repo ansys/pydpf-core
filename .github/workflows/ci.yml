@@ -25,7 +25,6 @@ jobs:
   Build_and_Test:
     name: Build and Test
     runs-on: ${{ matrix.os }}
-    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -130,7 +129,6 @@ jobs:
   build_doc:
     name: Documentation
     runs-on: windows-latest
-    if: false
 
     steps:
       - uses: actions/checkout@v3
@@ -263,7 +261,7 @@ jobs:
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
 
-      - name: "Check sanity with gatebin"
+      - name: "Check examples with gatebin"
         shell: cmd
         run: |
           echo on
@@ -283,7 +281,7 @@ jobs:
         shell: cmd
         run: |
           cd .ci
-          python run_examples.py
+          python run_non_regression_examples.py
         if: always()
         env:
           DPF_SERVER_TYPE: INPROCESS
@@ -296,7 +294,7 @@ jobs:
         shell: cmd
         run: |
           cd .ci
-          python run_examples.py
+          python run_non_regression_examples.py
         if: always()
         env:
           DPF_SERVER_TYPE: GRPC
@@ -308,7 +306,7 @@ jobs:
         shell: cmd
         run: |
           cd .ci
-          python run_examples.py
+          python run_non_regression_examples.py
         if: always()
         env:
           DPF_SERVER_TYPE: LEGACYGRPC
