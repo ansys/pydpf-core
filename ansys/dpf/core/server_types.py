@@ -435,6 +435,7 @@ class BaseServer(abc.ABC):
         return not self.__eq__(other_server)
 
     def __del__(self):
+        warnings.warn(UserWarning(f"Deleting (super): {self}"))
         try:
             if hasattr(core, "SERVER") and id(core.SERVER) == id(self):
                 core.SERVER = None
@@ -443,8 +444,10 @@ class BaseServer(abc.ABC):
 
         try:
             if hasattr(core, "_server_instances") and core._server_instances is not None:
+                warnings.warn(UserWarning(f"core._server_instances: {core._server_instances}"))
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
+                        warnings.warn(UserWarning(f"Removing {server} from core._server_instances"))
                         core._server_instances.remove(server)
         except:
             warnings.warn(traceback.format_exc())
@@ -870,8 +873,10 @@ class LegacyGrpcServer(BaseServer):
         return False
 
     def __del__(self):
+        warnings.warn(UserWarning(f"Deleting: {self}"))
         try:
             self._del_session()
+            warnings.warn(UserWarning(f"self._own_process: {self._own_process}"))
             if self._own_process:
                 self.shutdown()
             super().__del__()
