@@ -35,7 +35,7 @@ from ansys.dpf.core import operators as ops
 # but we could get connected to any existing servers on the network.
 
 global_server = dpf.start_local_server(
-    as_global=True, config=dpf.AvailableServerConfigs.GrpcServer
+    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
 )
 
 remote_servers = [
