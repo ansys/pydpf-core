@@ -28,8 +28,8 @@ class CommunicationProtocols:
     InProcess = "InProcess"
 
 
-DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.gRPC
-DEFAULT_LEGACY = True
+DEFAULT_COMMUNICATION_PROTOCOL = CommunicationProtocols.InProcess
+DEFAULT_LEGACY = False
 
 
 class ServerConfig:
