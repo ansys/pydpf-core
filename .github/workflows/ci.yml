@@ -164,6 +164,9 @@ jobs:
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
 
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
       - name: Install documentation packages for Python
         run: |
           pip install -r requirements/requirements_docs.txt
