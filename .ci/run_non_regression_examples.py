@@ -42,16 +42,18 @@ for path in list_tests:
             print("--------------------------------------------------\n")
             try:
                 subprocess.check_call([sys.executable, file])
-            except Exception as e:
+            except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
-                raise e
+                if e.returncode != 3221225477:
+                    raise e
     else:
         print("\n\n--------------------------------------------------\n")
         print(path)
         print("--------------------------------------------------\n")
         try:
-            subprocess.check_call([sys.executable, path])
-        except Exception as e:
+            subprocess.check_call([sys.executable, file])
+        except subprocess.CalledProcessError as e:
             sys.stderr.write(str(e.args))
-            raise e
+            if e.returncode != 3221225477:
+                raise e
 

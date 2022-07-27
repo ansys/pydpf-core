@@ -225,7 +225,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.7"]
         os: ["windows-latest"]
 
     steps:
@@ -234,7 +234,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4.1.0
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python-version }}
 
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
