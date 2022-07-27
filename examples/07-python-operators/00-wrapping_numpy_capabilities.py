@@ -49,6 +49,9 @@ import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+# python plugins are not supported in process
+dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
+
 operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
 dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
 
@@ -85,7 +88,6 @@ ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.static_rst))
 displacement = dpf.operators.result.displacement(data_sources=ds)
 norm = dpf.operators.math.norm(displacement)
 new_operator.inputs.connect(norm)
-
 
 print("first quartile is", new_operator.outputs.first_quartile())
 print("median is", new_operator.outputs.median())
