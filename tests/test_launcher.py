@@ -6,7 +6,7 @@ import subprocess
 import sys
 import io
 from ansys.dpf import core
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, DPF_SERVER_TYPE
 
 
 def test_start_local():
@@ -192,3 +192,43 @@ def test_server_ip(server_type_remote_process):
     assert server_type_remote_process.info["server_ip"] is not None
     assert server_type_remote_process.info["server_port"] is not None
     assert server_type_remote_process.info["server_version"] is not None
+
+
+@pytest.mark.skipif(DPF_SERVER_TYPE is not None,
+                    reason="This test is for a run with default server type")
+def test_start_with_dpf_server_type_env():
+    dpf_server_type_str = "DPF_SERVER_TYPE"
+    try_serv_type = os.environ.get(dpf_server_type_str, None)
+    if try_serv_type:
+        raise Exception("Fixture is not correctly working")  # a specific case is already set to run the unit tests
+    else:
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+            # test for v222 and higher
+            os.environ[dpf_server_type_str] = "GRPC_CLAYER"
+            my_serv = core.start_local_server(as_global=False)
+            assert isinstance(my_serv, core.server_types.GrpcServer)
+
+            os.environ[dpf_server_type_str] = "LEGACY"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+
+            os.environ[dpf_server_type_str] = "bla"
+            with pytest.raises(NotImplementedError):
+                my_serv_3 = core.start_local_server(as_global=False)
+
+            del os.environ[dpf_server_type_str]
+        else:
+            # test for v221 and lower
+            os.environ[dpf_server_type_str] = "GRPC_CLAYER"
+            my_serv = core.start_local_server(as_global=False)
+            assert isinstance(my_serv, core.server_types.LegacyGrpcServer)
+
+            os.environ[dpf_server_type_str] = "LEGACY"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+
+            os.environ[dpf_server_type_str] = "bla"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+
+            del os.environ[dpf_server_type_str]

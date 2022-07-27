@@ -6,7 +6,7 @@ Contains the server factory as well as the communication
 protocols and server configurations available.
 """
 
-from ansys.dpf.gate.load_api import _get_path_in_install
+from ansys.dpf.gate.load_api import _get_path_in_install, _find_outdated_ansys_version
 
 
 class CommunicationProtocols:
@@ -25,15 +25,27 @@ class CommunicationProtocols:
 
 
 class ServerConfig:
-    """Provides an instance of ServerConfig object to manage the server type used
+    """Provides an instance of ServerConfig object to manage the server type used.
+    The default parameters can be overwritten using the DPF_SERVER_TYPE environment
+    variable. DPF_SERVER_TYPE=INPROCESS_CLAYER, DPF_SERVER_TYPE=LEGACY,
+    DPF_SERVER_TYPE=GRPC_CLAYER can be used.
 
     Parameters
     ----------
-    protocol : CommunicationProtocols
-    legacy : bool
+    protocol : CommunicationProtocols, optional
+        Communication protocol for DPF server (e.g. InProcess, gRPC)
+    legacy : bool, optional
+        If legacy is set to True, the server will be using ansys-grpc-dpf
+        Python module. If not, it will communicate with DPF binaries using ctypes
+        and DPF CLayer calls.
+    ignore_dpf_server_type : bool, optional
+        Default is False. DPF_SERVER_TYPE environment variable will be ignored if
+        overwrite is set to False.
 
     Examples
     --------
+    Use constructor parameters to manually create servers.
+
     >>> from ansys.dpf import core as dpf
     >>> in_process_config = dpf.ServerConfig(
     ...     protocol=None, legacy=False)
@@ -44,6 +56,12 @@ class ServerConfig:
     >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
     >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
     >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
+
+    Use the environment variable to set the default server configuration.
+
+    >>> import os
+    >>> os.environ["DPF_SERVER_TYPE"] = "INPROCESS_CLAYER"
+    >>> dpf.start_local_server()
 
     """
     def __init__(self, protocol=CommunicationProtocols.gRPC, legacy=True):
@@ -62,6 +80,30 @@ class ServerConfig:
     def __eq__(self, other):
         return self.legacy == other.legacy and self.protocol == other.protocol
 
+
+def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
+    if server_lower_than_or_equal_to_0_3:
+        return ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+
+    _legacy = True
+    _protocol = CommunicationProtocols.gRPC
+    import os
+    DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
+    if DPF_SERVER_TYPE:
+        if DPF_SERVER_TYPE == "INPROCESS_CLAYER":
+            _protocol = CommunicationProtocols.InProcess
+            _legacy = False
+        elif DPF_SERVER_TYPE == "GRPC_CLAYER":
+            _protocol = CommunicationProtocols.gRPC
+            _legacy = False
+        elif DPF_SERVER_TYPE == "LEGACY":
+            _protocol = CommunicationProtocols.gRPC
+            _legacy = True
+        else:
+            raise NotImplementedError(f"DPF_SERVER_TYPE environment variable must "
+                                      f"be set to one of the following: INPROCESS_CLAYER, "
+                                      f"GRPC_CLAYER, LEGACY.")
+    return ServerConfig(protocol=_protocol, legacy=_legacy)
 
 class AvailableServerConfigs:
     """Defines available server configurations
@@ -104,7 +146,8 @@ class ServerFactory:
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
         if config is None:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
-            SERVER_CONFIGURATION = ServerConfig()
+            is_server_old = _find_outdated_ansys_version(ansys_path)
+            SERVER_CONFIGURATION = get_default_server_config(is_server_old)
             config = SERVER_CONFIGURATION
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer

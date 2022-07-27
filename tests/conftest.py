@@ -23,6 +23,7 @@ ACCEPTABLE_FAILURE_RATE = 0
 core.settings.disable_off_screen_rendering()
 # currently running dpf on docker.  Used for testing on CI
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
+DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 
 local_test_repo = False
 
