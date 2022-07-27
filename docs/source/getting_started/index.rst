@@ -145,6 +145,7 @@ installed. The package dependencies are:
 - `psutil <https://pypi.org/project/psutil/>`_
 - `tqdm <https://pypi.org/project/tqdm/>`_
 - `packaging <https://pypi.org/project/packaging/>`_
+- `numpy <https://pypi.org/project/numpy/>`_
 
 Optional Dependencies
 ~~~~~~~~~~~~~~~~~~~~~
