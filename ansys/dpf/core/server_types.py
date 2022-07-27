@@ -857,6 +857,10 @@ class LegacyGrpcServer(BaseServer):
                                 f"couldn't properly release server: {str(e.args)}"
                                 ".\n Killing process."
                             )
+                        process_id = self.info["server_process_id"]
+                        warnings.warn(
+                            UserWarning(f"Killing process {process_id}")
+                        )
                         p = psutil.Process(self.info["server_process_id"])
                         p.kill()
                         time.sleep(0.01)
