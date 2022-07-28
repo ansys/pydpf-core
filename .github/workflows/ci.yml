@@ -316,7 +316,7 @@ jobs:
 
   Retro-compatibility:
     name: Retro-compatibility
-    if: startsWith(github.head_ref, 'master') || contains(github.head_ref, 'retro')
+    if: startsWith(github.head_ref, 'master') || contains(github.head_ref, 'retro') || contains(github.ref, 'refs/tags')
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
