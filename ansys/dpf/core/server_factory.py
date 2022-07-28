@@ -133,8 +133,10 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
                 f"be set to one of the following: INPROCESS, "
                 f"GRPC, LEGACYGRPC."
             )
-    if config is None:
-        return ServerConfig(protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY)
+    elif config is None:
+        config = ServerConfig(protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY)
+    return config
+
 
 
 class AvailableServerConfigs:

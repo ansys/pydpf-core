@@ -1,6 +1,5 @@
 import os
 import glob
-from ansys.dpf import core
 import pathlib
 import subprocess
 import sys
