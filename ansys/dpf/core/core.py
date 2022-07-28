@@ -4,19 +4,26 @@ Core
 """
 import os
 import logging
-import time
+import warnings
 import weakref
-import pathlib
-import sys
 
-import grpc
-
-from ansys.grpc.dpf import base_pb2, base_pb2_grpc
-from ansys.dpf.core.errors import protect_grpc
-from ansys.dpf.core import server as serverlib
-from ansys.dpf.core import misc
-from ansys.dpf.core.common import _common_progress_bar
-from ansys.dpf.core.cache import class_handling_cache
+from ansys.dpf.core import errors, misc
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.runtime_config import (
+    RuntimeClientConfig,
+    RuntimeCoreConfig,
+    )
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+    tmp_dir_capi,
+    tmp_dir_grpcapi,
+    collection_capi,
+    collection_grpcapi,
+    integral_types,
+    object_handler
+    )
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -27,7 +34,7 @@ else:
     CONFIGURATION = "release"
 
 
-def load_library(filename, name="", symbol="LoadOperators", server=None):
+def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in
     ansys.dpf.core.operators
@@ -42,7 +49,10 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
+
+    generate_operators : bool, optional
+        Whether operators code generation should be done or not (default is False).
 
     Examples
     --------
@@ -54,7 +64,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
 
     """
     base = BaseService(server, load_operators=False)
-    base.load_library(filename, name, symbol)
+    base.load_library(filename, name, symbol, generate_operators)
     return name + " successfully loaded"
 
 
@@ -73,16 +83,12 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
       server_file_path : str
            path generated server side
-
-    Notes
-    -----
-    Print a progress bar
 
     Examples
     --------
@@ -115,7 +121,7 @@ def upload_files_in_folder(
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -141,11 +147,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
-
-    Notes
-    -----
-    Print a progress bar
+        ``None``, attempts to use the global server.
 
     Examples
     --------
@@ -154,6 +156,8 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> import os
     >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
     >>> dpf.download_file(file_path, examples.static_rst)
+    <BLANKLINE>
+    Downloading...
 
     """
     base = BaseService(server, load_operators=False)
@@ -179,16 +183,12 @@ def download_files_in_folder(
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
     paths : list of str
         new file paths client side
-
-    Notes
-    -----
-    Print a progress bar
 
     """
     base = BaseService(server, load_operators=False)
@@ -210,11 +210,7 @@ def upload_file(file_path, to_server_file_path, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
-
-    Notes
-    -----
-    Print a progress bar
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -234,7 +230,7 @@ def make_tmp_dir_server(server=None):
     ----------
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -256,7 +252,7 @@ def _description(dpf_entity_message, server=None):
 
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -268,7 +264,6 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
-@class_handling_cache
 class BaseService:
     """The Base Service class allows to make generic requests to dpf's server.
     For example, information about the server can be requested,
@@ -281,7 +276,7 @@ class BaseService:
     ----------
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     timeout : float, optional
         Fails when a connection takes longer than ``timeout`` seconds
@@ -301,30 +296,24 @@ class BaseService:
 
     def __init__(self, server=None, load_operators=True, timeout=5):
         """Initialize base service"""
-
+        # step 1: get server
         if server is None:
-            server = serverlib._global_server()
-
+            server = server_module.get_or_create_server(server)
         self._server = weakref.ref(server)
-        self._stub = self._connect(timeout)
+        self._collection_api = None
 
-    def _connect(self, timeout=5):
-        """Connect to dpf service within a given timeout"""
-        stub = base_pb2_grpc.BaseServiceStub(self._server().channel)
+        # step 2: get api
+        self._api = self._server().get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+        )
+        self._api_tmp_dir = self._server().get_api_for_type(
+            capi=tmp_dir_capi.TmpDirCAPI,
+            grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
+        )
 
-        # verify connected
-        if timeout is not None:
-            state = grpc.channel_ready_future(self._server().channel)
-            tstart = time.time()
-            while (time.time() - tstart) < timeout and not state._matured:
-                time.sleep(0.005)
-
-            if not state._matured:
-                raise IOError(
-                    f"Unable to connect to DPF instance at {self._server()._address}"
-                )
-
-        return stub
+        # step3: init environment
+        self._api.init_data_processing_environment(self)  # creates stub when gRPC
 
     def make_tmp_dir_server(self):
         """Create a temporary folder server side. Only one temporary folder can be created
@@ -336,10 +325,12 @@ class BaseService:
         path : str
             path to the temporary dir
         """
-        request = base_pb2.Empty()
-        return self._stub.CreateTmpDir(request).server_file_path
+        if self._server().has_client():
+            return self._api_tmp_dir.tmp_dir_get_dir_on_client(client=self._server().client)
+        else:
+            return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(self, file_path, name="", symbol="LoadOperators"):
+    def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
@@ -352,6 +343,9 @@ class BaseService:
         name : str, optional
             Library name.  Probably optional
 
+        generate_operators : bool, optional
+            Whether operators code generation should be done or not (default is False).
+
         Examples
         --------
         Load the mesh operators for Windows (for Linux, just use
@@ -362,39 +356,81 @@ class BaseService:
         >>> # base.load_library('meshOperatorsCore.dll', 'mesh_operators')
 
         """
-        request = base_pb2.PluginRequest()
-        request.name = name
-        request.dllPath = str(file_path)
-        request.symbol = symbol
-        try:
-            self._stub.Load(request)
-        except Exception as e:
-            raise IOError(
-                f'Unable to load library "{str(file_path)}". File may not exist or'
-                f" is missing dependencies:\n{str(e)}"
+        file_path = str(file_path)
+        if self._server().has_client():
+            self._internal_obj = self._api.data_processing_load_library_on_client(
+                sLibraryKey=name,
+                sDllPath=file_path,
+                sloader_symbol=symbol,
+                client=self._server().client
             )
+        else:
+            self._internal_obj = self._api.data_processing_load_library(name=name,
+                                                                        dllPath=file_path,
+                                                                        symbol=symbol)
+        if generate_operators:
+            # TODO: fix code generation upload posix
+            import os
+            def __generate_code(TARGET_PATH, filename, name, symbol):
+                from ansys.dpf.core.dpf_operator import Operator
+                try:
+                    code_gen = Operator("python_generator")
+                    code_gen.connect(1, TARGET_PATH)
+                    code_gen.connect(0, filename)
+                    code_gen.connect(2, symbol)
+                    code_gen.connect(3, name)
+                    code_gen.run()
+                except Exception as e:
+                    warnings.warn("Unable to generate the python code with error: " + str(e.args))
 
-        # TODO: fix code generation upload posix
-        import os
-
-        if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
             local_dir = os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
+            if self._server().has_client():
+                if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
+                    # send local generated code
+                    TARGET_PATH = self.make_tmp_dir_server()
+                    self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
 
-            # send local generated code
-            TARGET_PATH = self.make_tmp_dir_server()
-            self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                    # generate code
+                    __generate_code(TARGET_PATH, file_path, name, symbol)
 
-            # generate code
-            from ansys.dpf.core.dpf_operator import Operator
+                    try:
+                        self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                    except Exception as e:
+                        warnings.warn(
+                            f"Unable to download the python generated code with error: {e.args}"
+                        )
+            else:
+                __generate_code(
+                    TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
+                )
 
-            code_gen = Operator("python_generator")
-            code_gen.connect(1, TARGET_PATH)
-            code_gen.connect(0, str(file_path))
-            code_gen.connect(2, False)
-            code_gen.run()
+    def get_runtime_client_config(self):
+        if self._server().has_client():
+            data_tree_tmp = (
+                self._api.data_processing_get_client_config_as_data_tree()
+                )
+            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
+        else:
+            if misc.RUNTIME_CLIENT_CONFIG is None:
+                from ansys.dpf.core import data_tree
+                misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
+                    data_tree=data_tree.DataTree(server=self._server())
+                )
+            config_to_return = misc.RUNTIME_CLIENT_CONFIG
+        return config_to_return
 
-            self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+    @version_requires("4.0")
+    def get_runtime_core_config(self):
+        if self._server().has_client():
+            data_tree_tmp =\
+                self._api.data_processing_get_global_config_as_data_tree_on_client(
+                    self._server().client)
+
+        else:
+            data_tree_tmp = \
+                self._api.data_processing_get_global_config_as_data_tree()
+        return RuntimeCoreConfig(data_tree=data_tree_tmp, server=self._server())
 
     @property
     def server_info(self):
@@ -410,24 +446,51 @@ class BaseService:
         return self._get_server_info()
 
     def _get_server_info(self):
-        request = base_pb2.ServerInfoRequest()
-        try:
-            response = self._stub.GetServerInfo(request)
-        except Exception as e:
-            raise IOError(f"Unable to recover information from the server:\n{str(e)}")
-        out = {
-            "server_ip": response.ip,
-            "server_port": response.port,
-            "server_process_id": response.processId,
-            "server_version": str(response.majorVersion)
-                              + "."
-                              + str(response.minorVersion),
-        }
-        if hasattr(response, "properties"):
-            for key in response.properties:
-                out[key] = response.properties[key]
+        serv_ip = ""
+        serv_port = integral_types.MutableInt32(-1)
+        proc_id = ""
+        serv_ver_maj = integral_types.MutableInt32(-1)
+        serv_ver_min = integral_types.MutableInt32(-1)
+        serv_os = ""
+        # ip/port
+        if self._server().has_client():
+            serv_ip = self._api.data_processing_get_server_ip_and_port(
+                client=self._server().client, port=serv_port
+            )
+            serv_port = int(serv_port)
         else:
-            out["os"] = None
+            serv_ip = ""
+            serv_port = None
+        # process id
+        if self._server().has_client():
+            proc_id = self._api.data_processing_process_id_on_client(client=self._server().client)
+        else:
+            proc_id = self._api.data_processing_process_id()
+        # server version
+        if self._server().has_client():
+            self._api.data_processing_get_server_version_on_client(
+                client=self._server().client,
+                major=serv_ver_maj,
+                minor=serv_ver_min)
+        else:
+            self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
+        # server os
+        if self._server().has_client():
+            serv_os = self._api.data_processing_get_os_on_client(
+                client=self._server().client
+            )
+        else:
+            serv_os = self._api.data_processing_get_os()
+
+        out = {
+            "server_ip": serv_ip,
+            "server_port": serv_port,
+            "server_process_id": proc_id,
+            "server_version": str(int(serv_ver_maj))
+                              + "."
+                              + str(int(serv_ver_min)),
+            "os": serv_os
+        }
 
         return out
 
@@ -444,16 +507,13 @@ class BaseService:
         -------
            description : str
         """
-        try:
-            request = base_pb2.DescribeRequest()
-            if isinstance(dpf_entity_message.id, int):
-                request.dpf_type_id = dpf_entity_message.id
-            else:
-                request.dpf_type_id = dpf_entity_message.id.id
-
-            return self._stub.Describe(request).description
-        except:
-            return ""
+        data = object_handler.ObjHandler(
+            data_processing_api=self._api,
+            internal_obj=dpf_entity_message,
+            server=self._server()
+            )
+        data.get_ownership()
+        return self._api.data_processing_description_string(data=data)
 
     def _get_separator(self, path):
         s1 = len(path.split("\\"))
@@ -466,7 +526,6 @@ class BaseService:
             separator = "\\"
         return separator
 
-    @protect_grpc
     def download_file(self, server_file_path, to_client_file_path):
         """Download a file from the server to the target client file path
 
@@ -477,37 +536,27 @@ class BaseService:
 
         to_client_file_path: str or os.PathLike
             file path target where the file will be located client side
-
-        Notes
-        -----
-        Print a progress bar
         """
-        request = base_pb2.DownloadFileRequest()
-        request.server_file_path = str(server_file_path)
-        chunks = self._stub.DownloadFile(request)
-        bar = None
-        tot_size = sys.float_info.max
-        for i in range(0, len(chunks.initial_metadata())):
-            if chunks.initial_metadata()[i].key == u"size_tot":
-                tot_size = int(chunks.initial_metadata()[i].value) * 1E-3
-                bar = _common_progress_bar("Downloading...",
-                                           unit="KB",
-                                           tot_size=tot_size)
-        if not bar:
-            bar = _common_progress_bar("Downloading...", unit="KB")
-            bar.start()
-        i = 0
-        with open(to_client_file_path, "wb") as f:
-            for chunk in chunks:
-                f.write(chunk.data.data)
-                i += len(chunk.data.data) * 1e-3
-                try:
-                    bar.update(min(i, tot_size))
-                except:
-                    pass
-        bar.finish()
+        if not self._server().has_client():
+            txt = """
+            download service only available for server with gRPC communication protocol
+            """
+            raise ValueError(txt)
+        client_path = self._api.data_processing_download_file(
+            client=self._server().client,
+            server_file_path=str(server_file_path),
+            to_client_file_path=str(to_client_file_path)
+        )
 
-    @protect_grpc
+    def _set_collection_api(self):
+        if self._collection_api is None:
+            self._collection_api = self._server().get_api_for_type(
+                capi=collection_capi.CollectionCAPI,
+                grpcapi=collection_grpcapi.CollectionGRPCAPI
+            )
+            self._collection_api.init_collection_environment(self)
+        return self._collection_api
+
     def download_files_in_folder(
             self, server_folder_path, to_client_folder_path, specific_extension=None
     ):
@@ -530,74 +579,33 @@ class BaseService:
         paths : list of str
             new file paths client side
 
-        Notes
-        -----
-        Print a progress bar
-
         """
-        request = base_pb2.DownloadFileRequest()
-        request.server_file_path = str(server_folder_path)
-        chunks = self._stub.DownloadFile(request)
+        if not self._server().has_client():
+            txt = """
+            download service only available for server with gRPC communication protocol
+            """
+            raise ValueError(txt)
+        if specific_extension is None:
+            specific_extension = ""
+        client_paths_ptr = self._api.data_processing_download_files(client=self._server().client,
+                                                 server_file_path=str(server_folder_path),
+                                                 to_client_file_path=str(to_client_folder_path),
+                                                 specific_extension=specific_extension)
+        if not isinstance(client_paths_ptr, list):
+            from ansys.dpf.gate import object_handler
+            # collection of string
+            client_paths = object_handler.ObjHandler(data_processing_api=self._api,
+                                                     internal_obj=client_paths_ptr,
+                                                     server=self._server())
+            coll_api = self._set_collection_api()
+            size = coll_api.collection_get_size(client_paths)
+            out = [0] * size
+            for i in range(0, size):
+                entry = coll_api.collection_get_string_entry(client_paths, i)
+                out[i] = entry
+            return out
+        return client_paths_ptr
 
-        num_files = 1
-        if chunks.initial_metadata()[0].key == "num_files":
-            num_files = int(chunks.initial_metadata()[0].value)
-
-        bar = _common_progress_bar("Downloading...", unit="files", tot_size=num_files)
-        bar.start()
-
-        server_path = ""
-
-        import ntpath
-
-        client_paths = []
-        f = None
-        for chunk in chunks:
-            if chunk.data.server_file_path != server_path:
-                server_path = chunk.data.server_file_path
-                if (
-                        specific_extension == None
-                        or pathlib.Path(server_path).suffix == "." + specific_extension
-                ):
-                    separator = self._get_separator(server_path)
-                    server_subpath = server_path.replace(
-                        str(server_folder_path) + separator, ""
-                    )
-                    subdir = ""
-                    split = server_subpath.split(separator)
-                    n = len(split)
-                    i = 0
-                    to_client_folder_path_copy = str(to_client_folder_path)
-                    if n > 1:
-                        while i < (n - 1):
-                            subdir = split[i]
-                            subdir_path = os.path.join(
-                                to_client_folder_path_copy, subdir
-                            )
-                            if not os.path.exists(subdir_path):
-                                os.mkdir(subdir_path)
-                            to_client_folder_path_copy = subdir_path
-                            i += 1
-                    cient_path = os.path.join(
-                        to_client_folder_path_copy, ntpath.basename(server_path)
-                    )
-                    client_paths.append(cient_path)
-                    f = open(cient_path, "wb")
-                    try:
-                        bar.update(len(client_paths))
-                    except:
-                        pass
-                else:
-                    f = None
-            if f is not None:
-                f.write(chunk.data.data)
-        try:
-            bar.finish()
-        except:
-            pass
-        return client_paths
-
-    @protect_grpc
     def upload_files_in_folder(
             self, to_server_folder_path, client_folder_path, specific_extension=None
     ):
@@ -663,15 +671,18 @@ class BaseService:
         if ((specific_extension is not None) and (f.endswith(specific_extension))) or (
                 specific_extension is None
         ):
-            server_path = self._stub.UploadFile(
-                self.__file_chunk_yielder(
-                    file_path=f, to_server_file_path=to_server_file_path
-                )
-            ).server_file_path
+            if not self._server().has_client():
+                txt = """
+                download service only available for server with gRPC communication protocol
+                """
+                raise errors.ServerTypeError(txt)
+            server_path = self._api.data_processing_upload_file(client=self._server().client,
+                                                     file_path=f,
+                                                     to_server_file_path=to_server_file_path,
+                                                     use_tmp_dir=False)
             server_paths.append(server_path)
         return server_paths
 
-    @protect_grpc
     def upload_file(self, file_path, to_server_file_path):
         """Upload a file from the client to the target server file path
 
@@ -687,18 +698,19 @@ class BaseService:
         -------
            server_file_path : str
                path generated server side
-
-        Notes
-        -----
-        Print a progress bar
         """
         if os.stat(file_path).st_size == 0:
-            raise ValueError(str(file_path) + " is empty")
-        return self._stub.UploadFile(
-            self.__file_chunk_yielder(str(file_path), str(to_server_file_path))
-        ).server_file_path
+            raise ValueError(file_path + " is empty")
+        if not self._server().has_client():
+            txt = """
+            download service only available for server with gRPC communication protocol
+            """
+            raise errors.ServerTypeError(txt)
+        return self._api.data_processing_upload_file(client=self._server().client,
+                                                     file_path=str(file_path),
+                                                     to_server_file_path=str(to_server_file_path),
+                                                     use_tmp_dir=False)
 
-    @protect_grpc
     def upload_file_in_tmp_folder(self, file_path, new_file_name=None):
         """Upload a file from the client to the server in a temporary folder
         deleted when the server is shutdown
@@ -712,10 +724,6 @@ class BaseService:
             name to give to the file server side,
             if no name is specified, the same name as the input file is given
 
-        Notes
-        -----
-        Print a progress bar
-
         Returns
         -------
            server_file_path : str
@@ -726,48 +734,32 @@ class BaseService:
         else:
             file_name = os.path.basename(file_path)
         if os.stat(file_path).st_size == 0:
-            raise ValueError(str(file_path) + " is empty")
-        return self._stub.UploadFile(
-            self.__file_chunk_yielder(
-                file_path=str(file_path), to_server_file_path=file_name, use_tmp_dir=True
-            )
-        ).server_file_path
+            raise ValueError(file_path + " is empty")
+        if not self._server().has_client():
+            txt = """
+            download service only available for server with gRPC communication protocol
+            """
+            raise errors.ServerTypeError(txt)
+        return self._api.data_processing_upload_file(client=self._server().client,
+                                                     file_path=str(file_path),
+                                                     to_server_file_path=str(file_name),
+                                                     use_tmp_dir=True)
 
     def _prepare_shutdown(self):
-        self._stub.PrepareShutdown(base_pb2.Empty())
+        if self._server().has_client():
+            self._api.data_processing_prepare_shutdown(client=self._server().client)
 
-    def __file_chunk_yielder(self, file_path, to_server_file_path, use_tmp_dir=False):
-        request = base_pb2.UploadFileRequest()
-        request.server_file_path = to_server_file_path
-        request.use_temp_dir = use_tmp_dir
+    #@version_requires("4.0")
+    def _release_server(self):
+        """
+        Release the reference taken by this client on the server
 
-        tot_size = os.path.getsize(file_path) * 1e-3
-
-        need_progress_bar = tot_size > 10000
-        if need_progress_bar:
-            bar = _common_progress_bar("Uploading...", "KB", tot_size)
-            bar.start()
-        i = 0
-        with open(file_path, "rb") as f:
-            while True:
-                piece = f.read(misc.DEFAULT_FILE_CHUNK_SIZE)
-                if len(piece) == 0:
-                    break
-                request.data.data = piece
-                yield request
-                i += len(piece) * 1e-3
-                if need_progress_bar:
-                    try:
-                        bar.update(min(i, tot_size))
-                    except:
-                        pass
-
-        if need_progress_bar:
-            try:
-                bar.finish()
-            except:
-                pass
-
-    _to_cache = {
-        _get_server_info: None
-    }
+        Notes
+        -----
+        Should be used only if the server was started by this client's instance.
+        To use only with server version > 4.0
+        """
+        if self._server().has_client():
+            self._api.data_processing_release_server(
+                client=self._server().client
+            )

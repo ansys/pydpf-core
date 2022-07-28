@@ -2,7 +2,7 @@
 .. _ref_distributed_total_disp:
 
 Post processing of displacement on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
@@ -48,7 +48,7 @@ server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_serve
 
 ###############################################################################
 # Create the operators on the servers
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # On each server we create two new operators for 'displacement' and 'norm'
 # computations and define their data sources. The displacement operator
 # receives data from the data file in its respective server. And the norm
@@ -64,13 +64,13 @@ for i, server in enumerate(remote_servers):
 
 ###############################################################################
 # Create a merge_fields_containers operator able to merge the results
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 merge = ops.utility.merge_fields_containers()
 
 ###############################################################################
 # Connect the operators together and get the output
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 for i, server in enumerate(remote_servers):
     merge.connect(i, remote_operators[i], 0)

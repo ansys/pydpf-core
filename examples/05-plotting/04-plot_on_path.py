@@ -23,7 +23,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 # displacement data
 model = dpf.Model(examples.static_rst)
 mesh = model.metadata.meshed_region
-stress_fc = model.results.stress().eqv().outputs.fields_container()
+stress_fc = model.results.stress().eqv().eval()
 
 ###############################################################################
 # Then, we create a coordinates field to map on

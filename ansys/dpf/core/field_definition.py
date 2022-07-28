@@ -3,10 +3,18 @@ FieldDefinition
 ================
 """
 
-from ansys import dpf
-from ansys.grpc.dpf import base_pb2, field_definition_pb2, field_definition_pb2_grpc
+import traceback
+import warnings
+
 from ansys.dpf.core.common import natures, shell_layers
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.dimensionality import Dimensionality
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import (
+    field_definition_capi,
+    field_definition_grpcapi,
+    integral_types,
+)
 
 
 class FieldDefinition:
@@ -23,16 +31,26 @@ class FieldDefinition:
     """
 
     def __init__(self, field_definition=None, server=None):
-        if server is None:
-            server = dpf.core._global_server()
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._server = server
-        self._stub = self._connect(self._server.channel)
-        if isinstance(field_definition, field_definition_pb2.FieldDefinition):
-            self._messageDefinition = field_definition
+        # step 2: get api
+        self._api = self._server.get_api_for_type(
+            capi=field_definition_capi.FieldDefinitionCAPI,
+            grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI
+        )
+
+        # step3: init environment
+        self._api.init_field_definition_environment(self)  # creates stub when gRPC
+
+        # step4: if object exists, take the instance, else create it
+        if field_definition is not None:
+            self._internal_obj = field_definition
         else:
-            request = base_pb2.Empty()
-            self._messageDefinition = self._stub.Create(request)
+            if self._server.has_client():
+                self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.field_definition_new()
 
     @property
     def location(self):
@@ -44,8 +62,24 @@ class FieldDefinition:
             Location string, such as ``"Nodal"``, ``"Elemental"``,
             or ``"TimeFreq_sets"``.
         """
-        out = self._stub.List(self._messageDefinition)
-        return out.location.location
+        location = integral_types.MutableString(256)
+        size = integral_types.MutableInt32(0)
+        self._api.csfield_definition_fill_location(self, location, size)
+        return str(location)
+
+    @property
+    @version_requires("4.0")
+    def name(self):
+        """Field name.
+
+        Returns
+        -------
+        str
+        """
+        name = integral_types.MutableString(256)
+        size = integral_types.MutableInt32(0)
+        self._api.csfield_definition_fill_name(self, name, size)
+        return str(name)
 
     @property
     def unit(self):
@@ -56,7 +90,13 @@ class FieldDefinition:
         str
             Units of the field.
         """
-        return self._stub.List(self._messageDefinition).unit.symbol
+        unit = integral_types.MutableString(256)
+        unused = [integral_types.MutableInt32(),
+                  integral_types.MutableInt32(),
+                  integral_types.MutableDouble(),
+                  integral_types.MutableDouble()]
+        self._api.csfield_definition_fill_unit(self, unit, *unused)
+        return str(unit)
 
     @property
     def shell_layers(self):
@@ -67,9 +107,9 @@ class FieldDefinition:
         shell_layers : shell_layers
             ``LayerIndependent`` is returned for fields unrelated to layers.
         """
-        enum_val = self._stub.List(self._messageDefinition).shell_layers
+        enum_val = self._api.csfield_definition_get_shell_layers(self)
         return shell_layers(
-            enum_val.real - 1
+            enum_val.real  # - 1
         )  # +1 is added to the proto enum to have notset as 0
 
     @property
@@ -81,48 +121,37 @@ class FieldDefinition:
         dimensionality : Dimensionality
             Nature and size of the elementary data.
         """
-        val = self._stub.List(
-            self._messageDefinition
-        ).dimensionnality  # typo exists on server side
-        return Dimensionality(val.size, natures(val.nature.real))
+        dim = integral_types.MutableListInt32()
+        nature = integral_types.MutableInt32()
+        self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
+        return Dimensionality(dim.tolist(), natures(int(nature)))
 
     @unit.setter
     def unit(self, value):
-        self._modify_field_def(unit=value)
+        self._api.csfield_definition_set_unit(self, value, None, 0, 0, 0)
 
     @location.setter
     def location(self, value):
-        self._modify_field_def(location=value)
+        self._api.csfield_definition_set_location(self, value)
+
+    @name.setter
+    @version_requires("4.0")
+    def name(self, value):
+        self._api.csfield_definition_set_name(self, value)
 
     @shell_layers.setter
     def shell_layers(self, value):
-        self._modify_field_def(shell_layer=value)
+        if hasattr(value, "value"):
+            value = value.value
+        self._api.csfield_definition_set_shell_layers(self, value)
 
     @dimensionality.setter
     def dimensionality(self, value):
-        self._modify_field_def(dimensionality=value)
-
-    def _modify_field_def(
-        self, unit=None, location=None, dimensionality=None, shell_layer=None
-    ):
-        request = field_definition_pb2.FieldDefinitionUpdateRequest()
-        request.field_definition.CopyFrom(self._messageDefinition)
-        if unit != None:
-            request.unit_symbol.symbol = unit
-        if location != None:
-            request.location.location = location
-        if dimensionality != None:
-            if not isinstance(dimensionality, Dimensionality):
-                raise TypeError("the dimensionality needs to be of type Dimensionality")
-            request.dimensionnality.CopyFrom(
-                dimensionality._parse_dim_to_message()
-            )  # typo is on server side
-        if shell_layer != None:
-            if isinstance(shell_layer, shell_layers):
-                request.shell_layers = shell_layer.value + 1
-            else:
-                request.shell_layers = shell_layer + 1
-        self._stub.Update(request)
+        if not isinstance(value, Dimensionality):
+            raise TypeError("the dimensionality needs to be of type Dimensionality")
+        self._api.csfield_definition_set_dimensionality(
+            self, int(value.nature.value), value.dim, len(value.dim)
+        )
 
     def deep_copy(self, server=None):
         """Creates a deep copy of the field_definition's data on a given server.
@@ -137,15 +166,14 @@ class FieldDefinition:
         field_definition_copy : FieldDefinition
         """
         out = FieldDefinition(server=server)
-        out._modify_field_def(self.unit, self.location, self.dimensionality, self.shell_layers)
+        out.unit = self.unit
+        out.location = self.location
+        out.dimensionality = self.dimensionality
+        out.shell_layers = self.shell_layers
         return out
 
     def __del__(self):
         try:
-            self._stub.Delete(self._messageDefinition)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
-
-    def _connect(self, channel):
-        """Connect to the gRPC service."""
-        return field_definition_pb2_grpc.FieldDefinitionServiceStub(channel)
+            warnings.warn(traceback.format_exc())

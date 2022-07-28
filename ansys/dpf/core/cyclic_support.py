@@ -3,9 +3,13 @@ Cyclic Support
 ==============
 """
 
-from ansys import dpf
+import traceback
+import warnings
+
+from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
+
+from ansys.dpf.core import server as server_module
 from ansys.dpf.core.scoping import Scoping
-from ansys.grpc.dpf import cyclic_support_pb2, cyclic_support_pb2_grpc
 
 
 class CyclicSupport:
@@ -19,7 +23,7 @@ class CyclicSupport:
         Cyclic support.
     server : DPFServer , optional
         Server with the channel connected to the remote or local instance. The default is
-        ``None``, in which case an attempt is made to use the the global server.
+        ``None``, in which case an attempt is made to use the global server.
 
     Examples
     --------
@@ -40,12 +44,19 @@ class CyclicSupport:
 
     def __init__(self, cyclic_support, server=None):
         """Initialize time frequency support with its `TimeFreqSupport` message (if possible)."""
-        if server is None:
-            server = dpf.core._global_server()
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._server = server
-        self._stub = self._connect()
-        self._message = cyclic_support
+        # step 2: get api
+        self._api = self._server.get_api_for_type(
+            capi=cyclic_support_capi.CyclicSupportCAPI,
+            grpcapi=cyclic_support_grpcapi.CyclicSupportGRPCAPI)
+
+        # step3: init environment
+        self._api.init_cyclic_support_environment(self)  # creates stub when gRPC
+
+        # step4: take object instance
+        self._internal_obj = cyclic_support
 
     def __str__(self):
         """Describe the entity.
@@ -57,7 +68,7 @@ class CyclicSupport:
         """
         from ansys.dpf.core.core import _description
 
-        return _description(self._message, self._server)
+        return _description(self._internal_obj, self._server)
 
     @property
     def num_stages(self) -> int:
@@ -77,7 +88,7 @@ class CyclicSupport:
         int
             Number of cyclic stages in the model.
         """
-        return self._stub.List(self._message).num_stages
+        return self._api.cyclic_support_get_num_stages(self)
 
     def num_sectors(self, stage_num=0) -> int:
         """Number of sectors to expand on 360 degrees.
@@ -104,9 +115,9 @@ class CyclicSupport:
         12
 
         """
-        return self._stub.List(self._message).stage_infos[stage_num].num_sectors
+        return self._api.cyclic_support_get_num_sectors(self, stage_num)
 
-    def base_nodes_scoping(self, stage_num=0) -> int:
+    def base_nodes_scoping(self, stage_num=0) -> Scoping:
         """Retrieve a nodal scoping containing node IDs in the
         base sector of the given stage.
 
@@ -129,14 +140,10 @@ class CyclicSupport:
         >>> base = cyc_support.base_nodes_scoping(0)
 
         """
-        return Scoping(
-            scoping=self._stub.List(self._message)
-            .stage_infos[stage_num]
-            .base_nodes_scoping,
-            server=self._server,
-        )
+        base_node_scoping = self._api.cyclic_support_get_base_nodes_scoping(self, stage_num)
+        return Scoping(scoping=base_node_scoping, server=self._server)
 
-    def base_elements_scoping(self, stage_num=0) -> int:
+    def base_elements_scoping(self, stage_num=0) -> Scoping:
         """Retrieve an elemental scoping containing elements IDs in the
         base sector of the given stage.
 
@@ -159,14 +166,10 @@ class CyclicSupport:
         >>> base = cyc_support.base_elements_scoping(stage_num=1)
 
         """
-        return Scoping(
-            scoping=self._stub.List(self._message)
-            .stage_infos[stage_num]
-            .base_elements_scoping,
-            server=self._server,
-        )
+        base_element_scoping = self._api.cyclic_support_get_base_elements_scoping(self, stage_num)
+        return Scoping(scoping=base_element_scoping, server=self._server)
 
-    def sectors_set_for_expansion(self, stage_num=0) -> int:
+    def sectors_set_for_expansion(self, stage_num=0) -> Scoping:
         """Retrieve a sector's scoping of the already expanded results
         and mesh or the list of sectors that will be expanded by default.
 
@@ -189,15 +192,11 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.sectors_set_for_expansion(stage_num=1).ids)
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        [...0... 1... 2... 3... 4... 5... 6... 7... 8... 9... 10... 11]
 
         """
-        return Scoping(
-            scoping=self._stub.List(self._message)
-            .stage_infos[stage_num]
-            .sectors_for_expansion,
-            server=self._server,
-        )
+        sectors_for_expansion = self._api.cyclic_support_get_sectors_scoping(self, stage_num)
+        return Scoping(scoping=sectors_for_expansion, server=self._server)
 
     def expand_node_id(self, node_id, sectors=None, stage_num=0):
         """Retrieve the node IDs corresponding to the base sector node ID given in the input
@@ -225,21 +224,17 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.expand_node_id(1,stage_num=0).ids)
-        [1, 3596, 5816, 8036, 10256, 12476]
+        [...1... 3596... 5816... 8036... 10256... 12476]
 
         """
+        if sectors is None:
+            num_sectors = self._api.cyclic_support_get_num_sectors(self, stage_num)
+            sectors = list(range(num_sectors))
         if isinstance(sectors, list):
             sectors = Scoping(ids=sectors, location="sectors", server=self._server)
-
-        request = cyclic_support_pb2.GetExpandedIdsRequest()
-        request.support.CopyFrom(self._message)
-        request.node_id = node_id
-        request.stage_num = stage_num
-        if sectors:
-            request.sectors_to_expand.CopyFrom(sectors._message)
-        return Scoping(
-            scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server
-        )
+        expanded_ids = self._api.cyclic_support_get_expanded_node_ids(self, node_id,
+                                                                      stage_num, sectors)
+        return Scoping(scoping=expanded_ids, server=self._server)
 
     def expand_element_id(self, element_id, sectors=None, stage_num=0):
         """Retrieves the element IDs corresponding to the base sector element ID given in the input
@@ -267,28 +262,20 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.expand_element_id(1,stage_num=0).ids)
-        [1, 1558, 2533, 3508, 4483, 5458]
+        [...1... 1558... 2533... 3508... 4483... 5458]
 
         """
+        if sectors is None:
+            num_sectors = self._api.cyclic_support_get_num_sectors(self, stage_num)
+            sectors = list(range(num_sectors))
         if isinstance(sectors, list):
             sectors = Scoping(ids=sectors, location="sectors", server=self._server)
-
-        request = cyclic_support_pb2.GetExpandedIdsRequest()
-        request.support.CopyFrom(self._message)
-        request.element_id = element_id
-        request.stage_num = stage_num
-        if sectors:
-            request.sectors_to_expand.CopyFrom(sectors._message)
-        return Scoping(
-            scoping=self._stub.GetExpandedIds(request).expanded_ids, server=self._server
-        )
-
-    def _connect(self):
-        """Connect to the grpc service"""
-        return cyclic_support_pb2_grpc.CyclicSupportServiceStub(self._server.channel)
+        expanded_ids = self._api.cyclic_support_get_expanded_element_ids(self, element_id,
+                                                                         stage_num, sectors)
+        return Scoping(scoping=expanded_ids, server=self._server)
 
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

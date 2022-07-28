@@ -63,6 +63,7 @@ plt.show()
 # Plot the minimum and maximum displacements over time for the X
 # component.
 disp_z = disp.Z()
+disp_z.inputs.time_scoping(timeids)
 min_max_op = ops.min_max.min_max_fc(ops.math.norm_fc(disp_z))
 
 min_disp_z = min_max_op.outputs.field_min()

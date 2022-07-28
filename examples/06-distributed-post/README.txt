@@ -1,4 +1,4 @@
-.. _distributed_post
+.. _distributed_post:
 
 Examples for post processing on distributed process
 ===================================================

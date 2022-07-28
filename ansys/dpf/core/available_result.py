@@ -4,8 +4,71 @@ AvailableResult
 """
 
 from warnings import warn
-from ansys.grpc.dpf import available_result_pb2, base_pb2
-from ansys.dpf.core.common import _remove_spaces, _make_as_function_name
+from ansys.dpf.core.common import _remove_spaces, _make_as_function_name, natures
+from enum import Enum, unique
+
+
+@unique
+class Homogeneity(Enum):
+    acceleration = 0
+    angle = 1
+    angular_velocity = 2
+    surface = 3
+    capacitance = 4
+    electric_charge = 5
+    electric_charge_density = 6
+    conductivity = 7
+    current = 9
+    density = 10
+    displacement = 11
+    electric_conductivity = 12
+    electric_field = 13
+    electric_flux_density = 14
+    electric_resistivity = 15
+    energy = 16
+    film_coefficient = 17
+    force = 18
+    force_intensity = 19
+    frequency = 20
+    heat_flux = 21
+    heat_generation = 22
+    heat_rate = 23
+    inductance = 24
+    inverse_stress = 25
+    length = 26
+    magnetic_field_intensity = 27
+    magnetic_flux = 28
+    magnetic_flux_density = 29
+    mass = 30
+    moment = 31
+    moment_intertia = 32  # TODO typo
+    permeability = 33
+    permittivity = 34
+    poisson = 35
+    power = 36
+    pressure = 37
+    relative_permeability = 38
+    relative_permittivity = 39
+    section_modulus = 40
+    specific_heat = 41
+    specific_weight = 42
+    shear_strain = 43
+    stiffness = 44
+    strain = 45
+    stress = 46
+    strength = 47
+    thermal_expansion = 48
+    temperature = 49
+    time = 50
+    velocity = 51
+    voltage = 52
+    volume = 53
+    moment_inertia_mass = 55
+    stress_intensity_factor = 92
+    thermal_gradient = 95
+    resistance = 1000
+    unknown = 111
+    dimensionless = 117
 
 
 class AvailableResult:
@@ -40,7 +103,15 @@ class AvailableResult:
 
     def __init__(self, availableresult):
         """Initialize the AvailableResult with an availableResult message."""
-        self._message = availableresult
+        self._name = availableresult.name
+        self._physics_name = availableresult.physicsname
+        self._dimensionality = availableresult.dimensionality
+        self._homogeneity = availableresult.homogeneity
+        self._unit = availableresult.unit
+        self._n_comp = availableresult.ncomp
+        self._properties = {"scripting_name": availableresult.properties["scripting_name"],
+                            "location": availableresult.properties["loc_name"]}
+        self._sub_res = availableresult.sub_res
 
     def __str__(self):
         txt = (
@@ -58,34 +129,32 @@ class AvailableResult:
     @property
     def name(self):
         """Result operator."""
-        if hasattr(self._message, "properties") and "scripting_name" in self._message.properties:
-            name = self._message.properties["scripting_name"]
+        if hasattr(self, "properties") and "scripting_name" in self._properties.keys():
+            name = self.properties["scripting_name"]
         elif self.operator_name in _result_properties:
             name = _result_properties[self.operator_name]["scripting_name"]
         else:
-            name = _remove_spaces(self._message.physicsname)
+            name = _remove_spaces(self._physics_name)
         return _make_as_function_name(name)
 
     @property
     def n_components(self):
         """Number of components of the result."""
-        return self._message.ncomp
+        return self._n_comp
 
     @property
     def dimensionality(self):
         """Dimensionality nature of the result, such as a vector, scalar, or tensor."""
-        return base_pb2.Nature.Name(self._message.dimensionality).lower()
+        return natures(self._dimensionality).name
 
     @property
     def homogeneity(self):
         """Homogeneity of the result."""
         try:
-            homogeneity = self._message.homogeneity
-            if homogeneity == 117:
-                return available_result_pb2.Homogeneity.Name(
-                    available_result_pb2.Homogeneity.DIMENSIONLESS
-                ).lower()
-            return available_result_pb2.Homogeneity.Name(homogeneity).lower()
+            # homogeneity = self._homogeneity
+            # if homogeneity == 117:
+            #     return Homogeneity(Homogeneity.DIMENSIONLESS).name
+            return Homogeneity(self._homogeneity).name
         except ValueError as exception:
             warn(str(exception))
             return ""
@@ -93,40 +162,41 @@ class AvailableResult:
     @property
     def unit(self):
         """Unit of the result."""
-        return self._message.unit.lower()
+        return self._unit.lower()
 
     @property
     def operator_name(self):
         """Name of the corresponding operator."""
-        return self._message.name
+        return self._name
 
     @property
     def sub_results(self):
         """List of the subresult."""
-        rep_sub_res = self._message.sub_res
-        list = []
-        for sub_res in rep_sub_res:
+        rep_sub_res = self._sub_res
+        list_of_rep = []
+        for sub_res_name in rep_sub_res.keys():
+            sub_res = rep_sub_res[sub_res_name]
             try:
-                int(sub_res.name)
-                dict = {
-                    "name": "principal" + sub_res.name,
-                    "operator name": sub_res.op_name,
-                    "description": sub_res.description,
+                int(sub_res_name)
+                rep_sub = {
+                    "name": "principal" + sub_res_name,
+                    "operator name": sub_res[0],
+                    "description": sub_res[1],
                 }
             except:
-                dict = {
-                    "name": sub_res.name,
-                    "operator name": sub_res.op_name,
-                    "description": sub_res.description,
+                rep_sub = {
+                    "name": sub_res_name,
+                    "operator name": sub_res[0],
+                    "description": sub_res[1],
                 }
-            list.append(dict)
-        return list
+            list_of_rep.append(rep_sub)
+        return list_of_rep
 
     @property
     def native_location(self):
         """Native location of the result."""
-        if hasattr(self._message, "properties") and "location" in self._message.properties:
-            return self._message.properties["location"]
+        if hasattr(self, "_properties") and "location" in self._properties.keys():
+            return self._properties["location"]
         if self.operator_name in _result_properties:
             return _result_properties[self.operator_name]["location"]
 
@@ -142,7 +212,7 @@ class AvailableResult:
     @property
     def physical_name(self) -> str:
         """Name of the result with spaces"""
-        return self._message.physicsname
+        return self._physics_name
 
 
 _result_properties = {
@@ -180,9 +250,13 @@ _result_properties = {
 
 
 def available_result_from_name(name) -> AvailableResult:
-    message = available_result_pb2.AvailableResultResponse()
-    message.physicsname = name
     for key, item in _result_properties.items():
         if item["scripting_name"] == name:
-            message.name = key
-    return AvailableResult(message)
+            from types import SimpleNamespace
+            availableresult = SimpleNamespace(name=key, physicsname=name, ncomp=None,
+                                               dimensionality=None,
+                                               homogeneity=None,
+                                               unit=None, sub_res={},
+                                               properties={"loc_name": item["location"],
+                                                           "scripting_name": name})
+            return AvailableResult(availableresult)

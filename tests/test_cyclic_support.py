@@ -1,5 +1,6 @@
 import gc
 import weakref
+import numpy as np
 
 import pytest
 
@@ -12,12 +13,12 @@ def test_cyc_support_from_model(cyclic_lin_rst):
     model = dpf.Model(data_sources)
     result_info = model.metadata.result_info
     assert result_info.cyclic_symmetry_type == "single_stage"
-    assert result_info.has_cyclic == True
+    assert result_info.has_cyclic is True
 
     cyc_support = result_info.cyclic_support
     assert cyc_support.num_sectors() == 15
     assert cyc_support.num_stages == 1
-    assert cyc_support.sectors_set_for_expansion().ids == [
+    assert np.allclose(cyc_support.sectors_set_for_expansion().ids, [
         0,
         1,
         2,
@@ -33,12 +34,12 @@ def test_cyc_support_from_model(cyclic_lin_rst):
         12,
         13,
         14,
-    ]
+    ])
     assert len(cyc_support.base_elements_scoping().ids) == 9
     assert len(cyc_support.base_nodes_scoping().ids) == 32
 
     exp = cyc_support.expand_node_id(1)
-    assert exp.ids == [
+    assert np.allclose(exp.ids, [
         1,
         33,
         65,
@@ -54,16 +55,16 @@ def test_cyc_support_from_model(cyclic_lin_rst):
         385,
         417,
         449,
-    ]
+    ])
 
     exp = cyc_support.expand_element_id(1)
-    assert exp.ids == [1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91, 100, 109, 118, 127]
+    assert np.allclose(exp.ids, [1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91, 100, 109, 118, 127])
 
     exp = cyc_support.expand_node_id(1, [0, 1, 2])
-    assert exp.ids == [1, 33, 65]
+    assert np.allclose(exp.ids, [1, 33, 65])
 
     exp = cyc_support.expand_element_id(1, [0, 1, 2])
-    assert exp.ids == [1, 10, 19]
+    assert np.allclose(exp.ids, [1, 10, 19])
 
 
 def test_cyc_support_from_to_operator(cyclic_lin_rst):
@@ -76,7 +77,7 @@ def test_cyc_support_from_to_operator(cyclic_lin_rst):
     mesh = op.outputs.meshed_region()
     assert exp.num_sectors() == 15
     assert exp.num_stages == 1
-    assert exp.sectors_set_for_expansion().ids == [
+    assert np.allclose(exp.sectors_set_for_expansion().ids, [
         0,
         1,
         2,
@@ -92,11 +93,12 @@ def test_cyc_support_from_to_operator(cyclic_lin_rst):
         12,
         13,
         14,
-    ]
+    ])
     assert len(exp.base_elements_scoping().ids) == 9
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
+@pytest.mark.xfail(raises=dpf.errors.ServerTypeError)
 def test_cyc_support_from_to_workflow(cyclic_lin_rst):
     data_sources = dpf.DataSources(cyclic_lin_rst)
     model = dpf.Model(data_sources)
@@ -111,7 +113,7 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst):
     mesh = op.outputs.meshed_region()
     assert exp.num_sectors() == 15
     assert exp.num_stages == 1
-    assert exp.sectors_set_for_expansion().ids == [
+    assert np.allclose(exp.sectors_set_for_expansion().ids, [
         0,
         1,
         2,
@@ -127,19 +129,23 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst):
         12,
         13,
         14,
-    ]
+    ])
     assert len(exp.base_elements_scoping().ids) == 9
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
-def test_delete_cyc_support(cyclic_lin_rst):
-    data_sources = dpf.DataSources(cyclic_lin_rst)
-    model = dpf.Model(data_sources)
+def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):
+    data_sources = dpf.DataSources(cyclic_lin_rst, server=server_type_legacy_grpc)
+    model = dpf.Model(data_sources, server=server_type_legacy_grpc)
     result_info = model.metadata.result_info
     cyc_support = result_info.cyclic_support
-    cyc_support.__del__()
+    cyc_support2 = dpf.CyclicSupport(cyclic_support=cyc_support._internal_obj,
+                                     server=cyc_support._server)
+    cyc_support = None
+    import gc
+    gc.collect()
     with pytest.raises(Exception):
-        cyc_support.num_stages
+        cyc_support2.num_stages
 
 
 def test_delete_auto_cyc_support(cyclic_lin_rst):
@@ -149,6 +155,22 @@ def test_delete_auto_cyc_support(cyclic_lin_rst):
     cyc_support = result_info.cyclic_support
     op_ref = weakref.ref(cyc_support)
 
-    del cyc_support
+    cyc_support = None
     gc.collect()
     assert op_ref() is None
+
+
+@pytest.mark.skipif(True, reason="Used to test memory leaks.")
+def test_cyc_support_memory_leaks(cyclic_lin_rst):
+    import gc
+    for i in range(2000):
+        gc.collect()
+        data_sources = dpf.DataSources(cyclic_lin_rst)
+        model = dpf.Model(data_sources)
+        result_info = model.metadata.result_info
+        cyc_support = result_info.cyclic_support
+        a = cyc_support.num_stages
+        b = cyc_support.num_sectors()
+        c = cyc_support.sectors_set_for_expansion()
+        d = cyc_support.base_elements_scoping()
+        e = cyc_support.base_nodes_scoping()

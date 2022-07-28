@@ -21,7 +21,7 @@
 .. _ref_distributed_workflows_on_remote:
 
 Create custom workflow on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing,
 results are merged on the local process. In this example, different operator
@@ -55,7 +55,7 @@ Import dpf module and its examples files
 .. GENERATED FROM PYTHON SOURCE LINES 24-28
 
 Configure the servers
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 To make this example easier, we will start local servers here,
 but we could get connected to any existing servers on the network.
 
@@ -160,7 +160,7 @@ Local merge operator.
 .. GENERATED FROM PYTHON SOURCE LINES 64-66
 
 Connect the operator chains together and get the output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. GENERATED FROM PYTHON SOURCE LINES 66-75
 
@@ -190,7 +190,7 @@ Connect the operator chains together and get the output
 
  .. code-block:: none
 
-    DPF  Field
+    DPF stress_7491.964387Hz Field
       Location: Nodal
       Unit: Pa
       432 entities 
@@ -203,7 +203,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.209 seconds)
+   **Total running time of the script:** ( 0 minutes  1.630 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_workflows_on_remote.py:

@@ -54,7 +54,7 @@ disp = model.results.displacement(time_scoping=time_sets_scoping).eval()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # If specific time steps or load steps are of interest, looking into the
 # ``TimeFreqSupport`` and connect a given ``time_scoping`` located on steps can be done.
-time_steps_scoping = dpf.time_freq_scoping_factory.scoping_by_load_step([1])
+time_steps_scoping = dpf.time_freq_scoping_factory.scoping_by_load_step(1)
 disp = model.results.displacement.on_time_scoping(time_steps_scoping).eval()
 
 print(disp)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import copy
 import tempfile
 
 import ansys.grpc.dpf
@@ -248,7 +249,7 @@ def test_generated_operator_several_output_types(plate_msup):
     )
 
     model = core.Model(plate_msup)
-    din = model.metadata.meshed_region.nodes.coordinates_field.data
+    din = copy.deepcopy(model.metadata.meshed_region.nodes.coordinates_field.data)
 
     assert model.metadata.meshed_region.nodes.coordinates_field.unit == "m"
 

@@ -21,7 +21,7 @@
 .. _ref_distributed_msup_steps:
 
 Distributed msup distributed modal response
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and expanded
 on distributed processes. The modal basis (2 distributed files) is read
 on 2 remote servers and the modal response (2 distributed files) reading and the expansion is
@@ -58,7 +58,7 @@ Import dpf module and its examples files.
 .. GENERATED FROM PYTHON SOURCE LINES 28-37
 
 Configure the servers
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 Make a list of ip addresses and port numbers on which dpf servers are
 started. Operator instances will be created on each of those servers to
 address each a different result file.
@@ -104,7 +104,7 @@ Print the ips and ports.
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50054, 50055]
+    ports: [50057, 50058]
 
 
 
@@ -132,7 +132,7 @@ Choose the file path.
 .. GENERATED FROM PYTHON SOURCE LINES 54-59
 
 Create the operators on the servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 On each server we create two new operators, one for 'displacement' computations
 and a 'mesh_provider' operator, and then define their data sources. The displacement
 and mesh_provider operators receive data from their respective data files on each server.
@@ -163,8 +163,8 @@ and mesh_provider operators receive data from their respective data files on eac
 .. GENERATED FROM PYTHON SOURCE LINES 72-76
 
 Create a local operators chain for expansion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In the follwing series of operators we merge the modal basis, the meshes, read
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In the following series of operators we merge the modal basis, the meshes, read
 the modal response and expand the modal response with the modal basis.
 
 .. GENERATED FROM PYTHON SOURCE LINES 76-103
@@ -216,7 +216,7 @@ the modal response and expand the modal response with the modal basis.
 .. GENERATED FROM PYTHON SOURCE LINES 104-106
 
 Connect the operator chains together and get the output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. GENERATED FROM PYTHON SOURCE LINES 106-116
 
@@ -312,7 +312,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.743 seconds)
+   **Total running time of the script:** ( 0 minutes  2.859 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_03-distributed-msup_expansion_steps.py:
