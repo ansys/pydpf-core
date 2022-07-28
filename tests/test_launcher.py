@@ -174,6 +174,24 @@ class TestServerConfigs:
             if process.returncode is not None:
                 raise Exception(errors)
 
+    def test_launch_server_full_path(self, server_config):
+        ansys_path = os.environ.get(
+            "AWP_ROOT" + core._version.__ansys_version__, core.misc.find_ansys()
+        )
+        if os.name == "nt":
+            path = os.path.join(ansys_path, "aisol", "bin", "winx64")
+        else:
+            if server_config.legacy == True:
+                path = os.path.join(ansys_path, "aisol", "bin", "linx64")
+            else:
+                path = os.path.join(ansys_path, "aisol", "dll", "linx64")
+
+        print("trying to launch on ", path)
+        print(os.listdir(path))
+        server = core.start_local_server(as_global=False, ansys_path=path,
+                                         config=server_config)
+        assert "server_port" in server.info
+
 
 def test_start_local_failed_executable(remote_config_server_type):
     from ansys.dpf.core.misc import get_ansys_path
