@@ -21,8 +21,11 @@ import warnings
 ACCEPTABLE_FAILURE_RATE = 0
 
 core.settings.disable_off_screen_rendering()
+os.environ["PYVISTA_OFF_SCREEN"] = "true"
+os.environ["MPLBACKEND"] = "Agg"
 # currently running dpf on docker.  Used for testing on CI
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
+DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 
 local_test_repo = False
 
@@ -275,6 +278,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     )
     def server_type_legacy_grpc(request):
         return core.start_local_server(config=request.param, as_global=False)
+
 else:
 
     @pytest.fixture(scope="session")
@@ -338,6 +342,8 @@ def server_clayer(request):
     ):
         core.settings.get_runtime_client_config(server).cache_enabled = False
     return server
+
+
 class LocalServers:
     def __init__(self):
         self._local_servers = []
