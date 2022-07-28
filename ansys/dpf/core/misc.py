@@ -122,10 +122,9 @@ def find_ansys():
     for version in sorted(versions, reverse=True):
         if not version.isnumeric():
             continue
-        elif version < __ansys_version__:
-            ansys_path = os.environ.get("AWP_ROOT" + version)
-            if ansys_path:
-                return ansys_path
+        ansys_path = os.environ.get("AWP_ROOT" + version)
+        if ansys_path:
+            return ansys_path
 
     base_path = None
     if os.name == "nt":

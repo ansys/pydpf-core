@@ -240,6 +240,10 @@ def test_start_with_dpf_server_type_env():
             assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
             my_serv_2.shutdown()
 
+            os.environ[dpf_server_type_str] = "INPROCESS"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.InProcessServer)
+
             os.environ[dpf_server_type_str] = "bla"
             with pytest.raises(NotImplementedError):
                 my_serv_3 = core.start_local_server(as_global=False)

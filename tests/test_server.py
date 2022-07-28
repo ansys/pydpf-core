@@ -136,7 +136,7 @@ def test_busy_port(remote_config_server_type):
 def test_shutting_down_when_deleted_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             num_dpf_exe += 1
     subprocess.check_call([
         sys.executable, "-c",
@@ -145,10 +145,9 @@ def test_shutting_down_when_deleted_legacy():
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
         "model = dpf.Model(examples.static_rst);"
     ])
-
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             new_num_dpf_exe += 1
     assert num_dpf_exe == new_num_dpf_exe
 
@@ -158,7 +157,7 @@ def test_shutting_down_when_deleted_legacy():
 def test_shutting_down_when_deleted():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             num_dpf_exe += 1
     subprocess.check_call([
         sys.executable, "-c",
@@ -169,7 +168,7 @@ def test_shutting_down_when_deleted():
     ])
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             new_num_dpf_exe += 1
     assert num_dpf_exe == new_num_dpf_exe
 
