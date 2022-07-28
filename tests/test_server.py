@@ -5,6 +5,7 @@ import subprocess
 import psutil
 import sys
 import os
+
 from ansys import dpf
 from ansys.dpf.core import errors, server_types
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
@@ -173,3 +174,29 @@ def test_shutting_down_when_deleted():
         if "Ans.Dpf.Grpc" in proc.name():
             new_num_dpf_exe += 1
     assert num_dpf_exe == new_num_dpf_exe
+
+
+def test_eq_server_config():
+    assert dpf.core.AvailableServerConfigs.InProcessServer == \
+           dpf.core.AvailableServerConfigs.InProcessServer
+    assert dpf.core.AvailableServerConfigs.GrpcServer == \
+           dpf.core.AvailableServerConfigs.GrpcServer
+    assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == \
+           dpf.core.AvailableServerConfigs.LegacyGrpcServer
+    assert not dpf.core.AvailableServerConfigs.LegacyGrpcServer == \
+               dpf.core.AvailableServerConfigs.InProcessServer
+    assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == \
+           dpf.core.ServerConfig(
+               protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
+           )
+    assert dpf.core.AvailableServerConfigs.GrpcServer == \
+           dpf.core.ServerConfig(
+               protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
+           )
+    assert dpf.core.AvailableServerConfigs.InProcessServer == \
+           dpf.core.ServerConfig(protocol=None, legacy=False)
+    assert not dpf.core.AvailableServerConfigs.InProcessServer ==\
+               dpf.core.ServerConfig(
+                   protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
+               )
+    assert not dpf.core.AvailableServerConfigs.InProcessServer is None
