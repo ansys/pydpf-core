@@ -565,6 +565,8 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
+        if self.nodes.scoping.__str__() == "empty Scoping":
+            return MeshedRegion()
         node_ids = self.nodes.scoping.ids
         element_ids = self.elements.scoping.ids
         mesh = MeshedRegion(
