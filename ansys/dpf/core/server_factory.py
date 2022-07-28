@@ -138,7 +138,6 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
     return config
 
 
-
 class AvailableServerConfigs:
     """Defines available server configurations
 
