@@ -203,6 +203,13 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
+      - name: "Retrieve package version"
+        shell: bash
+        run: |
+          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+        id: version
+
       - name: Publish Documentation artifact
         uses: actions/upload-artifact@v3
         with:
@@ -307,8 +314,8 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
-  Retrocompatibility_Check:
-    name: Retro-compatibility Check
+  Retro-compatibility:
+    name: Retro-compatibility
     if: startsWith(github.head_ref, 'master') || contains(github.head_ref, 'retro')
     runs-on: ${{ matrix.os }}
     strategy:
@@ -387,7 +394,7 @@ jobs:
 
   Release:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
-    needs: [Build_and_Test, Documentation, Run_Examples, Style_Check, Retrocompatibility_Check]
+    needs: [Build_and_Test, Documentation, Run_Examples, Style_Check, Retro-compatibility]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
@@ -433,11 +440,11 @@ jobs:
         env:
           GH_DOC_BRANCH: gh-pages
 
-#      - name: Upload to Public PyPi
-#        run: |
-#          pip install twine
-#          twine upload --skip-existing ./**/*.whl
-#          twine upload --skip-existing ./**/*.tar.gz
-#        env:
-#          TWINE_USERNAME: __token__
-#          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: Upload to Public PyPi
+        run: |
+          pip install twine
+          twine upload --skip-existing ./**/*.whl
+          twine upload --skip-existing ./**/*.tar.gz
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
