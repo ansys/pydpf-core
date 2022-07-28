@@ -34,7 +34,18 @@ from ansys.dpf.core import operators as ops
 # we will consequently require 2 remote processes
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
-remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+
+global_server = dpf.start_local_server(
+    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+)
+
+remote_servers = [
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+]
+
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
@@ -97,7 +108,7 @@ merge_use_pass.inputs.fields_containers2(response2fc)
 expansion = ops.math.modal_superposition(
     solution_in_modal_space=merge_use_pass,
     modal_basis=merge_fields
-    )
+)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################

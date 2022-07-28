@@ -38,18 +38,18 @@ with the server version.
      - 0.5.1
      - >=0.5.0
    * - 3.0 (Ansys 2022R1)
-     - ----
-     - ----
+     - None
+     - None
      - 0.4.0
      - >=0.4.0
    * - 2.0 (Ansys 2021R2)
-     - ----
-     - ----
+     - None
+     - None
      - 0.3.0
      - >=0.3.0
    * - 1.0 (Ansys 2021R1)
-     - ----
-     - ----
+     - None
+     - None
      - 0.2.2
      - 0.2.*
 
@@ -144,6 +144,8 @@ installed. The package dependencies are:
       with DPF C APIs)
 - `psutil <https://pypi.org/project/psutil/>`_
 - `tqdm <https://pypi.org/project/tqdm/>`_
+- `packaging <https://pypi.org/project/packaging/>`_
+- `numpy <https://pypi.org/project/numpy/>`_
 
 Optional Dependencies
 ~~~~~~~~~~~~~~~~~~~~~

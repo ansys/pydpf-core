@@ -1,12 +1,26 @@
 import os
 import glob
-import pathlib
 from ansys.dpf import core
+import pathlib
+import subprocess
+import sys
 
-core.settings.disable_off_screen_rendering()
+os.environ["PYVISTA_OFF_SCREEN"] = "true"
+os.environ["MPLBACKEND"] = "Agg"
 
 actual_path = pathlib.Path(__file__).parent.absolute()
 print(os.path.join(actual_path, os.path.pardir, "examples"))
+
+
+DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
+if DPF_SERVER_TYPE:
+    if DPF_SERVER_TYPE == "INPROCESS":
+        core.SERVER_CONFIGURATION = core.AvailableServerConfigs.InProcessServer
+    elif DPF_SERVER_TYPE == "GRPC":
+        core.SERVER_CONFIGURATION = core.AvailableServerConfigs.GrpcServer
+    elif DPF_SERVER_TYPE == "LEGACYGRPC":
+        core.SERVER_CONFIGURATION = core.AvailableServerConfigs.LegacyGrpcServer
+
 for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.pardir, "examples")):
     for subdirectory in subdirectories:
         subdir = os.path.join(root, subdirectory)
@@ -14,7 +28,9 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             print("\n\n--------------------------------------------------\n")
             print(file)
             print("--------------------------------------------------\n")
-            exec(
-                open(file, mode="r", encoding="utf8").read(),
-                globals(),
-                globals())
+            try:
+                subprocess.check_call([sys.executable, file])
+            except subprocess.CalledProcessError as e:
+                sys.stderr.write(str(e.args))
+                if e.returncode != 3221225477:
+                    raise e

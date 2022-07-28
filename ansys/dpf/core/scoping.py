@@ -7,12 +7,14 @@ Scoping
 
 import traceback
 import warnings
+import ctypes
 
 import numpy as np
 
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.common import locations
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core import server_types
 from ansys.dpf.core.cache import _setter
 from ansys.dpf.gate import (
     scoping_capi,
@@ -23,6 +25,7 @@ from ansys.dpf.gate import (
     dpf_vector_abstract_api,
     dpf_vector,
     dpf_array,
+    utils,
 )
 
 
@@ -140,7 +143,16 @@ class Scoping:
         -----
         Print a progress bar.
         """
-        self._api.scoping_set_ids(self, ids, len(ids))
+        if isinstance(self._server, server_types.InProcessServer):
+            self._api.scoping_resize(self, len(ids))
+            ids_ptr = self._api.scoping_get_ids(self, len(ids))
+            ctypes.memmove(
+                ids_ptr,
+                utils.to_int32_ptr(ids),
+                len(ids)*ctypes.sizeof(ctypes.c_int32())
+            )
+        else:
+            self._api.scoping_set_ids(self, ids, len(ids))
 
     def _get_ids(self, np_array=None):
         """
