@@ -5,7 +5,6 @@ import ansys.platform.instancemanagement as pypim
 import grpc
 import pytest
 
-from ansys.dpf import core
 from ansys.dpf.core import server_types
 from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core.server_factory import ServerFactory

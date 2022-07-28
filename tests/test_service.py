@@ -68,10 +68,12 @@ def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process
 
     dir = os.path.dirname(file)
     vtk_path = os.path.join(dir, "file.vtk")
-    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut, server=server_type_remote_process)
+    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut,
+                                                      server=server_type_remote_process)
     vtk.run()
 
-    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"), server=server_type_remote_process)
+    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"),
+                           server=server_type_remote_process)
     assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
 
 

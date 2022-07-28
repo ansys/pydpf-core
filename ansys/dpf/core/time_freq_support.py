@@ -330,12 +330,13 @@ class TimeFreqSupport:
             i1 = integral_types.MutableInt32()
             i2 = integral_types.MutableInt32()
             if cplx:
-                return self._api.time_freq_support_get_imaginary_freqs_cummulative_index(self, freq,
-                                                                                  i1, i2)
+                return self._api.time_freq_support_get_imaginary_freqs_cummulative_index(
+                    self, freq, i1, i2
+                )
             else:
-                return self._api.time_freq_support_get_time_freq_cummulative_index_by_value(self, freq,
-                                                                                     i1, i2)
-
+                return self._api.time_freq_support_get_time_freq_cummulative_index_by_value(
+                    self, freq, i1, i2
+                )
 
     def _sets_count(self):
         """

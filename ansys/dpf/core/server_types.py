@@ -423,6 +423,11 @@ class BaseServer(abc.ABC):
         """
         return server_meet_version(required_version, self)
 
+    @property
+    @abc.abstractmethod
+    def local_server(self) -> bool:
+        pass
+
     def __str__(self):
         return f"DPF Server: {self.info}"
 
@@ -603,6 +608,10 @@ class GrpcServer(CServer):
         """
         return self._input_port
 
+    @property
+    def local_server(self):
+        return False
+
 
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
@@ -656,6 +665,10 @@ class InProcessServer(CServer):
     @property
     def client(self):
         return None
+
+    @property
+    def local_server(self):
+        return True
 
 
 class LegacyGrpcServer(BaseServer):
@@ -829,6 +842,10 @@ class LegacyGrpcServer(BaseServer):
         if not self._info_instance:
             self._info_instance = self._base_service.server_info
         return self._info_instance
+
+    @property
+    def local_server(self):
+        return False
 
     def shutdown(self):
         if self._own_process and self.live:

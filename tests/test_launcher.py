@@ -11,6 +11,7 @@ from conftest import (
     DPF_SERVER_TYPE,
 )
 
+
 def test_start_local():
     if not core.SERVER:
         core.start_local_server()
@@ -21,6 +22,7 @@ def test_start_local():
     server.shutdown()
     # ensure global channel didn't change
     assert starting_server == id(core.SERVER)
+
 
 server_configs = (
     [
@@ -79,11 +81,11 @@ class TestServerConfigs:
                 assert path in p.cwd()
             os.environ[
                 "AWP_ROOT" + str(core._version.__ansys_version__)
-            ] = path
+                ] = path
         except Exception as e:
             os.environ[
                 "AWP_ROOT" + str(core._version.__ansys_version__)
-            ] = path
+                ] = path
             raise e
 
     def test_start_local_no_ansys_path(self, server_config):
@@ -106,7 +108,7 @@ class TestServerConfigs:
     def test_start_local_ansys_path_environment_variable(self, server_config):
         awp_root = os.environ[
             "AWP_ROOT" + str(core._version.__ansys_version__)
-        ]
+            ]
         try:
             os.environ["ANSYS_DPF_PATH"] = awp_root
             try:
@@ -114,14 +116,14 @@ class TestServerConfigs:
             except:
                 del os.environ[
                     "AWP_ROOT" + str(core._version.__ansys_version__)
-                ]
+                    ]
             server = core.start_local_server(
                 use_docker_by_default=False, config=server_config
             )
             assert isinstance(server.os, str)
             os.environ[
                 "AWP_ROOT" + str(core._version.__ansys_version__)
-            ] = awp_root
+                ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
             except:
@@ -130,7 +132,7 @@ class TestServerConfigs:
         except Exception as e:
             os.environ[
                 "AWP_ROOT" + str(core._version.__ansys_version__)
-            ] = awp_root
+                ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
             except:
@@ -139,15 +141,13 @@ class TestServerConfigs:
 
     def test_start_local_wrong_ansys_path(self, server_config):
         if server_config != core.AvailableServerConfigs.InProcessServer:
-
-            def test_start_local_wrong_ansys_path(self, server_config):
-                with pytest.raises(NotADirectoryError):
-                    core.start_local_server(
-                        ansys_path="test/",
-                        use_docker_by_default=False,
-                        config=server_config,
-                        as_global=False,
-                    )
+            with pytest.raises(NotADirectoryError):
+                core.start_local_server(
+                    ansys_path="test/",
+                    use_docker_by_default=False,
+                    config=server_config,
+                    as_global=False,
+                )
 
         # the test for in process should be done in another process because if dataProcessingCore
         # is already loaded, no error will be raised
@@ -183,7 +183,8 @@ class TestServerConfigs:
         else:
             if server_config.protocol == core.server_factory.CommunicationProtocols.InProcess:
                 path = os.path.join(ansys_path, "aisol", "dll", "linx64")
-            elif server_config.protocol == core.server_factory.CommunicationProtocols.gRPC and server_config.legacy == False:
+            elif server_config.protocol == core.server_factory.CommunicationProtocols.gRPC \
+                    and server_config.legacy is False:
                 # full path is not working because DPFClientAPI and
                 # Ans.Dpf.Grpc.sh reside in two different folders
                 return
