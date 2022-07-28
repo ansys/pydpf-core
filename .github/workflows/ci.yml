@@ -418,27 +418,27 @@ jobs:
           draft: true
           generate_release_notes: true
 
-      - name: Init doc git and add docs
-        run: |
-          cd docs/build/html
-          git init
-          git checkout -b $env:GH_DOC_BRANCH
-          git config --global user.name "pyansys-ci-bot"
-          git config --global user.email "$env:GH_EMAIL"
-          New-Item -ItemType file .nojekyll
-          git add .
-          git commit -m "Documentation generated"
-        env:
-          GH_DOC_BRANCH: gh-pages
-          GH_EMAIL: pyansys.github.bot@ansys.com
-
-      - name: Publish GitHub Pages merge commit
-        run: |
-          cd docs/build/html
-          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $env:GH_DOC_BRANCH --force
-        env:
-          GH_DOC_BRANCH: gh-pages
+#      - name: Init doc git and add docs
+#        run: |
+#          cd docs/build/html
+#          git init
+#          git checkout -b $env:GH_DOC_BRANCH
+#          git config --global user.name "pyansys-ci-bot"
+#          git config --global user.email "$env:GH_EMAIL"
+#          New-Item -ItemType file .nojekyll
+#          git add .
+#          git commit -m "Documentation generated"
+#        env:
+#          GH_DOC_BRANCH: gh-pages
+#          GH_EMAIL: pyansys.github.bot@ansys.com
+#
+#      - name: Publish GitHub Pages merge commit
+#        run: |
+#          cd docs/build/html
+#          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
+#          git push -u origin $env:GH_DOC_BRANCH --force
+#        env:
+#          GH_DOC_BRANCH: gh-pages
 
 #      - name: Upload to Public PyPi
 #        run: |
