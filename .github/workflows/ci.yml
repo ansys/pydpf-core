@@ -170,7 +170,7 @@ jobs:
           git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
-      - name: Install test offscreen rendering
+      - name: Install test off-screen rendering
         run: |
           .ci/setup_headless_display.sh
           pip install -r .ci/requirements_test_xvfb.txt
@@ -300,9 +300,87 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
+  Retrocompatibility_Check:
+    name: Retro-compatibility Check
+    if: startsWith(github.head_ref, 'master') || contains(github.head_ref, 'retro')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["windows-latest"]
+        ANSYS_VERSION: ["221"]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{matrix.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheel: false
+
+      - name: "Install ansys-grpc-dpf==0.4.0"
+        shell: pwsh
+        run: |
+          pip install ansys-grpc-dpf==0.4.0
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        with:
+          DEBUG: true
+
+      - name: "Separate long Core tests"
+        shell: pwsh
+        run: |
+          New-Item -Path ".\" -Name "local_server_test" -ItemType "directory"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_launcher.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_local_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_workflow.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\local_server_test\"
+          Remove-Item -Path "tests\test_server.py"
+          Remove-Item -Path "tests\test_launcher.py"
+          Remove-Item -Path "tests\test_local_server.py"
+          Remove-Item -Path "tests\test_multi_server.py"
+          Remove-Item -Path "tests\test_workflow.py"
+          Remove-Item -Path "tests\test_remote_workflow.py"
+          Remove-Item -Path "tests\test_remote_operator.py"
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API 2"
+        shell: bash
+        working-directory: local_server_test
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PACKAGE_NAME }}_pytest_${{ matrix.ANSYS_VERSION }}
+          path: tests/junit/test-results.xml
+
   Release:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
-    needs: [Build_and_Test, Documentation, Run_Examples, Style_Check]
+    needs: [Build_and_Test, Documentation, Run_Examples, Style_Check, Retrocompatibility_Check]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
