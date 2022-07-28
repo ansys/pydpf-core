@@ -443,10 +443,8 @@ class BaseServer(abc.ABC):
 
         try:
             if hasattr(core, "_server_instances") and core._server_instances is not None:
-                warnings.warn(UserWarning(f"core._server_instances: {core._server_instances}"))
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
-                        warnings.warn(UserWarning(f"Removing {server} from core._server_instances"))
                         core._server_instances.remove(server)
         except:
             warnings.warn(traceback.format_exc())
@@ -857,10 +855,6 @@ class LegacyGrpcServer(BaseServer):
                                 f"couldn't properly release server: {str(e.args)}"
                                 ".\n Killing process."
                             )
-                        process_id = self.info["server_process_id"]
-                        warnings.warn(
-                            UserWarning(f"Killing process {process_id}")
-                        )
                         p = psutil.Process(self.info["server_process_id"])
                         p.kill()
                         time.sleep(0.01)
@@ -876,10 +870,8 @@ class LegacyGrpcServer(BaseServer):
         return False
 
     def __del__(self):
-        warnings.warn(UserWarning(f"Deleting: {self}"))
         try:
             self._del_session()
-            warnings.warn(UserWarning(f"self._own_process: {self._own_process}"))
             if self._own_process:
                 self.shutdown()
             super().__del__()
