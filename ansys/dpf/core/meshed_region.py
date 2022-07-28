@@ -110,7 +110,16 @@ class MeshedRegion:
             out = self._api.meshed_region_get_shared_elements_scoping(self)
         else:
             raise TypeError(f"Location {loc} is not recognized.")
-        return scoping.Scoping(scoping=out, server=self._server)
+        scop_to_return = scoping.Scoping(scoping=out, server=self._server)
+        try:
+            check = scop_to_return._api.scoping_fast_access_ptr(scop_to_return)
+            if check is None:
+                return None
+        except:
+            # will throw NotImplementedError for ansys-grpc-dpf
+            # and DPFServerException for gRPC CLayer
+            pass
+        return scop_to_return
 
     @property
     def elements(self):
@@ -565,7 +574,7 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self.nodes.scoping.__str__() == "empty Scoping":
+        if self.nodes.scoping is None: # empty Mesh
             return MeshedRegion()
         node_ids = self.nodes.scoping.ids
         element_ids = self.elements.scoping.ids
