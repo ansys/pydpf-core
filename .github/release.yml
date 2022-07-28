@@ -3,10 +3,10 @@ changelog:
       - title: Breaking Changes
         labels:
           - breaking-change
-      - title: New Features
+      - title: Enhancements
         labels:
           - enhancement
-      - title: Bug fixes or behavior changes
+      - title: Bug fixes
         labels:
           - bug
       - title: Documentation
