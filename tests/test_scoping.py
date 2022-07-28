@@ -173,9 +173,9 @@ def test_throw_if_unsufficient_version():
 @pytest.mark.skipif(
     not SERVER_VERSION_HIGHER_THAN_2_0, reason="Requires server version higher than 2.0"
 )
-def test_field_with_scoping_many_ids(allkindofcomplexity):
+def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model
-    model = dpf.core.Model(allkindofcomplexity)
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
     nnodes = mesh.nodes.n_nodes
     assert nnodes == 15129
@@ -195,7 +195,7 @@ def test_field_with_scoping_many_ids(allkindofcomplexity):
     assert np.allclose(new_modif_nod_ids, modif_nod_ids)
 
     # set scoping ids with a scoping created from scratch
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     ids = range(1, 1000000)
     scop.ids = ids
     ids_check = scop.ids
