@@ -940,6 +940,45 @@ def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
+def _deep_copy_test_identical_server(config):
+    serv = dpf.core.start_local_server(as_global=False, config=config)
+    field = dpf.core.fields_factory.create_3d_vector_field(100, server=serv)
+    arr = np.arange(300).reshape(100, 3)
+    field.data = arr
+    copy = field.deep_copy(server=serv)
+    iden = dpf.core.operators.logic.identical_fields(field, copy, server=serv)
+    assert iden.outputs.boolean()
+    assert field.unit == copy.unit
+    serv.shutdown()
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='this server type does not exist before client'
+                    'dedicated to 4.0 server version')
+def test_deep_copy_field_grpcclayer_to_grpcclayer():
+    config = dpf.core.ServerConfig(
+        protocol=dpf.core.server_factory.CommunicationProtocols.gRPC,
+        legacy=False)
+    _deep_copy_test_identical_server(config)
+
+
+def test_deep_copy_field_grpclegacy_to_grpclegacy():
+    config = dpf.core.ServerConfig(
+        protocol=dpf.core.server_factory.CommunicationProtocols.gRPC,
+        legacy=True)
+    _deep_copy_test_identical_server(config)
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='this server type does not exist before client'
+                    'dedicated to 4.0 server version')
+def test_deep_copy_field_inprocess_to_inprocess():
+    config = dpf.core.ServerConfig(
+        protocol=dpf.core.server_factory.CommunicationProtocols.InProcess,
+        legacy=False)
+    _deep_copy_test_identical_server(config)
+
+
 def test_deep_copy_field():
     field = dpf.core.fields_factory.create_3d_vector_field(100)
     arr = np.arange(300).reshape(100, 3)
