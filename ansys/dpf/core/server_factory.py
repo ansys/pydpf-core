@@ -92,7 +92,9 @@ class ServerConfig:
         return text
 
     def __eq__(self, other):
-        return self.legacy == other.legacy and self.protocol == other.protocol
+        if isinstance(other, ServerConfig):
+            return self.legacy == other.legacy and self.protocol == other.protocol
+        return False
 
 
 def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
