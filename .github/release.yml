@@ -1,0 +1,22 @@
+changelog:
+    categories:
+      - title: Breaking Changes
+        labels:
+          - breaking-change
+      - title: New Features
+        labels:
+          - enhancement
+      - title: Bug fixes or behavior changes
+        labels:
+          - bug
+      - title: Documentation
+        labels:
+          - documentation
+          - examples
+      - title: CI/CD
+        labels:
+          - CI/CD
+          - dependencies
+      - title: Maintenance
+        labels:
+          - maintenance
