@@ -34,6 +34,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements/requirements_test.txt
+            requirements/requirements_build.txt
+            setup.py
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
@@ -148,13 +158,14 @@ jobs:
         id: build-package
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          wheel: false
 
       - name: Install OpenGL
         run: |
@@ -244,24 +255,11 @@ jobs:
         uses: actions/setup-python@v4.1.0
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Linux pip cache
-        uses: actions/cache@v2
-        if: runner.os == 'Linux'
-        with:
-          path: ~/.cache/pip
-          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements/requirements_tests.txt') }}
-          restore-keys: |
-            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
-
-      - name: Window pip cache
-        uses: actions/cache@v2
-        if: runner.os == 'Windows'
-        with:
-          path: ~\AppData\Local\pip\Cache
-          key: Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements/requirements_tests*.txt') }}
-          restore-keys: |
-            Python-v${{ env.RESET_PIP_CACHE }}-${{ runner.os }}-${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements/requirements_test.txt
+            requirements/requirements_build.txt
+            setup.py
 
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
@@ -273,6 +271,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          wheel: false
 
       - name: Install OpenGL
         run: |
@@ -337,5 +336,3 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
-
-
