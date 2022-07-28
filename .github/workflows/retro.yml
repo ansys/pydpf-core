@@ -27,6 +27,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements/requirements_test.txt
+            requirements/requirements_build.txt
+            setup.py
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
