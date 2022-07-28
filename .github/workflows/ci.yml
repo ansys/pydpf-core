@@ -22,6 +22,30 @@ env:
   ANSYS_VERSION: 222
 
 jobs:
+  Style_Check:
+    name: Style Check
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: 3.8
+
+      - name: Install style requirements
+        run: |
+          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+
+      - name: Codespell
+        run: |
+          make codespell
+        continue-on-error: true
+
+      - name: flake8
+        run: |
+          make flake8
+
   Build_and_Test:
     name: Build and Test
     runs-on: ${{ matrix.os }}
@@ -114,19 +138,7 @@ jobs:
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v2
 
-      - name: 'Upload to PyPi'
-        if: contains(github.ref, 'refs/tags')
-        shell: cmd
-        run: |
-          pip install twine
-          python setup.py sdist
-          twine upload --skip-existing dist/*
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
-          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-
-  build_doc:
+  Documentation:
     name: Documentation
     runs-on: windows-latest
 
@@ -189,40 +201,14 @@ jobs:
         with:
           name: doc-ansys-dpf-core
           path: ./docs/build/html/*
-        if: always()
 
       - name: Publish Documentation log
         uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core-log
           path: ./docs/*.txt
-        if: always()
 
-      - name: Init git and add docs
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git init
-          git checkout -b $env:GH_DOC_BRANCH
-          git config --global user.name "pyansys-ci-bot"
-          git config --global user.email "$env:GH_EMAIL"
-          New-Item -ItemType file .nojekyll
-          git add .
-          git commit -m "Documentation generated"
-        env:
-          GH_DOC_BRANCH: gh-pages
-          GH_EMAIL: pyansys.github.bot@ansys.com
-
-      - name: Publish GitHub Pages merge commit
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $env:GH_DOC_BRANCH --force
-        env:
-          GH_DOC_BRANCH: gh-pages
-
-  run_examples:
+  Run_Examples:
     name: Run Examples with/without bin
     runs-on: ${{ matrix.os }}
     strategy:
@@ -314,4 +300,59 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
+  Release:
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
+    needs: [Build_and_Test, Documentation, Run_Examples, Style_Check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: 3.9
 
+      - uses: actions/download-artifact@v2
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./**/*.whl
+            ./**/*.tar.gz
+            ./**/*.pdf
+            ./**/*.zip
+          draft: true
+          generate_release_notes: true
+
+      - name: Init doc git and add docs
+        run: |
+          cd docs/build/html
+          git init
+          git checkout -b $env:GH_DOC_BRANCH
+          git config --global user.name "pyansys-ci-bot"
+          git config --global user.email "$env:GH_EMAIL"
+          New-Item -ItemType file .nojekyll
+          git add .
+          git commit -m "Documentation generated"
+        env:
+          GH_DOC_BRANCH: gh-pages
+          GH_EMAIL: pyansys.github.bot@ansys.com
+
+      - name: Publish GitHub Pages merge commit
+        run: |
+          cd docs/build/html
+          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
+          git push -u origin $env:GH_DOC_BRANCH --force
+        env:
+          GH_DOC_BRANCH: gh-pages
+
+#      - name: Upload to Public PyPi
+#        run: |
+#          pip install twine
+#          twine upload --skip-existing ./**/*.whl
+#          twine upload --skip-existing ./**/*.tar.gz
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
