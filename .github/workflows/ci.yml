@@ -199,7 +199,7 @@ jobs:
       - name: Publish Documentation artifact
         uses: actions/upload-artifact@v3
         with:
-          name: HTML_Documentation-PyDPF-Core_v${{ steps.version.outputs.VERSION }}
+          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-HTML_Documentation
           path: ./docs/build/html/*
 
       - name: Publish Documentation log
