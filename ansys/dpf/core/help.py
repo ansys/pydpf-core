@@ -390,7 +390,7 @@ def sqr(field):
     >>> field = dpf.field_from_array([1, 8])
     >>> field_sqr = field**2
     >>> field_sqr.outputs.field().data
-    DPFArray([ 1., 64.])
+    DPFArray([ 1., 64.]...
 
     Use the operator method.
 
@@ -439,7 +439,7 @@ def dot_tensor(a, b):
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],
-           [1., 1., 0., 0., 0., 0., 1., 1., 0.]])
+           [1., 1., 0., 0., 0., 0., 1., 1., 0.]]...
 
     """
     _check_type(a, (dpf.core.Field, dpf.core.FieldsContainer))

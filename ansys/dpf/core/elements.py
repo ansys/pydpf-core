@@ -579,7 +579,7 @@ class Elements:
         >>> field = elements.connectivities_field
         >>> field.get_entity_data(1)
         DPFArray([ 0, 11, 13, 25,  2,  9,  8,  3, 29, 58, 63, 32, 40, 52, 42, 37, 28,
-               55, 53, 43])
+               55, 53, 43]...
 
         """
         return self._get_connectivities_field()

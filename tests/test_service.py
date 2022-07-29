@@ -251,6 +251,7 @@ def test_load_plugin_correctly(server_type):
     assert num_lines >= 11
 
 
+@conftest.raises_for_servers_version_under("4.0")
 def test_load_plugin_correctly_remote():
     from ansys.dpf import core as dpf
     server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)

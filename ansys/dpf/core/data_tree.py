@@ -261,9 +261,9 @@ class DataTree:
         >>> txt = data_tree.write_to_txt()
         >>> import tempfile
         >>> import os
-        >>> print("write to file");
-        ... data_tree.write_to_txt(os.path.join(tempfile.mkdtemp(), "data_tree.txt"))
-        write ...
+        >>> data_tree.write_to_txt(os.path.join(tempfile.mkdtemp(), "data_tree.txt"))
+        <BLANKLINE>
+        ...
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_txt
@@ -291,9 +291,9 @@ class DataTree:
         >>> txt = data_tree.write_to_json()
         >>> import tempfile
         >>> import os
-        >>> print("write to file");
-        ... data_tree.write_to_json(os.path.join(tempfile.mkdtemp(), "data_tree.json"))
-        write ...
+        >>> data_tree.write_to_json(os.path.join(tempfile.mkdtemp(), "data_tree.json"))
+        <BLANKLINE>
+        ...
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_json

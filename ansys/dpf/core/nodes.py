@@ -226,7 +226,7 @@ class Nodes:
 
         >>> # Extract the array of coordinates the coordinates field
         >>> nodes.coordinates_field.data[2]
-        DPFArray([0.015, 0.045, 0.03 ])
+        DPFArray([0.015, 0.045, 0.03 ]...
 
         """
         return self._get_coordinates_field()
@@ -266,7 +266,7 @@ class Nodes:
         >>> nodes = model.metadata.meshed_region.nodes
         >>> field = nodes.nodal_connectivity_field
         >>> field.get_entity_data(1)
-        DPFArray([0, 2, 4, 6])
+        DPFArray([0, 2, 4, 6]...
 
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
