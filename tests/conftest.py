@@ -18,7 +18,7 @@ from ansys.dpf.core.check_version import meets_version, get_server_version
 from ansys.dpf.gate.load_api import _try_use_gatebin
 import warnings
 
-ACCEPTABLE_FAILURE_RATE = 0
+ACCEPTABLE_FAILURE_RATE = 0.5
 
 core.settings.disable_off_screen_rendering()
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
