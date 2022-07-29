@@ -206,4 +206,3 @@ def test_connect_to_remote_server(server_type_remote_process):
     )
     assert server.ip == server_type_remote_process.ip
     assert server.port == server_type_remote_process.port
-
