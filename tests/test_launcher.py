@@ -141,13 +141,18 @@ class TestServerConfigs:
 
     def test_start_local_wrong_ansys_path(self, server_config):
         if server_config != core.AvailableServerConfigs.InProcessServer:
-            with pytest.raises(NotADirectoryError):
+            try:
                 core.start_local_server(
                     ansys_path="test/",
                     use_docker_by_default=False,
                     config=server_config,
                     as_global=False,
                 )
+                raise AssertionError("didn't raise NotADirectoryError nor ModuleNotFoundError")
+            except NotADirectoryError:
+                pass
+            except ModuleNotFoundError:
+                pass
 
         # the test for in process should be done in another process because if dataProcessingCore
         # is already loaded, no error will be raised
