@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Plot &#8212; PyDPF-Core 0.5.1 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom Operators" href="custom_operators.html" />
+    <link rel="prev" title="Fields Container and Fields" href="fields_container.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><style>
+    .navbar-light {
+        background-color: black !important;
+    }
+</style>
+
+<div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="https://dpfdocs.pyansys.com/">
+  <img src="../_static/pyansys-logo-black-cropped.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" >
+      <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+    </span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api/index.html">
+  APIs
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contributing
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/DPF-Core" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="model.html">
+   DPF Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="operators.html">
+   Operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fields_container.html">
+   Fields Container and Fields
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Plot
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="custom_operators.html">
+   Custom Operators
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="troubleshooting.html">
+   Troubleshooting
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-the-mesh-from-the-model-object">
+   Plotting the Mesh from the Model Object
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-using-the-meshed-region">
+   Plotting Using the Meshed Region
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <section id="plot">
+<span id="user-guide-plotting"></span><h1>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h1>
+<p>DPF-Core has a variety of plotting methods for generating 3D plots of
+Ansys models directly from Python. These methods use VTK and leverage
+the <a class="reference external" href="https://github.com/pyvista/pyvista">PyVista</a> library to
+simplify plotting. For more information, see the <a class="reference external" href="https://docs.pyvista.org">PyVista Documentation</a>.</p>
+<section id="plotting-the-mesh-from-the-model-object">
+<h2>Plotting the Mesh from the Model Object<a class="headerlink" href="#plotting-the-mesh-from-the-model-object" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model.plot" title="ansys.dpf.core.model.Model.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Model.plot()</span></code></a> method can
+be used to plot the mesh of the model immediately after loading it. In
+this example, a simple pontoon mesh is downloaded from the
+internet and loaded using the :class:ansys.dpf.core.model` class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_pontoon</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/pontoon.png" src="../_images/pontoon.png" />
+<p>The default plotter settings display the mesh with edges shown and
+lighting enabled. For a list of all keyword arguments, see
+<a class="reference external" href="https://docs.pyvista.org/plotting/plotting.html?highlight=plot#pyvista.plot">plot</a>.</p>
+</section>
+<section id="plotting-using-the-meshed-region">
+<h2>Plotting Using the Meshed Region<a class="headerlink" href="#plotting-using-the-meshed-region" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion.plot" title="ansys.dpf.core.meshed_region.MeshedRegion.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MeshedRegion.plot()</span></code></a>
+method plots the meshed region. If the meshed region is generated from the model’s
+metadata, the plot generated is identical to the plot generated by <code class="docutils literal notranslate"><span class="pre">Model.plot()</span></code>.</p>
+<p>Plot the meshed region:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/pontoon.png" src="../_images/pontoon.png" />
+<p>When a field is provided as the first argument, the mesh is plotted
+using these values. This example extracts the nodal strain in the X direction:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">First</span><span class="p">,</span> <span class="n">extract</span> <span class="n">the</span> <span class="n">X</span> <span class="n">component</span> <span class="n">strain</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">strain</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">strain</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<span class="n">DPF</span> <span class="n">elastic_strain_1</span><span class="o">.</span><span class="n">s0</span> <span class="n">Field</span>
+  <span class="n">Location</span><span class="p">:</span> <span class="n">ElementalNodal</span>
+  <span class="n">Unit</span><span class="p">:</span>
+  <span class="mi">8640</span> <span class="n">entities</span>
+  <span class="n">Data</span><span class="p">:</span><span class="mi">1</span> <span class="n">components</span> <span class="ow">and</span> <span class="mi">69120</span> <span class="n">elementary</span> <span class="n">data</span>
+
+<span class="n">This</span> <span class="n">ElementalNodal</span> <span class="n">strain</span> <span class="n">must</span> <span class="n">be</span> <span class="n">converted</span> <span class="n">to</span> <span class="n">nodal</span> <span class="n">strain</span> <span class="k">for</span>
+<span class="n">it</span> <span class="n">to</span> <span class="n">be</span> <span class="n">plotted</span><span class="o">.</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">nodal_field</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">to_nodal</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nodal_field</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/pontoon_strain.png" src="../_images/pontoon_strain.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only fields with <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> and <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> locations are
+supported currently.  Use the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field.to_nodal" title="ansys.dpf.core.field.Field.to_nodal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_nodal</span></code></a> operator to
+convert to nodal or the <a class="reference internal" href="../api/ansys.dpf.core.operators.averaging.nodal_to_elemental.html#module-ansys.dpf.core.operators.averaging.nodal_to_elemental" title="ansys.dpf.core.operators.averaging.nodal_to_elemental"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.averaging.nodal_to_elemental</span></code></a>
+class to convert to elemental.</p>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright (c) 2022 ANSYS, Inc. All rights reserved.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mesh.make_plane_levelset
+   :inherited-members:

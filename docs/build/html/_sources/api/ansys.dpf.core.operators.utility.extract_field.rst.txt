@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.extract_field
+   :inherited-members:

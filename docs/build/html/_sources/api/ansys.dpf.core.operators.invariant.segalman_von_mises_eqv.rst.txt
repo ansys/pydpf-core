@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.invariant.segalman_von_mises_eqv
+   :inherited-members:

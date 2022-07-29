@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.make_overall
+   :inherited-members:
